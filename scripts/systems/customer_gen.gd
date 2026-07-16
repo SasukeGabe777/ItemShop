@@ -93,7 +93,9 @@ static func likes_item(cust: Dictionary, item_id: String) -> bool:
 ## window placement). Returns "" when nothing interests them.
 static func pick_interest(cust: Dictionary) -> String:
 	var shop_cfg: Dictionary = ContentDatabase.bal("shop", {})
-	var window_slots: Array = shop_cfg.get("window_slots", [0, 1, 2, 3])
+	var window_slots: Array[int] = []
+	for v in shop_cfg.get("window_slots", [0, 1, 2, 3]):
+		window_slots.append(int(v))
 	var window_bonus := float(shop_cfg.get("window_attention_bonus", 0.25))
 	var best := ""
 	var best_score := 0.0

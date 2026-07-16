@@ -156,6 +156,7 @@ func _do_basic_attack() -> void:
 	combo_index = (combo_index + 1) % hits
 	combo_reset_at = Time.get_ticks_msec() / 1000.0 + 0.9
 	attack_lock = 0.22 if idx < hits - 1 else 0.34
+	set_meta("swings", int(get_meta("swings", 0)) + 1)
 	hitbox.begin_swing(_attack_damage(mult))
 	get_tree().create_timer(0.12).timeout.connect(hitbox.end_swing)
 	var color := Color(String(hero_def.get("color", "#ffffff")))
@@ -284,6 +285,7 @@ func _gain_meter(amount: float) -> void:
 
 
 func on_enemy_hit() -> void:
+	set_meta("hits", int(get_meta("hits", 0)) + 1)
 	_gain_meter(float(ContentDatabase.bal("dungeon", {}).get("meter_gain_per_hit", 6)))
 
 

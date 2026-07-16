@@ -68,10 +68,15 @@ func _build_room() -> void:
 	add_child(door_lbl)
 
 
+func _window_slots() -> Array[int]:
+	var out: Array[int] = []
+	for v in ContentDatabase.bal("shop", {}).get("window_slots", [0, 1, 2, 3]):
+		out.append(int(v))
+	return out
+
+
 func _furniture_kind(slot: int) -> String:
-	var shop_cfg: Dictionary = ContentDatabase.bal("shop", {})
-	var window_slots: Array = shop_cfg.get("window_slots", [0, 1, 2, 3])
-	if slot in window_slots:
+	if slot in _window_slots():
 		return "counter"
 	return ["shelf", "pedestal", "case"][slot % 3]
 
@@ -90,8 +95,7 @@ func _build_furniture() -> void:
 		var spr := Sprite2D.new()
 		spr.texture = PlaceholderFactory.furniture_texture(kind, 34, 20)
 		marker.add_child(spr)
-		var window_slots: Array = ContentDatabase.bal("shop", {}).get("window_slots", [0, 1, 2, 3])
-		if i in window_slots:
+		if i in _window_slots():
 			var tag := UIKit.label("window", 7, UIKit.COL_DIM)
 			tag.position = Vector2(-14, -26)
 			marker.add_child(tag)

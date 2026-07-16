@@ -5,7 +5,7 @@
   "periods_per_day": 4,
   "period_names": ["Morning", "Afternoon", "Evening", "Night"],
   "starting_gold": 1500,
-  "prosperity_gate_growth": 1.4,
+  "prosperity_gate_growth": 1.45,
   "prosperity_per_merchant_level": 0.02,
   "customer_budget_chapter_scale": 0.25,
   "starting_inventory": {"kh_potion": 3, "sea_salt_ice_cream": 2, "gold_coin": 2, "wooden_shield": 1},

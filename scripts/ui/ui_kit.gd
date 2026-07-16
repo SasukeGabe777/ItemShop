@@ -39,7 +39,8 @@ static func button(text: String, on_press: Callable, size: int = 10) -> Button:
 	var b := Button.new()
 	b.text = text
 	b.add_theme_font_size_override("font_size", size)
-	b.pressed.connect(on_press)
+	if on_press.is_valid():
+		b.pressed.connect(on_press)
 	return b
 
 

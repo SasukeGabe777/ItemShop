@@ -53,6 +53,11 @@ func _reset_all() -> void:
 	BridgeManager.reset()
 	DungeonManager.reset()
 	StoryEventManager.reset()
+	# deterministic economy proof: seed the gameplay RNGs
+	MarketManager.rng.seed = rng.seed
+	CustomerGen.rng.seed = rng.seed
+	RelationshipManager.rng.seed = rng.seed
+	DungeonManager.rng.seed = rng.seed
 
 
 func _test_negotiation() -> void:
