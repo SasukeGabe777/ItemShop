@@ -41,6 +41,12 @@ static func build(sheet: Texture2D, manifest: Dictionary) -> SpriteFrames:
 		frames.add_animation(anim_name)
 		frames.set_animation_speed(anim_name, float(spec.get("fps", 6)))
 		frames.set_animation_loop(anim_name, bool(spec.get("loop", true)))
+		# an animation may use explicit pixel rects instead of grid indices
+		for r in spec.get("rects", []):
+			var at_rect := AtlasTexture.new()
+			at_rect.atlas = sheet
+			at_rect.region = Rect2(float(r[0]), float(r[1]), float(r[2]), float(r[3]))
+			frames.add_frame(anim_name, at_rect)
 		for frame_idx in spec.get("frames", []):
 			var idx := int(frame_idx)
 			var row := int(floor(float(idx) / float(cols)))

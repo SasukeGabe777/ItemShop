@@ -34,6 +34,7 @@ func _collect() -> Dictionary:
 		"relationships": RelationshipManager.to_save(),
 		"bridge": BridgeManager.to_save(),
 		"story": StoryEventManager.to_save(),
+		"furniture": ShopFurnitureManager.to_save(),
 	}
 
 
@@ -46,6 +47,7 @@ func _apply(d: Dictionary) -> void:
 	RelationshipManager.from_save(d.get("relationships", {}))
 	BridgeManager.from_save(d.get("bridge", {}))
 	StoryEventManager.from_save(d.get("story", {}))
+	ShopFurnitureManager.from_save(d.get("furniture", {}))
 
 
 func _write(path: String, data: Dictionary) -> bool:

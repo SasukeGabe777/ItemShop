@@ -1,0 +1,67 @@
+{
+  "asset_id": "sora",
+  "sheet": "res://assets/franchises/kingdom_hearts/processed/sheets/sora.png",
+  "native_scale": 1,
+  "display_scale": 1,
+  "pivot": [
+    17,
+    40
+  ],
+  "grid": {
+    "frame_width": 34,
+    "frame_height": 44,
+    "columns": 8,
+    "rows": 2
+  },
+  "animations": {
+    "idle_down": {
+      "frames": [
+        0
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "walk_down": {
+      "frames": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "fps": 6,
+      "loop": true
+    },
+    "idle_up": {
+      "frames": [
+        5
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "walk_up": {
+      "frames": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "fps": 6,
+      "loop": true
+    },
+    "idle_side": {
+      "frames": [
+        10
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "walk_side": {
+      "frames": [
+        11,
+        12
+      ],
+      "fps": 6,
+      "loop": true
+    }
+  }
+}

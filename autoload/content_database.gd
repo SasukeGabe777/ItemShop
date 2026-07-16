@@ -19,6 +19,8 @@ var room_grid: Vector2i = Vector2i(20, 12)
 var room_cell: int = 32
 var balance: Dictionary = {}
 var music: Dictionary = {}
+var furniture: Dictionary = {}
+var locations: Dictionary = {}
 
 var load_errors: Array[String] = []
 
@@ -66,6 +68,12 @@ func reload_all() -> void:
 	var grid: Array = rm_doc.get("grid", [20, 12])
 	room_grid = Vector2i(int(grid[0]), int(grid[1]))
 	room_cell = int(rm_doc.get("cell_size", 32))
+	var f_doc: Dictionary = _load_json("res://data/shop_furniture.json")
+	for fu: Dictionary in f_doc.get("furniture", []):
+		furniture[fu["id"]] = fu
+	var l_doc: Dictionary = _load_json("res://data/locations.json")
+	for loc: Dictionary in l_doc.get("locations", []):
+		locations[loc["id"]] = loc
 	balance = _load_json("res://data/balance.json")
 	music = _load_json("res://data/music_manifest.json")
 	if load_errors.is_empty():
@@ -144,6 +152,14 @@ func get_named_customer(id: String) -> Dictionary:
 
 func get_scene_data(id: String) -> Dictionary:
 	return story_scenes.get(id, {})
+
+
+func get_furniture(id: String) -> Dictionary:
+	return furniture.get(id, {})
+
+
+func get_location(id: String) -> Dictionary:
+	return locations.get(id, {})
 
 
 func room_templates_by_kind(kind: String) -> Array[Dictionary]:

@@ -17,7 +17,12 @@ func setup_from_manifest(manifest_path: String) -> bool:
 		return false
 	animated = AnimatedSprite2D.new()
 	animated.sprite_frames = frames
-	animated.animation = "idle_down" if frames.has_animation("idle_down") else frames.get_animation_names()[0]
+	if frames.has_animation("idle_down"):
+		animated.animation = "idle_down"
+	elif frames.has_animation("idle"):
+		animated.animation = "idle"
+	else:
+		animated.animation = frames.get_animation_names()[0]
 	animated.play()
 	add_child(animated)
 	# align the manifest pivot (usually the feet) with this node's origin
@@ -70,8 +75,15 @@ func face(direction: Vector2, moving: bool) -> void:
 	if use_frames and animated != null:
 		var anim := ""
 		if absf(direction.x) >= absf(direction.y) and direction != Vector2.ZERO:
-			anim = "walk_side" if moving else "idle_side"
-			animated.flip_h = direction.x < 0.0
+			# dedicated left/right animations win over the mirrored _side pair
+			var lr := "left" if direction.x < 0.0 else "right"
+			var prefix := "walk" if moving else "idle"
+			if animated.sprite_frames.has_animation("%s_%s" % [prefix, lr]):
+				anim = "%s_%s" % [prefix, lr]
+				animated.flip_h = false
+			else:
+				anim = "walk_side" if moving else "idle_side"
+				animated.flip_h = direction.x < 0.0
 		elif direction.y < 0.0:
 			anim = "walk_up" if moving else "idle_up"
 		elif direction != Vector2.ZERO:

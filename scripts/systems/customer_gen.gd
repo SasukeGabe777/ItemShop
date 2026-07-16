@@ -92,11 +92,6 @@ static func likes_item(cust: Dictionary, item_id: String) -> bool:
 ## Pick which displayed item this customer wants (weighted by preference and
 ## window placement). Returns "" when nothing interests them.
 static func pick_interest(cust: Dictionary) -> String:
-	var shop_cfg: Dictionary = ContentDatabase.bal("shop", {})
-	var window_slots: Array[int] = []
-	for v in shop_cfg.get("window_slots", [0, 1, 2, 3]):
-		window_slots.append(int(v))
-	var window_bonus := float(shop_cfg.get("window_attention_bonus", 0.25))
 	var best := ""
 	var best_score := 0.0
 	for slot in range(InventoryManager.display.size()):
@@ -112,8 +107,9 @@ static func pick_interest(cust: Dictionary) -> String:
 		var score := rng.randf_range(0.4, 1.0)
 		if likes_item(cust, id):
 			score += 0.8
-		if slot in window_slots:
-			score += window_bonus
+		# placement bonus now comes from the furniture the item sits on
+		# (classic window bonus + per-furniture attention modifier)
+		score += ShopFurnitureManager.slot_attention_bonus(slot)
 		# affordable sweet spot
 		if price < int(cust.get("budget", 0)) * 0.9:
 			score += 0.2

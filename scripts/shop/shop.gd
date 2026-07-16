@@ -10,13 +10,20 @@ var customers_remaining: Array[Dictionary] = []
 var live_customers: Array[ShopCustomer] = []
 var spawn_timer: float = 0.0
 var busy: bool = false
-var display_markers: Array[Node2D] = []
+var furniture_nodes: Array[DisplayFurniture] = []
 var browse_points: Array[Vector2] = []
+var edit_mode: bool = false
+var carrying: DisplayFurniture = null
+var carry_origin := Vector2.ZERO
+var edit_hint: Label = null
 var session_summary := {"sales": 0, "revenue": 0, "perfect": 0, "left": 0, "orders": 0}
 var negotiating: ShopCustomer = null
 var nego_queue: Array = []  # [{customer: Dictionary, item: String, node: ShopCustomer}]
 
 const ENTRANCE := Vector2(320, 400)
+## Area furniture may occupy: inside the walls, clear of the door strip.
+const FURNITURE_AREA := Rect2(150, 132, 340, 258)
+const EDIT_GRID := 8.0
 
 
 func _ready() -> void:
@@ -70,52 +77,19 @@ func _build_room() -> void:
 	add_child(door_lbl)
 
 
-func _window_slots() -> Array[int]:
-	var out: Array[int] = []
-	for v in ContentDatabase.bal("shop", {}).get("window_slots", [0, 1, 2, 3]):
-		out.append(int(v))
-	return out
-
-
-func _furniture_kind(slot: int) -> String:
-	if slot in _window_slots():
-		return "counter"
-	return ["shelf", "pedestal", "case"][slot % 3]
-
-
 func _build_furniture() -> void:
-	display_markers.clear()
+	furniture_nodes.clear()
 	browse_points.clear()
-	var n := InventoryManager.display_slot_count()
-	for i in range(n):
-		var col := i % 4
-		var row_i := i / 4
-		var pos := Vector2(190.0 + col * 88.0, 170.0 + row_i * 76.0)
-		var marker := Node2D.new()
-		marker.position = pos
-		var kind := _furniture_kind(i)
-		var spr := Sprite2D.new()
-		var real_furniture := {"counter": "crate_lantern", "shelf": "crates", "pedestal": "barrel", "case": "chest_gold"}
-		var tex := Scenery.texture_or_null(String(real_furniture.get(kind, "")))
-		spr.texture = tex if tex != null else PlaceholderFactory.furniture_texture(kind, 34, 20)
-		marker.add_child(spr)
-		if i in _window_slots():
-			var tag := UIKit.label("window", 7, UIKit.COL_DIM)
-			tag.position = Vector2(-14, -26)
-			marker.add_child(tag)
-		var item_spr := Sprite2D.new()
-		item_spr.name = "ItemSprite"
-		item_spr.position = Vector2(0, -12)
-		marker.add_child(item_spr)
-		var ic := InteractionComponent.new()
-		ic.prompt = "Display slot %d" % (i + 1)
-		ic.action_id = "slot_%d" % i
-		ic.position = pos
-		ic.add_to_group("interactables")
-		add_child(ic)
-		add_child(marker)
-		display_markers.append(marker)
-		browse_points.append(pos)
+	ShopFurnitureManager.ensure_layout()
+	var window := ShopFurnitureManager.window_slots()
+	var slot_base := 0
+	for inst: Dictionary in ShopFurnitureManager.layout:
+		var piece := DisplayFurniture.new()
+		add_child(piece)
+		piece.setup(inst, ShopFurnitureManager.type_def(inst), slot_base, window)
+		furniture_nodes.append(piece)
+		slot_base += piece.slot_count
+	_rebuild_browse_points()
 	var open_ic := InteractionComponent.new()
 	open_ic.prompt = "Open the shop (1 period)"
 	open_ic.action_id = "open_shop"
@@ -141,20 +115,31 @@ func _build_furniture() -> void:
 		expand_ic.position = Vector2(480, 140)
 		expand_ic.add_to_group("interactables")
 		add_child(expand_ic)
+	var edit_ic := InteractionComponent.new()
+	edit_ic.prompt = "Rearrange furniture"
+	edit_ic.action_id = "rearrange"
+	edit_ic.position = Vector2(480, 340)
+	edit_ic.add_to_group("interactables")
+	add_child(edit_ic)
 	_refresh_display_sprites()
 	InventoryManager.display_changed.connect(_refresh_display_sprites)
 
 
+func _rebuild_browse_points() -> void:
+	browse_points.clear()
+	for piece in furniture_nodes:
+		browse_points.append_array(piece.slot_global_positions())
+
+
 func _refresh_display_sprites() -> void:
-	for i in range(display_markers.size()):
-		if i >= InventoryManager.display.size():
-			break
-		var spr := display_markers[i].get_node("ItemSprite") as Sprite2D
-		var id := String(InventoryManager.display[i])
-		spr.texture = ContentDatabase.item_texture(id) if id != "" else null
+	for piece in furniture_nodes:
+		piece.refresh_items()
 
 
 func _process(delta: float) -> void:
+	if edit_mode:
+		_process_edit()
+		return
 	if busy or player == null:
 		prompt.visible = false
 		return
@@ -185,6 +170,11 @@ func _activate(action: String) -> void:
 			_open_storage()
 		"expand":
 			_open_expand()
+		"rearrange":
+			if session_active:
+				_toast("Not while customers are browsing!")
+				return
+			_enter_edit_mode()
 		"exit":
 			if session_active:
 				_toast("Close up first — customers are browsing!")
@@ -203,12 +193,101 @@ func _toast(text: String) -> void:
 	tw.tween_callback(lbl.queue_free)
 
 
+# ---------------- shop edit mode ----------------
+
+func _enter_edit_mode() -> void:
+	edit_mode = true
+	player.frozen = true
+	prompt.visible = false
+	for piece in furniture_nodes:
+		if piece.is_moveable():
+			piece.set_edit_highlight(true)
+	edit_hint = UIKit.label("EDIT MODE — click furniture to pick up, click to place, right-click cancels, [E] done", 9, UIKit.COL_ACCENT)
+	edit_hint.position = Vector2(150, 124)
+	edit_hint.z_index = 70
+	add_child(edit_hint)
+
+
+func _exit_edit_mode() -> void:
+	if carrying != null:
+		_cancel_carry()
+	edit_mode = false
+	player.frozen = false
+	for piece in furniture_nodes:
+		piece.clear_ghost()
+	if edit_hint != null:
+		edit_hint.queue_free()
+		edit_hint = null
+
+
+func _process_edit() -> void:
+	if Input.is_action_just_pressed("interact"):
+		_exit_edit_mode()
+		return
+	if carrying != null:
+		var pos := (get_global_mouse_position() / EDIT_GRID).round() * EDIT_GRID
+		carrying.position = pos
+		carrying.set_ghost(ShopFurnitureManager.placement_valid(carrying.uid, pos, FURNITURE_AREA))
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if not edit_mode:
+		return
+	if event is InputEventKey and event.pressed and (event as InputEventKey).keycode == KEY_ESCAPE:
+		_exit_edit_mode()
+		get_viewport().set_input_as_handled()
+		return
+	if not (event is InputEventMouseButton) or not (event as InputEventMouseButton).pressed:
+		return
+	var mb := event as InputEventMouseButton
+	if mb.button_index == MOUSE_BUTTON_RIGHT and carrying != null:
+		_cancel_carry()
+		get_viewport().set_input_as_handled()
+		return
+	if mb.button_index != MOUSE_BUTTON_LEFT:
+		return
+	get_viewport().set_input_as_handled()
+	var mouse := get_global_mouse_position()
+	if carrying == null:
+		for piece in furniture_nodes:
+			if piece.is_moveable() and piece.footprint().grow(4.0).has_point(mouse):
+				carrying = piece
+				carry_origin = piece.position
+				break
+		return
+	var pos := (mouse / EDIT_GRID).round() * EDIT_GRID
+	if ShopFurnitureManager.placement_valid(carrying.uid, pos, FURNITURE_AREA):
+		carrying.position = pos
+		ShopFurnitureManager.move_instance(carrying.uid, pos)
+		carrying.set_edit_highlight(true)
+		carrying = null
+		_rebuild_browse_points()
+	else:
+		_toast("Can't place it there.")
+
+
+func _cancel_carry() -> void:
+	carrying.position = carry_origin
+	carrying.set_edit_highlight(true)
+	carrying = null
+
+
 # ---------------- stocking ----------------
+
+func _slot_info(slot: int) -> Dictionary:
+	for s: Dictionary in ShopFurnitureManager.get_all_available_display_slots():
+		if int(s.get("index", -1)) == slot:
+			return s
+	return {}
+
 
 func _open_slot_picker(slot: int) -> void:
 	busy = true
 	player.frozen = true
-	var parts := UIKit.modal(self, "Display slot %d (%s)" % [slot + 1, _furniture_kind(slot)])
+	var info := _slot_info(slot)
+	var type_name := String(ContentDatabase.get_furniture(String(info.get("type", ""))).get("name", "stand"))
+	var allowed: Array = info.get("allowed_categories", [])
+	var parts := UIKit.modal(self, "Display slot %d (%s)" % [slot + 1, type_name])
 	var pick_layer: CanvasLayer = parts[0]
 	var vb: VBoxContainer = parts[1]
 	var current := String(InventoryManager.display[slot]) if slot < InventoryManager.display.size() else ""
@@ -223,6 +302,8 @@ func _open_slot_picker(slot: int) -> void:
 	for id in InventoryManager.sorted_ids("price"):
 		var it := ContentDatabase.get_item(id)
 		if it.get("sellable", true) == false:
+			continue
+		if not allowed.is_empty() and not (String(it.get("category", "")) in allowed):
 			continue
 		var appeal: Dictionary = it.get("appeal", {})
 		var appeal_bits: Array[String] = []

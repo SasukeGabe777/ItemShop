@@ -33,6 +33,7 @@ var grid_overlay: Control
 var status: Label
 var animations: Dictionary = {}  # name -> {frames, fps, loop}
 var manifest_path: String = ""
+var sheet_file_dialog: FileDialog
 
 
 func _ready() -> void:
@@ -77,15 +78,21 @@ func _build_ui() -> void:
 
 	var left := UIKit.panel(Vector2(330, 0))
 	root.add_child(left)
+	var left_scroll := ScrollContainer.new()
+	left.add_child(left_scroll)
 	var vb := VBoxContainer.new()
+	vb.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	vb.add_theme_constant_override("separation", 4)
-	left.add_child(vb)
+	left_scroll.add_child(vb)
 	vb.add_child(UIKit.header("Sprite Importer"))
 	vb.add_child(UIKit.label("Sheet path (png; gif via frame PNGs):", 9))
 	sheet_path_edit = LineEdit.new()
 	sheet_path_edit.text = "res://assets/hero/raw/hero_faraway_overworld.png"
 	vb.add_child(sheet_path_edit)
-	vb.add_child(UIKit.button("Load sheet", _load_sheet))
+	var sheet_buttons := HBoxContainer.new()
+	sheet_buttons.add_child(UIKit.button("Browse...", _browse_sheet))
+	sheet_buttons.add_child(UIKit.button("Load sheet", _load_sheet))
+	vb.add_child(sheet_buttons)
 	vb.add_child(UIKit.label("Chroma key (hex, empty = use alpha):", 9))
 	chroma_edit = LineEdit.new()
 	chroma_edit.placeholder_text = "#ff00ff"
@@ -158,6 +165,29 @@ func _build_ui() -> void:
 	grid_overlay.add_child(preview_holder)
 	preview_sprite = AnimatedSprite2D.new()
 	preview_holder.add_child(preview_sprite)
+
+	sheet_file_dialog = FileDialog.new()
+	sheet_file_dialog.access = FileDialog.ACCESS_FILESYSTEM
+	sheet_file_dialog.file_mode = FileDialog.FILE_MODE_OPEN_FILE
+	sheet_file_dialog.filters = PackedStringArray(["*.png ; PNG Images", "*.gif ; GIF Images"])
+	sheet_file_dialog.current_dir = ProjectSettings.globalize_path("res://assets/franchises")
+	sheet_file_dialog.file_selected.connect(_on_sheet_file_chosen)
+	add_child(sheet_file_dialog)
+
+
+func _browse_sheet() -> void:
+	var current := sheet_path_edit.text.strip_edges()
+	if current != "" and ResourceLoader.exists(current):
+		sheet_file_dialog.current_dir = ProjectSettings.globalize_path(current.get_base_dir())
+	sheet_file_dialog.popup_centered(Vector2i(900, 600))
+
+
+## FileDialog hands back an absolute OS path; convert to res:// so it stays
+## consistent with the rest of the project (and so slash direction never
+## breaks the manifest-path lookup below).
+func _on_sheet_file_chosen(abs_path: String) -> void:
+	sheet_path_edit.text = ProjectSettings.localize_path(abs_path)
+	_load_sheet()
 
 
 func _load_sheet() -> void:
@@ -323,13 +353,29 @@ func _rebuild_preview() -> void:
 		preview_holder.add_child(box)
 
 
+## Matches the convention every runtime script actually uses (see
+## scripts/entities/combat_hero.gd, enemy.gd, shop_customer.gd,
+## town_player.gd): "<root>/manifests/<entity_id>.json", where <root> is the
+## franchise/hero folder regardless of whether the sheet itself came from
+## raw/, processed/, or processed/sheets/.
+func _manifest_path_for_sheet(sheet_path: String) -> String:
+	var normalized := sheet_path.replace("\\", "/")
+	var entity_id := normalized.get_file().get_basename()
+	var root := normalized
+	for marker in ["/raw/", "/processed/"]:
+		var idx := root.find(marker)
+		if idx != -1:
+			root = root.substr(0, idx)
+			break
+	return "%s/manifests/%s.json" % [root, entity_id]
+
+
 func _save_manifest() -> void:
 	if sheet_image == null:
 		status.text = "Load a sheet first."
 		return
-	var path := sheet_path_edit.text.strip_edges().get_basename() + ".manifest.json"
-	path = path.replace("/raw/", "/manifests/")
-	DirAccess.make_dir_recursive_absolute(path.get_base_dir())
+	var path := _manifest_path_for_sheet(sheet_path_edit.text.strip_edges())
+	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(path.get_base_dir()))
 	var f := FileAccess.open(path, FileAccess.WRITE)
 	if f == null:
 		status.text = "Cannot write " + path
@@ -342,8 +388,7 @@ func _save_manifest() -> void:
 func _load_manifest() -> void:
 	var path := sheet_path_edit.text.strip_edges()
 	if not path.ends_with(".json"):
-		path = path.get_basename() + ".manifest.json"
-		path = path.replace("/raw/", "/manifests/")
+		path = _manifest_path_for_sheet(path)
 	if not FileAccess.file_exists(path):
 		status.text = "No manifest at " + path
 		return

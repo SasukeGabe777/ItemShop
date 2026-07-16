@@ -34,6 +34,7 @@ func start_new_campaign(slot: int) -> void:
 	BridgeManager.reset()
 	DungeonManager.reset()
 	StoryEventManager.reset()
+	ShopFurnitureManager.reset()
 	StoryEventManager.fire("game_start")
 	StoryEventManager.fire("chapter_start", {"chapter": 1})
 	SaveManager.checkpoint_chapter()

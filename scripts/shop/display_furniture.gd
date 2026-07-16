@@ -1,0 +1,123 @@
+class_name DisplayFurniture
+extends Node2D
+## A movable piece of shop display furniture built from a type definition in
+## data/shop_furniture.json. Owns one or more display slots (contiguous
+## InventoryManager.display indices starting at slot_base), its own
+## interaction areas, an optional collision body, and edit-mode highlighting.
+## Replaces the old hardcoded crate markers in the shop scene.
+
+var uid: int = 0
+var type_id: String = ""
+var type_def: Dictionary = {}
+var slot_base: int = 0
+var slot_count: int = 1
+
+var _item_sprites: Array[Sprite2D] = []
+var _slot_offsets: Array[Vector2] = []
+var _body_sprite: Sprite2D
+var _collision_body: StaticBody2D
+
+
+func setup(instance: Dictionary, def: Dictionary, p_slot_base: int, window_indices: Array[int]) -> void:
+	uid = int(instance.get("uid", 0))
+	type_id = String(instance.get("type", ""))
+	type_def = def
+	slot_base = p_slot_base
+	var pos_arr: Array = instance.get("pos", [0, 0])
+	position = Vector2(float(pos_arr[0]), float(pos_arr[1]))
+
+	var slots: Array = def.get("display_slots", [[0, -12]])
+	slot_count = maxi(1, slots.size())
+
+	_body_sprite = Sprite2D.new()
+	_body_sprite.texture = _resolve_texture(def)
+	add_child(_body_sprite)
+
+	if bool(def.get("blocks_movement", false)):
+		_collision_body = StaticBody2D.new()
+		_collision_body.collision_layer = 1
+		var shape := CollisionShape2D.new()
+		var rect := RectangleShape2D.new()
+		var size_arr: Array = def.get("size", [40, 24])
+		rect.size = Vector2(float(size_arr[0]), float(size_arr[1]))
+		shape.shape = rect
+		_collision_body.add_child(shape)
+		add_child(_collision_body)
+
+	for i in slot_count:
+		var offset := Vector2(float(slots[i][0]), float(slots[i][1]))
+		_slot_offsets.append(offset)
+		var item_spr := Sprite2D.new()
+		item_spr.name = "ItemSprite%d" % i
+		item_spr.position = offset
+		add_child(item_spr)
+		_item_sprites.append(item_spr)
+
+		var global_slot := slot_base + i
+		var ic := InteractionComponent.new()
+		ic.prompt = "Display slot %d" % (global_slot + 1)
+		ic.action_id = "slot_%d" % global_slot
+		ic.position = offset
+		ic.add_to_group("interactables")
+		add_child(ic)
+
+		if global_slot in window_indices:
+			var tag := UIKit.label("window", 7, UIKit.COL_DIM)
+			tag.position = offset + Vector2(-14, -14)
+			add_child(tag)
+
+	refresh_items()
+
+
+func _resolve_texture(def: Dictionary) -> Texture2D:
+	var custom := String(def.get("sprite", ""))
+	if custom != "" and ResourceLoader.exists(custom):
+		return load(custom)
+	var scenery_key := String(def.get("scenery", ""))
+	if scenery_key != "":
+		var tex := Scenery.texture_or_null(scenery_key)
+		if tex != null:
+			return tex
+	var size_arr: Array = def.get("size", [40, 24])
+	return PlaceholderFactory.furniture_texture(String(def.get("furniture_type", "shelf")),
+		int(size_arr[0]) - 6, int(size_arr[1]) - 4)
+
+
+func refresh_items() -> void:
+	for i in _item_sprites.size():
+		var global_slot := slot_base + i
+		var id := ""
+		if global_slot < InventoryManager.display.size():
+			id = String(InventoryManager.display[global_slot])
+		_item_sprites[i].texture = ContentDatabase.item_texture(id) if id != "" else null
+
+
+func slot_global_positions() -> Array[Vector2]:
+	var out: Array[Vector2] = []
+	for offset in _slot_offsets:
+		out.append(position + offset)
+	return out
+
+
+func is_moveable() -> bool:
+	return bool(type_def.get("is_moveable", true))
+
+
+func footprint() -> Rect2:
+	var size_arr: Array = type_def.get("size", [40, 24])
+	var size := Vector2(float(size_arr[0]), float(size_arr[1]))
+	return Rect2(position - size / 2.0, size)
+
+
+## Edit-mode tinting: neutral highlight when selectable, green/red while being
+## carried depending on placement validity.
+func set_edit_highlight(on: bool) -> void:
+	modulate = Color(1.2, 1.2, 0.9) if on else Color.WHITE
+
+
+func set_ghost(valid: bool) -> void:
+	modulate = Color(0.6, 1.2, 0.6, 0.8) if valid else Color(1.3, 0.5, 0.5, 0.8)
+
+
+func clear_ghost() -> void:
+	modulate = Color.WHITE

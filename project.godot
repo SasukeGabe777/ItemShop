@@ -1,6 +1,10 @@
 ; Engine configuration file.
 ; It's best edited using the editor UI and not directly,
 ; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
 
 config_version=5
 
@@ -28,6 +32,7 @@ RelationshipManager="*res://autoload/relationship_manager.gd"
 BridgeManager="*res://autoload/bridge_manager.gd"
 DungeonManager="*res://autoload/dungeon_manager.gd"
 StoryEventManager="*res://autoload/story_event_manager.gd"
+ShopFurnitureManager="*res://autoload/shop_furniture_manager.gd"
 SaveManager="*res://autoload/save_manager.gd"
 AudioManager="*res://autoload/audio_manager.gd"
 SceneRouter="*res://autoload/scene_router.gd"
@@ -41,6 +46,10 @@ window/size/window_width_override=1280
 window/size/window_height_override=720
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/crossroads_content_studio/plugin.cfg")
 
 [gui]
 
