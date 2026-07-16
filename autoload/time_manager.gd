@@ -74,6 +74,11 @@ func _end_day() -> Array[String]:
 	day += 1
 	period = 0
 	GameState.add_stat("days_played")
+	if GameState.endless_mode:
+		var endless_cfg: Dictionary = ContentDatabase.bal("endless", {})
+		var days_in := maxi(0, day - campaign_days())
+		var rent := int(round(float(endless_cfg.get("daily_rent", 500)) * pow(float(endless_cfg.get("rent_growth", 1.05)), days_in)))
+		EconomyManager.add_gold(-mini(rent, EconomyManager.gold))
 	MarketManager.on_new_day()
 	day_started.emit(day)
 	events.append("new_day")
