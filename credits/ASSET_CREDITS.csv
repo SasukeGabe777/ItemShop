@@ -1,0 +1,4 @@
+asset_id,character_id,source_game,source_site,source_page,contributor,permission_notes,file
+hero_faraway_overworld,hero,OMORI,The Spriters Resource,https://www.spriters-resource.com/pc_computer/omori/,,Fan-ripped sprites; for personal/non-commercial prototype use only,assets/hero/raw/hero_faraway_overworld.png
+kh_sora_gba,sora,Kingdom Hearts: Chain of Memories,The Spriters Resource,https://www.spriters-resource.com/game_boy_advance/khcom/asset/1029/,,To be downloaded manually; placeholder used until supplied,assets/franchises/kingdom_hearts/raw/
+kh_riku_gba,riku,Kingdom Hearts: Chain of Memories,The Spriters Resource,https://www.spriters-resource.com/game_boy_advance/khcom/asset/1138/,Unknown,Fan-ripped sprites; for private/non-commercial prototype use only. Credit original Spriters Resource submitters where required.,assets/franchises/kingdom_hearts/raw/kh_riku_gba.png

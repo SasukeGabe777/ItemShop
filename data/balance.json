@@ -1,0 +1,71 @@
+{
+  "schema": "crossroads.balance.v1",
+  "campaign_days": 35,
+  "chapter_length_days": 5,
+  "periods_per_day": 4,
+  "period_names": ["Morning", "Afternoon", "Evening", "Night"],
+  "starting_gold": 1000,
+  "starting_inventory": {"kh_potion": 3, "sea_salt_ice_cream": 2, "gold_coin": 2, "wooden_shield": 1},
+  "activity_costs": {"open_shop": 1, "dungeon": 2, "story": 1, "rest": 1},
+  "shop": {
+    "display_slots_by_level": [8, 12, 16],
+    "expansion_costs": [15000, 80000],
+    "customers_per_session_base": 4,
+    "customers_per_session_per_appeal": 0.08,
+    "window_slots": [0, 1, 2, 3],
+    "window_attention_bonus": 0.25,
+    "base_buy_ratio": 0.7,
+    "wholesale_ratio": 0.55,
+    "combo_bonus_per_perfect": 0.05,
+    "combo_max": 0.5
+  },
+  "negotiation": {
+    "base_accept_markup": 1.3,
+    "perfect_window": 0.06,
+    "counter_rounds": 2,
+    "relationship_markup_per_level": 0.04,
+    "mood_swing": 0.12,
+    "preference_bonus": 0.2,
+    "appeal_match_bonus": 0.1,
+    "final_warning_threshold": 1.12,
+    "relationship_gain_perfect": 2,
+    "relationship_gain_sale": 1,
+    "relationship_loss_reject": 1,
+    "relationship_loss_gouge": 2
+  },
+  "merchant_xp": {
+    "per_sale": 4, "per_perfect": 10, "per_order": 15,
+    "level_curve_base": 100, "level_curve_mult": 1.35,
+    "haggle_bonus_per_level": 0.01
+  },
+  "friendship": {
+    "equip_unlock_level": 3,
+    "max_level": 10,
+    "points_per_level": 10
+  },
+  "orders": {
+    "max_active": 4,
+    "chance_per_customer": 0.22,
+    "deadline_days": [1, 3],
+    "reward_markup": 1.5
+  },
+  "dungeon": {
+    "consumable_slots": 2,
+    "loot_bonus_dragon_radar": 0.15,
+    "revive_heal_ratio": 0.5,
+    "meter_gain_per_hit": 6,
+    "meter_gain_per_kill": 15,
+    "meter_max": 100,
+    "hit_pause_ms": 60,
+    "shake_heavy": 6.0,
+    "iframes_hurt": 0.8
+  },
+  "chapter_failure": {
+    "keep_inventory_items": 10,
+    "keep": ["merchant_level", "customer_knowledge", "encyclopedia", "tutorials", "decorations"]
+  },
+  "endless": {
+    "daily_rent": 500,
+    "rent_growth": 1.05
+  }
+}

@@ -1,0 +1,46 @@
+2026-07-15 23:52:28,314 INFO Opening game page: https://www.spriters-resource.com/game_boy_advance/khcom/
+2026-07-15 23:52:44,236 INFO Game: Kingdom Hearts: Chain of Memories
+2026-07-15 23:52:44,236 INFO Platform/category: shuffle
+2026-07-15 23:52:44,236 INFO Asset count reported: 173
+2026-07-15 23:52:44,236 INFO Assets selected: 1
+2026-07-15 23:52:44,237 INFO Sections: Uncategorized
+2026-07-15 23:52:44,237 INFO Destination: assets\franchises\kingdom_hearts\raw
+2026-07-15 23:52:44,237 INFO Filename pattern: kh_<asset>_gba
+2026-07-15 23:52:44,237 INFO Dry run only; no assets downloaded.
+2026-07-15 23:53:59,339 INFO Opening game page: https://www.spriters-resource.com/game_boy_advance/khcom/
+2026-07-15 23:54:07,476 INFO Game: Kingdom Hearts: Chain of Memories
+2026-07-15 23:54:07,476 INFO Platform/category: Game Boy Advance
+2026-07-15 23:54:07,477 INFO Asset count reported: 147
+2026-07-15 23:54:07,477 INFO Assets selected: 1
+2026-07-15 23:54:07,477 INFO Sections: Uncategorized
+2026-07-15 23:54:07,477 INFO Destination: assets\franchises\kingdom_hearts\raw
+2026-07-15 23:54:07,477 INFO Filename pattern: kh_<asset>_gba
+2026-07-15 23:54:07,477 INFO Dry run only; no assets downloaded.
+2026-07-15 23:55:34,799 INFO Opening game page: https://www.spriters-resource.com/game_boy_advance/khcom/
+2026-07-15 23:55:43,274 INFO Game: Kingdom Hearts: Chain of Memories
+2026-07-15 23:55:43,274 INFO Platform/category: Game Boy Advance
+2026-07-15 23:55:43,274 INFO Asset count reported: 147
+2026-07-15 23:55:43,274 INFO Assets selected: 1
+2026-07-15 23:55:43,274 INFO Sections: Uncategorized
+2026-07-15 23:55:43,275 INFO Destination: assets\franchises\kingdom_hearts\raw
+2026-07-15 23:55:43,275 INFO Filename pattern: kh_<asset>_gba
+2026-07-15 23:55:43,275 INFO Dry run only; no assets downloaded.
+2026-07-15 23:56:48,753 INFO Opening game page: https://www.spriters-resource.com/game_boy_advance/khcom/
+2026-07-15 23:56:55,201 INFO Game: Kingdom Hearts: Chain of Memories
+2026-07-15 23:56:55,201 INFO Platform/category: Game Boy Advance
+2026-07-15 23:56:55,201 INFO Asset count reported: 147
+2026-07-15 23:56:55,201 INFO Assets selected: 1
+2026-07-15 23:56:55,201 INFO Sections: Playable Characters, Summons, Non-Playable Characters, Enemies & Bosses, Backgrounds, Miscellaneous
+2026-07-15 23:56:55,201 INFO Destination: assets\franchises\kingdom_hearts\raw
+2026-07-15 23:56:55,201 INFO Filename pattern: kh_<asset>_gba
+2026-07-15 23:56:55,201 INFO Dry run only; no assets downloaded.
+2026-07-15 23:57:03,326 INFO Opening game page: https://www.spriters-resource.com/game_boy_advance/khcom/
+2026-07-15 23:57:09,670 INFO Game: Kingdom Hearts: Chain of Memories
+2026-07-15 23:57:09,670 INFO Platform/category: Game Boy Advance
+2026-07-15 23:57:09,670 INFO Asset count reported: 147
+2026-07-15 23:57:09,670 INFO Assets selected: 1
+2026-07-15 23:57:09,670 INFO Sections: Playable Characters, Summons, Non-Playable Characters, Enemies & Bosses, Backgrounds, Miscellaneous
+2026-07-15 23:57:09,670 INFO Destination: assets\franchises\kingdom_hearts\raw
+2026-07-15 23:57:09,671 INFO Filename pattern: kh_<asset>_gba
+2026-07-15 23:57:09,671 INFO Visiting asset 1138: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1138/
+2026-07-15 23:57:11,611 INFO Trying download control: download attribute

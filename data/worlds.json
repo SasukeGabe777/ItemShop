@@ -1,0 +1,78 @@
+{
+  "schema": "crossroads.worlds.v1",
+  "worlds": [
+    {
+      "id": "kingdom_hearts", "chapter": 1, "name": "Kingdom Hearts", "location": "Traverse Town",
+      "hero": "sora", "boss": "corrupted_fat_bandit",
+      "enemies": ["shadow_heartless", "soldier_heartless", "large_body", "yellow_opera", "red_nocturne"],
+      "repair_cost": 10000, "world_shard": "world_shard_kh",
+      "rooms": 5, "floor_color": "#2c3050", "wall_color": "#181a30", "accent_color": "#e8b840",
+      "dungeon_desc": "Lamplit districts flicker between existence and static.",
+      "market_goods": ["kh_potion", "kh_ether", "sea_salt_ice_cream", "lucid_shard", "blaze_shard", "frost_shard", "thunder_shard", "gummi_block", "keychain"]
+    },
+    {
+      "id": "mario", "chapter": 2, "name": "Mario", "location": "Mushroom Kingdom",
+      "hero": "mario", "boss": "king_bobomb",
+      "enemies": ["goomba", "koopa_troopa", "shy_guy", "boo", "bobomb_enemy"],
+      "repair_cost": 25000, "world_shard": "world_shard_mario",
+      "rooms": 5, "floor_color": "#3a7d3a", "wall_color": "#274d27", "accent_color": "#e03030",
+      "dungeon_desc": "Grassy paths, warp pipes, one very haunted room, and a small castle.",
+      "market_goods": ["super_mushroom", "fire_flower", "ice_flower", "koopa_shell", "gold_coin", "pow_block", "cape_feather", "mario_hammer"]
+    },
+    {
+      "id": "final_fantasy", "chapter": 3, "name": "Final Fantasy", "location": "The Crystal Ruins",
+      "hero": "cloud", "boss": "behemoth",
+      "enemies": ["bomb_ff", "flan", "cactuar", "tonberry", "sahagin"],
+      "repair_cost": 60000, "world_shard": "world_shard_ff",
+      "rooms": 6, "floor_color": "#35406a", "wall_color": "#202848", "accent_color": "#78d8e8",
+      "dungeon_desc": "Crystal caverns grown through the bones of industrial ruins.",
+      "market_goods": ["ff_potion", "hi_potion", "ff_ether", "phoenix_down", "ff_tent", "remedy", "chocobo_feather", "mythril_sword", "crystal_shard_ff"]
+    },
+    {
+      "id": "zelda", "chapter": 4, "name": "The Legend of Zelda", "location": "Lost Woods & Hyrule Ruins",
+      "hero": "link", "boss": "gohma",
+      "enemies": ["keese", "octorok", "bokoblin", "chuchu", "skulltula"],
+      "repair_cost": 120000, "world_shard": "world_shard_zelda",
+      "rooms": 6, "floor_color": "#2f5d33", "wall_color": "#1c3a20", "accent_color": "#e8d048",
+      "dungeon_desc": "Forest paths that loop unless you listen, and a temple older than maps.",
+      "market_goods": ["red_potion", "green_potion", "deku_nut", "wooden_shield", "zelda_boomerang", "bomb_bag", "deku_wood", "fairy_bottle", "rupee"]
+    },
+    {
+      "id": "naruto", "chapter": 5, "name": "Naruto", "location": "Hidden Leaf Outskirts",
+      "hero": "naruto", "boss": "zabuza",
+      "enemies": ["rogue_ninja", "sound_ninja", "puppet", "giant_snake", "clone_impostor"],
+      "repair_cost": 225000, "world_shard": "world_shard_naruto",
+      "rooms": 7, "floor_color": "#4a5d2f", "wall_color": "#2d3a1c", "accent_color": "#ff9820",
+      "dungeon_desc": "Training grounds, rooftops, and a camp that was supposed to be hidden.",
+      "market_goods": ["kunai", "shuriken", "explosive_tag", "soldier_pill", "chakra_pill", "ramen_bowl", "smoke_bomb", "forehead_protector", "ninja_scroll"]
+    },
+    {
+      "id": "dragon_ball", "chapter": 6, "name": "Dragon Ball Z", "location": "The Broken Lookout",
+      "hero": "goku", "boss": "great_ape_vegeta",
+      "enemies": ["saibaman", "rr_robot", "frieza_soldier", "cell_junior", "dbz_dinosaur"],
+      "repair_cost": 400000, "world_shard": "world_shard_dbz",
+      "rooms": 7, "floor_color": "#7a6a3a", "wall_color": "#4d4224", "accent_color": "#48c8f0",
+      "dungeon_desc": "Wilderness, ruined labs, and sky islands drifting around the Lookout.",
+      "market_goods": ["capsule", "senzu_bean", "scouter", "dino_tail", "sacred_water", "energy_crystal", "turtle_gi", "weighted_clothing"]
+    },
+    {
+      "id": "pokemon", "chapter": 7, "name": "Pokémon", "location": "Viridian Path & Cerulean Depths",
+      "hero": "pikachu", "boss": "mewtwo",
+      "enemies": ["corrupt_rattata", "corrupt_zubat", "corrupt_gastly", "corrupt_magnemite", "corrupt_beedrill"],
+      "repair_cost": 700000, "world_shard": "world_shard_pkmn",
+      "rooms": 8, "floor_color": "#2f5d4a", "wall_color": "#1c3a2e", "accent_color": "#f8d030",
+      "dungeon_desc": "A forest, a cave, and a laboratory that should have stayed closed.",
+      "market_goods": ["poke_ball", "great_ball", "pkmn_potion", "full_restore", "escape_rope", "moon_stone", "fire_stone", "thunder_stone", "water_stone"]
+    },
+    {
+      "id": "null_archive", "chapter": 8, "name": "The Null Archive", "location": "The Null Archive",
+      "hero": "any", "boss": "the_fade",
+      "enemies": ["fade_goomba", "fade_bomb_tag", "fade_saibadeku", "fade_tonberry_ball", "fade_gastly_boo"],
+      "repair_cost": 0, "world_shard": "",
+      "rooms": 9, "floor_color": "#26262e", "wall_color": "#141418", "accent_color": "#b8b8d0",
+      "dungeon_desc": "A broken region stitched from pieces of every world — and worlds no one remembers.",
+      "market_goods": [],
+      "final": true
+    }
+  ]
+}

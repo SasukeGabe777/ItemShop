@@ -1,0 +1,207 @@
+{
+  "schema": "crossroads.story.v1",
+  "scenes": [
+    {"id": "intro", "trigger": {"type": "game_start"}, "lines": [
+      {"who": "patch", "text": "Boot sequence... hello! I'm Patch. I'm what's left of the World Bridge's maintenance system."},
+      {"who": "hero", "text": "...The bridge outside is in a thousand pieces."},
+      {"who": "patch", "text": "One thousand and seven, actually. I counted. It's all I've done for a week."},
+      {"who": "patch", "text": "Here's the plan: you run the item shop, we fund repairs, and we reconnect all seven gates. Easy!"},
+      {"who": "hero", "text": "Seven gates. One shop. Thirty-five days."},
+      {"who": "patch", "text": "I said 'easy', not 'reasonable'. First gate: Kingdom Hearts. It's the cheap one!"}
+    ]},
+    {"id": "ch1_start", "trigger": {"type": "chapter_start", "chapter": 1}, "lines": [
+      {"who": "patch", "text": "Gate One: Traverse Town. Corruption reading: mild-to-embarrassing."},
+      {"who": "patch", "text": "Recover the World Shard from the boss, and save 10,000 gold. Shop's this way!"}
+    ]},
+    {"id": "ch1_hero", "trigger": {"type": "hero_met", "hero": "sora"}, "lines": [
+      {"who": "sora", "text": "Whoa, a shop between worlds! How much for the potion?"},
+      {"who": "hero", "text": "Let's say... 80 gold."},
+      {"who": "sora", "text": "Deal! Shopkeepers never overcharge!"},
+      {"who": "patch", "text": "He didn't even blink. Hero, we could have said EIGHT HUNDRED."},
+      {"who": "hero", "text": "Patch."},
+      {"who": "patch", "text": "I'm just saying the boy has no defensive economics whatsoever."}
+    ]},
+    {"id": "ch1_boss", "trigger": {"type": "boss_defeated", "chapter": 1}, "lines": [
+      {"who": "sora", "text": "Got it! One World Shard! It was inside the Fat Bandit the whole time."},
+      {"who": "patch", "text": "Do NOT tell me where exactly. Shard acquired! Now we just need the repair fee."}
+    ]},
+    {"id": "ch1_repair", "trigger": {"type": "repair_done", "chapter": 1}, "lines": [
+      {"who": "patch", "text": "Gate One: ONLINE. Traverse Town is connected!"},
+      {"who": "hero", "text": "The lamplight comes all the way through the gate."},
+      {"who": "patch", "text": "...I forgot bridges could look like that. Okay! Gate Two! The Mushroom one!"}
+    ]},
+    {"id": "ch2_start", "trigger": {"type": "chapter_start", "chapter": 2}, "lines": [
+      {"who": "patch", "text": "Gate Two: Mushroom Kingdom. Repair estimate: 25,000. The economy over there is coin-based. Literally. Coins float in the air."},
+      {"who": "hero", "text": "Sounds profitable."},
+      {"who": "patch", "text": "Sounds UNREGULATED."}
+    ]},
+    {"id": "ch2_hero", "trigger": {"type": "hero_met", "hero": "mario"}, "lines": [
+      {"who": "patch", "text": "Welcome! Now, our store operates a tiered pricing model with dynamic market adjustments—"},
+      {"who": "mario", "text": "(Thumbs-up.)"},
+      {"who": "patch", "text": "—and per-franchise fee structures, plus a loyalty program—"},
+      {"who": "mario", "text": "(Two thumbs-up.)"},
+      {"who": "patch", "text": "Hero, is he agreeing or has he simply run out of thumbs?"}
+    ]},
+    {"id": "ch2_boss", "trigger": {"type": "boss_defeated", "chapter": 2}, "lines": [
+      {"who": "mario", "text": "(Holds up the World Shard triumphantly.) Oh yeah!"},
+      {"who": "patch", "text": "The King Bob-omb just... wanted a hug? A big, explosive hug? Anyway. SHARD GET."}
+    ]},
+    {"id": "ch2_repair", "trigger": {"type": "repair_done", "chapter": 2}, "lines": [
+      {"who": "patch", "text": "Gate Two: ONLINE. Warp pipes are now a valid commuting option."},
+      {"who": "hero", "text": "Two down."},
+      {"who": "patch", "text": "Five to go. The next one has ambient orchestral music and unresolved feelings."}
+    ]},
+    {"id": "ch3_start", "trigger": {"type": "chapter_start", "chapter": 3}, "lines": [
+      {"who": "patch", "text": "Gate Three: the Crystal Ruins. 60,000 gold. The residents are dramatic and their swords are enormous."},
+      {"who": "hero", "text": "Bigger swords, bigger margins."},
+      {"who": "patch", "text": "You're learning. I'm so proud and slightly concerned."}
+    ]},
+    {"id": "ch3_hero", "trigger": {"type": "hero_met", "hero": "cloud"}, "lines": [
+      {"who": "cloud", "text": "...Nice corner."},
+      {"who": "hero", "text": "You can stand in it, if you want."},
+      {"who": "cloud", "text": "I don't need anything. I'll take the corner."},
+      {"who": "patch", "text": "Sir, the corner is not for sale. Sir, please stop brooding near the ice cream."}
+    ]},
+    {"id": "ch3_boss", "trigger": {"type": "boss_defeated", "chapter": 3}, "lines": [
+      {"who": "cloud", "text": "Behemoth's down. It had... crossover attacks. It threw a Poké Ball at me."},
+      {"who": "patch", "text": "That's bridge corruption for you. Worlds leaking into worlds. Shard secured. Three of seven!"}
+    ]},
+    {"id": "ch3_repair", "trigger": {"type": "repair_done", "chapter": 3}, "lines": [
+      {"who": "patch", "text": "Gate Three: ONLINE. Crystal resonance nominal. Chocobo migration patterns restored."},
+      {"who": "cloud", "text": "...Not bad, shopkeeper."},
+      {"who": "patch", "text": "HE SPOKE. Hero, mark the calendar."}
+    ]},
+    {"id": "ch4_start", "trigger": {"type": "chapter_start", "chapter": 4}, "lines": [
+      {"who": "patch", "text": "Gate Four: Hyrule. 120,000. Fair warning: the hero there communicates exclusively via meaningful silences."},
+      {"who": "hero", "text": "We'll get along fine."},
+      {"who": "patch", "text": "That is EXACTLY what worries me."}
+    ]},
+    {"id": "ch4_hero", "trigger": {"type": "hero_met", "hero": "link"}, "lines": [
+      {"who": "link", "text": "..."},
+      {"who": "hero", "text": "Uh-huh. The boomerang's 400, but for you, 350."},
+      {"who": "link", "text": "..."},
+      {"who": "hero", "text": "Fine. 325, but only because of what happened with the chickens."},
+      {"who": "patch", "text": "WHAT happened with the chickens?! I'm the interface here! INTERFACE ME!"}
+    ]},
+    {"id": "ch4_boss", "trigger": {"type": "boss_defeated", "chapter": 4}, "lines": [
+      {"who": "link", "text": "... (Holds up the World Shard. A familiar jingle almost plays.)"},
+      {"who": "patch", "text": "Four shards! Also, Gohma's eye is NOT merchandise, please put it down."}
+    ]},
+    {"id": "ch4_repair", "trigger": {"type": "repair_done", "chapter": 4}, "lines": [
+      {"who": "patch", "text": "Gate Four: ONLINE. The Lost Woods have stopped rearranging our street signs."},
+      {"who": "hero", "text": "Halfway there."},
+      {"who": "patch", "text": "Statistically past halfway! Emotionally, who can say."}
+    ]},
+    {"id": "ch5_start", "trigger": {"type": "chapter_start", "chapter": 5}, "lines": [
+      {"who": "patch", "text": "Gate Five: Hidden Leaf. 225,000 gold. Their economy runs on ramen and determination."},
+      {"who": "hero", "text": "Which one do we stock?"},
+      {"who": "patch", "text": "Both. OBVIOUSLY."}
+    ]},
+    {"id": "ch5_hero", "trigger": {"type": "hero_met", "hero": "naruto"}, "lines": [
+      {"who": "naruto", "text": "I need that summoning scroll! It's 1,200?! Okay. OKAY. I have... 12 gold."},
+      {"who": "hero", "text": "That's one percent."},
+      {"who": "naruto", "text": "AND a coupon for Ichiraku! AND my eternal gratitude! Future Hokage gratitude!"},
+      {"who": "patch", "text": "Hero, the gratitude of a Hokage is not a recognized currency. ...Yet. Hmm."}
+    ]},
+    {"id": "ch5_boss", "trigger": {"type": "boss_defeated", "chapter": 5}, "lines": [
+      {"who": "naruto", "text": "Zabuza's back to normal! He says sorry about the sword thing! Sort of! With his eyebrows!"},
+      {"who": "patch", "text": "Shard five! And tell Zabuza the cleaver aisle restocks on Thursdays."}
+    ]},
+    {"id": "ch5_repair", "trigger": {"type": "repair_done", "chapter": 5}, "lines": [
+      {"who": "patch", "text": "Gate Five: ONLINE. Warning: ramen demand has tripled. This is a good problem."},
+      {"who": "naruto", "text": "BELIEVE IT!"},
+      {"who": "patch", "text": "He can't hear the difference between me and the till anymore, can he."}
+    ]},
+    {"id": "ch6_start", "trigger": {"type": "chapter_start", "chapter": 6}, "lines": [
+      {"who": "patch", "text": "Gate Six: The Lookout. 400,000 gold. The locals can destroy planets, so, uh, keep receipts."},
+      {"who": "hero", "text": "Noted."},
+      {"who": "patch", "text": "And if a very cheerful man orders 'everything', get payment UP FRONT."}
+    ]},
+    {"id": "ch6_hero", "trigger": {"type": "hero_met", "hero": "goku"}, "lines": [
+      {"who": "goku", "text": "Wow, a food shelf! I'll take all of it! And whatever a 'senzu markup' is, one of those too!"},
+      {"who": "hero", "text": "That'll be 41,300 gold."},
+      {"who": "goku", "text": "...Ha! Haha. So here's the thing about my other gi."},
+      {"who": "patch", "text": "CODE ORANGE. IT'S HAPPENING. THE WALLET STORY. EVERYONE STAY CALM."}
+    ]},
+    {"id": "ch6_boss", "trigger": {"type": "boss_defeated", "chapter": 6}, "lines": [
+      {"who": "goku", "text": "Vegeta's back to normal size! He says thanks!"},
+      {"who": "goku", "text": "Well, he said 'hmph', but it was a thankful 'hmph'."},
+      {"who": "patch", "text": "Shard six! One gate left. The little yellow one."}
+    ]},
+    {"id": "ch6_repair", "trigger": {"type": "repair_done", "chapter": 6}, "lines": [
+      {"who": "patch", "text": "Gate Six: ONLINE. The Lookout is back in the sky where it belongs."},
+      {"who": "goku", "text": "Hey Hero! When this is over, let's spar! Or eat! Or both at once!"},
+      {"who": "patch", "text": "Both at once is how we lost the old food court, Son Goku."}
+    ]},
+    {"id": "ch7_start", "trigger": {"type": "chapter_start", "chapter": 7}, "lines": [
+      {"who": "patch", "text": "Final gate: 700,000 gold. Deep breath. We've come a long way from selling ice cream to a boy with zero market sense."},
+      {"who": "hero", "text": "He's a valued repeat customer."},
+      {"who": "patch", "text": "He's our ENTIRE profit margin and I love him."}
+    ]},
+    {"id": "ch7_hero", "trigger": {"type": "hero_met", "hero": "pikachu"}, "lines": [
+      {"who": "pikachu", "text": "Pika."},
+      {"who": "patch", "text": "It's proposing a 12% volume discount contingent on seasonal demand."},
+      {"who": "pikachu", "text": "Pika-pi. Chuu."},
+      {"who": "patch", "text": "NOW it's citing precedent! From OUR OWN LEDGER! Hero, hire this mouse."}
+    ]},
+    {"id": "ch7_boss", "trigger": {"type": "boss_defeated", "chapter": 7}, "lines": [
+      {"who": "patch", "text": "Mewtwo has stood down. It thought the Crossroads was another laboratory. Another cage."},
+      {"who": "hero", "text": "And now?"},
+      {"who": "patch", "text": "Now it's seen the shop. Cages don't have loyalty programs. SHARD SEVEN, HERO. THAT'S ALL OF THEM."}
+    ]},
+    {"id": "ch7_repair", "trigger": {"type": "repair_done", "chapter": 7}, "lines": [
+      {"who": "patch", "text": "Gate Seven: ONLINE. All gates connected. Full bridge integrity in three... two..."},
+      {"who": "patch", "text": "...Hero. Something else just connected. Something that was never given a gate."},
+      {"who": "hero", "text": "The Fade."},
+      {"who": "patch", "text": "It's not attacking the gates. It's coming HERE. To the Crossroads."}
+    ]},
+    {"id": "final_start", "trigger": {"type": "chapter_start", "chapter": 8}, "lines": [
+      {"who": "patch", "text": "The Null Archive. It's made of... everything. Deleted saves. Cancelled sequels. Worlds nobody visits anymore."},
+      {"who": "hero", "text": "The Fade didn't break the bridge out of hate."},
+      {"who": "patch", "text": "No. It broke the bridge because the bridge was never built for THEM. I checked the original blueprints, Hero. The forgotten worlds were excluded. On purpose."},
+      {"who": "hero", "text": "Then we don't destroy the Fade. We renovate."},
+      {"who": "patch", "text": "...I have never been prouder to be a maintenance system."}
+    ]},
+    {"id": "final_boss", "trigger": {"type": "boss_defeated", "chapter": 8}, "lines": [
+      {"who": "patch", "text": "It's... quiet. The Fade is just standing there. It's holding a save file like it's a photograph."},
+      {"who": "hero", "text": "Patch. Open a new gate. An eighth gate."},
+      {"who": "patch", "text": "There's no blueprint for an eighth gate."},
+      {"who": "hero", "text": "Then we're overdue. Every world gets a way home. Even the forgotten ones. Especially the forgotten ones."},
+      {"who": "patch", "text": "...Drafting blueprint now. It's shaped like a shop door."}
+    ]},
+    {"id": "ending", "trigger": {"type": "ending"}, "lines": [
+      {"who": "patch", "text": "Gate Eight: OPEN. Permanent. Unconditional."},
+      {"who": "sora", "text": "So the new worlds... can they visit the shop too?"},
+      {"who": "hero", "text": "First purchase is on the house."},
+      {"who": "goku", "text": "WAIT, THAT'S ALLOWED?!"},
+      {"who": "naruto", "text": "I've been PAYING?!"},
+      {"who": "pikachu", "text": "Pika."},
+      {"who": "patch", "text": "It says 'welcome home', everyone. ...It says welcome home."}
+    ]},
+    {"id": "failure_generic", "trigger": {"type": "chapter_failed"}, "lines": [
+      {"who": "patch", "text": "The gate destabilized... the connection collapsed. We missed the deadline."},
+      {"who": "hero", "text": "Then we start the chapter over. We keep what we learned."},
+      {"who": "patch", "text": "Rolling back to the start of the chapter. Your experience, friendships and know-how come with us. Pick a few things to keep — the rest returns to the bridge."}
+    ]},
+    {"id": "night_musing_1", "trigger": {"type": "day_start", "day": 8}, "lines": [
+      {"who": "patch", "text": "Hero? When the last gate opens... do maintenance systems get retired?"},
+      {"who": "hero", "text": "This one gets a shelf in the shop."},
+      {"who": "patch", "text": "A DISPLAY shelf? Window-facing?! ...I would like that. Logging off happy."}
+    ]},
+    {"id": "night_musing_2", "trigger": {"type": "day_start", "day": 18}, "lines": [
+      {"who": "patch", "text": "Cloud stood in his corner for six hours today. Goku ate near him for three. Naruto talked at him for two."},
+      {"who": "hero", "text": "Did Cloud leave?"},
+      {"who": "patch", "text": "No. And he bought THREE combo meals. I think that's friendship. I'm cataloguing it as friendship."}
+    ]},
+    {"id": "night_musing_3", "trigger": {"type": "day_start", "day": 28}, "lines": [
+      {"who": "patch", "text": "Data point: the Crossroads used to be a crossroads. People passed THROUGH it."},
+      {"who": "hero", "text": "And now?"},
+      {"who": "patch", "text": "Now they stay. I have seventeen loitering complaints filed against a princess, a ninja, and one (1) electric mouse. I'm framing them."}
+    ]},
+    {"id": "endless_unlock", "trigger": {"type": "endless_start"}, "lines": [
+      {"who": "patch", "text": "Campaign complete! The bridge holds. The shop stands. And travelers keep coming."},
+      {"who": "hero", "text": "Then we keep the lights on."},
+      {"who": "patch", "text": "Endless Mode engaged! Same shop, infinite days, and the rent is now emotionally significant."}
+    ]}
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "schema": "crossroads.music.v1",
+  "default_dir": "res://assets/music/default/",
+  "override_dir": "user://music_overrides/",
+  "project_override_dir": "res://assets/music/user_overrides/",
+  "formats": ["ogg", "wav"],
+  "tracks": {
+    "main_menu": {"file": "main_menu", "loop": true},
+    "crossroads_day": {"file": "crossroads_day", "loop": true},
+    "crossroads_night": {"file": "crossroads_night", "loop": true},
+    "item_shop": {"file": "item_shop", "loop": true},
+    "negotiation": {"file": "negotiation", "loop": true},
+    "dungeon_kingdom_hearts": {"file": "dungeon_kingdom_hearts", "loop": true},
+    "dungeon_mario": {"file": "dungeon_mario", "loop": true},
+    "dungeon_final_fantasy": {"file": "dungeon_final_fantasy", "loop": true},
+    "dungeon_zelda": {"file": "dungeon_zelda", "loop": true},
+    "dungeon_naruto": {"file": "dungeon_naruto", "loop": true},
+    "dungeon_dragon_ball": {"file": "dungeon_dragon_ball", "loop": true},
+    "dungeon_pokemon": {"file": "dungeon_pokemon", "loop": true},
+    "boss_battle": {"file": "boss_battle", "loop": true},
+    "final_dungeon": {"file": "final_dungeon", "loop": true},
+    "final_boss": {"file": "final_boss", "loop": true},
+    "ending": {"file": "ending", "loop": false},
+    "victory_stinger": {"file": "victory_stinger", "loop": false},
+    "failure_stinger": {"file": "failure_stinger", "loop": false}
+  }
+}

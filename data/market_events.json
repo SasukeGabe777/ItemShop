@@ -1,0 +1,19 @@
+{
+  "schema": "crossroads.market_events.v1",
+  "events": [
+    {"id": "healing_shortage", "name": "Healing-Item Shortage", "desc": "Adventurers cleaned out every potion shelf in three worlds.", "mults": {"tag:healing": 1.6, "tag:revive": 1.4}, "duration": [2, 3], "weight": 10},
+    {"id": "weapon_boom", "name": "Weapon Boom", "desc": "A rumor of monsters has everyone buying steel.", "mults": {"cat:weapon": 1.5, "cat:armor": 1.25}, "duration": [2, 3], "weight": 10},
+    {"id": "food_festival", "name": "Food Festival", "desc": "The Crossroads smells incredible today.", "mults": {"tag:food": 1.5, "tag:sweet": 1.3}, "duration": [1, 2], "weight": 10},
+    {"id": "collector_convention", "name": "Collector Convention", "desc": "Collectors from six universes are in town with full wallets.", "mults": {"tag:rare": 1.5, "tag:legendary": 1.4, "cat:treasure": 1.35}, "duration": [1, 2], "weight": 8},
+    {"id": "mushroom_oversupply", "name": "Mushroom Oversupply", "desc": "The Mushroom Kingdom had a bumper crop. Again.", "mults": {"tag:mushroom": 0.55, "tag:plant": 0.8}, "duration": [2, 4], "weight": 8},
+    {"id": "materia_shortage", "name": "Materia Shortage", "desc": "Mako refinement is down for maintenance.", "mults": {"tag:orb": 1.7, "tag:magic": 1.3}, "duration": [2, 3], "weight": 7},
+    {"id": "ninja_tool_demand", "name": "Ninja-Tool Demand", "desc": "The Chunin Exams are apparently next week.", "mults": {"tag:ninja": 1.6, "tag:throwing": 1.4}, "duration": [2, 3], "weight": 8},
+    {"id": "capsule_craze", "name": "Capsule Technology Craze", "desc": "Everything must fit in a pocket now. It's the law of fashion.", "mults": {"tag:technology": 1.5, "tag:capsule": 1.7}, "duration": [2, 3], "weight": 7},
+    {"id": "evolution_rush", "name": "Evolution-Stone Rush", "desc": "Every trainer suddenly needs a stone. No one knows why today.", "mults": {"tag:stone": 1.7, "tag:evolution": 1.8}, "duration": [1, 3], "weight": 7},
+    {"id": "shard_glut", "name": "Shard Glut", "desc": "Heartless are dropping shards like confetti this week.", "mults": {"tag:shard": 0.6}, "duration": [2, 3], "weight": 7},
+    {"id": "explosive_regulations", "name": "Explosives Inspection", "desc": "A safety inspector is visiting. Bomb prices dip discreetly.", "mults": {"tag:explosive": 0.7}, "duration": [1, 2], "weight": 6},
+    {"id": "sweet_tooth_epidemic", "name": "Sweet Tooth Epidemic", "desc": "An entire kingdom simultaneously craves dessert.", "mults": {"tag:sweet": 1.8, "tag:cold": 1.4}, "duration": [1, 2], "weight": 6},
+    {"id": "bottle_deposit", "name": "Bottle Deposit Scheme", "desc": "Bottled goods gain value. Hyrule takes recycling seriously.", "mults": {"tag:bottle": 1.35}, "duration": [2, 3], "weight": 6},
+    {"id": "quiet_day", "name": "Quiet Day", "desc": "The bridge hums softly. Prices hold steady.", "mults": {}, "duration": [1, 1], "weight": 14}
+  ]
+}

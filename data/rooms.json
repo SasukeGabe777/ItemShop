@@ -1,0 +1,42 @@
+{
+  "schema": "crossroads.rooms.v1",
+  "cell_size": 32,
+  "grid": [20, 12],
+  "templates": [
+    {"id": "start_plaza", "kind": "start", "obstacles": [[2,2,2,1],[16,2,2,1],[2,9,2,1],[16,9,2,1]], "spawns": [], "player_spawn": [10, 6]},
+    {"id": "start_corridor", "kind": "start", "obstacles": [[0,4,6,1],[14,7,6,1]], "spawns": [], "player_spawn": [3, 6]},
+    {"id": "start_grove", "kind": "start", "obstacles": [[5,3,1,2],[14,3,1,2],[5,8,1,2],[14,8,1,2],[9,5,2,2]], "spawns": [], "player_spawn": [2, 6]},
+    {"id": "start_gate", "kind": "start", "obstacles": [[8,0,1,4],[11,0,1,4],[8,8,1,4],[11,8,1,4]], "spawns": [], "player_spawn": [10, 6]},
+
+    {"id": "combat_pillars", "kind": "combat", "obstacles": [[4,3,2,2],[14,3,2,2],[4,7,2,2],[14,7,2,2]], "spawns": [[7,3],[13,3],[7,9],[13,9]], "player_spawn": [2, 6]},
+    {"id": "combat_cross", "kind": "combat", "obstacles": [[9,2,2,3],[9,7,2,3],[3,5,3,2],[14,5,3,2]], "spawns": [[5,3],[15,3],[5,9],[15,9]], "player_spawn": [10, 6]},
+    {"id": "combat_arena_open", "kind": "combat", "obstacles": [], "spawns": [[4,3],[16,3],[4,9],[16,9],[10,2]], "player_spawn": [10, 10]},
+    {"id": "combat_maze_l", "kind": "combat", "obstacles": [[4,0,1,7],[9,5,1,7],[14,0,1,7]], "spawns": [[6,2],[12,9],[17,3],[7,9]], "player_spawn": [1, 6]},
+    {"id": "combat_maze_s", "kind": "combat", "obstacles": [[0,3,13,1],[7,8,13,1]], "spawns": [[16,1],[3,6],[16,6],[4,10]], "player_spawn": [1, 1]},
+    {"id": "combat_islands", "kind": "combat", "obstacles": [[3,3,3,1],[14,3,3,1],[3,8,3,1],[14,8,3,1],[8,5,4,2]], "spawns": [[9,2],[2,6],[17,6],[9,10]], "player_spawn": [10, 8]},
+    {"id": "combat_diamond", "kind": "combat", "obstacles": [[9,1,2,2],[2,5,2,2],[16,5,2,2],[9,9,2,2]], "spawns": [[6,3],[13,3],[6,8],[13,8]], "player_spawn": [10, 6]},
+    {"id": "combat_broken_hall", "kind": "combat", "obstacles": [[3,2,1,3],[7,7,1,3],[12,2,1,3],[16,7,1,3]], "spawns": [[5,5],[10,3],[14,8],[18,4]], "player_spawn": [1, 6]},
+    {"id": "combat_camp", "kind": "combat", "obstacles": [[5,4,2,1],[13,4,2,1],[9,7,2,1],[3,9,2,1],[15,9,2,1]], "spawns": [[6,2],[14,2],[10,5],[6,10],[14,10]], "player_spawn": [1, 2]},
+    {"id": "combat_courtyard", "kind": "combat", "obstacles": [[2,2,16,1],[2,9,7,1],[11,9,7,1],[2,3,1,3],[17,6,1,3]], "spawns": [[5,5],[10,6],[15,4],[10,4]], "player_spawn": [9, 11]},
+    {"id": "combat_ambush", "kind": "combat", "obstacles": [[6,0,1,5],[13,0,1,5],[6,7,1,5],[13,7,1,5]], "spawns": [[3,2],[16,2],[3,9],[16,9],[10,6]], "player_spawn": [10, 1]},
+    {"id": "combat_rings", "kind": "combat", "obstacles": [[6,3,8,1],[6,8,8,1],[6,4,1,2],[13,6,1,2]], "spawns": [[10,5],[2,2],[17,10],[2,10]], "player_spawn": [17, 2]},
+    {"id": "combat_scatter", "kind": "combat", "obstacles": [[3,4,1,1],[7,2,1,1],[12,5,1,1],[16,3,1,1],[5,8,1,1],[10,9,1,1],[15,7,1,1]], "spawns": [[4,2],[14,2],[9,6],[4,10],[15,10]], "player_spawn": [1, 6]},
+    {"id": "combat_bridge", "kind": "combat", "obstacles": [[0,3,8,1],[12,3,8,1],[0,8,8,1],[12,8,8,1]], "spawns": [[9,2],[10,10],[3,6],[16,6]], "player_spawn": [1, 1]},
+    {"id": "combat_vault", "kind": "combat", "obstacles": [[4,2,12,1],[4,9,12,1],[4,3,1,2],[15,7,1,2]], "spawns": [[10,5],[6,6],[13,6],[10,7]], "player_spawn": [1, 6]},
+    {"id": "combat_spiral", "kind": "combat", "obstacles": [[3,2,14,1],[3,3,1,7],[3,9,10,1],[16,3,1,4],[7,5,7,1],[13,6,1,2]], "spawns": [[10,7],[5,5],[14,4],[8,11]], "player_spawn": [1, 11]},
+    {"id": "combat_pit", "kind": "combat", "obstacles": [[7,4,6,4]], "spawns": [[4,3],[15,3],[4,9],[15,9],[10,2],[10,10]], "player_spawn": [1, 6]},
+    {"id": "combat_gallery", "kind": "combat", "obstacles": [[2,4,2,1],[6,4,2,1],[12,4,2,1],[16,4,2,1],[2,7,2,1],[6,7,2,1],[12,7,2,1],[16,7,2,1]], "spawns": [[4,2],[10,2],[16,2],[4,10],[10,10],[16,10]], "player_spawn": [10, 6]},
+
+    {"id": "treasure_alcove", "kind": "treasure", "obstacles": [[7,3,6,1],[7,8,6,1],[7,4,1,2],[12,6,1,2]], "spawns": [[4,6],[16,6]], "player_spawn": [2, 6], "chests": [[10, 6]]},
+    {"id": "treasure_shrine", "kind": "treasure", "obstacles": [[8,4,1,1],[11,4,1,1],[8,7,1,1],[11,7,1,1]], "spawns": [[3,3],[16,9]], "player_spawn": [10, 10], "chests": [[10, 5]]},
+    {"id": "treasure_vaults", "kind": "treasure", "obstacles": [[4,2,1,8],[15,2,1,8]], "spawns": [[10,3],[10,9]], "player_spawn": [10, 6], "chests": [[2, 6], [17, 6]]},
+    {"id": "treasure_garden", "kind": "treasure", "obstacles": [[5,3,2,1],[13,3,2,1],[5,8,2,1],[13,8,2,1]], "spawns": [[10,2]], "player_spawn": [10, 10], "chests": [[10, 6]]},
+    {"id": "treasure_attic", "kind": "treasure", "obstacles": [[0,4,14,1],[6,8,14,1]], "spawns": [[16,2],[3,10]], "player_spawn": [1, 1], "chests": [[18, 10]]},
+    {"id": "treasure_cache", "kind": "treasure", "obstacles": [[7,2,1,4],[12,6,1,4]], "spawns": [[15,3],[5,9]], "player_spawn": [2, 2], "chests": [[16, 9]]},
+
+    {"id": "boss_arena_round", "kind": "boss", "obstacles": [[2,2,2,1],[16,2,2,1],[2,9,2,1],[16,9,2,1]], "spawns": [[10,3]], "player_spawn": [10, 10]},
+    {"id": "boss_arena_hall", "kind": "boss", "obstacles": [[4,2,1,2],[15,2,1,2],[4,8,1,2],[15,8,1,2]], "spawns": [[15,6]], "player_spawn": [3, 6]},
+    {"id": "boss_arena_pit", "kind": "boss", "obstacles": [[8,1,4,1],[8,10,4,1]], "spawns": [[10,4]], "player_spawn": [10, 10]},
+    {"id": "boss_arena_ruin", "kind": "boss", "obstacles": [[3,3,1,1],[16,3,1,1],[3,8,1,1],[16,8,1,1],[9,5,2,1]], "spawns": [[10,2]], "player_spawn": [10, 10]}
+  ]
+}

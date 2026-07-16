@@ -1,0 +1,2 @@
+track_id,title,composer,source,license,file
+placeholder_all,Procedurally generated placeholder chiptune stingers/loops,Generated in-project,local generator (tools/gen_placeholder_audio.py),CC0 (generated),assets/music/default/

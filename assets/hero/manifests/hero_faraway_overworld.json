@@ -1,0 +1,25 @@
+{
+  "asset_id": "hero_faraway_overworld",
+  "character_id": "hero",
+  "source_game": "OMORI",
+  "source_site": "The Spriters Resource",
+  "source_page": "https://www.spriters-resource.com/pc_computer/omori/",
+  "contributor": "",
+  "sheet": "res://assets/hero/raw/hero_faraway_overworld.png",
+  "native_scale": 1,
+  "display_scale": 1,
+  "grid": {"frame_width": 32, "frame_height": 32, "columns": 12, "rows": 8},
+  "pivot": [16, 28],
+  "layout_note": "RPG Maker MV charset: eight 3x4 blocks. Block(0,0)=normal walk. Block col offset +3 = dark variant. Rows in block: down, left, right, up.",
+  "animations": {
+    "idle_down":  {"frames": [1],            "fps": 3, "loop": true},
+    "idle_side":  {"frames": [25],           "fps": 3, "loop": true},
+    "idle_up":    {"frames": [37],           "fps": 3, "loop": true},
+    "walk_down":  {"frames": [0, 1, 2, 1],   "fps": 7, "loop": true},
+    "walk_side":  {"frames": [24, 25, 26, 25], "fps": 7, "loop": true},
+    "walk_up":    {"frames": [36, 37, 38, 37], "fps": 7, "loop": true},
+    "dark_idle_down": {"frames": [4],          "fps": 3, "loop": true},
+    "dark_walk_down": {"frames": [3, 4, 5, 4], "fps": 7, "loop": true}
+  },
+  "side_flips_for_left": false
+}

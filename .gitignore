@@ -1,0 +1,25 @@
+# Godot
+.godot/
+*.import
+export/
+
+# Local engine binaries (downloaded, not versioned)
+tools/Godot_*.exe
+tools/godot.zip
+
+# OS
+Thumbs.db
+Desktop.ini
+
+# User overrides are local by design
+assets/music/user_overrides/*
+!assets/music/user_overrides/README.md
+
+# Python local tooling
+.venv*/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+
+# Downloader output
+output/
