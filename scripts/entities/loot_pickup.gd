@@ -2,6 +2,8 @@ class_name LootPickup
 extends Area2D
 ## Dropped item or gold; magnetizes to the player and banks into the run loot.
 
+signal collected(item_id: String, gold_amount: int)
+
 var item_id: String = ""
 var gold_amount: int = 0
 var _magnet_target: Node2D
@@ -51,5 +53,6 @@ func _collect() -> void:
 		DungeonManager.add_run_loot(item_id)
 	if gold_amount > 0:
 		DungeonManager.run_gold += gold_amount
+	collected.emit(item_id, gold_amount)
 	FX.burst(get_parent(), global_position, Color(1, 1, 0.8), 5)
 	queue_free()

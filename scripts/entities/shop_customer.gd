@@ -17,7 +17,7 @@ var _leaving := false
 var _paused_for_negotiation := false
 
 
-func setup(cust: Dictionary, browse_points: Array[Vector2], exit_pos: Vector2) -> void:
+func setup(cust: Dictionary, browse_points: Array[Vector2], exit_pos: Vector2, preferred_browse_point: Vector2 = Vector2.INF) -> void:
 	data = cust
 	_exit_pos = exit_pos
 	collision_layer = 0
@@ -44,8 +44,11 @@ func setup(cust: Dictionary, browse_points: Array[Vector2], exit_pos: Vector2) -
 	brain.leaving.connect(_start_leaving)
 	add_child(brain)
 	var count := 1 + randi() % 3
-	for i in range(count):
+	var random_stops := count - 1 if preferred_browse_point != Vector2.INF else count
+	for i in range(random_stops):
 		_waypoints.append(browse_points[randi() % browse_points.size()] + Vector2(randf_range(-8, 8), randf_range(10, 18)))
+	if preferred_browse_point != Vector2.INF:
+		_waypoints.append(preferred_browse_point + Vector2(randf_range(-5, 5), randf_range(10, 14)))
 
 
 func resume_after_negotiation() -> void:

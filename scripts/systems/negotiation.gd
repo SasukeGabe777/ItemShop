@@ -116,6 +116,17 @@ func finalize_sale(outcome: Dictionary) -> void:
 	EconomyManager.record_sale(item_id, int(outcome["price"]), cid, bool(outcome.get("first_offer", false)), bool(outcome.get("perfect", false)))
 	RelationshipManager.change_relationship(cid, int(outcome["relationship_delta"]))
 	GameState.know_customer(cid)
+	var slice_cfg: Dictionary = ContentDatabase.bal("kingdom_hearts_vertical_slice", {})
+	var active_flag := String(slice_cfg.get("active_flag", ""))
+	var completion_flag := String(slice_cfg.get("completion_flag", ""))
+	if active_flag != "" and GameState.has_flag(active_flag) and completion_flag != "" and not GameState.has_flag(completion_flag):
+		var starter_flag := String(slice_cfg.get("starter_sale_flag", ""))
+		if starter_flag != "":
+			GameState.set_flag(starter_flag)
+	elif active_flag != "" and GameState.has_flag(active_flag) and item_id == String(slice_cfg.get("reward_item_id", "")):
+		var reward_sale_flag := String(slice_cfg.get("reward_sale_flag", ""))
+		if reward_sale_flag != "":
+			GameState.set_flag(reward_sale_flag)
 	# selling equipment to a franchise hero updates their loadout when better
 	var hero_ref := String(customer.get("hero_ref", ""))
 	if hero_ref != "":

@@ -1,94 +1,52 @@
 # Next Tasks
 
-Priorities are ordered by player value and dependency. Keep tasks narrow enough
-to finish and verify. Do not begin broad work for later worlds while Priority 0
-is incomplete.
+Priorities are ordered by player value and dependency. Keep work narrow and do not begin another franchise world while the Kingdom Hearts route is awaiting human acceptance.
 
-## Completed development infrastructure
+## Completed in the playable Kingdom Hearts slice
 
-- The development-only F1 Live Developer Hub now provides runtime launch, world/location inspection, gameplay-object placement, a curated inspector, existing shop furniture/customer controls, player/game-state tools, isolated development persistence, playtest reports, AI context export, and aggregated logs.
-- Keep Hub follow-up work driven by a concrete Kingdom Hearts playtest need. Do not turn it into a replacement game engine or duplicate the editor Asset Factory.
+- A new game has a scoped starter inventory: Potion, Ether, and Gold Coin, with Sora's Kingdom Key already equipped.
+- The first shop session uses one deterministic Moogle Broker while retaining the normal dynamic furniture targets, customer movement, and negotiation systems.
+- The first Kingdom Hearts expedition is a two-room Traverse Town preset built from existing room templates: arrival plaza, then one open room with one Shadow.
+- The Shadow produces a guaranteed, labeled Lucid Shard pickup. The final exit waits for its collection, and successful return transfers it to shop storage.
+- The first recovered Lucid Shard sale is deterministic and still uses the normal display, browsing, negotiation, inventory, and economy paths.
+- The automated Playtest Workspace route verifies the live Shadow fight and save/reload persistence for money, storage, displayed items, furniture placement, chapter state, and slice completion.
+- The approved room scope is recorded in `docs/location_briefs/traverse_town_vertical_slice.md`; exact player instructions are in `docs/KH_VERTICAL_SLICE.md`.
 
-## Priority 0 — Complete Kingdom Hearts vertical slice
+## Priority 0 - Human acceptance of the playable slice
 
-Target acceptance route:
+1. Play `docs/KH_VERTICAL_SLICE.md` from **New Game** without F1, debug commands, the editor, or manual file changes.
+2. Record only the largest issue in each relevant category:
+   - Could not understand how to place an item.
+   - Customer movement looked broken.
+   - Dungeon exit was unclear.
+   - Sale screen was ugly.
+3. If the route blocks, fix only that blocker and replay from the nearest normal save.
+4. Confirm **Menu -> Save to slot -> Quit to main menu -> Load** restores money, storage, the moved stand, any displayed item, and the completed first expedition.
 
-> Start a new game, view the intro, walk the Crossroads, enter and stock the
-> shop, complete a live sale/negotiation, prepare Sora, enter the Kingdom Hearts
-> dungeon, defeat the Corrupted Fat Bandit, collect the Traverse Town World
-> Shard, return, pay 10,000g, repair the gate, save, quit, and continue from the
-> saved slot without losing state.
+The small slice is accepted when a human completes both sales and the expedition in one session without development tools. The longer boss/World Shard/gate-repair route is not part of this acceptance check.
 
-The slice is complete only when a human can perform that route without debug
-commands and the relevant automated tests remain green.
+## Priority 1 - Longer Kingdom Hearts Chapter 1 route
 
-1. **Manually play the complete Chapter 1 acceptance route.** Record the exact
-   route, blockers, confusing steps, economy friction, and visual issues in
-   `PLAYTEST_NOTES.md`. Fix only progression blockers found during the run.
-   Use the Live Developer Hub to jump to the nearest affected scene and capture
-   notes, but complete the final acceptance route without development cheats.
-2. **Verify live shop usability.** Play stocking, one customer session,
-   negotiation/counteroffer, order behavior, session summary, and save afterward.
-   Confirm the dark/empty-looking shop HUD capture is timing-only or fix the
-   smallest real presentation defect.
-3. **Verify the complete live dungeon route.** Play all five rooms with Sora,
-   including movement, attacks, special, dodge, consumable, loot pickup, boss,
-   return flow, and shard persistence. Keep the existing combat architecture.
-4. **Complete only the KH art needed by that route.** Wire dedicated sprites for
-   Soldier Heartless, Yellow Opera, and Red Nocturne; replace the most visible KH
-   item/customer placeholders encountered in the acceptance route. Preserve
-   credits and provenance metadata.
-5. **Review new KH data.** Give Lady Luck a deliberate role, price, description,
-   tags, stats, and acquisition source, or remove it from the playable slice
-   until those decisions exist. Review any `needs_ai_*` fields added by tools.
-6. **Create a Traverse Town location brief before map work.** Use
-   `docs/LOCATION_BRIEF_TEMPLATE.md`; agree on the player experience and asset
-   list before generating or wiring a location.
-7. **Polish the Chapter 1 presentation only after the route works.** Address
-   viewport composition, placeholder geometry, interaction clarity, and the
-   smallest audio/visual gaps visible in the acceptance route.
-8. **Run the full acceptance checks.** Boot, parse, campaign, Asset Factory,
-   windowed live combat, screenshot tour, Python tests, and a manual save/continue
-   replay. Update `CURRENT_BUILD.md` with the new truth.
+1. Manually verify the existing five-room expedition, Corrupted Fat Bandit, World Shard, 10,000g repair, checkpoint, and continue flow.
+2. Use findings from the small accepted slice; do not add new systems solely for the longer run.
+3. Review Lady Luck's role, price, tags, stats, and acquisition source before exposing it as normal playable loot.
+4. Replace only the most visible placeholder art encountered in the accepted route.
 
-## Priority 1 — Stabilize content production needed by Priority 0
+## Priority 2 - Stabilize content production needed by Kingdom Hearts
 
-1. Fix the Asset Factory test failure:
-   `auto-detected wrong background color`.
-2. Perform one reviewed end-to-end import for each relevant workflow: item icon,
-   animated enemy, static customer, and location tileset. Confirm data, asset,
-   manifest, sidecar, validation, and runtime output.
-3. Add regression coverage for any bug found during those imports. Do not expand
-   the editor with unrelated features while its current write paths are unproven.
-4. Decide whether the standalone sprite importer remains a supported fallback or
-   whether its unique `.tres`/atlas functions should be folded into the Factory.
+1. Fix the existing Asset Factory failure: `auto-detected wrong background color`.
+2. Perform one reviewed end-to-end import for a relevant item icon, animated enemy, static customer, and location tileset.
+3. Add regression coverage only for bugs found during those imports.
 
-## Priority 2 — Locations after the KH brief is approved
+## Priority 3 - Locations after playable-route feedback
 
-1. Implement one small Traverse Town location from an approved brief.
-2. Connect it through the existing `LocationLoader` with the smallest routing
-   change possible; do not migrate every scene at once.
-3. Verify entrances/exits, collision, player spawn, enemies, rewards, and return
-   routing in a real playtest.
-4. Only then decide whether town/shop/dungeon layouts should adopt location data
-   more broadly.
+1. Keep the current two-room runtime preset until human feedback justifies a data-authored Traverse Town location.
+2. If map work is approved, update the location brief first and connect one small location through the existing `LocationLoader`.
+3. Do not migrate every campaign scene or expand tile-painting tools as part of that work.
 
-## Priority 3 — Quality and maintainability
+## Later - Do not start yet
 
-1. Keep test output failures paired with reliable nonzero process exits. The
-   latest Asset Factory run returned exit 1 as intended; preserve that behavior
-   while fixing its chroma-key assertion.
-2. Add a launch/playtest command that captures logs without colliding when two
-   Godot instances run simultaneously.
-3. Refresh the root `README.md` so it introduces the game first and links to the
-   downloader documentation second.
-4. Review historical implementation reports and mark them as historical so they
-   cannot be mistaken for current verification.
-
-## Later — Do not start yet
-
-- Full vertical slices for Mario, Final Fantasy, Zelda, Naruto, Dragon Ball, and
-  Pokémon.
+- Full vertical slices for Mario, Final Fantasy, Zelda, Naruto, Dragon Ball, and Pokemon.
 - Broad location generation or migration of every scene.
 - New combat classes, economy layers, crafting systems, or campaign modes.
-- Large Asset Factory feature additions unrelated to completing real content.
+- Large Asset Factory or Live Developer Hub additions unrelated to a recorded playtest blocker.

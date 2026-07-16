@@ -2,7 +2,7 @@
 
 Last audited/updated: **2026-07-16**
 
-Audited baseline: **`02614ef` - `Add project status and AI partner workflow`**, plus the current uncommitted Live Developer Hub pass
+Audited baseline: **`a6ce0cb` - `Add in-game live developer hub`**, plus this Kingdom Hearts vertical-slice pass
 
 Engine used: **Godot 4.7.1-stable**
 
@@ -18,7 +18,7 @@ finished player-facing result.
 | --- | --- | --- |
 | `tests/test_boot.tscn` | **PASS — `BOOT_TEST_PASS`** | Current JSON loads and tested cross-references resolve. Loaded 133 items, 40 enemies, 8 bosses, 7 heroes, 8 worlds, 39 recipes, 10 archetypes, 28 named customers, 14 events, 37 story scenes, and 32 room templates. |
 | `tests/test_parse_all.tscn` | **PASS — `PARSE_TEST_PASS`** | Current autoload, gameplay, tool, and addon scripts compile; listed main scenes can instantiate. |
-| `tests/test_campaign.tscn` | **PASS — `CAMPAIGN_TEST_PASS`** | Negotiation logic, simulated shop sessions/orders, crafting, save/load roundtrip, checkpoint retention, simulated boss balance, and the automated campaign pass. The final explicit audit run repaired all gates on day 24. |
+| `tests/test_campaign.tscn` | **PASS — `CAMPAIGN_TEST_PASS`** | Negotiation logic, simulated shop sessions/orders, crafting, save/load roundtrip, checkpoint retention, simulated boss balance, and the automated campaign pass. The final explicit run repaired all gates on day 23. |
 | `tests/test_live_combat.tscn` (windowed) | **PASS — `LIVE_COMBAT_PASS`** | Automated Sora combat defeated the Fat Bandit, registered hits, collected KH loot and the World Shard, and banked gold. A headless run is not valid because its screenshot call has no headless texture. |
 | `tests/screenshot_tour.tscn` (windowed) | **PASS — `SCREENSHOT_TOUR_DONE`** | Story, town, shop, dungeon, and main-menu scenes launched and produced current screenshots. |
 | `tests/test_asset_factory.tscn` | **FAIL** | Furniture/layout, shop construction, JSON IO, slicing, manifest rects, and most chroma-key assertions ran, but the suite reported `auto-detected wrong background color`. The Asset Factory cannot be called fully verified. |
@@ -26,6 +26,8 @@ finished player-facing result.
 | `python -m pytest -q` | **PASS — 19 passed, 1 skipped** | Downloader/parser/project-layout Python tests pass; the optional live-network test was skipped. |
 | `tests/test_dev_hub.tscn` | **PASS - `DEV_HUB_TEST_PASS`** | F1 action handling, pause/resume, isolated state, location objects, item/customer/enemy spawn, existing shop furniture/customer integration, money/inventory, playtest reports, AI export, and unchanged normal saves passed headlessly. |
 | `tests/screenshot_dev_hub.tscn` (windowed) | **PASS - `DEV_HUB_SCREENSHOT_PASS`** | Today, Location, and Spawn rendered at both 640x360 and 1280x720 after live tab changes. |
+| `tests/test_kh_vertical_slice.tscn` | **PASS - `KH_VERTICAL_SLICE_PASS`** | Scoped starter inventory, persistent moved furniture, dynamic display targeting, two real negotiations/sales, a live two-room Sora dungeon with one Shadow and a guaranteed Lucid Shard pickup, loot return/resale, and save/reload persistence passed through a Playtest Workspace session. |
+| Normal project launch, windowed | **PASS** | The configured main scene reached the title screen under OpenGL on the current Windows/NVIDIA environment and exited cleanly after 180 frames. |
 
 ## Live Developer Hub - Verified automated core; visual/manual UX partial
 
@@ -72,7 +74,7 @@ finished player-facing result.
 - This audit did not manually walk the town/shop boundaries or verify controller
   feel, collision snags, camera feel, and every interaction prompt.
 
-### Shop — Partial playable implementation
+### Shop — Verified automated vertical slice; manual UX partial
 
 - The shop scene builds and renders. The player can stock furniture slots, sort
   storage, expand the shop, rearrange furniture, open a one-period session, and
@@ -85,6 +87,10 @@ finished player-facing result.
 - A human did not play a complete live shop session during this audit. The shop
   screenshot's top HUD appeared mostly dark/empty at capture time and needs a
   hands-on check before visual polish is considered complete.
+- The vertical-slice test moved an existing stand, stocked it, resolved a
+  dynamically targeted sale, sold returned expedition loot, and restored the
+  moved stand plus displayed inventory through save/load. New campaigns also
+  receive a concise first-shop guide. Human usability remains unverified.
 
 ### Customers — Partial
 
@@ -96,6 +102,9 @@ finished player-facing result.
 - Customer generation and orders are exercised by campaign/shop simulation.
   The complete live multi-customer flow and negotiation queue were not manually
   played in this audit.
+- The first starter-item sale and first returned Lucid Shard sale each use one
+  data-selected Moogle Broker. Movement, browsing, and negotiation still run
+  through the normal customer systems; later sessions use normal generation.
 
 ### Negotiation — Verified logic; interactive presentation partial
 
@@ -118,7 +127,7 @@ finished player-facing result.
 - The shop storage list, display picker, guild equipment UI, and longer-term
   inventory ergonomics were not manually playtested.
 
-### Item stands and furniture — Partial
+### Item stands and furniture — Verified slice persistence; manual edit feel partial
 
 - Six furniture definitions exist in `data/shop_furniture.json`.
 - `ShopFurnitureManager` supplies persistent layout, sequential display slots,
@@ -130,8 +139,10 @@ finished player-facing result.
   furniture failure, but the suite as a whole fails later on chroma detection.
 - Furniture is movable but not purchasable; edit mode and all placement edge
   cases were not manually tested.
+- The Kingdom Hearts slice test verified that moving a stand changes its live
+  customer browse target and that its position survives a normal slot reload.
 
-### Dungeon combat — Verified automated slice; full run UX partial
+### Dungeon combat — Verified small live slice; longer run UX partial
 
 - The dungeon scene creates a generated room sequence with combat, treasure,
   boss rooms, walls, chests, switches, HUD, hero switching, loot, success, and
@@ -145,6 +156,11 @@ finished player-facing result.
 - A human did not play a full five-room expedition. The screenshot tour showed
   a sparse first room with large flat placeholder geometry, so room readability
   and visual composition remain partial.
+- A new first-run preset reuses `start_plaza` and `combat_arena_open` for a
+  two-room Traverse Town route with Sora and exactly one Shadow. The Shadow
+  encounter guarantees a labeled Lucid Shard, and the final exit waits until
+  that pickup is collected. The live automated route defeated the enemy,
+  collected the pickup, returned, and banked the loot.
 
 ### Locations — Placeholder foundation
 
@@ -154,6 +170,9 @@ finished player-facing result.
 - Existing town, shop, dungeon, and story scenes do **not** consume the location
   database or loader; they continue to build their layouts in gameplay scripts.
 - No generated location should be described as playable yet.
+- `docs/location_briefs/traverse_town_vertical_slice.md` documents the approved
+  small first-expedition layout. The playable implementation remains a dungeon
+  room preset and does not claim that `LocationLoader` is campaign-ready.
 
 ### Asset Factory — Partial with a known failing test
 
@@ -202,7 +221,7 @@ finished player-facing result.
 - With an empty locations database and no runtime consumer, this is tooling
   groundwork rather than a finished location system.
 
-### Current Kingdom Hearts content — Partial vertical slice
+### Current Kingdom Hearts content — Automated playable slice; human acceptance pending
 
 - Chapter data exists for Kingdom Hearts/Traverse Town with Sora, five regular
   enemies, the Corrupted Fat Bandit, a 10,000g repair, a World Shard, five
@@ -222,6 +241,12 @@ finished player-facing result.
   automated campaign proves the chapter logic can be completed. A human has not
   yet verified the complete New Game → shop → dungeon → repair route in this
   audited build.
+- The smaller Pass 3 route is automated end to end: new-campaign inventory,
+  movable stand, first sale, Sora selection, two-room Traverse Town expedition,
+  one live Shadow, guaranteed Lucid Shard collection, return to shop, shard
+  resale, and save/reload. `docs/KH_VERTICAL_SLICE.md` is the exact human route.
+- The longer Corrupted Fat Bandit, World Shard, 10,000g gate-repair route is not
+  part of this small slice and remains pending manual Chapter 1 work.
 
 ## Current visual truth
 
@@ -238,8 +263,7 @@ finished player-facing result.
 
 ## Recommended next smallest playable task
 
-Perform one manual **Kingdom Hearts Chapter 1 acceptance route** from New Game
-through the first gate repair, recording every blocker in `PLAYTEST_NOTES.md`.
-Fix only the first blocker that prevents the route from continuing, then replay
-from the nearest save. This improves a real player loop without adding another
-broad system and establishes exactly which KH vertical-slice work is necessary.
+Personally play `docs/KH_VERTICAL_SLICE.md` from New Game without development
+tools. Record only the largest observed issue in item placement, customer
+movement, dungeon-exit clarity, or sale-screen presentation. If the route
+blocks, fix only that blocker and replay from the nearest normal save.

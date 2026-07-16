@@ -19,6 +19,8 @@ var switch_available: Array[String] = []
 var door_open: bool = false
 var finished: bool = false
 var shake_amount: float = 0.0
+var vertical_slice_reward_spawned: bool = false
+var vertical_slice_reward_collected: bool = false
 
 const CELL := 32
 
@@ -28,7 +30,7 @@ func _ready() -> void:
 	world_id = String(DungeonManager.pending.get("world_id", "kingdom_hearts"))
 	var w := ContentDatabase.get_world(world_id)
 	AudioManager.play_track("final_dungeon" if bool(w.get("final", false)) else "dungeon_%s" % world_id)
-	layout = DungeonManager.generate_layout(world_id)
+	layout = DungeonManager.generate_layout(world_id, -1, bool(DungeonManager.pending.get("vertical_slice", false)))
 	if bool(w.get("final", false)):
 		for wid in ContentDatabase.world_order:
 			var ww := ContentDatabase.get_world(wid)
@@ -166,6 +168,8 @@ func _process(_delta: float) -> void:
 func _enter_room(idx: int) -> void:
 	room_index = idx
 	door_open = false
+	vertical_slice_reward_spawned = false
+	vertical_slice_reward_collected = false
 	for child in room_root.get_children():
 		child.queue_free()
 	var entry: Dictionary = layout[idx]
@@ -233,9 +237,7 @@ func _enter_room(idx: int) -> void:
 			e.setup(String(enemies[i]), hero)
 			var sc: Array = spawn_cells[i % maxi(1, spawn_cells.size())] if not spawn_cells.is_empty() else [10, 3]
 			e.global_position = Vector2(float(sc[0]) * CELL + CELL / 2.0, float(sc[1]) * CELL + CELL / 2.0)
-			e.killed.connect(func(_id: String, _at: Vector2) -> void:
-				hero.on_enemy_killed()
-				_check_room_clear())
+			e.killed.connect(_on_enemy_killed)
 		if enemies.is_empty():
 			_on_room_cleared(false)
 	# hero switch pads in final dungeon rooms
@@ -346,7 +348,47 @@ func _open_switch_menu() -> void:
 func _check_room_clear() -> void:
 	await get_tree().process_frame
 	if get_tree().get_nodes_in_group("enemies").is_empty():
+		if vertical_slice_reward_spawned and not vertical_slice_reward_collected:
+			return
 		_on_room_cleared(false)
+
+
+func _on_enemy_killed(enemy_id: String, at: Vector2) -> void:
+	hero.on_enemy_killed()
+	var cfg: Dictionary = ContentDatabase.bal("kingdom_hearts_vertical_slice", {})
+	if (
+		bool(DungeonManager.pending.get("vertical_slice", false))
+		and enemy_id == String(cfg.get("enemy_id", ""))
+		and not vertical_slice_reward_spawned
+	):
+		_spawn_vertical_slice_reward(String(cfg.get("reward_item_id", "")), at)
+	_check_room_clear()
+
+
+func _spawn_vertical_slice_reward(item_id: String, at: Vector2) -> void:
+	if ContentDatabase.get_item(item_id).is_empty():
+		push_warning("[Dungeon] vertical-slice reward item is missing")
+		return
+	vertical_slice_reward_spawned = true
+	call_deferred("_add_vertical_slice_reward", item_id, at)
+
+
+func _add_vertical_slice_reward(item_id: String, at: Vector2) -> void:
+	if finished or room_root == null:
+		return
+	var pickup := LootPickup.new()
+	room_root.add_child(pickup)
+	pickup.setup_item(item_id)
+	pickup.global_position = at
+	pickup.collected.connect(_on_vertical_slice_reward_collected, CONNECT_ONE_SHOT)
+	var hint := UIKit.label("%s - walk over it to collect" % ContentDatabase.item_name(item_id).to_upper(), 9, UIKit.COL_GOOD)
+	hint.position = Vector2(-76, -38)
+	pickup.add_child(hint)
+
+
+func _on_vertical_slice_reward_collected(_item_id: String, _gold_amount: int) -> void:
+	vertical_slice_reward_collected = true
+	_check_room_clear()
 
 
 func _on_room_cleared(was_boss: bool) -> void:

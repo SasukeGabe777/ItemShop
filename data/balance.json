@@ -8,7 +8,20 @@
   "prosperity_gate_growth": 1.45,
   "prosperity_per_merchant_level": 0.02,
   "customer_budget_chapter_scale": 0.25,
-  "starting_inventory": {"kh_potion": 3, "sea_salt_ice_cream": 2, "gold_coin": 2, "wooden_shield": 1},
+  "starting_inventory": {"kh_potion": 3, "kh_ether": 2, "gold_coin": 2},
+  "kingdom_hearts_vertical_slice": {
+    "world_id": "kingdom_hearts",
+    "hero_id": "sora",
+    "customer_id": "moogle_c",
+    "enemy_id": "shadow_heartless",
+    "reward_item_id": "lucid_shard",
+    "start_room_id": "start_plaza",
+    "combat_room_id": "combat_arena_open",
+    "active_flag": "kh_vertical_slice_started",
+    "starter_sale_flag": "kh_starter_item_sold",
+    "completion_flag": "kh_vertical_slice_complete",
+    "reward_sale_flag": "kh_vertical_slice_reward_sold"
+  },
   "activity_costs": {"open_shop": 1, "dungeon": 2, "story": 1, "rest": 1},
   "shop": {
     "display_slots_by_level": [8, 12, 16],

@@ -5,7 +5,7 @@ extends Node
 
 signal expedition_finished(result: Dictionary)
 
-var pending: Dictionary = {}     # {world_id, hero_id, consumables: Array}
+var pending: Dictionary = {}     # {world_id, hero_id, consumables: Array, vertical_slice: bool}
 var run_loot: Dictionary = {}    # item_id -> qty gathered during a live run
 var run_gold: int = 0
 var rng := RandomNumberGenerator.new()
@@ -18,14 +18,21 @@ func reset() -> void:
 	rng.randomize()
 
 
-func plan_expedition(world_id: String, hero_id: String, consumables: Array = []) -> void:
-	pending = {"world_id": world_id, "hero_id": hero_id, "consumables": consumables.duplicate()}
+func plan_expedition(world_id: String, hero_id: String, consumables: Array = [], vertical_slice: bool = false) -> void:
+	pending = {
+		"world_id": world_id, "hero_id": hero_id,
+		"consumables": consumables.duplicate(), "vertical_slice": vertical_slice,
+	}
 	run_loot.clear()
 	run_gold = 0
 
 
 ## Generate the run's room sequence from handcrafted templates.
-func generate_layout(world_id: String, seed_value: int = -1) -> Array[Dictionary]:
+func generate_layout(world_id: String, seed_value: int = -1, vertical_slice: bool = false) -> Array[Dictionary]:
+	if vertical_slice:
+		var slice_layout := _vertical_slice_layout(world_id)
+		if not slice_layout.is_empty():
+			return slice_layout
 	var w := ContentDatabase.get_world(world_id)
 	var room_count := int(w.get("rooms", 5))
 	var lrng := RandomNumberGenerator.new()
@@ -45,6 +52,24 @@ func generate_layout(world_id: String, seed_value: int = -1) -> Array[Dictionary
 			layout.append(_room_entry(combats[lrng.randi() % combats.size()], world_id, lrng, i + 1))
 	layout.append(_room_entry(boss_rooms[lrng.randi() % boss_rooms.size()], world_id, lrng, room_count - 1))
 	return layout
+
+
+## The first playable expedition is a deliberately small, data-selected preset.
+## It still uses the regular room schema and live dungeon scene.
+func _vertical_slice_layout(world_id: String) -> Array[Dictionary]:
+	var cfg: Dictionary = ContentDatabase.bal("kingdom_hearts_vertical_slice", {})
+	if world_id != String(cfg.get("world_id", "")):
+		return []
+	var start: Dictionary = ContentDatabase.rooms.get(String(cfg.get("start_room_id", "")), {})
+	var combat: Dictionary = ContentDatabase.rooms.get(String(cfg.get("combat_room_id", "")), {})
+	var enemy_id := String(cfg.get("enemy_id", ""))
+	if start.is_empty() or combat.is_empty() or ContentDatabase.get_enemy(enemy_id).is_empty():
+		push_warning("[DungeonManager] vertical-slice content is incomplete; using the normal layout")
+		return []
+	return [
+		{"template": start, "kind": "start", "enemies": [], "depth": 0},
+		{"template": combat, "kind": "combat", "enemies": [enemy_id], "depth": 1},
+	]
 
 
 func _room_entry(template: Dictionary, world_id: String, lrng: RandomNumberGenerator, depth: int) -> Dictionary:
@@ -88,10 +113,16 @@ func roll_gold(enemy_id: String) -> int:
 ## Apply a finished run's spoils and notify.
 func finish_expedition(success: bool, boss_defeated: bool, hp_left: int) -> Dictionary:
 	var world_id := String(pending.get("world_id", ""))
+	var vertical_slice := bool(pending.get("vertical_slice", false))
 	for id: String in run_loot:
 		InventoryManager.add_item(id, int(run_loot[id]))
 	EconomyManager.add_gold(run_gold)
 	GameState.add_stat("expeditions")
+	if success and vertical_slice:
+		var slice_cfg: Dictionary = ContentDatabase.bal("kingdom_hearts_vertical_slice", {})
+		var completion_flag := String(slice_cfg.get("completion_flag", ""))
+		if completion_flag != "":
+			GameState.set_flag(completion_flag)
 	if boss_defeated:
 		if world_id == "null_archive":
 			BridgeManager.defeat_fade()
@@ -103,6 +134,7 @@ func finish_expedition(success: bool, boss_defeated: bool, hp_left: int) -> Dict
 				StoryEventManager.fire("boss_defeated", {"chapter": int(ContentDatabase.get_world(world_id).get("chapter", 0))})
 	var result := {
 		"success": success, "boss_defeated": boss_defeated, "world_id": world_id,
+		"vertical_slice": vertical_slice,
 		"loot": run_loot.duplicate(), "gold": run_gold, "hp_left": hp_left,
 	}
 	run_loot.clear()

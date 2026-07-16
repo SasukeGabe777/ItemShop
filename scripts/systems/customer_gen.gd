@@ -8,6 +8,9 @@ static var rng := RandomNumberGenerator.new()
 ## A runtime customer dictionary:
 ## {id, name, archetype, budget, hero_ref, color, quirk, line, named}
 static func generate_session_customers() -> Array[Dictionary]:
+	var onboarding_customer := _vertical_slice_customer()
+	if not onboarding_customer.is_empty():
+		return [onboarding_customer]
 	var shop_cfg: Dictionary = ContentDatabase.bal("shop", {})
 	var appeal := InventoryManager.shop_appeal()
 	var appeal_total := 0
@@ -26,6 +29,32 @@ static func generate_session_customers() -> Array[Dictionary]:
 				continue
 		out.append(_make_walk_in())
 	return out
+
+
+## Keep the two sales that bookend the first expedition deterministic. This is
+## data-selected and still uses the normal customer, browsing and negotiation AI.
+static func _vertical_slice_customer() -> Dictionary:
+	var cfg: Dictionary = ContentDatabase.bal("kingdom_hearts_vertical_slice", {})
+	var active_flag := String(cfg.get("active_flag", ""))
+	if active_flag == "" or not GameState.has_flag(active_flag):
+		return {}
+	var customer_id := String(cfg.get("customer_id", ""))
+	var src := ContentDatabase.get_named_customer(customer_id)
+	if src.is_empty():
+		return {}
+	var starter_flag := String(cfg.get("starter_sale_flag", ""))
+	if starter_flag != "" and not GameState.has_flag(starter_flag):
+		return runtime_named(src)
+	var completion_flag := String(cfg.get("completion_flag", ""))
+	var reward_sale_flag := String(cfg.get("reward_sale_flag", ""))
+	var reward_item_id := String(cfg.get("reward_item_id", ""))
+	if (
+		completion_flag != "" and GameState.has_flag(completion_flag)
+		and reward_sale_flag != "" and not GameState.has_flag(reward_sale_flag)
+		and reward_item_id in InventoryManager.displayed_ids()
+	):
+		return runtime_named(src)
+	return {}
 
 
 static func _pick_named() -> Dictionary:

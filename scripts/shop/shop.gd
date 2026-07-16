@@ -42,6 +42,28 @@ func _ready() -> void:
 	prompt = UIKit.label("", 10, UIKit.COL_ACCENT)
 	prompt.z_index = 60
 	add_child(prompt)
+	call_deferred("_show_first_shop_guide")
+
+
+func _show_first_shop_guide() -> void:
+	const TUTORIAL_ID := "first_shop_vertical_slice"
+	if TUTORIAL_ID in GameState.tutorials_seen or not GameState.campaign_active:
+		return
+	busy = true
+	player.frozen = true
+	var parts := UIKit.modal(self, "Your first shop session")
+	var guide_layer: CanvasLayer = parts[0]
+	var vb: VBoxContainer = parts[1]
+	vb.add_child(UIKit.label("1. Walk to any item stand until [E] Display slot appears."))
+	vb.add_child(UIKit.label("2. Press E and choose a Potion, Ether, or Gold Coin."))
+	vb.add_child(UIKit.label("3. To move a stand, use Rearrange furniture at the lower-right."))
+	vb.add_child(UIKit.label("4. Walk to the counter at the top and press E to open."))
+	vb.add_child(UIKit.label("The first customer will inspect a stocked stand and ask you to negotiate.", 9, UIKit.COL_GOOD))
+	vb.add_child(UIKit.button("Begin stocking", func() -> void:
+		GameState.tutorials_seen.append(TUTORIAL_ID)
+		busy = false
+		player.frozen = false
+		guide_layer.queue_free()))
 
 
 func _build_room() -> void:
@@ -494,7 +516,12 @@ func _spawn_customer(cust: Dictionary) -> void:
 	var c := ShopCustomer.new()
 	add_child(c)
 	c.position = ENTRANCE
-	c.setup(cust, browse_points, ENTRANCE)
+	var preferred_point := Vector2.INF
+	var preferred_slot := ShopFurnitureManager.choose_display_slot_for_customer(cust)
+	var slot_index := int(preferred_slot.get("slot", -1))
+	if slot_index >= 0 and slot_index < browse_points.size():
+		preferred_point = browse_points[slot_index]
+	c.setup(cust, browse_points, ENTRANCE, preferred_point)
 	c.negotiate_requested.connect(_on_negotiate_requested)
 	c.order_requested.connect(_on_order_requested)
 	c.left.connect(func(me: ShopCustomer) -> void: live_customers.erase(me))

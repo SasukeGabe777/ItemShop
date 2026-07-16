@@ -38,6 +38,69 @@ world/chapter, and whether debug commands or automation were used.
 
 ---
 
+## 2026-07-16 - Kingdom Hearts playable vertical slice (automated)
+
+### Date
+
+2026-07-16
+
+### Build tested
+
+- Commit/build: `a6ce0cb` plus the uncommitted Kingdom Hearts vertical-slice pass
+- Godot version: 4.7.1-stable
+- Platform: Windows, headless automated live-scene workflow
+
+### Test route
+
+- Started a Playtest Workspace session through `DevHubManager` and ran
+  `tests/test_kh_vertical_slice.tscn`.
+- Reset to new-campaign state and verified the scoped starter inventory and
+  Sora's equipped Kingdom Key.
+- Moved an existing display stand, stocked a Potion, resolved a sale through a
+  dynamically selected furniture slot and normal negotiation bookkeeping, and
+  advanced shop time.
+- Launched the two-room first Kingdom Hearts expedition with Sora, drove the
+  live combat scene, defeated one Shadow, collected the guaranteed Lucid Shard,
+  exited north, and verified the loot transferred to shop storage.
+- Displayed and sold the recovered shard, then saved to a temporary normal slot,
+  reset the managers, reloaded, verified persisted state, and restored the
+  pre-test slot file.
+
+### What worked
+
+- `KH_VERTICAL_SLICE_PASS` completed.
+- Starter inventory, stand movement, display assignment, dynamic customer
+  interest, negotiation, money changes, item removal, time advancement, Sora
+  selection, live Shadow combat, reward pickup, expedition return, recovered
+  loot resale, and save/reload all passed.
+- The save roundtrip retained money, storage, a displayed Ether, the moved stand
+  position, chapter state, and Kingdom Hearts vertical-slice completion.
+- Required Playtest Workspace reports were rewritten under `playtest/latest/`.
+
+### Bugs
+
+- **Fixed during the run / blocking:** the first implementation created the
+  guaranteed reward inside a physics collision callback. Godot reported that
+  monitoring state could not change while queries were flushing. Reward node
+  creation is now deferred to the next safe frame; the rerun passed without the
+  error.
+- No blocking parser or runtime error remained in the final automated route.
+
+### Visual issues
+
+- This was headless automation, so customer motion quality, exit readability,
+  item-placement clarity, and negotiation presentation still require the
+  planned human playthrough. The Lucid Shard currently uses the safe placeholder
+  fallback when its processed icon is absent.
+
+### Next action
+
+- Personally play `docs/KH_VERTICAL_SLICE.md` without development tools and
+  record only the largest observed issue: item placement, customer movement,
+  dungeon exit clarity, or sale-screen presentation.
+
+---
+
 ## 2026-07-16 - Live Developer Hub automated workflow
 
 ### Date

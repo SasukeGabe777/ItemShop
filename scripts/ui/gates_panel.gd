@@ -71,6 +71,15 @@ func _expedition_dialog(world_id: String) -> void:
 	var dvb: VBoxContainer = parts[1]
 	var w := ContentDatabase.get_world(world_id)
 	dvb.add_child(UIKit.label(String(w.get("dungeon_desc", "")), 9, UIKit.COL_DIM))
+	var slice_cfg: Dictionary = ContentDatabase.bal("kingdom_hearts_vertical_slice", {})
+	var completion_flag := String(slice_cfg.get("completion_flag", ""))
+	var first_vertical_slice := (
+		world_id == String(slice_cfg.get("world_id", ""))
+		and completion_flag != ""
+		and not GameState.has_flag(completion_flag)
+	)
+	if first_vertical_slice:
+		dvb.add_child(UIKit.label("FIRST EXPEDITION: two short rooms, one Shadow, then return with its Lucid Shard.", 9, UIKit.COL_GOOD))
 	var final := bool(w.get("final", false))
 	# hero choice: world hero by default; any met hero for the final dungeon;
 	# repaired worlds' heroes are also available anywhere (crossover hiring)
@@ -124,7 +133,8 @@ func _expedition_dialog(world_id: String) -> void:
 	var go_row := HBoxContainer.new()
 	go_row.alignment = BoxContainer.ALIGNMENT_CENTER
 	go_row.add_theme_constant_override("separation", 12)
-	go_row.add_child(UIKit.button("Depart (2 periods)", func() -> void:
+	var depart_label := "Depart: Short Traverse Town Run (2 periods)" if first_vertical_slice else "Depart (2 periods)"
+	go_row.add_child(UIKit.button(depart_label, func() -> void:
 		var hid := hero_options[hero_pick.selected]
 		var fee := int(ContentDatabase.get_hero(hid).get("hire_cost", 100))
 		if not EconomyManager.can_afford(fee):
@@ -137,7 +147,7 @@ func _expedition_dialog(world_id: String) -> void:
 				InventoryManager.remove_item(String(c))
 			if GameState.meet_hero(hid):
 				StoryEventManager.fire("hero_met", {"hero": hid})
-			DungeonManager.plan_expedition(world_id, hid, chosen)
+			DungeonManager.plan_expedition(world_id, hid, chosen, first_vertical_slice)
 			var events := TimeManager.advance(TimeManager.activity_cost("dungeon"))
 			if "deadline_failed" in events:
 				SceneRouter.go("story", {"failure": true})

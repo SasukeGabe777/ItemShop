@@ -39,6 +39,10 @@ func start_new_campaign(slot: int) -> void:
 	DungeonManager.reset()
 	StoryEventManager.reset()
 	ShopFurnitureManager.reset()
+	var slice_cfg: Dictionary = ContentDatabase.bal("kingdom_hearts_vertical_slice", {})
+	var slice_active_flag := String(slice_cfg.get("active_flag", ""))
+	if slice_active_flag != "":
+		GameState.set_flag(slice_active_flag)
 	StoryEventManager.fire("game_start")
 	StoryEventManager.fire("chapter_start", {"chapter": 1})
 	SaveManager.checkpoint_chapter()
