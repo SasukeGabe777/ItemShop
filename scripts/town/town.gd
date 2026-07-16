@@ -29,16 +29,16 @@ func _ready() -> void:
 
 
 func _build_ground() -> void:
-	var ground := Polygon2D.new()
-	ground.polygon = PackedVector2Array([Vector2(-200, -200), Vector2(840, -200), Vector2(840, 680), Vector2(-200, 680)])
-	ground.color = Color("#3a4257")
-	ground.z_index = -10
-	add_child(ground)
-	var plaza := Polygon2D.new()
-	plaza.polygon = PackedVector2Array([Vector2(120, 80), Vector2(520, 80), Vector2(520, 420), Vector2(120, 420)])
-	plaza.color = Color("#4a5570")
-	plaza.z_index = -9
-	add_child(plaza)
+	Scenery.tiled_floor(self, Rect2(-200, -200, 1040, 880), "floor_cobble", Color("#3a4257"), -10, Color(0.4, 0.42, 0.58))
+	Scenery.tiled_floor(self, Rect2(120, 80, 400, 340), "floor_cobble", Color("#4a5570"), -9)
+	# plaza dressing: lamps at the corners, crates by the market
+	Scenery.prop(self, Vector2(140, 100), "lamp_lit")
+	Scenery.prop(self, Vector2(500, 100), "lamp_lit")
+	Scenery.prop(self, Vector2(140, 415), "lamp_lit")
+	Scenery.prop(self, Vector2(500, 415), "lamp_lit")
+	Scenery.prop(self, Vector2(320, 250), "rug", -8)
+	Scenery.prop(self, Vector2(390, 120), "crates")
+	Scenery.prop(self, Vector2(255, 390), "barrel")
 	# broken bridge visual at the top
 	for i in range(7):
 		var plank := Polygon2D.new()

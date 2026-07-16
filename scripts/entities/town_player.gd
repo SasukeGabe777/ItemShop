@@ -24,7 +24,6 @@ func _ready() -> void:
 	if not visual.setup_from_manifest("res://assets/hero/manifests/hero_faraway_overworld.json"):
 		visual.setup_placeholder("hero", "crossroads", "#3858a8", 18)
 	if visual.use_frames:
-		visual.animated.position = Vector2(0, -12)
 		visual.shadow.position = Vector2(0, 2)
 
 

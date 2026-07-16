@@ -24,7 +24,13 @@ func setup(cust: Dictionary, browse_points: Array[Vector2], exit_pos: Vector2) -
 	collision_mask = 0
 	visual = CharacterVisual.new()
 	add_child(visual)
-	visual.setup_placeholder(String(cust.get("id", "cust")), String(cust.get("world", "")), String(cust.get("color", "#c0c0c0")), 15)
+	# named hero customers use their real spritesheet when one is wired up
+	var sprite_id := String(cust.get("hero_ref", ""))
+	if sprite_id == "":
+		sprite_id = String(cust.get("id", "cust"))
+	var manifest := "res://assets/franchises/%s/manifests/%s.json" % [String(cust.get("world", "")), sprite_id]
+	if not visual.setup_from_manifest(manifest):
+		visual.setup_placeholder(String(cust.get("id", "cust")), String(cust.get("world", "")), String(cust.get("color", "#c0c0c0")), 15)
 	if bool(cust.get("named", false)):
 		var tag := UIKit.label(String(cust.get("name", "")), 8, UIKit.COL_ACCENT)
 		tag.position = Vector2(-20, -34)

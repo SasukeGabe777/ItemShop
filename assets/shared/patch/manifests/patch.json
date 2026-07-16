@@ -1,0 +1,70 @@
+{
+  "asset_id": "patch",
+  "sheet": "res://assets/shared/patch/sheets/patch.png",
+  "native_scale": 1,
+  "display_scale": 1,
+  "pivot": [
+    14,
+    32
+  ],
+  "grid": {
+    "frame_width": 28,
+    "frame_height": 36,
+    "columns": 8,
+    "rows": 2
+  },
+  "animations": {
+    "idle_down": {
+      "frames": [
+        0,
+        1
+      ],
+      "fps": 5,
+      "loop": true
+    },
+    "walk_down": {
+      "frames": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "fps": 7,
+      "loop": true
+    },
+    "idle_side": {
+      "frames": [
+        6
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "walk_side": {
+      "frames": [
+        7,
+        8,
+        9,
+        10
+      ],
+      "fps": 7,
+      "loop": true
+    },
+    "idle_up": {
+      "frames": [
+        11
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "walk_up": {
+      "frames": [
+        12,
+        13,
+        14,
+        15
+      ],
+      "fps": 7,
+      "loop": true
+    }
+  }
+}

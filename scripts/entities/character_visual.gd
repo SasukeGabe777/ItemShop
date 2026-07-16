@@ -20,7 +20,21 @@ func setup_from_manifest(manifest_path: String) -> bool:
 	animated.animation = "idle_down" if frames.has_animation("idle_down") else frames.get_animation_names()[0]
 	animated.play()
 	add_child(animated)
-	_add_shadow(10)
+	# align the manifest pivot (usually the feet) with this node's origin
+	var cell := Vector2(32, 32)
+	var pivot := Vector2(16, 28)
+	var shadow_w := 10
+	if FileAccess.file_exists(manifest_path):
+		var parsed: Variant = JSON.parse_string(FileAccess.open(manifest_path, FileAccess.READ).get_as_text())
+		if parsed is Dictionary:
+			var m: Dictionary = parsed
+			var grid: Dictionary = m.get("grid", {})
+			cell = Vector2(float(grid.get("frame_width", 32)), float(grid.get("frame_height", 32)))
+			var pv: Array = m.get("pivot", [cell.x / 2.0, cell.y - 4.0])
+			pivot = Vector2(float(pv[0]), float(pv[1]))
+			shadow_w = int(cell.x * 0.45)
+	animated.offset = Vector2(cell.x / 2.0 - pivot.x, cell.y / 2.0 - pivot.y)
+	_add_shadow(maxi(10, shadow_w))
 	use_frames = true
 	return true
 

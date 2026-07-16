@@ -53,7 +53,9 @@ func _reset_all() -> void:
 	BridgeManager.reset()
 	DungeonManager.reset()
 	StoryEventManager.reset()
-	# deterministic economy proof: seed the gameplay RNGs
+	# deterministic economy proof: seed the gameplay RNGs (incl. the global one
+	# used for order deadlines)
+	seed(int(rng.seed))
 	MarketManager.rng.seed = rng.seed
 	CustomerGen.rng.seed = rng.seed
 	RelationshipManager.rng.seed = rng.seed
@@ -203,10 +205,12 @@ func _test_full_campaign() -> bool:
 			_equip_best_available(hid)
 			GameState.set_flag("geared_" + hid)
 		var day_start := TimeManager.day
-		# Morning: restock (keep cash for repairs when close to goal)
+		# Morning: restock (keep cash for repairs when close to goal, but never
+		# starve working capital — a broke shop must still buy cheap stock)
 		var reserve := repair if BridgeManager.has_shard(wid) else int(repair * 0.4)
-		if EconomyManager.gold > reserve + 400:
-			ShopSim.auto_buy_stock(clampf(float(EconomyManager.gold - reserve) / maxf(1.0, float(EconomyManager.gold)) * 0.7, 0.0, 0.7))
+		var spendable := maxi(EconomyManager.gold - reserve, mini(EconomyManager.gold - 300, int(EconomyManager.gold * 0.5)))
+		if spendable > 100:
+			ShopSim.auto_buy_stock(clampf(float(spendable) / maxf(1.0, float(EconomyManager.gold)) * 0.7, 0.0, 0.7))
 		ShopSim.auto_stock_display()
 		ShopSim.run_session(1.22)
 		_maybe_pay(wid, repair)

@@ -36,11 +36,12 @@ func _ready() -> void:
 
 
 func _build_room() -> void:
-	var floor_poly := Polygon2D.new()
-	floor_poly.polygon = PackedVector2Array([Vector2(140, 120), Vector2(500, 120), Vector2(500, 420), Vector2(140, 420)])
-	floor_poly.color = Color("#5a4a3a")
-	floor_poly.z_index = -10
-	add_child(floor_poly)
+	Scenery.tiled_floor(self, Rect2(140, 120, 360, 300), "floor_cobble", Color("#5a4a3a"), -10, Color(0.92, 0.82, 0.72))
+	Scenery.prop(self, Vector2(320, 270), "rug", -9)
+	Scenery.prop(self, Vector2(160, 175), "lamp_lit")
+	Scenery.prop(self, Vector2(480, 175), "lamp_lit")
+	Scenery.prop(self, Vector2(478, 400), "crates")
+	Scenery.prop(self, Vector2(162, 400), "barrel")
 	# walls
 	for wall_def: Array in [
 		[Vector2(320, 112), Vector2(376, 16)],
@@ -93,7 +94,9 @@ func _build_furniture() -> void:
 		marker.position = pos
 		var kind := _furniture_kind(i)
 		var spr := Sprite2D.new()
-		spr.texture = PlaceholderFactory.furniture_texture(kind, 34, 20)
+		var real_furniture := {"counter": "crate_lantern", "shelf": "crates", "pedestal": "barrel", "case": "chest_gold"}
+		var tex := Scenery.texture_or_null(String(real_furniture.get(kind, "")))
+		spr.texture = tex if tex != null else PlaceholderFactory.furniture_texture(kind, 34, 20)
 		marker.add_child(spr)
 		if i in _window_slots():
 			var tag := UIKit.label("window", 7, UIKit.COL_DIM)

@@ -147,12 +147,13 @@ func _enter_room(idx: int) -> void:
 	var template: Dictionary = entry["template"]
 	var w := ContentDatabase.get_world(world_id)
 	var grid := ContentDatabase.room_grid
-	# floor
-	var floor_poly := Polygon2D.new()
-	floor_poly.polygon = PackedVector2Array([Vector2.ZERO, Vector2(grid.x * CELL, 0), Vector2(grid.x * CELL, grid.y * CELL), Vector2(0, grid.y * CELL)])
-	floor_poly.color = Color(String(w.get("floor_color", "#333344")))
-	floor_poly.z_index = -10
-	room_root.add_child(floor_poly)
+	# floor: worlds with supplied tile art get it (tinted to their palette);
+	# everything else keeps the flat data-driven color
+	var floor_rect := Rect2(0, 0, grid.x * CELL, grid.y * CELL)
+	if world_id == "kingdom_hearts":
+		Scenery.tiled_floor(room_root, floor_rect, "floor_cobble", Color(String(w.get("floor_color", "#333344"))), -10, Color(0.62, 0.62, 0.85))
+	else:
+		Scenery.tiled_floor(room_root, floor_rect, "", Color(String(w.get("floor_color", "#333344"))), -10)
 	# perimeter walls (gap at top center = exit door)
 	_wall(Rect2(-16, -16, grid.x * CELL / 2.0 - CELL, grid.y * 0 + 16 + 16), w)   # top-left
 	_wall(Rect2(grid.x * CELL / 2.0 + CELL, -16, grid.x * CELL / 2.0 - CELL + 16, 32), w)  # top-right
@@ -245,7 +246,8 @@ func _spawn_chest(at: Vector2) -> void:
 	shape.shape = rect
 	chest.add_child(shape)
 	var spr := Sprite2D.new()
-	spr.texture = PlaceholderFactory.furniture_texture("case", 18, 14)
+	var chest_tex := Scenery.texture_or_null("chest")
+	spr.texture = chest_tex if chest_tex != null else PlaceholderFactory.furniture_texture("case", 18, 14)
 	chest.add_child(spr)
 	chest.body_entered.connect(func(body: Node) -> void:
 		if not (body is CombatHero):
@@ -272,7 +274,8 @@ func _spawn_switch_pad(at: Vector2) -> void:
 	shape.shape = circle
 	pad.add_child(shape)
 	var spr := Sprite2D.new()
-	spr.texture = PlaceholderFactory.flat_texture(Color(0.4, 0.9, 1.0, 0.7), 24, 24)
+	var pad_tex := Scenery.texture_or_null("save_point")
+	spr.texture = pad_tex if pad_tex != null else PlaceholderFactory.flat_texture(Color(0.4, 0.9, 1.0, 0.7), 24, 24)
 	pad.add_child(spr)
 	var lbl := UIKit.label("SAVE POINT: switch hero [E]", 8, UIKit.COL_ACCENT)
 	lbl.position = Vector2(-46, -34)

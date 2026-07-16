@@ -1,0 +1,8 @@
+2026-07-16 01:43:44,719 INFO Game: Pokémon Mystery Dungeon: Red Rescue Team
+2026-07-16 01:43:44,719 INFO Platform/category: Game Boy Advance
+2026-07-16 01:43:44,719 INFO Asset count reported: 385
+2026-07-16 01:43:44,719 INFO Assets selected: 200
+2026-07-16 01:43:44,719 INFO Sections: Pokémon (1st Generation), Pokémon (2nd Generation), Pokémon (3rd Generation), Pokémon (Miscellaneous), Huts, Pokémon Square, Friend Areas, Events, Dungeon Tiles, Dungeons (Randomized), Dungeon Boss Rooms, Attacks, Weather, Miscellaneous
+2026-07-16 01:43:44,719 INFO Destination: assets\franchises\pokemon\raw
+2026-07-16 01:43:44,719 INFO Filename pattern: pokemon_<asset>
+2026-07-16 01:43:44,719 INFO Visiting asset 5251: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/5251/

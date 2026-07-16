@@ -6,3 +6,312 @@
 2026-07-16 01:08:14,420 INFO Destination: assets\franchises\mario\raw
 2026-07-16 01:08:14,420 INFO Filename pattern: mario_<asset>
 2026-07-16 01:08:14,420 INFO Dry run only; no assets downloaded.
+2026-07-16 01:09:07,685 INFO Game: Mario & Luigi: Superstar Saga
+2026-07-16 01:09:07,685 INFO Platform/category: Game Boy Advance
+2026-07-16 01:09:07,685 INFO Asset count reported: 201
+2026-07-16 01:09:07,685 INFO Assets selected: 100
+2026-07-16 01:09:07,687 INFO Sections: Playable Characters, Non-Playable Characters, Enemies, Bosses, Maps, Miscellaneous, Unused Content
+2026-07-16 01:09:07,687 INFO Destination: assets\franchises\mario\raw
+2026-07-16 01:09:07,687 INFO Filename pattern: mario_<asset>
+2026-07-16 01:09:07,687 INFO Visiting asset 477936: https://www.spriters-resource.com/game_boy_advance/mlss/asset/477936/
+2026-07-16 01:09:13,836 INFO Trying download control: download attribute
+2026-07-16 01:09:16,974 DEBUG Waited 2.58 seconds before next request.
+2026-07-16 01:09:16,975 INFO Visiting asset 7544: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7544/
+2026-07-16 01:09:26,745 INFO Trying download control: download attribute
+2026-07-16 01:09:29,587 DEBUG Waited 2.09 seconds before next request.
+2026-07-16 01:09:29,587 INFO Visiting asset 7542: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7542/
+2026-07-16 01:09:31,949 INFO Trying download control: download attribute
+2026-07-16 01:09:34,567 DEBUG Waited 2.28 seconds before next request.
+2026-07-16 01:09:34,568 INFO Visiting asset 7543: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7543/
+2026-07-16 01:09:36,937 INFO Trying download control: download attribute
+2026-07-16 01:09:39,665 DEBUG Waited 2.33 seconds before next request.
+2026-07-16 01:09:39,665 INFO Visiting asset 476481: https://www.spriters-resource.com/game_boy_advance/mlss/asset/476481/
+2026-07-16 01:09:41,556 INFO Trying download control: download attribute
+2026-07-16 01:09:43,802 DEBUG Waited 2.01 seconds before next request.
+2026-07-16 01:09:43,802 INFO Visiting asset 7546: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7546/
+2026-07-16 01:09:45,608 INFO Trying download control: download attribute
+2026-07-16 01:09:48,761 DEBUG Waited 2.91 seconds before next request.
+2026-07-16 01:09:48,761 INFO Visiting asset 7545: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7545/
+2026-07-16 01:09:50,667 INFO Trying download control: download attribute
+2026-07-16 01:09:53,627 DEBUG Waited 2.62 seconds before next request.
+2026-07-16 01:09:53,627 INFO Visiting asset 22275: https://www.spriters-resource.com/game_boy_advance/mlss/asset/22275/
+2026-07-16 01:09:55,654 INFO Trying download control: download attribute
+2026-07-16 01:09:58,346 DEBUG Waited 2.30 seconds before next request.
+2026-07-16 01:09:58,346 INFO Visiting asset 7532: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7532/
+2026-07-16 01:10:00,195 INFO Trying download control: download attribute
+2026-07-16 01:10:02,992 DEBUG Waited 2.59 seconds before next request.
+2026-07-16 01:10:02,992 INFO Visiting asset 7517: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7517/
+2026-07-16 01:10:04,912 INFO Trying download control: download attribute
+2026-07-16 01:10:07,378 DEBUG Waited 2.22 seconds before next request.
+2026-07-16 01:10:07,380 INFO Visiting asset 7518: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7518/
+2026-07-16 01:10:10,017 INFO Trying download control: download attribute
+2026-07-16 01:10:12,768 DEBUG Waited 2.41 seconds before next request.
+2026-07-16 01:10:12,769 INFO Visiting asset 7568: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7568/
+2026-07-16 01:10:15,260 INFO Trying download control: download attribute
+2026-07-16 01:10:18,237 DEBUG Waited 2.54 seconds before next request.
+2026-07-16 01:10:18,239 INFO Visiting asset 7522: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7522/
+2026-07-16 01:10:21,366 INFO Trying download control: download attribute
+2026-07-16 01:10:23,701 DEBUG Waited 2.03 seconds before next request.
+2026-07-16 01:10:23,701 INFO Visiting asset 7523: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7523/
+2026-07-16 01:10:26,506 INFO Trying download control: download attribute
+2026-07-16 01:10:29,972 DEBUG Waited 2.96 seconds before next request.
+2026-07-16 01:10:29,973 INFO Visiting asset 7524: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7524/
+2026-07-16 01:10:35,691 INFO Trying download control: download attribute
+2026-07-16 01:10:38,941 DEBUG Waited 2.84 seconds before next request.
+2026-07-16 01:10:38,941 INFO Visiting asset 241181: https://www.spriters-resource.com/game_boy_advance/mlss/asset/241181/
+2026-07-16 01:10:41,295 INFO Trying download control: download attribute
+2026-07-16 01:10:43,664 DEBUG Waited 2.02 seconds before next request.
+2026-07-16 01:10:43,664 INFO Visiting asset 7525: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7525/
+2026-07-16 01:10:46,094 INFO Trying download control: download attribute
+2026-07-16 01:10:49,524 DEBUG Waited 2.85 seconds before next request.
+2026-07-16 01:10:49,530 INFO Visiting asset 7526: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7526/
+2026-07-16 01:10:52,371 INFO Trying download control: download attribute
+2026-07-16 01:10:55,630 DEBUG Waited 2.95 seconds before next request.
+2026-07-16 01:10:55,630 INFO Visiting asset 7528: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7528/
+2026-07-16 01:10:57,742 INFO Trying download control: download attribute
+2026-07-16 01:11:00,549 DEBUG Waited 2.52 seconds before next request.
+2026-07-16 01:11:00,549 INFO Visiting asset 7527: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7527/
+2026-07-16 01:11:02,367 INFO Trying download control: download attribute
+2026-07-16 01:11:05,103 DEBUG Waited 2.43 seconds before next request.
+2026-07-16 01:11:05,104 INFO Visiting asset 7529: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7529/
+2026-07-16 01:11:06,857 INFO Trying download control: download attribute
+2026-07-16 01:11:09,686 DEBUG Waited 2.61 seconds before next request.
+2026-07-16 01:11:09,686 INFO Visiting asset 7533: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7533/
+2026-07-16 01:11:11,422 INFO Trying download control: download attribute
+2026-07-16 01:11:14,544 DEBUG Waited 2.93 seconds before next request.
+2026-07-16 01:11:14,544 INFO Visiting asset 7531: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7531/
+2026-07-16 01:11:16,298 INFO Trying download control: download attribute
+2026-07-16 01:11:19,012 DEBUG Waited 2.45 seconds before next request.
+2026-07-16 01:11:19,012 INFO Visiting asset 7534: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7534/
+2026-07-16 01:11:23,692 INFO Trying download control: download attribute
+2026-07-16 01:11:26,562 DEBUG Waited 2.69 seconds before next request.
+2026-07-16 01:11:26,562 INFO Visiting asset 7535: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7535/
+2026-07-16 01:11:28,625 INFO Trying download control: download attribute
+2026-07-16 01:11:31,175 DEBUG Waited 2.26 seconds before next request.
+2026-07-16 01:11:31,175 INFO Visiting asset 7537: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7537/
+2026-07-16 01:11:33,013 INFO Trying download control: download attribute
+2026-07-16 01:11:35,632 DEBUG Waited 2.30 seconds before next request.
+2026-07-16 01:11:35,632 INFO Visiting asset 7536: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7536/
+2026-07-16 01:11:37,840 INFO Trying download control: download attribute
+2026-07-16 01:11:40,687 DEBUG Waited 2.59 seconds before next request.
+2026-07-16 01:11:40,689 INFO Visiting asset 7538: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7538/
+2026-07-16 01:11:45,371 INFO Trying download control: download attribute
+2026-07-16 01:11:47,663 DEBUG Waited 2.08 seconds before next request.
+2026-07-16 01:11:47,663 INFO Visiting asset 7539: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7539/
+2026-07-16 01:11:49,515 INFO Trying download control: download attribute
+2026-07-16 01:11:51,817 DEBUG Waited 2.03 seconds before next request.
+2026-07-16 01:11:51,817 INFO Visiting asset 7540: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7540/
+2026-07-16 01:11:53,767 INFO Trying download control: download attribute
+2026-07-16 01:11:56,648 DEBUG Waited 2.58 seconds before next request.
+2026-07-16 01:11:56,648 INFO Visiting asset 7547: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7547/
+2026-07-16 01:11:58,452 INFO Trying download control: download attribute
+2026-07-16 01:12:01,464 DEBUG Waited 2.78 seconds before next request.
+2026-07-16 01:12:01,465 INFO Visiting asset 7548: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7548/
+2026-07-16 01:12:03,181 INFO Trying download control: download attribute
+2026-07-16 01:12:06,052 DEBUG Waited 2.71 seconds before next request.
+2026-07-16 01:12:06,052 INFO Visiting asset 7560: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7560/
+2026-07-16 01:12:07,710 INFO Trying download control: download attribute
+2026-07-16 01:12:10,864 DEBUG Waited 2.92 seconds before next request.
+2026-07-16 01:12:10,864 INFO Visiting asset 7552: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7552/
+2026-07-16 01:12:13,115 INFO Trying download control: download attribute
+2026-07-16 01:12:15,803 DEBUG Waited 2.50 seconds before next request.
+2026-07-16 01:12:15,803 INFO Visiting asset 7554: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7554/
+2026-07-16 01:12:17,464 INFO Trying download control: download attribute
+2026-07-16 01:12:20,570 DEBUG Waited 2.95 seconds before next request.
+2026-07-16 01:12:20,570 INFO Visiting asset 7549: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7549/
+2026-07-16 01:12:22,291 INFO Trying download control: download attribute
+2026-07-16 01:12:24,466 DEBUG Waited 2.01 seconds before next request.
+2026-07-16 01:12:24,466 INFO Visiting asset 7553: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7553/
+2026-07-16 01:12:26,243 INFO Trying download control: download attribute
+2026-07-16 01:12:28,470 DEBUG Waited 2.02 seconds before next request.
+2026-07-16 01:12:28,470 INFO Visiting asset 7551: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7551/
+2026-07-16 01:12:30,092 INFO Trying download control: download attribute
+2026-07-16 01:12:32,510 DEBUG Waited 2.24 seconds before next request.
+2026-07-16 01:12:32,510 INFO Visiting asset 7530: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7530/
+2026-07-16 01:12:34,235 INFO Trying download control: download attribute
+2026-07-16 01:12:37,286 DEBUG Waited 2.85 seconds before next request.
+2026-07-16 01:12:37,286 INFO Visiting asset 7555: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7555/
+2026-07-16 01:12:39,038 INFO Trying download control: download attribute
+2026-07-16 01:12:42,098 DEBUG Waited 2.85 seconds before next request.
+2026-07-16 01:12:42,098 INFO Visiting asset 7556: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7556/
+2026-07-16 01:12:43,780 INFO Trying download control: download attribute
+2026-07-16 01:12:46,171 DEBUG Waited 2.23 seconds before next request.
+2026-07-16 01:12:46,172 INFO Visiting asset 148992: https://www.spriters-resource.com/game_boy_advance/mlss/asset/148992/
+2026-07-16 01:12:47,960 INFO Trying download control: download attribute
+2026-07-16 01:12:51,009 DEBUG Waited 2.88 seconds before next request.
+2026-07-16 01:12:51,009 INFO Visiting asset 148991: https://www.spriters-resource.com/game_boy_advance/mlss/asset/148991/
+2026-07-16 01:12:52,691 INFO Trying download control: download attribute
+2026-07-16 01:12:55,810 DEBUG Waited 2.96 seconds before next request.
+2026-07-16 01:12:55,811 INFO Visiting asset 7557: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7557/
+2026-07-16 01:12:57,457 INFO Trying download control: download attribute
+2026-07-16 01:12:59,810 DEBUG Waited 2.20 seconds before next request.
+2026-07-16 01:12:59,810 INFO Visiting asset 7558: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7558/
+2026-07-16 01:13:01,449 INFO Trying download control: download attribute
+2026-07-16 01:13:04,562 DEBUG Waited 2.92 seconds before next request.
+2026-07-16 01:13:04,562 INFO Visiting asset 7559: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7559/
+2026-07-16 01:13:06,218 INFO Trying download control: download attribute
+2026-07-16 01:13:08,877 DEBUG Waited 2.46 seconds before next request.
+2026-07-16 01:13:08,877 INFO Visiting asset 7561: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7561/
+2026-07-16 01:13:10,680 INFO Trying download control: download attribute
+2026-07-16 01:13:13,087 DEBUG Waited 2.22 seconds before next request.
+2026-07-16 01:13:13,088 INFO Visiting asset 7562: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7562/
+2026-07-16 01:13:17,736 INFO Trying download control: download attribute
+2026-07-16 01:13:20,082 DEBUG Waited 2.12 seconds before next request.
+2026-07-16 01:13:20,082 INFO Visiting asset 7550: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7550/
+2026-07-16 01:13:22,016 INFO Trying download control: download attribute
+2026-07-16 01:13:24,489 DEBUG Waited 2.19 seconds before next request.
+2026-07-16 01:13:24,489 INFO Visiting asset 7563: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7563/
+2026-07-16 01:13:26,137 INFO Trying download control: download attribute
+2026-07-16 01:13:29,019 DEBUG Waited 2.70 seconds before next request.
+2026-07-16 01:13:29,019 INFO Visiting asset 7564: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7564/
+2026-07-16 01:13:30,658 INFO Trying download control: download attribute
+2026-07-16 01:13:33,609 DEBUG Waited 2.74 seconds before next request.
+2026-07-16 01:13:33,609 INFO Visiting asset 38652: https://www.spriters-resource.com/game_boy_advance/mlss/asset/38652/
+2026-07-16 01:13:35,253 INFO Trying download control: download attribute
+2026-07-16 01:13:38,168 DEBUG Waited 2.72 seconds before next request.
+2026-07-16 01:13:38,168 INFO Visiting asset 7565: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7565/
+2026-07-16 01:13:39,884 INFO Trying download control: download attribute
+2026-07-16 01:13:42,382 DEBUG Waited 2.22 seconds before next request.
+2026-07-16 01:13:42,382 INFO Visiting asset 7441: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7441/
+2026-07-16 01:13:44,156 INFO Trying download control: download attribute
+2026-07-16 01:13:46,488 DEBUG Waited 2.16 seconds before next request.
+2026-07-16 01:13:46,488 INFO Visiting asset 7442: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7442/
+2026-07-16 01:13:48,137 INFO Trying download control: download attribute
+2026-07-16 01:13:51,098 DEBUG Waited 2.79 seconds before next request.
+2026-07-16 01:13:51,098 INFO Visiting asset 7443: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7443/
+2026-07-16 01:13:52,802 INFO Trying download control: download attribute
+2026-07-16 01:13:55,598 DEBUG Waited 2.59 seconds before next request.
+2026-07-16 01:13:55,598 INFO Visiting asset 7445: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7445/
+2026-07-16 01:13:57,295 INFO Trying download control: download attribute
+2026-07-16 01:13:59,991 DEBUG Waited 2.35 seconds before next request.
+2026-07-16 01:13:59,991 INFO Visiting asset 7446: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7446/
+2026-07-16 01:14:01,699 INFO Trying download control: download attribute
+2026-07-16 01:14:04,671 DEBUG Waited 2.78 seconds before next request.
+2026-07-16 01:14:04,672 INFO Visiting asset 840: https://www.spriters-resource.com/game_boy_advance/mlss/asset/840/
+2026-07-16 01:14:06,438 INFO Trying download control: download attribute
+2026-07-16 01:14:08,876 DEBUG Waited 2.07 seconds before next request.
+2026-07-16 01:14:08,876 INFO Visiting asset 7447: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7447/
+2026-07-16 01:14:10,784 INFO Trying download control: download attribute
+2026-07-16 01:14:13,784 DEBUG Waited 2.81 seconds before next request.
+2026-07-16 01:14:13,784 INFO Visiting asset 7453: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7453/
+2026-07-16 01:14:15,482 INFO Trying download control: download attribute
+2026-07-16 01:14:17,953 DEBUG Waited 2.27 seconds before next request.
+2026-07-16 01:14:17,953 INFO Visiting asset 7454: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7454/
+2026-07-16 01:14:20,192 INFO Trying download control: download attribute
+2026-07-16 01:14:23,053 DEBUG Waited 2.13 seconds before next request.
+2026-07-16 01:14:23,054 INFO Visiting asset 7455: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7455/
+2026-07-16 01:14:25,035 INFO Trying download control: download attribute
+2026-07-16 01:14:28,102 DEBUG Waited 2.75 seconds before next request.
+2026-07-16 01:14:28,102 INFO Visiting asset 7457: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7457/
+2026-07-16 01:14:30,013 INFO Trying download control: download attribute
+2026-07-16 01:14:32,986 DEBUG Waited 2.71 seconds before next request.
+2026-07-16 01:14:32,986 INFO Visiting asset 7459: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7459/
+2026-07-16 01:14:34,760 INFO Trying download control: download attribute
+2026-07-16 01:14:37,668 DEBUG Waited 2.64 seconds before next request.
+2026-07-16 01:14:37,668 INFO Visiting asset 7460: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7460/
+2026-07-16 01:14:39,686 INFO Trying download control: download attribute
+2026-07-16 01:14:42,726 DEBUG Waited 2.63 seconds before next request.
+2026-07-16 01:14:42,726 INFO Visiting asset 7465: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7465/
+2026-07-16 01:14:47,767 INFO Trying download control: download attribute
+2026-07-16 01:14:50,016 DEBUG Waited 2.04 seconds before next request.
+2026-07-16 01:14:50,016 INFO Visiting asset 7466: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7466/
+2026-07-16 01:14:52,027 INFO Trying download control: download attribute
+2026-07-16 01:14:54,607 DEBUG Waited 2.32 seconds before next request.
+2026-07-16 01:14:54,607 INFO Visiting asset 7467: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7467/
+2026-07-16 01:14:56,676 INFO Trying download control: download attribute
+2026-07-16 01:14:59,300 DEBUG Waited 2.14 seconds before next request.
+2026-07-16 01:14:59,300 INFO Visiting asset 7468: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7468/
+2026-07-16 01:15:01,378 INFO Trying download control: download attribute
+2026-07-16 01:15:04,207 DEBUG Waited 2.61 seconds before next request.
+2026-07-16 01:15:04,207 INFO Visiting asset 7469: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7469/
+2026-07-16 01:15:19,525 DEBUG Network idle timed out for https://www.spriters-resource.com/game_boy_advance/mlss/asset/7469/; continuing with DOM content.
+2026-07-16 01:15:19,667 INFO Trying download control: download attribute
+2026-07-16 01:15:22,870 DEBUG Waited 2.74 seconds before next request.
+2026-07-16 01:15:22,870 INFO Visiting asset 7470: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7470/
+2026-07-16 01:15:24,888 INFO Trying download control: download attribute
+2026-07-16 01:15:27,212 DEBUG Waited 2.07 seconds before next request.
+2026-07-16 01:15:27,214 INFO Visiting asset 7471: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7471/
+2026-07-16 01:15:29,359 INFO Trying download control: download attribute
+2026-07-16 01:15:32,448 DEBUG Waited 2.85 seconds before next request.
+2026-07-16 01:15:32,448 INFO Visiting asset 7472: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7472/
+2026-07-16 01:15:37,714 INFO Trying download control: download attribute
+2026-07-16 01:15:40,955 DEBUG Waited 2.96 seconds before next request.
+2026-07-16 01:15:40,955 INFO Visiting asset 7475: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7475/
+2026-07-16 01:15:45,912 INFO Trying download control: download attribute
+2026-07-16 01:15:49,108 DEBUG Waited 2.98 seconds before next request.
+2026-07-16 01:15:49,108 INFO Visiting asset 7479: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7479/
+2026-07-16 01:15:50,840 INFO Trying download control: download attribute
+2026-07-16 01:15:53,130 DEBUG Waited 2.11 seconds before next request.
+2026-07-16 01:15:53,130 INFO Visiting asset 7481: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7481/
+2026-07-16 01:15:57,822 INFO Trying download control: download attribute
+2026-07-16 01:16:01,056 DEBUG Waited 2.96 seconds before next request.
+2026-07-16 01:16:01,057 INFO Visiting asset 7483: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7483/
+2026-07-16 01:16:16,555 DEBUG Network idle timed out for https://www.spriters-resource.com/game_boy_advance/mlss/asset/7483/; continuing with DOM content.
+2026-07-16 01:16:16,820 INFO Trying download control: download attribute
+2026-07-16 01:16:19,661 DEBUG Waited 2.51 seconds before next request.
+2026-07-16 01:16:19,661 INFO Visiting asset 7485: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7485/
+2026-07-16 01:16:22,225 INFO Trying download control: download attribute
+2026-07-16 01:16:25,421 DEBUG Waited 2.84 seconds before next request.
+2026-07-16 01:16:25,421 INFO Visiting asset 7486: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7486/
+2026-07-16 01:16:27,799 INFO Trying download control: download attribute
+2026-07-16 01:16:30,514 DEBUG Waited 2.38 seconds before next request.
+2026-07-16 01:16:30,514 INFO Visiting asset 7487: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7487/
+2026-07-16 01:16:35,829 INFO Trying download control: download attribute
+2026-07-16 01:16:39,055 DEBUG Waited 2.92 seconds before next request.
+2026-07-16 01:16:39,055 INFO Visiting asset 7488: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7488/
+2026-07-16 01:16:41,324 INFO Trying download control: download attribute
+2026-07-16 01:16:44,091 DEBUG Waited 2.39 seconds before next request.
+2026-07-16 01:16:44,091 INFO Visiting asset 7491: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7491/
+2026-07-16 01:16:46,314 INFO Trying download control: download attribute
+2026-07-16 01:16:48,840 DEBUG Waited 2.17 seconds before next request.
+2026-07-16 01:16:48,840 INFO Visiting asset 7492: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7492/
+2026-07-16 01:16:51,088 INFO Trying download control: download attribute
+2026-07-16 01:16:53,874 DEBUG Waited 2.44 seconds before next request.
+2026-07-16 01:16:53,874 INFO Visiting asset 7493: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7493/
+2026-07-16 01:16:56,166 INFO Trying download control: download attribute
+2026-07-16 01:16:58,552 DEBUG Waited 2.07 seconds before next request.
+2026-07-16 01:16:58,552 INFO Visiting asset 7494: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7494/
+2026-07-16 01:17:00,907 INFO Trying download control: download attribute
+2026-07-16 01:17:04,342 DEBUG Waited 2.95 seconds before next request.
+2026-07-16 01:17:04,342 INFO Visiting asset 7496: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7496/
+2026-07-16 01:17:06,952 INFO Trying download control: download attribute
+2026-07-16 01:17:09,895 DEBUG Waited 2.52 seconds before next request.
+2026-07-16 01:17:09,896 INFO Visiting asset 7499: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7499/
+2026-07-16 01:17:12,232 INFO Trying download control: download attribute
+2026-07-16 01:17:15,013 DEBUG Waited 2.40 seconds before next request.
+2026-07-16 01:17:15,013 INFO Visiting asset 7502: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7502/
+2026-07-16 01:17:17,551 INFO Trying download control: download attribute
+2026-07-16 01:17:19,947 DEBUG Waited 2.01 seconds before next request.
+2026-07-16 01:17:19,947 INFO Visiting asset 7503: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7503/
+2026-07-16 01:17:22,139 INFO Trying download control: download attribute
+2026-07-16 01:17:25,117 DEBUG Waited 2.73 seconds before next request.
+2026-07-16 01:17:25,117 INFO Visiting asset 847: https://www.spriters-resource.com/game_boy_advance/mlss/asset/847/
+2026-07-16 01:17:30,763 INFO Trying download control: download attribute
+2026-07-16 01:17:33,634 DEBUG Waited 2.55 seconds before next request.
+2026-07-16 01:17:33,634 INFO Visiting asset 7504: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7504/
+2026-07-16 01:17:35,936 INFO Trying download control: download attribute
+2026-07-16 01:17:39,216 DEBUG Waited 2.87 seconds before next request.
+2026-07-16 01:17:39,216 INFO Visiting asset 7505: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7505/
+2026-07-16 01:17:41,943 INFO Trying download control: download attribute
+2026-07-16 01:17:45,406 DEBUG Waited 2.97 seconds before next request.
+2026-07-16 01:17:45,406 INFO Visiting asset 7506: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7506/
+2026-07-16 01:17:47,664 INFO Trying download control: download attribute
+2026-07-16 01:17:50,461 DEBUG Waited 2.46 seconds before next request.
+2026-07-16 01:17:50,462 INFO Visiting asset 7507: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7507/
+2026-07-16 01:17:55,744 INFO Trying download control: download attribute
+2026-07-16 01:17:58,905 DEBUG Waited 2.84 seconds before next request.
+2026-07-16 01:17:58,905 INFO Visiting asset 7508: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7508/
+2026-07-16 01:18:01,484 INFO Trying download control: download attribute
+2026-07-16 01:18:05,018 DEBUG Waited 2.60 seconds before next request.
+2026-07-16 01:18:05,019 INFO Visiting asset 7510: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7510/
+2026-07-16 01:18:20,402 DEBUG Network idle timed out for https://www.spriters-resource.com/game_boy_advance/mlss/asset/7510/; continuing with DOM content.
+2026-07-16 01:18:20,527 INFO Trying download control: download attribute
+2026-07-16 01:18:23,669 DEBUG Waited 2.86 seconds before next request.
+2026-07-16 01:18:23,669 INFO Visiting asset 7512: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7512/
+2026-07-16 01:18:25,785 INFO Trying download control: download attribute
+2026-07-16 01:18:28,902 DEBUG Waited 2.79 seconds before next request.
+2026-07-16 01:18:28,902 INFO Visiting asset 7515: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7515/
+2026-07-16 01:18:31,133 INFO Trying download control: download attribute
+2026-07-16 01:18:34,246 DEBUG Waited 2.62 seconds before next request.
+2026-07-16 01:18:34,246 INFO Visiting asset 7444: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7444/
+2026-07-16 01:18:36,138 INFO Trying download control: download attribute

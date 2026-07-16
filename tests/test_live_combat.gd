@@ -38,6 +38,15 @@ func _ready() -> void:
 	boss.killed.connect(func(_id: String, _at: Vector2) -> void: boss_died = true)
 	boss.health.damaged.connect(func(a: int, _s: Node) -> void:
 		print("t=%.1f boss took %d (hp %d) dist %.0f" % [elapsed, a, boss.health.hp, hero.global_position.distance_to(boss.global_position)]))
+	# a couple of shadows so the fight screenshot shows regular enemies too
+	for i in range(2):
+		var mob := Enemy.new()
+		add_child(mob)
+		mob.setup("shadow_heartless", hero)
+		mob.position = Vector2(420 + i * 60, 150 + i * 90)
+	var cam := Camera2D.new()
+	cam.zoom = Vector2(2.2, 2.2)
+	hero.add_child(cam)
 
 
 func _physics_process(delta: float) -> void:
@@ -47,6 +56,9 @@ func _physics_process(delta: float) -> void:
 	if elapsed > 70.0:
 		_report()
 		return
+	if elapsed > 6.0 and not has_meta("shot_taken"):
+		set_meta("shot_taken", true)
+		get_viewport().get_texture().get_image().save_png("user://screenshots/combat.png")
 	# drive the hero: chase the boss, attack whenever in reach
 	if boss != null and is_instance_valid(boss) and not boss.health.dead:
 		var to_boss := boss.global_position - hero.global_position

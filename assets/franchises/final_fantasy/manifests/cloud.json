@@ -1,0 +1,66 @@
+{
+  "asset_id": "cloud",
+  "sheet": "res://assets/franchises/final_fantasy/processed/sheets/cloud.png",
+  "native_scale": 1,
+  "display_scale": 1,
+  "pivot": [
+    14,
+    30
+  ],
+  "grid": {
+    "frame_width": 28,
+    "frame_height": 34,
+    "columns": 8,
+    "rows": 2
+  },
+  "animations": {
+    "idle_down": {
+      "frames": [
+        0
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "walk_down": {
+      "frames": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "fps": 7,
+      "loop": true
+    },
+    "idle_side": {
+      "frames": [
+        5
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "walk_side": {
+      "frames": [
+        6,
+        7
+      ],
+      "fps": 7,
+      "loop": true
+    },
+    "walk_up": {
+      "frames": [
+        8,
+        9
+      ],
+      "fps": 7,
+      "loop": true
+    },
+    "attack_1": {
+      "frames": [
+        10,
+        11
+      ],
+      "fps": 3,
+      "loop": true
+    }
+  }
+}
