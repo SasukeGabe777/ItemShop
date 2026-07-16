@@ -128,6 +128,22 @@
       "submitted": "December 20, 2017",
       "uploaded_by": "volo"
     },
+    "101762": {
+      "asset_id": "ff_ruby_weapon",
+      "asset_name": "Ruby Weapon",
+      "asset_page_url": "https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/101762/",
+      "contributors": [],
+      "downloaded_at": "2026-07-16T08:32:30.266882+00:00",
+      "format": "PNG (image/png)",
+      "game": "Final Fantasy: Record Keeper",
+      "local_file": "ff_ruby_weapon.png",
+      "platform": "Mobile",
+      "section": "Bosses: Final Fantasy VII",
+      "size": "7.16 KB (256x128)",
+      "source_url": "https://www.spriters-resource.com/media/assets/99/101762.png?updated=1755476744",
+      "submitted": "December 28, 2017",
+      "uploaded_by": "volo"
+    },
     "101763": {
       "asset_id": "ff_emerald_weapon",
       "asset_name": "Emerald Weapon",
@@ -141,6 +157,22 @@
       "section": "Bosses: Final Fantasy VII",
       "size": "8.56 KB (256x256)",
       "source_url": "https://www.spriters-resource.com/media/assets/99/101763.png?updated=1755476744",
+      "submitted": "December 28, 2017",
+      "uploaded_by": "volo"
+    },
+    "101764": {
+      "asset_id": "ff_sapphire_weapon",
+      "asset_name": "Sapphire Weapon",
+      "asset_page_url": "https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/101764/",
+      "contributors": [],
+      "downloaded_at": "2026-07-16T08:33:15.820497+00:00",
+      "format": "PNG (image/png)",
+      "game": "Final Fantasy: Record Keeper",
+      "local_file": "ff_sapphire_weapon.png",
+      "platform": "Mobile",
+      "section": "Bosses: Final Fantasy VII",
+      "size": "9.97 KB (256x256)",
+      "source_url": "https://www.spriters-resource.com/media/assets/99/101764.png?updated=1755476744",
       "submitted": "December 28, 2017",
       "uploaded_by": "volo"
     },
@@ -3760,6 +3792,22 @@
       "submitted": "January 12, 2024",
       "uploaded_by": "AerospaceCoot35"
     },
+    "215822": {
+      "asset_id": "ff_safer_sephiroth",
+      "asset_name": "Safer Sephiroth",
+      "asset_page_url": "https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/215822/",
+      "contributors": [],
+      "downloaded_at": "2026-07-16T08:32:58.358281+00:00",
+      "format": "PNG (image/png)",
+      "game": "Final Fantasy: Record Keeper",
+      "local_file": "ff_safer_sephiroth.png",
+      "platform": "Mobile",
+      "section": "Bosses: Final Fantasy VII",
+      "size": "44.12 KB (351x272)",
+      "source_url": "https://www.spriters-resource.com/media/assets/213/215822.png?updated=1755490018",
+      "submitted": "January 27, 2024",
+      "uploaded_by": "Nunzio92"
+    },
     "216100": {
       "asset_id": "ff_basch_captive_general",
       "asset_name": "Basch (Captive General)",
@@ -4048,6 +4096,22 @@
       "submitted": "February 21, 2024",
       "uploaded_by": "syphersephir"
     },
+    "217910": {
+      "asset_id": "ff_sephiroth_217910",
+      "asset_name": "Sephiroth",
+      "asset_page_url": "https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/217910/",
+      "contributors": [],
+      "downloaded_at": "2026-07-16T08:33:36.536688+00:00",
+      "format": "PNG (image/png)",
+      "game": "Final Fantasy: Record Keeper",
+      "local_file": "ff_sephiroth_217910.png",
+      "platform": "Mobile",
+      "section": "Bosses: Final Fantasy VII",
+      "size": "3.41 KB (120x77)",
+      "source_url": "https://www.spriters-resource.com/media/assets/215/217910.png?updated=1755490210",
+      "submitted": "February 21, 2024",
+      "uploaded_by": "syphersephir"
+    },
     "217924": {
       "asset_id": "ff_hedgehog_pie",
       "asset_name": "Hedgehog Pie",
@@ -4061,6 +4125,22 @@
       "section": "Bosses: Final Fantasy VII",
       "size": "2.17 KB (89x64)",
       "source_url": "https://www.spriters-resource.com/media/assets/215/217924.png?updated=1755490210",
+      "submitted": "February 21, 2024",
+      "uploaded_by": "syphersephir"
+    },
+    "217925": {
+      "asset_id": "ff_zenene",
+      "asset_name": "Zenene",
+      "asset_page_url": "https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/217925/",
+      "contributors": [],
+      "downloaded_at": "2026-07-16T08:34:53.085742+00:00",
+      "format": "PNG (image/png)",
+      "game": "Final Fantasy: Record Keeper",
+      "local_file": "ff_zenene.png",
+      "platform": "Mobile",
+      "section": "Bosses: Final Fantasy VII",
+      "size": "3.19 KB (80x96)",
+      "source_url": "https://www.spriters-resource.com/media/assets/215/217925.png?updated=1755490210",
       "submitted": "February 21, 2024",
       "uploaded_by": "syphersephir"
     },
@@ -4237,6 +4317,22 @@
       "section": "Bosses: Final Fantasy VII",
       "size": "3.03 KB (110x64)",
       "source_url": "https://www.spriters-resource.com/media/assets/219/222509.png?updated=1755490446",
+      "submitted": "April 16, 2024",
+      "uploaded_by": "syphersephir"
+    },
+    "222510": {
+      "asset_id": "ff_vlakorados",
+      "asset_name": "Vlakorados",
+      "asset_page_url": "https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/222510/",
+      "contributors": [],
+      "downloaded_at": "2026-07-16T08:34:24.957509+00:00",
+      "format": "PNG (image/png)",
+      "game": "Final Fantasy: Record Keeper",
+      "local_file": "ff_vlakorados.png",
+      "platform": "Mobile",
+      "section": "Bosses: Final Fantasy VII",
+      "size": "7.34 KB (137x148)",
+      "source_url": "https://www.spriters-resource.com/media/assets/219/222510.png?updated=1755490446",
       "submitted": "April 16, 2024",
       "uploaded_by": "syphersephir"
     },
@@ -6698,6 +6794,22 @@
       "submitted": "September 1, 2015",
       "uploaded_by": "volo"
     },
+    "69024": {
+      "asset_id": "ff_sample_h0512",
+      "asset_name": "Sample H0512",
+      "asset_page_url": "https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69024/",
+      "contributors": [],
+      "downloaded_at": "2026-07-16T08:33:07.338429+00:00",
+      "format": "PNG (image/png)",
+      "game": "Final Fantasy: Record Keeper",
+      "local_file": "ff_sample_h0512.png",
+      "platform": "Mobile",
+      "section": "Bosses: Final Fantasy VII",
+      "size": "8.31 KB (160x128)",
+      "source_url": "https://www.spriters-resource.com/media/assets/66/69024.png?updated=1755473799",
+      "submitted": "September 1, 2015",
+      "uploaded_by": "volo"
+    },
     "69025": {
       "asset_id": "ff_valigarmanda",
       "asset_name": "Valigarmanda",
@@ -6775,6 +6887,22 @@
       "section": "Bosses: Final Fantasy VI",
       "size": "3.74 KB (128x128)",
       "source_url": "https://www.spriters-resource.com/media/assets/66/69029.png?updated=1755473799",
+      "submitted": "September 1, 2015",
+      "uploaded_by": "volo"
+    },
+    "69071": {
+      "asset_id": "ff_rufus_69071",
+      "asset_name": "Rufus",
+      "asset_page_url": "https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69071/",
+      "contributors": [],
+      "downloaded_at": "2026-07-16T08:32:49.476519+00:00",
+      "format": "PNG (image/png)",
+      "game": "Final Fantasy: Record Keeper",
+      "local_file": "ff_rufus_69071.png",
+      "platform": "Mobile",
+      "section": "Bosses: Final Fantasy VII",
+      "size": "6.07 KB (224x100)",
+      "source_url": "https://www.spriters-resource.com/media/assets/66/69071.png?updated=1755473802",
       "submitted": "September 1, 2015",
       "uploaded_by": "volo"
     },
@@ -6887,6 +7015,22 @@
       "section": "Bosses: Final Fantasy VII",
       "size": "5.32 KB (224x128)",
       "source_url": "https://www.spriters-resource.com/media/assets/66/69086.png?updated=1755473803",
+      "submitted": "September 1, 2015",
+      "uploaded_by": "volo"
+    },
+    "69087": {
+      "asset_id": "ff_rude_69087",
+      "asset_name": "Rude",
+      "asset_page_url": "https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69087/",
+      "contributors": [],
+      "downloaded_at": "2026-07-16T08:32:39.181911+00:00",
+      "format": "PNG (image/png)",
+      "game": "Final Fantasy: Record Keeper",
+      "local_file": "ff_rude_69087.png",
+      "platform": "Mobile",
+      "section": "Bosses: Final Fantasy VII",
+      "size": "1.96 KB (96x64)",
+      "source_url": "https://www.spriters-resource.com/media/assets/66/69087.png?updated=1755473803",
       "submitted": "September 1, 2015",
       "uploaded_by": "volo"
     },
@@ -8172,6 +8316,22 @@
       "submitted": "September 9, 2015",
       "uploaded_by": "volo"
     },
+    "69541": {
+      "asset_id": "ff_schizo",
+      "asset_name": "Schizo",
+      "asset_page_url": "https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69541/",
+      "contributors": [],
+      "downloaded_at": "2026-07-16T08:33:27.144904+00:00",
+      "format": "PNG (image/png)",
+      "game": "Final Fantasy: Record Keeper",
+      "local_file": "ff_schizo.png",
+      "platform": "Mobile",
+      "section": "Bosses: Final Fantasy VII",
+      "size": "8.49 KB (256x256)",
+      "source_url": "https://www.spriters-resource.com/media/assets/66/69541.png?updated=1755473814",
+      "submitted": "September 9, 2015",
+      "uploaded_by": "volo"
+    },
     "69542": {
       "asset_id": "ff_dragon_vii",
       "asset_name": "Dragon (VII)",
@@ -8233,6 +8393,22 @@
       "section": "Bosses: Final Fantasy VII",
       "size": "7.69 KB (256x256)",
       "source_url": "https://www.spriters-resource.com/media/assets/66/69545.png?updated=1755473814",
+      "submitted": "September 9, 2015",
+      "uploaded_by": "volo"
+    },
+    "69546": {
+      "asset_id": "ff_ultimate_weapon",
+      "asset_name": "Ultimate Weapon",
+      "asset_page_url": "https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69546/",
+      "contributors": [],
+      "downloaded_at": "2026-07-16T08:34:17.000687+00:00",
+      "format": "PNG (image/png)",
+      "game": "Final Fantasy: Record Keeper",
+      "local_file": "ff_ultimate_weapon.png",
+      "platform": "Mobile",
+      "section": "Bosses: Final Fantasy VII",
+      "size": "13.07 KB (256x352)",
+      "source_url": "https://www.spriters-resource.com/media/assets/66/69546.png?updated=1755473814",
       "submitted": "September 9, 2015",
       "uploaded_by": "volo"
     },
@@ -10500,6 +10676,22 @@
       "submitted": "December 24, 2015",
       "uploaded_by": "volo"
     },
+    "74865": {
+      "asset_id": "ff_ying_yang",
+      "asset_name": "Ying/Yang",
+      "asset_page_url": "https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/74865/",
+      "contributors": [],
+      "downloaded_at": "2026-07-16T08:34:42.388468+00:00",
+      "format": "PNG (image/png)",
+      "game": "Final Fantasy: Record Keeper",
+      "local_file": "ff_ying_yang.png",
+      "platform": "Mobile",
+      "section": "Bosses: Final Fantasy VII",
+      "size": "2.79 KB (128x64)",
+      "source_url": "https://www.spriters-resource.com/media/assets/72/74865.png?updated=1755474102",
+      "submitted": "December 24, 2015",
+      "uploaded_by": "volo"
+    },
     "74866": {
       "asset_id": "ff_hell_rider_vr2",
       "asset_name": "Hell Rider VR2",
@@ -12518,6 +12710,22 @@
       "submitted": "October 5, 2016",
       "uploaded_by": "volo"
     },
+    "83940": {
+      "asset_id": "ff_wolfmeister",
+      "asset_name": "Wolfmeister",
+      "asset_page_url": "https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/83940/",
+      "contributors": [],
+      "downloaded_at": "2026-07-16T08:34:32.826398+00:00",
+      "format": "PNG (image/png)",
+      "game": "Final Fantasy: Record Keeper",
+      "local_file": "ff_wolfmeister.png",
+      "platform": "Mobile",
+      "section": "Bosses: Final Fantasy VII",
+      "size": "5.55 KB (160x128)",
+      "source_url": "https://www.spriters-resource.com/media/assets/81/83940.png?updated=1755474822",
+      "submitted": "October 5, 2016",
+      "uploaded_by": "volo"
+    },
     "83941": {
       "asset_id": "ff_rufus",
       "asset_name": "Rufus",
@@ -13750,6 +13958,22 @@
       "submitted": "June 3, 2017",
       "uploaded_by": "volo"
     },
+    "92887": {
+      "asset_id": "ff_sweeper",
+      "asset_name": "Sweeper",
+      "asset_page_url": "https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/92887/",
+      "contributors": [],
+      "downloaded_at": "2026-07-16T08:33:56.900640+00:00",
+      "format": "PNG (image/png)",
+      "game": "Final Fantasy: Record Keeper",
+      "local_file": "ff_sweeper.png",
+      "platform": "Mobile",
+      "section": "Bosses: Final Fantasy VII",
+      "size": "3.32 KB (128x128)",
+      "source_url": "https://www.spriters-resource.com/media/assets/90/92887.png?updated=1755475808",
+      "submitted": "June 7, 2017",
+      "uploaded_by": "volo"
+    },
     "92893": {
       "asset_id": "ff_hammer_blaster",
       "asset_name": "Hammer Blaster",
@@ -13766,6 +13990,22 @@
       "submitted": "June 7, 2017",
       "uploaded_by": "volo"
     },
+    "92901": {
+      "asset_id": "ff_soldier_3rd_class",
+      "asset_name": "SOLDIER 3rd Class",
+      "asset_page_url": "https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/92901/",
+      "contributors": [],
+      "downloaded_at": "2026-07-16T08:33:46.194125+00:00",
+      "format": "PNG (image/png)",
+      "game": "Final Fantasy: Record Keeper",
+      "local_file": "ff_soldier_3rd_class.png",
+      "platform": "Mobile",
+      "section": "Bosses: Final Fantasy VII",
+      "size": "2.15 KB (128x64)",
+      "source_url": "https://www.spriters-resource.com/media/assets/90/92901.png?updated=1755475809",
+      "submitted": "June 7, 2017",
+      "uploaded_by": "volo"
+    },
     "92902": {
       "asset_id": "ff_mighty_grunt",
       "asset_name": "Mighty Grunt",
@@ -13779,6 +14019,22 @@
       "section": "Bosses: Final Fantasy VII",
       "size": "2.72 KB (128x64)",
       "source_url": "https://www.spriters-resource.com/media/assets/90/92902.png?updated=1755475809",
+      "submitted": "June 7, 2017",
+      "uploaded_by": "volo"
+    },
+    "92903": {
+      "asset_id": "ff_sword_dance",
+      "asset_name": "Sword Dance",
+      "asset_page_url": "https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/92903/",
+      "contributors": [],
+      "downloaded_at": "2026-07-16T08:34:07.189971+00:00",
+      "format": "PNG (image/png)",
+      "game": "Final Fantasy: Record Keeper",
+      "local_file": "ff_sword_dance.png",
+      "platform": "Mobile",
+      "section": "Bosses: Final Fantasy VII",
+      "size": "2.94 KB (128x128)",
+      "source_url": "https://www.spriters-resource.com/media/assets/90/92903.png?updated=1755475809",
       "submitted": "June 7, 2017",
       "uploaded_by": "volo"
     },
