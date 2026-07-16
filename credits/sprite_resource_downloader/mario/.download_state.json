@@ -1,0 +1,284 @@
+{
+  "completed": {
+    "22275": {
+      "asset_id": "mario_mario_s_bros_moves",
+      "asset_name": "Mario's Bros. Moves",
+      "asset_page_url": "https://www.spriters-resource.com/game_boy_advance/mlss/asset/22275/",
+      "contributors": [
+        "WahooMario"
+      ],
+      "downloaded_at": "2026-07-16T07:09:55.982732+00:00",
+      "format": "PNG (image/png)",
+      "game": "Mario & Luigi: Superstar Saga",
+      "local_file": "mario_mario_s_bros_moves.png",
+      "platform": "Game Boy Advance",
+      "section": "Playable Characters",
+      "size": "276.28 KB (1000x2700)",
+      "source_url": "https://www.spriters-resource.com/media/assets/21/22275.png?updated=1757373497",
+      "submitted": "A long, long time ago",
+      "uploaded_by": "Jdaster64"
+    },
+    "241181": {
+      "asset_id": "mario_bowser_jpn",
+      "asset_name": "Bowser (JPN)",
+      "asset_page_url": "https://www.spriters-resource.com/game_boy_advance/mlss/asset/241181/",
+      "contributors": [],
+      "downloaded_at": "2026-07-16T07:10:41.600033+00:00",
+      "format": "PNG (image/png)",
+      "game": "Mario & Luigi: Superstar Saga",
+      "local_file": "mario_bowser_jpn.png",
+      "platform": "Game Boy Advance",
+      "section": "Non-Playable Characters",
+      "size": "26.41 KB (271x358)",
+      "source_url": "https://www.spriters-resource.com/media/assets/238/241181.png?updated=1755492528",
+      "submitted": "October 17, 2024",
+      "uploaded_by": "Gaspar"
+    },
+    "476481": {
+      "asset_id": "mario_mario_battle_disassembled",
+      "asset_name": "Mario (Battle, Disassembled)",
+      "asset_page_url": "https://www.spriters-resource.com/game_boy_advance/mlss/asset/476481/",
+      "contributors": [],
+      "downloaded_at": "2026-07-16T07:09:41.769167+00:00",
+      "format": "PNG (image/png)",
+      "game": "Mario & Luigi: Superstar Saga",
+      "local_file": "mario_mario_battle_disassembled.png",
+      "platform": "Game Boy Advance",
+      "section": "Playable Characters",
+      "size": "205.03 KB (1776x2544)",
+      "source_url": "https://www.spriters-resource.com/media/assets/459/476481.png?updated=1756993542",
+      "submitted": "September 4, 2025",
+      "uploaded_by": "Deleted User"
+    },
+    "477936": {
+      "asset_id": "mario_luigi_battle_disassembled",
+      "asset_name": "Luigi (Battle, Disassembled)",
+      "asset_page_url": "https://www.spriters-resource.com/game_boy_advance/mlss/asset/477936/",
+      "contributors": [],
+      "downloaded_at": "2026-07-16T07:09:14.346988+00:00",
+      "format": "PNG (image/png)",
+      "game": "Mario & Luigi: Superstar Saga",
+      "local_file": "mario_luigi_battle_disassembled.png",
+      "platform": "Game Boy Advance",
+      "section": "Playable Characters",
+      "size": "201.28 KB (1936x2496)",
+      "source_url": "https://www.spriters-resource.com/media/assets/461/477936.png?updated=1757363551",
+      "submitted": "September 8, 2025",
+      "uploaded_by": "Deleted User"
+    },
+    "7517": {
+      "asset_id": "mario_beanbean_guards",
+      "asset_name": "Beanbean Guards",
+      "asset_page_url": "https://www.spriters-resource.com/game_boy_advance/mlss/asset/7517/",
+      "contributors": [],
+      "downloaded_at": "2026-07-16T07:10:05.114176+00:00",
+      "format": "PNG (image/png)",
+      "game": "Mario & Luigi: Superstar Saga",
+      "local_file": "mario_beanbean_guards.png",
+      "platform": "Game Boy Advance",
+      "section": "Non-Playable Characters",
+      "size": "6.08 KB (226x168)",
+      "source_url": "https://www.spriters-resource.com/media/assets/7/7517.png?updated=1755472441",
+      "submitted": "A long, long time ago",
+      "uploaded_by": "A.J. Nitro"
+    },
+    "7518": {
+      "asset_id": "mario_beanbean_kingdom_residents",
+      "asset_name": "Beanbean Kingdom Residents",
+      "asset_page_url": "https://www.spriters-resource.com/game_boy_advance/mlss/asset/7518/",
+      "contributors": [
+        "A.J. Nitro",
+        "havoc",
+        "DarkBlade2"
+      ],
+      "downloaded_at": "2026-07-16T07:10:10.312330+00:00",
+      "format": "PNG (image/png)",
+      "game": "Mario & Luigi: Superstar Saga",
+      "local_file": "mario_beanbean_kingdom_residents.png",
+      "platform": "Game Boy Advance",
+      "section": "Non-Playable Characters",
+      "size": "56.39 KB (506x553)",
+      "source_url": "https://www.spriters-resource.com/media/assets/7/7518.png?updated=1755472441",
+      "submitted": "A long, long time ago",
+      "uploaded_by": "Mario Gamer"
+    },
+    "7522": {
+      "asset_id": "mario_blablanadon",
+      "asset_name": "Blablanadon",
+      "asset_page_url": "https://www.spriters-resource.com/game_boy_advance/mlss/asset/7522/",
+      "contributors": [
+        "GreenLuigi19"
+      ],
+      "downloaded_at": "2026-07-16T07:10:21.627497+00:00",
+      "format": "PNG (image/png)",
+      "game": "Mario & Luigi: Superstar Saga",
+      "local_file": "mario_blablanadon.png",
+      "platform": "Game Boy Advance",
+      "section": "Non-Playable Characters",
+      "size": "21.43 KB (190x364)",
+      "source_url": "https://www.spriters-resource.com/media/assets/7/7522.png?updated=1759798852",
+      "submitted": "A long, long time ago",
+      "uploaded_by": "Frario"
+    },
+    "7523": {
+      "asset_id": "mario_boddle_assistant",
+      "asset_name": "Boddle & Assistant",
+      "asset_page_url": "https://www.spriters-resource.com/game_boy_advance/mlss/asset/7523/",
+      "contributors": [
+        "Anthiflo"
+      ],
+      "downloaded_at": "2026-07-16T07:10:26.903529+00:00",
+      "format": "PNG (image/png)",
+      "game": "Mario & Luigi: Superstar Saga",
+      "local_file": "mario_boddle_assistant.png",
+      "platform": "Game Boy Advance",
+      "section": "Non-Playable Characters",
+      "size": "40.53 KB (398x502)",
+      "source_url": "https://www.spriters-resource.com/media/assets/7/7523.png?updated=1755472441",
+      "submitted": "A long, long time ago",
+      "uploaded_by": "A.J. Nitro"
+    },
+    "7524": {
+      "asset_id": "mario_border_bros",
+      "asset_name": "Border Bros.",
+      "asset_page_url": "https://www.spriters-resource.com/game_boy_advance/mlss/asset/7524/",
+      "contributors": [],
+      "downloaded_at": "2026-07-16T07:10:36.055901+00:00",
+      "format": "PNG (image/png)",
+      "game": "Mario & Luigi: Superstar Saga",
+      "local_file": "mario_border_bros.png",
+      "platform": "Game Boy Advance",
+      "section": "Non-Playable Characters",
+      "size": "40.16 KB (890x398)",
+      "source_url": "https://www.spriters-resource.com/media/assets/7/7524.png?updated=1755472441",
+      "submitted": "A long, long time ago",
+      "uploaded_by": "A.J. Nitro"
+    },
+    "7525": {
+      "asset_id": "mario_bowser_usa",
+      "asset_name": "Bowser (USA)",
+      "asset_page_url": "https://www.spriters-resource.com/game_boy_advance/mlss/asset/7525/",
+      "contributors": [
+        "A.J. Nitro",
+        "Gaspar"
+      ],
+      "downloaded_at": "2026-07-16T07:10:46.589688+00:00",
+      "format": "PNG (image/png)",
+      "game": "Mario & Luigi: Superstar Saga",
+      "local_file": "mario_bowser_usa.png",
+      "platform": "Game Boy Advance",
+      "section": "Non-Playable Characters",
+      "size": "168.73 KB (630x1550)",
+      "source_url": "https://www.spriters-resource.com/media/assets/7/7525.png?updated=1757200610",
+      "submitted": "A long, long time ago",
+      "uploaded_by": "Bacon"
+    },
+    "7532": {
+      "asset_id": "mario_ankoopa",
+      "asset_name": "Ankoopa",
+      "asset_page_url": "https://www.spriters-resource.com/game_boy_advance/mlss/asset/7532/",
+      "contributors": [
+        "Shadow Hylian"
+      ],
+      "downloaded_at": "2026-07-16T07:10:00.371925+00:00",
+      "format": "GIF (image/gif)",
+      "game": "Mario & Luigi: Superstar Saga",
+      "local_file": "mario_ankoopa.gif",
+      "platform": "Game Boy Advance",
+      "section": "Non-Playable Characters",
+      "size": "19.21 KB (200x700)",
+      "source_url": "https://www.spriters-resource.com/media/assets/7/7532.gif?updated=1755472442",
+      "submitted": "A long, long time ago",
+      "uploaded_by": ""
+    },
+    "7542": {
+      "asset_id": "mario_luigi_overworld",
+      "asset_name": "Luigi (Overworld)",
+      "asset_page_url": "https://www.spriters-resource.com/game_boy_advance/mlss/asset/7542/",
+      "contributors": [
+        "WahooMario"
+      ],
+      "downloaded_at": "2026-07-16T07:09:32.247994+00:00",
+      "format": "PNG (image/png)",
+      "game": "Mario & Luigi: Superstar Saga",
+      "local_file": "mario_luigi_overworld.png",
+      "platform": "Game Boy Advance",
+      "section": "Playable Characters",
+      "size": "410.21 KB (1143x2100)",
+      "source_url": "https://www.spriters-resource.com/media/assets/7/7542.png?updated=1755472442",
+      "submitted": "A long, long time ago",
+      "uploaded_by": "A.J. Nitro"
+    },
+    "7543": {
+      "asset_id": "mario_luigi_s_bros_moves",
+      "asset_name": "Luigi's Bros. Moves",
+      "asset_page_url": "https://www.spriters-resource.com/game_boy_advance/mlss/asset/7543/",
+      "contributors": [
+        "WahooMario"
+      ],
+      "downloaded_at": "2026-07-16T07:09:37.291615+00:00",
+      "format": "PNG (image/png)",
+      "game": "Mario & Luigi: Superstar Saga",
+      "local_file": "mario_luigi_s_bros_moves.png",
+      "platform": "Game Boy Advance",
+      "section": "Playable Characters",
+      "size": "248.00 KB (928x2488)",
+      "source_url": "https://www.spriters-resource.com/media/assets/7/7543.png?updated=1757373667",
+      "submitted": "A long, long time ago",
+      "uploaded_by": "A.J. Nitro"
+    },
+    "7544": {
+      "asset_id": "mario_luigi_battle",
+      "asset_name": "Luigi (Battle)",
+      "asset_page_url": "https://www.spriters-resource.com/game_boy_advance/mlss/asset/7544/",
+      "contributors": [
+        "Jdaster64",
+        "WahooMario"
+      ],
+      "downloaded_at": "2026-07-16T07:09:27.390334+00:00",
+      "format": "PNG (image/png)",
+      "game": "Mario & Luigi: Superstar Saga",
+      "local_file": "mario_luigi_battle.png",
+      "platform": "Game Boy Advance",
+      "section": "Playable Characters",
+      "size": "188.37 KB (655x2706)",
+      "source_url": "https://www.spriters-resource.com/media/assets/7/7544.png?updated=1777060235",
+      "submitted": "A long, long time ago",
+      "uploaded_by": "A.J. Nitro"
+    },
+    "7545": {
+      "asset_id": "mario_mario_overworld",
+      "asset_name": "Mario (Overworld)",
+      "asset_page_url": "https://www.spriters-resource.com/game_boy_advance/mlss/asset/7545/",
+      "contributors": [
+        "WahooMario"
+      ],
+      "downloaded_at": "2026-07-16T07:09:50.971209+00:00",
+      "format": "PNG (image/png)",
+      "game": "Mario & Luigi: Superstar Saga",
+      "local_file": "mario_mario_overworld.png",
+      "platform": "Game Boy Advance",
+      "section": "Playable Characters",
+      "size": "374.51 KB (1237x1620)",
+      "source_url": "https://www.spriters-resource.com/media/assets/7/7545.png?updated=1755472442",
+      "submitted": "A long, long time ago",
+      "uploaded_by": "A.J. Nitro"
+    },
+    "7546": {
+      "asset_id": "mario_mario_battle",
+      "asset_name": "Mario (Battle)",
+      "asset_page_url": "https://www.spriters-resource.com/game_boy_advance/mlss/asset/7546/",
+      "contributors": [
+        "Jdaster64",
+        "WahooMario"
+      ],
+      "downloaded_at": "2026-07-16T07:09:45.820338+00:00",
+      "format": "PNG (image/png)",
+      "game": "Mario & Luigi: Superstar Saga",
+      "local_file": "mario_mario_battle.png",
+      "platform": "Game Boy Advance",
+      "section": "Playable Characters",
+      "size": "187.27 KB (668x2578)",
+      "source_url": "https://www.spriters-resource.com/media/assets/7/7546.png?updated=1769731314",
+      "submitted": "A long, long time ago",
+      "uplo
