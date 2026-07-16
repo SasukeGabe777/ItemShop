@@ -8,7 +8,6 @@ const SCENES := {
 	"shop": "res://scenes/shop/shop.tscn",
 	"dungeon": "res://scenes/dungeon/dungeon.tscn",
 	"story": "res://scenes/story/story_player.tscn",
-	"ending": "res://scenes/story/ending.tscn",
 }
 
 var context: Dictionary = {}

@@ -82,7 +82,7 @@ func roll_loot(enemy_id: String, bonus: float = 0.0) -> Array[String]:
 func roll_gold(enemy_id: String) -> int:
 	var e := ContentDatabase.get_enemy(enemy_id)
 	var g: Array = e.get("gold", [0, 0])
-	return rng.randi_range(int(g[0]), int(g[1]))
+	return int(round(rng.randi_range(int(g[0]), int(g[1])) * MarketManager.prosperity()))
 
 
 ## Apply a finished run's spoils and notify.
@@ -129,6 +129,7 @@ func simulate_expedition(world_id: String, hero_id: String, seed_value: int = 1,
 	var layout := generate_layout(world_id, seed_value)
 	var boss_defeated := false
 	for room in layout:
+		var is_boss_room := String(room["kind"]) == "boss"
 		for enemy_id: String in room["enemies"]:
 			var e := ContentDatabase.get_enemy(enemy_id)
 			if e.is_empty():
@@ -137,11 +138,17 @@ func simulate_expedition(world_id: String, hero_id: String, seed_value: int = 1,
 			var eatk := int(e.get("atk", 5))
 			var espd := int(e.get("spd", 90))
 			# Hits to kill vs hits taken: speed advantage reduces damage taken.
-			var hero_dps := float(atk) * (1.3 + float(spd) / 200.0)
+			# The 1.25 factor approximates specials/finishers earned over a fight.
+			var hero_dps := float(atk) * (1.3 + float(spd) / 200.0) * 1.25
 			var seconds := float(ehp) / maxf(1.0, hero_dps)
-			var dodge_factor := clampf(1.0 - float(spd - espd) / 400.0, 0.35, 1.25)
-			var incoming := float(eatk) * 0.8 * seconds * dodge_factor * srng.randf_range(0.75, 1.25)
+			var dodge_factor := clampf(1.0 - float(spd - espd) / 400.0, 0.3, 1.25)
+			# trash mobs are easily kited; bosses force real exposure
+			var exposure := 0.8 if is_boss_room else 0.4
+			var incoming := float(eatk) * exposure * seconds * dodge_factor * srng.randf_range(0.75, 1.25)
 			var mitigated := incoming * (1.0 - clampf(float(def) / 60.0, 0.0, 0.6))
+			# a competent player never face-tanks a whole boss: cap what a single
+			# enemy can deal across the fight to just over half the hero's health
+			mitigated = minf(mitigated, float(stats["hp"]) * 0.55 * srng.randf_range(0.85, 1.15))
 			hp -= int(round(mitigated))
 			if hp <= 0 and not heals.is_empty():
 				var heal_id := String(heals.pop_back())
@@ -149,7 +156,7 @@ func simulate_expedition(world_id: String, hero_id: String, seed_value: int = 1,
 				hp = mini(int(stats["hp"]), maxi(1, int(fx.get("heal", 40))))
 			if hp <= 0:
 				return {"success": false, "boss_defeated": boss_defeated, "loot": loot, "gold": gold, "hp_left": 0}
-			gold += srng.randi_range(int(e.get("gold", [0, 0])[0]), int(e.get("gold", [0, 0])[1]))
+			gold += int(round(srng.randi_range(int(e.get("gold", [0, 0])[0]), int(e.get("gold", [0, 0])[1])) * MarketManager.prosperity()))
 			for entry in e.get("loot", []):
 				if srng.randf() < float(entry[1]):
 					loot[String(entry[0])] = int(loot.get(String(entry[0]), 0)) + 1

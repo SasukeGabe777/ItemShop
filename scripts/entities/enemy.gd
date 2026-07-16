@@ -1,0 +1,252 @@
+class_name Enemy
+extends CharacterBody2D
+## Data-driven enemy. Behavior comes from enemies.json; no franchise-specific
+## logic lives here.
+
+signal killed(enemy_id: String, at: Vector2)
+
+var enemy_id: String = ""
+var def: Dictionary = {}
+var behavior: String = "chaser"
+var target: Node2D
+var health: HealthComponent
+var movement: MovementComponent
+var visual: CharacterVisual
+var hurtbox: HurtboxComponent
+var hitbox: HitboxComponent
+var loot: LootTableComponent
+
+var _think_timer: float = 0.0
+var _state: String = "idle"
+var _state_time: float = 0.0
+var _shots_cooldown: float = 0.0
+var rng := RandomNumberGenerator.new()
+
+
+func setup(id: String, player: Node2D) -> void:
+	enemy_id = id
+	def = ContentDatabase.get_enemy(id)
+	behavior = String(def.get("behavior", "chaser"))
+	target = player
+	rng.randomize()
+	add_to_group("enemies")
+	collision_layer = 4
+	collision_mask = 1
+	var size := int(def.get("size", 14))
+	var shape := CollisionShape2D.new()
+	var circle := CircleShape2D.new()
+	circle.radius = size * 0.45
+	shape.shape = circle
+	add_child(shape)
+
+	health = HealthComponent.new()
+	health.name = "HealthComponent"
+	health.setup(int(def.get("hp", 20)))
+	health.died.connect(_on_died)
+	add_child(health)
+
+	movement = MovementComponent.new()
+	movement.max_speed = float(def.get("spd", 90))
+	add_child(movement)
+
+	visual = CharacterVisual.new()
+	add_child(visual)
+	var world_id := String(def.get("world", ""))
+	var manifest := "res://assets/franchises/%s/manifests/%s.json" % [world_id, id]
+	if not visual.setup_from_manifest(manifest):
+		visual.setup_placeholder(id, world_id, String(def.get("color", "#a0a0a0")), size)
+
+	hurtbox = HurtboxComponent.new()
+	hurtbox.collision_layer = 8
+	hurtbox.collision_mask = 0
+	var hshape := CollisionShape2D.new()
+	var hcircle := CircleShape2D.new()
+	hcircle.radius = size * 0.55
+	hshape.shape = hcircle
+	hurtbox.add_child(hshape)
+	hurtbox.hit_received.connect(_on_hit)
+	add_child(hurtbox)
+
+	hitbox = HitboxComponent.new()
+	hitbox.collision_layer = 0
+	hitbox.collision_mask = 16
+	var ashape := CollisionShape2D.new()
+	var acircle := CircleShape2D.new()
+	acircle.radius = size * 0.5
+	ashape.shape = acircle
+	hitbox.add_child(ashape)
+	add_child(hitbox)
+
+	loot = LootTableComponent.new()
+	loot.enemy_id = id
+	add_child(loot)
+	_think_timer = rng.randf_range(0.0, 0.5)
+
+
+func take_packet(packet: Dictionary, from_position: Vector2) -> void:
+	hurtbox.receive(packet, from_position)
+
+
+func _physics_process(delta: float) -> void:
+	if health.dead or target == null or not is_instance_valid(target):
+		return
+	_shots_cooldown = maxf(0.0, _shots_cooldown - delta)
+	_state_time -= delta
+	var wish := _behavior_direction(delta)
+	movement.apply(self, wish, delta)
+	visual.face(wish if wish != Vector2.ZERO else (target.global_position - global_position), wish != Vector2.ZERO)
+	_touch_damage()
+
+
+func _to_player() -> Vector2:
+	return target.global_position - global_position
+
+
+func _behavior_direction(delta: float) -> Vector2:
+	var to_p := _to_player()
+	var dist := to_p.length()
+	match behavior:
+		"chaser":
+			return to_p
+		"tank":
+			movement.max_speed = float(def.get("spd", 60))
+			return to_p
+		"lunger":
+			if _state == "lunge":
+				if _state_time <= 0.0:
+					_state = "idle"
+				return Vector2.ZERO  # dash handled by movement.dash
+			if dist < 90.0 and _state_time <= 0.0:
+				_state = "lunge"
+				_state_time = 0.6
+				movement.dash(to_p, dist + 20.0, 0.25)
+				return Vector2.ZERO
+			return to_p if dist > 60.0 else Vector2.ZERO
+		"shooter", "skitter_shooter":
+			if _shots_cooldown <= 0.0 and dist < 220.0:
+				_shoot(to_p)
+				_shots_cooldown = rng.randf_range(1.2, 2.2)
+			if behavior == "skitter_shooter":
+				if _state_time <= 0.0:
+					_state_time = rng.randf_range(0.5, 1.0)
+					_state = ["left", "right", "back", "stop"][rng.randi() % 4]
+				match _state:
+					"left": return to_p.orthogonal()
+					"right": return -to_p.orthogonal()
+					"back": return -to_p
+					_: return Vector2.ZERO
+			return to_p if dist > 140.0 else (-to_p if dist < 80.0 else Vector2.ZERO)
+		"bomber":
+			if dist < 26.0:
+				_explode()
+				return Vector2.ZERO
+			movement.max_speed = float(def.get("spd", 100)) * 1.2
+			return to_p
+		"shy_ghost":
+			# advances only when player faces away — approximated by movement dir
+			var player_moving_away := true
+			if target is CharacterBody2D:
+				var pv := (target as CharacterBody2D).velocity
+				player_moving_away = pv == Vector2.ZERO or pv.angle_to(-to_p) > PI / 2.0
+			return to_p if player_moving_away else Vector2.ZERO
+		"swooper":
+			if _state_time <= 0.0:
+				_state_time = rng.randf_range(0.8, 1.4)
+				_state = "swoop" if rng.randf() < 0.6 else "circle"
+			return to_p if _state == "swoop" else to_p.orthogonal()
+		"creeper":
+			movement.max_speed = float(def.get("spd", 35))
+			return to_p
+		"ambusher":
+			if _state == "idle" and dist < 110.0:
+				_state = "burst"
+				_state_time = 1.2
+				movement.dash(to_p, dist * 0.8, 0.3)
+			elif _state == "burst" and _state_time <= 0.0:
+				_state = "idle"
+			return to_p if _state == "burst" else Vector2.ZERO
+		"splitter", "teleporter":
+			if behavior == "teleporter" and _state_time <= 0.0 and dist < 200.0 and rng.randf() < 0.4 * delta * 10.0:
+				global_position = target.global_position + Vector2.RIGHT.rotated(rng.randf() * TAU) * 60.0
+				_state_time = 1.5
+				FX.burst(get_parent(), global_position, Color(0.6, 0.7, 1.0), 6)
+			return to_p
+		"shell":
+			if _state == "spin":
+				if _state_time <= 0.0:
+					_state = "idle"
+				return _to_player().normalized().rotated(rng.randf_range(-0.2, 0.2))
+			if dist < 70.0 and _state_time <= 0.0:
+				_state = "spin"
+				_state_time = 1.5
+				movement.max_speed = float(def.get("spd", 90)) * 2.0
+			else:
+				movement.max_speed = float(def.get("spd", 90))
+			return to_p
+	return to_p
+
+
+func _touch_damage() -> void:
+	if _shots_cooldown > 0.0 and behavior != "shooter" and behavior != "skitter_shooter":
+		return
+	var dist := _to_player().length()
+	if dist < (float(def.get("size", 14)) * 0.5 + 9.0):
+		hitbox.begin_swing({"damage": int(def.get("atk", 5)), "knockback": 160.0, "source": self})
+		get_tree().create_timer(0.1).timeout.connect(hitbox.end_swing)
+		if behavior != "shooter" and behavior != "skitter_shooter":
+			_shots_cooldown = 0.7
+
+
+func _shoot(direction: Vector2) -> void:
+	var p := Projectile.new()
+	p.setup({"damage": int(def.get("atk", 5)), "knockback": 100.0, "source": self},
+		direction, 150.0, Color(String(def.get("color", "#ffffff"))).lightened(0.3), 16)
+	p.global_position = global_position
+	get_parent().add_child(p)
+
+
+func _explode() -> void:
+	if health.dead:
+		return
+	FX.burst(get_parent(), global_position, Color(1, 0.6, 0.2), 20)
+	FX.shake(4.0)
+	if _to_player().length() < 40.0 and target.has_node("HurtboxComponent"):
+		(target.get_node("HurtboxComponent") as HurtboxComponent).receive(
+			{"damage": int(def.get("atk", 10)) * 2, "knockback": 220.0, "source": self}, global_position)
+	health.take_damage(99999, self)
+
+
+func _on_hit(packet: Dictionary, from_position: Vector2) -> void:
+	movement.knockback(from_position, global_position, float(packet.get("knockback", 120)))
+	FX.flash(visual.body_node(), Color(1, 1, 1))
+	FX.hit_pause(get_tree())
+	FX.damage_number(get_parent(), global_position, int(packet.get("damage", 0)))
+	FX.burst(get_parent(), global_position, Color(1, 0.9, 0.6), 6)
+	var src: Variant = packet.get("source")
+	if src is CombatHero:
+		(src as CombatHero).on_enemy_hit()
+
+
+func _on_died() -> void:
+	if behavior == "splitter" and int(def.get("size", 14)) > 10 and not has_meta("split_child"):
+		for i in range(2):
+			var child := Enemy.new()
+			child.set_meta("split_child", true)
+			get_parent().add_child(child)
+			child.setup(enemy_id, target)
+			child.health.setup(int(def.get("hp", 20)) / 3)
+			child.global_position = global_position + Vector2(rng.randf_range(-12, 12), rng.randf_range(-12, 12))
+	var drops := loot.roll()
+	killed.emit(enemy_id, global_position)
+	FX.burst(get_parent(), global_position, Color(String(def.get("color", "#ffffff"))), 14)
+	for item_id: String in drops["items"]:
+		var pickup := LootPickup.new()
+		pickup.setup_item(item_id)
+		pickup.global_position = global_position + Vector2(rng.randf_range(-10, 10), rng.randf_range(-10, 10))
+		get_parent().call_deferred("add_child", pickup)
+	if int(drops["gold"]) > 0:
+		var gold_pickup := LootPickup.new()
+		gold_pickup.setup_gold(int(drops["gold"]))
+		gold_pickup.global_position = global_position
+		get_parent().call_deferred("add_child", gold_pickup)
+	queue_free()

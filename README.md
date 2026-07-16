@@ -41,6 +41,16 @@ python -m sprite_resource_downloader https://www.spriters-resource.com/game_boy_
 
 The first run defaults to a headed browser so you can observe the interaction. Use `--headless` after you have confirmed the site flow works.
 
+## Visual UI
+
+Start the local browser interface:
+
+```powershell
+python -m sprite_resource_downloader.webui --port 8765
+```
+
+Then open `http://127.0.0.1:8765/`. The UI supports dry-runs, downloads, resume mode, franchise targeting, section filters, asset-name filters, headed/headless Chromium, job logs, cancellation, and raw-file refresh.
+
 ## Output
 
 By default, assets are saved directly into this project's franchise raw folders when the game can be inferred:
@@ -57,7 +67,13 @@ assets/franchises/pokemon/raw/
 
 Use `--franchise` when inference is ambiguous, or `--output` to stage files somewhere else. Filenames are lowercase snake_case and include the project prefix, for example `kh_sora_gba.png` or `mario_goomba.png`. The manifest `asset_id` matches the filename stem.
 
-The destination folder also contains:
+Downloader metadata is stored outside `raw/`, under:
+
+```text
+credits/sprite_resource_downloader/<franchise>/
+```
+
+That metadata folder contains:
 
 ```text
 ASSET_MANIFEST.json
@@ -77,7 +93,7 @@ asset_id,character_id,source_game,source_site,source_page,contributor,permission
 
 ## Resume Behavior
 
-The state file tracks completed and failed asset IDs. On a later run with `--resume`, completed assets are skipped and only unfinished assets are attempted. The tool also skips completed assets if it finds an existing state file during a normal run.
+The state file in `credits/sprite_resource_downloader/<franchise>/` tracks completed and failed asset IDs. On a later run with `--resume`, completed assets are skipped and only unfinished assets are attempted. The tool also skips completed assets if it finds an existing state file during a normal run.
 
 ## Responsible Use
 

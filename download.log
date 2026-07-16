@@ -44,3 +44,133 @@
 2026-07-15 23:57:09,671 INFO Filename pattern: kh_<asset>_gba
 2026-07-15 23:57:09,671 INFO Visiting asset 1138: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1138/
 2026-07-15 23:57:11,611 INFO Trying download control: download attribute
+2026-07-16 00:01:23,786 INFO Opening game page: https://www.spriters-resource.com/game_boy_advance/khcom/
+2026-07-16 00:01:30,600 INFO Game: Kingdom Hearts: Chain of Memories
+2026-07-16 00:01:30,601 INFO Platform/category: Game Boy Advance
+2026-07-16 00:01:30,601 INFO Asset count reported: 147
+2026-07-16 00:01:30,601 INFO Assets selected: 1
+2026-07-16 00:01:30,601 INFO Sections: Playable Characters, Summons, Non-Playable Characters, Enemies & Bosses, Backgrounds, Miscellaneous
+2026-07-16 00:01:30,601 INFO Destination: assets\franchises\kingdom_hearts\raw
+2026-07-16 00:01:30,601 INFO Filename pattern: kh_<asset>_gba
+2026-07-16 00:01:45,759 INFO Opening game page: https://www.spriters-resource.com/game_boy_advance/khcom/
+2026-07-16 00:01:52,362 INFO Game: Kingdom Hearts: Chain of Memories
+2026-07-16 00:01:52,362 INFO Platform/category: Game Boy Advance
+2026-07-16 00:01:52,362 INFO Asset count reported: 147
+2026-07-16 00:01:52,362 INFO Assets selected: 1
+2026-07-16 00:01:52,363 INFO Sections: Playable Characters, Summons, Non-Playable Characters, Enemies & Bosses, Backgrounds, Miscellaneous
+2026-07-16 00:01:52,363 INFO Destination: assets\franchises\kingdom_hearts\raw
+2026-07-16 00:01:52,363 INFO Filename pattern: kh_<asset>_gba
+2026-07-16 00:02:33,884 INFO Opening game page: https://www.spriters-resource.com/game_boy_advance/khcom/
+2026-07-16 00:02:40,286 INFO Game: Kingdom Hearts: Chain of Memories
+2026-07-16 00:02:40,286 INFO Platform/category: Game Boy Advance
+2026-07-16 00:02:40,286 INFO Asset count reported: 147
+2026-07-16 00:02:40,286 INFO Assets selected: 1
+2026-07-16 00:02:40,286 INFO Sections: Playable Characters, Summons, Non-Playable Characters, Enemies & Bosses, Backgrounds, Miscellaneous
+2026-07-16 00:02:40,287 INFO Destination: assets\franchises\kingdom_hearts\raw
+2026-07-16 00:02:40,287 INFO Filename pattern: kh_<asset>_gba
+2026-07-16 00:02:40,287 INFO [1/1] Skipping completed asset 1138
+2026-07-16 00:05:46,360 INFO Opening game page: https://www.spriters-resource.com/game_boy_advance/khcom/
+2026-07-16 00:05:52,746 INFO Game: Kingdom Hearts: Chain of Memories
+2026-07-16 00:05:52,746 INFO Platform/category: Game Boy Advance
+2026-07-16 00:05:52,746 INFO Asset count reported: 147
+2026-07-16 00:05:52,747 INFO Assets selected: 1
+2026-07-16 00:05:52,747 INFO Sections: Playable Characters, Summons, Non-Playable Characters, Enemies & Bosses, Backgrounds, Miscellaneous
+2026-07-16 00:05:52,747 INFO Destination: assets\franchises\kingdom_hearts\raw
+2026-07-16 00:05:52,747 INFO Filename pattern: kh_<asset>_gba
+2026-07-16 00:05:52,747 INFO Dry run only; no assets downloaded.
+2026-07-16 00:13:21,284 INFO Opening game page: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/
+2026-07-16 00:13:56,307 INFO Opening game page: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/
+2026-07-16 00:14:06,280 INFO Game: Final Fantasy: Record Keeper
+2026-07-16 00:14:06,280 INFO Platform/category: Mobile
+2026-07-16 00:14:06,280 INFO Asset count reported: 1714
+2026-07-16 00:14:06,280 INFO Assets selected: 1000
+2026-07-16 00:14:06,280 INFO Sections: Playable Characters: Final Fantasy Record Keeper, Playable Characters: Classes, Playable Characters: Final Fantasy, Playable Characters: Final Fantasy II, Playable Characters: Final Fantasy III, Playable Characters: Final Fantasy IV / FFIV: The After Years, Playable Characters: Final Fantasy V, Playable Characters: Final Fantasy VI, Playable Characters: Final Fantasy VII, Playable Characters: Final Fantasy VIII, Playable Characters: Final Fantasy IX, Playable Characters: Final Fantasy X / X-2, Playable Characters: Final Fantasy XI, Playable Characters: Final Fantasy XII, Playable Characters: Final Fantasy XIII / XIII-2 / XIII-3, Playable Characters: Final Fantasy XIV, Playable Characters: Final Fantasy XV, Playable Characters: Final Fantasy XVI, Playable Characters: Final Fantasy Tactics, Playable Characters: Final Fantasy Tactics Advance, Playable Characters: Final Fantasy Type-0, Playable Characters: Mobius Final Fantasy, Playable Characters: Final Fantasy Dimensions II, Playable Characters: World of Final Fantasy, Playable Characters: Final Fantasy Brave Exvius, Playable Characters: Kingdom Hearts, Non-Playable Characters, Enemies, Bosses: Final Fantasy Record Keeper, Bosses: Final Fantasy, Bosses: Final Fantasy II, Bosses: Final Fantasy III, Bosses: Final Fantasy IV / FFIV: The After Years, Bosses: Final Fantasy V, Bosses: Final Fantasy VI, Bosses: Final Fantasy VII, Bosses: Final Fantasy VII Crisis Core, Bosses: Final Fantasy VII Dirge of Cerberus, Bosses: Final Fantasy VII Advent Children, Bosses: Final Fantasy VIII, Bosses: Final Fantasy IX, Bosses: Final Fantasy X, Bosses: Final Fantasy X-2, Bosses: Final Fantasy XI, Bosses: Final Fantasy XII, Bosses: Final Fantasy XIII, Bosses: Final Fantasy XIII-2, Bosses: Final Fantasy XIV, Bosses: Final Fantasy XV, Bosses: Final Fantasy Tactics, Bosses: Final Fantasy Tactics Advance, Bosses: Final Fantasy Type-0, Bosses: Dissidia: Final Fantasy, Bosses: Mobius Final Fantasy, Bosses: Final Fantasy Grandmasters, Bosses: World of Final Fantasy, Bosses: Final Fantasy Brave Exvius, Bosses: Final Fantasy Legends II, Bosses: Kingdom Hearts, Bosses: Kingdom Hearts II, Bosses: Kingdom Hearts III, Bosses: Events, Map Assets, Icons, Miscellaneous, Unused Content
+2026-07-16 00:14:06,283 INFO Destination: assets\franchises\final_fantasy\raw
+2026-07-16 00:14:06,283 INFO Filename pattern: ff_<asset>
+2026-07-16 00:14:06,283 INFO Dry run only; no assets downloaded.
+2026-07-16 00:15:00,717 INFO Opening game page: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/
+2026-07-16 00:15:09,655 INFO Game: Final Fantasy: Record Keeper
+2026-07-16 00:15:09,655 INFO Platform/category: Mobile
+2026-07-16 00:15:09,655 INFO Asset count reported: 1714
+2026-07-16 00:15:09,655 INFO Assets selected: 1000
+2026-07-16 00:15:09,655 INFO Sections: Playable Characters: Final Fantasy Record Keeper, Playable Characters: Classes, Playable Characters: Final Fantasy, Playable Characters: Final Fantasy II, Playable Characters: Final Fantasy III, Playable Characters: Final Fantasy IV / FFIV: The After Years, Playable Characters: Final Fantasy V, Playable Characters: Final Fantasy VI, Playable Characters: Final Fantasy VII, Playable Characters: Final Fantasy VIII, Playable Characters: Final Fantasy IX, Playable Characters: Final Fantasy X / X-2, Playable Characters: Final Fantasy XI, Playable Characters: Final Fantasy XII, Playable Characters: Final Fantasy XIII / XIII-2 / XIII-3, Playable Characters: Final Fantasy XIV, Playable Characters: Final Fantasy XV, Playable Characters: Final Fantasy XVI, Playable Characters: Final Fantasy Tactics, Playable Characters: Final Fantasy Tactics Advance, Playable Characters: Final Fantasy Type-0, Playable Characters: Mobius Final Fantasy, Playable Characters: Final Fantasy Dimensions II, Playable Characters: World of Final Fantasy, Playable Characters: Final Fantasy Brave Exvius, Playable Characters: Kingdom Hearts, Non-Playable Characters, Enemies, Bosses: Final Fantasy Record Keeper, Bosses: Final Fantasy, Bosses: Final Fantasy II, Bosses: Final Fantasy III, Bosses: Final Fantasy IV / FFIV: The After Years, Bosses: Final Fantasy V, Bosses: Final Fantasy VI, Bosses: Final Fantasy VII, Bosses: Final Fantasy VII Crisis Core, Bosses: Final Fantasy VII Dirge of Cerberus, Bosses: Final Fantasy VII Advent Children, Bosses: Final Fantasy VIII, Bosses: Final Fantasy IX, Bosses: Final Fantasy X, Bosses: Final Fantasy X-2, Bosses: Final Fantasy XI, Bosses: Final Fantasy XII, Bosses: Final Fantasy XIII, Bosses: Final Fantasy XIII-2, Bosses: Final Fantasy XIV, Bosses: Final Fantasy XV, Bosses: Final Fantasy Tactics, Bosses: Final Fantasy Tactics Advance, Bosses: Final Fantasy Type-0, Bosses: Dissidia: Final Fantasy, Bosses: Mobius Final Fantasy, Bosses: Final Fantasy Grandmasters, Bosses: World of Final Fantasy, Bosses: Final Fantasy Brave Exvius, Bosses: Final Fantasy Legends II, Bosses: Kingdom Hearts, Bosses: Kingdom Hearts II, Bosses: Kingdom Hearts III, Bosses: Events, Map Assets, Icons, Miscellaneous, Unused Content
+2026-07-16 00:15:09,655 INFO Destination: assets\franchises\final_fantasy\raw
+2026-07-16 00:15:09,655 INFO Filename pattern: ff_<asset>
+2026-07-16 00:15:09,655 INFO Visiting asset 105697: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/105697/
+2026-07-16 00:15:14,563 INFO Trying download control: download attribute
+2026-07-16 00:15:18,895 DEBUG Waited 4.09 seconds before next request.
+2026-07-16 00:15:18,895 INFO Visiting asset 208226: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/208226/
+2026-07-16 00:15:20,721 INFO Trying download control: download attribute
+2026-07-16 00:15:26,410 DEBUG Waited 5.54 seconds before next request.
+2026-07-16 00:15:26,410 INFO Visiting asset 96741: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/96741/
+2026-07-16 00:15:28,652 INFO Trying download control: download attribute
+2026-07-16 00:15:33,424 DEBUG Waited 4.55 seconds before next request.
+2026-07-16 00:15:33,425 INFO Visiting asset 208228: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/208228/
+2026-07-16 00:15:35,673 INFO Trying download control: download attribute
+2026-07-16 00:15:40,547 DEBUG Waited 4.67 seconds before next request.
+2026-07-16 00:15:40,547 INFO Visiting asset 208229: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/208229/
+2026-07-16 00:15:42,572 INFO Trying download control: download attribute
+2026-07-16 00:15:50,587 DEBUG Waited 7.81 seconds before next request.
+2026-07-16 00:15:50,587 INFO Visiting asset 95455: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/95455/
+2026-07-16 00:15:52,687 INFO Trying download control: download attribute
+2026-07-16 00:15:59,796 DEBUG Waited 6.88 seconds before next request.
+2026-07-16 00:15:59,796 INFO Visiting asset 208232: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/208232/
+2026-07-16 00:16:01,891 INFO Trying download control: download attribute
+2026-07-16 00:16:06,325 DEBUG Waited 4.19 seconds before next request.
+2026-07-16 00:16:06,325 INFO Visiting asset 208230: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/208230/
+2026-07-16 00:16:08,389 INFO Trying download control: download attribute
+2026-07-16 00:16:14,880 DEBUG Waited 6.23 seconds before next request.
+2026-07-16 00:16:14,880 INFO Visiting asset 208234: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/208234/
+2026-07-16 00:16:16,937 INFO Trying download control: download attribute
+2026-07-16 00:16:24,244 DEBUG Waited 7.09 seconds before next request.
+2026-07-16 00:16:24,244 INFO Visiting asset 216819: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/216819/
+2026-07-16 00:16:26,485 INFO Trying download control: download attribute
+2026-07-16 00:16:31,156 DEBUG Waited 4.45 seconds before next request.
+2026-07-16 00:16:31,156 INFO Visiting asset 111723: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/111723/
+2026-07-16 00:16:32,958 INFO Trying download control: download attribute
+2026-07-16 00:16:37,296 DEBUG Waited 4.19 seconds before next request.
+2026-07-16 00:16:37,296 INFO Visiting asset 168156: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/168156/
+2026-07-16 00:16:42,025 INFO Trying download control: download attribute
+2026-07-16 00:16:49,971 DEBUG Waited 7.81 seconds before next request.
+2026-07-16 00:16:49,971 INFO Visiting asset 141038: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/141038/
+2026-07-16 00:16:51,722 INFO Trying download control: download attribute
+2026-07-16 00:16:57,354 DEBUG Waited 5.46 seconds before next request.
+2026-07-16 00:16:57,354 INFO Visiting asset 240468: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/240468/
+2026-07-16 00:16:59,157 INFO Trying download control: download attribute
+2026-07-16 00:17:05,090 DEBUG Waited 5.79 seconds before next request.
+2026-07-16 00:17:05,090 INFO Visiting asset 480815: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/480815/
+2026-07-16 00:17:06,947 INFO Trying download control: download attribute
+2026-07-16 00:17:12,380 DEBUG Waited 5.26 seconds before next request.
+2026-07-16 00:17:12,380 INFO Visiting asset 70917: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/70917/
+2026-07-16 00:17:14,183 INFO Trying download control: download attribute
+2026-07-16 00:17:18,579 DEBUG Waited 4.25 seconds before next request.
+2026-07-16 00:17:18,579 INFO Visiting asset 103327: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/103327/
+2026-07-16 00:17:20,319 INFO Trying download control: download attribute
+2026-07-16 00:17:24,925 DEBUG Waited 4.46 seconds before next request.
+2026-07-16 00:17:24,926 INFO Visiting asset 208231: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/208231/
+2026-07-16 00:17:26,630 INFO Trying download control: download attribute
+2026-07-16 00:17:31,895 DEBUG Waited 5.13 seconds before next request.
+2026-07-16 00:17:31,895 INFO Visiting asset 111722: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/111722/
+2026-07-16 00:17:33,635 INFO Trying download control: download attribute
+2026-07-16 00:17:39,047 DEBUG Waited 5.26 seconds before next request.
+2026-07-16 00:17:39,047 INFO Visiting asset 218739: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/218739/
+2026-07-16 00:17:44,801 INFO Trying download control: download attribute
+2026-07-16 00:17:49,875 DEBUG Waited 4.91 seconds before next request.
+2026-07-16 00:17:49,875 INFO Visiting asset 208233: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/208233/
+2026-07-16 00:17:52,500 INFO Trying download control: download attribute
+2026-07-16 00:17:57,543 DEBUG Waited 4.76 seconds before next request.
+2026-07-16 00:17:57,543 INFO Visiting asset 240467: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/240467/
+2026-07-16 00:17:59,856 INFO Trying download control: download attribute
+2026-07-16 00:18:04,428 DEBUG Waited 4.26 seconds before next request.
+2026-07-16 00:18:04,428 INFO Visiting asset 105696: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/105696/
+2026-07-16 00:18:19,938 DEBUG Network idle timed out for https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/105696/; continuing with DOM content.
+2026-07-16 00:18:20,108 INFO Trying download control: download attribute
+2026-07-16 00:18:27,425 DEBUG Waited 6.95 seconds before next request.
+2026-07-16 00:18:27,425 INFO Visiting asset 208227: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/208227/
+2026-07-16 00:18:29,619 INFO Trying download control: download attribute
+2026-07-16 00:18:35,585 DEBUG Waited 5.67 seconds before next request.
+2026-07-16 00:18:35,586 INFO Visiting asset 547034: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/547034/
+2026-07-16 00:18:37,308 INFO Trying download control: download attribute
+2026-07-16 00:18:43,412 DEBUG Waited 5.93 seconds before next request.
+2026-07-16 00:18:43,412 INFO Visiting asset 65356: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/65356/
+2026-07-16 00:18:45,353 INFO Trying download control: download attribute

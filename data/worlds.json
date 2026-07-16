@@ -17,7 +17,7 @@
       "repair_cost": 25000, "world_shard": "world_shard_mario",
       "rooms": 5, "floor_color": "#3a7d3a", "wall_color": "#274d27", "accent_color": "#e03030",
       "dungeon_desc": "Grassy paths, warp pipes, one very haunted room, and a small castle.",
-      "market_goods": ["super_mushroom", "fire_flower", "ice_flower", "koopa_shell", "gold_coin", "pow_block", "cape_feather", "mario_hammer"]
+      "market_goods": ["super_mushroom", "fire_flower", "ice_flower", "koopa_shell", "gold_coin", "pow_block", "cape_feather", "mario_hammer", "one_up_mushroom", "starman", "warp_whistle", "royal_crown"]
     },
     {
       "id": "final_fantasy", "chapter": 3, "name": "Final Fantasy", "location": "The Crystal Ruins",
@@ -26,7 +26,7 @@
       "repair_cost": 60000, "world_shard": "world_shard_ff",
       "rooms": 6, "floor_color": "#35406a", "wall_color": "#202848", "accent_color": "#78d8e8",
       "dungeon_desc": "Crystal caverns grown through the bones of industrial ruins.",
-      "market_goods": ["ff_potion", "hi_potion", "ff_ether", "phoenix_down", "ff_tent", "remedy", "chocobo_feather", "mythril_sword", "crystal_shard_ff"]
+      "market_goods": ["ff_potion", "hi_potion", "ff_ether", "phoenix_down", "ff_tent", "remedy", "chocobo_feather", "mythril_sword", "crystal_shard_ff", "materia", "hero_drink", "genji_glove", "ff_ribbon"]
     },
     {
       "id": "zelda", "chapter": 4, "name": "The Legend of Zelda", "location": "Lost Woods & Hyrule Ruins",
@@ -35,7 +35,7 @@
       "repair_cost": 120000, "world_shard": "world_shard_zelda",
       "rooms": 6, "floor_color": "#2f5d33", "wall_color": "#1c3a20", "accent_color": "#e8d048",
       "dungeon_desc": "Forest paths that loop unless you listen, and a temple older than maps.",
-      "market_goods": ["red_potion", "green_potion", "deku_nut", "wooden_shield", "zelda_boomerang", "bomb_bag", "deku_wood", "fairy_bottle", "rupee"]
+      "market_goods": ["red_potion", "green_potion", "deku_nut", "wooden_shield", "zelda_boomerang", "bomb_bag", "deku_wood", "fairy_bottle", "rupee", "hookshot", "hylian_shield", "heart_container", "fairy_charm"]
     },
     {
       "id": "naruto", "chapter": 5, "name": "Naruto", "location": "Hidden Leaf Outskirts",
@@ -44,7 +44,7 @@
       "repair_cost": 225000, "world_shard": "world_shard_naruto",
       "rooms": 7, "floor_color": "#4a5d2f", "wall_color": "#2d3a1c", "accent_color": "#ff9820",
       "dungeon_desc": "Training grounds, rooftops, and a camp that was supposed to be hidden.",
-      "market_goods": ["kunai", "shuriken", "explosive_tag", "soldier_pill", "chakra_pill", "ramen_bowl", "smoke_bomb", "forehead_protector", "ninja_scroll"]
+      "market_goods": ["kunai", "shuriken", "explosive_tag", "soldier_pill", "chakra_pill", "ramen_bowl", "smoke_bomb", "forehead_protector", "ninja_scroll", "summoning_scroll", "chakra_crystal", "sharingan_fragment", "training_weights", "sannin_token"]
     },
     {
       "id": "dragon_ball", "chapter": 6, "name": "Dragon Ball Z", "location": "The Broken Lookout",
@@ -53,7 +53,7 @@
       "repair_cost": 400000, "world_shard": "world_shard_dbz",
       "rooms": 7, "floor_color": "#7a6a3a", "wall_color": "#4d4224", "accent_color": "#48c8f0",
       "dungeon_desc": "Wilderness, ruined labs, and sky islands drifting around the Lookout.",
-      "market_goods": ["capsule", "senzu_bean", "scouter", "dino_tail", "sacred_water", "energy_crystal", "turtle_gi", "weighted_clothing"]
+      "market_goods": ["capsule", "senzu_bean", "scouter", "dino_tail", "sacred_water", "energy_crystal", "turtle_gi", "weighted_clothing", "dragon_radar", "power_pole", "saiyan_armor", "gravity_module", "nimbus_token", "capsule_house", "dragon_ball"]
     },
     {
       "id": "pokemon", "chapter": 7, "name": "Pokémon", "location": "Viridian Path & Cerulean Depths",
@@ -62,7 +62,7 @@
       "repair_cost": 700000, "world_shard": "world_shard_pkmn",
       "rooms": 8, "floor_color": "#2f5d4a", "wall_color": "#1c3a2e", "accent_color": "#f8d030",
       "dungeon_desc": "A forest, a cave, and a laboratory that should have stayed closed.",
-      "market_goods": ["poke_ball", "great_ball", "pkmn_potion", "full_restore", "escape_rope", "moon_stone", "fire_stone", "thunder_stone", "water_stone"]
+      "market_goods": ["poke_ball", "great_ball", "pkmn_potion", "full_restore", "escape_rope", "moon_stone", "fire_stone", "thunder_stone", "water_stone", "ultra_ball", "rare_candy", "lucky_egg", "focus_band", "bicycle_voucher", "pokedex"]
     },
     {
       "id": "null_archive", "chapter": 8, "name": "The Null Archive", "location": "The Null Archive",

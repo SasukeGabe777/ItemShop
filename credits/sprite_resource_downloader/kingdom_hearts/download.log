@@ -1,0 +1,8 @@
+2026-07-16 00:05:52,746 INFO Game: Kingdom Hearts: Chain of Memories
+2026-07-16 00:05:52,746 INFO Platform/category: Game Boy Advance
+2026-07-16 00:05:52,746 INFO Asset count reported: 147
+2026-07-16 00:05:52,747 INFO Assets selected: 1
+2026-07-16 00:05:52,747 INFO Sections: Playable Characters, Summons, Non-Playable Characters, Enemies & Bosses, Backgrounds, Miscellaneous
+2026-07-16 00:05:52,747 INFO Destination: assets\franchises\kingdom_hearts\raw
+2026-07-16 00:05:52,747 INFO Filename pattern: kh_<asset>_gba
+2026-07-16 00:05:52,747 INFO Dry run only; no assets downloaded.

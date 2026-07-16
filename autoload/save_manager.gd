@@ -131,17 +131,16 @@ func restart_chapter(kept_item_ids: Array = []) -> bool:
 	# capture retained state from the failed run
 	var retained_gs := GameState.to_save()
 	var retained_rel := RelationshipManager.to_save()
+	# each entry in kept_item_ids is one physical item
 	var kept: Dictionary = {}
 	var budget := max_keep
 	for id in kept_item_ids:
 		var sid := String(id)
 		if budget <= 0:
 			break
-		var have := InventoryManager.count(sid)
-		if have > 0:
-			var take := mini(have, budget)
-			kept[sid] = take
-			budget -= take
+		if InventoryManager.count(sid) > int(kept.get(sid, 0)):
+			kept[sid] = int(kept.get(sid, 0)) + 1
+			budget -= 1
 	_apply(checkpoint)
 	# retention: merchant levels, customer knowledge, encyclopedia, tutorials, decorations
 	GameState.merchant_level = int(retained_gs.get("merchant_level", GameState.merchant_level))

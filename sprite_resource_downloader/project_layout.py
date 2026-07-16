@@ -12,6 +12,7 @@ class FranchiseTarget:
     directory: Path
     prefix: str
     suffix: str = ""
+    metadata_directory: Path | None = None
 
 
 FRANCHISE_TARGETS = {
@@ -20,21 +21,44 @@ FRANCHISE_TARGETS = {
         directory=Path("assets/franchises/kingdom_hearts/raw"),
         prefix="kh",
         suffix="gba",
+        metadata_directory=Path("credits/sprite_resource_downloader/kingdom_hearts"),
     ),
-    "mario": FranchiseTarget("mario", Path("assets/franchises/mario/raw"), "mario"),
+    "mario": FranchiseTarget(
+        "mario",
+        Path("assets/franchises/mario/raw"),
+        "mario",
+        metadata_directory=Path("credits/sprite_resource_downloader/mario"),
+    ),
     "final_fantasy": FranchiseTarget(
         "final_fantasy",
         Path("assets/franchises/final_fantasy/raw"),
         "ff",
+        metadata_directory=Path("credits/sprite_resource_downloader/final_fantasy"),
     ),
-    "zelda": FranchiseTarget("zelda", Path("assets/franchises/zelda/raw"), "zelda"),
-    "naruto": FranchiseTarget("naruto", Path("assets/franchises/naruto/raw"), "naruto"),
+    "zelda": FranchiseTarget(
+        "zelda",
+        Path("assets/franchises/zelda/raw"),
+        "zelda",
+        metadata_directory=Path("credits/sprite_resource_downloader/zelda"),
+    ),
+    "naruto": FranchiseTarget(
+        "naruto",
+        Path("assets/franchises/naruto/raw"),
+        "naruto",
+        metadata_directory=Path("credits/sprite_resource_downloader/naruto"),
+    ),
     "dragon_ball": FranchiseTarget(
         "dragon_ball",
         Path("assets/franchises/dragon_ball/raw"),
         "dbz",
+        metadata_directory=Path("credits/sprite_resource_downloader/dragon_ball"),
     ),
-    "pokemon": FranchiseTarget("pokemon", Path("assets/franchises/pokemon/raw"), "pokemon"),
+    "pokemon": FranchiseTarget(
+        "pokemon",
+        Path("assets/franchises/pokemon/raw"),
+        "pokemon",
+        metadata_directory=Path("credits/sprite_resource_downloader/pokemon"),
+    ),
 }
 
 
@@ -66,7 +90,13 @@ def resolve_target(
 ) -> FranchiseTarget:
     if output is not None:
         prefix = filename_prefix or "sprite"
-        return FranchiseTarget(franchise or "custom", output, prefix, filename_suffix or "")
+        return FranchiseTarget(
+            franchise or "custom",
+            output,
+            prefix,
+            filename_suffix or "",
+            metadata_directory=output,
+        )
 
     selected = franchise or infer_franchise(game)
     if selected not in FRANCHISE_TARGETS:
@@ -80,4 +110,5 @@ def resolve_target(
         project_root / target.directory,
         filename_prefix or target.prefix,
         target.suffix if filename_suffix is None else filename_suffix,
+        project_root / (target.metadata_directory or target.directory),
     )

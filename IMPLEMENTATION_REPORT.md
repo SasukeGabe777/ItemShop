@@ -14,7 +14,9 @@ Completed on 2026-07-16:
 - Live dry run: `python -m sprite_resource_downloader https://www.spriters-resource.com/game_boy_advance/khcom/ --dry-run --headless --max-assets 1 --yes` succeeded.
 - One-asset live download: `--max-assets 1 --headless --yes --resume` downloaded `assets/franchises/kingdom_hearts/raw/kh_riku_gba.png`.
 - Downloaded file verification: PNG signature is valid, file is not HTML, dimensions are 493x3379, and visual inspection confirms a full sprite sheet rather than a thumbnail.
-- Manifest and credits verification: `ASSET_MANIFEST.json`, raw-folder `ASSET_CREDITS.csv`, `failed_downloads.json`, `.download_state.json`, and project-level `credits/ASSET_CREDITS.csv` were written successfully.
+- Manifest and credits verification: `ASSET_MANIFEST.json`, downloader `ASSET_CREDITS.csv`, `failed_downloads.json`, `.download_state.json`, and project-level `credits/ASSET_CREDITS.csv` were written successfully.
+- Resume smoke test: rerunning `--max-assets 1 --headless --yes --resume` skipped completed site asset `1138`.
+- Visual UI validation: `python -m sprite_resource_downloader.webui --host 127.0.0.1 --port 8765` started successfully, `/` returned HTTP 200, and `/api/config` returned the configured franchise targets.
 
 Environment note: venv launchers created under this path failed with a quoted base-Python launcher error, so validation used the absolute Python 3.12 interpreter at `C:\Users\Game Station\AppData\Local\Programs\Python\Python312\python.exe`.
 
@@ -32,7 +34,7 @@ If The Spriters Resource changes its download button text or media path, `sprite
 
 ## Project Integration Notes
 
-The downloader now defaults to the Crossroads raw franchise folders instead of a generic `output/` tree. Use `--franchise` if a page title cannot be inferred reliably, and use `--output` for isolated staging.
+The downloader now defaults to the Crossroads raw franchise folders instead of a generic `output/` tree. Use `--franchise` if a page title cannot be inferred reliably, and use `--output` for isolated staging. Downloader state/manifests are stored in `credits/sprite_resource_downloader/<franchise>/` so only source sheets land in `raw/`.
 
 Successful downloads upsert rows in `credits/ASSET_CREDITS.csv`; the `asset_id` is the downloaded filename stem.
 

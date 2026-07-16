@@ -21,3 +21,17 @@ def configure_logging(log_path: Path, *, verbose: bool = False) -> logging.Logge
     console_handler.setFormatter(logging.Formatter("%(message)s"))
     logger.addHandler(console_handler)
     return logger
+
+
+def add_file_log(logger: logging.Logger, log_path: Path) -> None:
+    resolved = log_path.resolve(strict=False)
+    for handler in logger.handlers:
+        if isinstance(handler, logging.FileHandler):
+            if Path(handler.baseFilename).resolve(strict=False) == resolved:
+                return
+    log_path.parent.mkdir(parents=True, exist_ok=True)
+    formatter = logging.Formatter("%(asctime)s %(levelname)s %(message)s")
+    file_handler = logging.FileHandler(log_path, encoding="utf-8")
+    file_handler.setLevel(logging.DEBUG)
+    file_handler.setFormatter(formatter)
+    logger.addHandler(file_handler)

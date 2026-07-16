@@ -1,0 +1,74 @@
+class_name ShopCustomer
+extends CharacterBody2D
+## A visible customer inside the shop: walks in, browses display furniture,
+## then asks to negotiate, places an order, or leaves. Logic in CustomerBrain.
+
+signal negotiate_requested(customer: Dictionary, item_id: String)
+signal order_requested(customer: Dictionary)
+signal left(me: ShopCustomer)
+
+var data: Dictionary = {}
+var brain: CustomerBrain
+var visual: CharacterVisual
+var _waypoints: Array[Vector2] = []
+var _exit_pos: Vector2
+var _speed := 70.0
+var _leaving := false
+var _paused_for_negotiation := false
+
+
+func setup(cust: Dictionary, browse_points: Array[Vector2], exit_pos: Vector2) -> void:
+	data = cust
+	_exit_pos = exit_pos
+	collision_layer = 0
+	collision_mask = 0
+	visual = CharacterVisual.new()
+	add_child(visual)
+	visual.setup_placeholder(String(cust.get("id", "cust")), String(cust.get("world", "")), String(cust.get("color", "#c0c0c0")), 15)
+	if bool(cust.get("named", false)):
+		var tag := UIKit.label(String(cust.get("name", "")), 8, UIKit.COL_ACCENT)
+		tag.position = Vector2(-20, -34)
+		add_child(tag)
+	brain = CustomerBrain.new()
+	brain.setup(cust)
+	brain.wants_to_negotiate.connect(func(c: Dictionary, item: String) -> void:
+		_paused_for_negotiation = true
+		negotiate_requested.emit(c, item))
+	brain.wants_to_order.connect(func(c: Dictionary) -> void: order_requested.emit(c))
+	brain.leaving.connect(_start_leaving)
+	add_child(brain)
+	var count := 1 + randi() % 3
+	for i in range(count):
+		_waypoints.append(browse_points[randi() % browse_points.size()] + Vector2(randf_range(-8, 8), randf_range(10, 18)))
+
+
+func resume_after_negotiation() -> void:
+	_paused_for_negotiation = false
+	brain.finish_negotiation()
+
+
+func _physics_process(delta: float) -> void:
+	if _paused_for_negotiation:
+		visual.face(Vector2.UP, false)
+		return
+	brain.tick(delta)
+	var target := _exit_pos if _leaving else (_waypoints[0] if not _waypoints.is_empty() else position)
+	var to_target := target - position
+	if to_target.length() < 4.0:
+		if _leaving:
+			left.emit(self)
+			queue_free()
+			return
+		if not _waypoints.is_empty():
+			_waypoints.remove_at(0)
+			if _waypoints.is_empty():
+				brain.begin_browsing()
+		visual.face(Vector2.UP, false)
+		return
+	velocity = to_target.normalized() * _speed
+	move_and_slide()
+	visual.face(to_target, true)
+
+
+func _start_leaving() -> void:
+	_leaving = true

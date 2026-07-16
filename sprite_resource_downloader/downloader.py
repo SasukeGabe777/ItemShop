@@ -14,6 +14,7 @@ from .asset_parser import AssetMetadata, looks_restricted, parse_asset_page, wri
 from .browser import chromium_page
 from .filenames import asset_filename_stem, reserve_destination, safe_extension
 from .game_parser import AssetLink, GameInfo, parse_game_page
+from .logging_config import add_file_log
 from .manifest import ManifestWriter, ProjectCreditsWriter
 from .project_layout import FranchiseTarget, resolve_target
 from .rate_limit import ACCESS_STOP_STATUSES, TRANSIENT_HTTP_STATUSES, DelayPolicy, backoff_seconds
@@ -68,6 +69,8 @@ class SpriteResourceDownloader:
                 filename_prefix=self.config.filename_prefix,
                 filename_suffix=self.config.filename_suffix,
             )
+            metadata_root = target.metadata_directory or target.directory
+            add_file_log(self.logger, metadata_root / "download.log")
             assets = self._filtered_assets(game)
             self._print_summary(game, assets, target)
 
@@ -79,12 +82,12 @@ class SpriteResourceDownloader:
                 return 1
 
             game_root = target.directory
-            manifest = ManifestWriter(game_root)
+            manifest = ManifestWriter(metadata_root)
             project_credits = ProjectCreditsWriter(
                 self.config.project_root / self.config.project_credits
             )
             manifest.load_existing()
-            state = DownloadState.load(game_root / ".download_state.json")
+            state = DownloadState.load(metadata_root / ".download_state.json")
             if not self.config.resume and state.completed:
                 self.logger.info("Existing state found; completed assets will still be skipped.")
 
@@ -101,7 +104,13 @@ class SpriteResourceDownloader:
 
                 try:
                     metadata = self._process_asset(
-                        page, game, asset, game_root, target, existing_names
+                        page,
+                        game,
+                        asset,
+                        game_root,
+                        metadata_root,
+                        target,
+                        existing_names,
                     )
                     manifest.upsert(metadata)
                     project_credits.upsert(
@@ -170,6 +179,7 @@ class SpriteResourceDownloader:
         game: GameInfo,
         asset: AssetLink,
         game_root: Path,
+        metadata_root: Path,
         target: FranchiseTarget,
         existing_names: dict[str, set[str]],
     ) -> AssetMetadata:
@@ -184,7 +194,7 @@ class SpriteResourceDownloader:
             metadata.asset_name = asset.name
 
         if not metadata.source_url:
-            debug_path = game_root / "debug_html" / f"asset_{asset.asset_id}.html"
+            debug_path = metadata_root / "debug_html" / f"asset_{asset.asset_id}.html"
             write_debug_snapshot(debug_path, html)
             self.logger.debug("Wrote debug HTML snapshot to %s", debug_path)
 

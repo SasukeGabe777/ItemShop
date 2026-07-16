@@ -70,9 +70,18 @@ func price_multiplier(item_id: String) -> float:
 	return mult
 
 
+## Crossroads prosperity: every repaired gate brings more worlds into the
+## market and lifts all prices; merchant fame adds a little on top. This is the
+## main late-game economic growth curve (repairs get costlier, so does trade).
+func prosperity() -> float:
+	var per_gate := float(ContentDatabase.bal("prosperity_gate_growth", 1.4))
+	var per_level := float(ContentDatabase.bal("prosperity_per_merchant_level", 0.02))
+	return pow(per_gate, BridgeManager.repaired_count()) * (1.0 + per_level * (GameState.merchant_level - 1))
+
+
 ## Current fair market value a customer perceives.
 func market_value(item_id: String) -> int:
-	return maxi(1, int(round(ContentDatabase.item_price(item_id) * price_multiplier(item_id))))
+	return maxi(1, int(round(ContentDatabase.item_price(item_id) * price_multiplier(item_id) * prosperity())))
 
 
 ## Price the shop pays when buying wholesale stock.
