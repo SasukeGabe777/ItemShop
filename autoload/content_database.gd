@@ -2,6 +2,8 @@ extends Node
 ## ContentDatabase: loads every data pack from res://data. All game content is
 ## data-driven; no franchise content is hardcoded in systems.
 
+signal missing_asset_fallback(kind: String, content_id: String, expected_path: String)
+
 var items: Dictionary = {}
 var enemies: Dictionary = {}
 var bosses: Dictionary = {}
@@ -184,6 +186,7 @@ func entity_texture(entity_id: String, world_id: String, color_hex: String, size
 	for p: String in candidates:
 		if ResourceLoader.exists(p):
 			return load(p)
+	missing_asset_fallback.emit("entity", entity_id, candidates[0])
 	return PlaceholderFactory.character_texture(entity_id, Color(color_hex), size)
 
 
@@ -193,4 +196,5 @@ func item_texture(item_id: String) -> Texture2D:
 	var p := "res://assets/franchises/%s/processed/items/%s.png" % [world_id, item_id]
 	if ResourceLoader.exists(p):
 		return load(p)
+	missing_asset_fallback.emit("item", item_id, p)
 	return PlaceholderFactory.item_texture(item_id, String(it.get("category", "material")))

@@ -141,6 +141,35 @@ func move_instance(uid: int, new_pos: Vector2) -> bool:
 	return true
 
 
+func add_instance(type_id: String, at: Vector2) -> Dictionary:
+	if ContentDatabase.get_furniture(type_id).is_empty():
+		return {}
+	_uid_seq += 1
+	var inst := {"uid": _uid_seq, "type": type_id, "pos": [at.x, at.y]}
+	layout.append(inst)
+	layout_changed.emit()
+	return inst
+
+
+func remove_instance(uid: int) -> bool:
+	for i in layout.size():
+		if int((layout[i] as Dictionary).get("uid", 0)) == uid:
+			layout.remove_at(i)
+			layout_changed.emit()
+			return true
+	return false
+
+
+func slot_range_for_uid(uid: int) -> Vector2i:
+	var start := 0
+	for inst: Dictionary in layout:
+		var count := slots_per_instance(inst)
+		if int(inst.get("uid", 0)) == uid:
+			return Vector2i(start, count)
+		start += count
+	return Vector2i(-1, 0)
+
+
 ## Axis-aligned footprint of a furniture instance, for placement validation.
 func instance_rect(instance: Dictionary, at: Vector2 = Vector2.INF) -> Rect2:
 	var def := type_def(instance)

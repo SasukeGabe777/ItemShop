@@ -27,6 +27,7 @@ const EDIT_GRID := 8.0
 
 
 func _ready() -> void:
+	add_to_group("shop_runtime")
 	AudioManager.play_track("item_shop")
 	_build_room()
 	_build_furniture()
@@ -123,6 +124,100 @@ func _build_furniture() -> void:
 	add_child(edit_ic)
 	_refresh_display_sprites()
 	InventoryManager.display_changed.connect(_refresh_display_sprites)
+
+
+func dev_spawn_furniture(type_id: String, at: Vector2) -> DisplayFurniture:
+	var inst := ShopFurnitureManager.add_instance(type_id, at)
+	if inst.is_empty():
+		return null
+	var slot_base := ShopFurnitureManager.total_slot_count() - ShopFurnitureManager.slots_per_instance(inst)
+	InventoryManager.resize_display_slots(ShopFurnitureManager.total_slot_count())
+	var piece := DisplayFurniture.new()
+	add_child(piece)
+	piece.setup(inst, ShopFurnitureManager.type_def(inst), slot_base, ShopFurnitureManager.window_slots())
+	furniture_nodes.append(piece)
+	_rebuild_browse_points()
+	return piece
+
+
+func dev_remove_furniture(uid: int) -> bool:
+	var slot_range := ShopFurnitureManager.slot_range_for_uid(uid)
+	if slot_range.x < 0:
+		return false
+	InventoryManager.remove_display_range(slot_range.x, slot_range.y)
+	if not ShopFurnitureManager.remove_instance(uid):
+		return false
+	dev_rebuild_furniture()
+	return true
+
+
+func dev_rebuild_furniture() -> void:
+	for piece in furniture_nodes:
+		if is_instance_valid(piece):
+			piece.queue_free()
+	furniture_nodes.clear()
+	var slot_base := 0
+	for inst: Dictionary in ShopFurnitureManager.layout:
+		var piece := DisplayFurniture.new()
+		add_child(piece)
+		piece.setup(inst, ShopFurnitureManager.type_def(inst), slot_base, ShopFurnitureManager.window_slots())
+		furniture_nodes.append(piece)
+		slot_base += piece.slot_count
+	InventoryManager.resize_display_slots(slot_base)
+	_rebuild_browse_points()
+
+
+func dev_summon_customer(customer_id: String, at: Vector2 = ENTRANCE) -> ShopCustomer:
+	var src := ContentDatabase.get_named_customer(customer_id)
+	if src.is_empty():
+		return null
+	var cust := CustomerGen.runtime_named(src)
+	var c := ShopCustomer.new()
+	add_child(c)
+	c.position = at
+	c.setup(cust, browse_points if not browse_points.is_empty() else [at], ENTRANCE)
+	c.add_to_group("dev_editable")
+	c.set_meta("dev_object_type", "customer")
+	c.set_meta("dev_content_id", customer_id)
+	c.negotiate_requested.connect(_on_negotiate_requested)
+	c.order_requested.connect(_on_order_requested)
+	c.left.connect(func(me: ShopCustomer) -> void: live_customers.erase(me))
+	live_customers.append(c)
+	return c
+
+
+func dev_open_shop() -> void:
+	if not session_active:
+		_begin_session()
+
+
+func dev_close_shop() -> void:
+	customers_remaining.clear()
+	nego_queue.clear()
+	negotiating = null
+	for c in live_customers.duplicate():
+		if is_instance_valid(c):
+			c.queue_free()
+	live_customers.clear()
+	session_active = false
+	busy = false
+	if player != null:
+		player.frozen = false
+
+
+func dev_toggle_edit_mode() -> void:
+	if edit_mode:
+		_exit_edit_mode()
+	else:
+		_enter_edit_mode()
+
+
+func dev_set_display_item(slot: int, item_id: String) -> bool:
+	if slot < 0 or slot >= InventoryManager.display.size() or ContentDatabase.get_item(item_id).is_empty():
+		return false
+	if InventoryManager.count(item_id) <= 0:
+		InventoryManager.add_item(item_id)
+	return InventoryManager.place_display(slot, item_id)
 
 
 func _rebuild_browse_points() -> void:

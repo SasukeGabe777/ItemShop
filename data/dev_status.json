@@ -1,0 +1,22 @@
+{
+  "schema": "crossroads.dev_status.v1",
+  "vertical_slice_goal": "Complete and manually verify the Kingdom Hearts Chapter 1 loop from New Game through the first gate repair and save/continue.",
+  "working_systems": [
+    "Title, story, town, shop, dungeon, and main-menu scenes launch",
+    "Core save/load, negotiation, inventory, campaign, and combat logic",
+    "Windowed Kingdom Hearts combat smoke test",
+    "Data-driven content database and placeholder fallbacks",
+    "Development-only F1 Live Developer Hub core workflows"
+  ],
+  "incomplete_systems": [
+    "Human-controlled Kingdom Hearts full-loop acceptance test",
+    "Runtime locations are not yet adopted by normal campaign scenes",
+    "Asset Factory chroma-key background detection test",
+    "Most Kingdom Hearts customer, enemy, and item presentation art"
+  ],
+  "next_tasks": [
+    "Play the complete Kingdom Hearts Chapter 1 acceptance route",
+    "Fix only the first progression blocker found in that route",
+    "Verify one complete live shop session and save/continue"
+  ]
+}

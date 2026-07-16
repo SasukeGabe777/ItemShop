@@ -25,6 +25,10 @@ func setup(instance: Dictionary, def: Dictionary, p_slot_base: int, window_indic
 	slot_base = p_slot_base
 	var pos_arr: Array = instance.get("pos", [0, 0])
 	position = Vector2(float(pos_arr[0]), float(pos_arr[1]))
+	add_to_group("dev_editable")
+	set_meta("dev_object_type", "furniture")
+	set_meta("dev_content_id", type_id)
+	set_meta("dev_instance_id", uid)
 
 	var slots: Array = def.get("display_slots", [[0, -12]])
 	slot_count = maxi(1, slots.size())

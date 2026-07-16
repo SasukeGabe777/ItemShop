@@ -15,7 +15,7 @@ func _ready() -> void:
 
 
 func _on_day_started(_day: int) -> void:
-	if GameState.campaign_active:
+	if GameState.campaign_active and not _development_autosave_blocked():
 		autosave()
 	RelationshipManager.new_day_moods()
 	InventoryManager.expire_orders()
@@ -103,6 +103,9 @@ func slot_summary(slot: int) -> Dictionary:
 
 
 func autosave() -> void:
+	if _development_autosave_blocked():
+		DevHubManager.log_event("Blocked normal autosave while isolated development state is active", "SAVE")
+		return
 	_write(SAVE_DIR + "autosave.json", _collect())
 	saved.emit("autosave")
 
@@ -118,7 +121,14 @@ func load_autosave() -> bool:
 
 ## Snapshot taken at the start of every chapter, for deadline-failure restarts.
 func checkpoint_chapter() -> void:
+	if _development_autosave_blocked():
+		DevHubManager.log_event("Blocked normal chapter checkpoint while isolated development state is active", "SAVE")
+		return
 	_write(SAVE_DIR + "checkpoint.json", _collect())
+
+
+func _development_autosave_blocked() -> bool:
+	return DevHubManager != null and DevHubManager.is_development_enabled() and DevHubManager.isolated_dev_state_active
 
 
 ## Restart the current chapter after a failure. Retains merchant progression,

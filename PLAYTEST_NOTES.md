@@ -38,6 +38,57 @@ world/chapter, and whether debug commands or automation were used.
 
 ---
 
+## 2026-07-16 - Live Developer Hub automated workflow
+
+### Date
+
+2026-07-16
+
+### Build tested
+
+- Commit/build: `02614ef` plus the uncommitted Live Developer Hub pass
+- Godot version: 4.7.1-stable
+- Platform: Windows, headless automated workflow
+
+### Test route
+
+- Loaded `tests/test_dev_hub.tscn` in development mode.
+- Exercised F1 action handling, default pause, resume-behind-panel, and close.
+- Created isolated campaign state, changed money/inventory, created a blank
+  development location, and spawned a KH item, named customer, and enemy.
+- Selected/moved the item, saved the location, instantiated the real shop,
+  spawned/moved existing `DisplayFurniture`, and summoned a real `ShopCustomer`.
+- Wrote the separate dev state, ran a playtest session, exported AI context, and
+  compared normal save-file fingerprints before and after.
+
+### What worked
+
+- The required smoke test ended with `DEV_HUB_TEST_PASS`.
+- All required playtest and AI context files were written.
+- Normal save files were unchanged.
+- The full parser test continued to report `PARSE_TEST_PASS`.
+- The windowed visual tour rendered Today, Location, and Spawn at 640x360 and
+  1280x720 and ended with `DEV_HUB_SCREENSHOT_PASS`.
+
+### Bugs
+
+- No blocking parser or runtime errors remained in the exercised workflow.
+- The initial headless screenshot attempt produced a dummy-renderer texture
+  error; capture is now skipped in headless mode and remains enabled windowed.
+
+### Visual issues
+
+- Windowed screenshots show the persistent navigation and primary controls fit
+  at both tested resolutions. Text is necessarily compact at 640x360. Keyboard
+  focus, pointer feel, and a human click-through of every tab remain unverified.
+
+### Next action
+
+- Use the Hub during one manual Kingdom Hearts Chapter 1 acceptance route, then
+  fix only the first progression blocker and rerun from the nearest save.
+
+---
+
 ## 2026-07-16 — Pass 1 repository audit
 
 ### Date

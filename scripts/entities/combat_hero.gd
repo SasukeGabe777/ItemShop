@@ -35,6 +35,9 @@ var revives_available: int = 0
 
 
 func setup(id: String, consumable_items: Array = []) -> void:
+	add_to_group("dev_player")
+	set_meta("dev_object_type", "hero")
+	set_meta("dev_content_id", id)
 	hero_id = id
 	hero_def = ContentDatabase.get_hero(id)
 	stats = InventoryManager.hero_stats(id)

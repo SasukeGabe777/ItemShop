@@ -2,12 +2,15 @@ extends Node
 ## SceneRouter: central scene navigation with a context dictionary for passing
 ## parameters between scenes.
 
+signal scene_transition_requested(scene_key: String, path: String, context: Dictionary)
+
 const SCENES := {
 	"main_menu": "res://scenes/ui/main_menu.tscn",
 	"town": "res://scenes/town/town.tscn",
 	"shop": "res://scenes/shop/shop.tscn",
 	"dungeon": "res://scenes/dungeon/dungeon.tscn",
 	"story": "res://scenes/story/story_player.tscn",
+	"dev_location": "res://scenes/dev/dev_location.tscn",
 }
 
 var context: Dictionary = {}
@@ -20,6 +23,7 @@ func go(scene_key: String, ctx: Dictionary = {}) -> void:
 	if path == "":
 		push_error("[SceneRouter] unknown scene key %s" % scene_key)
 		return
+	scene_transition_requested.emit(scene_key, path, context.duplicate(true))
 	get_tree().call_deferred("change_scene_to_file", path)
 
 

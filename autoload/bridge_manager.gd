@@ -86,11 +86,15 @@ func accessible_worlds() -> Array[String]:
 	var out: Array[String] = []
 	for id: String in ContentDatabase.world_order:
 		var w: Dictionary = ContentDatabase.worlds[id]
+		var dev_unlocked := false
+		var dev := get_node_or_null("/root/DevHubManager")
+		if dev != null and dev.has_method("is_world_temporarily_unlocked"):
+			dev_unlocked = bool(dev.call("is_world_temporarily_unlocked", id))
 		if bool(w.get("final", false)):
-			if TimeManager.chapter >= 8:
+			if TimeManager.chapter >= 8 or dev_unlocked:
 				out.append(id)
 			continue
-		if is_repaired(id) or int(w.get("chapter", 99)) <= TimeManager.chapter:
+		if dev_unlocked or is_repaired(id) or int(w.get("chapter", 99)) <= TimeManager.chapter:
 			out.append(id)
 	return out
 

@@ -53,6 +53,32 @@ func on_shop_expanded() -> void:
 	display_changed.emit()
 
 
+## Development/runtime layout adapter. Normal shop progression still uses
+## display_slot_count(); the Live Developer Hub may temporarily add or remove
+## furniture and needs the backing array to match that layout.
+func resize_display_slots(count: int) -> void:
+	var target := maxi(0, count)
+	while display.size() < target:
+		display.append("")
+	while display.size() > target:
+		var id := String(display.pop_back())
+		if id != "":
+			add_item(id)
+	display_changed.emit()
+
+
+func remove_display_range(start: int, count: int) -> void:
+	for i in range(count - 1, -1, -1):
+		var idx := start + i
+		if idx < 0 or idx >= display.size():
+			continue
+		var id := String(display[idx])
+		display.remove_at(idx)
+		if id != "":
+			add_item(id)
+	display_changed.emit()
+
+
 func count(item_id: String) -> int:
 	return int(storage.get(item_id, 0))
 

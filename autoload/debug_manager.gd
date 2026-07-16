@@ -5,6 +5,8 @@ var console_layer: CanvasLayer
 var output_label: RichTextLabel
 var input_line: LineEdit
 var visible_console: bool = false
+var history: Array[String] = []
+const HISTORY_LIMIT := 300
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -98,6 +100,17 @@ func run_command(parts: PackedStringArray) -> void:
 
 
 func log_line(text: String) -> void:
+	history.append("%s  %s" % [Time.get_time_string_from_system(), text])
+	while history.size() > HISTORY_LIMIT:
+		history.pop_front()
 	if output_label != null:
 		output_label.append_text(text + "\n")
 	print("[Debug] " + text)
+
+
+func recent_lines(limit: int = 100) -> Array[String]:
+	var start := maxi(0, history.size() - limit)
+	var out: Array[String] = []
+	for i in range(start, history.size()):
+		out.append(history[i])
+	return out

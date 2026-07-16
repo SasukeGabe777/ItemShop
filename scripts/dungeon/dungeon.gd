@@ -24,6 +24,7 @@ const CELL := 32
 
 
 func _ready() -> void:
+	add_to_group("dungeon_runtime")
 	world_id = String(DungeonManager.pending.get("world_id", "kingdom_hearts"))
 	var w := ContentDatabase.get_world(world_id)
 	AudioManager.play_track("final_dungeon" if bool(w.get("final", false)) else "dungeon_%s" % world_id)
@@ -43,6 +44,26 @@ func _ready() -> void:
 	hero.add_child(camera)
 	_build_hud()
 	_enter_room(0)
+
+
+func dev_select_hero(hero_id: String) -> bool:
+	if ContentDatabase.get_hero(hero_id).is_empty():
+		return false
+	_spawn_hero(hero_id)
+	return true
+
+
+func dev_spawn_enemy(enemy_id: String, at: Vector2) -> Enemy:
+	if ContentDatabase.get_enemy(enemy_id).is_empty() or hero == null:
+		return null
+	var mob := Enemy.new()
+	room_root.add_child(mob)
+	mob.setup(enemy_id, hero)
+	mob.global_position = at
+	mob.add_to_group("dev_editable")
+	mob.set_meta("dev_object_type", "enemy")
+	mob.set_meta("dev_content_id", enemy_id)
+	return mob
 
 
 func _spawn_hero(hero_id: String) -> void:

@@ -43,6 +43,12 @@ static func _pick_named() -> Dictionary:
 	if pool.is_empty():
 		return {}
 	var c: Dictionary = pool[rng.randi() % pool.size()]
+	return runtime_named(c)
+
+
+## Public adapter used by development tooling to summon a specific named
+## customer without duplicating the live budget/archetype conversion.
+static func runtime_named(c: Dictionary) -> Dictionary:
 	var arch: Dictionary = ContentDatabase.get_archetype(String(c.get("archetype", "adventurer")))
 	var brange: Array = arch.get("budget", [100, 500])
 	var mult := float(c.get("budget_mult", 1.0))

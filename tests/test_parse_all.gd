@@ -12,7 +12,9 @@ func _ready() -> void:
 	_scan("res://addons")
 	for scene_path in ["res://scenes/ui/main_menu.tscn", "res://scenes/town/town.tscn",
 			"res://scenes/shop/shop.tscn", "res://scenes/dungeon/dungeon.tscn",
-			"res://scenes/story/story_player.tscn", "res://tools/sprite_importer/sprite_importer.tscn"]:
+			"res://scenes/story/story_player.tscn", "res://scenes/dev/dev_hub.tscn",
+			"res://scenes/dev/dev_location.tscn", "res://tools/sprite_importer/sprite_importer.tscn",
+			"res://tests/test_dev_hub.tscn", "res://tests/screenshot_dev_hub.tscn"]:
 		var packed: Variant = load(scene_path)
 		if packed == null or not (packed is PackedScene):
 			failures.append("cannot load scene %s" % scene_path)

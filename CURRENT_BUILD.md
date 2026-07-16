@@ -1,8 +1,8 @@
 # Current Build
 
-Last audited: **2026-07-16**
+Last audited/updated: **2026-07-16**
 
-Audited baseline: **`30f583a` — `WIP: preserve interrupted content studio work`**
+Audited baseline: **`02614ef` - `Add project status and AI partner workflow`**, plus the current uncommitted Live Developer Hub pass
 
 Engine used: **Godot 4.7.1-stable**
 
@@ -24,6 +24,20 @@ finished player-facing result.
 | `tests/test_asset_factory.tscn` | **FAIL** | Furniture/layout, shop construction, JSON IO, slicing, manifest rects, and most chroma-key assertions ran, but the suite reported `auto-detected wrong background color`. The Asset Factory cannot be called fully verified. |
 | Sprite importer batch using Sora manifest | **PASS — `IMPORTER_OK`** | The standalone importer built a six-animation `SpriteFrames` resource from the current Sora manifest. |
 | `python -m pytest -q` | **PASS — 19 passed, 1 skipped** | Downloader/parser/project-layout Python tests pass; the optional live-network test was skipped. |
+| `tests/test_dev_hub.tscn` | **PASS - `DEV_HUB_TEST_PASS`** | F1 action handling, pause/resume, isolated state, location objects, item/customer/enemy spawn, existing shop furniture/customer integration, money/inventory, playtest reports, AI export, and unchanged normal saves passed headlessly. |
+| `tests/screenshot_dev_hub.tscn` (windowed) | **PASS - `DEV_HUB_SCREENSHOT_PASS`** | Today, Location, and Spawn rendered at both 640x360 and 1280x720 after live tab changes. |
+
+## Live Developer Hub - Verified automated core; visual/manual UX partial
+
+- A development-only `DevHubManager` autoload opens the runtime overlay with F1 in debug development mode. The automated test verified opening pauses the tree, simulation can resume behind the visible overlay, and closing restores the prior pause state.
+- The overlay supplies Today, World, Location, Spawn, Shop, Player, Game State, Playtest, AI Partner, and Logs tabs. Windowed tours rendered Today, Location, and Spawn cleanly at both 640x360 and 1280x720 using the existing theme and scrollable layout; a complete human click-through of every tab is still pending.
+- Today reads maintained claims from `data/dev_status.json`. World counts current `ContentDatabase` entries. Location lists the built-in town/shop, each data-driven world dungeon, authored locations, and separately saved development locations.
+- The automated workflow created a blank development location; spawned an item, named customer, and enemy; selected and moved an object; and persisted the layout in `user://crossroads_dev/live_dev_state.json`.
+- The real shop scene spawned and moved `DisplayFurniture` through `ShopFurnitureManager` and summoned a real `ShopCustomer`. Display assignment and reachable target controls are implemented but were not manually clicked in this audit.
+- Player and Game State expose curated development actions. Normal manual slots are never invoked by Hub actions, and automatic normal autosaves/checkpoints are suppressed after entering the isolated development session. The smoke test fingerprinted normal save files and verified they were unchanged.
+- Playtest reports and AI context exports were generated with all required files. Screenshot capture is intentionally skipped under the headless renderer and attempted in windowed runs.
+- The existing Godot editor Asset Factory remains enabled and unchanged in purpose; the Live Developer Hub consumes runtime content and does not replace its import/preparation workflows.
+- Known limitation: normal campaign scenes still author their own layouts. The Hub catalog can launch them, while new development locations use `LocationLoader`; this pass does not migrate campaign scenes to location JSON.
 
 ## System-by-system state
 

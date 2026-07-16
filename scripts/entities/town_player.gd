@@ -8,9 +8,14 @@ const SPEED := 110.0
 var visual: CharacterVisual
 var facing: Vector2 = Vector2.DOWN
 var frozen: bool = false
+var dev_speed_multiplier: float = 1.0
+var dev_collision_enabled: bool = true
 
 
 func _ready() -> void:
+	add_to_group("dev_player")
+	set_meta("dev_object_type", "player")
+	set_meta("dev_content_id", "hero")
 	collision_layer = 2
 	collision_mask = 1
 	var shape := CollisionShape2D.new()
@@ -34,9 +39,19 @@ func _physics_process(delta: float) -> void:
 	var wish := Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	if wish != Vector2.ZERO:
 		facing = wish
-	velocity = velocity.move_toward(wish.normalized() * SPEED, 900.0 * delta)
+	velocity = velocity.move_toward(wish.normalized() * SPEED * dev_speed_multiplier, 900.0 * delta)
 	move_and_slide()
 	visual.face(facing, wish != Vector2.ZERO)
+
+
+func set_dev_speed_multiplier(value: float) -> void:
+	dev_speed_multiplier = clampf(value, 0.1, 5.0)
+
+
+func set_dev_collision_enabled(enabled: bool) -> void:
+	dev_collision_enabled = enabled
+	collision_mask = 1 if enabled else 0
+	collision_layer = 2 if enabled else 0
 
 
 func nearest_interactable() -> InteractionComponent:

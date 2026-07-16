@@ -4,6 +4,11 @@ Priorities are ordered by player value and dependency. Keep tasks narrow enough
 to finish and verify. Do not begin broad work for later worlds while Priority 0
 is incomplete.
 
+## Completed development infrastructure
+
+- The development-only F1 Live Developer Hub now provides runtime launch, world/location inspection, gameplay-object placement, a curated inspector, existing shop furniture/customer controls, player/game-state tools, isolated development persistence, playtest reports, AI context export, and aggregated logs.
+- Keep Hub follow-up work driven by a concrete Kingdom Hearts playtest need. Do not turn it into a replacement game engine or duplicate the editor Asset Factory.
+
 ## Priority 0 — Complete Kingdom Hearts vertical slice
 
 Target acceptance route:
@@ -20,6 +25,8 @@ commands and the relevant automated tests remain green.
 1. **Manually play the complete Chapter 1 acceptance route.** Record the exact
    route, blockers, confusing steps, economy friction, and visual issues in
    `PLAYTEST_NOTES.md`. Fix only progression blockers found during the run.
+   Use the Live Developer Hub to jump to the nearest affected scene and capture
+   notes, but complete the final acceptance route without development cheats.
 2. **Verify live shop usability.** Play stocking, one customer session,
    negotiation/counteroffer, order behavior, session summary, and save afterward.
    Confirm the dark/empty-looking shop HUD capture is timing-only or fix the
@@ -68,8 +75,9 @@ commands and the relevant automated tests remain green.
 
 ## Priority 3 — Quality and maintainability
 
-1. Turn test output failures into reliable nonzero process exits where practical;
-   today the Asset Factory printed a failure while the shell still saw exit 0.
+1. Keep test output failures paired with reliable nonzero process exits. The
+   latest Asset Factory run returned exit 1 as intended; preserve that behavior
+   while fixing its chroma-key assertion.
 2. Add a launch/playtest command that captures logs without colliding when two
    Godot instances run simultaneously.
 3. Refresh the root `README.md` so it introduces the game first and links to the
