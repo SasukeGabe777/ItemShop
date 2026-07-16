@@ -25,7 +25,7 @@ static func build(loc: Dictionary) -> Node2D:
 
 	var layer_defs: Dictionary = loc.get("layers", {})
 	var z := -10
-	for layer_name in ["ground", "decoration"]:
+	for layer_name in ["ground", "walls", "decoration"]:
 		var arr: Array = layer_defs.get(layer_name, [])
 		var layer_node := Node2D.new()
 		layer_node.name = layer_name.capitalize()

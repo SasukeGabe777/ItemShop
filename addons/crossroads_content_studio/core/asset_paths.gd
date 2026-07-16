@@ -16,6 +16,7 @@ const DATA_CUSTOMERS := "res://data/customers.json"
 const DATA_ENEMIES := "res://data/enemies.json"
 const DATA_FURNITURE := "res://data/shop_furniture.json"
 const DATA_LOCATIONS := "res://data/locations.json"
+const DATA_LOCATION_BRIEFS := "res://data/location_briefs"
 
 const UI_SUBFOLDERS := [
 	"backgrounds",

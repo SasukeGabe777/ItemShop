@@ -38,11 +38,12 @@ The small slice is accepted when a human completes both sales and the expedition
 2. Perform one reviewed end-to-end import for a relevant item icon, animated enemy, static customer, and location tileset.
 3. Add regression coverage only for bugs found during those imports.
 
-## Priority 3 - Locations after playable-route feedback
+## Priority 3 - Human acceptance of the Location Workshop
 
-1. Keep the current two-room runtime preset until human feedback justifies a data-authored Traverse Town location.
-2. If map work is approved, update the location brief first and connect one small location through the existing `LocationLoader`.
-3. Do not migrate every campaign scene or expand tile-painting tools as part of that work.
+1. Follow `docs/AI_LOCATION_WORKFLOW.md` to create one tiny real brief and proposal, paint the room, place its gameplay markers, and launch **PLAY THIS LOCATION**.
+2. Save a human **approved** or **revise** review beside the brief. The automated scratch test does not substitute for this review.
+3. If approved and useful to the Kingdom Hearts route, connect only that one room through existing routing; keep the current two-room preset until the new room proves equally playable.
+4. Record usability blockers in the review before adding editor features. Do not migrate every campaign scene or add procedural generation.
 
 ## Later - Do not start yet
 

@@ -12,7 +12,7 @@ const ItemsTab := preload("res://addons/crossroads_content_studio/ui/items_tab.g
 const HeroesTab := preload("res://addons/crossroads_content_studio/ui/heroes_tab.gd")
 const CustomersTab := preload("res://addons/crossroads_content_studio/ui/customers_tab.gd")
 const EnemiesTab := preload("res://addons/crossroads_content_studio/ui/enemies_tab.gd")
-const LocationsTab := preload("res://addons/crossroads_content_studio/ui/locations_tab.gd")
+const LocationsTab := preload("res://addons/crossroads_content_studio/ui/location_workshop_tab.gd")
 const FurnitureTab := preload("res://addons/crossroads_content_studio/ui/furniture_tab.gd")
 const AssetBrowserTab := preload("res://addons/crossroads_content_studio/ui/asset_browser_tab.gd")
 const AssetAssignmentTab := preload("res://addons/crossroads_content_studio/ui/asset_assignment_tab.gd")
@@ -65,7 +65,7 @@ func _ready() -> void:
 	add_child(enemies_tab)
 
 	locations_tab = LocationsTab.new()
-	locations_tab.name = "Locations"
+	locations_tab.name = "Location Workshop"
 	add_child(locations_tab)
 
 	furniture_tab = FurnitureTab.new()

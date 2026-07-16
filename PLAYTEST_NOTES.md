@@ -1,5 +1,55 @@
 # Playtest Notes
 
+---
+
+## 2026-07-16 - Location Workshop automated workflow
+
+### Date
+
+2026-07-16
+
+### Build tested
+
+- Commit/build: `83865b5` plus the uncommitted Location Workshop pass
+- Godot version: 4.7.1-stable
+- Platform: Windows, headless automated workflow
+
+### Test route
+
+- Opened the guided Workshop in a scratch-data harness.
+- Selected Kingdom Hearts and verified current enemy availability.
+- Saved and reloaded a readable brief and generated its structured proposal.
+- Painted ground, walls, decorations, and collision; placed player/customer,
+  enemy, chest, item-stand, door, dialogue, and boss markers; moved one marker.
+- Saved and reloaded the layout and a review.
+- Used **PLAY THIS LOCATION** to instantiate the authored room through
+  `LocationLoader` in an isolated development campaign.
+
+### What worked
+
+- The test ended with `LOCATION_WORKSHOP_PASS`.
+- The brief, proposal, map, and review all persisted in `user://` scratch data.
+- All nine required marker types saved, the moved marker reloaded at its new
+  cell, the wall layer rendered, and the player used the authored spawn.
+- The launch selected no normal save slot and initialized in-memory dev state.
+
+### Bugs
+
+- An initial test-script inferred an untyped return value and failed parsing.
+  The return is now explicitly typed and the focused parse/run passes.
+- No blocking runtime error remained in the exercised workflow.
+
+### Visual issues
+
+- This was headless coverage. Native editor sizing, pointer feel, tileset
+  readability, and the human clarity of every form still require a manual pass.
+
+### Next action
+
+- Have a human author one tiny real room, click **PLAY THIS LOCATION**, and save
+  an approved/revise review. Do not connect it to campaign progression until
+  that review exists.
+
 Add new entries above older entries. Use exact build/commit identifiers and
 separate verified behavior from assumptions.
 

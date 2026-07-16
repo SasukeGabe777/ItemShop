@@ -2,7 +2,7 @@
 
 Last audited/updated: **2026-07-16**
 
-Audited baseline: **`a6ce0cb` - `Add in-game live developer hub`**, plus this Kingdom Hearts vertical-slice pass
+Audited baseline: **`83865b5` - `Complete Kingdom Hearts playable vertical slice`**, plus this Location Workshop pass
 
 Engine used: **Godot 4.7.1-stable**
 
@@ -27,6 +27,7 @@ finished player-facing result.
 | `tests/test_dev_hub.tscn` | **PASS - `DEV_HUB_TEST_PASS`** | F1 action handling, pause/resume, isolated state, location objects, item/customer/enemy spawn, existing shop furniture/customer integration, money/inventory, playtest reports, AI export, and unchanged normal saves passed headlessly. |
 | `tests/screenshot_dev_hub.tscn` (windowed) | **PASS - `DEV_HUB_SCREENSHOT_PASS`** | Today, Location, and Spawn rendered at both 640x360 and 1280x720 after live tab changes. |
 | `tests/test_kh_vertical_slice.tscn` | **PASS - `KH_VERTICAL_SLICE_PASS`** | Scoped starter inventory, persistent moved furniture, dynamic display targeting, two real negotiations/sales, a live two-room Sora dungeon with one Shadow and a guaranteed Lucid Shard pickup, loot return/resale, and save/reload persistence passed through a Playtest Workspace session. |
+| `tests/test_location_workshop.tscn` | **PASS - `LOCATION_WORKSHOP_PASS`** | A visual brief and proposal were saved, ground/walls/decor/collision were painted, all required marker types were placed and one moved, layout and review reloaded, and Play This Location launched the authored room in isolated development state. Test writes use `user://` scratch data. |
 | Normal project launch, windowed | **PASS** | The configured main scene reached the title screen under OpenGL on the current Windows/NVIDIA environment and exited cleanly after 180 frames. |
 
 ## Live Developer Hub - Verified automated core; visual/manual UX partial
@@ -162,14 +163,19 @@ finished player-facing result.
   that pickup is collected. The live automated route defeated the enemy,
   collected the pickup, returned, and banked the loot.
 
-### Locations — Placeholder foundation
+### Locations — Verified Workshop foundation; campaign integration partial
 
 - `data/locations.json` currently contains **zero locations**.
-- `LocationLoader` can build authored tile/decor layers, collision cells, and
-  typed markers from location data.
+- `LocationLoader` can build authored ground/wall/decoration layers, collision
+  cells, and typed markers from location data.
+- The Location Workshop now guides world inspection, readable JSON briefs,
+  deterministic proposal files, painting, marker placement/movement, isolated
+  direct play, and saved human reviews. Its complete scratch-data workflow is
+  covered by `LOCATION_WORKSHOP_PASS`.
 - Existing town, shop, dungeon, and story scenes do **not** consume the location
   database or loader; they continue to build their layouts in gameplay scripts.
-- No generated location should be described as playable yet.
+- No repository-authored location or human-approved Workshop review exists yet.
+  The test proves the workflow, not a finished campaign location.
 - `docs/location_briefs/traverse_town_vertical_slice.md` documents the approved
   small first-expedition layout. The playable implementation remains a dungeon
   room preset and does not claim that `LocationLoader` is campaign-ready.
@@ -212,14 +218,23 @@ finished player-facing result.
   performed during this audit. Generated balance/personality fields remain
   intentionally flagged for review.
 
-### Location editor — Partial editor; no playable location
+### Location editor — Guided Workshop verified; human authoring UX partial
 
-- The Locations tab implements tileset import, a ground/decoration painter,
-  collision cells, markers, dimensions, and location JSON writes.
-- It paints one tile at a time, has no fill/stamp/undo workflow, and is not wired
-  into scene routing.
-- With an empty locations database and no runtime consumer, this is tooling
-  groundwork rather than a finished location system.
+- The Asset Factory's Location Workshop exposes five human-readable steps:
+  world, brief, proposal, build/play, and review. It lists available world
+  tilesets/content and the exit targets of existing authored rooms.
+- Briefs, proposals, and reviews save beside each other under
+  `data/location_briefs/`. Proposal generation is a structured offline template,
+  not an AI call or automatic map generator.
+- The painter supports nearest-neighbor tileset inspection, integer map zoom,
+  ground/wall/decoration layers, collision, the nine requested gameplay marker
+  types, marker dragging, save, and reload.
+- **PLAY THIS LOCATION** saves then launches the selected layout through
+  `LocationLoader` with an isolated development campaign; normal saves are not
+  selected or changed by that path.
+- The focused automated test passed. A human has not yet authored and reviewed a
+  real location through the native editor UI. Fill/stamp/undo and full campaign
+  routing remain out of scope.
 
 ### Current Kingdom Hearts content — Automated playable slice; human acceptance pending
 
@@ -267,3 +282,6 @@ Personally play `docs/KH_VERTICAL_SLICE.md` from New Game without development
 tools. Record only the largest observed issue in item placement, customer
 movement, dungeon-exit clarity, or sale-screen presentation. If the route
 blocks, fix only that blocker and replay from the nearest normal save.
+Separately, author one tiny real room through `docs/AI_LOCATION_WORKFLOW.md`,
+launch it with **PLAY THIS LOCATION**, and save a human review before connecting
+it to the campaign.

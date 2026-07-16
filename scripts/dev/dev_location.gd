@@ -5,6 +5,7 @@ extends Node2D
 ## construction and playtesting through the Live Developer Hub.
 
 const DEV_OBJECT_SCRIPT := preload("res://scripts/dev/dev_placed_object.gd")
+const WORKSHOP_BRIDGE := preload("res://scripts/dev/location_workshop_bridge.gd")
 
 var location_data: Dictionary = {}
 var location_root: Node2D
@@ -14,6 +15,10 @@ var bounds := Rect2(0, 0, 640, 360)
 
 func _ready() -> void:
 	add_to_group("location_runtime")
+	var workshop_location_id := WORKSHOP_BRIDGE.consume_launch()
+	if workshop_location_id != "":
+		DevHubManager.ensure_dev_campaign()
+		DevHubManager.select_location(workshop_location_id)
 	location_data = DevHubManager.current_location_data()
 	if location_data.is_empty():
 		location_data = DevHubManager.blank_location("scratch_location")
