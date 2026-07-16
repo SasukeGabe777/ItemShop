@@ -30,3 +30,6 @@ playtest/latest/*
 !playtest/latest/.gitkeep
 ai_workspace/current/*
 !ai_workspace/current/.gitkeep
+
+# Local rendered-document QA output
+docs/.guide_render*/
