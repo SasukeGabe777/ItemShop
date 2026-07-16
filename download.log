@@ -2927,3 +2927,786 @@
 2026-07-16 01:57:16,899 DEBUG Waited 2.92 seconds before next request.
 2026-07-16 01:57:16,899 INFO Visiting asset 38860: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/38860/
 2026-07-16 01:57:19,159 INFO Trying download control: download attribute
+2026-07-16 01:57:20,384 DEBUG Waited 6.63 seconds before next request.
+2026-07-16 01:57:20,384 INFO Visiting asset 106217: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/106217/
+2026-07-16 01:57:21,740 DEBUG Waited 2.27 seconds before next request.
+2026-07-16 01:57:21,740 INFO Visiting asset 33812: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/33812/
+2026-07-16 01:57:22,679 INFO Trying download control: download attribute
+2026-07-16 01:57:23,739 INFO Trying download control: download attribute
+2026-07-16 01:57:26,193 DEBUG Waited 2.12 seconds before next request.
+2026-07-16 01:57:26,193 INFO Visiting asset 41976: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/41976/
+2026-07-16 01:57:27,956 INFO Trying download control: download attribute
+2026-07-16 01:57:28,678 DEBUG Waited 5.58 seconds before next request.
+2026-07-16 01:57:28,679 INFO Visiting asset 69594: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69594/
+2026-07-16 01:57:30,322 DEBUG Waited 2.19 seconds before next request.
+2026-07-16 01:57:30,322 INFO Visiting asset 5315: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/5315/
+2026-07-16 01:57:31,940 INFO Trying download control: download attribute
+2026-07-16 01:57:33,668 INFO Trying download control: download attribute
+2026-07-16 01:57:35,157 DEBUG Waited 3.00 seconds before next request.
+2026-07-16 01:57:35,157 INFO Visiting asset 5314: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/5314/
+2026-07-16 01:57:37,249 INFO Trying download control: download attribute
+2026-07-16 01:57:38,881 DEBUG Waited 4.97 seconds before next request.
+2026-07-16 01:57:38,881 INFO Visiting asset 82523: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/82523/
+2026-07-16 01:57:40,038 DEBUG Waited 2.54 seconds before next request.
+2026-07-16 01:57:40,038 INFO Visiting asset 5332: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/5332/
+2026-07-16 01:57:41,804 INFO Trying download control: download attribute
+2026-07-16 01:57:43,770 INFO Trying download control: download attribute
+2026-07-16 01:57:44,286 DEBUG Waited 2.30 seconds before next request.
+2026-07-16 01:57:44,286 INFO Visiting asset 5333: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/5333/
+2026-07-16 01:57:48,895 INFO Trying download control: download attribute
+2026-07-16 01:57:51,310 DEBUG Waited 2.24 seconds before next request.
+2026-07-16 01:57:51,310 INFO Visiting asset 5341: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/5341/
+2026-07-16 01:57:51,354 DEBUG Waited 7.38 seconds before next request.
+2026-07-16 01:57:51,354 INFO Visiting asset 70165: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/70165/
+2026-07-16 01:57:53,231 INFO Trying download control: download attribute
+2026-07-16 01:57:53,244 INFO Trying download control: download attribute
+2026-07-16 01:57:56,036 DEBUG Waited 2.60 seconds before next request.
+2026-07-16 01:57:56,036 INFO Visiting asset 5339: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/5339/
+2026-07-16 01:57:57,891 DEBUG Waited 4.44 seconds before next request.
+2026-07-16 01:57:57,891 INFO Visiting asset 110378: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/110378/
+2026-07-16 01:57:59,764 INFO Trying download control: download attribute
+2026-07-16 01:58:00,691 INFO Trying download control: download attribute
+2026-07-16 01:58:03,155 DEBUG Waited 2.22 seconds before next request.
+2026-07-16 01:58:03,155 INFO Visiting asset 5342: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/5342/
+2026-07-16 01:58:05,020 INFO Trying download control: download attribute
+2026-07-16 01:58:07,525 DEBUG Waited 2.24 seconds before next request.
+2026-07-16 01:58:07,525 INFO Visiting asset 5340: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/5340/
+2026-07-16 01:58:07,661 DEBUG Waited 7.68 seconds before next request.
+2026-07-16 01:58:07,661 INFO Visiting asset 69596: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69596/
+2026-07-16 01:58:09,314 INFO Trying download control: download attribute
+2026-07-16 01:58:09,851 INFO Trying download control: download attribute
+2026-07-16 01:58:12,500 DEBUG Waited 2.96 seconds before next request.
+2026-07-16 01:58:12,500 INFO Visiting asset 5316: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/5316/
+2026-07-16 01:58:14,209 INFO Trying download control: download attribute
+2026-07-16 01:58:16,521 DEBUG Waited 2.09 seconds before next request.
+2026-07-16 01:58:16,521 INFO Visiting asset 5317: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/5317/
+2026-07-16 01:58:16,558 DEBUG Waited 6.38 seconds before next request.
+2026-07-16 01:58:16,558 INFO Visiting asset 70812: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/70812/
+2026-07-16 01:58:18,241 INFO Trying download control: download attribute
+2026-07-16 01:58:18,596 INFO Trying download control: download attribute
+2026-07-16 01:58:21,255 DEBUG Waited 2.76 seconds before next request.
+2026-07-16 01:58:21,256 INFO Visiting asset 5318: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/5318/
+2026-07-16 01:58:25,143 DEBUG Waited 6.20 seconds before next request.
+2026-07-16 01:58:25,143 INFO Visiting asset 82525: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/82525/
+2026-07-16 01:58:26,021 INFO Trying download control: download attribute
+2026-07-16 01:58:27,200 INFO Trying download control: download attribute
+2026-07-16 01:58:29,006 DEBUG Waited 2.75 seconds before next request.
+2026-07-16 01:58:29,006 INFO Visiting asset 5319: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/5319/
+2026-07-16 01:58:30,857 INFO Trying download control: download attribute
+2026-07-16 01:58:32,199 DEBUG Waited 4.75 seconds before next request.
+2026-07-16 01:58:32,199 INFO Visiting asset 69259: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69259/
+2026-07-16 01:58:33,444 DEBUG Waited 2.37 seconds before next request.
+2026-07-16 01:58:33,445 INFO Visiting asset 5338: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/5338/
+2026-07-16 01:58:34,053 INFO Trying download control: download attribute
+2026-07-16 01:58:35,299 INFO Trying download control: download attribute
+2026-07-16 01:58:38,321 DEBUG Waited 2.80 seconds before next request.
+2026-07-16 01:58:38,321 INFO Visiting asset 5336: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/5336/
+2026-07-16 01:58:39,055 DEBUG Waited 4.66 seconds before next request.
+2026-07-16 01:58:39,055 INFO Visiting asset 70167: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/70167/
+2026-07-16 01:58:40,189 INFO Trying download control: download attribute
+2026-07-16 01:58:42,673 DEBUG Waited 2.23 seconds before next request.
+2026-07-16 01:58:42,673 INFO Visiting asset 5346: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/5346/
+2026-07-16 01:58:44,174 INFO Trying download control: download attribute
+2026-07-16 01:58:50,968 DEBUG Waited 6.34 seconds before next request.
+2026-07-16 01:58:50,969 INFO Visiting asset 69254: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69254/
+2026-07-16 01:58:52,842 INFO Trying download control: download attribute
+2026-07-16 01:58:58,014 DEBUG Network idle timed out for https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/5346/; continuing with DOM content.
+2026-07-16 01:58:58,089 INFO Trying download control: download attribute
+2026-07-16 01:58:58,394 DEBUG Waited 5.32 seconds before next request.
+2026-07-16 01:58:58,394 INFO Visiting asset 246834: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/246834/
+2026-07-16 01:59:00,638 INFO Trying download control: download attribute
+2026-07-16 01:59:00,869 DEBUG Waited 2.54 seconds before next request.
+2026-07-16 01:59:00,869 INFO Visiting asset 5335: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/5335/
+2026-07-16 01:59:02,620 INFO Trying download control: download attribute
+2026-07-16 01:59:05,365 DEBUG Waited 2.52 seconds before next request.
+2026-07-16 01:59:05,365 INFO Visiting asset 5320: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/5320/
+2026-07-16 01:59:07,249 INFO Trying download control: download attribute
+2026-07-16 01:59:07,417 DEBUG Waited 6.51 seconds before next request.
+2026-07-16 01:59:07,417 INFO Visiting asset 90109: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/90109/
+2026-07-16 01:59:09,374 INFO Trying download control: download attribute
+2026-07-16 01:59:10,055 DEBUG Waited 2.51 seconds before next request.
+2026-07-16 01:59:10,055 INFO Visiting asset 5321: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/5321/
+2026-07-16 01:59:12,099 INFO Trying download control: download attribute
+2026-07-16 01:59:15,282 DEBUG Waited 2.96 seconds before next request.
+2026-07-16 01:59:15,282 INFO Visiting asset 5337: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/5337/
+2026-07-16 01:59:15,484 DEBUG Waited 5.87 seconds before next request.
+2026-07-16 01:59:15,484 INFO Visiting asset 113736: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/113736/
+2026-07-16 01:59:17,133 INFO Trying download control: download attribute
+2026-07-16 01:59:17,387 INFO Trying download control: download attribute
+2026-07-16 01:59:20,091 DEBUG Waited 2.72 seconds before next request.
+2026-07-16 01:59:20,091 INFO Visiting asset 5322: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/5322/
+2026-07-16 01:59:22,684 DEBUG Waited 5.07 seconds before next request.
+2026-07-16 01:59:22,684 INFO Visiting asset 69247: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69247/
+2026-07-16 01:59:25,134 INFO Trying download control: download attribute
+2026-07-16 01:59:25,201 INFO Trying download control: download attribute
+2026-07-16 01:59:27,767 DEBUG Waited 2.26 seconds before next request.
+2026-07-16 01:59:27,767 INFO Visiting asset 5323: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/5323/
+2026-07-16 01:59:29,709 INFO Trying download control: download attribute
+2026-07-16 01:59:32,364 DEBUG Waited 2.42 seconds before next request.
+2026-07-16 01:59:32,364 INFO Visiting asset 5347: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/5347/
+2026-07-16 01:59:32,843 DEBUG Waited 7.35 seconds before next request.
+2026-07-16 01:59:32,843 INFO Visiting asset 70164: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/70164/
+2026-07-16 01:59:34,175 INFO Trying download control: download attribute
+2026-07-16 01:59:34,827 INFO Trying download control: download attribute
+2026-07-16 01:59:36,726 DEBUG Waited 2.27 seconds before next request.
+2026-07-16 01:59:36,726 INFO Visiting asset 5334: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/5334/
+2026-07-16 01:59:38,455 INFO Trying download control: download attribute
+2026-07-16 01:59:41,577 DEBUG Waited 2.87 seconds before next request.
+2026-07-16 01:59:41,577 INFO Visiting asset 5345: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/5345/
+2026-07-16 01:59:42,725 DEBUG Waited 7.62 seconds before next request.
+2026-07-16 01:59:42,726 INFO Visiting asset 70811: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/70811/
+2026-07-16 01:59:43,367 INFO Trying download control: download attribute
+2026-07-16 01:59:44,592 INFO Trying download control: download attribute
+2026-07-16 01:59:46,281 DEBUG Waited 2.55 seconds before next request.
+2026-07-16 01:59:46,281 INFO Visiting asset 5343: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/5343/
+2026-07-16 01:59:48,008 INFO Trying download control: download attribute
+2026-07-16 01:59:49,522 DEBUG Waited 4.64 seconds before next request.
+2026-07-16 01:59:49,522 INFO Visiting asset 70810: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/70810/
+2026-07-16 01:59:50,436 DEBUG Waited 2.20 seconds before next request.
+2026-07-16 01:59:50,436 INFO Visiting asset 5344: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/5344/
+2026-07-16 01:59:51,495 INFO Trying download control: download attribute
+2026-07-16 01:59:52,265 INFO Trying download control: download attribute
+2026-07-16 01:59:54,912 DEBUG Waited 2.44 seconds before next request.
+2026-07-16 01:59:54,912 INFO Visiting asset 26282: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/26282/
+2026-07-16 01:59:59,393 DEBUG Waited 7.50 seconds before next request.
+2026-07-16 01:59:59,393 INFO Visiting asset 69593: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69593/
+2026-07-16 02:00:00,110 INFO Trying download control: download attribute
+2026-07-16 02:00:01,296 INFO Trying download control: download attribute
+2026-07-16 02:00:02,792 DEBUG Waited 2.42 seconds before next request.
+2026-07-16 02:00:02,792 INFO Visiting asset 5324: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/5324/
+2026-07-16 02:00:07,710 INFO Trying download control: download attribute
+2026-07-16 02:00:07,933 DEBUG Waited 6.36 seconds before next request.
+2026-07-16 02:00:07,933 INFO Visiting asset 93129: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/93129/
+2026-07-16 02:00:09,912 INFO Trying download control: download attribute
+2026-07-16 02:00:10,539 DEBUG Waited 2.61 seconds before next request.
+2026-07-16 02:00:10,539 INFO Visiting asset 5329: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/5329/
+2026-07-16 02:00:12,434 INFO Trying download control: download attribute
+2026-07-16 02:00:16,815 DEBUG Waited 6.63 seconds before next request.
+2026-07-16 02:00:16,815 INFO Visiting asset 69595: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69595/
+2026-07-16 02:00:23,035 INFO Trying download control: download attribute
+2026-07-16 02:00:28,280 DEBUG Waited 5.01 seconds before next request.
+2026-07-16 02:00:28,280 INFO Visiting asset 85548: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/85548/
+2026-07-16 02:00:31,578 INFO Trying download control: download attribute
+2026-07-16 02:00:39,286 DEBUG Waited 7.37 seconds before next request.
+2026-07-16 02:00:39,286 INFO Visiting asset 69599: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69599/
+2026-07-16 02:00:44,109 INFO Trying download control: download attribute
+2026-07-16 02:00:50,944 DEBUG Waited 6.42 seconds before next request.
+2026-07-16 02:00:50,944 INFO Visiting asset 82528: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/82528/
+2026-07-16 02:00:52,804 INFO Trying download control: download attribute
+2026-07-16 02:01:00,752 DEBUG Waited 7.72 seconds before next request.
+2026-07-16 02:01:00,752 INFO Visiting asset 99584: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/99584/
+2026-07-16 02:01:02,654 INFO Trying download control: download attribute
+2026-07-16 02:01:07,523 DEBUG Waited 4.68 seconds before next request.
+2026-07-16 02:01:07,523 INFO Visiting asset 82527: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/82527/
+2026-07-16 02:01:12,310 INFO Trying download control: download attribute
+2026-07-16 02:01:19,743 DEBUG Waited 7.15 seconds before next request.
+2026-07-16 02:01:19,743 INFO Visiting asset 103015: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/103015/
+2026-07-16 02:01:26,011 INFO Trying download control: download attribute
+2026-07-16 02:01:33,159 DEBUG Waited 6.80 seconds before next request.
+2026-07-16 02:01:33,159 INFO Visiting asset 110364: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/110364/
+2026-07-16 02:01:35,103 INFO Trying download control: download attribute
+2026-07-16 02:01:41,355 DEBUG Waited 5.79 seconds before next request.
+2026-07-16 02:01:41,355 INFO Visiting asset 104708: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/104708/
+2026-07-16 02:01:46,126 INFO Trying download control: download attribute
+2026-07-16 02:01:51,306 DEBUG Waited 4.99 seconds before next request.
+2026-07-16 02:01:51,306 INFO Visiting asset 104381: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/104381/
+2026-07-16 02:01:56,630 INFO Trying download control: download attribute
+2026-07-16 02:02:04,401 DEBUG Waited 7.60 seconds before next request.
+2026-07-16 02:02:04,401 INFO Visiting asset 85537: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/85537/
+2026-07-16 02:02:06,127 INFO Trying download control: download attribute
+2026-07-16 02:02:13,017 DEBUG Waited 6.69 seconds before next request.
+2026-07-16 02:02:13,017 INFO Visiting asset 70813: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/70813/
+2026-07-16 02:02:18,414 INFO Trying download control: download attribute
+2026-07-16 02:02:23,445 DEBUG Waited 4.78 seconds before next request.
+2026-07-16 02:02:23,445 INFO Visiting asset 101876: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/101876/
+2026-07-16 02:02:25,241 INFO Trying download control: download attribute
+2026-07-16 02:02:31,628 DEBUG Waited 6.12 seconds before next request.
+2026-07-16 02:02:31,628 INFO Visiting asset 101165: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/101165/
+2026-07-16 02:02:36,496 INFO Trying download control: download attribute
+2026-07-16 02:02:40,915 DEBUG Waited 4.17 seconds before next request.
+2026-07-16 02:02:40,915 INFO Visiting asset 69352: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69352/
+2026-07-16 02:02:42,683 INFO Trying download control: download attribute
+2026-07-16 02:02:50,153 DEBUG Waited 7.23 seconds before next request.
+2026-07-16 02:02:50,153 INFO Visiting asset 84855: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/84855/
+2026-07-16 02:02:53,527 INFO Trying download control: download attribute
+2026-07-16 02:02:58,429 DEBUG Waited 4.70 seconds before next request.
+2026-07-16 02:02:58,429 INFO Visiting asset 69778: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69778/
+2026-07-16 02:03:03,357 INFO Trying download control: download attribute
+2026-07-16 02:03:09,348 DEBUG Waited 5.66 seconds before next request.
+2026-07-16 02:03:09,348 INFO Visiting asset 78911: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/78911/
+2026-07-16 02:03:11,206 INFO Trying download control: download attribute
+2026-07-16 02:03:16,355 DEBUG Waited 4.90 seconds before next request.
+2026-07-16 02:03:16,355 INFO Visiting asset 69391: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69391/
+2026-07-16 02:03:18,222 INFO Trying download control: download attribute
+2026-07-16 02:03:25,792 DEBUG Waited 7.38 seconds before next request.
+2026-07-16 02:03:25,792 INFO Visiting asset 69781: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69781/
+2026-07-16 02:03:27,851 INFO Trying download control: download attribute
+2026-07-16 02:03:32,577 DEBUG Waited 4.48 seconds before next request.
+2026-07-16 02:03:32,577 INFO Visiting asset 84854: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/84854/
+2026-07-16 02:03:34,532 INFO Trying download control: download attribute
+2026-07-16 02:03:40,338 DEBUG Waited 5.44 seconds before next request.
+2026-07-16 02:03:40,338 INFO Visiting asset 76669: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/76669/
+2026-07-16 02:03:42,245 INFO Trying download control: download attribute
+2026-07-16 02:03:48,349 DEBUG Waited 5.85 seconds before next request.
+2026-07-16 02:03:48,350 INFO Visiting asset 69360: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69360/
+2026-07-16 02:03:50,170 INFO Trying download control: download attribute
+2026-07-16 02:03:54,817 DEBUG Waited 4.40 seconds before next request.
+2026-07-16 02:03:54,817 INFO Visiting asset 78910: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/78910/
+2026-07-16 02:03:56,930 INFO Trying download control: download attribute
+2026-07-16 02:04:04,274 DEBUG Waited 7.03 seconds before next request.
+2026-07-16 02:04:04,274 INFO Visiting asset 69776: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69776/
+2026-07-16 02:04:06,283 INFO Trying download control: download attribute
+2026-07-16 02:04:14,358 DEBUG Waited 7.84 seconds before next request.
+2026-07-16 02:04:14,358 INFO Visiting asset 84853: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/84853/
+2026-07-16 02:04:16,348 INFO Trying download control: download attribute
+2026-07-16 02:04:24,298 DEBUG Waited 7.57 seconds before next request.
+2026-07-16 02:04:24,298 INFO Visiting asset 97441: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/97441/
+2026-07-16 02:04:26,398 INFO Trying download control: download attribute
+2026-07-16 02:04:34,374 DEBUG Waited 7.76 seconds before next request.
+2026-07-16 02:04:34,374 INFO Visiting asset 69353: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69353/
+2026-07-16 02:04:36,293 INFO Trying download control: download attribute
+2026-07-16 02:04:44,513 DEBUG Waited 7.94 seconds before next request.
+2026-07-16 02:04:44,513 INFO Visiting asset 69780: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69780/
+2026-07-16 02:05:00,083 DEBUG Network idle timed out for https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69780/; continuing with DOM content.
+2026-07-16 02:05:00,170 INFO Trying download control: download attribute
+2026-07-16 02:05:06,391 DEBUG Waited 5.97 seconds before next request.
+2026-07-16 02:05:06,391 INFO Visiting asset 69782: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69782/
+2026-07-16 02:05:08,475 INFO Trying download control: download attribute
+2026-07-16 02:05:13,375 DEBUG Waited 4.63 seconds before next request.
+2026-07-16 02:05:13,375 INFO Visiting asset 97443: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/97443/
+2026-07-16 02:05:15,222 INFO Trying download control: download attribute
+2026-07-16 02:05:19,995 DEBUG Waited 4.49 seconds before next request.
+2026-07-16 02:05:19,995 INFO Visiting asset 69390: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69390/
+2026-07-16 02:05:22,144 INFO Trying download control: download attribute
+2026-07-16 02:05:30,005 DEBUG Waited 7.55 seconds before next request.
+2026-07-16 02:05:30,005 INFO Visiting asset 69779: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69779/
+2026-07-16 02:05:32,177 INFO Trying download control: download attribute
+2026-07-16 02:05:40,134 DEBUG Waited 7.68 seconds before next request.
+2026-07-16 02:05:40,134 INFO Visiting asset 80906: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/80906/
+2026-07-16 02:05:42,615 INFO Trying download control: download attribute
+2026-07-16 02:05:49,540 DEBUG Waited 6.56 seconds before next request.
+2026-07-16 02:05:49,540 INFO Visiting asset 69775: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69775/
+2026-07-16 02:05:51,634 INFO Trying download control: download attribute
+2026-07-16 02:05:56,518 DEBUG Waited 4.57 seconds before next request.
+2026-07-16 02:05:56,518 INFO Visiting asset 69355: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69355/
+2026-07-16 02:05:58,699 INFO Trying download control: download attribute
+2026-07-16 02:06:04,245 DEBUG Waited 5.27 seconds before next request.
+2026-07-16 02:06:04,245 INFO Visiting asset 80886: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/80886/
+2026-07-16 02:06:06,552 INFO Trying download control: download attribute
+2026-07-16 02:06:12,734 DEBUG Waited 5.86 seconds before next request.
+2026-07-16 02:06:12,734 INFO Visiting asset 69354: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69354/
+2026-07-16 02:06:14,739 INFO Trying download control: download attribute
+2026-07-16 02:06:19,868 DEBUG Waited 4.80 seconds before next request.
+2026-07-16 02:06:19,868 INFO Visiting asset 69388: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69388/
+2026-07-16 02:06:22,190 INFO Trying download control: download attribute
+2026-07-16 02:06:29,239 DEBUG Waited 6.71 seconds before next request.
+2026-07-16 02:06:29,239 INFO Visiting asset 77431: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/77431/
+2026-07-16 02:06:34,036 INFO Trying download control: download attribute
+2026-07-16 02:06:38,499 DEBUG Waited 4.25 seconds before next request.
+2026-07-16 02:06:38,499 INFO Visiting asset 90487: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/90487/
+2026-07-16 02:06:40,255 INFO Trying download control: download attribute
+2026-07-16 02:06:47,406 DEBUG Waited 6.95 seconds before next request.
+2026-07-16 02:06:47,407 INFO Visiting asset 78645: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/78645/
+2026-07-16 02:06:49,371 INFO Trying download control: download attribute
+2026-07-16 02:06:53,694 DEBUG Waited 4.04 seconds before next request.
+2026-07-16 02:06:53,694 INFO Visiting asset 85542: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/85542/
+2026-07-16 02:06:55,401 INFO Trying download control: download attribute
+2026-07-16 02:06:59,879 DEBUG Waited 4.26 seconds before next request.
+2026-07-16 02:06:59,879 INFO Visiting asset 90476: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/90476/
+2026-07-16 02:07:01,580 INFO Trying download control: download attribute
+2026-07-16 02:07:06,827 DEBUG Waited 5.02 seconds before next request.
+2026-07-16 02:07:06,827 INFO Visiting asset 69394: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69394/
+2026-07-16 02:07:08,608 INFO Trying download control: download attribute
+2026-07-16 02:07:14,518 DEBUG Waited 5.72 seconds before next request.
+2026-07-16 02:07:14,518 INFO Visiting asset 68907: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/68907/
+2026-07-16 02:07:16,381 INFO Trying download control: download attribute
+2026-07-16 02:07:21,301 DEBUG Waited 4.72 seconds before next request.
+2026-07-16 02:07:21,302 INFO Visiting asset 69361: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69361/
+2026-07-16 02:07:23,070 INFO Trying download control: download attribute
+2026-07-16 02:07:29,786 DEBUG Waited 6.52 seconds before next request.
+2026-07-16 02:07:29,786 INFO Visiting asset 97444: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/97444/
+2026-07-16 02:07:31,565 INFO Trying download control: download attribute
+2026-07-16 02:07:38,827 DEBUG Waited 7.06 seconds before next request.
+2026-07-16 02:07:38,827 INFO Visiting asset 84852: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/84852/
+2026-07-16 02:07:40,818 INFO Trying download control: download attribute
+2026-07-16 02:07:46,021 DEBUG Waited 4.68 seconds before next request.
+2026-07-16 02:07:46,021 INFO Visiting asset 69357: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69357/
+2026-07-16 02:08:01,581 DEBUG Network idle timed out for https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69357/; continuing with DOM content.
+2026-07-16 02:08:01,670 INFO Trying download control: download attribute
+2026-07-16 02:08:09,537 DEBUG Waited 7.60 seconds before next request.
+2026-07-16 02:08:09,537 INFO Visiting asset 71465: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/71465/
+2026-07-16 02:08:11,587 INFO Trying download control: download attribute
+2026-07-16 02:08:17,869 DEBUG Waited 6.01 seconds before next request.
+2026-07-16 02:08:17,869 INFO Visiting asset 69356: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69356/
+2026-07-16 02:08:19,969 INFO Trying download control: download attribute
+2026-07-16 02:08:26,039 DEBUG Waited 5.74 seconds before next request.
+2026-07-16 02:08:26,039 INFO Visiting asset 78084: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/78084/
+2026-07-16 02:08:28,062 INFO Trying download control: download attribute
+2026-07-16 02:08:32,601 DEBUG Waited 4.23 seconds before next request.
+2026-07-16 02:08:32,601 INFO Visiting asset 83598: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/83598/
+2026-07-16 02:08:35,130 INFO Trying download control: download attribute
+2026-07-16 02:08:40,958 DEBUG Waited 5.58 seconds before next request.
+2026-07-16 02:08:40,958 INFO Visiting asset 69359: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69359/
+2026-07-16 02:08:46,316 INFO Trying download control: download attribute
+2026-07-16 02:08:52,092 DEBUG Waited 5.48 seconds before next request.
+2026-07-16 02:08:52,092 INFO Visiting asset 69783: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69783/
+2026-07-16 02:08:54,190 INFO Trying download control: download attribute
+2026-07-16 02:09:00,206 DEBUG Waited 5.73 seconds before next request.
+2026-07-16 02:09:00,206 INFO Visiting asset 69777: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69777/
+2026-07-16 02:09:03,047 INFO Trying download control: download attribute
+2026-07-16 02:09:08,110 DEBUG Waited 4.81 seconds before next request.
+2026-07-16 02:09:08,110 INFO Visiting asset 70562: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/70562/
+2026-07-16 02:09:10,125 INFO Trying download control: download attribute
+2026-07-16 02:09:15,438 DEBUG Waited 5.06 seconds before next request.
+2026-07-16 02:09:15,438 INFO Visiting asset 70125: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/70125/
+2026-07-16 02:09:17,412 INFO Trying download control: download attribute
+2026-07-16 02:09:25,304 DEBUG Waited 7.58 seconds before next request.
+2026-07-16 02:09:25,305 INFO Visiting asset 78083: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/78083/
+2026-07-16 02:09:27,335 INFO Trying download control: download attribute
+2026-07-16 02:09:33,202 DEBUG Waited 5.52 seconds before next request.
+2026-07-16 02:09:33,202 INFO Visiting asset 70123: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/70123/
+2026-07-16 02:09:35,280 INFO Trying download control: download attribute
+2026-07-16 02:09:42,804 DEBUG Waited 7.10 seconds before next request.
+2026-07-16 02:09:42,805 INFO Visiting asset 76883: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/76883/
+2026-07-16 02:09:44,906 INFO Trying download control: download attribute
+2026-07-16 02:09:51,247 DEBUG Waited 6.04 seconds before next request.
+2026-07-16 02:09:51,247 INFO Visiting asset 76668: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/76668/
+2026-07-16 02:09:53,241 INFO Trying download control: download attribute
+2026-07-16 02:10:00,551 DEBUG Waited 7.09 seconds before next request.
+2026-07-16 02:10:00,551 INFO Visiting asset 70124: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/70124/
+2026-07-16 02:10:02,440 INFO Trying download control: download attribute
+2026-07-16 02:10:08,032 DEBUG Waited 5.33 seconds before next request.
+2026-07-16 02:10:08,032 INFO Visiting asset 70561: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/70561/
+2026-07-16 02:10:10,131 INFO Trying download control: download attribute
+2026-07-16 02:10:18,218 DEBUG Waited 7.76 seconds before next request.
+2026-07-16 02:10:18,218 INFO Visiting asset 69784: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69784/
+2026-07-16 02:10:20,156 INFO Trying download control: download attribute
+2026-07-16 02:10:25,445 DEBUG Waited 5.03 seconds before next request.
+2026-07-16 02:10:25,446 INFO Visiting asset 97442: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/97442/
+2026-07-16 02:10:27,610 INFO Trying download control: download attribute
+2026-07-16 02:10:35,616 DEBUG Waited 7.60 seconds before next request.
+2026-07-16 02:10:35,616 INFO Visiting asset 69393: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69393/
+2026-07-16 02:10:37,555 INFO Trying download control: download attribute
+2026-07-16 02:10:43,356 DEBUG Waited 5.59 seconds before next request.
+2026-07-16 02:10:43,356 INFO Visiting asset 77429: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/77429/
+2026-07-16 02:10:45,150 INFO Trying download control: download attribute
+2026-07-16 02:10:51,961 DEBUG Waited 6.24 seconds before next request.
+2026-07-16 02:10:51,962 INFO Visiting asset 91507: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/91507/
+2026-07-16 02:11:10,265 DEBUG Network idle timed out for https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/91507/; continuing with DOM content.
+2026-07-16 02:11:10,393 INFO Trying download control: download attribute
+2026-07-16 02:11:14,806 DEBUG Waited 4.05 seconds before next request.
+2026-07-16 02:11:14,807 INFO Visiting asset 68908: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/68908/
+2026-07-16 02:11:17,231 INFO Trying download control: download attribute
+2026-07-16 02:11:25,415 DEBUG Waited 7.87 seconds before next request.
+2026-07-16 02:11:25,415 INFO Visiting asset 68906: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/68906/
+2026-07-16 02:11:27,509 INFO Trying download control: download attribute
+2026-07-16 02:11:35,303 DEBUG Waited 7.58 seconds before next request.
+2026-07-16 02:11:35,303 INFO Visiting asset 69392: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69392/
+2026-07-16 02:11:37,826 INFO Trying download control: download attribute
+2026-07-16 02:11:42,176 DEBUG Waited 4.07 seconds before next request.
+2026-07-16 02:11:42,176 INFO Visiting asset 107656: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/107656/
+2026-07-16 02:11:44,301 INFO Trying download control: download attribute
+2026-07-16 02:11:52,535 DEBUG Waited 7.92 seconds before next request.
+2026-07-16 02:11:52,536 INFO Visiting asset 69785: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69785/
+2026-07-16 02:11:54,542 INFO Trying download control: download attribute
+2026-07-16 02:12:01,064 DEBUG Waited 6.29 seconds before next request.
+2026-07-16 02:12:01,064 INFO Visiting asset 85541: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/85541/
+2026-07-16 02:12:03,519 INFO Trying download control: download attribute
+2026-07-16 02:12:09,565 DEBUG Waited 5.75 seconds before next request.
+2026-07-16 02:12:09,565 INFO Visiting asset 69389: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69389/
+2026-07-16 02:12:24,988 DEBUG Network idle timed out for https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69389/; continuing with DOM content.
+2026-07-16 02:12:25,114 INFO Trying download control: download attribute
+2026-07-16 02:12:32,612 DEBUG Waited 7.20 seconds before next request.
+2026-07-16 02:12:32,612 INFO Visiting asset 69774: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69774/
+2026-07-16 02:12:34,586 INFO Trying download control: download attribute
+2026-07-16 02:12:41,620 DEBUG Waited 6.78 seconds before next request.
+2026-07-16 02:12:41,620 INFO Visiting asset 69358: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69358/
+2026-07-16 02:12:43,635 INFO Trying download control: download attribute
+2026-07-16 02:12:51,199 DEBUG Waited 7.30 seconds before next request.
+2026-07-16 02:12:51,200 INFO Visiting asset 69375: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69375/
+2026-07-16 02:12:53,423 INFO Trying download control: download attribute
+2026-07-16 02:12:58,644 DEBUG Waited 4.94 seconds before next request.
+2026-07-16 02:12:58,644 INFO Visiting asset 69370: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69370/
+2026-07-16 02:13:00,623 INFO Trying download control: download attribute
+2026-07-16 02:13:07,603 DEBUG Waited 6.71 seconds before next request.
+2026-07-16 02:13:07,604 INFO Visiting asset 75431: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/75431/
+2026-07-16 02:13:10,005 INFO Trying download control: download attribute
+2026-07-16 02:13:16,845 DEBUG Waited 6.58 seconds before next request.
+2026-07-16 02:13:16,845 INFO Visiting asset 105360: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/105360/
+2026-07-16 02:13:18,820 INFO Trying download control: download attribute
+2026-07-16 02:13:23,779 DEBUG Waited 4.71 seconds before next request.
+2026-07-16 02:13:23,779 INFO Visiting asset 70251: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/70251/
+2026-07-16 02:13:25,761 INFO Trying download control: download attribute
+2026-07-16 02:13:31,873 DEBUG Waited 5.87 seconds before next request.
+2026-07-16 02:13:31,873 INFO Visiting asset 70250: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/70250/
+2026-07-16 02:13:34,294 INFO Trying download control: download attribute
+2026-07-16 02:13:40,457 DEBUG Waited 5.85 seconds before next request.
+2026-07-16 02:13:40,458 INFO Visiting asset 90488: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/90488/
+2026-07-16 02:13:42,594 INFO Trying download control: download attribute
+2026-07-16 02:13:48,702 DEBUG Waited 5.82 seconds before next request.
+2026-07-16 02:13:48,703 INFO Visiting asset 70816: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/70816/
+2026-07-16 02:13:50,758 INFO Trying download control: download attribute
+2026-07-16 02:13:55,572 DEBUG Waited 4.47 seconds before next request.
+2026-07-16 02:13:55,573 INFO Visiting asset 69365: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69365/
+2026-07-16 02:14:08,598 INFO Trying download control: download attribute
+2026-07-16 02:14:13,275 DEBUG Waited 4.37 seconds before next request.
+2026-07-16 02:14:13,275 INFO Visiting asset 80781: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/80781/
+2026-07-16 02:14:15,097 INFO Trying download control: download attribute
+2026-07-16 02:14:21,321 DEBUG Waited 6.06 seconds before next request.
+2026-07-16 02:14:21,321 INFO Visiting asset 69368: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69368/
+2026-07-16 02:14:23,331 INFO Trying download control: download attribute
+2026-07-16 02:14:30,646 DEBUG Waited 6.87 seconds before next request.
+2026-07-16 02:14:30,646 INFO Visiting asset 75430: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/75430/
+2026-07-16 02:14:32,705 INFO Trying download control: download attribute
+2026-07-16 02:14:39,200 DEBUG Waited 6.15 seconds before next request.
+2026-07-16 02:14:39,200 INFO Visiting asset 69378: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69378/
+2026-07-16 02:14:41,171 INFO Trying download control: download attribute
+2026-07-16 02:14:48,710 DEBUG Waited 7.23 seconds before next request.
+2026-07-16 02:14:48,710 INFO Visiting asset 69384: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69384/
+2026-07-16 02:14:50,749 INFO Trying download control: download attribute
+2026-07-16 02:14:58,337 DEBUG Waited 7.27 seconds before next request.
+2026-07-16 02:14:58,337 INFO Visiting asset 69364: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69364/
+2026-07-16 02:15:00,513 INFO Trying download control: download attribute
+2026-07-16 02:15:06,630 DEBUG Waited 5.57 seconds before next request.
+2026-07-16 02:15:06,630 INFO Visiting asset 92238: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/92238/
+2026-07-16 02:15:11,935 INFO Trying download control: download attribute
+2026-07-16 02:15:19,527 DEBUG Waited 7.17 seconds before next request.
+2026-07-16 02:15:19,527 INFO Visiting asset 69362: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69362/
+2026-07-16 02:15:21,891 INFO Trying download control: download attribute
+2026-07-16 02:15:29,851 DEBUG Waited 7.68 seconds before next request.
+2026-07-16 02:15:29,851 INFO Visiting asset 69369: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69369/
+2026-07-16 02:15:32,126 INFO Trying download control: download attribute
+2026-07-16 02:15:38,746 DEBUG Waited 6.11 seconds before next request.
+2026-07-16 02:15:38,747 INFO Visiting asset 70818: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/70818/
+2026-07-16 02:15:41,192 INFO Trying download control: download attribute
+2026-07-16 02:15:47,068 DEBUG Waited 5.47 seconds before next request.
+2026-07-16 02:15:47,068 INFO Visiting asset 90489: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/90489/
+2026-07-16 02:15:49,317 INFO Trying download control: download attribute
+2026-07-16 02:15:55,390 DEBUG Waited 5.71 seconds before next request.
+2026-07-16 02:15:55,391 INFO Visiting asset 75429: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/75429/
+2026-07-16 02:15:57,409 INFO Trying download control: download attribute
+2026-07-16 02:16:03,994 DEBUG Waited 6.20 seconds before next request.
+2026-07-16 02:16:03,994 INFO Visiting asset 84538: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/84538/
+2026-07-16 02:16:06,130 INFO Trying download control: download attribute
+2026-07-16 02:16:13,586 DEBUG Waited 7.16 seconds before next request.
+2026-07-16 02:16:13,586 INFO Visiting asset 69377: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69377/
+2026-07-16 02:16:15,785 INFO Trying download control: download attribute
+2026-07-16 02:16:20,081 DEBUG Waited 4.03 seconds before next request.
+2026-07-16 02:16:20,081 INFO Visiting asset 87145: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/87145/
+2026-07-16 02:16:22,051 INFO Trying download control: download attribute
+2026-07-16 02:16:28,050 DEBUG Waited 5.63 seconds before next request.
+2026-07-16 02:16:28,050 INFO Visiting asset 101872: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/101872/
+2026-07-16 02:16:30,039 INFO Trying download control: download attribute
+2026-07-16 02:16:35,932 DEBUG Waited 5.64 seconds before next request.
+2026-07-16 02:16:35,932 INFO Visiting asset 91505: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/91505/
+2026-07-16 02:16:37,851 INFO Trying download control: download attribute
+2026-07-16 02:16:43,483 DEBUG Waited 5.35 seconds before next request.
+2026-07-16 02:16:43,483 INFO Visiting asset 79547: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/79547/
+2026-07-16 02:16:45,351 INFO Trying download control: download attribute
+2026-07-16 02:16:49,948 DEBUG Waited 4.36 seconds before next request.
+2026-07-16 02:16:49,948 INFO Visiting asset 69028: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69028/
+2026-07-16 02:16:55,109 INFO Trying download control: download attribute
+2026-07-16 02:17:02,416 DEBUG Waited 7.03 seconds before next request.
+2026-07-16 02:17:02,416 INFO Visiting asset 80780: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/80780/
+2026-07-16 02:17:07,418 INFO Trying download control: download attribute
+2026-07-16 02:17:13,664 DEBUG Waited 6.00 seconds before next request.
+2026-07-16 02:17:13,664 INFO Visiting asset 75428: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/75428/
+2026-07-16 02:17:15,778 INFO Trying download control: download attribute
+2026-07-16 02:17:21,711 DEBUG Waited 5.67 seconds before next request.
+2026-07-16 02:17:21,711 INFO Visiting asset 75426: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/75426/
+2026-07-16 02:17:23,720 INFO Trying download control: download attribute
+2026-07-16 02:17:30,311 DEBUG Waited 6.22 seconds before next request.
+2026-07-16 02:17:30,311 INFO Visiting asset 71467: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/71467/
+2026-07-16 02:17:32,301 INFO Trying download control: download attribute
+2026-07-16 02:17:40,385 DEBUG Waited 7.83 seconds before next request.
+2026-07-16 02:17:40,385 INFO Visiting asset 70253: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/70253/
+2026-07-16 02:17:42,272 INFO Trying download control: download attribute
+2026-07-16 02:17:48,909 DEBUG Waited 6.39 seconds before next request.
+2026-07-16 02:17:48,909 INFO Visiting asset 69372: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69372/
+2026-07-16 02:17:53,889 INFO Trying download control: download attribute
+2026-07-16 02:18:00,352 DEBUG Waited 6.17 seconds before next request.
+2026-07-16 02:18:00,352 INFO Visiting asset 75427: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/75427/
+2026-07-16 02:18:02,436 INFO Trying download control: download attribute
+2026-07-16 02:18:06,729 DEBUG Waited 4.01 seconds before next request.
+2026-07-16 02:18:06,729 INFO Visiting asset 70254: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/70254/
+2026-07-16 02:18:09,242 INFO Trying download control: download attribute
+2026-07-16 02:18:16,169 DEBUG Waited 6.26 seconds before next request.
+2026-07-16 02:18:16,169 INFO Visiting asset 69382: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69382/
+2026-07-16 02:18:18,659 INFO Trying download control: download attribute
+2026-07-16 02:18:23,287 DEBUG Waited 4.10 seconds before next request.
+2026-07-16 02:18:23,287 INFO Visiting asset 70252: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/70252/
+2026-07-16 02:18:25,612 INFO Trying download control: download attribute
+2026-07-16 02:18:32,700 DEBUG Waited 6.75 seconds before next request.
+2026-07-16 02:18:32,700 INFO Visiting asset 77758: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/77758/
+2026-07-16 02:18:37,628 INFO Trying download control: download attribute
+2026-07-16 02:18:45,316 DEBUG Waited 7.43 seconds before next request.
+2026-07-16 02:18:45,316 INFO Visiting asset 69385: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69385/
+2026-07-16 02:18:50,162 INFO Trying download control: download attribute
+2026-07-16 02:18:55,598 DEBUG Waited 5.24 seconds before next request.
+2026-07-16 02:18:55,598 INFO Visiting asset 109464: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/109464/
+2026-07-16 02:18:57,543 INFO Trying download control: download attribute
+2026-07-16 02:19:02,250 DEBUG Waited 4.50 seconds before next request.
+2026-07-16 02:19:02,250 INFO Visiting asset 109479: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/109479/
+2026-07-16 02:19:04,291 INFO Trying download control: download attribute
+2026-07-16 02:19:11,043 DEBUG Waited 6.49 seconds before next request.
+2026-07-16 02:19:11,043 INFO Visiting asset 76665: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/76665/
+2026-07-16 02:19:15,861 INFO Trying download control: download attribute
+2026-07-16 02:19:20,722 DEBUG Waited 4.67 seconds before next request.
+2026-07-16 02:19:20,722 INFO Visiting asset 76666: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/76666/
+2026-07-16 02:19:22,438 INFO Trying download control: download attribute
+2026-07-16 02:19:28,668 DEBUG Waited 6.03 seconds before next request.
+2026-07-16 02:19:28,668 INFO Visiting asset 69026: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69026/
+2026-07-16 02:19:30,375 INFO Trying download control: download attribute
+2026-07-16 02:19:36,514 DEBUG Waited 5.96 seconds before next request.
+2026-07-16 02:19:36,514 INFO Visiting asset 114032: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/114032/
+2026-07-16 02:19:38,210 INFO Trying download control: download attribute
+2026-07-16 02:19:43,920 DEBUG Waited 5.51 seconds before next request.
+2026-07-16 02:19:43,920 INFO Visiting asset 225244: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/225244/
+2026-07-16 02:19:45,696 INFO Trying download control: download attribute
+2026-07-16 02:19:52,020 DEBUG Waited 6.13 seconds before next request.
+2026-07-16 02:19:52,020 INFO Visiting asset 80783: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/80783/
+2026-07-16 02:19:53,756 INFO Trying download control: download attribute
+2026-07-16 02:20:00,554 DEBUG Waited 6.60 seconds before next request.
+2026-07-16 02:20:00,554 INFO Visiting asset 95771: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/95771/
+2026-07-16 02:20:02,293 INFO Trying download control: download attribute
+2026-07-16 02:20:09,735 DEBUG Waited 7.24 seconds before next request.
+2026-07-16 02:20:09,735 INFO Visiting asset 110595: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/110595/
+2026-07-16 02:20:25,264 DEBUG Network idle timed out for https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/110595/; continuing with DOM content.
+2026-07-16 02:20:25,315 INFO Trying download control: download attribute
+2026-07-16 02:20:32,392 DEBUG Waited 6.90 seconds before next request.
+2026-07-16 02:20:32,393 INFO Visiting asset 69373: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69373/
+2026-07-16 02:20:37,409 INFO Trying download control: download attribute
+2026-07-16 02:20:42,430 DEBUG Waited 4.85 seconds before next request.
+2026-07-16 02:20:42,430 INFO Visiting asset 69380: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69380/
+2026-07-16 02:20:44,188 INFO Trying download control: download attribute
+2026-07-16 02:20:48,877 DEBUG Waited 4.48 seconds before next request.
+2026-07-16 02:20:48,877 INFO Visiting asset 69379: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69379/
+2026-07-16 02:20:50,572 INFO Trying download control: download attribute
+2026-07-16 02:20:58,441 DEBUG Waited 7.59 seconds before next request.
+2026-07-16 02:20:58,441 INFO Visiting asset 111956: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/111956/
+2026-07-16 02:21:00,155 INFO Trying download control: download attribute
+2026-07-16 02:21:06,699 DEBUG Waited 6.38 seconds before next request.
+2026-07-16 02:21:06,699 INFO Visiting asset 81970: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/81970/
+2026-07-16 02:21:08,840 INFO Trying download control: download attribute
+2026-07-16 02:21:13,939 DEBUG Waited 4.88 seconds before next request.
+2026-07-16 02:21:13,939 INFO Visiting asset 69386: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69386/
+2026-07-16 02:21:15,867 INFO Trying download control: download attribute
+2026-07-16 02:21:20,567 DEBUG Waited 4.46 seconds before next request.
+2026-07-16 02:21:20,567 INFO Visiting asset 106111: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/106111/
+2026-07-16 02:21:22,411 INFO Trying download control: download attribute
+2026-07-16 02:21:30,092 DEBUG Waited 7.50 seconds before next request.
+2026-07-16 02:21:30,092 INFO Visiting asset 111955: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/111955/
+2026-07-16 02:21:31,833 INFO Trying download control: download attribute
+2026-07-16 02:21:36,408 DEBUG Waited 4.37 seconds before next request.
+2026-07-16 02:21:36,409 INFO Visiting asset 69366: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69366/
+2026-07-16 02:21:38,172 INFO Trying download control: download attribute
+2026-07-16 02:21:42,886 DEBUG Waited 4.54 seconds before next request.
+2026-07-16 02:21:42,886 INFO Visiting asset 80782: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/80782/
+2026-07-16 02:21:44,649 INFO Trying download control: download attribute
+2026-07-16 02:21:49,492 DEBUG Waited 4.67 seconds before next request.
+2026-07-16 02:21:49,492 INFO Visiting asset 69381: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69381/
+2026-07-16 02:21:51,213 INFO Trying download control: download attribute
+2026-07-16 02:21:56,398 DEBUG Waited 5.01 seconds before next request.
+2026-07-16 02:21:56,398 INFO Visiting asset 70817: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/70817/
+2026-07-16 02:21:58,113 INFO Trying download control: download attribute
+2026-07-16 02:22:03,248 DEBUG Waited 4.96 seconds before next request.
+2026-07-16 02:22:03,248 INFO Visiting asset 71466: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/71466/
+2026-07-16 02:22:05,070 INFO Trying download control: download attribute
+2026-07-16 02:22:12,087 DEBUG Waited 6.76 seconds before next request.
+2026-07-16 02:22:12,088 INFO Visiting asset 225245: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/225245/
+2026-07-16 02:22:16,742 INFO Trying download control: download attribute
+2026-07-16 02:22:24,103 DEBUG Waited 7.11 seconds before next request.
+2026-07-16 02:22:24,103 INFO Visiting asset 109463: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/109463/
+2026-07-16 02:22:25,864 INFO Trying download control: download attribute
+2026-07-16 02:22:32,627 DEBUG Waited 6.53 seconds before next request.
+2026-07-16 02:22:32,627 INFO Visiting asset 70255: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/70255/
+2026-07-16 02:22:34,469 INFO Trying download control: download attribute
+2026-07-16 02:22:42,256 DEBUG Waited 7.58 seconds before next request.
+2026-07-16 02:22:42,256 INFO Visiting asset 69371: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69371/
+2026-07-16 02:22:44,084 INFO Trying download control: download attribute
+2026-07-16 02:22:49,217 DEBUG Waited 4.91 seconds before next request.
+2026-07-16 02:22:49,217 INFO Visiting asset 69387: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69387/
+2026-07-16 02:22:51,126 INFO Trying download control: download attribute
+2026-07-16 02:22:57,554 DEBUG Waited 6.24 seconds before next request.
+2026-07-16 02:22:57,554 INFO Visiting asset 69376: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69376/
+2026-07-16 02:23:02,392 INFO Trying download control: download attribute
+2026-07-16 02:23:10,568 DEBUG Waited 7.98 seconds before next request.
+2026-07-16 02:23:10,568 INFO Visiting asset 70249: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/70249/
+2026-07-16 02:23:15,228 INFO Trying download control: download attribute
+2026-07-16 02:23:22,909 DEBUG Waited 7.47 seconds before next request.
+2026-07-16 02:23:22,909 INFO Visiting asset 69374: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69374/
+2026-07-16 02:23:24,619 INFO Trying download control: download attribute
+2026-07-16 02:23:32,139 DEBUG Waited 7.34 seconds before next request.
+2026-07-16 02:23:32,139 INFO Visiting asset 69383: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69383/
+2026-07-16 02:23:33,902 INFO Trying download control: download attribute
+2026-07-16 02:23:38,637 DEBUG Waited 4.54 seconds before next request.
+2026-07-16 02:23:38,637 INFO Visiting asset 69025: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69025/
+2026-07-16 02:23:43,278 INFO Trying download control: download attribute
+2026-07-16 02:23:49,002 DEBUG Waited 5.56 seconds before next request.
+2026-07-16 02:23:49,002 INFO Visiting asset 69027: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69027/
+2026-07-16 02:23:50,690 INFO Trying download control: download attribute
+2026-07-16 02:23:57,465 DEBUG Waited 6.60 seconds before next request.
+2026-07-16 02:23:57,465 INFO Visiting asset 69363: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69363/
+2026-07-16 02:23:59,360 INFO Trying download control: download attribute
+2026-07-16 02:24:04,870 DEBUG Waited 5.33 seconds before next request.
+2026-07-16 02:24:04,870 INFO Visiting asset 69367: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69367/
+2026-07-16 02:24:06,614 INFO Trying download control: download attribute
+2026-07-16 02:24:14,493 DEBUG Waited 7.71 seconds before next request.
+2026-07-16 02:24:14,493 INFO Visiting asset 69029: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69029/
+2026-07-16 02:24:16,382 INFO Trying download control: download attribute
+2026-07-16 02:24:24,593 DEBUG Waited 7.95 seconds before next request.
+2026-07-16 02:24:24,593 INFO Visiting asset 217904: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/217904/
+2026-07-16 02:24:26,494 INFO Trying download control: download attribute
+2026-07-16 02:24:32,720 DEBUG Waited 6.00 seconds before next request.
+2026-07-16 02:24:32,721 INFO Visiting asset 69022: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69022/
+2026-07-16 02:24:34,666 INFO Trying download control: download attribute
+2026-07-16 02:24:39,901 DEBUG Waited 5.03 seconds before next request.
+2026-07-16 02:24:39,901 INFO Visiting asset 106620: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/106620/
+2026-07-16 02:24:41,705 INFO Trying download control: download attribute
+2026-07-16 02:24:49,802 DEBUG Waited 7.76 seconds before next request.
+2026-07-16 02:24:49,802 INFO Visiting asset 217905: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/217905/
+2026-07-16 02:24:51,527 INFO Trying download control: download attribute
+2026-07-16 02:24:58,201 DEBUG Waited 6.48 seconds before next request.
+2026-07-16 02:24:58,201 INFO Visiting asset 168143: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/168143/
+2026-07-16 02:25:03,036 INFO Trying download control: download attribute
+2026-07-16 02:25:09,639 DEBUG Waited 6.40 seconds before next request.
+2026-07-16 02:25:09,639 INFO Visiting asset 103594: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/103594/
+2026-07-16 02:25:11,512 INFO Trying download control: download attribute
+2026-07-16 02:25:19,209 DEBUG Waited 7.38 seconds before next request.
+2026-07-16 02:25:19,209 INFO Visiting asset 69537: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69537/
+2026-07-16 02:25:20,889 INFO Trying download control: download attribute
+2026-07-16 02:25:25,704 DEBUG Waited 4.63 seconds before next request.
+2026-07-16 02:25:25,704 INFO Visiting asset 69090: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69090/
+2026-07-16 02:25:27,322 INFO Trying download control: download attribute
+2026-07-16 02:25:32,134 DEBUG Waited 4.62 seconds before next request.
+2026-07-16 02:25:32,134 INFO Visiting asset 69544: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69544/
+2026-07-16 02:25:33,953 INFO Trying download control: download attribute
+2026-07-16 02:25:40,049 DEBUG Waited 5.79 seconds before next request.
+2026-07-16 02:25:40,049 INFO Visiting asset 83944: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/83944/
+2026-07-16 02:25:41,940 INFO Trying download control: download attribute
+2026-07-16 02:25:48,555 DEBUG Waited 6.28 seconds before next request.
+2026-07-16 02:25:48,555 INFO Visiting asset 217906: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/217906/
+2026-07-16 02:25:50,376 INFO Trying download control: download attribute
+2026-07-16 02:25:55,738 DEBUG Waited 5.15 seconds before next request.
+2026-07-16 02:25:55,738 INFO Visiting asset 69538: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69538/
+2026-07-16 02:25:57,639 INFO Trying download control: download attribute
+2026-07-16 02:26:04,979 DEBUG Waited 7.09 seconds before next request.
+2026-07-16 02:26:04,979 INFO Visiting asset 217907: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/217907/
+2026-07-16 02:26:07,073 INFO Trying download control: download attribute
+2026-07-16 02:26:11,720 DEBUG Waited 4.40 seconds before next request.
+2026-07-16 02:26:11,720 INFO Visiting asset 78734: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/78734/
+2026-07-16 02:26:16,646 INFO Trying download control: download attribute
+2026-07-16 02:26:24,136 DEBUG Waited 7.26 seconds before next request.
+2026-07-16 02:26:24,136 INFO Visiting asset 69542: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69542/
+2026-07-16 02:26:25,873 INFO Trying download control: download attribute
+2026-07-16 02:26:30,555 DEBUG Waited 4.52 seconds before next request.
+2026-07-16 02:26:30,555 INFO Visiting asset 78733: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/78733/
+2026-07-16 02:26:35,371 INFO Trying download control: download attribute
+2026-07-16 02:26:41,135 DEBUG Waited 5.59 seconds before next request.
+2026-07-16 02:26:41,135 INFO Visiting asset 69088: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69088/
+2026-07-16 02:26:42,874 INFO Trying download control: download attribute
+2026-07-16 02:26:50,269 DEBUG Waited 7.23 seconds before next request.
+2026-07-16 02:26:50,269 INFO Visiting asset 83943: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/83943/
+2026-07-16 02:26:54,960 INFO Trying download control: download attribute
+2026-07-16 02:27:00,503 DEBUG Waited 5.33 seconds before next request.
+2026-07-16 02:27:00,503 INFO Visiting asset 69543: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69543/
+2026-07-16 02:27:02,117 INFO Trying download control: download attribute
+2026-07-16 02:27:08,589 DEBUG Waited 6.30 seconds before next request.
+2026-07-16 02:27:08,589 INFO Visiting asset 101763: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/101763/
+2026-07-16 02:27:10,254 INFO Trying download control: download attribute
+2026-07-16 02:27:14,803 DEBUG Waited 4.38 seconds before next request.
+2026-07-16 02:27:14,804 INFO Visiting asset 225095: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/225095/
+2026-07-16 02:27:16,432 INFO Trying download control: download attribute
+2026-07-16 02:27:23,417 DEBUG Waited 6.80 seconds before next request.
+2026-07-16 02:27:23,417 INFO Visiting asset 69086: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69086/
+2026-07-16 02:27:25,026 INFO Trying download control: download attribute
+2026-07-16 02:27:31,736 DEBUG Waited 6.52 seconds before next request.
+2026-07-16 02:27:31,736 INFO Visiting asset 69081: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69081/
+2026-07-16 02:27:33,351 INFO Trying download control: download attribute
+2026-07-16 02:27:40,211 DEBUG Waited 6.67 seconds before next request.
+2026-07-16 02:27:40,211 INFO Visiting asset 217908: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/217908/
+2026-07-16 02:27:41,964 INFO Trying download control: download attribute
+2026-07-16 02:27:48,679 DEBUG Waited 6.51 seconds before next request.
+2026-07-16 02:27:48,679 INFO Visiting asset 217909: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/217909/
+2026-07-16 02:27:50,435 INFO Trying download control: download attribute
+2026-07-16 02:27:55,242 DEBUG Waited 4.61 seconds before next request.
+2026-07-16 02:27:55,242 INFO Visiting asset 69023: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69023/
+2026-07-16 02:27:56,874 INFO Trying download control: download attribute
+2026-07-16 02:28:04,930 DEBUG Waited 7.87 seconds before next request.
+2026-07-16 02:28:04,930 INFO Visiting asset 99832: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/99832/
+2026-07-16 02:28:06,813 INFO Trying download control: download attribute
+2026-07-16 02:28:12,508 DEBUG Waited 5.46 seconds before next request.
+2026-07-16 02:28:12,508 INFO Visiting asset 92893: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/92893/
+2026-07-16 02:28:14,167 INFO Trying download control: download attribute
+2026-07-16 02:28:20,592 DEBUG Waited 6.26 seconds before next request.
+2026-07-16 02:28:20,592 INFO Visiting asset 217924: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/217924/
+2026-07-16 02:28:25,191 INFO Trying download control: download attribute
+2026-07-16 02:28:30,345 DEBUG Waited 4.88 seconds before next request.
+2026-07-16 02:28:30,345 INFO Visiting asset 69092: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69092/
+2026-07-16 02:28:31,973 INFO Trying download control: download attribute
+2026-07-16 02:28:40,081 DEBUG Waited 7.92 seconds before next request.
+2026-07-16 02:28:40,081 INFO Visiting asset 74867: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/74867/
+2026-07-16 02:28:41,952 INFO Trying download control: download attribute
+2026-07-16 02:28:49,028 DEBUG Waited 6.78 seconds before next request.
+2026-07-16 02:28:49,028 INFO Visiting asset 74866: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/74866/
+2026-07-16 02:28:50,723 INFO Trying download control: download attribute
+2026-07-16 02:28:55,745 DEBUG Waited 4.83 seconds before next request.
+2026-07-16 02:28:55,745 INFO Visiting asset 69556: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69556/
+2026-07-16 02:28:57,577 INFO Trying download control: download attribute
+2026-07-16 02:29:03,423 DEBUG Waited 5.64 seconds before next request.
+2026-07-16 02:29:03,423 INFO Visiting asset 69551: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69551/
+2026-07-16 02:29:05,137 INFO Trying download control: download attribute
+2026-07-16 02:29:12,069 DEBUG Waited 6.75 seconds before next request.
+2026-07-16 02:29:12,069 INFO Visiting asset 69072: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69072/
+2026-07-16 02:29:16,819 INFO Trying download control: download attribute
+2026-07-16 02:29:22,001 DEBUG Waited 4.93 seconds before next request.
+2026-07-16 02:29:22,001 INFO Visiting asset 100845: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/100845/
+2026-07-16 02:29:23,860 INFO Trying download control: download attribute
+2026-07-16 02:29:30,710 DEBUG Waited 6.63 seconds before next request.
+2026-07-16 02:29:30,710 INFO Visiting asset 69089: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69089/
+2026-07-16 02:29:32,534 INFO Trying download control: download attribute
+2026-07-16 02:29:39,104 DEBUG Waited 6.35 seconds before next request.
+2026-07-16 02:29:39,104 INFO Visiting asset 69547: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69547/
+2026-07-16 02:29:44,179 INFO Trying download control: download attribute
+2026-07-16 02:29:49,613 DEBUG Waited 5.18 seconds before next request.
+2026-07-16 02:29:49,614 INFO Visiting asset 69545: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69545/
+2026-07-16 02:29:54,937 INFO Trying download control: download attribute
+2026-07-16 02:30:02,923 DEBUG Waited 7.70 seconds before next request.
+2026-07-16 02:30:02,923 INFO Visiting asset 103595: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/103595/
+2026-07-16 02:30:04,917 INFO Trying download control: download attribute
+2026-07-16 02:30:09,713 DEBUG Waited 4.40 seconds before next request.
+2026-07-16 02:30:09,713 INFO Visiting asset 69085: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69085/
+2026-07-16 02:30:11,662 INFO Trying download control: download attribute
+2026-07-16 02:30:17,558 DEBUG Waited 5.66 seconds before next request.
+2026-07-16 02:30:17,558 INFO Visiting asset 70820: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/70820/
+2026-07-16 02:30:19,515 INFO Trying download control: download attribute
+2026-07-16 02:30:24,818 DEBUG Waited 5.04 seconds before next request.
+2026-07-16 02:30:24,818 INFO Visiting asset 222509: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/222509/
+2026-07-16 02:30:26,737 INFO Trying download control: download attribute
+2026-07-16 02:30:32,807 DEBUG Waited 5.81 seconds before next request.
+2026-07-16 02:30:32,808 INFO Visiting asset 69083: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69083/
+2026-07-16 02:30:34,782 INFO Trying download control: download attribute
+2026-07-16 02:30:42,393 DEBUG Waited 7.35 seconds before next request.
+2026-07-16 02:30:42,394 INFO Visiting asset 74864: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/74864/
+2026-07-16 02:30:44,533 INFO Trying download control: download attribute
+2026-07-16 02:30:52,658 DEBUG Waited 7.83 seconds before next request.
+2026-07-16 02:30:52,659 INFO Visiting asset 78732: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/78732/
+2026-07-16 02:30:54,719 INFO Trying download control: download attribute
+2026-07-16 02:31:02,899 DEBUG Waited 7.89 seconds before next request.
+2026-07-16 02:31:02,900 INFO Visiting asset 92902: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/92902/
+2026-07-16 02:31:04,741 INFO Trying download control: download attribute
+2026-07-16 02:31:11,469 DEBUG Waited 6.51 seconds before next request.
+2026-07-16 02:31:11,469 INFO Visiting asset 69091: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69091/
+2026-07-16 02:31:13,234 INFO Trying download control: download attribute
+2026-07-16 02:31:19,573 DEBUG Waited 6.11 seconds before next request.
+2026-07-16 02:31:19,573 INFO Visiting asset 74844: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/74844/
+2026-07-16 02:31:22,035 INFO Trying download control: download attribute
+2026-07-16 02:31:27,985 DEBUG Waited 5.67 seconds before next request.
+2026-07-16 02:31:27,985 INFO Visiting asset 70815: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/70815/
+2026-07-16 02:31:32,858 INFO Trying download control: download attribute
+2026-07-16 02:31:38,315 DEBUG Waited 5.28 seconds before next request.
+2026-07-16 02:31:38,315 INFO Visiting asset 69084: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69084/
+2026-07-16 02:31:42,999 INFO Trying download control: download attribute
+2026-07-16 02:31:48,667 DEBUG Waited 5.45 seconds before next request.
+2026-07-16 02:31:48,667 INFO Visiting asset 69540: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69540/
+2026-07-16 02:31:53,367 INFO Trying download control: download attribute

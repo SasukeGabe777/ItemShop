@@ -14,6 +14,7 @@ var display_markers: Array[Node2D] = []
 var browse_points: Array[Vector2] = []
 var session_summary := {"sales": 0, "revenue": 0, "perfect": 0, "left": 0, "orders": 0}
 var negotiating: ShopCustomer = null
+var nego_queue: Array = []  # [{customer: Dictionary, item: String, node: ShopCustomer}]
 
 const ENTRANCE := Vector2(320, 400)
 
@@ -309,7 +310,7 @@ func _run_session(delta: float) -> void:
 	if spawn_timer <= 0.0 and not customers_remaining.is_empty() and live_customers.size() < 4:
 		spawn_timer = randf_range(1.2, 2.6)
 		_spawn_customer(customers_remaining.pop_front())
-	if customers_remaining.is_empty() and live_customers.is_empty() and negotiating == null:
+	if customers_remaining.is_empty() and live_customers.is_empty() and negotiating == null and nego_queue.is_empty():
 		_end_session()
 
 
@@ -347,14 +348,37 @@ func _on_order_requested(cust: Dictionary) -> void:
 		hud.refresh()
 
 
+## Customers may ask simultaneously; they wait in line while one panel is open.
 func _on_negotiate_requested(cust: Dictionary, item_id: String) -> void:
-	negotiating = null
+	var node: ShopCustomer = null
 	for c in live_customers:
 		if c.data == cust:
-			negotiating = c
+			node = c
 			break
+	nego_queue.append({"customer": cust, "item": item_id, "node": node})
+	_open_next_negotiation()
+
+
+func _open_next_negotiation() -> void:
+	if negotiating != null or nego_queue.is_empty():
+		return
+	var entry: Dictionary = nego_queue.pop_front()
+	var node: ShopCustomer = entry["node"]
+	if node == null or not is_instance_valid(node):
+		_open_next_negotiation()
+		return
+	var item_id := String(entry["item"])
+	# the item may have sold to someone earlier in the line
+	if not (item_id in InventoryManager.displayed_ids()):
+		var replacement := CustomerGen.pick_interest(entry["customer"])
+		if replacement == "":
+			node.resume_after_negotiation()
+			_open_next_negotiation()
+			return
+		item_id = replacement
+	negotiating = node
 	var panel := NegotiationPanel.new()
-	panel.setup(cust, item_id)
+	panel.setup(entry["customer"], item_id)
 	panel.finished.connect(_on_negotiation_finished)
 	busy = true
 	player.frozen = true
@@ -378,6 +402,7 @@ func _on_negotiation_finished(outcome: Dictionary) -> void:
 		negotiating.resume_after_negotiation()
 	negotiating = null
 	hud.refresh()
+	_open_next_negotiation()
 
 
 func _end_session() -> void:
