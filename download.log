@@ -2646,3 +2646,284 @@
 2026-07-16 01:52:25,908 DEBUG Waited 5.95 seconds before next request.
 2026-07-16 01:52:25,909 INFO Visiting asset 85550: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/85550/
 2026-07-16 01:52:26,967 INFO Trying download control: download attribute
+2026-07-16 01:52:29,569 DEBUG Waited 2.41 seconds before next request.
+2026-07-16 01:52:29,570 INFO Visiting asset 38933: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/38933/
+2026-07-16 01:52:30,930 INFO Trying download control: download attribute
+2026-07-16 01:52:31,504 INFO Trying download control: download attribute
+2026-07-16 01:52:34,633 DEBUG Waited 2.91 seconds before next request.
+2026-07-16 01:52:34,633 INFO Visiting asset 41541: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/41541/
+2026-07-16 01:52:36,485 INFO Trying download control: download attribute
+2026-07-16 01:52:37,105 DEBUG Waited 5.87 seconds before next request.
+2026-07-16 01:52:37,105 INFO Visiting asset 69248: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69248/
+2026-07-16 01:52:38,945 DEBUG Waited 2.16 seconds before next request.
+2026-07-16 01:52:38,945 INFO Visiting asset 40836: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/40836/
+2026-07-16 01:52:41,061 INFO Trying download control: download attribute
+2026-07-16 01:52:43,593 DEBUG Waited 2.22 seconds before next request.
+2026-07-16 01:52:43,593 INFO Visiting asset 41438: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/41438/
+2026-07-16 01:52:45,768 INFO Trying download control: download attribute
+2026-07-16 01:52:48,128 DEBUG Waited 2.14 seconds before next request.
+2026-07-16 01:52:48,128 INFO Visiting asset 5289: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/5289/
+2026-07-16 01:52:49,991 INFO Trying download control: download attribute
+2026-07-16 01:52:52,561 DEBUG Network idle timed out for https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69248/; continuing with DOM content.
+2026-07-16 01:52:52,720 INFO Trying download control: download attribute
+2026-07-16 01:52:52,853 DEBUG Waited 2.66 seconds before next request.
+2026-07-16 01:52:52,853 INFO Visiting asset 5305: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/5305/
+2026-07-16 01:52:54,794 INFO Trying download control: download attribute
+2026-07-16 01:52:57,915 DEBUG Waited 2.89 seconds before next request.
+2026-07-16 01:52:57,915 INFO Visiting asset 5311: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/5311/
+2026-07-16 01:52:59,164 DEBUG Waited 6.20 seconds before next request.
+2026-07-16 01:52:59,170 INFO Visiting asset 70166: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/70166/
+2026-07-16 01:52:59,678 INFO Trying download control: download attribute
+2026-07-16 01:53:01,093 INFO Trying download control: download attribute
+2026-07-16 01:53:02,627 DEBUG Waited 2.65 seconds before next request.
+2026-07-16 01:53:02,627 INFO Visiting asset 41439: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/41439/
+2026-07-16 01:53:04,215 INFO Trying download control: download attribute
+2026-07-16 01:53:07,148 DEBUG Waited 2.74 seconds before next request.
+2026-07-16 01:53:07,148 INFO Visiting asset 26032: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/26032/
+2026-07-16 01:53:08,127 DEBUG Waited 6.83 seconds before next request.
+2026-07-16 01:53:08,127 INFO Visiting asset 70168: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/70168/
+2026-07-16 01:53:09,915 INFO Trying download control: download attribute
+2026-07-16 01:53:11,694 INFO Trying download control: download attribute
+2026-07-16 01:53:14,794 DEBUG Waited 2.91 seconds before next request.
+2026-07-16 01:53:14,794 INFO Visiting asset 41877: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/41877/
+2026-07-16 01:53:16,503 INFO Trying download control: download attribute
+2026-07-16 01:53:16,508 DEBUG Waited 6.34 seconds before next request.
+2026-07-16 01:53:16,508 INFO Visiting asset 69255: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69255/
+2026-07-16 01:53:18,225 INFO Trying download control: download attribute
+2026-07-16 01:53:19,282 DEBUG Waited 2.62 seconds before next request.
+2026-07-16 01:53:19,282 INFO Visiting asset 41875: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/41875/
+2026-07-16 01:53:20,939 INFO Trying download control: download attribute
+2026-07-16 01:53:23,267 DEBUG Waited 4.82 seconds before next request.
+2026-07-16 01:53:23,267 INFO Visiting asset 69597: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69597/
+2026-07-16 01:53:23,409 DEBUG Waited 2.28 seconds before next request.
+2026-07-16 01:53:23,409 INFO Visiting asset 5300: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/5300/
+2026-07-16 01:53:25,090 INFO Trying download control: download attribute
+2026-07-16 01:53:25,091 INFO Trying download control: download attribute
+2026-07-16 01:53:27,478 DEBUG Waited 2.22 seconds before next request.
+2026-07-16 01:53:27,478 INFO Visiting asset 5288: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/5288/
+2026-07-16 01:53:29,067 INFO Trying download control: download attribute
+2026-07-16 01:53:32,093 DEBUG Waited 2.85 seconds before next request.
+2026-07-16 01:53:32,093 INFO Visiting asset 5310: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/5310/
+2026-07-16 01:53:32,437 DEBUG Waited 7.17 seconds before next request.
+2026-07-16 01:53:32,437 INFO Visiting asset 90110: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/90110/
+2026-07-16 01:53:33,933 INFO Trying download control: download attribute
+2026-07-16 01:53:34,316 INFO Trying download control: download attribute
+2026-07-16 01:53:36,985 DEBUG Waited 2.78 seconds before next request.
+2026-07-16 01:53:36,985 INFO Visiting asset 5308: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/5308/
+2026-07-16 01:53:38,589 INFO Trying download control: download attribute
+2026-07-16 01:53:40,460 DEBUG Waited 5.86 seconds before next request.
+2026-07-16 01:53:40,460 INFO Visiting asset 85549: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/85549/
+2026-07-16 01:53:40,865 DEBUG Waited 2.11 seconds before next request.
+2026-07-16 01:53:40,865 INFO Visiting asset 5309: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/5309/
+2026-07-16 01:53:42,559 INFO Trying download control: download attribute
+2026-07-16 01:53:44,907 DEBUG Waited 2.03 seconds before next request.
+2026-07-16 01:53:44,907 INFO Visiting asset 5298: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/5298/
+2026-07-16 01:53:45,211 INFO Trying download control: download attribute
+2026-07-16 01:53:46,564 INFO Trying download control: download attribute
+2026-07-16 01:53:49,429 DEBUG Waited 2.69 seconds before next request.
+2026-07-16 01:53:49,429 INFO Visiting asset 42023: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/42023/
+2026-07-16 01:53:50,961 INFO Trying download control: download attribute
+2026-07-16 01:53:52,183 DEBUG Waited 6.76 seconds before next request.
+2026-07-16 01:53:52,183 INFO Visiting asset 108020: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/108020/
+2026-07-16 01:53:53,581 DEBUG Waited 2.44 seconds before next request.
+2026-07-16 01:53:53,581 INFO Visiting asset 5297: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/5297/
+2026-07-16 01:53:53,926 INFO Trying download control: download attribute
+2026-07-16 01:53:55,156 INFO Trying download control: download attribute
+2026-07-16 01:53:57,570 DEBUG Waited 2.26 seconds before next request.
+2026-07-16 01:53:57,570 INFO Visiting asset 5306: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/5306/
+2026-07-16 01:53:59,367 INFO Trying download control: download attribute
+2026-07-16 01:53:59,709 DEBUG Waited 5.57 seconds before next request.
+2026-07-16 01:53:59,709 INFO Visiting asset 69598: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69598/
+2026-07-16 01:54:01,456 INFO Trying download control: download attribute
+2026-07-16 01:54:01,757 DEBUG Waited 2.20 seconds before next request.
+2026-07-16 01:54:01,757 INFO Visiting asset 5290: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/5290/
+2026-07-16 01:54:03,438 INFO Trying download control: download attribute
+2026-07-16 01:54:05,985 DEBUG Waited 2.28 seconds before next request.
+2026-07-16 01:54:05,985 INFO Visiting asset 38857: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/38857/
+2026-07-16 01:54:07,654 INFO Trying download control: download attribute
+2026-07-16 01:54:09,420 DEBUG Waited 7.72 seconds before next request.
+2026-07-16 01:54:09,420 INFO Visiting asset 69257: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69257/
+2026-07-16 01:54:10,244 DEBUG Waited 2.36 seconds before next request.
+2026-07-16 01:54:10,244 INFO Visiting asset 42024: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/42024/
+2026-07-16 01:54:11,166 INFO Trying download control: download attribute
+2026-07-16 01:54:11,839 INFO Trying download control: download attribute
+2026-07-16 01:54:14,337 DEBUG Waited 2.33 seconds before next request.
+2026-07-16 01:54:14,337 INFO Visiting asset 38859: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/38859/
+2026-07-16 01:54:18,900 INFO Trying download control: download attribute
+2026-07-16 01:54:19,123 DEBUG Waited 7.78 seconds before next request.
+2026-07-16 01:54:19,123 INFO Visiting asset 93130: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/93130/
+2026-07-16 01:54:20,920 INFO Trying download control: download attribute
+2026-07-16 01:54:21,942 DEBUG Waited 2.83 seconds before next request.
+2026-07-16 01:54:21,942 INFO Visiting asset 38394: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/38394/
+2026-07-16 01:54:23,528 INFO Trying download control: download attribute
+2026-07-16 01:54:25,269 DEBUG Waited 4.14 seconds before next request.
+2026-07-16 01:54:25,269 INFO Visiting asset 104382: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/104382/
+2026-07-16 01:54:26,128 DEBUG Waited 2.39 seconds before next request.
+2026-07-16 01:54:26,128 INFO Visiting asset 41879: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/41879/
+2026-07-16 01:54:27,022 INFO Trying download control: download attribute
+2026-07-16 01:54:27,684 INFO Trying download control: download attribute
+2026-07-16 01:54:30,557 DEBUG Waited 2.70 seconds before next request.
+2026-07-16 01:54:30,557 INFO Visiting asset 5291: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/5291/
+2026-07-16 01:54:32,125 INFO Trying download control: download attribute
+2026-07-16 01:54:32,705 DEBUG Waited 5.52 seconds before next request.
+2026-07-16 01:54:32,705 INFO Visiting asset 103013: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/103013/
+2026-07-16 01:54:34,427 INFO Trying download control: download attribute
+2026-07-16 01:54:34,893 DEBUG Waited 2.60 seconds before next request.
+2026-07-16 01:54:34,893 INFO Visiting asset 36286: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/36286/
+2026-07-16 01:54:39,445 INFO Trying download control: download attribute
+2026-07-16 01:54:41,047 DEBUG Waited 6.44 seconds before next request.
+2026-07-16 01:54:41,048 INFO Visiting asset 82524: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/82524/
+2026-07-16 01:54:41,646 DEBUG Waited 2.02 seconds before next request.
+2026-07-16 01:54:41,646 INFO Visiting asset 38858: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/38858/
+2026-07-16 01:54:43,382 INFO Trying download control: download attribute
+2026-07-16 01:54:45,734 INFO Trying download control: download attribute
+2026-07-16 01:54:46,432 DEBUG Waited 2.87 seconds before next request.
+2026-07-16 01:54:46,432 INFO Visiting asset 42072: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/42072/
+2026-07-16 01:54:48,036 INFO Trying download control: download attribute
+2026-07-16 01:54:50,061 DEBUG Waited 4.12 seconds before next request.
+2026-07-16 01:54:50,062 INFO Visiting asset 108021: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/108021/
+2026-07-16 01:54:51,213 DEBUG Waited 2.98 seconds before next request.
+2026-07-16 01:54:51,213 INFO Visiting asset 5287: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/5287/
+2026-07-16 01:54:51,776 INFO Trying download control: download attribute
+2026-07-16 01:54:52,863 INFO Trying download control: download attribute
+2026-07-16 01:54:55,690 DEBUG Waited 2.61 seconds before next request.
+2026-07-16 01:54:55,690 INFO Visiting asset 5312: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/5312/
+2026-07-16 01:54:57,626 INFO Trying download control: download attribute
+2026-07-16 01:54:58,395 DEBUG Waited 6.37 seconds before next request.
+2026-07-16 01:54:58,395 INFO Visiting asset 70814: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/70814/
+2026-07-16 01:54:59,970 DEBUG Waited 2.11 seconds before next request.
+2026-07-16 01:54:59,970 INFO Visiting asset 5307: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/5307/
+2026-07-16 01:55:00,203 INFO Trying download control: download attribute
+2026-07-16 01:55:04,755 INFO Trying download control: download attribute
+2026-07-16 01:55:06,175 DEBUG Waited 5.70 seconds before next request.
+2026-07-16 01:55:06,175 INFO Visiting asset 246869: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/246869/
+2026-07-16 01:55:07,288 DEBUG Waited 2.32 seconds before next request.
+2026-07-16 01:55:07,288 INFO Visiting asset 26035: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/26035/
+2026-07-16 01:55:08,101 INFO Trying download control: download attribute
+2026-07-16 01:55:09,278 INFO Trying download control: download attribute
+2026-07-16 01:55:12,415 DEBUG Waited 2.87 seconds before next request.
+2026-07-16 01:55:12,415 INFO Visiting asset 40839: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/40839/
+2026-07-16 01:55:13,272 DEBUG Waited 4.85 seconds before next request.
+2026-07-16 01:55:13,272 INFO Visiting asset 246867: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/246867/
+2026-07-16 01:55:14,244 INFO Trying download control: download attribute
+2026-07-16 01:55:15,331 INFO Trying download control: download attribute
+2026-07-16 01:55:17,527 DEBUG Waited 2.97 seconds before next request.
+2026-07-16 01:55:17,527 INFO Visiting asset 42338: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/42338/
+2026-07-16 01:55:19,486 INFO Trying download control: download attribute
+2026-07-16 01:55:21,549 DEBUG Waited 5.73 seconds before next request.
+2026-07-16 01:55:21,550 INFO Visiting asset 246868: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/246868/
+2026-07-16 01:55:21,943 DEBUG Waited 2.07 seconds before next request.
+2026-07-16 01:55:21,943 INFO Visiting asset 42912: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/42912/
+2026-07-16 01:55:23,576 INFO Trying download control: download attribute
+2026-07-16 01:55:24,075 INFO Trying download control: download attribute
+2026-07-16 01:55:27,263 DEBUG Waited 2.97 seconds before next request.
+2026-07-16 01:55:27,263 INFO Visiting asset 38856: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/38856/
+2026-07-16 01:55:29,154 INFO Trying download control: download attribute
+2026-07-16 01:55:29,234 DEBUG Waited 5.38 seconds before next request.
+2026-07-16 01:55:29,234 INFO Visiting asset 70169: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/70169/
+2026-07-16 01:55:31,187 INFO Trying download control: download attribute
+2026-07-16 01:55:31,371 DEBUG Waited 2.00 seconds before next request.
+2026-07-16 01:55:31,371 INFO Visiting asset 42022: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/42022/
+2026-07-16 01:55:33,120 INFO Trying download control: download attribute
+2026-07-16 01:55:35,428 DEBUG Waited 2.09 seconds before next request.
+2026-07-16 01:55:35,428 INFO Visiting asset 5301: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/5301/
+2026-07-16 01:55:36,152 DEBUG Waited 4.75 seconds before next request.
+2026-07-16 01:55:36,152 INFO Visiting asset 69258: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69258/
+2026-07-16 01:55:37,427 INFO Trying download control: download attribute
+2026-07-16 01:55:38,450 INFO Trying download control: download attribute
+2026-07-16 01:55:40,348 DEBUG Waited 2.64 seconds before next request.
+2026-07-16 01:55:40,348 INFO Visiting asset 38934: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/38934/
+2026-07-16 01:55:42,297 INFO Trying download control: download attribute
+2026-07-16 01:55:44,592 DEBUG Waited 2.05 seconds before next request.
+2026-07-16 01:55:44,592 INFO Visiting asset 5292: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/5292/
+2026-07-16 01:55:46,303 INFO Trying download control: download attribute
+2026-07-16 01:55:46,452 DEBUG Waited 7.58 seconds before next request.
+2026-07-16 01:55:46,452 INFO Visiting asset 69261: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69261/
+2026-07-16 01:55:48,335 INFO Trying download control: download attribute
+2026-07-16 01:55:48,943 DEBUG Waited 2.40 seconds before next request.
+2026-07-16 01:55:48,943 INFO Visiting asset 42337: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/42337/
+2026-07-16 01:55:50,964 INFO Trying download control: download attribute
+2026-07-16 01:55:52,828 DEBUG Waited 4.26 seconds before next request.
+2026-07-16 01:55:52,828 INFO Visiting asset 69592: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69592/
+2026-07-16 01:55:53,472 DEBUG Waited 2.28 seconds before next request.
+2026-07-16 01:55:53,472 INFO Visiting asset 5304: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/5304/
+2026-07-16 01:55:54,827 INFO Trying download control: download attribute
+2026-07-16 01:55:55,486 INFO Trying download control: download attribute
+2026-07-16 01:55:58,462 DEBUG Waited 2.74 seconds before next request.
+2026-07-16 01:55:58,462 INFO Visiting asset 39128: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/39128/
+2026-07-16 01:56:00,238 INFO Trying download control: download attribute
+2026-07-16 01:56:01,243 DEBUG Waited 6.13 seconds before next request.
+2026-07-16 01:56:01,243 INFO Visiting asset 85553: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/85553/
+2026-07-16 01:56:02,675 DEBUG Waited 2.17 seconds before next request.
+2026-07-16 01:56:02,676 INFO Visiting asset 42021: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/42021/
+2026-07-16 01:56:04,527 INFO Trying download control: download attribute
+2026-07-16 01:56:06,223 INFO Trying download control: download attribute
+2026-07-16 01:56:07,641 DEBUG Waited 2.86 seconds before next request.
+2026-07-16 01:56:07,641 INFO Visiting asset 5295: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/5295/
+2026-07-16 01:56:09,515 INFO Trying download control: download attribute
+2026-07-16 01:56:12,318 DEBUG Waited 2.58 seconds before next request.
+2026-07-16 01:56:12,318 INFO Visiting asset 41880: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/41880/
+2026-07-16 01:56:14,327 DEBUG Waited 7.83 seconds before next request.
+2026-07-16 01:56:14,327 INFO Visiting asset 69260: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69260/
+2026-07-16 01:56:14,422 INFO Trying download control: download attribute
+2026-07-16 01:56:16,516 INFO Trying download control: download attribute
+2026-07-16 01:56:17,248 DEBUG Waited 2.54 seconds before next request.
+2026-07-16 01:56:17,248 INFO Visiting asset 40260: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/40260/
+2026-07-16 01:56:19,212 INFO Trying download control: download attribute
+2026-07-16 01:56:21,596 DEBUG Waited 2.17 seconds before next request.
+2026-07-16 01:56:21,596 INFO Visiting asset 42069: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/42069/
+2026-07-16 01:56:21,788 DEBUG Waited 5.02 seconds before next request.
+2026-07-16 01:56:21,788 INFO Visiting asset 79940: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/79940/
+2026-07-16 01:56:23,441 INFO Trying download control: download attribute
+2026-07-16 01:56:23,928 INFO Trying download control: download attribute
+2026-07-16 01:56:25,852 DEBUG Waited 2.19 seconds before next request.
+2026-07-16 01:56:25,852 INFO Visiting asset 38853: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/38853/
+2026-07-16 01:56:29,618 DEBUG Waited 5.40 seconds before next request.
+2026-07-16 01:56:29,618 INFO Visiting asset 85551: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/85551/
+2026-07-16 01:56:30,581 INFO Trying download control: download attribute
+2026-07-16 01:56:31,557 INFO Trying download control: download attribute
+2026-07-16 01:56:33,714 DEBUG Waited 2.94 seconds before next request.
+2026-07-16 01:56:33,714 INFO Visiting asset 38390: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/38390/
+2026-07-16 01:56:36,041 INFO Trying download control: download attribute
+2026-07-16 01:56:39,062 DEBUG Waited 2.74 seconds before next request.
+2026-07-16 01:56:39,062 INFO Visiting asset 5296: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/5296/
+2026-07-16 01:56:39,611 DEBUG Waited 7.77 seconds before next request.
+2026-07-16 01:56:39,611 INFO Visiting asset 79941: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/79941/
+2026-07-16 01:56:41,449 INFO Trying download control: download attribute
+2026-07-16 01:56:42,072 INFO Trying download control: download attribute
+2026-07-16 01:56:44,524 DEBUG Waited 2.73 seconds before next request.
+2026-07-16 01:56:44,524 INFO Visiting asset 38502: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/38502/
+2026-07-16 01:56:46,409 INFO Trying download control: download attribute
+2026-07-16 01:56:47,297 DEBUG Waited 4.70 seconds before next request.
+2026-07-16 01:56:47,297 INFO Visiting asset 85552: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/85552/
+2026-07-16 01:56:48,644 DEBUG Waited 2.03 seconds before next request.
+2026-07-16 01:56:48,645 INFO Visiting asset 42071: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/42071/
+2026-07-16 01:56:49,287 INFO Trying download control: download attribute
+2026-07-16 01:56:50,756 INFO Trying download control: download attribute
+2026-07-16 01:56:53,418 DEBUG Waited 2.47 seconds before next request.
+2026-07-16 01:56:53,418 INFO Visiting asset 41436: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/41436/
+2026-07-16 01:56:55,139 INFO Trying download control: download attribute
+2026-07-16 01:56:55,873 DEBUG Waited 6.23 seconds before next request.
+2026-07-16 01:56:55,873 INFO Visiting asset 101161: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/101161/
+2026-07-16 01:56:57,748 INFO Trying download control: download attribute
+2026-07-16 01:56:58,122 DEBUG Waited 2.74 seconds before next request.
+2026-07-16 01:56:58,122 INFO Visiting asset 41878: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/41878/
+2026-07-16 01:56:59,914 INFO Trying download control: download attribute
+2026-07-16 01:57:02,266 DEBUG Waited 2.10 seconds before next request.
+2026-07-16 01:57:02,266 INFO Visiting asset 5294: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/5294/
+2026-07-16 01:57:03,306 DEBUG Waited 5.30 seconds before next request.
+2026-07-16 01:57:03,306 INFO Visiting asset 69591: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69591/
+2026-07-16 01:57:04,133 INFO Trying download control: download attribute
+2026-07-16 01:57:05,479 INFO Trying download control: download attribute
+2026-07-16 01:57:06,744 DEBUG Waited 2.28 seconds before next request.
+2026-07-16 01:57:06,744 INFO Visiting asset 26037: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/26037/
+2026-07-16 01:57:09,064 INFO Trying download control: download attribute
+2026-07-16 01:57:11,090 DEBUG Waited 5.33 seconds before next request.
+2026-07-16 01:57:11,090 INFO Visiting asset 69256: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/69256/
+2026-07-16 01:57:11,406 DEBUG Waited 2.05 seconds before next request.
+2026-07-16 01:57:11,406 INFO Visiting asset 40257: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/40257/
+2026-07-16 01:57:13,404 INFO Trying download control: download attribute
+2026-07-16 01:57:13,635 INFO Trying download control: download attribute
+2026-07-16 01:57:16,899 DEBUG Waited 2.92 seconds before next request.
+2026-07-16 01:57:16,899 INFO Visiting asset 38860: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/asset/38860/
+2026-07-16 01:57:19,159 INFO Trying download control: download attribute
