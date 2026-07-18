@@ -89,6 +89,7 @@ func _pick_equipment(hero_id: String, slot: String) -> void:
 		list.add_child(UIKit.item_row(id, "(atk %+d def %+d spd %+d)" % [int(stats.get("atk", 0)), int(stats.get("def", 0)), int(stats.get("spd", 0))],
 			"Equip", func() -> void:
 				if InventoryManager.equip(hero_id, slot, id):
+					AudioManager.play_sfx("equip_hero_item")
 					pick_layer.queue_free()
 					_show_hero(hero_id)))
 	pvb.add_child(UIKit.button("Unequip", func() -> void:

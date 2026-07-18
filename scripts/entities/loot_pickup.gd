@@ -51,8 +51,11 @@ func _on_body(body: Node) -> void:
 func _collect() -> void:
 	if item_id != "":
 		DungeonManager.add_run_loot(item_id)
+		var rare := float(ContentDatabase.get_item(item_id).get("price", 0)) >= 400.0
+		AudioManager.play_sfx("rare_itempickedup" if rare else "item_pickedup", -3.0)
 	if gold_amount > 0:
 		DungeonManager.run_gold += gold_amount
+		AudioManager.play_sfx("item_pickedup", -6.0)
 	collected.emit(item_id, gold_amount)
 	FX.burst(get_parent(), global_position, Color(1, 1, 0.8), 5)
 	queue_free()

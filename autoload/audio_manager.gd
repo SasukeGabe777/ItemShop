@@ -24,6 +24,14 @@ func _ready() -> void:
 	sfx_player.bus = "Master"
 	add_child(sfx_player)
 	DirAccess.make_dir_recursive_absolute("user://music_overrides/")
+	_connect_global_sfx.call_deferred()
+
+
+## Cross-cutting jingles wired to gameplay signals (other autoloads exist by
+## the time this deferred call runs).
+func _connect_global_sfx() -> void:
+	BridgeManager.gate_repaired.connect(func(_w: String) -> void: play_sfx("new_world_unlock", 2.0))
+	GameState.merchant_level_up.connect(func(_lv: int) -> void: play_sfx("achievement_unlocked"))
 
 
 func play_track(track_id: String) -> void:

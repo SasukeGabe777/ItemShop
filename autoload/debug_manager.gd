@@ -12,6 +12,13 @@ const HISTORY_LIMIT := 300
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("debug_console"):
 		toggle_console()
+		return
+	# secret: * adds pocket money
+	if event is InputEventKey and (event as InputEventKey).pressed and not (event as InputEventKey).echo:
+		var k := event as InputEventKey
+		if k.keycode == KEY_ASTERISK or k.keycode == KEY_KP_MULTIPLY or k.unicode == 42:
+			EconomyManager.add_gold(10000)
+			AudioManager.play_sfx("acquired")
 
 
 func toggle_console() -> void:

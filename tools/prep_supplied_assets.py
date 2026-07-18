@@ -491,6 +491,131 @@ def prep_franchise_customers() -> None:
         print(f"  {world}: {done}/{len(names)} customers")
 
 
+def _band_frames(img: Image.Image, rect: tuple, min_w: int = 14) -> list:
+    """Frames from one animation row: split on empty columns; runs of frames
+    that touch are split into equal parts based on the band's median width."""
+    band = img.crop(rect)
+    a = np.array(band)
+    cols = (a[..., 3] > 10).any(axis=0)
+    segs: list[tuple[int, int]] = []
+    x, w = 0, band.width
+    while x < w:
+        while x < w and not cols[x]:
+            x += 1
+        if x >= w:
+            break
+        x0 = x
+        while x < w and cols[x]:
+            x += 1
+        if x - x0 >= min_w:
+            segs.append((x0, x))
+    if not segs:
+        return []
+    widths = sorted(x1 - x0 for x0, x1 in segs)
+    median = widths[len(widths) // 2]
+    frames: list = []
+    for x0, x1 in segs:
+        n = max(1, round((x1 - x0) / median))
+        step = (x1 - x0) / n
+        for i in range(n):
+            sub = band.crop((int(x0 + i * step), 0, int(x0 + (i + 1) * step), band.height))
+            # band rects can bleed slivers of neighboring rows; drop the
+            # specks but keep detached keyblade pieces in attack frames
+            sub = clean_alpha(keep_components(sub, 40), lo=1, hi=255)
+            if sub.width > 2 and sub.height > 2:
+                frames.append(sub)
+    return frames
+
+
+def _compose_anims(anims: dict, cell: tuple, out_png, out_manifest, sheet_res_path: str,
+                   fps: dict | None = None, loops: dict | None = None) -> None:
+    """compose_grid for pre-cut PIL frames instead of island indices."""
+    import json as _json
+    fps = fps or {}
+    loops = loops or {}
+    total = sum(len(v) for v in anims.values())
+    cols = max(1, min(8, total))
+    rows = (total + cols - 1) // cols
+    cw, ch = cell
+    sheet = Image.new("RGBA", (cols * cw, rows * ch), (0, 0, 0, 0))
+    manifest_anims: dict = {}
+    idx = 0
+    for anim, frames in anims.items():
+        indices = []
+        for fr in frames:
+            if fr.width > cw or fr.height > ch:
+                r = min(cw / fr.width, ch / fr.height)
+                fr = fr.resize((max(1, int(fr.width * r)), max(1, int(fr.height * r))), Image.NEAREST)
+            cx = (idx % cols) * cw + (cw - fr.width) // 2
+            cy = (idx // cols) * ch + (ch - fr.height) - 2
+            sheet.alpha_composite(fr, (cx, cy))
+            indices.append(idx)
+            idx += 1
+        manifest_anims[anim] = {
+            "frames": indices,
+            "fps": fps.get(anim, 9 if anim.startswith("walk") else 3),
+            "loop": loops.get(anim, not anim.startswith("attack")),
+        }
+    Path(out_png).parent.mkdir(parents=True, exist_ok=True)
+    sheet.save(out_png)
+    manifest = {
+        "asset_id": Path(out_png).stem, "sheet": sheet_res_path,
+        "native_scale": 1, "display_scale": 1, "pivot": [cw // 2, ch - 4],
+        "grid": {"frame_width": cw, "frame_height": ch, "columns": cols, "rows": rows},
+        "animations": manifest_anims,
+    }
+    Path(out_manifest).parent.mkdir(parents=True, exist_ok=True)
+    Path(out_manifest).write_text(_json.dumps(manifest, indent=2), encoding="utf-8")
+    print(f"  wrote {out_png} ({total} frames) + manifest")
+
+
+def prep_sora_field() -> None:
+    """Full 8-direction walk cycles + 3-hit attack combo from the supplied
+    KH1 Sora compilation (ripped by Nemu). Rows face LEFT on the sheet; we
+    store right-facing frames (CharacterVisual flips for left)."""
+    img = chroma_key(load_rgba(KH / "raw/heroes/sora.png"), (255, 255, 255), tol=6)
+
+    def flip_all(frames: list) -> list:
+        return [f.transpose(Image.FLIP_LEFT_RIGHT) for f in frames]
+
+    walk_down = _band_frames(img, (0, 148, 350, 210))
+    walk_up = _band_frames(img, (0, 300, 350, 364))
+    walk_down_side = flip_all(_band_frames(img, (0, 52, 350, 105)))
+    walk_up_side = flip_all(_band_frames(img, (0, 408, 350, 466)))
+    walk_side = flip_all(_band_frames(img, (0, 575, 400, 630)))
+    swing1 = flip_all(_band_frames(img, (0, 1750, 460, 1815)))
+    swing2 = flip_all(_band_frames(img, (0, 1905, 560, 1955)))
+    swing3 = flip_all(_band_frames(img, (0, 1985, 560, 2045)))
+
+    def pick(frames: list, idxs: list) -> list:
+        return [frames[i] for i in idxs if i < len(frames)]
+
+    anims = {
+        "idle_down": [walk_down[0]],
+        "walk_down": walk_down,
+        "idle_up": [walk_up[0]],
+        "walk_up": walk_up,
+        "idle_side": [walk_side[0]],
+        "walk_side": walk_side,
+        "idle_down_side": [walk_down_side[0]],
+        "walk_down_side": walk_down_side,
+        "idle_up_side": [walk_up_side[0]],
+        "walk_up_side": walk_up_side,
+        "attack_1": pick(swing1, [1, 3, 5]),
+        "attack_2": pick(swing2, [1, 3, 5]),
+        "attack_3": pick(swing3, [1, 3, 5]),
+    }
+    for k, v in anims.items():
+        if not v:
+            print(f"  WARNING: {k} empty")
+    _compose_anims(anims, (64, 60),
+                   KH / "processed/sheets/sora.png", KH / "manifests/sora.json",
+                   "res://assets/franchises/kingdom_hearts/processed/sheets/sora.png",
+                   fps={"walk_down": 10, "walk_up": 10, "walk_side": 10,
+                        "walk_down_side": 10, "walk_up_side": 10,
+                        "attack_1": 14, "attack_2": 14, "attack_3": 14})
+
+
 if __name__ == "__main__":
     print("sora..."); prep_sora()
     print("shadow..."); prep_shadow()
@@ -505,4 +630,5 @@ if __name__ == "__main__":
     print("ff customers..."); prep_ff_customers()
     print("franchise customers..."); prep_franchise_customers()
     write_customer_pool()
+    print("sora field..."); prep_sora_field()
     print("done")

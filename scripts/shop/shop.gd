@@ -339,6 +339,7 @@ func _activate(action: String) -> void:
 
 
 func _toast(text: String) -> void:
+	AudioManager.play_sfx("error", -4.0)
 	var lbl := UIKit.label(text, 10, UIKit.COL_BAD)
 	lbl.position = player.position + Vector2(-60, -48)
 	lbl.z_index = 70

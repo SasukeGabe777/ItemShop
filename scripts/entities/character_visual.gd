@@ -9,6 +9,7 @@ var shadow: Sprite2D
 var _bob_time: float = 0.0
 var _moving: bool = false
 var use_frames: bool = false
+var _action_playing: bool = false
 
 
 func setup_from_manifest(manifest_path: String) -> bool:
@@ -81,8 +82,24 @@ func _add_shadow(size: int) -> void:
 	move_child(shadow, 0)
 
 
+## Direction suffix for anim lookup: up/down/side, with diagonal
+## up_side/down_side variants when the sheet provides them.
+func _dir_suffix(direction: Vector2) -> String:
+	var ax := absf(direction.x)
+	var ay := absf(direction.y)
+	if ax > 0.01 and ay > 0.01 and minf(ax, ay) / maxf(ax, ay) > 0.45:
+		var diag := "up_side" if direction.y < 0.0 else "down_side"
+		if animated != null and animated.sprite_frames.has_animation("walk_%s" % diag):
+			return diag
+	if ax >= ay and direction != Vector2.ZERO:
+		return "side"
+	return "up" if direction.y < 0.0 else "down"
+
+
 func face(direction: Vector2, moving: bool) -> void:
 	_moving = moving
+	if _action_playing:
+		return
 	if use_frames and animated != null:
 		var anim := ""
 		if absf(direction.x) >= absf(direction.y) and direction != Vector2.ZERO:
@@ -93,12 +110,14 @@ func face(direction: Vector2, moving: bool) -> void:
 				anim = "%s_%s" % [prefix, lr]
 				animated.flip_h = false
 			else:
-				anim = "walk_side" if moving else "idle_side"
+				var sfx := _dir_suffix(direction)
+				anim = "%s_%s" % ["walk" if moving else "idle", sfx]
 				animated.flip_h = direction.x < 0.0
-		elif direction.y < 0.0:
-			anim = "walk_up" if moving else "idle_up"
 		elif direction != Vector2.ZERO:
-			anim = "walk_down" if moving else "idle_down"
+			var sfx2 := _dir_suffix(direction)
+			anim = "%s_%s" % ["walk" if moving else "idle", sfx2]
+			if sfx2.ends_with("side"):
+				animated.flip_h = direction.x < 0.0
 		else:
 			anim = animated.animation
 			if moving == false and String(anim).begins_with("walk"):
@@ -109,6 +128,30 @@ func face(direction: Vector2, moving: bool) -> void:
 	elif static_sprite != null:
 		if direction.x != 0.0:
 			static_sprite.flip_h = direction.x < 0.0
+
+
+## One-shot action animation (e.g. "attack_1") resolved against the facing:
+## uses attack_1 as-is (side frames), flipped for left; falls back silently
+## when the sheet has no such animation.
+func play_action(action: String, direction: Vector2) -> void:
+	if not use_frames or animated == null:
+		return
+	if not animated.sprite_frames.has_animation(action):
+		return
+	_action_playing = true
+	animated.flip_h = direction.x < 0.0
+	animated.animation = StringName(action)
+	animated.play()
+	var end_action := func() -> void:
+		_action_playing = false
+	if not animated.animation_finished.is_connected(_on_action_finished):
+		animated.animation_finished.connect(_on_action_finished)
+	# safety: never stay locked if the animation loops or stalls
+	get_tree().create_timer(0.6).timeout.connect(end_action)
+
+
+func _on_action_finished() -> void:
+	_action_playing = false
 
 
 func _process(delta: float) -> void:

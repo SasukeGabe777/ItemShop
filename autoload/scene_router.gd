@@ -24,6 +24,7 @@ func go(scene_key: String, ctx: Dictionary = {}) -> void:
 		push_error("[SceneRouter] unknown scene key %s" % scene_key)
 		return
 	scene_transition_requested.emit(scene_key, path, context.duplicate(true))
+	AudioManager.play_sfx("loading_screens", -10.0)
 	_drop_curtain()
 	get_tree().call_deferred("change_scene_to_file", path)
 

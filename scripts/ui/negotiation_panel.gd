@@ -157,6 +157,7 @@ func _handle(outcome: Dictionary) -> void:
 	match String(outcome["result"]):
 		Negotiation.RESULT_PERFECT, Negotiation.RESULT_ACCEPT:
 			nego.finalize_sale(outcome)
+			AudioManager.play_sfx("itemsale", 2.0)
 			if bool(outcome.get("perfect", false)):
 				AudioManager.play_stinger("victory_stinger")
 			_finish(outcome)

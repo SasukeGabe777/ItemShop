@@ -64,6 +64,7 @@ func _craft(recipe_id: String) -> void:
 	for iid: String in r.get("inputs", {}):
 		InventoryManager.remove_item(iid, int(r["inputs"][iid]))
 	InventoryManager.add_item(String(r["output"]), int(r.get("count", 1)))
+	AudioManager.play_sfx("acquired")
 	GameState.set_flag("crafted_" + recipe_id)
 	gold_lbl.text = "Gold: %dg" % EconomyManager.gold
 	_fill()

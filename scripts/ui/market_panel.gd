@@ -36,6 +36,7 @@ func _fill(list: VBoxContainer, gold_lbl: Label) -> void:
 			"Buy", func() -> void:
 				if EconomyManager.spend_gold(cost):
 					InventoryManager.add_item(id)
+					AudioManager.play_sfx("acquired", -4.0)
 					gold_lbl.text = "Gold: %dg" % EconomyManager.gold
 					_fill(list, gold_lbl))
 		list.add_child(row)

@@ -148,6 +148,7 @@ func _expedition_dialog(world_id: String) -> void:
 			if GameState.meet_hero(hid):
 				StoryEventManager.fire("hero_met", {"hero": hid})
 			DungeonManager.plan_expedition(world_id, hid, chosen, first_vertical_slice)
+			AudioManager.play_sfx("enter_expedition")
 			var events := TimeManager.advance(TimeManager.activity_cost("dungeon"))
 			if "deadline_failed" in events:
 				SceneRouter.go("story", {"failure": true})

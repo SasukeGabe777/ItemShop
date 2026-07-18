@@ -83,6 +83,7 @@ static func button(text: String, on_press: Callable, size: int = 10) -> Button:
 	var b := Button.new()
 	b.text = text
 	b.add_theme_font_size_override("font_size", size)
+	b.pressed.connect(func() -> void: AudioManager.play_sfx("menu_select", -4.0))
 	if on_press.is_valid():
 		b.pressed.connect(on_press)
 	return b
@@ -155,6 +156,7 @@ static func modal(parent: Node, title: String) -> Array:
 	var layer := CanvasLayer.new()
 	layer.layer = 50
 	parent.add_child(layer)
+	layer.tree_exiting.connect(func() -> void: AudioManager.play_sfx("menu_close", -4.0))
 	var dim := ColorRect.new()
 	dim.color = Color(0, 0, 0, 0.55)
 	dim.set_anchors_preset(Control.PRESET_FULL_RECT)

@@ -159,6 +159,8 @@ func _do_basic_attack() -> void:
 	combo_index = (combo_index + 1) % hits
 	combo_reset_at = Time.get_ticks_msec() / 1000.0 + 0.9
 	attack_lock = 0.22 if idx < hits - 1 else 0.34
+	visual.play_action("attack_%d" % (idx + 1), facing)
+	AudioManager.play_sfx("attack_enemy_1" if idx % 2 == 0 else "attack_enemy_2", -5.0)
 	set_meta("swings", int(get_meta("swings", 0)) + 1)
 	hitbox.begin_swing(_attack_damage(mult))
 	get_tree().create_timer(0.12).timeout.connect(hitbox.end_swing)
@@ -296,12 +298,22 @@ func on_enemy_killed() -> void:
 	_gain_meter(float(ContentDatabase.bal("dungeon", {}).get("meter_gain_per_kill", 15)))
 
 
+var _low_hp_warned: bool = false
+
+
 func _on_hit(packet: Dictionary, from_position: Vector2) -> void:
 	movement.knockback(from_position, global_position, float(packet.get("knockback", 120)))
 	health.grant_iframes(float(ContentDatabase.bal("dungeon", {}).get("iframes_hurt", 0.8)))
 	FX.flash(visual.body_node(), Color(1, 0.4, 0.4))
 	FX.shake(2.5)
 	FX.damage_number(get_parent(), global_position, int(packet.get("damage", 0)), Color(1, 0.5, 0.5))
+	if packet.get("source") is Boss:
+		AudioManager.play_sfx("enemy_boss_attack_you", -3.0)
+	if health.hp <= health.max_hp * 0.25 and not _low_hp_warned:
+		_low_hp_warned = true
+		AudioManager.play_sfx("player_low_health")
+	elif health.hp > health.max_hp * 0.4:
+		_low_hp_warned = false
 	hp_changed.emit(health.hp, health.max_hp)
 	_blink_iframes()
 
@@ -321,5 +333,6 @@ func _on_died() -> void:
 		FX.burst(get_parent(), global_position, Color(1, 0.95, 0.5), 24)
 		hp_changed.emit(health.hp, health.max_hp)
 		return
+	AudioManager.play_sfx("player_death")
 	visual.modulate = Color(0.5, 0.5, 0.5, 0.6)
 	defeated.emit()

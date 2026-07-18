@@ -228,7 +228,9 @@ func _enter_room(idx: int) -> void:
 		boss_bar.max_value = boss.health.max_hp
 		boss_bar.value = boss.health.max_hp
 		boss.boss_hp_changed.connect(func(hp: int, _mx: int) -> void: boss_bar.value = hp)
-		boss.killed.connect(func(_id: String, _at: Vector2) -> void: _on_room_cleared(true))
+		boss.killed.connect(func(_id: String, _at: Vector2) -> void:
+			AudioManager.play_sfx("boss_Defeated", 2.0)
+			_on_room_cleared(true))
 	else:
 		for i in range(enemies.size()):
 			var e := Enemy.new()
@@ -281,6 +283,7 @@ func _spawn_chest(at: Vector2) -> void:
 		var goods: Array = ContentDatabase.get_world(world_id).get("market_goods", [])
 		var pool: Array = goods if not goods.is_empty() else ContentDatabase.live_items
 		var prize := ContentDatabase.live_substitute(String(pool[randi() % pool.size()]))
+		AudioManager.play_sfx("chest_unlock")
 		DungeonManager.add_run_loot(prize)
 		DungeonManager.run_gold += 20 + randi() % 60
 		FX.burst(room_root, chest.position, Color(1, 0.9, 0.4), 16)

@@ -81,9 +81,12 @@ func _build_art_menu() -> void:
 			b.add_theme_stylebox_override("hover", hover)
 			b.add_theme_stylebox_override("focus", hover)
 			b.add_theme_stylebox_override("pressed", hover)
+		b.pressed.connect(func() -> void: AudioManager.play_sfx("menu_select", -4.0))
 		b.pressed.connect(Callable(row[1]))
 		b.mouse_entered.connect(b.grab_focus)  # hover and keyboard share one selection
-		b.focus_entered.connect(func() -> void: _point_hand_at(b))
+		b.focus_entered.connect(func() -> void:
+			AudioManager.play_sfx("menu_movement", -6.0)
+			_point_hand_at(b))
 		ui_root.add_child(b)
 		_menu_buttons.append(b)
 		if first_btn == null:
