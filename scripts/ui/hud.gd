@@ -10,10 +10,27 @@ var market_label: Label
 var orders_label: Label
 
 
+const HUD_BAR := "res://assets/shared/ui/processed/hud_bar.png"
+
+
 func _ready() -> void:
 	layer = 20
 	var bar := UIKit.panel()
 	bar.set_anchors_preset(Control.PRESET_TOP_WIDE)
+	# ornate white bar + light theme, matching the menus
+	if ResourceLoader.exists(HUD_BAR):
+		var style := StyleBoxTexture.new()
+		style.texture = load(HUD_BAR)
+		style.texture_margin_left = 14
+		style.texture_margin_right = 14
+		style.texture_margin_top = 7
+		style.texture_margin_bottom = 7
+		style.content_margin_left = 16
+		style.content_margin_right = 16
+		style.content_margin_top = 6
+		style.content_margin_bottom = 6
+		bar.add_theme_stylebox_override("panel", style)
+		bar.theme = UIKit.light_theme()
 	add_child(bar)
 	var vb := VBoxContainer.new()
 	vb.add_theme_constant_override("separation", 0)
@@ -64,7 +81,7 @@ func refresh() -> void:
 		deadline_label.text = "Due day %d: %dg + %s" % [
 			TimeManager.chapter_deadline_day(), BridgeManager.repair_cost(wid), shard]
 		deadline_label.add_theme_color_override("font_color",
-			UIKit.COL_GOOD if BridgeManager.has_shard(wid) and EconomyManager.gold >= BridgeManager.repair_cost(wid) else UIKit.COL_TEXT)
+			UIKit.COL_GOOD if BridgeManager.has_shard(wid) and EconomyManager.gold >= BridgeManager.repair_cost(wid) else UIKit.COL_INK)
 	orders_label.text = "Orders: %d" % InventoryManager.orders.size()
 	var events := MarketManager.active_event_names()
 	market_label.text = "Market: " + (", ".join(events) if not events.is_empty() else "calm")

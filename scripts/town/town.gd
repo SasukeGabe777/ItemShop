@@ -37,8 +37,8 @@ func _build_ground() -> void:
 	Scenery.prop(self, Vector2(140, 415), "lamp_lit")
 	Scenery.prop(self, Vector2(500, 415), "lamp_lit")
 	Scenery.prop(self, Vector2(320, 250), "rug", -8)
-	Scenery.prop(self, Vector2(390, 120), "crates")
-	Scenery.prop(self, Vector2(255, 390), "barrel")
+	Scenery.prop(self, Vector2(330, 115), "crates")
+	Scenery.prop(self, Vector2(320, 390), "barrel")
 	# broken bridge visual at the top
 	for i in range(7):
 		var plank := Polygon2D.new()
@@ -50,7 +50,10 @@ func _build_ground() -> void:
 		add_child(plank)
 
 
-func _door(pos: Vector2, size: Vector2, color: Color, title: String, action: String) -> void:
+const LOBBY_SPRITE := "res://assets/locations/processed/lobby/%s.png"
+
+
+func _door(pos: Vector2, size: Vector2, color: Color, title: String, action: String, sprite_name: String = "") -> void:
 	var body := StaticBody2D.new()
 	body.position = pos
 	body.collision_layer = 1
@@ -59,13 +62,24 @@ func _door(pos: Vector2, size: Vector2, color: Color, title: String, action: Str
 	rect.size = size
 	shape.shape = rect
 	body.add_child(shape)
-	var poly := Polygon2D.new()
 	var h := size / 2.0
-	poly.polygon = PackedVector2Array([-h, Vector2(h.x, -h.y), h, Vector2(-h.x, h.y)])
-	poly.color = color
-	body.add_child(poly)
+	var label_top := -h.y - 14
+	var tex_path := LOBBY_SPRITE % sprite_name
+	if sprite_name != "" and ResourceLoader.exists(tex_path):
+		# building art with its base at the door rect's bottom edge
+		var spr := Sprite2D.new()
+		spr.texture = load(tex_path)
+		spr.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		spr.position = Vector2(0, h.y - spr.texture.get_height() / 2.0)
+		body.add_child(spr)
+		label_top = h.y - spr.texture.get_height() - 14.0
+	else:
+		var poly := Polygon2D.new()
+		poly.polygon = PackedVector2Array([-h, Vector2(h.x, -h.y), h, Vector2(-h.x, h.y)])
+		poly.color = color
+		body.add_child(poly)
 	var lbl := UIKit.label(title, 9)
-	lbl.position = Vector2(-h.x, -h.y - 14)
+	lbl.position = Vector2(-h.x, label_top)
 	body.add_child(lbl)
 	add_child(body)
 	var ic := InteractionComponent.new()
@@ -77,10 +91,10 @@ func _door(pos: Vector2, size: Vector2, color: Color, title: String, action: Str
 
 
 func _build_buildings() -> void:
-	_door(Vector2(200, 140), Vector2(90, 60), Color("#8a5a34"), "Item Shop", "shop")
-	_door(Vector2(440, 140), Vector2(90, 60), Color("#4a7a54"), "Market", "market")
-	_door(Vector2(200, 360), Vector2(90, 60), Color("#5a5a8a"), "Workshop", "workshop")
-	_door(Vector2(440, 360), Vector2(90, 60), Color("#8a4a5a"), "Adventurers' Guild", "guild")
+	_door(Vector2(200, 150), Vector2(90, 60), Color("#8a5a34"), "Item Shop", "shop", "itemshop")
+	_door(Vector2(440, 150), Vector2(90, 60), Color("#4a7a54"), "Market", "market", "market")
+	_door(Vector2(200, 360), Vector2(90, 60), Color("#5a5a8a"), "Workshop", "workshop", "workshop")
+	_door(Vector2(440, 360), Vector2(90, 60), Color("#8a4a5a"), "Adventurers' Guild", "guild", "guild")
 	_door(Vector2(320, 470), Vector2(70, 50), Color("#6a6a4a"), "Home (rest)", "home")
 
 

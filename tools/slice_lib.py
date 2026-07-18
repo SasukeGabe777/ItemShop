@@ -196,15 +196,62 @@ def resize_rgba(img: Image.Image, size: tuple[int, int]) -> Image.Image:
     return Image.fromarray(small.astype(np.uint8))
 
 
-def largest_component(img: Image.Image, thresh: int = 10) -> Image.Image:
-    """Zero out everything but the largest connected opaque region. Island
-    detection's merge_gap dilation can pull detached shadow specks from
-    neighboring sheet pieces into a slice; those read as gray smudges in-game."""
-    a = np.array(img)
-    alpha = a[..., 3] > thresh
+def shave_sparse_edges(img: Image.Image, frac: float = 0.6, cols: bool = True) -> Image.Image:
+    """Crop away edge rows (and optionally columns) that are mostly empty —
+    leftover crumbs of baked shadows/outlines hugging a slice's border."""
+    alpha = np.array(img)[..., 3] > 0
+    t, b, l, r = 0, alpha.shape[0], 0, alpha.shape[1]
+    while b - t > 2 and alpha[t, l:r].sum() < frac * (r - l):
+        t += 1
+    while b - t > 2 and alpha[b - 1, l:r].sum() < frac * (r - l):
+        b -= 1
+    if cols:
+        while r - l > 2 and alpha[t:b, l].sum() < frac * (b - t):
+            l += 1
+        while r - l > 2 and alpha[t:b, r - 1].sum() < frac * (b - t):
+            r -= 1
+    return img.crop((l, t, r, b))
+
+
+def flood_bg(img: Image.Image, is_bg) -> Image.Image:
+    """Remove background connected to the image border: BFS from all border
+    pixels through colors is_bg(rgb_int16_array) says are background-family.
+    Interior pixels of those colors survive because the flood cannot cross
+    the art's outlines — safer than a global chroma key for busy scenes."""
+    from collections import deque
+    a = np.array(img.convert("RGBA"))
+    h, w = a.shape[:2]
+    bg = is_bg(a[..., :3].astype(np.int16)) & (a[..., 3] > 0)
+    bg |= a[..., 3] == 0  # already-transparent pixels carry the flood too
+    seen = np.zeros((h, w), bool)
+    dq = deque()
+    for x in range(w):
+        for y in (0, h - 1):
+            if bg[y, x] and not seen[y, x]:
+                seen[y, x] = True
+                dq.append((y, x))
+    for y in range(h):
+        for x in (0, w - 1):
+            if bg[y, x] and not seen[y, x]:
+                seen[y, x] = True
+                dq.append((y, x))
+    while dq:
+        y, x = dq.popleft()
+        for ny, nx in ((y - 1, x), (y + 1, x), (y, x - 1), (y, x + 1)):
+            if 0 <= ny < h and 0 <= nx < w and bg[ny, nx] and not seen[ny, nx]:
+                seen[ny, nx] = True
+                dq.append((ny, nx))
+    a[seen] = 0
+    return Image.fromarray(a)
+
+
+def _label_components(alpha: np.ndarray) -> tuple[np.ndarray, dict[int, int]]:
+    """8-connected component labels for a boolean mask; returns labels and
+    label -> area."""
     h, w = alpha.shape
     labels = np.zeros((h, w), dtype=np.int32)
-    best_label, best_area, next_label = 0, 0, 0
+    areas: dict[int, int] = {}
+    next_label = 0
     for sy in range(h):
         xs = np.nonzero(alpha[sy] & (labels[sy] == 0))[0]
         for sx in xs:
@@ -224,9 +271,31 @@ def largest_component(img: Image.Image, thresh: int = 10) -> Image.Image:
                         if row[nx] and not lrow[nx]:
                             lrow[nx] = next_label
                             stack.append((ny, nx))
-            if area > best_area:
-                best_area, best_label = area, next_label
+            areas[next_label] = area
+    return labels, areas
+
+
+def largest_component(img: Image.Image, thresh: int = 10) -> Image.Image:
+    """Zero out everything but the largest connected opaque region. Island
+    detection's merge_gap dilation can pull detached shadow specks from
+    neighboring sheet pieces into a slice; those read as gray smudges in-game."""
+    a = np.array(img)
+    labels, areas = _label_components(a[..., 3] > thresh)
+    if not areas:
+        return Image.fromarray(a)
+    best_label = max(areas, key=lambda k: areas[k])
     a[labels != best_label] = 0
+    return Image.fromarray(a)
+
+
+def keep_components(img: Image.Image, min_area: int, thresh: int = 10) -> Image.Image:
+    """Drop connected regions smaller than min_area but keep every larger one
+    (for art with legitimate detached pieces, e.g. floating-island rubble)."""
+    a = np.array(img)
+    labels, areas = _label_components(a[..., 3] > thresh)
+    small = {k for k, v in areas.items() if v < min_area}
+    if small:
+        a[np.isin(labels, list(small))] = 0
     return Image.fromarray(a)
 
 

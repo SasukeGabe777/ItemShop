@@ -16,7 +16,7 @@ import numpy as np
 from PIL import Image
 
 sys.path.insert(0, str(Path(__file__).parent))
-from slice_lib import chroma_key, clean_alpha, compose_grid, find_islands, largest_component, load_rgba, resize_rgba, save_island
+from slice_lib import chroma_key, clean_alpha, compose_grid, find_islands, flood_bg, keep_components, largest_component, load_rgba, resize_rgba, save_island, shave_sparse_edges
 
 ROOT = Path(__file__).resolve().parent.parent
 KH = ROOT / "assets/franchises/kingdom_hearts"
@@ -217,7 +217,7 @@ def prep_menu_ui() -> None:
         "bar_white": 7, "bar_blue": 4,
         "progress_bar": 6, "divider_sparkle": 31,
         "cursor_hand": 32, "star_gold": 37, "star_blue": 38, "star_gray": 39,
-        "panel_wide": 27,
+        "panel_wide": 27, "hud_bar": 0,
     }
     for name, idx in named.items():
         save_island(img, boxes[idx], out / f"{name}.png")
@@ -237,31 +237,78 @@ def prep_menu_ui() -> None:
         if shave != "none":
             # baked drop shadows leave sparse near-black crumbs along the
             # borders (they touch the outline, so largest_component keeps
-            # them); shave any edge row/col that is mostly empty. Columns
-            # only where sparse edge columns aren't art (bars' pointed caps
-            # and the cursor's fingertip are legitimately sparse).
-            alpha = np.array(im)[..., 3] > 0
-            t, b, l, r = 0, alpha.shape[0], 0, alpha.shape[1]
-            while b - t > 2 and alpha[t, l:r].sum() < 0.6 * (r - l):
-                t += 1
-            while b - t > 2 and alpha[b - 1, l:r].sum() < 0.6 * (r - l):
-                b -= 1
-            if shave == "both":
-                while r - l > 2 and alpha[t:b, l].sum() < 0.6 * (b - t):
-                    l += 1
-                while r - l > 2 and alpha[t:b, r - 1].sum() < 0.6 * (b - t):
-                    r -= 1
-            im = im.crop((l, t, r, b))
+            # them). Columns only where sparse edge columns aren't art
+            # (bars' pointed caps and the cursor's fingertip are sparse).
+            im = shave_sparse_edges(im, cols=(shave == "both"))
         im.save(p)
 
     refine("bar_white", "h", 24)
     refine("bar_blue", "h", 24)
+    refine("hud_bar", "h", 36)
     refine("cursor_hand", "w", 24, shave="none")
     # Pre-scale the modal panel to its in-game width: the nine-patch must
     # only ever stretch UP — nearest-filter DOWN-scaling decimates the ornate
     # border into a tattered edge.
     refine("panel_wide", "w", 380, shave="both")
     print(f"  wrote {len(named)} menu UI pieces -> {out}")
+
+
+def prep_lobby_locations() -> None:
+    """Building sprites for the lobby's five doors, cut clean from the
+    supplied sheets (user-picked buildings; see currentsessionimages/*sprite
+    for the reference picks). Flood-fill from the borders removes grass/sky
+    without eating same-colored art inside the outlines."""
+    out = LOC / "processed/lobby"
+    out.mkdir(parents=True, exist_ok=True)
+
+    def finish(im: Image.Image, name: str, max_dim: int, min_area: int = 0, largest: bool = False) -> None:
+        im = largest_component(im) if largest else keep_components(im, min_area)
+        im = clean_alpha(im, lo=1, hi=255)
+        if max(im.size) != max_dim:
+            k = max_dim / max(im.size)
+            im = resize_rgba(im, (max(1, round(im.width * k)), max(1, round(im.height * k))))
+            im = clean_alpha(im, lo=128, hi=128)
+            im = clean_alpha(keep_components(im, 8), lo=1, hi=255)
+        im.save(out / f"{name}.png")
+        print(f"  {name}: {im.size}")
+
+    # Item shop: floating-island shop, KH CoM level images (white bg)
+    kh = load_rgba(LOC / "raw/kh_level_images.png")
+    boxes = find_islands(chroma_key(kh, (255, 255, 255), tol=6), min_area=400, merge_gap=2)
+    island = chroma_key(kh.crop(tuple(boxes[6])), (255, 255, 255), tol=6)
+    finish(island, "itemshop", 110, min_area=6)
+
+    # Market: Kecleon shop, PMD Treasure Town — flood off grass/trees/path.
+    # Tree greens have near-zero blue; the tent's own greens are blue-rich,
+    # which is what keeps the flood out of the Kecleon head.
+    pmd = load_rgba(LOC / "raw/pmd_treasure_town.png")
+    def pmd_bg(rgb: np.ndarray) -> np.ndarray:
+        r, g, b = rgb[..., 0], rgb[..., 1], rgb[..., 2]
+        grass = (g > 130) & (r > 130) & (b < 140) & (g >= r - 40)
+        tree = (g >= 70) & (b < 50) & (g > r + 10)
+        tan = (r > 180) & (g > 140) & (b < 160) & (r > g) & (g > b)
+        rock = (np.abs(r - g) < 30) & (np.abs(g - b) < 40) & (r > 120) & (r < 220)
+        return grass | tree | tan | rock
+    finish(flood_bg(pmd.crop((277, 68, 396, 225)), pmd_bg), "market", 110, min_area=40)
+
+    # Workshop: Peach's Castle (M&L: Superstar Saga) — flood off mint + greens
+    castle = load_rgba(LOC / "raw/peach_castle.png")
+    def castle_bg(rgb: np.ndarray) -> np.ndarray:
+        r, g, b = rgb[..., 0], rgb[..., 1], rgb[..., 2]
+        mint = (g > 190) & (b > 160) & (r < 200) & (g > r)
+        green = (g > 110) & (g > r + 20) & (g > b + 20)
+        # bush highlight outlines: neutral white/gray — the castle's own
+        # walls are cream (blue well below red), so they stay
+        white = (r > 190) & (g > 190) & (b > 185) & (np.abs(r.astype(int) - b) < 15)
+        return mint | green | white
+    finish(flood_bg(castle.crop((0, 1330, 245, 1495)), castle_bg), "workshop", 118, min_area=250)
+
+    # Adventurers' Guild: yellow figurine (Minish Cap figurines, lavender bg)
+    minish = load_rgba(LOC / "raw/minish_figurines.png")
+    def lavender_bg(rgb: np.ndarray) -> np.ndarray:
+        r, g, b = rgb[..., 0], rgb[..., 1], rgb[..., 2]
+        return (np.abs(r - g) < 12) & (b > r + 30) & (r > 140) & (r < 210)
+    finish(flood_bg(minish.crop((150, 855, 290, 990)), lavender_bg), "guild", 104, largest=True)
 
 
 if __name__ == "__main__":
@@ -274,4 +321,5 @@ if __name__ == "__main__":
     print("traverse props..."); prep_traverse_props()
     print("item icons..."); prep_item_icons()
     print("menu ui..."); prep_menu_ui()
+    print("lobby locations..."); prep_lobby_locations()
     print("done")
