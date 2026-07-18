@@ -3992,3 +3992,76 @@ navigating to "https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper
 2026-07-16 13:07:45,645 DEBUG Waited 6.31 seconds before next request.
 2026-07-16 13:07:45,645 INFO Visiting asset 85545: https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper/asset/85545/
 2026-07-16 13:07:48,207 ERROR Access restriction, CAPTCHA, login, or bot challenge detected. Progress saved.
+2026-07-17 23:23:13,010 INFO Opening game page: https://www.spriters-resource.com/ds_dsi/narutopotn/
+2026-07-17 23:23:26,571 INFO Game: Naruto: Path of the Ninja
+2026-07-17 23:23:26,572 INFO Platform/category: Ds Dsi
+2026-07-17 23:23:26,572 INFO Asset count reported: 34
+2026-07-17 23:23:26,572 INFO Assets selected: 1
+2026-07-17 23:23:26,572 INFO Sections: Characters (Battle), Characters (Overworld), Miscellaneous
+2026-07-17 23:23:26,572 INFO Destination: assets\franchises\naruto\raw
+2026-07-17 23:23:26,572 INFO Filename pattern: naruto_<asset>
+2026-07-17 23:23:26,572 INFO Dry run only; no assets downloaded.
+2026-07-17 23:25:44,953 INFO Opening game page: https://www.spriters-resource.com/ds_dsi/narutopotn/
+2026-07-17 23:25:51,356 INFO Game: Naruto: Path of the Ninja
+2026-07-17 23:25:51,356 INFO Platform/category: Ds Dsi
+2026-07-17 23:25:51,356 INFO Asset count reported: 34
+2026-07-17 23:25:51,356 INFO Assets selected: 19
+2026-07-17 23:25:51,357 INFO Sections: Characters (Battle), Characters (Overworld), Miscellaneous
+2026-07-17 23:25:51,357 INFO Destination: assets\franchises\naruto\raw
+2026-07-17 23:25:51,357 INFO Filename pattern: naruto_<asset>
+2026-07-17 23:25:51,357 INFO Visiting asset 79017: https://www.spriters-resource.com/ds_dsi/narutopotn/asset/79017/
+2026-07-17 23:25:56,704 INFO Trying download control: download attribute
+2026-07-17 23:26:01,223 DEBUG Waited 3.83 seconds before next request.
+2026-07-17 23:26:01,223 INFO Visiting asset 79018: https://www.spriters-resource.com/ds_dsi/narutopotn/asset/79018/
+2026-07-17 23:26:03,253 INFO Trying download control: download attribute
+2026-07-17 23:26:06,562 DEBUG Waited 3.05 seconds before next request.
+2026-07-17 23:26:06,562 INFO Visiting asset 79019: https://www.spriters-resource.com/ds_dsi/narutopotn/asset/79019/
+2026-07-17 23:26:08,398 INFO Trying download control: download attribute
+2026-07-17 23:26:11,550 DEBUG Waited 2.90 seconds before next request.
+2026-07-17 23:26:11,550 INFO Visiting asset 79020: https://www.spriters-resource.com/ds_dsi/narutopotn/asset/79020/
+2026-07-17 23:26:13,331 INFO Trying download control: download attribute
+2026-07-17 23:26:17,182 DEBUG Waited 3.61 seconds before next request.
+2026-07-17 23:26:17,183 INFO Visiting asset 79021: https://www.spriters-resource.com/ds_dsi/narutopotn/asset/79021/
+2026-07-17 23:26:19,230 INFO Trying download control: download attribute
+2026-07-17 23:26:22,186 DEBUG Waited 2.61 seconds before next request.
+2026-07-17 23:26:22,186 INFO Visiting asset 79022: https://www.spriters-resource.com/ds_dsi/narutopotn/asset/79022/
+2026-07-17 23:26:23,978 INFO Trying download control: download attribute
+2026-07-17 23:26:27,669 DEBUG Waited 3.40 seconds before next request.
+2026-07-17 23:26:27,670 INFO Visiting asset 61489: https://www.spriters-resource.com/ds_dsi/narutopotn/asset/61489/
+2026-07-17 23:26:29,287 INFO Trying download control: download attribute
+2026-07-17 23:26:31,604 DEBUG Waited 2.16 seconds before next request.
+2026-07-17 23:26:31,604 INFO Visiting asset 79023: https://www.spriters-resource.com/ds_dsi/narutopotn/asset/79023/
+2026-07-17 23:26:33,125 INFO Trying download control: download attribute
+2026-07-17 23:26:36,825 DEBUG Waited 3.53 seconds before next request.
+2026-07-17 23:26:36,825 INFO Visiting asset 79024: https://www.spriters-resource.com/ds_dsi/narutopotn/asset/79024/
+2026-07-17 23:26:38,357 INFO Trying download control: download attribute
+2026-07-17 23:26:41,230 DEBUG Waited 2.71 seconds before next request.
+2026-07-17 23:26:41,230 INFO Visiting asset 54577: https://www.spriters-resource.com/ds_dsi/narutopotn/asset/54577/
+2026-07-17 23:26:42,740 INFO Trying download control: download attribute
+2026-07-17 23:26:45,082 DEBUG Waited 2.17 seconds before next request.
+2026-07-17 23:26:45,082 INFO Visiting asset 79025: https://www.spriters-resource.com/ds_dsi/narutopotn/asset/79025/
+2026-07-17 23:26:46,592 INFO Trying download control: download attribute
+2026-07-17 23:26:49,897 DEBUG Waited 3.14 seconds before next request.
+2026-07-17 23:26:49,897 INFO Visiting asset 79026: https://www.spriters-resource.com/ds_dsi/narutopotn/asset/79026/
+2026-07-17 23:26:51,474 INFO Trying download control: download attribute
+2026-07-17 23:26:54,387 DEBUG Waited 2.74 seconds before next request.
+2026-07-17 23:26:54,387 INFO Visiting asset 61490: https://www.spriters-resource.com/ds_dsi/narutopotn/asset/61490/
+2026-07-17 23:26:55,973 INFO Trying download control: download attribute
+2026-07-17 23:26:59,151 DEBUG Waited 2.98 seconds before next request.
+2026-07-17 23:26:59,151 INFO Visiting asset 61492: https://www.spriters-resource.com/ds_dsi/narutopotn/asset/61492/
+2026-07-17 23:27:01,007 INFO Trying download control: download attribute
+2026-07-17 23:27:04,069 DEBUG Waited 2.86 seconds before next request.
+2026-07-17 23:27:04,070 INFO Visiting asset 61491: https://www.spriters-resource.com/ds_dsi/narutopotn/asset/61491/
+2026-07-17 23:27:05,657 INFO Trying download control: download attribute
+2026-07-17 23:27:09,733 DEBUG Waited 3.91 seconds before next request.
+2026-07-17 23:27:09,733 INFO Visiting asset 79027: https://www.spriters-resource.com/ds_dsi/narutopotn/asset/79027/
+2026-07-17 23:27:11,487 INFO Trying download control: download attribute
+2026-07-17 23:27:13,939 DEBUG Waited 2.19 seconds before next request.
+2026-07-17 23:27:13,939 INFO Visiting asset 79028: https://www.spriters-resource.com/ds_dsi/narutopotn/asset/79028/
+2026-07-17 23:27:15,773 INFO Trying download control: download attribute
+2026-07-17 23:27:18,672 DEBUG Waited 2.65 seconds before next request.
+2026-07-17 23:27:18,672 INFO Visiting asset 79029: https://www.spriters-resource.com/ds_dsi/narutopotn/asset/79029/
+2026-07-17 23:27:20,456 INFO Trying download control: download attribute
+2026-07-17 23:27:23,951 DEBUG Waited 3.31 seconds before next request.
+2026-07-17 23:27:23,951 INFO Visiting asset 79030: https://www.spriters-resource.com/ds_dsi/narutopotn/asset/79030/
+2026-07-17 23:27:28,762 INFO Trying download control: download attribute

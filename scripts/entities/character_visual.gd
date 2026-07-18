@@ -44,6 +44,17 @@ func setup_from_manifest(manifest_path: String) -> bool:
 	return true
 
 
+## Real character art as a single static frame (bobs while walking, flips
+## for direction) — used for the shop-customer pool sprites.
+func setup_static(tex: Texture2D) -> void:
+	static_sprite = Sprite2D.new()
+	static_sprite.texture = tex
+	static_sprite.position = Vector2(0, -tex.get_height() / 2.0 + 2.0)
+	add_child(static_sprite)
+	_add_shadow(maxi(10, tex.get_width() - 4))
+	use_frames = false
+
+
 func setup_placeholder(entity_id: String, world_id: String, color_hex: String, size: int = 16) -> void:
 	static_sprite = Sprite2D.new()
 	static_sprite.texture = ContentDatabase.entity_texture(entity_id, world_id, color_hex, size)

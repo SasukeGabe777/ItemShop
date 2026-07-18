@@ -1,95 +1,420 @@
 {
-  "schema": "crossroads.shop_furniture.v1",
-  "furniture": [
-    {
-      "id": "window_counter",
-      "name": "Window Counter",
-      "furniture_type": "counter",
-      "scenery": "crate_lantern",
-      "sprite": "",
-      "size": [40, 24],
-      "blocks_movement": false,
-      "display_slots": [[0, -12]],
-      "allowed_categories": [],
-      "is_moveable": true,
-      "customer_attention_modifier": 0.0,
-      "price_modifier": 1.0,
-      "appeal_modifiers": {}
-    },
-    {
-      "id": "wooden_shelf",
-      "name": "Wooden Shelf",
-      "furniture_type": "shelf",
-      "scenery": "crates",
-      "sprite": "",
-      "size": [40, 24],
-      "blocks_movement": false,
-      "display_slots": [[0, -12]],
-      "allowed_categories": [],
-      "is_moveable": true,
-      "customer_attention_modifier": 0.0,
-      "price_modifier": 1.0,
-      "appeal_modifiers": {}
-    },
-    {
-      "id": "round_pedestal",
-      "name": "Round Pedestal",
-      "furniture_type": "pedestal",
-      "scenery": "barrel",
-      "sprite": "",
-      "size": [32, 24],
-      "blocks_movement": false,
-      "display_slots": [[0, -12]],
-      "allowed_categories": [],
-      "is_moveable": true,
-      "customer_attention_modifier": 0.0,
-      "price_modifier": 1.0,
-      "appeal_modifiers": {}
-    },
-    {
-      "id": "display_case",
-      "name": "Display Case",
-      "furniture_type": "display_case",
-      "scenery": "chest_gold",
-      "sprite": "",
-      "size": [36, 24],
-      "blocks_movement": false,
-      "display_slots": [[0, -12]],
-      "allowed_categories": [],
-      "is_moveable": true,
-      "customer_attention_modifier": 0.0,
-      "price_modifier": 1.0,
-      "appeal_modifiers": {}
-    },
-    {
-      "id": "small_table",
-      "name": "Small Table",
-      "furniture_type": "small_table",
-      "scenery": "",
-      "sprite": "",
-      "size": [48, 26],
-      "blocks_movement": false,
-      "display_slots": [[-12, -12], [12, -12]],
-      "allowed_categories": [],
-      "is_moveable": true,
-      "customer_attention_modifier": 0.05,
-      "price_modifier": 1.0,
-      "appeal_modifiers": {"cozy": 1}
-    },
-    {
-      "id": "wall_rack",
-      "name": "Wall Rack",
-      "furniture_type": "wall_rack",
-      "scenery": "",
-      "sprite": "",
-      "size": [52, 18],
-      "blocks_movement": false,
-      "display_slots": [[-16, -10], [0, -10], [16, -10]],
-      "allowed_categories": ["weapon", "armor"],
-      "is_moveable": true,
-      "customer_attention_modifier": 0.05,
-      "price_modifier": 1.0,
-      "appeal_modifiers": {"intense": 1}
-    }
-  ]
+ "furniture": [
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {},
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "display_slots": [
+    [
+     0.0,
+     -12.0
+    ]
+   ],
+   "furniture_type": "counter",
+   "id": "window_counter",
+   "is_moveable": true,
+   "name": "Window Counter",
+   "price_modifier": 1.0,
+   "scenery": "crate_lantern",
+   "size": [
+    40.0,
+    24.0
+   ],
+   "sprite": ""
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {},
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "display_slots": [
+    [
+     0.0,
+     -12.0
+    ]
+   ],
+   "furniture_type": "shelf",
+   "id": "wooden_shelf",
+   "is_moveable": true,
+   "name": "Wooden Shelf",
+   "price_modifier": 1.0,
+   "scenery": "crates",
+   "size": [
+    40.0,
+    24.0
+   ],
+   "sprite": ""
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {},
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "display_slots": [
+    [
+     0.0,
+     -12.0
+    ]
+   ],
+   "furniture_type": "pedestal",
+   "id": "round_pedestal",
+   "is_moveable": true,
+   "name": "Round Pedestal",
+   "price_modifier": 1.0,
+   "scenery": "barrel",
+   "size": [
+    32.0,
+    24.0
+   ],
+   "sprite": ""
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {},
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "display_slots": [
+    [
+     0.0,
+     -12.0
+    ]
+   ],
+   "furniture_type": "display_case",
+   "id": "display_case",
+   "is_moveable": true,
+   "name": "Display Case",
+   "price_modifier": 1.0,
+   "scenery": "chest_gold",
+   "size": [
+    36.0,
+    24.0
+   ],
+   "sprite": ""
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {
+    "cozy": 1.0
+   },
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.05,
+   "display_slots": [
+    [
+     -12.0,
+     -12.0
+    ],
+    [
+     12.0,
+     -12.0
+    ]
+   ],
+   "furniture_type": "small_table",
+   "id": "small_table",
+   "is_moveable": true,
+   "name": "Small Table",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    48.0,
+    26.0
+   ],
+   "sprite": ""
+  },
+  {
+   "allowed_categories": [
+    "weapon",
+    "armor"
+   ],
+   "appeal_modifiers": {
+    "intense": 1.0
+   },
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.05,
+   "display_slots": [
+    [
+     -16.0,
+     -10.0
+    ],
+    [
+     0.0,
+     -10.0
+    ],
+    [
+     16.0,
+     -10.0
+    ]
+   ],
+   "furniture_type": "wall_rack",
+   "id": "wall_rack",
+   "is_moveable": true,
+   "name": "Wall Rack",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    52.0,
+    18.0
+   ],
+   "sprite": ""
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {},
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "display_slots": [
+    [
+     0.0,
+     -12.0
+    ]
+   ],
+   "furniture_type": "item_stand",
+   "id": "basic_item_stand",
+   "is_moveable": true,
+   "name": "Basic Item Stand",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    40.0,
+    24.0
+   ],
+   "sprite": "res://assets/shared/furniture/basic_item_stand.png"
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {},
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "display_slots": [
+    [
+     0.0,
+     -12.0
+    ]
+   ],
+   "furniture_type": "item_stand",
+   "id": "premium_item_stand",
+   "is_moveable": true,
+   "name": "Premium Item Stand",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    40.0,
+    24.0
+   ],
+   "sprite": "res://assets/shared/furniture/premium_item_stand.png"
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {},
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "display_slots": [
+    [
+     0.0,
+     -12.0
+    ]
+   ],
+   "furniture_type": "display_case",
+   "id": "glass_display_case",
+   "is_moveable": true,
+   "name": "Glass Display Case",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    40.0,
+    24.0
+   ],
+   "sprite": "res://assets/shared/furniture/glass_display_case.png"
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {},
+   "blocks_movement": false,
+   "customer_attention_modifier": 1.0,
+   "display_slots": [
+    [
+     0,
+     -12
+    ]
+   ],
+   "furniture_type": "display_case",
+   "id": "luxury_glass_display_case",
+   "is_moveable": true,
+   "name": "Luxury Glass Display Case",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    40,
+    24
+   ],
+   "sprite": "res://assets/shared/furniture/luxury_glass_display_case.png"
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {},
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "display_slots": [
+    [
+     -13.0,
+     -12.0
+    ],
+    [
+     0.0,
+     -12.0
+    ],
+    [
+     13.0,
+     -12.0
+    ]
+   ],
+   "furniture_type": "counter",
+   "id": "purple_counter",
+   "is_moveable": true,
+   "name": "Purple Counter",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    40.0,
+    24.0
+   ],
+   "sprite": "res://assets/shared/furniture/purple_counter.png"
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {},
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "display_slots": [
+    [
+     -13.0,
+     -12.0
+    ],
+    [
+     0.0,
+     -12.0
+    ],
+    [
+     13.0,
+     -12.0
+    ]
+   ],
+   "furniture_type": "counter",
+   "id": "green_counter",
+   "is_moveable": true,
+   "name": "Green Counter",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    40.0,
+    24.0
+   ],
+   "sprite": "res://assets/shared/furniture/green_counter.png"
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {},
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "display_slots": [
+    [
+     -13.0,
+     -12.0
+    ],
+    [
+     0.0,
+     -12.0
+    ],
+    [
+     13.0,
+     -12.0
+    ]
+   ],
+   "furniture_type": "counter",
+   "id": "red_counter",
+   "is_moveable": true,
+   "name": "Red Counter",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    40.0,
+    24.0
+   ],
+   "sprite": ""
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {},
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "display_slots": [
+    [
+     -10.0,
+     -12.0
+    ],
+    [
+     10.0,
+     -12.0
+    ]
+   ],
+   "furniture_type": "small_table",
+   "id": "small_display_crate",
+   "is_moveable": true,
+   "name": "Small Display Crate",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    40.0,
+    24.0
+   ],
+   "sprite": "res://assets/shared/furniture/small_display_crate.png"
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {},
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "display_slots": [
+    [
+     0.0,
+     -12.0
+    ]
+   ],
+   "furniture_type": "display_case",
+   "id": "basic_glass_box",
+   "is_moveable": true,
+   "name": "Basic Glass Box",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    40.0,
+    24.0
+   ],
+   "sprite": "res://assets/shared/furniture/basic_glass_box.png"
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {},
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.5,
+   "display_slots": [
+    [
+     0.0,
+     -12.0
+    ]
+   ],
+   "furniture_type": "display_case",
+   "id": "premium_glass_box",
+   "is_moveable": true,
+   "name": "Premium Glass Box",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    40.0,
+    24.0
+   ],
+   "sprite": "res://assets/shared/furniture/premium_glass_box.png"
+  }
+ ],
+ "schema": "crossroads.shop_furniture.v1"
 }

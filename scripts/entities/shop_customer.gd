@@ -30,7 +30,15 @@ func setup(cust: Dictionary, browse_points: Array[Vector2], exit_pos: Vector2, p
 		sprite_id = String(cust.get("id", "cust"))
 	var manifest := "res://assets/franchises/%s/manifests/%s.json" % [String(cust.get("world", "")), sprite_id]
 	if not visual.setup_from_manifest(manifest):
-		visual.setup_placeholder(String(cust.get("id", "cust")), String(cust.get("world", "")), String(cust.get("color", "#c0c0c0")), 15)
+		# no real sheet: draw a character from the FF customer pool. Named
+		# customers keep a stable look; walk-ins vary per spawn.
+		var cid := String(cust.get("id", "cust"))
+		var salt := 0 if bool(cust.get("named", false)) else int(get_instance_id() % 1000)
+		var pool_tex := ContentDatabase.customer_pool_texture(cid, salt)
+		if pool_tex != null:
+			visual.setup_static(pool_tex)
+		else:
+			visual.setup_placeholder(cid, String(cust.get("world", "")), String(cust.get("color", "#c0c0c0")), 15)
 	if bool(cust.get("named", false)):
 		var tag := UIKit.label(String(cust.get("name", "")), 8, UIKit.COL_ACCENT)
 		tag.position = Vector2(-20, -34)

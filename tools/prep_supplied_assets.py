@@ -319,6 +319,69 @@ def prep_lobby_locations() -> None:
     finish(chroma_key(home.crop((6, 169, 40, 219)), (126, 0, 0), tol=30), "home", 100, largest=True)
 
 
+## Top-30 popular FF characters used as the shop-customer visual pool.
+FF_CUSTOMERS = [
+    "tifa", "aerith", "sephiroth", "barret", "vincent", "yuffie", "zack",
+    "squall", "rinoa", "seifer", "terra", "celes", "locke", "kefka",
+    "tidus", "yuna", "auron", "rikku", "lulu", "wakka",
+    "zidane", "vivi", "garnet", "kuja", "lightning", "noctis",
+    "kain", "rydia", "bartz", "gilgamesh",
+]
+
+
+def prep_ff_customers() -> None:
+    """One validated idle frame per character from the FFRK compilation
+    sheets. The sheets are messy pose dumps; the top-left 16x24 cell is
+    usually a clean front-facing stand, so take it when it passes a quality
+    check and otherwise scan islands for the first stand-sized frame that
+    does."""
+    import json as _json
+
+    out = FF / "processed/customers"
+    out.mkdir(parents=True, exist_ok=True)
+
+    def frame_score(im: Image.Image) -> float:
+        """Colorful, well-covered, non-ghost frames score high; the sheets
+        are full of white silhouettes and greyed-out damage poses."""
+        a = np.asarray(im).astype(np.float32)
+        vis = a[..., 3] > 10
+        cov = float(vis.mean())
+        if not (0.2 <= cov <= 0.95):
+            return -1.0
+        rgb = a[vis][:, :3]
+        if len(rgb) == 0:
+            return -1.0
+        whiteish = float(((rgb > 225).all(axis=1)).mean())
+        darkish = float((rgb.max(axis=1) < 60).mean())
+        mx = rgb.max(axis=1)
+        sat = float(((mx - rgb.min(axis=1)) / np.maximum(mx, 1.0)).mean())
+        ncolors = len(np.unique((rgb.astype(np.uint8)) // 16, axis=0))
+        return ncolors * 0.5 + sat * 200.0 + cov * 20.0 - whiteish * 150.0 - darkish * 15.0
+
+    picked: list[str] = []
+    for name in FF_CUSTOMERS:
+        raw = FF / f"raw/ff_{name}.png"
+        if not raw.exists():
+            print(f"  {name}: MISSING raw sheet, skipped")
+            continue
+        img = load_rgba(raw)
+        candidates = [img.crop((1, 1, 17, 25))]
+        for box in find_islands(img, min_area=40, merge_gap=0)[:80]:
+            w, h = box[2] - box[0], box[3] - box[1]
+            if 12 <= w <= 20 and 18 <= h <= 28:
+                candidates.append(img.crop(tuple(box)))
+        best = max(candidates, key=frame_score)
+        if frame_score(best) < 10.0:
+            print(f"  {name}: no clean frame found, skipped")
+            continue
+        clean_alpha(best, lo=1, hi=255).save(out / f"{name}.png")
+        picked.append(name)
+    pool = ["res://assets/franchises/final_fantasy/processed/customers/%s.png" % n for n in picked]
+    doc = {"schema": "crossroads.customer_visuals.v1", "pool": pool}
+    (ROOT / "data/customer_visuals.json").write_text(_json.dumps(doc, indent=2) + "\n", encoding="utf-8")
+    print(f"  wrote {len(picked)} customer frames + data/customer_visuals.json")
+
+
 if __name__ == "__main__":
     print("sora..."); prep_sora()
     print("shadow..."); prep_shadow()
@@ -330,4 +393,5 @@ if __name__ == "__main__":
     print("item icons..."); prep_item_icons()
     print("menu ui..."); prep_menu_ui()
     print("lobby locations..."); prep_lobby_locations()
+    print("ff customers..."); prep_ff_customers()
     print("done")

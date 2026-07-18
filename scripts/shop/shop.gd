@@ -42,12 +42,48 @@ func _ready() -> void:
 	prompt = UIKit.label("", 10, UIKit.COL_ACCENT)
 	prompt.z_index = 60
 	add_child(prompt)
+	_build_corner_buttons()
 	call_deferred("_show_first_shop_guide")
+
+
+func _build_corner_buttons() -> void:
+	var layer := CanvasLayer.new()
+	layer.layer = 30
+	add_child(layer)
+	var box := HBoxContainer.new()
+	box.add_theme_constant_override("separation", 6)
+	box.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
+	box.anchor_left = 0.5
+	box.offset_left = 0
+	box.offset_right = -6
+	box.offset_top = -32
+	box.offset_bottom = -6
+	box.alignment = BoxContainer.ALIGNMENT_END
+	box.theme = UIKit.light_theme()
+	layer.add_child(box)
+	box.add_child(UIKit.button("Buy furniture", _open_furniture_catalog, 9))
+	box.add_child(UIKit.button("Rearrange furniture", _on_rearrange_pressed, 9))
+
+
+func _on_rearrange_pressed() -> void:
+	if edit_mode:
+		_exit_edit_mode()
+		return
+	if session_active:
+		_toast("Not while customers are browsing!")
+		return
+	if busy:
+		return
+	_enter_edit_mode()
 
 
 func _show_first_shop_guide() -> void:
 	const TUTORIAL_ID := "first_shop_vertical_slice"
 	if TUTORIAL_ID in GameState.tutorials_seen or not GameState.campaign_active:
+		return
+	# let the scene-change curtain lift so the shop is visible behind the guide
+	await get_tree().create_timer(0.55).timeout
+	if not is_inside_tree():
 		return
 	busy = true
 	player.frozen = true
@@ -437,6 +473,74 @@ func _close_modal(modal_layer: CanvasLayer) -> void:
 	modal_layer.queue_free()
 	busy = false
 	player.frozen = false
+
+
+## First grid position inside FURNITURE_AREA where this piece fits without
+## overlapping existing furniture; Vector2.INF when the floor is full.
+func _find_free_spot(type_id: String) -> Vector2:
+	var def := ContentDatabase.get_furniture(type_id)
+	var size_arr: Array = def.get("size", [40, 24])
+	var size := Vector2(float(size_arr[0]), float(size_arr[1]))
+	var y := FURNITURE_AREA.position.y + size.y / 2.0 + 4.0
+	while y <= FURNITURE_AREA.end.y - size.y / 2.0 - 4.0:
+		var x := FURNITURE_AREA.position.x + size.x / 2.0 + 4.0
+		while x <= FURNITURE_AREA.end.x - size.x / 2.0 - 4.0:
+			var r := Rect2(Vector2(x, y) - size / 2.0, size)
+			var ok := true
+			for inst: Dictionary in ShopFurnitureManager.layout:
+				if r.grow(2.0).intersects(ShopFurnitureManager.instance_rect(inst)):
+					ok = false
+					break
+			if ok:
+				return Vector2(x, y)
+			x += EDIT_GRID
+		y += EDIT_GRID
+	return Vector2.INF
+
+
+func _open_furniture_catalog() -> void:
+	if session_active:
+		_toast("Not while customers are browsing!")
+		return
+	if busy or edit_mode:
+		return
+	busy = true
+	player.frozen = true
+	var prices: Dictionary = ContentDatabase.bal("furniture_prices", {})
+	var parts := UIKit.modal(self, "Furniture catalog — %dg" % EconomyManager.gold)
+	var cat_layer: CanvasLayer = parts[0]
+	var vb: VBoxContainer = parts[1]
+	var list_parts := UIKit.scroll_list(Vector2(400, 220))
+	vb.add_child(list_parts[0])
+	var list: VBoxContainer = list_parts[1]
+	var ids: Array = ContentDatabase.furniture.keys()
+	ids.sort_custom(func(a: String, b: String) -> bool:
+		return int(prices.get(a, prices.get("default", 400))) < int(prices.get(b, prices.get("default", 400))))
+	for id: String in ids:
+		var fid := id
+		var def := ContentDatabase.get_furniture(fid)
+		var price := int(prices.get(fid, prices.get("default", 400)))
+		var slots := maxi(1, (def.get("display_slots", [[0, -12]]) as Array).size())
+		var row := HBoxContainer.new()
+		var lbl := UIKit.label("%s — %d slot%s — %dg" % [String(def.get("name", fid)), slots, "s" if slots > 1 else "", price], 10)
+		lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		row.add_child(lbl)
+		row.add_child(UIKit.button("Buy", func() -> void:
+			if EconomyManager.gold < price:
+				_toast("Not enough gold!")
+				return
+			var spot := _find_free_spot(fid)
+			if spot == Vector2.INF:
+				_toast("No floor space left — rearrange first.")
+				return
+			EconomyManager.spend_gold(price)
+			dev_spawn_furniture(fid, spot)
+			hud.refresh()
+			_close_modal(cat_layer)
+			_open_furniture_catalog()))
+		list.add_child(row)
+	vb.add_child(UIKit.label("New pieces appear on a free spot — use Rearrange furniture to place them.", 9, UIKit.COL_DIM))
+	vb.add_child(UIKit.button("Close", func() -> void: _close_modal(cat_layer)))
 
 
 func _open_storage() -> void:

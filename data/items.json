@@ -2011,10 +2011,10 @@
       "appeal": {
         "retro": 1.0
       },
-      "category": "material",
+      "category": "weapon",
       "desc": "Attach to a Keyblade to change its destiny. Or to keys.",
       "id": "keychain",
-      "name": "Keychain",
+      "name": "Oathkeeper Keyblade",
       "price": 250.0,
       "tags": [
         "key",
@@ -2613,9 +2613,20 @@
       "name": "Divine Rose Keyblade",
       "needs_ai_balance": true,
       "needs_description": true,
-      "price": 0,
+      "price": 0.0,
       "tags": [],
       "world": "crossover"
+    },
+    {
+      "category": "weapon",
+      "desc": "",
+      "id": "soul_eater",
+      "name": "Soul Eater",
+      "needs_ai_balance": true,
+      "needs_description": true,
+      "price": 0,
+      "tags": [],
+      "world": "kingdom_hearts"
     }
   ],
   "schema": "crossroads.items.v1"

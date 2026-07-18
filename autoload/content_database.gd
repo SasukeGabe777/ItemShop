@@ -23,6 +23,7 @@ var balance: Dictionary = {}
 var music: Dictionary = {}
 var furniture: Dictionary = {}
 var locations: Dictionary = {}
+var customer_visual_pool: Array = []
 
 var load_errors: Array[String] = []
 
@@ -78,6 +79,7 @@ func reload_all() -> void:
 		locations[loc["id"]] = loc
 	balance = _load_json("res://data/balance.json")
 	music = _load_json("res://data/music_manifest.json")
+	customer_visual_pool = _load_json("res://data/customer_visuals.json").get("pool", [])
 	if load_errors.is_empty():
 		print("[ContentDatabase] loaded: %d items, %d enemies, %d bosses, %d heroes, %d worlds, %d recipes, %d archetypes, %d named customers, %d events, %d scenes, %d rooms" % [
 			items.size(), enemies.size(), bosses.size(), heroes.size(), worlds.size(),
@@ -158,6 +160,15 @@ func get_scene_data(id: String) -> Dictionary:
 
 func get_furniture(id: String) -> Dictionary:
 	return furniture.get(id, {})
+
+
+## Stable visual for a customer without a real spritesheet: the same key
+## always maps to the same pool character (salt varies walk-in duplicates).
+func customer_pool_texture(key: String, salt: int = 0) -> Texture2D:
+	if customer_visual_pool.is_empty():
+		return null
+	var path := String(customer_visual_pool[absi((key + str(salt)).hash()) % customer_visual_pool.size()])
+	return load(path) if ResourceLoader.exists(path) else null
 
 
 func get_location(id: String) -> Dictionary:

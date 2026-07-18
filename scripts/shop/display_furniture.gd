@@ -35,6 +35,16 @@ func setup(instance: Dictionary, def: Dictionary, p_slot_base: int, window_indic
 
 	_body_sprite = Sprite2D.new()
 	_body_sprite.texture = _resolve_texture(def)
+	# Content-Studio art comes in at source resolution; scale it down so the
+	# drawn width matches the piece's footprint (art may be taller than the
+	# footprint — the base sits on the footprint's bottom edge).
+	var fp_arr: Array = def.get("size", [40, 24])
+	var fp := Vector2(float(fp_arr[0]), float(fp_arr[1]))
+	var tex := _body_sprite.texture
+	if tex != null and tex.get_width() > fp.x * 1.5:
+		var k := fp.x / float(tex.get_width())
+		_body_sprite.scale = Vector2(k, k)
+		_body_sprite.position = Vector2(0, fp.y / 2.0 - tex.get_height() * k / 2.0)
 	add_child(_body_sprite)
 
 	if bool(def.get("blocks_movement", false)):

@@ -13,7 +13,7 @@ signal layout_changed()
 var layout: Array = []
 var _uid_seq: int = 0
 
-const DEFAULT_MIDDLE_TYPES := ["wooden_shelf", "round_pedestal", "display_case"]
+const DEFAULT_MIDDLE_TYPES := ["basic_item_stand"]
 
 
 func reset() -> void:

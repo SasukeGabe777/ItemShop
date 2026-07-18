@@ -24,7 +24,33 @@ func go(scene_key: String, ctx: Dictionary = {}) -> void:
 		push_error("[SceneRouter] unknown scene key %s" % scene_key)
 		return
 	scene_transition_requested.emit(scene_key, path, context.duplicate(true))
+	_drop_curtain()
 	get_tree().call_deferred("change_scene_to_file", path)
+
+
+## Instant black curtain over the old scene, fading out once the new scene
+## has rendered — otherwise slow first loads leave a stale frame of the old
+## scene on screen while the new scene's music/modals already run.
+func _drop_curtain() -> void:
+	var layer := CanvasLayer.new()
+	layer.layer = 99
+	var black := ColorRect.new()
+	black.color = Color.BLACK
+	black.set_anchors_preset(Control.PRESET_FULL_RECT)
+	black.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	layer.add_child(black)
+	get_tree().root.add_child(layer)
+	_lift_curtain(layer, black)
+
+
+func _lift_curtain(layer: CanvasLayer, black: ColorRect) -> void:
+	# wait until the new scene exists and has rendered a couple of frames
+	await get_tree().process_frame
+	await get_tree().process_frame
+	await get_tree().process_frame
+	var tw := black.create_tween()
+	tw.tween_property(black, "modulate:a", 0.0, 0.22)
+	tw.tween_callback(layer.queue_free)
 
 
 func start_new_campaign(slot: int) -> void:
