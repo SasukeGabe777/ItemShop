@@ -13,12 +13,25 @@ signal layout_changed()
 var layout: Array = []
 var _uid_seq: int = 0
 
-const DEFAULT_MIDDLE_TYPES := ["basic_item_stand"]
+## Starting shop: two window counters up front, two basic stands behind —
+## 4 pieces against a level-1 cap of 5, so there's room to buy more.
+const STARTING_LAYOUT := [
+	["window_counter", 190.0, 170.0],
+	["window_counter", 278.0, 170.0],
+	["basic_item_stand", 190.0, 246.0],
+	["basic_item_stand", 278.0, 246.0],
+]
+
+## Furniture types put away in storage during rearrange mode (type ids;
+## duplicates allowed). They can be placed again from the catalog for free.
+var stored: Array = []
 
 
 func reset() -> void:
 	layout.clear()
+	stored.clear()
 	_uid_seq = 0
+	ensure_layout()
 
 
 func window_slots() -> Array[int]:
@@ -28,30 +41,17 @@ func window_slots() -> Array[int]:
 	return out
 
 
-## The classic pre-furniture-system arrangement: one single-slot stand per
-## display slot, laid out on the original 4-column grid, counters in front.
-func default_instance_for_slot(slot: int) -> Dictionary:
-	var col := slot % 4
-	var row := slot / 4
-	var type_id: String = "window_counter" if slot in window_slots() else DEFAULT_MIDDLE_TYPES[slot % DEFAULT_MIDDLE_TYPES.size()]
-	_uid_seq += 1
-	return {"uid": _uid_seq, "type": type_id, "pos": [190.0 + col * 88.0, 170.0 + row * 76.0]}
-
-
-## Guarantees the layout offers at least InventoryManager.display_slot_count()
-## slots, appending classic-position stands for any missing indices (covers
-## new campaigns, old saves without a layout section, and shop expansions).
+## Builds the starting arrangement for an empty layout (new campaigns and old
+## saves without a layout section) and keeps the display array sized to what
+## the furniture actually offers. Display slots come FROM furniture now —
+## buying, storing, or selling pieces changes the slot count.
 func ensure_layout() -> void:
-	var needed := InventoryManager.display_slot_count()
-	var have := total_slot_count()
-	var changed := false
-	while have < needed:
-		# find the first display index the new stand will own
-		layout.append(default_instance_for_slot(have))
-		have = total_slot_count()
-		changed = true
-	if changed:
+	if layout.is_empty():
+		for entry: Array in STARTING_LAYOUT:
+			_uid_seq += 1
+			layout.append({"uid": _uid_seq, "type": String(entry[0]), "pos": [float(entry[1]), float(entry[2])]})
 		layout_changed.emit()
+	InventoryManager.resize_display_slots(total_slot_count())
 
 
 func type_def(instance: Dictionary) -> Dictionary:
@@ -200,11 +200,12 @@ func placement_valid(uid: int, at: Vector2, room: Rect2) -> bool:
 
 
 func to_save() -> Dictionary:
-	return {"layout": layout.duplicate(true), "uid_seq": _uid_seq}
+	return {"layout": layout.duplicate(true), "uid_seq": _uid_seq, "stored": stored.duplicate()}
 
 
 func from_save(d: Dictionary) -> void:
 	layout = d.get("layout", [])
+	stored = d.get("stored", [])
 	_uid_seq = int(d.get("uid_seq", 0))
 	# drop instances whose furniture type no longer exists in the data files
 	layout = layout.filter(func(inst: Dictionary) -> bool:

@@ -1,10 +1,15 @@
 class_name MarketPanel
 extends CanvasLayer
 ## Wholesale market: buy stock from every connected world. Prices react to
-## active market events; each row shows the item's type and whether it is
-## selling high (green) or low (red) today.
+## active market events; each row shows the item's type, whether it sells
+## high or low today, its blurb, and how many you already own. Sortable the
+## same way shop storage is.
 
 signal closed()
+
+var _sort_mode := "hot"
+var _list: VBoxContainer
+var _gold_lbl: Label
 
 
 func _ready() -> void:
@@ -19,48 +24,83 @@ func _ready() -> void:
 	ev_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	ev_row.add_child(ev_lbl)
 	ev_row.add_child(UIKit.button("Today's report", func() -> void: DayBriefing.show_report(self), 8))
-	var gold_lbl := UIKit.label("Gold: %dg" % EconomyManager.gold, 10, UIKit.COL_ACCENT)
-	vb.add_child(gold_lbl)
-	var list_parts := UIKit.scroll_list(Vector2(470, 210))
+	var top_row := HBoxContainer.new()
+	top_row.add_theme_constant_override("separation", 6)
+	vb.add_child(top_row)
+	_gold_lbl = UIKit.label("Gold: %dg" % EconomyManager.gold, 10, UIKit.COL_ACCENT)
+	_gold_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	top_row.add_child(_gold_lbl)
+	for mode in ["hot", "name", "price", "category", "world"]:
+		top_row.add_child(UIKit.button("Sort: %s" % mode, _set_sort.bind(mode), 8))
+	var list_parts := UIKit.scroll_list(Vector2(500, 230))
 	vb.add_child(list_parts[0])
-	var list: VBoxContainer = list_parts[1]
-	_fill(list, gold_lbl)
+	_list = list_parts[1]
+	_fill()
 	vb.add_child(UIKit.button("Close", func() -> void:
 		closed.emit()
 		queue_free()))
 
 
-func _fill(list: VBoxContainer, gold_lbl: Label) -> void:
-	for child in list.get_children():
+func _set_sort(mode: String) -> void:
+	_sort_mode = mode
+	_fill()
+
+
+func _fill() -> void:
+	for child in _list.get_children():
 		child.queue_free()
 	var catalog := MarketManager.wholesale_catalog()
-	# hot items float to the top, crashed items sink, worlds group in between
-	catalog.sort_custom(func(a: String, b: String) -> bool:
-		var ma := MarketManager.price_multiplier(a)
-		var mb := MarketManager.price_multiplier(b)
-		if absf(ma - mb) > 0.001:
-			return ma > mb
-		return String(ContentDatabase.get_item(a).get("world", "")) < String(ContentDatabase.get_item(b).get("world", "")))
+	match _sort_mode:
+		"name":
+			catalog.sort_custom(func(a: String, b: String) -> bool:
+				return ContentDatabase.item_name(a) < ContentDatabase.item_name(b))
+		"price":
+			catalog.sort_custom(func(a: String, b: String) -> bool:
+				return MarketManager.wholesale_cost(a) < MarketManager.wholesale_cost(b))
+		"category":
+			catalog.sort_custom(func(a: String, b: String) -> bool:
+				var ca := String(ContentDatabase.get_item(a).get("category", ""))
+				var cb := String(ContentDatabase.get_item(b).get("category", ""))
+				return ca < cb if ca != cb else ContentDatabase.item_name(a) < ContentDatabase.item_name(b))
+		"world":
+			catalog.sort_custom(func(a: String, b: String) -> bool:
+				var wa := String(ContentDatabase.get_item(a).get("world", ""))
+				var wb := String(ContentDatabase.get_item(b).get("world", ""))
+				return wa < wb if wa != wb else ContentDatabase.item_name(a) < ContentDatabase.item_name(b))
+		_:
+			# hot items float to the top, crashed items sink
+			catalog.sort_custom(func(a: String, b: String) -> bool:
+				var ma := MarketManager.price_multiplier(a)
+				var mb := MarketManager.price_multiplier(b)
+				if absf(ma - mb) > 0.001:
+					return ma > mb
+				return String(ContentDatabase.get_item(a).get("world", "")) < String(ContentDatabase.get_item(b).get("world", "")))
 	for id in catalog:
-		list.add_child(_make_row(id, list, gold_lbl))
+		_list.add_child(_make_row(id))
 
 
-func _make_row(id: String, list: VBoxContainer, gold_lbl: Label) -> HBoxContainer:
+func _make_row(id: String) -> VBoxContainer:
 	var it := ContentDatabase.get_item(id)
 	var cost := MarketManager.wholesale_cost(id)
 	var value := MarketManager.market_value(id)
+	var entry := VBoxContainer.new()
+	entry.add_theme_constant_override("separation", 0)
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 6)
+	row.custom_minimum_size = Vector2(0, 26)
+	entry.add_child(row)
+	# every column has a fixed width so rows line up; oversized art is capped
 	var icon := TextureRect.new()
 	icon.texture = ContentDatabase.item_texture(id)
-	icon.custom_minimum_size = Vector2(16, 16)
-	icon.stretch_mode = TextureRect.STRETCH_KEEP_CENTERED
+	icon.custom_minimum_size = Vector2(24, 24)
+	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	icon.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	row.add_child(icon)
 	var name_lbl := UIKit.label(ContentDatabase.item_name(id), 10)
 	name_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	name_lbl.clip_text = true
-	name_lbl.tooltip_text = "%s\nOwned: %d" % [String(it.get("desc", "")), InventoryManager.count(id)]
-	name_lbl.mouse_filter = Control.MOUSE_FILTER_STOP
 	row.add_child(name_lbl)
 	var cat_lbl := UIKit.label(String(it.get("category", "")).capitalize(), 9, UIKit.COL_DIM)
 	cat_lbl.custom_minimum_size = Vector2(64, 0)
@@ -74,13 +114,30 @@ func _make_row(id: String, list: VBoxContainer, gold_lbl: Label) -> HBoxContaine
 	trend_lbl.custom_minimum_size = Vector2(78, 0)
 	row.add_child(trend_lbl)
 	var price_lbl := UIKit.label("%dg → ~%dg" % [cost, value], 9, UIKit.COL_INK)
+	price_lbl.custom_minimum_size = Vector2(88, 0)
+	price_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	price_lbl.tooltip_text = "Buy for %dg, sells for about %dg" % [cost, value]
 	price_lbl.mouse_filter = Control.MOUSE_FILTER_STOP
 	row.add_child(price_lbl)
-	row.add_child(UIKit.button("Buy", func() -> void:
+	var buy_btn := UIKit.button("Buy", func() -> void:
 		if EconomyManager.spend_gold(cost):
 			InventoryManager.add_item(id)
 			AudioManager.play_sfx("acquired", -4.0)
-			gold_lbl.text = "Gold: %dg" % EconomyManager.gold
-			_fill(list, gold_lbl)))
-	return row
+			_gold_lbl.text = "Gold: %dg" % EconomyManager.gold
+			_fill())
+	buy_btn.custom_minimum_size = Vector2(46, 0)
+	buy_btn.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	row.add_child(buy_btn)
+	# blurb + owned count live on the row itself (was tooltip-only)
+	var owned := InventoryManager.count(id)
+	var sub_text := String(it.get("desc", ""))
+	if owned > 0:
+		sub_text = "Owned: %d — %s" % [owned, sub_text]
+	var sub := UIKit.label(sub_text, 8, UIKit.COL_DIM)
+	sub.clip_text = true
+	var sub_pad := MarginContainer.new()
+	sub_pad.add_theme_constant_override("margin_left", 30)
+	sub_pad.add_theme_constant_override("margin_bottom", 4)
+	sub_pad.add_child(sub)
+	entry.add_child(sub_pad)
+	return entry

@@ -53,7 +53,9 @@ func _physics_process(delta: float) -> void:
 		global_position += to_target.normalized() * step
 		visual.face(_cardinal(to_target), true)
 	else:
-		visual.face(Vector2.DOWN, false)
+		# at rest Patch looks wherever the player looks
+		var player_facing: Variant = target.get("facing")
+		visual.face(_cardinal(player_facing) if player_facing is Vector2 and player_facing != Vector2.ZERO else Vector2.DOWN, false)
 
 
 ## Snap a free direction to the nearest cardinal so the 4-way sheet always

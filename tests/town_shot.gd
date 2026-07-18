@@ -36,10 +36,19 @@ class Probe:
 		get_viewport().get_texture().get_image().save_png("user://screenshots/town_briefing.png")
 		briefing.queue_free()
 		await get_tree().create_timer(0.2).timeout
-		town.add_child(MarketPanel.new())
+		var market := MarketPanel.new()
+		town.add_child(market)
 		await get_tree().create_timer(0.6).timeout
 		get_viewport().get_texture().get_image().save_png("user://screenshots/town_market.png")
 		print("CATALOG=", MarketManager.wholesale_catalog().size())
+		market.queue_free()
+		await get_tree().create_timer(0.2).timeout
+		var guild := GuildPanel.new()
+		town.add_child(guild)
+		await get_tree().create_timer(0.4).timeout
+		guild._show_hero("sora")
+		await get_tree().create_timer(0.3).timeout
+		get_viewport().get_texture().get_image().save_png("user://screenshots/town_guild.png")
 		print("TOWN_SHOT_DONE")
 		get_tree().quit()
 

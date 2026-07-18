@@ -113,13 +113,6 @@
   "combo_max": 0.5,
   "customers_per_session_base": 5,
   "customers_per_session_per_appeal": 0.08,
-  "display_slots_by_level": [
-   5,
-   8,
-   12,
-   16,
-   20
-  ],
   "expansion_costs": [
    15000,
    80000,
@@ -137,9 +130,7 @@
   "window_attention_bonus": 0.25,
   "window_slots": [
    0,
-   1,
-   2,
-   3
+   1
   ]
  },
  "starting_gold": 1500,

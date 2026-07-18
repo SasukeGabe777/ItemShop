@@ -180,6 +180,14 @@ func _build_furniture() -> void:
 		expand_ic.position = Vector2(480, 140)
 		expand_ic.add_to_group("interactables")
 		add_child(expand_ic)
+		var expand_spr := Sprite2D.new()
+		var ladder_tex := Scenery.texture_or_null("ladder")
+		expand_spr.texture = ladder_tex if ladder_tex != null else PlaceholderFactory.furniture_texture("shelf", 24, 20)
+		if expand_spr.texture != null and expand_spr.texture.get_height() > 56:
+			var k := 56.0 / float(expand_spr.texture.get_height())
+			expand_spr.scale = Vector2(k, k)
+		expand_spr.position = Vector2(480, 140)
+		add_child(expand_spr)
 	var edit_ic := InteractionComponent.new()
 	edit_ic.prompt = "Rearrange furniture"
 	edit_ic.action_id = "rearrange"
@@ -368,7 +376,7 @@ func _enter_edit_mode() -> void:
 	for piece in furniture_nodes:
 		if piece.is_moveable():
 			piece.set_edit_highlight(true)
-	edit_hint = UIKit.label("EDIT MODE — click furniture to pick up, click to place, right-click cancels, [E] done", 9, UIKit.COL_ACCENT)
+	edit_hint = UIKit.label("EDIT MODE — click furniture to pick up, click to place. Holding: [Q] store  [X] sell 50%. Right-click cancels, [E] done", 9, UIKit.COL_ACCENT)
 	edit_hint.position = Vector2(150, 124)
 	edit_hint.z_index = 70
 	add_child(edit_hint)
@@ -403,6 +411,16 @@ func _unhandled_input(event: InputEvent) -> void:
 		_exit_edit_mode()
 		get_viewport().set_input_as_handled()
 		return
+	if event is InputEventKey and event.pressed and carrying != null:
+		match (event as InputEventKey).keycode:
+			KEY_Q:
+				_put_away_carried(false)
+				get_viewport().set_input_as_handled()
+				return
+			KEY_X:
+				_put_away_carried(true)
+				get_viewport().set_input_as_handled()
+				return
 	if not (event is InputEventMouseButton) or not (event as InputEventMouseButton).pressed:
 		return
 	var mb := event as InputEventMouseButton
@@ -436,6 +454,43 @@ func _cancel_carry() -> void:
 	carrying.position = carry_origin
 	carrying.set_edit_highlight(true)
 	carrying = null
+
+
+## Q/X while holding a piece in edit mode: put it in furniture storage, or
+## sell it for half its catalog price. Items on its slots go back to storage.
+func _put_away_carried(sell: bool) -> void:
+	if ShopFurnitureManager.layout.size() <= 1:
+		_toast("A shop needs at least one stand!")
+		return
+	var uid := carrying.uid
+	var type_id := carrying.type_id
+	var type_name := String(carrying.type_def.get("name", type_id))
+	carrying = null
+	if sell:
+		var prices: Dictionary = ContentDatabase.bal("furniture_prices", {})
+		var value := int(prices.get(type_id, prices.get("default", 400))) / 2
+		EconomyManager.add_gold(value)
+		_notice("Sold %s for %dg" % [type_name, value])
+	else:
+		ShopFurnitureManager.stored.append(type_id)
+		_notice("%s put into storage (place it again from the catalog)" % type_name)
+	dev_remove_furniture(uid)
+	for piece in furniture_nodes:
+		if piece.is_moveable():
+			piece.set_edit_highlight(true)
+	hud.refresh()
+
+
+func _notice(text: String) -> void:
+	AudioManager.play_sfx("menu_close", -6.0)
+	var lbl := UIKit.label(text, 10, UIKit.COL_GOOD)
+	lbl.position = player.position + Vector2(-70, -48)
+	lbl.z_index = 70
+	add_child(lbl)
+	var tw := lbl.create_tween()
+	tw.tween_interval(1.6)
+	tw.tween_property(lbl, "modulate:a", 0.0, 0.4)
+	tw.tween_callback(lbl.queue_free)
 
 
 # ---------------- stocking ----------------
@@ -527,6 +582,36 @@ func _open_furniture_catalog() -> void:
 	vb.add_child(list_parts[0])
 	var list: VBoxContainer = list_parts[1]
 	var cap := _furniture_cap()
+	var at_cap := ShopFurnitureManager.layout.size() >= cap
+	if at_cap:
+		vb.add_child(UIKit.label("SHOP FULL — %d of %d pieces placed. Expand the shop, or store/sell furniture in Rearrange mode." % [
+			ShopFurnitureManager.layout.size(), cap], 10, UIKit.COL_BAD))
+	# stored furniture goes back on the floor for free
+	for i in ShopFurnitureManager.stored.size():
+		var stored_idx := i
+		var stored_id := String(ShopFurnitureManager.stored[i])
+		var sdef := ContentDatabase.get_furniture(stored_id)
+		if sdef.is_empty():
+			continue
+		var srow := HBoxContainer.new()
+		var slbl := UIKit.label("In storage: %s" % String(sdef.get("name", stored_id)), 10, UIKit.COL_ACCENT)
+		slbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		srow.add_child(slbl)
+		var place_btn := UIKit.button("Place", func() -> void:
+			if ShopFurnitureManager.layout.size() >= cap:
+				_toast("The shop only fits %d pieces — expand it first!" % cap)
+				return
+			var spot := _find_free_spot(stored_id)
+			if spot == Vector2.INF:
+				_toast("No floor space left — rearrange first.")
+				return
+			ShopFurnitureManager.stored.remove_at(stored_idx)
+			dev_spawn_furniture(stored_id, spot)
+			_close_modal(cat_layer)
+			_open_furniture_catalog())
+		place_btn.disabled = at_cap
+		srow.add_child(place_btn)
+		vb.add_child(srow)
 	var ids: Array = ContentDatabase.furniture.keys()
 	ids.sort_custom(func(a: String, b: String) -> bool:
 		var ua := int(ContentDatabase.get_furniture(a).get("unlock_level", 1))
@@ -548,7 +633,7 @@ func _open_furniture_catalog() -> void:
 			lbl.add_theme_color_override("font_color", UIKit.COL_DIM)
 			row.add_child(UIKit.label("Shop Lv.%d" % unlock, 9, UIKit.COL_DIM))
 		else:
-			row.add_child(UIKit.button("Buy", func() -> void:
+			var buy_btn := UIKit.button("Buy", func() -> void:
 				if ShopFurnitureManager.layout.size() >= cap:
 					_toast("The shop only fits %d pieces — expand it first!" % cap)
 					return
@@ -563,10 +648,13 @@ func _open_furniture_catalog() -> void:
 				dev_spawn_furniture(fid, spot)
 				hud.refresh()
 				_close_modal(cat_layer)
-				_open_furniture_catalog()))
+				_open_furniture_catalog())
+			buy_btn.disabled = at_cap
+			row.add_child(buy_btn)
 		list.add_child(row)
-	vb.add_child(UIKit.label("Furniture: %d of %d (shop Lv.%d) — expanding the shop raises the cap and unlocks new pieces." % [
-		ShopFurnitureManager.layout.size(), cap, GameState.shop_level], 9, UIKit.COL_DIM))
+	var cap_line := UIKit.label("Furniture: %d of %d (shop Lv.%d) — expanding the shop raises the cap and unlocks new pieces." % [
+		ShopFurnitureManager.layout.size(), cap, GameState.shop_level], 9, UIKit.COL_BAD if at_cap else UIKit.COL_DIM)
+	vb.add_child(cap_line)
 	vb.add_child(UIKit.label("New pieces appear on a free spot — use Rearrange furniture to place them.", 9, UIKit.COL_DIM))
 	vb.add_child(UIKit.button("Close", func() -> void: _close_modal(cat_layer)))
 
@@ -616,11 +704,9 @@ func _open_expand() -> void:
 	var expand_layer: CanvasLayer = parts[0]
 	var vb: VBoxContainer = parts[1]
 	var caps: Array = ContentDatabase.bal("shop", {}).get("furniture_caps", [5, 8, 12, 16, 20])
-	var slots_by_level: Array = ContentDatabase.bal("shop", {}).get("display_slots_by_level", [5, 8, 12, 16, 20])
 	var next_idx := clampi(GameState.shop_level, 0, caps.size() - 1)
 	vb.add_child(UIKit.label("Shop level %d -> %d   Cost: %dg" % [GameState.shop_level, GameState.shop_level + 1, cost]))
-	vb.add_child(UIKit.label("Display slots %d -> %d   Furniture cap %d -> %d" % [
-		int(slots_by_level[clampi(GameState.shop_level - 1, 0, slots_by_level.size() - 1)]), int(slots_by_level[next_idx]),
+	vb.add_child(UIKit.label("Furniture cap %d -> %d pieces (more stands = more display slots)" % [
 		_furniture_cap(), int(caps[next_idx])], 10))
 	var unlocked: Array[String] = []
 	for fid: String in ContentDatabase.furniture:

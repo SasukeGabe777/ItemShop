@@ -25,7 +25,9 @@ func reset() -> void:
 	for id: String in start:
 		var live_id := ContentDatabase.live_substitute(id)
 		storage[live_id] = int(storage.get(live_id, 0)) + int(start[id])
-	_resize_display()
+	# slots follow the furniture layout; make sure a fresh state has the
+	# starting arrangement even before the shop scene is ever opened
+	ShopFurnitureManager.ensure_layout()
 	for h: String in ContentDatabase.heroes:
 		var defaults: Dictionary = ContentDatabase.heroes[h].get("default_equipment", {})
 		hero_equipment[h] = {"weapon": String(defaults.get("weapon", "")), "armor": String(defaults.get("armor", "")), "accessory": String(defaults.get("accessory", "")), "charm": String(defaults.get("charm", ""))}
@@ -33,10 +35,10 @@ func reset() -> void:
 	display_changed.emit()
 
 
+## Display slots come from the furniture on the floor — the shop level only
+## caps how many pieces fit (see balance.json shop.furniture_caps).
 func display_slot_count() -> int:
-	var shop: Dictionary = ContentDatabase.bal("shop", {})
-	var levels: Array = shop.get("display_slots_by_level", [8, 12, 16])
-	return int(levels[clampi(GameState.shop_level - 1, 0, levels.size() - 1)])
+	return ShopFurnitureManager.total_slot_count()
 
 
 func _resize_display() -> void:

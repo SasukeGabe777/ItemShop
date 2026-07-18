@@ -7,6 +7,8 @@ signal closed()
 
 var vb: VBoxContainer
 var detail: VBoxContainer
+var portrait: TextureRect
+var portrait_name: Label
 
 
 func _ready() -> void:
@@ -16,10 +18,24 @@ func _ready() -> void:
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 10)
 	vb.add_child(row)
-	var roster_parts := UIKit.scroll_list(Vector2(140, 230))
+	var roster_parts := UIKit.scroll_list(Vector2(130, 230))
 	row.add_child(roster_parts[0])
 	var roster: VBoxContainer = roster_parts[1]
-	var detail_parts := UIKit.scroll_list(Vector2(260, 230))
+	# the selected hero, drawn big between the roster and their profile
+	var portrait_box := VBoxContainer.new()
+	portrait_box.custom_minimum_size = Vector2(110, 230)
+	portrait_box.add_theme_constant_override("separation", 4)
+	row.add_child(portrait_box)
+	portrait = TextureRect.new()
+	portrait.custom_minimum_size = Vector2(110, 190)
+	portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	portrait.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	portrait_box.add_child(portrait)
+	portrait_name = UIKit.label("", 10, UIKit.COL_ACCENT)
+	portrait_name.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	portrait_box.add_child(portrait_name)
+	var detail_parts := UIKit.scroll_list(Vector2(250, 230))
 	row.add_child(detail_parts[0])
 	detail = detail_parts[1]
 	for world_id in BridgeManager.accessible_worlds():
@@ -35,14 +51,37 @@ func _ready() -> void:
 		queue_free()))
 
 
+## Biggest available art for a hero: first idle frame of their real sprite
+## sheet when one is wired up, otherwise the processed frame/placeholder.
+func _hero_texture(hero_id: String) -> Texture2D:
+	var hero := ContentDatabase.get_hero(hero_id)
+	var world := String(hero.get("world", "crossroads"))
+	var frames := SpriteFramesBuilder.from_manifest_path(
+		"res://assets/franchises/%s/manifests/%s.json" % [world, hero_id])
+	if frames != null:
+		var anim := StringName("idle_down")
+		if not frames.has_animation(anim):
+			anim = frames.get_animation_names()[0]
+		return frames.get_frame_texture(anim, 0)
+	return ContentDatabase.entity_texture(hero_id, world, String(hero.get("color", "#c0c0c0")), 24)
+
+
 func _show_hero(hero_id: String) -> void:
 	for child in detail.get_children():
 		child.queue_free()
 	var hero := ContentDatabase.get_hero(hero_id)
 	var stats := InventoryManager.hero_stats(hero_id)
+	portrait.texture = _hero_texture(hero_id)
+	portrait_name.text = String(hero.get("name", hero_id))
 	detail.add_child(UIKit.header(String(hero.get("name", hero_id))))
-	detail.add_child(UIKit.label(String(hero.get("bio", "")), 9, UIKit.COL_DIM))
-	detail.add_child(UIKit.label("\"%s\"" % String(hero.get("guild_line", "")), 9))
+	var bio := UIKit.label(String(hero.get("bio", "")), 9, UIKit.COL_DIM)
+	bio.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	bio.custom_minimum_size = Vector2(230, 0)
+	detail.add_child(bio)
+	var line := UIKit.label("\"%s\"" % String(hero.get("guild_line", "")), 9)
+	line.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	line.custom_minimum_size = Vector2(230, 0)
+	detail.add_child(line)
 	var lvl := RelationshipManager.friendship_level(hero_id)
 	detail.add_child(UIKit.label("Friendship: Lv.%d (%d pts) %s" % [lvl, RelationshipManager.points(hero_id),
 		"" if RelationshipManager.can_equip_directly(hero_id) else "— equip unlocks at Lv.%d" % int(ContentDatabase.bal("friendship", {}).get("equip_unlock_level", 3))], 9))

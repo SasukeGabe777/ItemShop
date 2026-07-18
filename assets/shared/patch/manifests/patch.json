@@ -41,12 +41,10 @@
     },
     "walk_side": {
       "frames": [
-        7,
-        8,
-        9,
-        10
+        6,
+        7
       ],
-      "fps": 7,
+      "fps": 6,
       "loop": true
     },
     "idle_up": {
