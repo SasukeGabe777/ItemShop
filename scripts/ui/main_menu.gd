@@ -3,11 +3,15 @@ extends Control
 ## its menu rows (New Game / Load / Config / Extras). Falls back to a plain
 ## menu when the art is missing.
 
-const ART_PATH := "res://assets/shared/ui/titlescreen.png"
+const ART_PATH := "res://assets/shared/ui/titlescreenupdated.png"
+const BAR_BLUE := "res://assets/shared/ui/processed/bar_blue.png"
+const CURSOR_HAND := "res://assets/shared/ui/processed/cursor_hand.png"
 
 ## Scene-root Controls are not reliably auto-sized, so all UI lives in a
 ## CanvasLayer with a full-rect Control (same pattern as UIKit.modal).
 var ui_root: Control
+var hand_cursor: TextureRect
+var _hand_tween: Tween
 
 
 func _ready() -> void:
@@ -30,33 +34,66 @@ func _build_art_menu() -> void:
 	art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	art.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 	ui_root.add_child(art)
-	# invisible-but-highlightable buttons over the art's four menu rows
+	# labeled buttons on the art's blank menu bars; the supplied blue bar is
+	# the selected state and the supplied hand cursor points at the selection
+	var blue_style: StyleBoxTexture = null
+	if ResourceLoader.exists(BAR_BLUE):
+		blue_style = StyleBoxTexture.new()
+		blue_style.texture = load(BAR_BLUE)
+		blue_style.texture_margin_left = 12
+		blue_style.texture_margin_right = 12
+		blue_style.texture_margin_top = 3
+		blue_style.texture_margin_bottom = 3
+	var empty_style := StyleBoxEmpty.new()
 	var rows: Array = [
-		["New Game", 0.625, _on_new_game],
-		["Load", 0.680, _on_load],
-		["Config", 0.734, _on_config],
-		["Extras", 0.788, _on_extras],
+		["NEW GAME", 0.579, _on_new_game],
+		["LOAD", 0.659, _on_load],
+		["CONFIG", 0.739, _on_config],
+		["EXTRAS", 0.820, _on_extras],
 	]
+	var first_btn: Button = null
 	for row: Array in rows:
 		var b := Button.new()
-		b.flat = true
-		b.text = ""
-		b.anchor_left = 0.125
-		b.anchor_right = 0.54
+		b.text = String(row[0])
+		b.anchor_left = 0.097
+		b.anchor_right = 0.526
 		b.anchor_top = float(row[1])
-		b.anchor_bottom = float(row[1]) + 0.05
+		b.anchor_bottom = float(row[1]) + 0.064
 		b.offset_left = 0; b.offset_right = 0; b.offset_top = 0; b.offset_bottom = 0
-		b.tooltip_text = String(row[0])
-		var hover := StyleBoxFlat.new()
-		hover.bg_color = Color(1, 1, 1, 0.18)
-		hover.set_corner_radius_all(3)
-		b.add_theme_stylebox_override("hover", hover)
-		b.add_theme_stylebox_override("focus", hover)
-		var pressed_style := StyleBoxFlat.new()
-		pressed_style.bg_color = Color(1, 1, 1, 0.3)
-		b.add_theme_stylebox_override("pressed", pressed_style)
+		b.add_theme_font_size_override("font_size", 12)
+		b.add_theme_color_override("font_color", Color("#3a3f52"))
+		b.add_theme_color_override("font_hover_color", Color.WHITE)
+		b.add_theme_color_override("font_focus_color", Color.WHITE)
+		b.add_theme_color_override("font_pressed_color", Color.WHITE)
+		b.add_theme_color_override("font_hover_pressed_color", Color.WHITE)
+		b.add_theme_stylebox_override("normal", empty_style)
+		if blue_style != null:
+			b.add_theme_stylebox_override("hover", blue_style)
+			b.add_theme_stylebox_override("focus", blue_style)
+			b.add_theme_stylebox_override("pressed", blue_style)
+		else:
+			var hover := StyleBoxFlat.new()
+			hover.bg_color = Color(0.3, 0.45, 0.8, 0.85)
+			hover.set_corner_radius_all(4)
+			b.add_theme_stylebox_override("hover", hover)
+			b.add_theme_stylebox_override("focus", hover)
+			b.add_theme_stylebox_override("pressed", hover)
 		b.pressed.connect(Callable(row[2]))
+		b.mouse_entered.connect(b.grab_focus)  # hover and keyboard share one selection
+		b.focus_entered.connect(func() -> void: _point_hand_at(b))
 		ui_root.add_child(b)
+		if first_btn == null:
+			first_btn = b
+	if ResourceLoader.exists(CURSOR_HAND):
+		hand_cursor = TextureRect.new()
+		hand_cursor.texture = load(CURSOR_HAND)
+		hand_cursor.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		hand_cursor.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		hand_cursor.size = Vector2(24, 20)
+		hand_cursor.z_index = 5
+		ui_root.add_child(hand_cursor)
+	if first_btn != null:
+		first_btn.grab_focus.call_deferred()
 	var quit_btn := UIKit.button("Quit", func() -> void: get_tree().quit(), 9)
 	quit_btn.flat = true
 	quit_btn.anchor_left = 0.94
@@ -65,6 +102,19 @@ func _build_art_menu() -> void:
 	quit_btn.anchor_bottom = 0.07
 	quit_btn.offset_left = 0; quit_btn.offset_right = 0; quit_btn.offset_top = 0; quit_btn.offset_bottom = 0
 	ui_root.add_child(quit_btn)
+
+
+func _point_hand_at(btn: Button) -> void:
+	if hand_cursor == null:
+		return
+	if _hand_tween != null and _hand_tween.is_valid():
+		_hand_tween.kill()
+	var target := Vector2(btn.global_position.x - 27.0, btn.global_position.y + btn.size.y / 2.0 - 10.0)
+	hand_cursor.global_position = target
+	# gentle horizontal bob toward the selected row
+	_hand_tween = hand_cursor.create_tween().set_loops()
+	_hand_tween.tween_property(hand_cursor, "global_position:x", target.x + 4.0, 0.35).set_trans(Tween.TRANS_SINE)
+	_hand_tween.tween_property(hand_cursor, "global_position:x", target.x, 0.35).set_trans(Tween.TRANS_SINE)
 
 
 func _on_new_game() -> void:

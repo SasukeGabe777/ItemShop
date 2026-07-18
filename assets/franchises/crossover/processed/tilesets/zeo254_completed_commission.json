@@ -1,0 +1,12 @@
+{
+  "columns": 8,
+  "id": "zeo254_completed_commission",
+  "margin": 0,
+  "rows": 8,
+  "sheet": "res://assets/franchises/crossover/processed/tilesets/zeo254_completed_commission.png",
+  "spacing": 0,
+  "tile_size": [
+    16,
+    16
+  ]
+}

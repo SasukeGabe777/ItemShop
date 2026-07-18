@@ -207,6 +207,23 @@ def prep_item_icons() -> None:
     print(f"  wrote {len(kb_items) + len(ml_items)} item icons")
 
 
+def prep_menu_ui() -> None:
+    """Slice the supplied menu/buttons asset sheet into named UI pieces."""
+    img = chroma_key(load_rgba(ROOT / "assets/shared/ui/menusbuttonsassets.png"), (0, 0, 0), tol=6)
+    boxes = find_islands(img, min_area=100, merge_gap=2)
+    out = ROOT / "assets/shared/ui/processed"
+    named = {
+        "bar_small": 0, "panel_square": 2, "panel_ornate_big": 3,
+        "bar_white": 7, "bar_blue": 4,
+        "progress_bar": 6, "divider_sparkle": 31,
+        "cursor_hand": 32, "star_gold": 37, "star_blue": 38, "star_gray": 39,
+        "panel_wide": 27,
+    }
+    for name, idx in named.items():
+        save_island(img, boxes[idx], out / f"{name}.png")
+    print(f"  wrote {len(named)} menu UI pieces -> {out}")
+
+
 if __name__ == "__main__":
     print("sora..."); prep_sora()
     print("shadow..."); prep_shadow()
@@ -216,4 +233,5 @@ if __name__ == "__main__":
     print("hero portrait..."); prep_hero_portrait()
     print("traverse props..."); prep_traverse_props()
     print("item icons..."); prep_item_icons()
+    print("menu ui..."); prep_menu_ui()
     print("done")
