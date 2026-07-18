@@ -108,7 +108,7 @@
   "Night"
  ],
  "periods_per_day": 4,
- "prosperity_gate_growth": 1.5,
+ "prosperity_gate_growth": 1.56,
  "prosperity_per_merchant_level": 0.02,
  "schema": "crossroads.balance.v1",
  "shop": {

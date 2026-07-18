@@ -329,34 +329,60 @@ FF_CUSTOMERS = [
 ]
 
 
+def frame_score(im: Image.Image) -> float:
+    """Colorful, well-covered, non-ghost character frames score high; the
+    source sheets are full of white silhouettes, labels, flags, huts and
+    effect blobs. Character sprites in these rips carry dark outlines, so a
+    strong outline is weighted in; flat props and flames get pushed down."""
+    a = np.asarray(im).astype(np.float32)
+    vis = a[..., 3] > 10
+    cov = float(vis.mean())
+    if not (0.2 <= cov <= 0.95):
+        return -1.0
+    rgb = a[vis][:, :3]
+    if len(rgb) == 0:
+        return -1.0
+    whiteish = float(((rgb > 225).all(axis=1)).mean())
+    darkish = float((rgb.max(axis=1) < 60).mean())
+    mx = rgb.max(axis=1)
+    sat = float(((mx - rgb.min(axis=1)) / np.maximum(mx, 1.0)).mean())
+    ncolors = len(np.unique((rgb.astype(np.uint8)) // 16, axis=0))
+    # outline: visible pixels bordering transparency that are dark
+    alpha = a[..., 3] > 10
+    inner = alpha.copy()
+    inner[1:, :] &= alpha[:-1, :]
+    inner[:-1, :] &= alpha[1:, :]
+    inner[:, 1:] &= alpha[:, :-1]
+    inner[:, :-1] &= alpha[:, 1:]
+    edge = alpha & ~inner
+    edge_px = a[edge][:, :3]
+    outline = float((edge_px.max(axis=1) < 110).mean()) if len(edge_px) else 0.0
+    return (ncolors * 0.8 + sat * 120.0 + cov * 20.0 + outline * 80.0
+            - whiteish * 150.0 - darkish * 15.0)
+
+
+def write_customer_pool() -> None:
+    """data/customer_visuals.json = every extracted customer frame across
+    all franchises."""
+    import json as _json
+
+    pool: list[str] = []
+    for png in sorted((ROOT / "assets/franchises").glob("*/processed/customers/*.png")):
+        rel = png.relative_to(ROOT).as_posix()
+        pool.append("res://" + rel)
+    doc = {"schema": "crossroads.customer_visuals.v1", "pool": pool}
+    (ROOT / "data/customer_visuals.json").write_text(_json.dumps(doc, indent=2) + "\n", encoding="utf-8")
+    print(f"  customer pool: {len(pool)} entries")
+
+
 def prep_ff_customers() -> None:
     """One validated idle frame per character from the FFRK compilation
     sheets. The sheets are messy pose dumps; the top-left 16x24 cell is
     usually a clean front-facing stand, so take it when it passes a quality
     check and otherwise scan islands for the first stand-sized frame that
     does."""
-    import json as _json
-
     out = FF / "processed/customers"
     out.mkdir(parents=True, exist_ok=True)
-
-    def frame_score(im: Image.Image) -> float:
-        """Colorful, well-covered, non-ghost frames score high; the sheets
-        are full of white silhouettes and greyed-out damage poses."""
-        a = np.asarray(im).astype(np.float32)
-        vis = a[..., 3] > 10
-        cov = float(vis.mean())
-        if not (0.2 <= cov <= 0.95):
-            return -1.0
-        rgb = a[vis][:, :3]
-        if len(rgb) == 0:
-            return -1.0
-        whiteish = float(((rgb > 225).all(axis=1)).mean())
-        darkish = float((rgb.max(axis=1) < 60).mean())
-        mx = rgb.max(axis=1)
-        sat = float(((mx - rgb.min(axis=1)) / np.maximum(mx, 1.0)).mean())
-        ncolors = len(np.unique((rgb.astype(np.uint8)) // 16, axis=0))
-        return ncolors * 0.5 + sat * 200.0 + cov * 20.0 - whiteish * 150.0 - darkish * 15.0
 
     picked: list[str] = []
     for name in FF_CUSTOMERS:
@@ -376,10 +402,93 @@ def prep_ff_customers() -> None:
             continue
         clean_alpha(best, lo=1, hi=255).save(out / f"{name}.png")
         picked.append(name)
-    pool = ["res://assets/franchises/final_fantasy/processed/customers/%s.png" % n for n in picked]
-    doc = {"schema": "crossroads.customer_visuals.v1", "pool": pool}
-    (ROOT / "data/customer_visuals.json").write_text(_json.dumps(doc, indent=2) + "\n", encoding="utf-8")
-    print(f"  wrote {len(picked)} customer frames + data/customer_visuals.json")
+    print(f"  wrote {len(picked)} FF customer frames")
+
+
+## 10-15 user-picked customers per franchise (sheets in raw/customers/).
+FRANCHISE_CUSTOMERS = {
+    "dragon_ball": ("sprite_%s.png", [
+        "goku", "vegeta", "piccolo", "krillin", "gohan_casual", "future_trunks",
+        "tien_shinhan", "yamcha", "hercule_mr_satan", "bulma_s_familly",
+        "goku_super_saiyan", "vegeta_super_saiyan"]),
+    "naruto": ("naruto_%s.png", [
+        "kakashi", "sakura", "sasuke_black_outfit",
+        "shikamaru_ino_choji", "neji_lee_tenten", "kiba_akamaru_shino_hinata",
+        "zabuza_haku", "orochimaru_kabuto_misumi_itachi", "konohamaru_ebisu",
+        "iruka_asuma_guy", "hidden_leaf_ninja"]),
+    "mario": ("mario_%s.png", [
+        "goomba", "koopa_troopas", "boo", "bob_omb", "dry_bones",
+        "hammer_bro", "blooper", "bowser_usa",
+        "lady_lima", "beanbean_kingdom_residents", "cheep_cheep_puffer_cheep"]),
+    "pokemon": ("pokemon_%s.png", [
+        "snorlax", "ditto", "mew", "mewtwo", "dratini_dragonair_dragonite",
+        "absol", "aerodactyl", "aipom", "banette", "blissey", "bellossom",
+        "castform", "articuno_zapdos_moltres"]),
+    "kingdom_hearts": ("kh_%s_gba.png", [
+        "donald_duck", "goofy", "mickey_mouse", "kairi", "hades",
+        "ariel", "peter_pan", "alice", "hercules",
+        "wakka", "tidus", "selphie"]),
+}
+
+
+def prep_franchise_customers() -> None:
+    """Best standing frame per picked character from the newly supplied
+    franchise customer sheets. Backgrounds vary (solid pastels, the DBZ
+    two-tone green checker); key the corner color(s), collect stand-sized
+    islands and keep the best-scoring frame."""
+    from collections import Counter
+
+    for world, (pattern, names) in FRANCHISE_CUSTOMERS.items():
+        src_dir = ROOT / f"assets/franchises/{world}/raw/customers"
+        out = ROOT / f"assets/franchises/{world}/processed/customers"
+        out.mkdir(parents=True, exist_ok=True)
+        done = 0
+        for name in names:
+            path = src_dir / (pattern % name)
+            if not path.exists():
+                print(f"  {world}/{name}: MISSING {path.name}")
+                continue
+            img = load_rgba(path)
+            a = np.array(img)
+            # backgrounds vary (pastel fills, colored borders, the DBZ
+            # two-tone checker): key the corner color plus any color that
+            # covers >12% of the sheet — backgrounds dominate these rips
+            opaque = a[a[..., 3] > 0][:, :3]
+            keyed: list[tuple[int, int, int]] = []
+            corners = [tuple(a[0, 0]), tuple(a[0, -1]), tuple(a[-1, 0]), tuple(a[-1, -1])]
+            corner = Counter(corners).most_common(1)[0][0]
+            if corner[3] > 0:
+                keyed.append((int(corner[0]), int(corner[1]), int(corner[2])))
+            if len(opaque):
+                for col, cnt in Counter(map(tuple, opaque)).most_common(4):
+                    if cnt / len(opaque) > 0.12 and not any(
+                            max(abs(col[i] - k[i]) for i in range(3)) <= 12 for k in keyed):
+                        keyed.append((int(col[0]), int(col[1]), int(col[2])))
+            for k in keyed:
+                img = chroma_key(img, k, tol=12)
+            best = None
+            best_s = 8.0
+            for box in find_islands(img, min_area=80, merge_gap=1)[:260]:
+                w, h = box[2] - box[0], box[3] - box[1]
+                if not (14 <= w <= 52 and 20 <= h <= 66 and h >= w * 0.75):
+                    continue
+                cand = img.crop(tuple(box))
+                s = frame_score(cand)
+                if s > best_s:
+                    best_s = s
+                    best = cand
+            if best is None:
+                print(f"  {world}/{name}: no clean frame found, skipped")
+                continue
+            best = clean_alpha(best, lo=1, hi=255)
+            if best.height > 44:  # keep customers around hero scale
+                k = 40.0 / best.height
+                best = resize_rgba(best, (max(1, round(best.width * k)), 40))
+                best = clean_alpha(largest_component(clean_alpha(best, lo=128, hi=128)), lo=1, hi=255)
+            slug = name.replace("3rd_", "third_")
+            best.save(out / f"{slug}.png")
+            done += 1
+        print(f"  {world}: {done}/{len(names)} customers")
 
 
 if __name__ == "__main__":
@@ -394,4 +503,6 @@ if __name__ == "__main__":
     print("menu ui..."); prep_menu_ui()
     print("lobby locations..."); prep_lobby_locations()
     print("ff customers..."); prep_ff_customers()
+    print("franchise customers..."); prep_franchise_customers()
+    write_customer_pool()
     print("done")

@@ -1,0 +1,94 @@
+2026-07-18 00:09:24,817 INFO Opening game page: https://www.spriters-resource.com/game_boy_advance/dbzlog2/
+2026-07-18 00:09:31,251 INFO Game: Dragon Ball Z: The Legacy of Goku II
+2026-07-18 00:09:31,251 INFO Platform/category: Game Boy Advance
+2026-07-18 00:09:31,252 INFO Asset count reported: 100
+2026-07-18 00:09:31,252 INFO Assets selected: 29
+2026-07-18 00:09:31,252 INFO Sections: Playable Characters, Non-Playable Characters, Enemies & Bosses, Backgrounds, Objects, Miscellaneous, Prototype
+2026-07-18 00:09:31,252 INFO Destination: C:\Users\Game Station\Desktop\crossroads\assets\franchises\dragon_ball\raw\customers
+2026-07-18 00:09:31,252 INFO Filename pattern: sprite_<asset>
+2026-07-18 00:09:31,253 INFO Visiting asset 14503: https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/14503/
+2026-07-18 00:09:43,280 INFO Trying download control: download attribute
+2026-07-18 00:09:47,599 DEBUG Waited 3.88 seconds before next request.
+2026-07-18 00:09:47,599 INFO Visiting asset 544591: https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/544591/
+2026-07-18 00:09:49,408 INFO Trying download control: download attribute
+2026-07-18 00:09:52,189 DEBUG Waited 2.57 seconds before next request.
+2026-07-18 00:09:52,189 INFO Visiting asset 544592: https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/544592/
+2026-07-18 00:09:53,901 INFO Trying download control: download attribute
+2026-07-18 00:09:56,180 DEBUG Waited 2.05 seconds before next request.
+2026-07-18 00:09:56,180 INFO Visiting asset 544589: https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/544589/
+2026-07-18 00:09:58,060 INFO Trying download control: download attribute
+2026-07-18 00:10:01,795 DEBUG Waited 3.51 seconds before next request.
+2026-07-18 00:10:01,795 INFO Visiting asset 14504: https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/14504/
+2026-07-18 00:10:03,574 INFO Trying download control: download attribute
+2026-07-18 00:10:06,344 DEBUG Waited 2.56 seconds before next request.
+2026-07-18 00:10:06,344 INFO Visiting asset 544596: https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/544596/
+2026-07-18 00:10:07,999 INFO Trying download control: download attribute
+2026-07-18 00:10:10,707 DEBUG Waited 2.50 seconds before next request.
+2026-07-18 00:10:10,707 INFO Visiting asset 544598: https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/544598/
+2026-07-18 00:10:15,395 INFO Trying download control: download attribute
+2026-07-18 00:10:18,577 DEBUG Waited 2.96 seconds before next request.
+2026-07-18 00:10:18,577 INFO Visiting asset 544597: https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/544597/
+2026-07-18 00:10:20,345 INFO Trying download control: download attribute
+2026-07-18 00:10:23,496 DEBUG Waited 2.92 seconds before next request.
+2026-07-18 00:10:23,496 INFO Visiting asset 75738: https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/75738/
+2026-07-18 00:10:25,404 INFO Trying download control: download attribute
+2026-07-18 00:10:28,096 DEBUG Waited 2.49 seconds before next request.
+2026-07-18 00:10:28,096 INFO Visiting asset 544595: https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/544595/
+2026-07-18 00:10:32,785 INFO Trying download control: download attribute
+2026-07-18 00:10:35,344 DEBUG Waited 2.36 seconds before next request.
+2026-07-18 00:10:35,344 INFO Visiting asset 544594: https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/544594/
+2026-07-18 00:10:37,052 INFO Trying download control: download attribute
+2026-07-18 00:10:40,113 DEBUG Waited 2.87 seconds before next request.
+2026-07-18 00:10:40,113 INFO Visiting asset 14501: https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/14501/
+2026-07-18 00:10:41,825 INFO Trying download control: download attribute
+2026-07-18 00:10:44,222 DEBUG Waited 2.20 seconds before next request.
+2026-07-18 00:10:44,222 INFO Visiting asset 544602: https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/544602/
+2026-07-18 00:10:45,863 INFO Trying download control: download attribute
+2026-07-18 00:10:49,036 DEBUG Waited 2.96 seconds before next request.
+2026-07-18 00:10:49,036 INFO Visiting asset 75736: https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/75736/
+2026-07-18 00:10:50,822 INFO Trying download control: download attribute
+2026-07-18 00:10:55,013 DEBUG Waited 3.96 seconds before next request.
+2026-07-18 00:10:55,013 INFO Visiting asset 14502: https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/14502/
+2026-07-18 00:10:57,110 INFO Trying download control: download attribute
+2026-07-18 00:10:59,802 DEBUG Waited 2.49 seconds before next request.
+2026-07-18 00:10:59,802 INFO Visiting asset 544600: https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/544600/
+2026-07-18 00:11:04,560 INFO Trying download control: download attribute
+2026-07-18 00:11:07,869 DEBUG Waited 3.12 seconds before next request.
+2026-07-18 00:11:07,869 INFO Visiting asset 75737: https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/75737/
+2026-07-18 00:11:09,629 INFO Trying download control: download attribute
+2026-07-18 00:11:12,246 DEBUG Waited 2.36 seconds before next request.
+2026-07-18 00:11:12,246 INFO Visiting asset 544599: https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/544599/
+2026-07-18 00:11:21,439 INFO Trying download control: download attribute
+2026-07-18 00:11:23,966 DEBUG Waited 2.34 seconds before next request.
+2026-07-18 00:11:23,966 INFO Visiting asset 545408: https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/545408/
+2026-07-18 00:11:28,535 INFO Trying download control: download attribute
+2026-07-18 00:11:32,318 DEBUG Waited 3.57 seconds before next request.
+2026-07-18 00:11:32,318 INFO Visiting asset 110125: https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/110125/
+2026-07-18 00:11:34,152 INFO Trying download control: download attribute
+2026-07-18 00:11:37,413 DEBUG Waited 3.00 seconds before next request.
+2026-07-18 00:11:37,413 INFO Visiting asset 36943: https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/36943/
+2026-07-18 00:11:39,089 INFO Trying download control: download attribute
+2026-07-18 00:11:51,228 DEBUG Waited 2.86 seconds before next request.
+2026-07-18 00:11:51,228 INFO Visiting asset 245231: https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/245231/
+2026-07-18 00:11:53,018 INFO Trying download control: download attribute
+2026-07-18 00:11:56,527 DEBUG Waited 3.32 seconds before next request.
+2026-07-18 00:11:56,527 INFO Visiting asset 110152: https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/110152/
+2026-07-18 00:11:58,272 INFO Trying download control: download attribute
+2026-07-18 00:12:01,176 DEBUG Waited 2.70 seconds before next request.
+2026-07-18 00:12:01,176 INFO Visiting asset 184894: https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/184894/
+2026-07-18 00:12:02,849 INFO Trying download control: download attribute
+2026-07-18 00:12:05,847 DEBUG Waited 2.78 seconds before next request.
+2026-07-18 00:12:05,847 INFO Visiting asset 543797: https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/543797/
+2026-07-18 00:12:07,486 INFO Trying download control: download attribute
+2026-07-18 00:12:10,844 DEBUG Waited 3.15 seconds before next request.
+2026-07-18 00:12:10,844 INFO Visiting asset 544662: https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/544662/
+2026-07-18 00:12:15,507 INFO Trying download control: download attribute
+2026-07-18 00:12:18,727 DEBUG Waited 3.02 seconds before next request.
+2026-07-18 00:12:18,727 INFO Visiting asset 110153: https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/110153/
+2026-07-18 00:12:20,439 INFO Trying download control: download attribute
+2026-07-18 00:12:24,363 DEBUG Waited 3.73 seconds before next request.
+2026-07-18 00:12:24,363 INFO Visiting asset 37191: https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/37191/
+2026-07-18 00:12:34,673 INFO Trying download control: download attribute
+2026-07-18 00:12:38,259 DEBUG Waited 3.37 seconds before next request.
+2026-07-18 00:12:38,259 INFO Visiting asset 110124: https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/110124/
+2026-07-18 00:12:39,985 INFO Trying download control: download attribute

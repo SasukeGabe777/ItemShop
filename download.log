@@ -4267,3 +4267,21 @@ navigating to "https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper
 2026-07-18 00:04:18,754 INFO Destination: assets\franchises\mario\raw
 2026-07-18 00:04:18,754 INFO Filename pattern: mario_<asset>
 2026-07-18 00:04:18,754 INFO Dry run only; no assets downloaded.
+2026-07-18 00:06:22,621 INFO Opening game page: https://www.spriters-resource.com/game_boy_advance/pokemonmysterydungeonredrescueteam/
+2026-07-18 00:06:29,725 INFO Game: Pokémon Mystery Dungeon: Red Rescue Team
+2026-07-18 00:06:29,726 INFO Platform/category: Game Boy Advance
+2026-07-18 00:06:29,726 INFO Asset count reported: 385
+2026-07-18 00:06:29,726 INFO Assets selected: 0
+2026-07-18 00:06:29,726 INFO Sections: Pokémon (1st Generation), Pokémon (2nd Generation), Pokémon (3rd Generation), Pokémon (Miscellaneous), Huts, Pokémon Square, Friend Areas, Events, Dungeon Tiles, Dungeons (Randomized), Dungeon Boss Rooms, Attacks, Weather, Miscellaneous
+2026-07-18 00:06:29,726 INFO Destination: assets\franchises\pokemon\raw
+2026-07-18 00:06:29,726 INFO Filename pattern: pokemon_<asset>
+2026-07-18 00:06:29,726 INFO Dry run only; no assets downloaded.
+2026-07-18 00:08:11,400 INFO Opening game page: https://www.spriters-resource.com/game_boy_advance/dbzlog2/
+2026-07-18 00:08:17,740 INFO Game: Dragon Ball Z: The Legacy of Goku II
+2026-07-18 00:08:17,740 INFO Platform/category: Game Boy Advance
+2026-07-18 00:08:17,740 INFO Asset count reported: 100
+2026-07-18 00:08:17,740 INFO Assets selected: 0
+2026-07-18 00:08:17,740 INFO Sections: Playable Characters, Non-Playable Characters, Enemies & Bosses, Backgrounds, Objects, Miscellaneous, Prototype
+2026-07-18 00:08:17,740 INFO Destination: assets\franchises\dragon_ball\raw
+2026-07-18 00:08:17,741 INFO Filename pattern: dbz_<asset>
+2026-07-18 00:08:17,741 INFO Dry run only; no assets downloaded.

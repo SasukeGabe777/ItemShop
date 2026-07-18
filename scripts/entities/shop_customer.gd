@@ -59,6 +59,22 @@ func setup(cust: Dictionary, browse_points: Array[Vector2], exit_pos: Vector2, p
 		_waypoints.append(preferred_browse_point + Vector2(randf_range(-5, 5), randf_range(10, 14)))
 
 
+## First frame of whatever this customer looks like, for the negotiation
+## portrait — matches the sprite walking around the shop.
+func portrait_texture() -> Texture2D:
+	if visual == null:
+		return null
+	if visual.static_sprite != null:
+		return visual.static_sprite.texture
+	if visual.animated != null and visual.animated.sprite_frames != null:
+		var frames := visual.animated.sprite_frames
+		var anim := StringName("idle_down")
+		if not frames.has_animation(anim):
+			anim = frames.get_animation_names()[0]
+		return frames.get_frame_texture(anim, 0)
+	return null
+
+
 func resume_after_negotiation() -> void:
 	_paused_for_negotiation = false
 	brain.finish_negotiation()

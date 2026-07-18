@@ -1,0 +1,8 @@
+2026-07-18 00:08:17,740 INFO Game: Dragon Ball Z: The Legacy of Goku II
+2026-07-18 00:08:17,740 INFO Platform/category: Game Boy Advance
+2026-07-18 00:08:17,740 INFO Asset count reported: 100
+2026-07-18 00:08:17,740 INFO Assets selected: 0
+2026-07-18 00:08:17,740 INFO Sections: Playable Characters, Non-Playable Characters, Enemies & Bosses, Backgrounds, Objects, Miscellaneous, Prototype
+2026-07-18 00:08:17,740 INFO Destination: assets\franchises\dragon_ball\raw
+2026-07-18 00:08:17,741 INFO Filename pattern: dbz_<asset>
+2026-07-18 00:08:17,741 INFO Dry run only; no assets downloaded.

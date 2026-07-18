@@ -33,6 +33,18 @@ class Probe:
 		await get_tree().create_timer(3.8).timeout
 		get_viewport().get_texture().get_image().save_png("user://screenshots/shop_session.png")
 		print("CUSTOMERS=", shop.live_customers.size())
+		print("NEGO_stream=", AudioManager._resolve_stream("negotiation") != null)
+		var cust := {"id": "probe_cust", "name": "Kakashi", "archetype": "adventurer",
+			"budget": 500, "world": "naruto", "named": true, "line": "Yo. Nice shop."}
+		var nego_panel := NegotiationPanel.new()
+		nego_panel.setup(cust, "kh_potion", load("res://assets/franchises/naruto/processed/customers/kakashi.png"))
+		shop.add_child(nego_panel)
+		await get_tree().create_timer(0.5).timeout
+		nego_panel.price_spin.value = 240
+		nego_panel._propose()
+		await get_tree().create_timer(0.5).timeout
+		get_viewport().get_texture().get_image().save_png("user://screenshots/shop_nego.png")
+		print("NEGO_track=", AudioManager.current_track)
 		print("SHOP_SHOT_DONE")
 		get_tree().quit()
 

@@ -688,7 +688,7 @@ func _open_next_negotiation() -> void:
 		item_id = replacement
 	negotiating = node
 	var panel := NegotiationPanel.new()
-	panel.setup(entry["customer"], item_id)
+	panel.setup(entry["customer"], item_id, node.portrait_texture())
 	panel.finished.connect(_on_negotiation_finished)
 	busy = true
 	player.frozen = true
