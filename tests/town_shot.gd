@@ -25,6 +25,10 @@ class Probe:
 		town.player.position = Vector2(320, 370)
 		await get_tree().create_timer(0.4).timeout
 		get_viewport().get_texture().get_image().save_png("user://screenshots/town_lower.png")
+		town.add_child(MarketPanel.new())
+		await get_tree().create_timer(0.6).timeout
+		get_viewport().get_texture().get_image().save_png("user://screenshots/town_market.png")
+		print("CATALOG=", MarketManager.wholesale_catalog().size())
 		print("TOWN_SHOT_DONE")
 		get_tree().quit()
 

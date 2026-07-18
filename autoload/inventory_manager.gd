@@ -23,7 +23,8 @@ func reset() -> void:
 	_order_seq = 0
 	var start: Dictionary = ContentDatabase.bal("starting_inventory", {})
 	for id: String in start:
-		storage[id] = int(start[id])
+		var live_id := ContentDatabase.live_substitute(id)
+		storage[live_id] = int(storage.get(live_id, 0)) + int(start[id])
 	_resize_display()
 	for h: String in ContentDatabase.heroes:
 		var defaults: Dictionary = ContentDatabase.heroes[h].get("default_equipment", {})

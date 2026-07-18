@@ -137,8 +137,8 @@
  },
  "starting_gold": 1500,
  "starting_inventory": {
-  "gold_coin": 2,
   "kh_ether": 2,
-  "kh_potion": 3
+  "kh_potion": 3,
+  "rupee": 2
  }
 }

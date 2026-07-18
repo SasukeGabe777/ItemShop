@@ -91,16 +91,11 @@ func wholesale_cost(item_id: String) -> int:
 	return maxi(1, int(round(market_value(item_id) * ratio)))
 
 
-## Wholesale goods currently purchasable: pooled from repaired/connected worlds
-## plus the current chapter's world.
+## Wholesale goods: the full live catalog (every sellable item with real
+## icon art), available from day 1 — no franchise/chapter boundary.
 func wholesale_catalog() -> Array[String]:
 	var out: Array[String] = []
-	for world_id: String in ContentDatabase.worlds:
-		var w: Dictionary = ContentDatabase.worlds[world_id]
-		var chapter := int(w.get("chapter", 99))
-		if chapter <= TimeManager.chapter and not bool(w.get("final", false)):
-			for g in w.get("market_goods", []):
-				out.append(String(g))
+	out.append_array(ContentDatabase.live_items)
 	return out
 
 

@@ -25,7 +25,7 @@ func _ready() -> void:
 	_check(DevHubManager.start_playtest_session(), "Playtest Workspace session starts")
 	_check(InventoryManager.count("kh_potion") == 3, "new game starts with three Potions")
 	_check(InventoryManager.count("kh_ether") == 2, "new game starts with two Ethers")
-	_check(InventoryManager.count("gold_coin") == 2, "new game starts with a generic valuable")
+	_check(InventoryManager.count("rupee") == 2, "new game starts with a generic valuable")
 	_check(String(InventoryManager.hero_equipment.get("sora", {}).get("weapon", "")) == "kingdom_key", "Sora starts with the Kingdom Key")
 	_test_first_shop_sale()
 	_start_live_expedition()

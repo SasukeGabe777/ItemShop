@@ -100,7 +100,8 @@ func roll_loot(enemy_id: String, bonus: float = 0.0) -> Array[String]:
 	for entry in e.get("loot", []):
 		var chance := float(entry[1]) * (1.0 + bonus)
 		if rng.randf() < chance:
-			out.append(String(entry[0]))
+			# loot tables may name retired filler items; drop the live stand-in
+			out.append(ContentDatabase.live_substitute(String(entry[0])))
 	return out
 
 
@@ -191,13 +192,14 @@ func simulate_expedition(world_id: String, hero_id: String, seed_value: int = 1,
 			gold += int(round(srng.randi_range(int(e.get("gold", [0, 0])[0]), int(e.get("gold", [0, 0])[1])) * MarketManager.prosperity()))
 			for entry in e.get("loot", []):
 				if srng.randf() < float(entry[1]):
-					loot[String(entry[0])] = int(loot.get(String(entry[0]), 0)) + 1
+					var lid := ContentDatabase.live_substitute(String(entry[0]))
+					loot[lid] = int(loot.get(lid, 0)) + 1
 			if String(room["kind"]) == "boss":
 				boss_defeated = true
 		if String(room["kind"]) == "treasure":
 			var w := ContentDatabase.get_world(world_id)
 			var goods: Array = w.get("market_goods", [])
 			if not goods.is_empty():
-				var prize := String(goods[srng.randi() % goods.size()])
+				var prize := ContentDatabase.live_substitute(String(goods[srng.randi() % goods.size()]))
 				loot[prize] = int(loot.get(prize, 0)) + 1
 	return {"success": true, "boss_defeated": boss_defeated, "loot": loot, "gold": gold, "hp_left": hp}

@@ -24,6 +24,8 @@ var music: Dictionary = {}
 var furniture: Dictionary = {}
 var locations: Dictionary = {}
 var customer_visual_pool: Array = []
+var live_items: Array[String] = []    # sellable items with real icon art
+var _live_sub_cache: Dictionary = {}
 
 var load_errors: Array[String] = []
 
@@ -80,6 +82,7 @@ func reload_all() -> void:
 	balance = _load_json("res://data/balance.json")
 	music = _load_json("res://data/music_manifest.json")
 	customer_visual_pool = _load_json("res://data/customer_visuals.json").get("pool", [])
+	_build_live_items()
 	if load_errors.is_empty():
 		print("[ContentDatabase] loaded: %d items, %d enemies, %d bosses, %d heroes, %d worlds, %d recipes, %d archetypes, %d named customers, %d events, %d scenes, %d rooms" % [
 			items.size(), enemies.size(), bosses.size(), heroes.size(), worlds.size(),
@@ -141,8 +144,20 @@ func get_recipe(id: String) -> Dictionary:
 func recipes_for_chapter(chapter: int) -> Array[Dictionary]:
 	var out: Array[Dictionary] = []
 	for id: String in recipes:
-		if int(recipes[id].get("unlock_chapter", 1)) <= chapter:
-			out.append(recipes[id])
+		var r: Dictionary = recipes[id]
+		if int(r.get("unlock_chapter", 1)) > chapter:
+			continue
+		# only recipes whose output and every ingredient are live items —
+		# no filler art in the workshop
+		if not is_live_item(String(r.get("output", ""))):
+			continue
+		var all_live := true
+		for ing: String in r.get("inputs", {}):
+			if not is_live_item(ing):
+				all_live = false
+				break
+		if all_live:
+			out.append(r)
 	return out
 
 
@@ -199,6 +214,51 @@ func entity_texture(entity_id: String, world_id: String, color_hex: String, size
 			return load(p)
 	missing_asset_fallback.emit("entity", entity_id, candidates[0])
 	return PlaceholderFactory.character_texture(entity_id, Color(color_hex), size)
+
+
+## The live catalog: only items with uploaded icon art circulate in the
+## economy (market, loot, orders, crafting). Quest items (sellable=false)
+## live outside the catalog and are never filtered or substituted.
+func _build_live_items() -> void:
+	live_items.clear()
+	_live_sub_cache.clear()
+	for id: String in items:
+		var it: Dictionary = items[id]
+		if it.get("sellable", true) == false:
+			continue
+		if ResourceLoader.exists("res://assets/franchises/%s/processed/items/%s.png" % [String(it.get("world", "crossroads")), id]):
+			live_items.append(id)
+
+
+func is_live_item(id: String) -> bool:
+	return id in live_items
+
+
+## Maps a spriteless catalog item to the closest-priced live item (same
+## world preferred) so loot tables and starting stock keep their value
+## without putting filler art in front of the player.
+func live_substitute(id: String) -> String:
+	if id in live_items or not items.has(id):
+		return id
+	var it := get_item(id)
+	if it.get("sellable", true) == false:
+		return id
+	if _live_sub_cache.has(id):
+		return String(_live_sub_cache[id])
+	var price := int(it.get("price", 100))
+	var world := String(it.get("world", ""))
+	var best := ""
+	var best_cost := 1 << 30
+	for cand: String in live_items:
+		var cit := get_item(cand)
+		var cost := absi(int(cit.get("price", 100)) - price)
+		if String(cit.get("world", "")) != world:
+			cost += 60  # prefer same-world stand-ins when prices are close
+		if cost < best_cost:
+			best_cost = cost
+			best = cand
+	_live_sub_cache[id] = best if best != "" else id
+	return String(_live_sub_cache[id])
 
 
 func item_texture(item_id: String) -> Texture2D:

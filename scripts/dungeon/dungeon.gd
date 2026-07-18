@@ -280,9 +280,8 @@ func _spawn_chest(at: Vector2) -> void:
 		if not (body is CombatHero):
 			return
 		var goods: Array = ContentDatabase.get_world(world_id).get("market_goods", [])
-		var all_ids: Array = ContentDatabase.items.keys()
-		var pool: Array = goods if not goods.is_empty() else all_ids
-		var prize := String(pool[randi() % pool.size()])
+		var pool: Array = goods if not goods.is_empty() else ContentDatabase.live_items
+		var prize := ContentDatabase.live_substitute(String(pool[randi() % pool.size()]))
 		DungeonManager.add_run_loot(prize)
 		DungeonManager.run_gold += 20 + randi() % 60
 		FX.burst(room_root, chest.position, Color(1, 0.9, 0.4), 16)

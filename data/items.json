@@ -1,2633 +1,2633 @@
 {
-  "items": [
-    {
-      "appeal": {
-        "intense": 1.0,
-        "retro": 2.0
-      },
-      "category": "weapon",
-      "desc": "A key-shaped blade that chooses its wielder. Also opens stubborn doors.",
-      "id": "kingdom_key",
-      "name": "Kingdom Key",
-      "price": 1200.0,
-      "stats": {
-        "atk": 8.0
-      },
-      "tags": [
-        "sword",
-        "key",
-        "legendary"
-      ],
-      "weapon_type": "keyblade",
-      "world": "kingdom_hearts"
-    },
-    {
-      "appeal": {
-        "cozy": 1.0
-      },
-      "category": "consumable",
-      "desc": "Restores a moderate amount of health. Tastes faintly of stars.",
-      "effect": {
-        "heal": 40.0
-      },
-      "id": "kh_potion",
-      "name": "Potion",
-      "price": 60.0,
-      "tags": [
-        "healing",
-        "bottle"
-      ],
-      "world": "kingdom_hearts"
-    },
-    {
-      "appeal": {
-        "modern": 1.0
-      },
-      "category": "consumable",
-      "desc": "Restores special energy.",
-      "effect": {
-        "meter": 50.0
-      },
-      "id": "kh_ether",
-      "name": "Ether",
-      "price": 120.0,
-      "tags": [
-        "magic",
-        "bottle"
-      ],
-      "world": "kingdom_hearts"
-    },
-    {
-      "appeal": {
-        "cozy": 1.0,
-        "modern": 1.0
-      },
-      "category": "consumable",
-      "desc": "Fully restores health and energy. Hoarded by adventurers forever.",
-      "effect": {
-        "heal": 999.0,
-        "meter": 100.0
-      },
-      "id": "kh_elixir",
-      "name": "Elixir",
-      "price": 600.0,
-      "tags": [
-        "healing",
-        "magic",
-        "rare"
-      ],
-      "world": "kingdom_hearts"
-    },
-    {
-      "appeal": {
-        "cozy": 2.0
-      },
-      "category": "food",
-      "desc": "Salty, but sweet. Best eaten on top of a clock tower.",
-      "effect": {
-        "heal": 15.0
-      },
-      "id": "sea_salt_ice_cream",
-      "name": "Sea-Salt Ice Cream",
-      "price": 30.0,
-      "tags": [
-        "food",
-        "sweet",
-        "cold"
-      ],
-      "world": "kingdom_hearts"
-    },
-    {
-      "appeal": {
-        "retro": 1.0
-      },
-      "category": "treasure",
-      "desc": "A pouch of munny. Exchange rates with gold are a shopkeeper's dream.",
-      "id": "munny_pouch",
-      "name": "Munny Pouch",
-      "price": 350.0,
-      "tags": [
-        "valuable"
-      ],
-      "world": "kingdom_hearts"
-    },
-    {
-      "appeal": {
-        "modern": 1.0
-      },
-      "category": "material",
-      "desc": "A clear shard dropped by Heartless.",
-      "id": "lucid_shard",
-      "name": "Lucid Shard",
-      "price": 90.0,
-      "tags": [
-        "shard",
-        "synthesis"
-      ],
-      "world": "kingdom_hearts"
-    },
-    {
-      "appeal": {
-        "intense": 1.0
-      },
-      "category": "material",
-      "desc": "Warm to the touch. Do not store near the ice cream.",
-      "id": "blaze_shard",
-      "name": "Blaze Shard",
-      "price": 110.0,
-      "tags": [
-        "shard",
-        "synthesis",
-        "fire"
-      ],
-      "world": "kingdom_hearts"
-    },
-    {
-      "appeal": {
-        "modern": 1.0
-      },
-      "category": "material",
-      "desc": "A shard of concentrated cold.",
-      "id": "frost_shard",
-      "name": "Frost Shard",
-      "price": 110.0,
-      "tags": [
-        "shard",
-        "synthesis",
-        "ice"
-      ],
-      "world": "kingdom_hearts"
-    },
-    {
-      "appeal": {
-        "intense": 1.0
-      },
-      "category": "material",
-      "desc": "Crackles quietly at night.",
-      "id": "thunder_shard",
-      "name": "Thunder Shard",
-      "price": 110.0,
-      "tags": [
-        "shard",
-        "synthesis",
-        "electric"
-      ],
-      "world": "kingdom_hearts"
-    },
-    {
-      "appeal": {
-        "cozy": 1.0
-      },
-      "category": "material",
-      "desc": "Glows softly. Popular as a night light.",
-      "id": "bright_shard",
-      "name": "Bright Shard",
-      "price": 130.0,
-      "tags": [
-        "shard",
-        "synthesis",
-        "light"
-      ],
-      "world": "kingdom_hearts"
-    },
-    {
-      "appeal": {
-        "modern": 1.0
-      },
-      "category": "material",
-      "desc": "A rare and famous metal.",
-      "id": "kh_mythril",
-      "name": "Mythril",
-      "price": 400.0,
-      "tags": [
-        "metal",
-        "synthesis",
-        "rare"
-      ],
-      "world": "kingdom_hearts"
-    },
-    {
-      "appeal": {
-        "cozy": 1.0,
-        "retro": 1.0
-      },
-      "category": "treasure",
-      "desc": "A page torn from a very hungry storybook.",
-      "id": "torn_page",
-      "name": "Torn Page",
-      "price": 500.0,
-      "tags": [
-        "book",
-        "rare"
-      ],
-      "world": "kingdom_hearts"
-    },
-    {
-      "appeal": {
-        "retro": 2.0
-      },
-      "category": "material",
-      "desc": "A building block for ships that sail between worlds.",
-      "id": "gummi_block",
-      "name": "Gummi Block",
-      "price": 150.0,
-      "tags": [
-        "ship",
-        "colorful"
-      ],
-      "world": "kingdom_hearts"
-    },
-    {
-      "appeal": {
-        "cozy": 2.0
-      },
-      "category": "food",
-      "desc": "Share it with someone and your destinies intertwine. No refunds.",
-      "effect": {
-        "heal": 30.0
-      },
-      "id": "paopu_fruit",
-      "name": "Paopu Fruit",
-      "price": 280.0,
-      "tags": [
-        "food",
-        "fruit",
-        "romantic",
-        "rare"
-      ],
-      "world": "kingdom_hearts"
-    },
-    {
-      "appeal": {
-        "retro": 2.0
-      },
-      "category": "consumable",
-      "desc": "Makes you feel about twice as big as you are.",
-      "effect": {
-        "heal": 50.0
-      },
-      "id": "super_mushroom",
-      "name": "Super Mushroom",
-      "price": 80.0,
-      "tags": [
-        "mushroom",
-        "powerup"
-      ],
-      "world": "mario"
-    },
-    {
-      "appeal": {
-        "intense": 1.0,
-        "retro": 1.0
-      },
-      "category": "consumable",
-      "desc": "Handle with oven mitts.",
-      "effect": {
-        "buff_atk": 5.0
-      },
-      "id": "fire_flower",
-      "name": "Fire Flower",
-      "price": 160.0,
-      "tags": [
-        "powerup",
-        "fire",
-        "plant"
-      ],
-      "world": "mario"
-    },
-    {
-      "appeal": {
-        "modern": 1.0,
-        "retro": 1.0
-      },
-      "category": "consumable",
-      "desc": "Refreshingly dangerous.",
-      "effect": {
-        "buff_def": 5.0
-      },
-      "id": "ice_flower",
-      "name": "Ice Flower",
-      "price": 160.0,
-      "tags": [
-        "powerup",
-        "ice",
-        "plant"
-      ],
-      "world": "mario"
-    },
-    {
-      "appeal": {
-        "intense": 1.0,
-        "retro": 2.0
-      },
-      "category": "consumable",
-      "desc": "Brief invincibility and an overwhelming urge to run at things.",
-      "effect": {
-        "invincible": 8.0
-      },
-      "id": "starman",
-      "name": "Starman",
-      "price": 700.0,
-      "tags": [
-        "powerup",
-        "rare",
-        "light"
-      ],
-      "world": "mario"
-    },
-    {
-      "appeal": {
-        "retro": 2.0
-      },
-      "category": "consumable",
-      "desc": "A second chance in fungus form.",
-      "effect": {
-        "revive": 1.0
-      },
-      "id": "one_up_mushroom",
-      "name": "1-Up Mushroom",
-      "price": 550.0,
-      "tags": [
-        "mushroom",
-        "rare",
-        "revive"
-      ],
-      "world": "mario"
-    },
-    {
-      "appeal": {
-        "retro": 1.0
-      },
-      "category": "material",
-      "desc": "Sturdy, aerodynamic, previously occupied.",
-      "id": "koopa_shell",
-      "name": "Koopa Shell",
-      "price": 70.0,
-      "tags": [
-        "shell",
-        "projectile"
-      ],
-      "world": "mario"
-    },
-    {
-      "appeal": {
-        "cozy": 2.0
-      },
-      "category": "treasure",
-      "desc": "Speckled and warm. Please do not sell to hungry customers.",
-      "id": "yoshi_egg",
-      "name": "Yoshi Egg",
-      "price": 450.0,
-      "tags": [
-        "egg",
-        "cute",
-        "rare"
-      ],
-      "world": "mario"
-    },
-    {
-      "appeal": {
-        "retro": 1.0
-      },
-      "category": "accessory",
-      "desc": "Grants a dramatic yellow cape and improved hang time.",
-      "id": "cape_feather",
-      "name": "Cape Feather",
-      "price": 320.0,
-      "slot": "accessory",
-      "stats": {
-        "spd": 3.0
-      },
-      "tags": [
-        "flight",
-        "powerup"
-      ],
-      "world": "mario"
-    },
-    {
-      "appeal": {
-        "cozy": 1.0,
-        "retro": 1.0
-      },
-      "category": "accessory",
-      "desc": "Ears and a tail included. Statue mode sold separately.",
-      "id": "tanooki_leaf",
-      "name": "Tanooki Leaf",
-      "price": 340.0,
-      "slot": "accessory",
-      "stats": {
-        "def": 3.0
-      },
-      "tags": [
-        "powerup",
-        "plant"
-      ],
-      "world": "mario"
-    },
-    {
-      "appeal": {
-        "intense": 1.0,
-        "retro": 1.0
-      },
-      "category": "consumable",
-      "desc": "Shakes the entire room. Handle gently.",
-      "effect": {
-        "aoe_damage": 30.0
-      },
-      "id": "pow_block",
-      "name": "POW Block",
-      "price": 200.0,
-      "tags": [
-        "explosive",
-        "blue"
-      ],
-      "world": "mario"
-    },
-    {
-      "appeal": {
-        "retro": 1.0
-      },
-      "category": "treasure",
-      "desc": "It goes 'bling' when you collect it. Endlessly satisfying.",
-      "id": "gold_coin",
-      "name": "Gold Coin",
-      "price": 25.0,
-      "tags": [
-        "valuable",
-        "coin"
-      ],
-      "world": "mario"
-    },
-    {
-      "appeal": {
-        "retro": 1.0
-      },
-      "category": "treasure",
-      "desc": "Worth more, and it knows it.",
-      "id": "red_coin",
-      "name": "Red Coin",
-      "price": 120.0,
-      "tags": [
-        "valuable",
-        "coin",
-        "rare"
-      ],
-      "world": "mario"
-    },
-    {
-      "appeal": {
-        "intense": 2.0
-      },
-      "category": "consumable",
-      "desc": "It is alive and it is ticking. Store away from the POW blocks.",
-      "effect": {
-        "aoe_damage": 45.0
-      },
-      "id": "mario_bobomb",
-      "name": "Bob-omb",
-      "price": 180.0,
-      "tags": [
-        "explosive"
-      ],
-      "world": "mario"
-    },
-    {
-      "appeal": {
-        "retro": 2.0
-      },
-      "category": "treasure",
-      "desc": "Summons a very punctual tornado.",
-      "id": "warp_whistle",
-      "name": "Warp Whistle",
-      "price": 800.0,
-      "tags": [
-        "music",
-        "rare",
-        "travel"
-      ],
-      "world": "mario"
-    },
-    {
-      "appeal": {
-        "cozy": 1.0,
-        "modern": 1.0
-      },
-      "category": "treasure",
-      "desc": "Property of a frequently kidnapped monarch.",
-      "id": "royal_crown",
-      "name": "Royal Crown",
-      "price": 1500.0,
-      "tags": [
-        "valuable",
-        "royal",
-        "rare"
-      ],
-      "world": "mario"
-    },
-    {
-      "appeal": {
-        "retro": 2.0
-      },
-      "category": "weapon",
-      "desc": "For carpentry, chiefly. Chiefly.",
-      "id": "mario_hammer",
-      "name": "Sturdy Hammer",
-      "price": 900.0,
-      "stats": {
-        "atk": 7.0
-      },
-      "tags": [
-        "hammer"
-      ],
-      "weapon_type": "hammer",
-      "world": "mario"
-    },
-    {
-      "appeal": {
-        "intense": 2.0
-      },
-      "category": "weapon",
-      "desc": "Less a sword, more a wall with ambitions.",
-      "id": "buster_sword",
-      "name": "Buster Sword",
-      "price": 4500.0,
-      "stats": {
-        "atk": 16.0
-      },
-      "tags": [
-        "sword",
-        "huge",
-        "legendary"
-      ],
-      "weapon_type": "greatsword",
-      "world": "final_fantasy"
-    },
-    {
-      "appeal": {
-        "modern": 1.0
-      },
-      "category": "weapon",
-      "desc": "Light, sharp, dependable.",
-      "id": "mythril_sword",
-      "name": "Mythril Sword",
-      "price": 2200.0,
-      "stats": {
-        "atk": 11.0
-      },
-      "tags": [
-        "sword",
-        "metal"
-      ],
-      "weapon_type": "greatsword",
-      "world": "final_fantasy"
-    },
-    {
-      "appeal": {
-        "cozy": 1.0
-      },
-      "category": "consumable",
-      "desc": "A soft feather that argues with death and usually wins.",
-      "effect": {
-        "revive": 1.0
-      },
-      "id": "phoenix_down",
-      "name": "Phoenix Down",
-      "price": 500.0,
-      "tags": [
-        "revive",
-        "feather",
-        "rare"
-      ],
-      "world": "final_fantasy"
-    },
-    {
-      "appeal": {
-        "cozy": 1.0
-      },
-      "category": "consumable",
-      "desc": "The classic blue bottle.",
-      "effect": {
-        "heal": 40.0
-      },
-      "id": "ff_potion",
-      "name": "FF Potion",
-      "price": 70.0,
-      "tags": [
-        "healing",
-        "bottle"
-      ],
-      "world": "final_fantasy"
-    },
-    {
-      "appeal": {
-        "cozy": 1.0
-      },
-      "category": "consumable",
-      "desc": "Like a potion, but taller.",
-      "effect": {
-        "heal": 100.0
-      },
-      "id": "hi_potion",
-      "name": "Hi-Potion",
-      "price": 220.0,
-      "tags": [
-        "healing",
-        "bottle"
-      ],
-      "world": "final_fantasy"
-    },
-    {
-      "appeal": {
-        "modern": 1.0
-      },
-      "category": "consumable",
-      "desc": "Restores magical energy and smells of static.",
-      "effect": {
-        "meter": 60.0
-      },
-      "id": "ff_ether",
-      "name": "FF Ether",
-      "price": 250.0,
-      "tags": [
-        "magic",
-        "bottle"
-      ],
-      "world": "final_fantasy"
-    },
-    {
-      "appeal": {
-        "modern": 1.0
-      },
-      "category": "consumable",
-      "desc": "Everyone owns one. No one has ever used one.",
-      "effect": {
-        "heal": 999.0,
-        "meter": 100.0
-      },
-      "id": "ff_elixir",
-      "name": "FF Elixir",
-      "price": 900.0,
-      "tags": [
-        "healing",
-        "magic",
-        "rare"
-      ],
-      "world": "final_fantasy"
-    },
-    {
-      "appeal": {
-        "modern": 2.0
-      },
-      "category": "material",
-      "desc": "Crystallized knowledge of the planet. Slightly slippery.",
-      "id": "materia",
-      "name": "Materia",
-      "price": 800.0,
-      "tags": [
-        "magic",
-        "orb",
-        "rare"
-      ],
-      "world": "final_fantasy"
-    },
-    {
-      "appeal": {
-        "cozy": 1.0
-      },
-      "category": "material",
-      "desc": "Warm yellow. Smells faintly of greens. Kweh.",
-      "id": "chocobo_feather",
-      "name": "Chocobo Feather",
-      "price": 150.0,
-      "tags": [
-        "feather",
-        "bird"
-      ],
-      "world": "final_fantasy"
-    },
-    {
-      "appeal": {
-        "cozy": 2.0
-      },
-      "category": "consumable",
-      "desc": "Sets itself up at save points. Union rules.",
-      "effect": {
-        "heal": 200.0
-      },
-      "id": "ff_tent",
-      "name": "Tent",
-      "price": 300.0,
-      "tags": [
-        "camping",
-        "rest"
-      ],
-      "world": "final_fantasy"
-    },
-    {
-      "appeal": {
-        "modern": 1.0
-      },
-      "category": "consumable",
-      "desc": "Cures everything except heartbreak and poor sales.",
-      "effect": {
-        "cure": 1.0,
-        "heal": 30.0
-      },
-      "id": "remedy",
-      "name": "Remedy",
-      "price": 350.0,
-      "tags": [
-        "healing",
-        "cure"
-      ],
-      "world": "final_fantasy"
-    },
-    {
-      "appeal": {
-        "intense": 1.0
-      },
-      "category": "consumable",
-      "desc": "Liquid confidence.",
-      "effect": {
-        "buff_atk": 8.0
-      },
-      "id": "hero_drink",
-      "name": "Hero Drink",
-      "price": 650.0,
-      "tags": [
-        "buff",
-        "rare"
-      ],
-      "world": "final_fantasy"
-    },
-    {
-      "appeal": {
-        "intense": 1.0
-      },
-      "category": "armor",
-      "desc": "Legendary armament of a legendary thief's wishlist.",
-      "id": "genji_glove",
-      "name": "Genji Glove",
-      "price": 1800.0,
-      "slot": "armor",
-      "stats": {
-        "atk": 3.0,
-        "def": 8.0
-      },
-      "tags": [
-        "armor",
-        "legendary"
-      ],
-      "world": "final_fantasy"
-    },
-    {
-      "appeal": {
-        "cozy": 2.0
-      },
-      "category": "accessory",
-      "desc": "Deceptively adorable. Blocks nearly every misfortune known.",
-      "effect": {
-        "status_immunity": 1.0
-      },
-      "id": "ff_ribbon",
-      "name": "Ribbon",
-      "price": 2500.0,
-      "slot": "accessory",
-      "stats": {
-        "def": 6.0
-      },
-      "tags": [
-        "protective",
-        "cute",
-        "legendary"
-      ],
-      "world": "final_fantasy"
-    },
-    {
-      "appeal": {
-        "modern": 1.0
-      },
-      "category": "material",
-      "desc": "A fragment of the Crystal Ruins. Hums in four-part harmony.",
-      "id": "crystal_shard_ff",
-      "name": "Crystal Shard",
-      "price": 550.0,
-      "tags": [
-        "shard",
-        "crystal",
-        "rare"
-      ],
-      "world": "final_fantasy"
-    },
-    {
-      "appeal": {
-        "intense": 1.0,
-        "retro": 2.0
-      },
-      "category": "weapon",
-      "desc": "The blade of evil's bane. Sells itself, refuses to be sold.",
-      "id": "master_sword",
-      "name": "Master Sword",
-      "price": 8000.0,
-      "stats": {
-        "atk": 20.0
-      },
-      "tags": [
-        "sword",
-        "legendary",
-        "light"
-      ],
-      "weapon_type": "sword_shield",
-      "world": "zelda"
-    },
-    {
-      "appeal": {
-        "intense": 1.0,
-        "retro": 1.0
-      },
-      "category": "armor",
-      "desc": "Fireproof, arrow-proof, chicken-proof.",
-      "id": "hylian_shield",
-      "name": "Hylian Shield",
-      "price": 3000.0,
-      "slot": "armor",
-      "stats": {
-        "def": 10.0
-      },
-      "tags": [
-        "shield",
-        "legendary"
-      ],
-      "world": "zelda"
-    },
-    {
-      "appeal": {
-        "retro": 1.0
-      },
-      "category": "armor",
-      "desc": "Extremely flammable. Sold as-is.",
-      "id": "wooden_shield",
-      "name": "Wooden Shield",
-      "price": 200.0,
-      "slot": "armor",
-      "stats": {
-        "def": 3.0
-      },
-      "tags": [
-        "shield",
-        "wood"
-      ],
-      "world": "zelda"
-    },
-    {
-      "appeal": {
-        "retro": 2.0
-      },
-      "category": "accessory",
-      "desc": "Always comes back. Unlike some customers.",
-      "id": "zelda_boomerang",
-      "name": "Boomerang",
-      "price": 400.0,
-      "slot": "accessory",
-      "stats": {
-        "atk": 1.0,
-        "spd": 2.0
-      },
-      "tags": [
-        "throwing",
-        "wood"
-      ],
-      "world": "zelda"
-    },
-    {
-      "appeal": {
-        "modern": 1.0,
-        "retro": 1.0
-      },
-      "category": "accessory",
-      "desc": "Grappling hook, spring-loaded, satisfaction guaranteed.",
-      "id": "hookshot",
-      "name": "Hookshot",
-      "price": 900.0,
-      "slot": "accessory",
-      "stats": {
-        "spd": 3.0
-      },
-      "tags": [
-        "tool",
-        "chain"
-      ],
-      "world": "zelda"
-    },
-    {
-      "appeal": {
-        "intense": 1.0
-      },
-      "category": "consumable",
-      "desc": "A bag of bombs. The bag is the safe part.",
-      "effect": {
-        "aoe_damage": 40.0
-      },
-      "id": "bomb_bag",
-      "name": "Bomb Bag",
-      "price": 350.0,
-      "tags": [
-        "explosive",
-        "bag"
-      ],
-      "world": "zelda"
-    },
-    {
-      "appeal": {
-        "cozy": 2.0
-      },
-      "category": "consumable",
-      "desc": "Contains one (1) very patient fairy.",
-      "effect": {
-        "heal": 80.0,
-        "revive": 1.0
-      },
-      "id": "fairy_bottle",
-      "name": "Fairy Bottle",
-      "price": 700.0,
-      "tags": [
-        "bottle",
-        "fairy",
-        "revive",
-        "rare"
-      ],
-      "world": "zelda"
-    },
-    {
-      "appeal": {
-        "retro": 2.0
-      },
-      "category": "treasure",
-      "desc": "A crystallized extra helping of life itself.",
-      "effect": {
-        "max_hp": 20.0
-      },
-      "id": "heart_container",
-      "name": "Heart Container",
-      "price": 2000.0,
-      "tags": [
-        "heart",
-        "rare",
-        "legendary"
-      ],
-      "world": "zelda"
-    },
-    {
-      "appeal": {
-        "modern": 1.0
-      },
-      "category": "consumable",
-      "desc": "Tastes green.",
-      "effect": {
-        "meter": 60.0
-      },
-      "id": "green_potion",
-      "name": "Green Potion",
-      "price": 120.0,
-      "tags": [
-        "bottle",
-        "magic"
-      ],
-      "world": "zelda"
-    },
-    {
-      "appeal": {
-        "modern": 1.0
-      },
-      "category": "consumable",
-      "desc": "The expensive one.",
-      "effect": {
-        "heal": 120.0,
-        "meter": 60.0
-      },
-      "id": "blue_potion",
-      "name": "Blue Potion",
-      "price": 400.0,
-      "tags": [
-        "bottle",
-        "healing",
-        "magic"
-      ],
-      "world": "zelda"
-    },
-    {
-      "appeal": {
-        "cozy": 1.0
-      },
-      "category": "consumable",
-      "desc": "A classic. Pairs well with pot-smashing.",
-      "effect": {
-        "heal": 80.0
-      },
-      "id": "red_potion",
-      "name": "Red Potion",
-      "price": 150.0,
-      "tags": [
-        "bottle",
-        "healing"
-      ],
-      "world": "zelda"
-    },
-    {
-      "appeal": {
-        "retro": 1.0
-      },
-      "category": "consumable",
-      "desc": "Blinding flash on impact. Not a snack.",
-      "effect": {
-        "stun": 2.0
-      },
-      "id": "deku_nut",
-      "name": "Deku Nut",
-      "price": 60.0,
-      "tags": [
-        "nut",
-        "flash"
-      ],
-      "world": "zelda"
-    },
-    {
-      "appeal": {
-        "retro": 1.0
-      },
-      "category": "treasure",
-      "desc": "Currency of Hyrule, found primarily in tall grass.",
-      "id": "rupee",
-      "name": "Rupee",
-      "price": 40.0,
-      "tags": [
-        "valuable",
-        "gem"
-      ],
-      "world": "zelda"
-    },
-    {
-      "appeal": {
-        "retro": 1.0
-      },
-      "category": "treasure",
-      "desc": "Opens exactly one door, somewhere.",
-      "id": "small_key",
-      "name": "Small Key",
-      "price": 90.0,
-      "tags": [
-        "key"
-      ],
-      "world": "zelda"
-    },
-    {
-      "appeal": {
-        "modern": 1.0,
-        "retro": 2.0
-      },
-      "category": "material",
-      "desc": "A sliver of divine power. Glows smugly.",
-      "id": "triforce_fragment",
-      "name": "Triforce Fragment",
-      "price": 3000.0,
-      "tags": [
-        "legendary",
-        "gold",
-        "rare"
-      ],
-      "world": "zelda"
-    },
-    {
-      "appeal": {
-        "cozy": 1.0
-      },
-      "category": "material",
-      "desc": "Sturdy lumber from the Lost Woods. Occasionally mutters.",
-      "id": "deku_wood",
-      "name": "Deku Wood",
-      "price": 80.0,
-      "tags": [
-        "wood"
-      ],
-      "world": "zelda"
-    },
-    {
-      "appeal": {
-        "intense": 1.0
-      },
-      "category": "weapon",
-      "desc": "Standard issue. Buy in bulk.",
-      "id": "kunai",
-      "name": "Kunai",
-      "price": 150.0,
-      "stats": {
-        "atk": 4.0
-      },
-      "tags": [
-        "ninja",
-        "throwing",
-        "blade"
-      ],
-      "weapon_type": "ninja_tool",
-      "world": "naruto"
-    },
-    {
-      "appeal": {
-        "intense": 1.0
-      },
-      "category": "consumable",
-      "desc": "Pointy in every direction.",
-      "effect": {
-        "ranged_damage": 15.0
-      },
-      "id": "shuriken",
-      "name": "Shuriken",
-      "price": 80.0,
-      "tags": [
-        "ninja",
-        "throwing"
-      ],
-      "world": "naruto"
-    },
-    {
-      "appeal": {
-        "intense": 2.0
-      },
-      "category": "consumable",
-      "desc": "Paper that goes boom. Keep away from the ramen steam.",
-      "effect": {
-        "aoe_damage": 50.0
-      },
-      "id": "explosive_tag",
-      "name": "Explosive Tag",
-      "price": 220.0,
-      "tags": [
-        "ninja",
-        "explosive",
-        "paper"
-      ],
-      "world": "naruto"
-    },
-    {
-      "appeal": {
-        "intense": 1.0
-      },
-      "category": "consumable",
-      "desc": "Tastes terrible, works great.",
-      "effect": {
-        "buff_atk": 4.0,
-        "heal": 60.0
-      },
-      "id": "soldier_pill",
-      "name": "Soldier Pill",
-      "price": 300.0,
-      "tags": [
-        "pill",
-        "buff",
-        "food"
-      ],
-      "world": "naruto"
-    },
-    {
-      "appeal": {
-        "modern": 1.0
-      },
-      "category": "consumable",
-      "desc": "Concentrated energy in candy form.",
-      "effect": {
-        "meter": 80.0
-      },
-      "id": "chakra_pill",
-      "name": "Chakra Pill",
-      "price": 320.0,
-      "tags": [
-        "pill",
-        "magic"
-      ],
-      "world": "naruto"
-    },
-    {
-      "appeal": {
-        "retro": 1.0
-      },
-      "category": "material",
-      "desc": "Covered in techniques you are not supposed to read.",
-      "id": "ninja_scroll",
-      "name": "Ninja Scroll",
-      "price": 400.0,
-      "tags": [
-        "scroll",
-        "paper"
-      ],
-      "world": "naruto"
-    },
-    {
-      "appeal": {
-        "intense": 1.0,
-        "retro": 1.0
-      },
-      "category": "material",
-      "desc": "Sign in blood. Standard contract stuff.",
-      "id": "summoning_scroll",
-      "name": "Summoning Scroll",
-      "price": 1200.0,
-      "tags": [
-        "scroll",
-        "rare",
-        "summon"
-      ],
-      "world": "naruto"
-    },
-    {
-      "appeal": {
-        "intense": 1.0
-      },
-      "category": "accessory",
-      "desc": "Village affiliation sold separately.",
-      "id": "forehead_protector",
-      "name": "Forehead Protector",
-      "price": 350.0,
-      "slot": "accessory",
-      "stats": {
-        "def": 2.0,
-        "spd": 1.0
-      },
-      "tags": [
-        "ninja",
-        "headband"
-      ],
-      "world": "naruto"
-    },
-    {
-      "appeal": {
-        "intense": 2.0
-      },
-      "category": "material",
-      "desc": "Do not make eye contact with the merchandise.",
-      "id": "sharingan_fragment",
-      "name": "Sharingan Fragment",
-      "price": 2500.0,
-      "tags": [
-        "eye",
-        "rare",
-        "creepy"
-      ],
-      "world": "naruto"
-    },
-    {
-      "appeal": {
-        "modern": 1.0
-      },
-      "category": "material",
-      "desc": "Solidified spiritual energy, faintly warm.",
-      "id": "chakra_crystal",
-      "name": "Chakra Crystal",
-      "price": 900.0,
-      "tags": [
-        "crystal",
-        "magic",
-        "rare"
-      ],
-      "world": "naruto"
-    },
-    {
-      "appeal": {
-        "cozy": 2.0
-      },
-      "category": "food",
-      "desc": "Miso, extra chashu. The house specialty of a certain stand.",
-      "effect": {
-        "heal": 45.0
-      },
-      "id": "ramen_bowl",
-      "name": "Ramen Bowl",
-      "price": 90.0,
-      "tags": [
-        "food",
-        "noodles",
-        "hot"
-      ],
-      "world": "naruto"
-    },
-    {
-      "appeal": {
-        "cozy": 2.0
-      },
-      "category": "treasure",
-      "desc": "All-you-can-eat. Financially ruinous for the issuer.",
-      "id": "ichiraku_ticket",
-      "name": "Ichiraku Meal Ticket",
-      "price": 500.0,
-      "tags": [
-        "food",
-        "ticket",
-        "rare"
-      ],
-      "world": "naruto"
-    },
-    {
-      "appeal": {
-        "intense": 2.0
-      },
-      "category": "armor",
-      "desc": "Heavier than they look. That is the point.",
-      "id": "training_weights",
-      "name": "Training Weights",
-      "price": 800.0,
-      "slot": "armor",
-      "stats": {
-        "atk": 3.0,
-        "def": 5.0,
-        "spd": -1.0
-      },
-      "tags": [
-        "training",
-        "heavy"
-      ],
-      "world": "naruto"
-    },
-    {
-      "appeal": {
-        "intense": 1.0
-      },
-      "category": "consumable",
-      "desc": "For dramatic exits and awkward conversations.",
-      "effect": {
-        "escape": 1.0
-      },
-      "id": "smoke_bomb",
-      "name": "Smoke Bomb",
-      "price": 130.0,
-      "tags": [
-        "ninja",
-        "escape"
-      ],
-      "world": "naruto"
-    },
-    {
-      "appeal": {
-        "intense": 1.0,
-        "retro": 1.0
-      },
-      "category": "treasure",
-      "desc": "Proof of an encounter with one of the three legends.",
-      "id": "sannin_token",
-      "name": "Legendary Sannin Token",
-      "price": 3500.0,
-      "tags": [
-        "legendary",
-        "rare",
-        "coin"
-      ],
-      "world": "naruto"
-    },
-    {
-      "appeal": {
-        "modern": 1.0,
-        "retro": 2.0
-      },
-      "category": "treasure",
-      "desc": "One of seven. Collect the set, get one wish. Collector demand is absurd.",
-      "id": "dragon_ball",
-      "name": "Dragon Ball",
-      "price": 5000.0,
-      "tags": [
-        "legendary",
-        "orb",
-        "rare"
-      ],
-      "world": "dragon_ball"
-    },
-    {
-      "appeal": {
-        "cozy": 1.0
-      },
-      "category": "consumable",
-      "desc": "Full recovery in one bite. Chew thoroughly.",
-      "effect": {
-        "heal": 999.0
-      },
-      "id": "senzu_bean",
-      "name": "Senzu Bean",
-      "price": 800.0,
-      "tags": [
-        "healing",
-        "bean",
-        "rare",
-        "food"
-      ],
-      "world": "dragon_ball"
-    },
-    {
-      "appeal": {
-        "modern": 2.0
-      },
-      "category": "material",
-      "desc": "Click, poof: anything from a bike to a house. Patent fiercely defended.",
-      "id": "capsule",
-      "name": "Capsule",
-      "price": 300.0,
-      "tags": [
-        "technology",
-        "capsule"
-      ],
-      "world": "dragon_ball"
-    },
-    {
-      "appeal": {
-        "modern": 2.0
-      },
-      "category": "accessory",
-      "desc": "Beeps near treasure. Warranty void near wishes.",
-      "effect": {
-        "loot_bonus": 1.0
-      },
-      "id": "dragon_radar",
-      "name": "Dragon Radar",
-      "price": 1500.0,
-      "slot": "accessory",
-      "stats": {
-        "spd": 2.0
-      },
-      "tags": [
-        "technology",
-        "rare"
-      ],
-      "world": "dragon_ball"
-    },
-    {
-      "appeal": {
-        "modern": 2.0
-      },
-      "category": "accessory",
-      "desc": "Displays power levels. Prone to shattering at dramatic moments.",
-      "id": "scouter",
-      "name": "Scouter",
-      "price": 900.0,
-      "slot": "accessory",
-      "stats": {
-        "atk": 2.0
-      },
-      "tags": [
-        "technology"
-      ],
-      "world": "dragon_ball"
-    },
-    {
-      "appeal": {
-        "intense": 1.0,
-        "retro": 1.0
-      },
-      "category": "armor",
-      "desc": "Bright orange. Zero stealth value, infinite style.",
-      "id": "turtle_gi",
-      "name": "Turtle School Gi",
-      "price": 1100.0,
-      "slot": "armor",
-      "stats": {
-        "atk": 2.0,
-        "def": 6.0
-      },
-      "tags": [
-        "clothing",
-        "training"
-      ],
-      "world": "dragon_ball"
-    },
-    {
-      "appeal": {
-        "intense": 1.0,
-        "modern": 1.0
-      },
-      "category": "armor",
-      "desc": "Stretches with any transformation. Shoulder pads optional.",
-      "id": "saiyan_armor",
-      "name": "Saiyan Armor",
-      "price": 2200.0,
-      "slot": "armor",
-      "stats": {
-        "def": 9.0
-      },
-      "tags": [
-        "armor",
-        "stretchy"
-      ],
-      "world": "dragon_ball"
-    },
-    {
-      "appeal": {
-        "retro": 2.0
-      },
-      "category": "weapon",
-      "desc": "Extends. A lot.",
-      "id": "power_pole",
-      "name": "Power Pole",
-      "price": 2800.0,
-      "stats": {
-        "atk": 12.0
-      },
-      "tags": [
-        "staff",
-        "legendary"
-      ],
-      "weapon_type": "martial",
-      "world": "dragon_ball"
-    },
-    {
-      "appeal": {
-        "intense": 2.0
-      },
-      "category": "armor",
-      "desc": "Take it off mid-fight for dramatic effect.",
-      "id": "weighted_clothing",
-      "name": "Weighted Clothing",
-      "price": 1300.0,
-      "slot": "armor",
-      "stats": {
-        "atk": 4.0,
-        "def": 7.0,
-        "spd": -1.0
-      },
-      "tags": [
-        "training",
-        "heavy"
-      ],
-      "world": "dragon_ball"
-    },
-    {
-      "appeal": {
-        "cozy": 1.0,
-        "retro": 1.0
-      },
-      "category": "treasure",
-      "desc": "Redeemable for one cloud ride. Pure of heart only.",
-      "id": "nimbus_token",
-      "name": "Flying Nimbus Token",
-      "price": 1800.0,
-      "tags": [
-        "cloud",
-        "rare",
-        "travel"
-      ],
-      "world": "dragon_ball"
-    },
-    {
-      "appeal": {
-        "cozy": 1.0
-      },
-      "category": "consumable",
-      "desc": "From the very top of the tower. Mostly placebo. Mostly.",
-      "effect": {
-        "buff_atk": 6.0,
-        "buff_def": 6.0
-      },
-      "id": "sacred_water",
-      "name": "Sacred Water",
-      "price": 1000.0,
-      "tags": [
-        "water",
-        "buff",
-        "rare"
-      ],
-      "world": "dragon_ball"
-    },
-    {
-      "appeal": {
-        "intense": 1.0
-      },
-      "category": "food",
-      "desc": "Serves one Saiyan or forty regular people.",
-      "effect": {
-        "heal": 120.0
-      },
-      "id": "dino_tail",
-      "name": "Dino Tail",
-      "price": 350.0,
-      "tags": [
-        "food",
-        "meat",
-        "huge"
-      ],
-      "world": "dragon_ball"
-    },
-    {
-      "appeal": {
-        "modern": 1.0
-      },
-      "category": "material",
-      "desc": "Stores ki. Occasionally shouts.",
-      "id": "energy_crystal",
-      "name": "Energy Crystal",
-      "price": 1100.0,
-      "tags": [
-        "crystal",
-        "magic",
-        "rare"
-      ],
-      "world": "dragon_ball"
-    },
-    {
-      "appeal": {
-        "modern": 2.0
-      },
-      "category": "material",
-      "desc": "Up to 100x gravity. Floor reinforcement not included.",
-      "id": "gravity_module",
-      "name": "Gravity Module",
-      "price": 2400.0,
-      "tags": [
-        "technology",
-        "training",
-        "rare"
-      ],
-      "world": "dragon_ball"
-    },
-    {
-      "appeal": {
-        "cozy": 1.0,
-        "modern": 2.0
-      },
-      "category": "treasure",
-      "desc": "A full house in your pocket. Real estate agents despise this.",
-      "id": "capsule_house",
-      "name": "Capsule House",
-      "price": 4000.0,
-      "tags": [
-        "technology",
-        "capsule",
-        "rare"
-      ],
-      "world": "dragon_ball"
-    },
-    {
-      "appeal": {
-        "modern": 1.0,
-        "retro": 1.0
-      },
-      "category": "consumable",
-      "desc": "Gotta sell 'em all.",
-      "effect": {
-        "capture": 1.0
-      },
-      "id": "poke_ball",
-      "name": "Poké Ball",
-      "price": 200.0,
-      "tags": [
-        "ball",
-        "technology"
-      ],
-      "world": "pokemon"
-    },
-    {
-      "appeal": {
-        "modern": 1.0
-      },
-      "category": "consumable",
-      "desc": "Like a Poké Ball, but great.",
-      "effect": {
-        "capture": 2.0
-      },
-      "id": "great_ball",
-      "name": "Great Ball",
-      "price": 600.0,
-      "tags": [
-        "ball",
-        "technology"
-      ],
-      "world": "pokemon"
-    },
-    {
-      "appeal": {
-        "modern": 2.0
-      },
-      "category": "consumable",
-      "desc": "Premium capture technology in a tasteful black and yellow.",
-      "effect": {
-        "capture": 3.0
-      },
-      "id": "ultra_ball",
-      "name": "Ultra Ball",
-      "price": 1200.0,
-      "tags": [
-        "ball",
-        "technology",
-        "rare"
-      ],
-      "world": "pokemon"
-    },
-    {
-      "appeal": {
-        "modern": 2.0
-      },
-      "category": "treasure",
-      "desc": "Never fails. Never duplicated. Never cheap.",
-      "effect": {
-        "capture": 99.0
-      },
-      "id": "master_ball",
-      "name": "Master Ball",
-      "price": 9000.0,
-      "tags": [
-        "ball",
-        "legendary",
-        "rare"
-      ],
-      "world": "pokemon"
-    },
-    {
-      "appeal": {
-        "modern": 1.0
-      },
-      "category": "consumable",
-      "desc": "A convenient spray-type medicine.",
-      "effect": {
-        "heal": 45.0
-      },
-      "id": "pkmn_potion",
-      "name": "Pokémon Potion",
-      "price": 90.0,
-      "tags": [
-        "healing",
-        "spray"
-      ],
-      "world": "pokemon"
-    },
-    {
-      "appeal": {
-        "modern": 2.0
-      },
-      "category": "consumable",
-      "desc": "Fixes everything. The champion's favorite stall tactic.",
-      "effect": {
-        "cure": 1.0,
-        "heal": 999.0
-      },
-      "id": "full_restore",
-      "name": "Full Restore",
-      "price": 900.0,
-      "tags": [
-        "healing",
-        "spray",
-        "rare"
-      ],
-      "world": "pokemon"
-    },
-    {
-      "appeal": {
-        "cozy": 1.0,
-        "modern": 1.0
-      },
-      "category": "consumable",
-      "desc": "Instant experience. Nutritionists remain baffled.",
-      "effect": {
-        "level_up": 1.0
-      },
-      "id": "rare_candy",
-      "name": "Rare Candy",
-      "price": 1500.0,
-      "tags": [
-        "food",
-        "sweet",
-        "rare"
-      ],
-      "world": "pokemon"
-    },
-    {
-      "appeal": {
-        "retro": 1.0
-      },
-      "category": "consumable",
-      "desc": "One-way trip to the entrance. Rope not reusable, physics unclear.",
-      "effect": {
-        "escape": 1.0
-      },
-      "id": "escape_rope",
-      "name": "Escape Rope",
-      "price": 250.0,
-      "tags": [
-        "rope",
-        "escape"
-      ],
-      "world": "pokemon"
-    },
-    {
-      "appeal": {
-        "retro": 2.0
-      },
-      "category": "treasure",
-      "desc": "The only affordable way to obtain a million-credit bicycle.",
-      "id": "bicycle_voucher",
-      "name": "Bicycle Voucher",
-      "price": 2000.0,
-      "tags": [
-        "ticket",
-        "rare"
-      ],
-      "world": "pokemon"
-    },
-    {
-      "appeal": {
-        "modern": 2.0,
-        "retro": 1.0
-      },
-      "category": "treasure",
-      "desc": "An encyclopedia that judges you for incomplete entries.",
-      "id": "pokedex",
-      "name": "Pokédex",
-      "price": 5000.0,
-      "tags": [
-        "technology",
-        "legendary",
-        "rare"
-      ],
-      "world": "pokemon"
-    },
-    {
-      "appeal": {
-        "modern": 1.0
-      },
-      "category": "material",
-      "desc": "Fell from the moon, allegedly.",
-      "id": "moon_stone",
-      "name": "Moon Stone",
-      "price": 800.0,
-      "tags": [
-        "stone",
-        "evolution"
-      ],
-      "world": "pokemon"
-    },
-    {
-      "appeal": {
-        "intense": 1.0
-      },
-      "category": "material",
-      "desc": "Warm forever. Great for cold shelves.",
-      "id": "fire_stone",
-      "name": "Fire Stone",
-      "price": 850.0,
-      "tags": [
-        "stone",
-        "evolution",
-        "fire"
-      ],
-      "world": "pokemon"
-    },
-    {
-      "appeal": {
-        "intense": 1.0
-      },
-      "category": "material",
-      "desc": "Do not stack near the Magnemite display.",
-      "id": "thunder_stone",
-      "name": "Thunder Stone",
-      "price": 850.0,
-      "tags": [
-        "stone",
-        "evolution",
-        "electric"
-      ],
-      "world": "pokemon"
-    },
-    {
-      "appeal": {
-        "cozy": 1.0
-      },
-      "category": "material",
-      "desc": "Perpetually damp in a pleasant way.",
-      "id": "water_stone",
-      "name": "Water Stone",
-      "price": 850.0,
-      "tags": [
-        "stone",
-        "evolution",
-        "water"
-      ],
-      "world": "pokemon"
-    },
-    {
-      "appeal": {
-        "cozy": 2.0
-      },
-      "category": "accessory",
-      "desc": "A warm egg that makes everything around it slightly luckier.",
-      "effect": {
-        "xp_bonus": 1.0
-      },
-      "id": "lucky_egg",
-      "name": "Lucky Egg",
-      "price": 1600.0,
-      "slot": "charm",
-      "tags": [
-        "egg",
-        "lucky",
-        "rare"
-      ],
-      "world": "pokemon"
-    },
-    {
-      "appeal": {
-        "intense": 1.0
-      },
-      "category": "accessory",
-      "desc": "Sometimes, against all odds, you hang on.",
-      "effect": {
-        "survive_ko": 1.0
-      },
-      "id": "focus_band",
-      "name": "Focus Band",
-      "price": 1000.0,
-      "slot": "charm",
-      "tags": [
-        "headband",
-        "protective"
-      ],
-      "world": "pokemon"
-    },
-    {
-      "appeal": {
-        "intense": 1.0
-      },
-      "category": "accessory",
-      "desc": "Squeeze rocks into juice.",
-      "id": "power_wrist",
-      "name": "Power Wrist",
-      "price": 700.0,
-      "slot": "charm",
-      "stats": {
-        "atk": 4.0
-      },
-      "tags": [
-        "training",
-        "glove"
-      ],
-      "world": "mario"
-    },
-    {
-      "appeal": {
-        "cozy": 2.0
-      },
-      "category": "accessory",
-      "desc": "A tiny bell blessed by a great fairy.",
-      "effect": {
-        "regen": 1.0
-      },
-      "id": "fairy_charm",
-      "name": "Fairy Charm",
-      "price": 850.0,
-      "slot": "charm",
-      "stats": {
-        "def": 3.0
-      },
-      "tags": [
-        "fairy",
-        "cute",
-        "protective"
-      ],
-      "world": "zelda"
-    },
-    {
-      "appeal": {
-        "cozy": 2.0
-      },
-      "category": "accessory",
-      "desc": "A star-shaped charm carved from paopu wood.",
-      "id": "paopu_charm",
-      "name": "Paopu Charm",
-      "price": 950.0,
-      "slot": "charm",
-      "stats": {
-        "atk": 2.0,
-        "def": 2.0
-      },
-      "tags": [
-        "charm",
-        "romantic",
-        "star"
-      ],
-      "world": "kingdom_hearts"
-    },
-    {
-      "appeal": {
-        "retro": 1.0
-      },
-      "category": "weapon",
-      "desc": "Attach to a Keyblade to change its destiny. Or to keys.",
-      "id": "keychain",
-      "name": "Oathkeeper Keyblade",
-      "price": 250.0,
-      "tags": [
-        "key",
-        "charm"
-      ],
-      "world": "kingdom_hearts"
-    },
-    {
-      "category": "key",
-      "desc": "A fragment of the World Bridge, humming with Traverse Town's lamplight.",
-      "id": "world_shard_kh",
-      "name": "World Shard: Traverse",
-      "price": 0.0,
-      "sellable": false,
-      "tags": [
-        "world_shard"
-      ],
-      "world": "kingdom_hearts"
-    },
-    {
-      "category": "key",
-      "desc": "A fragment of the World Bridge. Smells like fresh grass and coins.",
-      "id": "world_shard_mario",
-      "name": "World Shard: Mushroom",
-      "price": 0.0,
-      "sellable": false,
-      "tags": [
-        "world_shard"
-      ],
-      "world": "mario"
-    },
-    {
-      "category": "key",
-      "desc": "A fragment of the World Bridge, refracting a hundred sunsets.",
-      "id": "world_shard_ff",
-      "name": "World Shard: Crystal",
-      "price": 0.0,
-      "sellable": false,
-      "tags": [
-        "world_shard"
-      ],
-      "world": "final_fantasy"
-    },
-    {
-      "category": "key",
-      "desc": "A fragment of the World Bridge. Birds nest near it instinctively.",
-      "id": "world_shard_zelda",
-      "name": "World Shard: Hyrule",
-      "price": 0.0,
-      "sellable": false,
-      "tags": [
-        "world_shard"
-      ],
-      "world": "zelda"
-    },
-    {
-      "category": "key",
-      "desc": "A fragment of the World Bridge, wrapped in someone's old headband cloth.",
-      "id": "world_shard_naruto",
-      "name": "World Shard: Leaf",
-      "price": 0.0,
-      "sellable": false,
-      "tags": [
-        "world_shard"
-      ],
-      "world": "naruto"
-    },
-    {
-      "category": "key",
-      "desc": "A fragment of the World Bridge. Faintly warm, like a distant sunrise.",
-      "id": "world_shard_dbz",
-      "name": "World Shard: Lookout",
-      "price": 0.0,
-      "sellable": false,
-      "tags": [
-        "world_shard"
-      ],
-      "world": "dragon_ball"
-    },
-    {
-      "category": "key",
-      "desc": "The last fragment of the World Bridge. It buzzes: pika, pika.",
-      "id": "world_shard_pkmn",
-      "name": "World Shard: Viridian",
-      "price": 0.0,
-      "sellable": false,
-      "tags": [
-        "world_shard"
-      ],
-      "world": "pokemon"
-    },
-    {
-      "appeal": {
-        "intense": 2.0
-      },
-      "category": "accessory",
-      "desc": "A Fire Flower's spirit sealed in a Blaze Shard. Warm handshake included.",
-      "id": "flame_charm",
-      "name": "Flame Charm",
-      "price": 950.0,
-      "slot": "charm",
-      "stats": {
-        "atk": 6.0
-      },
-      "tags": [
-        "fire",
-        "charm",
-        "crafted"
-      ],
-      "world": "crossover"
-    },
-    {
-      "appeal": {
-        "cozy": 1.0,
-        "modern": 1.0
-      },
-      "category": "consumable",
-      "desc": "A Senzu Bean dissolved in Full Restore. Medically alarming, extremely effective.",
-      "effect": {
-        "cure": 1.0,
-        "heal": 999.0,
-        "revive": 1.0
-      },
-      "id": "perfect_recovery",
-      "name": "Perfect Recovery",
-      "price": 2200.0,
-      "tags": [
-        "healing",
-        "rare",
-        "crafted"
-      ],
-      "world": "crossover"
-    },
-    {
-      "appeal": {
-        "modern": 2.0
-      },
-      "category": "material",
-      "desc": "Materia infused with chakra. Glows in two colors and argues with itself.",
-      "id": "energy_materia",
-      "name": "Energy Materia",
-      "price": 2400.0,
-      "tags": [
-        "magic",
-        "orb",
-        "rare",
-        "crafted"
-      ],
-      "world": "crossover"
-    },
-    {
-      "appeal": {
-        "cozy": 2.0
-      },
-      "category": "consumable",
-      "desc": "A fairy wearing a tiny phoenix-feather cloak. She insists it's fashion.",
-      "effect": {
-        "heal": 200.0,
-        "revive": 1.0
-      },
-      "id": "revival_fairy",
-      "name": "Revival Fairy",
-      "price": 1800.0,
-      "tags": [
-        "fairy",
-        "revive",
-        "rare",
-        "crafted"
-      ],
-      "world": "crossover"
-    },
-    {
-      "appeal": {
-        "intense": 2.0
-      },
-      "category": "accessory",
-      "desc": "A Thunder Stone core wrapped in Thunder Shard filigree. Hair-raising.",
-      "id": "storm_pendant",
-      "name": "Storm Pendant",
-      "price": 2000.0,
-      "slot": "charm",
-      "stats": {
-        "atk": 5.0,
-        "spd": 3.0
-      },
-      "tags": [
-        "electric",
-        "charm",
-        "crafted"
-      ],
-      "world": "crossover"
-    },
-    {
-      "appeal": {
-        "cozy": 1.0,
-        "intense": 1.0
-      },
-      "category": "food",
-      "desc": "Mushroom-glazed soldier pill skewers. The mushroom makes it a meal.",
-      "effect": {
-        "buff_atk": 5.0,
-        "heal": 150.0
-      },
-      "id": "heros_meal",
-      "name": "Hero's Meal",
-      "price": 700.0,
-      "tags": [
-        "food",
-        "buff",
-        "crafted"
-      ],
-      "world": "crossover"
-    },
-    {
-      "appeal": {
-        "modern": 2.0
-      },
-      "category": "consumable",
-      "desc": "Capsule Corp engineering meets Silph Co design. Both legal teams are furious.",
-      "effect": {
-        "capture": 3.0,
-        "loot_bonus": 1.0
-      },
-      "id": "pocket_capsule",
-      "name": "Pocket Capsule",
-      "price": 1400.0,
-      "tags": [
-        "technology",
-        "capsule",
-        "crafted"
-      ],
-      "world": "crossover"
-    },
-    {
-      "appeal": {
-        "intense": 1.0,
-        "retro": 2.0
-      },
-      "category": "weapon",
-      "desc": "A Keyblade humming with a Triforce fragment. Opens hearts AND treasure chests.",
-      "id": "courage_keyblade",
-      "name": "Courage Keyblade",
-      "price": 7500.0,
-      "stats": {
-        "atk": 18.0
-      },
-      "tags": [
-        "sword",
-        "key",
-        "legendary",
-        "crafted"
-      ],
-      "weapon_type": "keyblade",
-      "world": "crossover"
-    },
-    {
-      "appeal": {
-        "retro": 2.0
-      },
-      "category": "weapon",
-      "desc": "Power Pole grain fused with Deku heartwood. Extends AND mutters.",
-      "id": "ancient_staff",
-      "name": "Ancient Staff",
-      "price": 5200.0,
-      "stats": {
-        "atk": 14.0,
-        "spd": 2.0
-      },
-      "tags": [
-        "staff",
-        "wood",
-        "legendary",
-        "crafted"
-      ],
-      "weapon_type": "martial",
-      "world": "crossover"
-    },
-    {
-      "appeal": {
-        "cozy": 1.0,
-        "retro": 1.0
-      },
-      "category": "food",
-      "desc": "Ramen topped with sea-salt ice cream. Reviews are split exactly 50/50.",
-      "effect": {
-        "heal": 100.0
-      },
-      "id": "questionable_combo_meal",
-      "name": "Questionable Combo Meal",
-      "price": 300.0,
-      "tags": [
-        "food",
-        "weird",
-        "crafted"
-      ],
-      "world": "crossover"
-    },
-    {
-      "appeal": {
-        "cozy": 1.0,
-        "retro": 2.0
-      },
-      "category": "weapon",
-      "desc": "A Starman lashed to a sturdy hammer. Technically a wand. Legally a hammer.",
-      "id": "star_rod_replica",
-      "name": "Star Rod Replica",
-      "price": 3600.0,
-      "stats": {
-        "atk": 12.0
-      },
-      "tags": [
-        "star",
-        "crafted",
-        "rare"
-      ],
-      "weapon_type": "hammer",
-      "world": "crossover"
-    },
-    {
-      "appeal": {
-        "cozy": 2.0
-      },
-      "category": "accessory",
-      "desc": "A ninja substitution log dressed as a Pokémon doll. Takes one hit for you, judges you after.",
-      "effect": {
-        "survive_ko": 1.0
-      },
-      "id": "substitute_plush",
-      "name": "Substitute Plush",
-      "price": 1300.0,
-      "slot": "charm",
-      "tags": [
-        "cute",
-        "crafted",
-        "protective"
-      ],
-      "world": "crossover"
-    },
-    {
-      "category": "weapon",
-      "desc": "",
-      "id": "lady_luck_keyblade",
-      "name": "Lady Luck Keyblade",
-      "needs_ai_balance": true,
-      "needs_description": true,
-      "price": 0.0,
-      "tags": [],
-      "world": "kingdom_hearts"
-    },
-    {
-      "category": "treasure",
-      "desc": "",
-      "id": "pink_yoshi_egg",
-      "name": "Pink Yoshi Egg",
-      "needs_ai_balance": true,
-      "needs_description": true,
-      "price": 120.0,
-      "tags": [],
-      "world": "mario"
-    },
-    {
-      "category": "misc",
-      "desc": "",
-      "id": "blue_yoshi_egg",
-      "name": "Blue Yoshi Egg",
-      "needs_ai_balance": true,
-      "needs_description": true,
-      "price": 0.0,
-      "tags": [],
-      "world": "crossover"
-    },
-    {
-      "category": "misc",
-      "desc": "",
-      "id": "red_yoshi_egg",
-      "name": "Red Yoshi Egg",
-      "needs_ai_balance": true,
-      "needs_description": true,
-      "price": 0.0,
-      "tags": [],
-      "world": "crossover"
-    },
-    {
-      "category": "misc",
-      "desc": "",
-      "id": "orange_yoshi_egg",
-      "name": "Orange Yoshi Egg",
-      "needs_ai_balance": true,
-      "needs_description": true,
-      "price": 0.0,
-      "tags": [],
-      "world": "crossover"
-    },
-    {
-      "category": "misc",
-      "desc": "",
-      "id": "aqua_yoshi_egg",
-      "name": "Aqua Yoshi Egg",
-      "needs_ai_balance": true,
-      "needs_description": true,
-      "price": 0.0,
-      "tags": [],
-      "world": "crossover"
-    },
-    {
-      "category": "misc",
-      "desc": "",
-      "id": "hee_bean",
-      "name": "Hee Bean",
-      "needs_ai_balance": true,
-      "needs_description": true,
-      "price": 0.0,
-      "tags": [],
-      "world": "mario"
-    },
-    {
-      "category": "misc",
-      "desc": "",
-      "id": "chuckle_bean",
-      "name": "Chuckle Bean",
-      "needs_ai_balance": true,
-      "needs_description": true,
-      "price": 0.0,
-      "tags": [],
-      "world": "crossover"
-    },
-    {
-      "category": "misc",
-      "desc": "",
-      "id": "hoo_bean",
-      "name": "Hoo Bean",
-      "needs_ai_balance": true,
-      "needs_description": true,
-      "price": 0.0,
-      "tags": [],
-      "world": "crossover"
-    },
-    {
-      "category": "misc",
-      "desc": "",
-      "id": "dk_hammer",
-      "name": "DK Hammer",
-      "needs_ai_balance": true,
-      "needs_description": true,
-      "price": 0.0,
-      "tags": [],
-      "world": "crossover"
-    },
-    {
-      "category": "misc",
-      "desc": "",
-      "id": "woo_bean",
-      "name": "Woo Bean",
-      "needs_ai_balance": true,
-      "needs_description": true,
-      "price": 0.0,
-      "tags": [],
-      "world": "crossover"
-    },
-    {
-      "category": "misc",
-      "desc": "",
-      "id": "1up_mushroom",
-      "name": "1UP Mushroom",
-      "needs_ai_balance": true,
-      "needs_description": true,
-      "price": 0.0,
-      "tags": [],
-      "world": "crossover"
-    },
-    {
-      "category": "consumable",
-      "desc": "",
-      "id": "1up_super_mushroom",
-      "name": "1UP Super Mushroom",
-      "needs_ai_balance": true,
-      "needs_description": true,
-      "price": 0.0,
-      "tags": [],
-      "world": "crossover"
-    },
-    {
-      "category": "treasure",
-      "desc": "",
-      "id": "gameboy",
-      "name": "Gameboy",
-      "needs_ai_balance": true,
-      "needs_description": true,
-      "price": 0.0,
-      "tags": [],
-      "world": "crossover"
-    },
-    {
-      "category": "treasure",
-      "desc": "",
-      "id": "peach_s_dress",
-      "name": "Peach's Dress",
-      "needs_ai_balance": true,
-      "needs_description": true,
-      "price": 10000.0,
-      "tags": [],
-      "world": "mario"
-    },
-    {
-      "category": "food",
-      "desc": "",
-      "id": "poison_mushroom",
-      "name": "Poison Mushroom",
-      "needs_ai_balance": true,
-      "needs_description": true,
-      "price": 0.0,
-      "tags": [],
-      "world": "crossover"
-    },
-    {
-      "category": "weapon",
-      "desc": "",
-      "id": "poison_kingdom_key",
-      "name": "Poison Kingdom Key",
-      "needs_ai_balance": true,
-      "needs_description": true,
-      "price": 0.0,
-      "tags": [],
-      "world": "kingdom_hearts"
-    },
-    {
-      "category": "weapon",
-      "desc": "",
-      "id": "three_wishes_keyblade",
-      "name": "Three Wishes Keyblade",
-      "needs_ai_balance": true,
-      "needs_description": true,
-      "price": 0.0,
-      "tags": [],
-      "world": "crossover"
-    },
-    {
-      "category": "weapon",
-      "desc": "",
-      "id": "crabclaw_keyblade",
-      "name": "Crabclaw Keyblade",
-      "needs_ai_balance": true,
-      "needs_description": true,
-      "price": 0.0,
-      "tags": [],
-      "world": "crossover"
-    },
-    {
-      "category": "weapon",
-      "desc": "",
-      "id": "oblivion_keyblade",
-      "name": "Oblivion Keyblade",
-      "needs_ai_balance": true,
-      "needs_description": true,
-      "price": 0.0,
-      "tags": [],
-      "world": "crossover"
-    },
-    {
-      "category": "weapon",
-      "desc": "",
-      "id": "fairy_harp_keyblade",
-      "name": "Fairy Harp Keyblade",
-      "needs_ai_balance": true,
-      "needs_description": true,
-      "price": 0.0,
-      "tags": [],
-      "world": "crossover"
-    },
-    {
-      "category": "weapon",
-      "desc": "",
-      "id": "wishing_star_keyblade",
-      "name": "Wishing Star Keyblade",
-      "needs_ai_balance": true,
-      "needs_description": true,
-      "price": 0.0,
-      "tags": [],
-      "world": "crossover"
-    },
-    {
-      "category": "weapon",
-      "desc": "",
-      "id": "olympia_keyblade",
-      "name": "Olympia Keyblade",
-      "needs_ai_balance": true,
-      "needs_description": true,
-      "price": 0.0,
-      "tags": [],
-      "world": "crossover"
-    },
-    {
-      "category": "weapon",
-      "desc": "",
-      "id": "divine_rose_keyblade",
-      "name": "Divine Rose Keyblade",
-      "needs_ai_balance": true,
-      "needs_description": true,
-      "price": 0.0,
-      "tags": [],
-      "world": "crossover"
-    },
-    {
-      "category": "weapon",
-      "desc": "",
-      "id": "soul_eater",
-      "name": "Soul Eater",
-      "needs_ai_balance": true,
-      "needs_description": true,
-      "price": 0,
-      "tags": [],
-      "world": "kingdom_hearts"
-    }
-  ],
-  "schema": "crossroads.items.v1"
+ "items": [
+  {
+   "appeal": {
+    "intense": 1.0,
+    "retro": 2.0
+   },
+   "category": "weapon",
+   "desc": "A key-shaped blade that chooses its wielder. Also opens stubborn doors.",
+   "id": "kingdom_key",
+   "name": "Kingdom Key",
+   "price": 1200.0,
+   "stats": {
+    "atk": 8.0
+   },
+   "tags": [
+    "sword",
+    "key",
+    "legendary"
+   ],
+   "weapon_type": "keyblade",
+   "world": "kingdom_hearts"
+  },
+  {
+   "appeal": {
+    "cozy": 1.0
+   },
+   "category": "consumable",
+   "desc": "Restores a moderate amount of health. Tastes faintly of stars.",
+   "effect": {
+    "heal": 40.0
+   },
+   "id": "kh_potion",
+   "name": "Potion",
+   "price": 60.0,
+   "tags": [
+    "healing",
+    "bottle"
+   ],
+   "world": "kingdom_hearts"
+  },
+  {
+   "appeal": {
+    "modern": 1.0
+   },
+   "category": "consumable",
+   "desc": "Restores special energy.",
+   "effect": {
+    "meter": 50.0
+   },
+   "id": "kh_ether",
+   "name": "Ether",
+   "price": 120.0,
+   "tags": [
+    "magic",
+    "bottle"
+   ],
+   "world": "kingdom_hearts"
+  },
+  {
+   "appeal": {
+    "cozy": 1.0,
+    "modern": 1.0
+   },
+   "category": "consumable",
+   "desc": "Fully restores health and energy. Hoarded by adventurers forever.",
+   "effect": {
+    "heal": 999.0,
+    "meter": 100.0
+   },
+   "id": "kh_elixir",
+   "name": "Elixir",
+   "price": 600.0,
+   "tags": [
+    "healing",
+    "magic",
+    "rare"
+   ],
+   "world": "kingdom_hearts"
+  },
+  {
+   "appeal": {
+    "cozy": 2.0
+   },
+   "category": "food",
+   "desc": "Salty, but sweet. Best eaten on top of a clock tower.",
+   "effect": {
+    "heal": 15.0
+   },
+   "id": "sea_salt_ice_cream",
+   "name": "Sea-Salt Ice Cream",
+   "price": 30.0,
+   "tags": [
+    "food",
+    "sweet",
+    "cold"
+   ],
+   "world": "kingdom_hearts"
+  },
+  {
+   "appeal": {
+    "retro": 1.0
+   },
+   "category": "treasure",
+   "desc": "A pouch of munny. Exchange rates with gold are a shopkeeper's dream.",
+   "id": "munny_pouch",
+   "name": "Munny Pouch",
+   "price": 350.0,
+   "tags": [
+    "valuable"
+   ],
+   "world": "kingdom_hearts"
+  },
+  {
+   "appeal": {
+    "modern": 1.0
+   },
+   "category": "material",
+   "desc": "A clear shard dropped by Heartless.",
+   "id": "lucid_shard",
+   "name": "Lucid Shard",
+   "price": 90.0,
+   "tags": [
+    "shard",
+    "synthesis"
+   ],
+   "world": "kingdom_hearts"
+  },
+  {
+   "appeal": {
+    "intense": 1.0
+   },
+   "category": "material",
+   "desc": "Warm to the touch. Do not store near the ice cream.",
+   "id": "blaze_shard",
+   "name": "Blaze Shard",
+   "price": 110.0,
+   "tags": [
+    "shard",
+    "synthesis",
+    "fire"
+   ],
+   "world": "kingdom_hearts"
+  },
+  {
+   "appeal": {
+    "modern": 1.0
+   },
+   "category": "material",
+   "desc": "A shard of concentrated cold.",
+   "id": "frost_shard",
+   "name": "Frost Shard",
+   "price": 110.0,
+   "tags": [
+    "shard",
+    "synthesis",
+    "ice"
+   ],
+   "world": "kingdom_hearts"
+  },
+  {
+   "appeal": {
+    "intense": 1.0
+   },
+   "category": "material",
+   "desc": "Crackles quietly at night.",
+   "id": "thunder_shard",
+   "name": "Thunder Shard",
+   "price": 110.0,
+   "tags": [
+    "shard",
+    "synthesis",
+    "electric"
+   ],
+   "world": "kingdom_hearts"
+  },
+  {
+   "appeal": {
+    "cozy": 1.0
+   },
+   "category": "material",
+   "desc": "Glows softly. Popular as a night light.",
+   "id": "bright_shard",
+   "name": "Bright Shard",
+   "price": 130.0,
+   "tags": [
+    "shard",
+    "synthesis",
+    "light"
+   ],
+   "world": "kingdom_hearts"
+  },
+  {
+   "appeal": {
+    "modern": 1.0
+   },
+   "category": "material",
+   "desc": "A rare and famous metal.",
+   "id": "kh_mythril",
+   "name": "Mythril",
+   "price": 400.0,
+   "tags": [
+    "metal",
+    "synthesis",
+    "rare"
+   ],
+   "world": "kingdom_hearts"
+  },
+  {
+   "appeal": {
+    "cozy": 1.0,
+    "retro": 1.0
+   },
+   "category": "treasure",
+   "desc": "A page torn from a very hungry storybook.",
+   "id": "torn_page",
+   "name": "Torn Page",
+   "price": 500.0,
+   "tags": [
+    "book",
+    "rare"
+   ],
+   "world": "kingdom_hearts"
+  },
+  {
+   "appeal": {
+    "retro": 2.0
+   },
+   "category": "material",
+   "desc": "A building block for ships that sail between worlds.",
+   "id": "gummi_block",
+   "name": "Gummi Block",
+   "price": 150.0,
+   "tags": [
+    "ship",
+    "colorful"
+   ],
+   "world": "kingdom_hearts"
+  },
+  {
+   "appeal": {
+    "cozy": 2.0
+   },
+   "category": "food",
+   "desc": "Share it with someone and your destinies intertwine. No refunds.",
+   "effect": {
+    "heal": 30.0
+   },
+   "id": "paopu_fruit",
+   "name": "Paopu Fruit",
+   "price": 280.0,
+   "tags": [
+    "food",
+    "fruit",
+    "romantic",
+    "rare"
+   ],
+   "world": "kingdom_hearts"
+  },
+  {
+   "appeal": {
+    "retro": 2.0
+   },
+   "category": "consumable",
+   "desc": "Makes you feel about twice as big as you are.",
+   "effect": {
+    "heal": 50.0
+   },
+   "id": "super_mushroom",
+   "name": "Super Mushroom",
+   "price": 80.0,
+   "tags": [
+    "mushroom",
+    "powerup"
+   ],
+   "world": "mario"
+  },
+  {
+   "appeal": {
+    "intense": 1.0,
+    "retro": 1.0
+   },
+   "category": "consumable",
+   "desc": "Handle with oven mitts.",
+   "effect": {
+    "buff_atk": 5.0
+   },
+   "id": "fire_flower",
+   "name": "Fire Flower",
+   "price": 160.0,
+   "tags": [
+    "powerup",
+    "fire",
+    "plant"
+   ],
+   "world": "mario"
+  },
+  {
+   "appeal": {
+    "modern": 1.0,
+    "retro": 1.0
+   },
+   "category": "consumable",
+   "desc": "Refreshingly dangerous.",
+   "effect": {
+    "buff_def": 5.0
+   },
+   "id": "ice_flower",
+   "name": "Ice Flower",
+   "price": 160.0,
+   "tags": [
+    "powerup",
+    "ice",
+    "plant"
+   ],
+   "world": "mario"
+  },
+  {
+   "appeal": {
+    "intense": 1.0,
+    "retro": 2.0
+   },
+   "category": "consumable",
+   "desc": "Brief invincibility and an overwhelming urge to run at things.",
+   "effect": {
+    "invincible": 8.0
+   },
+   "id": "starman",
+   "name": "Starman",
+   "price": 700.0,
+   "tags": [
+    "powerup",
+    "rare",
+    "light"
+   ],
+   "world": "mario"
+  },
+  {
+   "appeal": {
+    "retro": 2.0
+   },
+   "category": "consumable",
+   "desc": "A second chance in fungus form.",
+   "effect": {
+    "revive": 1.0
+   },
+   "id": "one_up_mushroom",
+   "name": "1-Up Mushroom",
+   "price": 550.0,
+   "tags": [
+    "mushroom",
+    "rare",
+    "revive"
+   ],
+   "world": "mario"
+  },
+  {
+   "appeal": {
+    "retro": 1.0
+   },
+   "category": "material",
+   "desc": "Sturdy, aerodynamic, previously occupied.",
+   "id": "koopa_shell",
+   "name": "Koopa Shell",
+   "price": 70.0,
+   "tags": [
+    "shell",
+    "projectile"
+   ],
+   "world": "mario"
+  },
+  {
+   "appeal": {
+    "cozy": 2.0
+   },
+   "category": "treasure",
+   "desc": "Speckled and warm. Please do not sell to hungry customers.",
+   "id": "yoshi_egg",
+   "name": "Yoshi Egg",
+   "price": 450.0,
+   "tags": [
+    "egg",
+    "cute",
+    "rare"
+   ],
+   "world": "mario"
+  },
+  {
+   "appeal": {
+    "retro": 1.0
+   },
+   "category": "accessory",
+   "desc": "Grants a dramatic yellow cape and improved hang time.",
+   "id": "cape_feather",
+   "name": "Cape Feather",
+   "price": 320.0,
+   "slot": "accessory",
+   "stats": {
+    "spd": 3.0
+   },
+   "tags": [
+    "flight",
+    "powerup"
+   ],
+   "world": "mario"
+  },
+  {
+   "appeal": {
+    "cozy": 1.0,
+    "retro": 1.0
+   },
+   "category": "accessory",
+   "desc": "Ears and a tail included. Statue mode sold separately.",
+   "id": "tanooki_leaf",
+   "name": "Tanooki Leaf",
+   "price": 340.0,
+   "slot": "accessory",
+   "stats": {
+    "def": 3.0
+   },
+   "tags": [
+    "powerup",
+    "plant"
+   ],
+   "world": "mario"
+  },
+  {
+   "appeal": {
+    "intense": 1.0,
+    "retro": 1.0
+   },
+   "category": "consumable",
+   "desc": "Shakes the entire room. Handle gently.",
+   "effect": {
+    "aoe_damage": 30.0
+   },
+   "id": "pow_block",
+   "name": "POW Block",
+   "price": 200.0,
+   "tags": [
+    "explosive",
+    "blue"
+   ],
+   "world": "mario"
+  },
+  {
+   "appeal": {
+    "retro": 1.0
+   },
+   "category": "treasure",
+   "desc": "It goes 'bling' when you collect it. Endlessly satisfying.",
+   "id": "gold_coin",
+   "name": "Gold Coin",
+   "price": 25.0,
+   "tags": [
+    "valuable",
+    "coin"
+   ],
+   "world": "mario"
+  },
+  {
+   "appeal": {
+    "retro": 1.0
+   },
+   "category": "treasure",
+   "desc": "Worth more, and it knows it.",
+   "id": "red_coin",
+   "name": "Red Coin",
+   "price": 120.0,
+   "tags": [
+    "valuable",
+    "coin",
+    "rare"
+   ],
+   "world": "mario"
+  },
+  {
+   "appeal": {
+    "intense": 2.0
+   },
+   "category": "consumable",
+   "desc": "It is alive and it is ticking. Store away from the POW blocks.",
+   "effect": {
+    "aoe_damage": 45.0
+   },
+   "id": "mario_bobomb",
+   "name": "Bob-omb",
+   "price": 180.0,
+   "tags": [
+    "explosive"
+   ],
+   "world": "mario"
+  },
+  {
+   "appeal": {
+    "retro": 2.0
+   },
+   "category": "treasure",
+   "desc": "Summons a very punctual tornado.",
+   "id": "warp_whistle",
+   "name": "Warp Whistle",
+   "price": 800.0,
+   "tags": [
+    "music",
+    "rare",
+    "travel"
+   ],
+   "world": "mario"
+  },
+  {
+   "appeal": {
+    "cozy": 1.0,
+    "modern": 1.0
+   },
+   "category": "treasure",
+   "desc": "Property of a frequently kidnapped monarch.",
+   "id": "royal_crown",
+   "name": "Royal Crown",
+   "price": 1500.0,
+   "tags": [
+    "valuable",
+    "royal",
+    "rare"
+   ],
+   "world": "mario"
+  },
+  {
+   "appeal": {
+    "retro": 2.0
+   },
+   "category": "weapon",
+   "desc": "For carpentry, chiefly. Chiefly.",
+   "id": "mario_hammer",
+   "name": "Sturdy Hammer",
+   "price": 900.0,
+   "stats": {
+    "atk": 7.0
+   },
+   "tags": [
+    "hammer"
+   ],
+   "weapon_type": "hammer",
+   "world": "mario"
+  },
+  {
+   "appeal": {
+    "intense": 2.0
+   },
+   "category": "weapon",
+   "desc": "Less a sword, more a wall with ambitions.",
+   "id": "buster_sword",
+   "name": "Buster Sword",
+   "price": 4500.0,
+   "stats": {
+    "atk": 16.0
+   },
+   "tags": [
+    "sword",
+    "huge",
+    "legendary"
+   ],
+   "weapon_type": "greatsword",
+   "world": "final_fantasy"
+  },
+  {
+   "appeal": {
+    "modern": 1.0
+   },
+   "category": "weapon",
+   "desc": "Light, sharp, dependable.",
+   "id": "mythril_sword",
+   "name": "Mythril Sword",
+   "price": 2200.0,
+   "stats": {
+    "atk": 11.0
+   },
+   "tags": [
+    "sword",
+    "metal"
+   ],
+   "weapon_type": "greatsword",
+   "world": "final_fantasy"
+  },
+  {
+   "appeal": {
+    "cozy": 1.0
+   },
+   "category": "consumable",
+   "desc": "A soft feather that argues with death and usually wins.",
+   "effect": {
+    "revive": 1.0
+   },
+   "id": "phoenix_down",
+   "name": "Phoenix Down",
+   "price": 500.0,
+   "tags": [
+    "revive",
+    "feather",
+    "rare"
+   ],
+   "world": "final_fantasy"
+  },
+  {
+   "appeal": {
+    "cozy": 1.0
+   },
+   "category": "consumable",
+   "desc": "The classic blue bottle.",
+   "effect": {
+    "heal": 40.0
+   },
+   "id": "ff_potion",
+   "name": "FF Potion",
+   "price": 70.0,
+   "tags": [
+    "healing",
+    "bottle"
+   ],
+   "world": "final_fantasy"
+  },
+  {
+   "appeal": {
+    "cozy": 1.0
+   },
+   "category": "consumable",
+   "desc": "Like a potion, but taller.",
+   "effect": {
+    "heal": 100.0
+   },
+   "id": "hi_potion",
+   "name": "Hi-Potion",
+   "price": 220.0,
+   "tags": [
+    "healing",
+    "bottle"
+   ],
+   "world": "final_fantasy"
+  },
+  {
+   "appeal": {
+    "modern": 1.0
+   },
+   "category": "consumable",
+   "desc": "Restores magical energy and smells of static.",
+   "effect": {
+    "meter": 60.0
+   },
+   "id": "ff_ether",
+   "name": "FF Ether",
+   "price": 250.0,
+   "tags": [
+    "magic",
+    "bottle"
+   ],
+   "world": "final_fantasy"
+  },
+  {
+   "appeal": {
+    "modern": 1.0
+   },
+   "category": "consumable",
+   "desc": "Everyone owns one. No one has ever used one.",
+   "effect": {
+    "heal": 999.0,
+    "meter": 100.0
+   },
+   "id": "ff_elixir",
+   "name": "FF Elixir",
+   "price": 900.0,
+   "tags": [
+    "healing",
+    "magic",
+    "rare"
+   ],
+   "world": "final_fantasy"
+  },
+  {
+   "appeal": {
+    "modern": 2.0
+   },
+   "category": "material",
+   "desc": "Crystallized knowledge of the planet. Slightly slippery.",
+   "id": "materia",
+   "name": "Materia",
+   "price": 800.0,
+   "tags": [
+    "magic",
+    "orb",
+    "rare"
+   ],
+   "world": "final_fantasy"
+  },
+  {
+   "appeal": {
+    "cozy": 1.0
+   },
+   "category": "material",
+   "desc": "Warm yellow. Smells faintly of greens. Kweh.",
+   "id": "chocobo_feather",
+   "name": "Chocobo Feather",
+   "price": 150.0,
+   "tags": [
+    "feather",
+    "bird"
+   ],
+   "world": "final_fantasy"
+  },
+  {
+   "appeal": {
+    "cozy": 2.0
+   },
+   "category": "consumable",
+   "desc": "Sets itself up at save points. Union rules.",
+   "effect": {
+    "heal": 200.0
+   },
+   "id": "ff_tent",
+   "name": "Tent",
+   "price": 300.0,
+   "tags": [
+    "camping",
+    "rest"
+   ],
+   "world": "final_fantasy"
+  },
+  {
+   "appeal": {
+    "modern": 1.0
+   },
+   "category": "consumable",
+   "desc": "Cures everything except heartbreak and poor sales.",
+   "effect": {
+    "cure": 1.0,
+    "heal": 30.0
+   },
+   "id": "remedy",
+   "name": "Remedy",
+   "price": 350.0,
+   "tags": [
+    "healing",
+    "cure"
+   ],
+   "world": "final_fantasy"
+  },
+  {
+   "appeal": {
+    "intense": 1.0
+   },
+   "category": "consumable",
+   "desc": "Liquid confidence.",
+   "effect": {
+    "buff_atk": 8.0
+   },
+   "id": "hero_drink",
+   "name": "Hero Drink",
+   "price": 650.0,
+   "tags": [
+    "buff",
+    "rare"
+   ],
+   "world": "final_fantasy"
+  },
+  {
+   "appeal": {
+    "intense": 1.0
+   },
+   "category": "armor",
+   "desc": "Legendary armament of a legendary thief's wishlist.",
+   "id": "genji_glove",
+   "name": "Genji Glove",
+   "price": 1800.0,
+   "slot": "armor",
+   "stats": {
+    "atk": 3.0,
+    "def": 8.0
+   },
+   "tags": [
+    "armor",
+    "legendary"
+   ],
+   "world": "final_fantasy"
+  },
+  {
+   "appeal": {
+    "cozy": 2.0
+   },
+   "category": "accessory",
+   "desc": "Deceptively adorable. Blocks nearly every misfortune known.",
+   "effect": {
+    "status_immunity": 1.0
+   },
+   "id": "ff_ribbon",
+   "name": "Ribbon",
+   "price": 2500.0,
+   "slot": "accessory",
+   "stats": {
+    "def": 6.0
+   },
+   "tags": [
+    "protective",
+    "cute",
+    "legendary"
+   ],
+   "world": "final_fantasy"
+  },
+  {
+   "appeal": {
+    "modern": 1.0
+   },
+   "category": "material",
+   "desc": "A fragment of the Crystal Ruins. Hums in four-part harmony.",
+   "id": "crystal_shard_ff",
+   "name": "Crystal Shard",
+   "price": 550.0,
+   "tags": [
+    "shard",
+    "crystal",
+    "rare"
+   ],
+   "world": "final_fantasy"
+  },
+  {
+   "appeal": {
+    "intense": 1.0,
+    "retro": 2.0
+   },
+   "category": "weapon",
+   "desc": "The blade of evil's bane. Sells itself, refuses to be sold.",
+   "id": "master_sword",
+   "name": "Master Sword",
+   "price": 8000.0,
+   "stats": {
+    "atk": 20.0
+   },
+   "tags": [
+    "sword",
+    "legendary",
+    "light"
+   ],
+   "weapon_type": "sword_shield",
+   "world": "zelda"
+  },
+  {
+   "appeal": {
+    "intense": 1.0,
+    "retro": 1.0
+   },
+   "category": "armor",
+   "desc": "Fireproof, arrow-proof, chicken-proof.",
+   "id": "hylian_shield",
+   "name": "Hylian Shield",
+   "price": 3000.0,
+   "slot": "armor",
+   "stats": {
+    "def": 10.0
+   },
+   "tags": [
+    "shield",
+    "legendary"
+   ],
+   "world": "zelda"
+  },
+  {
+   "appeal": {
+    "retro": 1.0
+   },
+   "category": "armor",
+   "desc": "Extremely flammable. Sold as-is.",
+   "id": "wooden_shield",
+   "name": "Wooden Shield",
+   "price": 200.0,
+   "slot": "armor",
+   "stats": {
+    "def": 3.0
+   },
+   "tags": [
+    "shield",
+    "wood"
+   ],
+   "world": "zelda"
+  },
+  {
+   "appeal": {
+    "retro": 2.0
+   },
+   "category": "accessory",
+   "desc": "Always comes back. Unlike some customers.",
+   "id": "zelda_boomerang",
+   "name": "Boomerang",
+   "price": 400.0,
+   "slot": "accessory",
+   "stats": {
+    "atk": 1.0,
+    "spd": 2.0
+   },
+   "tags": [
+    "throwing",
+    "wood"
+   ],
+   "world": "zelda"
+  },
+  {
+   "appeal": {
+    "modern": 1.0,
+    "retro": 1.0
+   },
+   "category": "accessory",
+   "desc": "Grappling hook, spring-loaded, satisfaction guaranteed.",
+   "id": "hookshot",
+   "name": "Hookshot",
+   "price": 900.0,
+   "slot": "accessory",
+   "stats": {
+    "spd": 3.0
+   },
+   "tags": [
+    "tool",
+    "chain"
+   ],
+   "world": "zelda"
+  },
+  {
+   "appeal": {
+    "intense": 1.0
+   },
+   "category": "consumable",
+   "desc": "A bag of bombs. The bag is the safe part.",
+   "effect": {
+    "aoe_damage": 40.0
+   },
+   "id": "bomb_bag",
+   "name": "Bomb Bag",
+   "price": 350.0,
+   "tags": [
+    "explosive",
+    "bag"
+   ],
+   "world": "zelda"
+  },
+  {
+   "appeal": {
+    "cozy": 2.0
+   },
+   "category": "consumable",
+   "desc": "Contains one (1) very patient fairy.",
+   "effect": {
+    "heal": 80.0,
+    "revive": 1.0
+   },
+   "id": "fairy_bottle",
+   "name": "Fairy Bottle",
+   "price": 700.0,
+   "tags": [
+    "bottle",
+    "fairy",
+    "revive",
+    "rare"
+   ],
+   "world": "zelda"
+  },
+  {
+   "appeal": {
+    "retro": 2.0
+   },
+   "category": "treasure",
+   "desc": "A crystallized extra helping of life itself.",
+   "effect": {
+    "max_hp": 20.0
+   },
+   "id": "heart_container",
+   "name": "Heart Container",
+   "price": 2000.0,
+   "tags": [
+    "heart",
+    "rare",
+    "legendary"
+   ],
+   "world": "zelda"
+  },
+  {
+   "appeal": {
+    "modern": 1.0
+   },
+   "category": "consumable",
+   "desc": "Tastes green.",
+   "effect": {
+    "meter": 60.0
+   },
+   "id": "green_potion",
+   "name": "Green Potion",
+   "price": 120.0,
+   "tags": [
+    "bottle",
+    "magic"
+   ],
+   "world": "zelda"
+  },
+  {
+   "appeal": {
+    "modern": 1.0
+   },
+   "category": "consumable",
+   "desc": "The expensive one.",
+   "effect": {
+    "heal": 120.0,
+    "meter": 60.0
+   },
+   "id": "blue_potion",
+   "name": "Blue Potion",
+   "price": 400.0,
+   "tags": [
+    "bottle",
+    "healing",
+    "magic"
+   ],
+   "world": "zelda"
+  },
+  {
+   "appeal": {
+    "cozy": 1.0
+   },
+   "category": "consumable",
+   "desc": "A classic. Pairs well with pot-smashing.",
+   "effect": {
+    "heal": 80.0
+   },
+   "id": "red_potion",
+   "name": "Red Potion",
+   "price": 150.0,
+   "tags": [
+    "bottle",
+    "healing"
+   ],
+   "world": "zelda"
+  },
+  {
+   "appeal": {
+    "retro": 1.0
+   },
+   "category": "consumable",
+   "desc": "Blinding flash on impact. Not a snack.",
+   "effect": {
+    "stun": 2.0
+   },
+   "id": "deku_nut",
+   "name": "Deku Nut",
+   "price": 60.0,
+   "tags": [
+    "nut",
+    "flash"
+   ],
+   "world": "zelda"
+  },
+  {
+   "appeal": {
+    "retro": 1.0
+   },
+   "category": "treasure",
+   "desc": "Currency of Hyrule, found primarily in tall grass.",
+   "id": "rupee",
+   "name": "Rupee",
+   "price": 40.0,
+   "tags": [
+    "valuable",
+    "gem"
+   ],
+   "world": "zelda"
+  },
+  {
+   "appeal": {
+    "retro": 1.0
+   },
+   "category": "treasure",
+   "desc": "Opens exactly one door, somewhere.",
+   "id": "small_key",
+   "name": "Small Key",
+   "price": 90.0,
+   "tags": [
+    "key"
+   ],
+   "world": "zelda"
+  },
+  {
+   "appeal": {
+    "modern": 1.0,
+    "retro": 2.0
+   },
+   "category": "material",
+   "desc": "A sliver of divine power. Glows smugly.",
+   "id": "triforce_fragment",
+   "name": "Triforce Fragment",
+   "price": 3000.0,
+   "tags": [
+    "legendary",
+    "gold",
+    "rare"
+   ],
+   "world": "zelda"
+  },
+  {
+   "appeal": {
+    "cozy": 1.0
+   },
+   "category": "material",
+   "desc": "Sturdy lumber from the Lost Woods. Occasionally mutters.",
+   "id": "deku_wood",
+   "name": "Deku Wood",
+   "price": 80.0,
+   "tags": [
+    "wood"
+   ],
+   "world": "zelda"
+  },
+  {
+   "appeal": {
+    "intense": 1.0
+   },
+   "category": "weapon",
+   "desc": "Standard issue. Buy in bulk.",
+   "id": "kunai",
+   "name": "Kunai",
+   "price": 150.0,
+   "stats": {
+    "atk": 4.0
+   },
+   "tags": [
+    "ninja",
+    "throwing",
+    "blade"
+   ],
+   "weapon_type": "ninja_tool",
+   "world": "naruto"
+  },
+  {
+   "appeal": {
+    "intense": 1.0
+   },
+   "category": "consumable",
+   "desc": "Pointy in every direction.",
+   "effect": {
+    "ranged_damage": 15.0
+   },
+   "id": "shuriken",
+   "name": "Shuriken",
+   "price": 80.0,
+   "tags": [
+    "ninja",
+    "throwing"
+   ],
+   "world": "naruto"
+  },
+  {
+   "appeal": {
+    "intense": 2.0
+   },
+   "category": "consumable",
+   "desc": "Paper that goes boom. Keep away from the ramen steam.",
+   "effect": {
+    "aoe_damage": 50.0
+   },
+   "id": "explosive_tag",
+   "name": "Explosive Tag",
+   "price": 220.0,
+   "tags": [
+    "ninja",
+    "explosive",
+    "paper"
+   ],
+   "world": "naruto"
+  },
+  {
+   "appeal": {
+    "intense": 1.0
+   },
+   "category": "consumable",
+   "desc": "Tastes terrible, works great.",
+   "effect": {
+    "buff_atk": 4.0,
+    "heal": 60.0
+   },
+   "id": "soldier_pill",
+   "name": "Soldier Pill",
+   "price": 300.0,
+   "tags": [
+    "pill",
+    "buff",
+    "food"
+   ],
+   "world": "naruto"
+  },
+  {
+   "appeal": {
+    "modern": 1.0
+   },
+   "category": "consumable",
+   "desc": "Concentrated energy in candy form.",
+   "effect": {
+    "meter": 80.0
+   },
+   "id": "chakra_pill",
+   "name": "Chakra Pill",
+   "price": 320.0,
+   "tags": [
+    "pill",
+    "magic"
+   ],
+   "world": "naruto"
+  },
+  {
+   "appeal": {
+    "retro": 1.0
+   },
+   "category": "material",
+   "desc": "Covered in techniques you are not supposed to read.",
+   "id": "ninja_scroll",
+   "name": "Ninja Scroll",
+   "price": 400.0,
+   "tags": [
+    "scroll",
+    "paper"
+   ],
+   "world": "naruto"
+  },
+  {
+   "appeal": {
+    "intense": 1.0,
+    "retro": 1.0
+   },
+   "category": "material",
+   "desc": "Sign in blood. Standard contract stuff.",
+   "id": "summoning_scroll",
+   "name": "Summoning Scroll",
+   "price": 1200.0,
+   "tags": [
+    "scroll",
+    "rare",
+    "summon"
+   ],
+   "world": "naruto"
+  },
+  {
+   "appeal": {
+    "intense": 1.0
+   },
+   "category": "accessory",
+   "desc": "Village affiliation sold separately.",
+   "id": "forehead_protector",
+   "name": "Forehead Protector",
+   "price": 350.0,
+   "slot": "accessory",
+   "stats": {
+    "def": 2.0,
+    "spd": 1.0
+   },
+   "tags": [
+    "ninja",
+    "headband"
+   ],
+   "world": "naruto"
+  },
+  {
+   "appeal": {
+    "intense": 2.0
+   },
+   "category": "material",
+   "desc": "Do not make eye contact with the merchandise.",
+   "id": "sharingan_fragment",
+   "name": "Sharingan Fragment",
+   "price": 2500.0,
+   "tags": [
+    "eye",
+    "rare",
+    "creepy"
+   ],
+   "world": "naruto"
+  },
+  {
+   "appeal": {
+    "modern": 1.0
+   },
+   "category": "material",
+   "desc": "Solidified spiritual energy, faintly warm.",
+   "id": "chakra_crystal",
+   "name": "Chakra Crystal",
+   "price": 900.0,
+   "tags": [
+    "crystal",
+    "magic",
+    "rare"
+   ],
+   "world": "naruto"
+  },
+  {
+   "appeal": {
+    "cozy": 2.0
+   },
+   "category": "food",
+   "desc": "Miso, extra chashu. The house specialty of a certain stand.",
+   "effect": {
+    "heal": 45.0
+   },
+   "id": "ramen_bowl",
+   "name": "Ramen Bowl",
+   "price": 90.0,
+   "tags": [
+    "food",
+    "noodles",
+    "hot"
+   ],
+   "world": "naruto"
+  },
+  {
+   "appeal": {
+    "cozy": 2.0
+   },
+   "category": "treasure",
+   "desc": "All-you-can-eat. Financially ruinous for the issuer.",
+   "id": "ichiraku_ticket",
+   "name": "Ichiraku Meal Ticket",
+   "price": 500.0,
+   "tags": [
+    "food",
+    "ticket",
+    "rare"
+   ],
+   "world": "naruto"
+  },
+  {
+   "appeal": {
+    "intense": 2.0
+   },
+   "category": "armor",
+   "desc": "Heavier than they look. That is the point.",
+   "id": "training_weights",
+   "name": "Training Weights",
+   "price": 800.0,
+   "slot": "armor",
+   "stats": {
+    "atk": 3.0,
+    "def": 5.0,
+    "spd": -1.0
+   },
+   "tags": [
+    "training",
+    "heavy"
+   ],
+   "world": "naruto"
+  },
+  {
+   "appeal": {
+    "intense": 1.0
+   },
+   "category": "consumable",
+   "desc": "For dramatic exits and awkward conversations.",
+   "effect": {
+    "escape": 1.0
+   },
+   "id": "smoke_bomb",
+   "name": "Smoke Bomb",
+   "price": 130.0,
+   "tags": [
+    "ninja",
+    "escape"
+   ],
+   "world": "naruto"
+  },
+  {
+   "appeal": {
+    "intense": 1.0,
+    "retro": 1.0
+   },
+   "category": "treasure",
+   "desc": "Proof of an encounter with one of the three legends.",
+   "id": "sannin_token",
+   "name": "Legendary Sannin Token",
+   "price": 3500.0,
+   "tags": [
+    "legendary",
+    "rare",
+    "coin"
+   ],
+   "world": "naruto"
+  },
+  {
+   "appeal": {
+    "modern": 1.0,
+    "retro": 2.0
+   },
+   "category": "treasure",
+   "desc": "One of seven. Collect the set, get one wish. Collector demand is absurd.",
+   "id": "dragon_ball",
+   "name": "Dragon Ball",
+   "price": 5000.0,
+   "tags": [
+    "legendary",
+    "orb",
+    "rare"
+   ],
+   "world": "dragon_ball"
+  },
+  {
+   "appeal": {
+    "cozy": 1.0
+   },
+   "category": "consumable",
+   "desc": "Full recovery in one bite. Chew thoroughly.",
+   "effect": {
+    "heal": 999.0
+   },
+   "id": "senzu_bean",
+   "name": "Senzu Bean",
+   "price": 800.0,
+   "tags": [
+    "healing",
+    "bean",
+    "rare",
+    "food"
+   ],
+   "world": "dragon_ball"
+  },
+  {
+   "appeal": {
+    "modern": 2.0
+   },
+   "category": "material",
+   "desc": "Click, poof: anything from a bike to a house. Patent fiercely defended.",
+   "id": "capsule",
+   "name": "Capsule",
+   "price": 300.0,
+   "tags": [
+    "technology",
+    "capsule"
+   ],
+   "world": "dragon_ball"
+  },
+  {
+   "appeal": {
+    "modern": 2.0
+   },
+   "category": "accessory",
+   "desc": "Beeps near treasure. Warranty void near wishes.",
+   "effect": {
+    "loot_bonus": 1.0
+   },
+   "id": "dragon_radar",
+   "name": "Dragon Radar",
+   "price": 1500.0,
+   "slot": "accessory",
+   "stats": {
+    "spd": 2.0
+   },
+   "tags": [
+    "technology",
+    "rare"
+   ],
+   "world": "dragon_ball"
+  },
+  {
+   "appeal": {
+    "modern": 2.0
+   },
+   "category": "accessory",
+   "desc": "Displays power levels. Prone to shattering at dramatic moments.",
+   "id": "scouter",
+   "name": "Scouter",
+   "price": 900.0,
+   "slot": "accessory",
+   "stats": {
+    "atk": 2.0
+   },
+   "tags": [
+    "technology"
+   ],
+   "world": "dragon_ball"
+  },
+  {
+   "appeal": {
+    "intense": 1.0,
+    "retro": 1.0
+   },
+   "category": "armor",
+   "desc": "Bright orange. Zero stealth value, infinite style.",
+   "id": "turtle_gi",
+   "name": "Turtle School Gi",
+   "price": 1100.0,
+   "slot": "armor",
+   "stats": {
+    "atk": 2.0,
+    "def": 6.0
+   },
+   "tags": [
+    "clothing",
+    "training"
+   ],
+   "world": "dragon_ball"
+  },
+  {
+   "appeal": {
+    "intense": 1.0,
+    "modern": 1.0
+   },
+   "category": "armor",
+   "desc": "Stretches with any transformation. Shoulder pads optional.",
+   "id": "saiyan_armor",
+   "name": "Saiyan Armor",
+   "price": 2200.0,
+   "slot": "armor",
+   "stats": {
+    "def": 9.0
+   },
+   "tags": [
+    "armor",
+    "stretchy"
+   ],
+   "world": "dragon_ball"
+  },
+  {
+   "appeal": {
+    "retro": 2.0
+   },
+   "category": "weapon",
+   "desc": "Extends. A lot.",
+   "id": "power_pole",
+   "name": "Power Pole",
+   "price": 2800.0,
+   "stats": {
+    "atk": 12.0
+   },
+   "tags": [
+    "staff",
+    "legendary"
+   ],
+   "weapon_type": "martial",
+   "world": "dragon_ball"
+  },
+  {
+   "appeal": {
+    "intense": 2.0
+   },
+   "category": "armor",
+   "desc": "Take it off mid-fight for dramatic effect.",
+   "id": "weighted_clothing",
+   "name": "Weighted Clothing",
+   "price": 1300.0,
+   "slot": "armor",
+   "stats": {
+    "atk": 4.0,
+    "def": 7.0,
+    "spd": -1.0
+   },
+   "tags": [
+    "training",
+    "heavy"
+   ],
+   "world": "dragon_ball"
+  },
+  {
+   "appeal": {
+    "cozy": 1.0,
+    "retro": 1.0
+   },
+   "category": "treasure",
+   "desc": "Redeemable for one cloud ride. Pure of heart only.",
+   "id": "nimbus_token",
+   "name": "Flying Nimbus Token",
+   "price": 1800.0,
+   "tags": [
+    "cloud",
+    "rare",
+    "travel"
+   ],
+   "world": "dragon_ball"
+  },
+  {
+   "appeal": {
+    "cozy": 1.0
+   },
+   "category": "consumable",
+   "desc": "From the very top of the tower. Mostly placebo. Mostly.",
+   "effect": {
+    "buff_atk": 6.0,
+    "buff_def": 6.0
+   },
+   "id": "sacred_water",
+   "name": "Sacred Water",
+   "price": 1000.0,
+   "tags": [
+    "water",
+    "buff",
+    "rare"
+   ],
+   "world": "dragon_ball"
+  },
+  {
+   "appeal": {
+    "intense": 1.0
+   },
+   "category": "food",
+   "desc": "Serves one Saiyan or forty regular people.",
+   "effect": {
+    "heal": 120.0
+   },
+   "id": "dino_tail",
+   "name": "Dino Tail",
+   "price": 350.0,
+   "tags": [
+    "food",
+    "meat",
+    "huge"
+   ],
+   "world": "dragon_ball"
+  },
+  {
+   "appeal": {
+    "modern": 1.0
+   },
+   "category": "material",
+   "desc": "Stores ki. Occasionally shouts.",
+   "id": "energy_crystal",
+   "name": "Energy Crystal",
+   "price": 1100.0,
+   "tags": [
+    "crystal",
+    "magic",
+    "rare"
+   ],
+   "world": "dragon_ball"
+  },
+  {
+   "appeal": {
+    "modern": 2.0
+   },
+   "category": "material",
+   "desc": "Up to 100x gravity. Floor reinforcement not included.",
+   "id": "gravity_module",
+   "name": "Gravity Module",
+   "price": 2400.0,
+   "tags": [
+    "technology",
+    "training",
+    "rare"
+   ],
+   "world": "dragon_ball"
+  },
+  {
+   "appeal": {
+    "cozy": 1.0,
+    "modern": 2.0
+   },
+   "category": "treasure",
+   "desc": "A full house in your pocket. Real estate agents despise this.",
+   "id": "capsule_house",
+   "name": "Capsule House",
+   "price": 4000.0,
+   "tags": [
+    "technology",
+    "capsule",
+    "rare"
+   ],
+   "world": "dragon_ball"
+  },
+  {
+   "appeal": {
+    "modern": 1.0,
+    "retro": 1.0
+   },
+   "category": "consumable",
+   "desc": "Gotta sell 'em all.",
+   "effect": {
+    "capture": 1.0
+   },
+   "id": "poke_ball",
+   "name": "Pok\u00c3\u00a9 Ball",
+   "price": 200.0,
+   "tags": [
+    "ball",
+    "technology"
+   ],
+   "world": "pokemon"
+  },
+  {
+   "appeal": {
+    "modern": 1.0
+   },
+   "category": "consumable",
+   "desc": "Like a Pok\u00c3\u00a9 Ball, but great.",
+   "effect": {
+    "capture": 2.0
+   },
+   "id": "great_ball",
+   "name": "Great Ball",
+   "price": 600.0,
+   "tags": [
+    "ball",
+    "technology"
+   ],
+   "world": "pokemon"
+  },
+  {
+   "appeal": {
+    "modern": 2.0
+   },
+   "category": "consumable",
+   "desc": "Premium capture technology in a tasteful black and yellow.",
+   "effect": {
+    "capture": 3.0
+   },
+   "id": "ultra_ball",
+   "name": "Ultra Ball",
+   "price": 1200.0,
+   "tags": [
+    "ball",
+    "technology",
+    "rare"
+   ],
+   "world": "pokemon"
+  },
+  {
+   "appeal": {
+    "modern": 2.0
+   },
+   "category": "treasure",
+   "desc": "Never fails. Never duplicated. Never cheap.",
+   "effect": {
+    "capture": 99.0
+   },
+   "id": "master_ball",
+   "name": "Master Ball",
+   "price": 9000.0,
+   "tags": [
+    "ball",
+    "legendary",
+    "rare"
+   ],
+   "world": "pokemon"
+  },
+  {
+   "appeal": {
+    "modern": 1.0
+   },
+   "category": "consumable",
+   "desc": "A convenient spray-type medicine.",
+   "effect": {
+    "heal": 45.0
+   },
+   "id": "pkmn_potion",
+   "name": "Pok\u00c3\u00a9mon Potion",
+   "price": 90.0,
+   "tags": [
+    "healing",
+    "spray"
+   ],
+   "world": "pokemon"
+  },
+  {
+   "appeal": {
+    "modern": 2.0
+   },
+   "category": "consumable",
+   "desc": "Fixes everything. The champion's favorite stall tactic.",
+   "effect": {
+    "cure": 1.0,
+    "heal": 999.0
+   },
+   "id": "full_restore",
+   "name": "Full Restore",
+   "price": 900.0,
+   "tags": [
+    "healing",
+    "spray",
+    "rare"
+   ],
+   "world": "pokemon"
+  },
+  {
+   "appeal": {
+    "cozy": 1.0,
+    "modern": 1.0
+   },
+   "category": "consumable",
+   "desc": "Instant experience. Nutritionists remain baffled.",
+   "effect": {
+    "level_up": 1.0
+   },
+   "id": "rare_candy",
+   "name": "Rare Candy",
+   "price": 1500.0,
+   "tags": [
+    "food",
+    "sweet",
+    "rare"
+   ],
+   "world": "pokemon"
+  },
+  {
+   "appeal": {
+    "retro": 1.0
+   },
+   "category": "consumable",
+   "desc": "One-way trip to the entrance. Rope not reusable, physics unclear.",
+   "effect": {
+    "escape": 1.0
+   },
+   "id": "escape_rope",
+   "name": "Escape Rope",
+   "price": 250.0,
+   "tags": [
+    "rope",
+    "escape"
+   ],
+   "world": "pokemon"
+  },
+  {
+   "appeal": {
+    "retro": 2.0
+   },
+   "category": "treasure",
+   "desc": "The only affordable way to obtain a million-credit bicycle.",
+   "id": "bicycle_voucher",
+   "name": "Bicycle Voucher",
+   "price": 2000.0,
+   "tags": [
+    "ticket",
+    "rare"
+   ],
+   "world": "pokemon"
+  },
+  {
+   "appeal": {
+    "modern": 2.0,
+    "retro": 1.0
+   },
+   "category": "treasure",
+   "desc": "An encyclopedia that judges you for incomplete entries.",
+   "id": "pokedex",
+   "name": "Pok\u00c3\u00a9dex",
+   "price": 5000.0,
+   "tags": [
+    "technology",
+    "legendary",
+    "rare"
+   ],
+   "world": "pokemon"
+  },
+  {
+   "appeal": {
+    "modern": 1.0
+   },
+   "category": "material",
+   "desc": "Fell from the moon, allegedly.",
+   "id": "moon_stone",
+   "name": "Moon Stone",
+   "price": 800.0,
+   "tags": [
+    "stone",
+    "evolution"
+   ],
+   "world": "pokemon"
+  },
+  {
+   "appeal": {
+    "intense": 1.0
+   },
+   "category": "material",
+   "desc": "Warm forever. Great for cold shelves.",
+   "id": "fire_stone",
+   "name": "Fire Stone",
+   "price": 850.0,
+   "tags": [
+    "stone",
+    "evolution",
+    "fire"
+   ],
+   "world": "pokemon"
+  },
+  {
+   "appeal": {
+    "intense": 1.0
+   },
+   "category": "material",
+   "desc": "Do not stack near the Magnemite display.",
+   "id": "thunder_stone",
+   "name": "Thunder Stone",
+   "price": 850.0,
+   "tags": [
+    "stone",
+    "evolution",
+    "electric"
+   ],
+   "world": "pokemon"
+  },
+  {
+   "appeal": {
+    "cozy": 1.0
+   },
+   "category": "material",
+   "desc": "Perpetually damp in a pleasant way.",
+   "id": "water_stone",
+   "name": "Water Stone",
+   "price": 850.0,
+   "tags": [
+    "stone",
+    "evolution",
+    "water"
+   ],
+   "world": "pokemon"
+  },
+  {
+   "appeal": {
+    "cozy": 2.0
+   },
+   "category": "accessory",
+   "desc": "A warm egg that makes everything around it slightly luckier.",
+   "effect": {
+    "xp_bonus": 1.0
+   },
+   "id": "lucky_egg",
+   "name": "Lucky Egg",
+   "price": 1600.0,
+   "slot": "charm",
+   "tags": [
+    "egg",
+    "lucky",
+    "rare"
+   ],
+   "world": "pokemon"
+  },
+  {
+   "appeal": {
+    "intense": 1.0
+   },
+   "category": "accessory",
+   "desc": "Sometimes, against all odds, you hang on.",
+   "effect": {
+    "survive_ko": 1.0
+   },
+   "id": "focus_band",
+   "name": "Focus Band",
+   "price": 1000.0,
+   "slot": "charm",
+   "tags": [
+    "headband",
+    "protective"
+   ],
+   "world": "pokemon"
+  },
+  {
+   "appeal": {
+    "intense": 1.0
+   },
+   "category": "accessory",
+   "desc": "Squeeze rocks into juice.",
+   "id": "power_wrist",
+   "name": "Power Wrist",
+   "price": 700.0,
+   "slot": "charm",
+   "stats": {
+    "atk": 4.0
+   },
+   "tags": [
+    "training",
+    "glove"
+   ],
+   "world": "mario"
+  },
+  {
+   "appeal": {
+    "cozy": 2.0
+   },
+   "category": "accessory",
+   "desc": "A tiny bell blessed by a great fairy.",
+   "effect": {
+    "regen": 1.0
+   },
+   "id": "fairy_charm",
+   "name": "Fairy Charm",
+   "price": 850.0,
+   "slot": "charm",
+   "stats": {
+    "def": 3.0
+   },
+   "tags": [
+    "fairy",
+    "cute",
+    "protective"
+   ],
+   "world": "zelda"
+  },
+  {
+   "appeal": {
+    "cozy": 2.0
+   },
+   "category": "accessory",
+   "desc": "A star-shaped charm carved from paopu wood.",
+   "id": "paopu_charm",
+   "name": "Paopu Charm",
+   "price": 950.0,
+   "slot": "charm",
+   "stats": {
+    "atk": 2.0,
+    "def": 2.0
+   },
+   "tags": [
+    "charm",
+    "romantic",
+    "star"
+   ],
+   "world": "kingdom_hearts"
+  },
+  {
+   "appeal": {
+    "retro": 1.0
+   },
+   "category": "weapon",
+   "desc": "Attach to a Keyblade to change its destiny. Or to keys.",
+   "id": "keychain",
+   "name": "Oathkeeper Keyblade",
+   "price": 250.0,
+   "tags": [
+    "key",
+    "charm"
+   ],
+   "world": "kingdom_hearts"
+  },
+  {
+   "category": "key",
+   "desc": "A fragment of the World Bridge, humming with Traverse Town's lamplight.",
+   "id": "world_shard_kh",
+   "name": "World Shard: Traverse",
+   "price": 0.0,
+   "sellable": false,
+   "tags": [
+    "world_shard"
+   ],
+   "world": "kingdom_hearts"
+  },
+  {
+   "category": "key",
+   "desc": "A fragment of the World Bridge. Smells like fresh grass and coins.",
+   "id": "world_shard_mario",
+   "name": "World Shard: Mushroom",
+   "price": 0.0,
+   "sellable": false,
+   "tags": [
+    "world_shard"
+   ],
+   "world": "mario"
+  },
+  {
+   "category": "key",
+   "desc": "A fragment of the World Bridge, refracting a hundred sunsets.",
+   "id": "world_shard_ff",
+   "name": "World Shard: Crystal",
+   "price": 0.0,
+   "sellable": false,
+   "tags": [
+    "world_shard"
+   ],
+   "world": "final_fantasy"
+  },
+  {
+   "category": "key",
+   "desc": "A fragment of the World Bridge. Birds nest near it instinctively.",
+   "id": "world_shard_zelda",
+   "name": "World Shard: Hyrule",
+   "price": 0.0,
+   "sellable": false,
+   "tags": [
+    "world_shard"
+   ],
+   "world": "zelda"
+  },
+  {
+   "category": "key",
+   "desc": "A fragment of the World Bridge, wrapped in someone's old headband cloth.",
+   "id": "world_shard_naruto",
+   "name": "World Shard: Leaf",
+   "price": 0.0,
+   "sellable": false,
+   "tags": [
+    "world_shard"
+   ],
+   "world": "naruto"
+  },
+  {
+   "category": "key",
+   "desc": "A fragment of the World Bridge. Faintly warm, like a distant sunrise.",
+   "id": "world_shard_dbz",
+   "name": "World Shard: Lookout",
+   "price": 0.0,
+   "sellable": false,
+   "tags": [
+    "world_shard"
+   ],
+   "world": "dragon_ball"
+  },
+  {
+   "category": "key",
+   "desc": "The last fragment of the World Bridge. It buzzes: pika, pika.",
+   "id": "world_shard_pkmn",
+   "name": "World Shard: Viridian",
+   "price": 0.0,
+   "sellable": false,
+   "tags": [
+    "world_shard"
+   ],
+   "world": "pokemon"
+  },
+  {
+   "appeal": {
+    "intense": 2.0
+   },
+   "category": "accessory",
+   "desc": "A Fire Flower's spirit sealed in a Blaze Shard. Warm handshake included.",
+   "id": "flame_charm",
+   "name": "Flame Charm",
+   "price": 950.0,
+   "slot": "charm",
+   "stats": {
+    "atk": 6.0
+   },
+   "tags": [
+    "fire",
+    "charm",
+    "crafted"
+   ],
+   "world": "crossover"
+  },
+  {
+   "appeal": {
+    "cozy": 1.0,
+    "modern": 1.0
+   },
+   "category": "consumable",
+   "desc": "A Senzu Bean dissolved in Full Restore. Medically alarming, extremely effective.",
+   "effect": {
+    "cure": 1.0,
+    "heal": 999.0,
+    "revive": 1.0
+   },
+   "id": "perfect_recovery",
+   "name": "Perfect Recovery",
+   "price": 2200.0,
+   "tags": [
+    "healing",
+    "rare",
+    "crafted"
+   ],
+   "world": "crossover"
+  },
+  {
+   "appeal": {
+    "modern": 2.0
+   },
+   "category": "material",
+   "desc": "Materia infused with chakra. Glows in two colors and argues with itself.",
+   "id": "energy_materia",
+   "name": "Energy Materia",
+   "price": 2400.0,
+   "tags": [
+    "magic",
+    "orb",
+    "rare",
+    "crafted"
+   ],
+   "world": "crossover"
+  },
+  {
+   "appeal": {
+    "cozy": 2.0
+   },
+   "category": "consumable",
+   "desc": "A fairy wearing a tiny phoenix-feather cloak. She insists it's fashion.",
+   "effect": {
+    "heal": 200.0,
+    "revive": 1.0
+   },
+   "id": "revival_fairy",
+   "name": "Revival Fairy",
+   "price": 1800.0,
+   "tags": [
+    "fairy",
+    "revive",
+    "rare",
+    "crafted"
+   ],
+   "world": "crossover"
+  },
+  {
+   "appeal": {
+    "intense": 2.0
+   },
+   "category": "accessory",
+   "desc": "A Thunder Stone core wrapped in Thunder Shard filigree. Hair-raising.",
+   "id": "storm_pendant",
+   "name": "Storm Pendant",
+   "price": 2000.0,
+   "slot": "charm",
+   "stats": {
+    "atk": 5.0,
+    "spd": 3.0
+   },
+   "tags": [
+    "electric",
+    "charm",
+    "crafted"
+   ],
+   "world": "crossover"
+  },
+  {
+   "appeal": {
+    "cozy": 1.0,
+    "intense": 1.0
+   },
+   "category": "food",
+   "desc": "Mushroom-glazed soldier pill skewers. The mushroom makes it a meal.",
+   "effect": {
+    "buff_atk": 5.0,
+    "heal": 150.0
+   },
+   "id": "heros_meal",
+   "name": "Hero's Meal",
+   "price": 700.0,
+   "tags": [
+    "food",
+    "buff",
+    "crafted"
+   ],
+   "world": "crossover"
+  },
+  {
+   "appeal": {
+    "modern": 2.0
+   },
+   "category": "consumable",
+   "desc": "Capsule Corp engineering meets Silph Co design. Both legal teams are furious.",
+   "effect": {
+    "capture": 3.0,
+    "loot_bonus": 1.0
+   },
+   "id": "pocket_capsule",
+   "name": "Pocket Capsule",
+   "price": 1400.0,
+   "tags": [
+    "technology",
+    "capsule",
+    "crafted"
+   ],
+   "world": "crossover"
+  },
+  {
+   "appeal": {
+    "intense": 1.0,
+    "retro": 2.0
+   },
+   "category": "weapon",
+   "desc": "A Keyblade humming with a Triforce fragment. Opens hearts AND treasure chests.",
+   "id": "courage_keyblade",
+   "name": "Courage Keyblade",
+   "price": 7500.0,
+   "stats": {
+    "atk": 18.0
+   },
+   "tags": [
+    "sword",
+    "key",
+    "legendary",
+    "crafted"
+   ],
+   "weapon_type": "keyblade",
+   "world": "crossover"
+  },
+  {
+   "appeal": {
+    "retro": 2.0
+   },
+   "category": "weapon",
+   "desc": "Power Pole grain fused with Deku heartwood. Extends AND mutters.",
+   "id": "ancient_staff",
+   "name": "Ancient Staff",
+   "price": 5200.0,
+   "stats": {
+    "atk": 14.0,
+    "spd": 2.0
+   },
+   "tags": [
+    "staff",
+    "wood",
+    "legendary",
+    "crafted"
+   ],
+   "weapon_type": "martial",
+   "world": "crossover"
+  },
+  {
+   "appeal": {
+    "cozy": 1.0,
+    "retro": 1.0
+   },
+   "category": "food",
+   "desc": "Ramen topped with sea-salt ice cream. Reviews are split exactly 50/50.",
+   "effect": {
+    "heal": 100.0
+   },
+   "id": "questionable_combo_meal",
+   "name": "Questionable Combo Meal",
+   "price": 300.0,
+   "tags": [
+    "food",
+    "weird",
+    "crafted"
+   ],
+   "world": "crossover"
+  },
+  {
+   "appeal": {
+    "cozy": 1.0,
+    "retro": 2.0
+   },
+   "category": "weapon",
+   "desc": "A Starman lashed to a sturdy hammer. Technically a wand. Legally a hammer.",
+   "id": "star_rod_replica",
+   "name": "Star Rod Replica",
+   "price": 3600.0,
+   "stats": {
+    "atk": 12.0
+   },
+   "tags": [
+    "star",
+    "crafted",
+    "rare"
+   ],
+   "weapon_type": "hammer",
+   "world": "crossover"
+  },
+  {
+   "appeal": {
+    "cozy": 2.0
+   },
+   "category": "accessory",
+   "desc": "A ninja substitution log dressed as a Pok\u00c3\u00a9mon doll. Takes one hit for you, judges you after.",
+   "effect": {
+    "survive_ko": 1.0
+   },
+   "id": "substitute_plush",
+   "name": "Substitute Plush",
+   "price": 1300.0,
+   "slot": "charm",
+   "tags": [
+    "cute",
+    "crafted",
+    "protective"
+   ],
+   "world": "crossover"
+  },
+  {
+   "category": "weapon",
+   "desc": "",
+   "id": "lady_luck_keyblade",
+   "name": "Lady Luck Keyblade",
+   "needs_ai_balance": true,
+   "needs_description": true,
+   "price": 420,
+   "tags": [],
+   "world": "kingdom_hearts"
+  },
+  {
+   "category": "treasure",
+   "desc": "",
+   "id": "pink_yoshi_egg",
+   "name": "Pink Yoshi Egg",
+   "needs_ai_balance": true,
+   "needs_description": true,
+   "price": 120.0,
+   "tags": [],
+   "world": "mario"
+  },
+  {
+   "category": "misc",
+   "desc": "",
+   "id": "blue_yoshi_egg",
+   "name": "Blue Yoshi Egg",
+   "needs_ai_balance": true,
+   "needs_description": true,
+   "price": 120,
+   "tags": [],
+   "world": "crossover"
+  },
+  {
+   "category": "misc",
+   "desc": "",
+   "id": "red_yoshi_egg",
+   "name": "Red Yoshi Egg",
+   "needs_ai_balance": true,
+   "needs_description": true,
+   "price": 120,
+   "tags": [],
+   "world": "crossover"
+  },
+  {
+   "category": "misc",
+   "desc": "",
+   "id": "orange_yoshi_egg",
+   "name": "Orange Yoshi Egg",
+   "needs_ai_balance": true,
+   "needs_description": true,
+   "price": 120,
+   "tags": [],
+   "world": "crossover"
+  },
+  {
+   "category": "misc",
+   "desc": "",
+   "id": "aqua_yoshi_egg",
+   "name": "Aqua Yoshi Egg",
+   "needs_ai_balance": true,
+   "needs_description": true,
+   "price": 120,
+   "tags": [],
+   "world": "crossover"
+  },
+  {
+   "category": "misc",
+   "desc": "",
+   "id": "hee_bean",
+   "name": "Hee Bean",
+   "needs_ai_balance": true,
+   "needs_description": true,
+   "price": 120,
+   "tags": [],
+   "world": "mario"
+  },
+  {
+   "category": "misc",
+   "desc": "",
+   "id": "chuckle_bean",
+   "name": "Chuckle Bean",
+   "needs_ai_balance": true,
+   "needs_description": true,
+   "price": 120,
+   "tags": [],
+   "world": "crossover"
+  },
+  {
+   "category": "misc",
+   "desc": "",
+   "id": "hoo_bean",
+   "name": "Hoo Bean",
+   "needs_ai_balance": true,
+   "needs_description": true,
+   "price": 120,
+   "tags": [],
+   "world": "crossover"
+  },
+  {
+   "category": "misc",
+   "desc": "",
+   "id": "dk_hammer",
+   "name": "DK Hammer",
+   "needs_ai_balance": true,
+   "needs_description": true,
+   "price": 120,
+   "tags": [],
+   "world": "crossover"
+  },
+  {
+   "category": "misc",
+   "desc": "",
+   "id": "woo_bean",
+   "name": "Woo Bean",
+   "needs_ai_balance": true,
+   "needs_description": true,
+   "price": 120,
+   "tags": [],
+   "world": "crossover"
+  },
+  {
+   "category": "misc",
+   "desc": "",
+   "id": "1up_mushroom",
+   "name": "1UP Mushroom",
+   "needs_ai_balance": true,
+   "needs_description": true,
+   "price": 120,
+   "tags": [],
+   "world": "crossover"
+  },
+  {
+   "category": "consumable",
+   "desc": "",
+   "id": "1up_super_mushroom",
+   "name": "1UP Super Mushroom",
+   "needs_ai_balance": true,
+   "needs_description": true,
+   "price": 90,
+   "tags": [],
+   "world": "crossover"
+  },
+  {
+   "category": "treasure",
+   "desc": "",
+   "id": "gameboy",
+   "name": "Gameboy",
+   "needs_ai_balance": true,
+   "needs_description": true,
+   "price": 450,
+   "tags": [],
+   "world": "crossover"
+  },
+  {
+   "category": "treasure",
+   "desc": "",
+   "id": "peach_s_dress",
+   "name": "Peach's Dress",
+   "needs_ai_balance": true,
+   "needs_description": true,
+   "price": 10000.0,
+   "tags": [],
+   "world": "mario"
+  },
+  {
+   "category": "food",
+   "desc": "",
+   "id": "poison_mushroom",
+   "name": "Poison Mushroom",
+   "needs_ai_balance": true,
+   "needs_description": true,
+   "price": 60,
+   "tags": [],
+   "world": "crossover"
+  },
+  {
+   "category": "weapon",
+   "desc": "",
+   "id": "poison_kingdom_key",
+   "name": "Poison Kingdom Key",
+   "needs_ai_balance": true,
+   "needs_description": true,
+   "price": 420,
+   "tags": [],
+   "world": "kingdom_hearts"
+  },
+  {
+   "category": "weapon",
+   "desc": "",
+   "id": "three_wishes_keyblade",
+   "name": "Three Wishes Keyblade",
+   "needs_ai_balance": true,
+   "needs_description": true,
+   "price": 420,
+   "tags": [],
+   "world": "crossover"
+  },
+  {
+   "category": "weapon",
+   "desc": "",
+   "id": "crabclaw_keyblade",
+   "name": "Crabclaw Keyblade",
+   "needs_ai_balance": true,
+   "needs_description": true,
+   "price": 420,
+   "tags": [],
+   "world": "crossover"
+  },
+  {
+   "category": "weapon",
+   "desc": "",
+   "id": "oblivion_keyblade",
+   "name": "Oblivion Keyblade",
+   "needs_ai_balance": true,
+   "needs_description": true,
+   "price": 420,
+   "tags": [],
+   "world": "crossover"
+  },
+  {
+   "category": "weapon",
+   "desc": "",
+   "id": "fairy_harp_keyblade",
+   "name": "Fairy Harp Keyblade",
+   "needs_ai_balance": true,
+   "needs_description": true,
+   "price": 420,
+   "tags": [],
+   "world": "crossover"
+  },
+  {
+   "category": "weapon",
+   "desc": "",
+   "id": "wishing_star_keyblade",
+   "name": "Wishing Star Keyblade",
+   "needs_ai_balance": true,
+   "needs_description": true,
+   "price": 420,
+   "tags": [],
+   "world": "crossover"
+  },
+  {
+   "category": "weapon",
+   "desc": "",
+   "id": "olympia_keyblade",
+   "name": "Olympia Keyblade",
+   "needs_ai_balance": true,
+   "needs_description": true,
+   "price": 420,
+   "tags": [],
+   "world": "crossover"
+  },
+  {
+   "category": "weapon",
+   "desc": "",
+   "id": "divine_rose_keyblade",
+   "name": "Divine Rose Keyblade",
+   "needs_ai_balance": true,
+   "needs_description": true,
+   "price": 420,
+   "tags": [],
+   "world": "crossover"
+  },
+  {
+   "category": "weapon",
+   "desc": "",
+   "id": "soul_eater",
+   "name": "Soul Eater",
+   "needs_ai_balance": true,
+   "needs_description": true,
+   "price": 420,
+   "tags": [],
+   "world": "kingdom_hearts"
+  }
+ ],
+ "schema": "crossroads.items.v1"
 }

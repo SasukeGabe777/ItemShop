@@ -91,7 +91,7 @@ func _show_first_shop_guide() -> void:
 	var guide_layer: CanvasLayer = parts[0]
 	var vb: VBoxContainer = parts[1]
 	vb.add_child(UIKit.label("1. Walk to any item stand until [E] Display slot appears."))
-	vb.add_child(UIKit.label("2. Press E and choose a Potion, Ether, or Gold Coin."))
+	vb.add_child(UIKit.label("2. Press E and choose a Potion, Ether, or Rupee."))
 	vb.add_child(UIKit.label("3. To move a stand, use Rearrange furniture at the lower-right."))
 	vb.add_child(UIKit.label("4. Walk to the counter at the top and press E to open."))
 	vb.add_child(UIKit.label("The first customer will inspect a stocked stand and ask you to negotiate.", 9, UIKit.COL_GOOD))
