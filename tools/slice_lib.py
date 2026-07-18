@@ -181,6 +181,21 @@ def compose_grid(
     print(f"  wrote {out_png} ({cols}x{rows} cells of {cw}x{ch}) + manifest")
 
 
+def resize_rgba(img: Image.Image, size: tuple[int, int]) -> Image.Image:
+    """High-quality RGBA resize without dark edge halos: premultiply alpha,
+    resize, then unpremultiply. Plain LANCZOS on straight alpha bleeds the
+    transparent pixels' black RGB into edges."""
+    a = np.asarray(img.convert("RGBA")).astype(np.float32)
+    alpha = a[..., 3:4] / 255.0
+    a[..., :3] *= alpha
+    pre = Image.fromarray(a.astype(np.uint8))
+    small = np.asarray(pre.resize(size, Image.LANCZOS)).astype(np.float32)
+    out_alpha = small[..., 3:4]
+    scale = np.where(out_alpha > 0, 255.0 / np.maximum(out_alpha, 1e-6), 0.0)
+    small[..., :3] = np.clip(small[..., :3] * scale, 0, 255)
+    return Image.fromarray(small.astype(np.uint8))
+
+
 def save_island(img: Image.Image, box: tuple[int, int, int, int], out_path: str | Path, size: int | None = None) -> None:
     """Save one island as a standalone icon PNG (optionally fit into size^2)."""
     crop = img.crop(box)

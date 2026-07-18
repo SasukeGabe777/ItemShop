@@ -16,7 +16,7 @@ import numpy as np
 from PIL import Image
 
 sys.path.insert(0, str(Path(__file__).parent))
-from slice_lib import chroma_key, compose_grid, find_islands, load_rgba, save_island
+from slice_lib import chroma_key, compose_grid, find_islands, load_rgba, resize_rgba, save_island
 
 ROOT = Path(__file__).resolve().parent.parent
 KH = ROOT / "assets/franchises/kingdom_hearts"
@@ -221,6 +221,15 @@ def prep_menu_ui() -> None:
     }
     for name, idx in named.items():
         save_island(img, boxes[idx], out / f"{name}.png")
+    # UI-scale variants (premultiplied resize: no dark edge halos)
+    for name, target in [("bar_white", ("h", 24)), ("bar_blue", ("h", 24)), ("cursor_hand", ("w", 24))]:
+        p = out / f"{name}.png"
+        im = Image.open(p).convert("RGBA")
+        if target[0] == "h":
+            size = (max(1, round(im.width * target[1] / im.height)), target[1])
+        else:
+            size = (target[1], max(1, round(im.height * target[1] / im.width)))
+        resize_rgba(im, size).save(p)
     print(f"  wrote {len(named)} menu UI pieces -> {out}")
 
 

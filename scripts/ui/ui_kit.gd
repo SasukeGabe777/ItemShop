@@ -34,17 +34,15 @@ static func light_theme() -> Theme:
 	if ResourceLoader.exists(BAR_WHITE) and ResourceLoader.exists(BAR_BLUE):
 		var normal := StyleBoxTexture.new()
 		normal.texture = load(BAR_WHITE)
-		for sb: StyleBoxTexture in [normal]:
-			sb.texture_margin_left = 12
-			sb.texture_margin_right = 12
-			sb.texture_margin_top = 3
-			sb.texture_margin_bottom = 3
 		var active := StyleBoxTexture.new()
 		active.texture = load(BAR_BLUE)
-		active.texture_margin_left = 12
-		active.texture_margin_right = 12
-		active.texture_margin_top = 3
-		active.texture_margin_bottom = 3
+		for sb: StyleBoxTexture in [normal, active]:
+			sb.texture_margin_left = 16
+			sb.texture_margin_right = 16
+			sb.texture_margin_top = 4
+			sb.texture_margin_bottom = 4
+			sb.content_margin_left = 18
+			sb.content_margin_right = 18
 		t.set_stylebox("normal", "Button", normal)
 		t.set_stylebox("disabled", "Button", normal)
 		t.set_stylebox("hover", "Button", active)
@@ -151,10 +149,10 @@ static func modal(parent: Node, title: String) -> Array:
 		style.texture_margin_right = 30
 		style.texture_margin_top = 22
 		style.texture_margin_bottom = 22
-		style.content_margin_left = 20
-		style.content_margin_right = 20
-		style.content_margin_top = 16
-		style.content_margin_bottom = 16
+		style.content_margin_left = 36
+		style.content_margin_right = 36
+		style.content_margin_top = 28
+		style.content_margin_bottom = 26
 		p.add_theme_stylebox_override("panel", style)
 		p.theme = light_theme()
 	center.add_child(p)

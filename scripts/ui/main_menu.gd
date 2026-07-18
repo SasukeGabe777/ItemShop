@@ -48,10 +48,10 @@ func _build_art_menu() -> void:
 	if ResourceLoader.exists(BAR_BLUE):
 		blue_style = StyleBoxTexture.new()
 		blue_style.texture = load(BAR_BLUE)
-		blue_style.texture_margin_left = 12
-		blue_style.texture_margin_right = 12
-		blue_style.texture_margin_top = 3
-		blue_style.texture_margin_bottom = 3
+		blue_style.texture_margin_left = 16
+		blue_style.texture_margin_right = 16
+		blue_style.texture_margin_top = 4
+		blue_style.texture_margin_bottom = 4
 	var empty_style := StyleBoxEmpty.new()
 	var rows: Array = [
 		["NEW GAME", _on_new_game],
@@ -98,6 +98,14 @@ func _build_art_menu() -> void:
 		ui_root.add_child(hand_cursor)
 	if first_btn != null:
 		first_btn.grab_focus.call_deferred()
+	var quit_btn := UIKit.button("Quit", func() -> void: get_tree().quit(), 9)
+	quit_btn.flat = true
+	quit_btn.anchor_left = 0.94
+	quit_btn.anchor_right = 0.995
+	quit_btn.anchor_top = 0.015
+	quit_btn.anchor_bottom = 0.07
+	quit_btn.offset_left = 0; quit_btn.offset_right = 0; quit_btn.offset_top = 0; quit_btn.offset_bottom = 0
+	ui_root.add_child(quit_btn)
 	var tex: Texture2D = art.texture
 	_art_size = Vector2(tex.get_width(), tex.get_height())
 	get_viewport().size_changed.connect(_layout_menu_buttons)
@@ -119,14 +127,6 @@ func _layout_menu_buttons() -> void:
 	var focused := get_viewport().gui_get_focus_owner()
 	if focused is Button and focused in _menu_buttons:
 		_point_hand_at(focused)
-	var quit_btn := UIKit.button("Quit", func() -> void: get_tree().quit(), 9)
-	quit_btn.flat = true
-	quit_btn.anchor_left = 0.94
-	quit_btn.anchor_right = 0.995
-	quit_btn.anchor_top = 0.015
-	quit_btn.anchor_bottom = 0.07
-	quit_btn.offset_left = 0; quit_btn.offset_right = 0; quit_btn.offset_top = 0; quit_btn.offset_bottom = 0
-	ui_root.add_child(quit_btn)
 
 
 func _point_hand_at(btn: Button) -> void:
