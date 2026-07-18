@@ -59,6 +59,36 @@ class Probe:
 		await get_tree().create_timer(0.5).timeout
 		get_viewport().get_texture().get_image().save_png("user://screenshots/shop_nego.png")
 		print("NEGO_track=", AudioManager.current_track)
+		nego_panel.queue_free()
+		shop.dev_close_shop()
+		for child in shop.get_children():
+			if child is NegotiationPanel:
+				child.queue_free()
+		# storage chest area: walk the player up-left so the chest is on screen
+		shop.player.position = Vector2(210, 190)
+		await get_tree().create_timer(0.6).timeout
+		get_viewport().get_texture().get_image().save_png("user://screenshots/shop_storage.png")
+		# Patch's end-of-session debrief
+		PatchDebrief.show_debrief(shop, {"sales": 3, "revenue": 460, "perfect": 2, "left": 1, "orders": 0}, Callable())
+		await get_tree().create_timer(0.7).timeout
+		get_viewport().get_texture().get_image().save_png("user://screenshots/shop_debrief.png")
+		for child in shop.get_children():
+			if child is PatchDebrief:
+				child._finish()
+		await get_tree().create_timer(0.2).timeout
+		# level-gated furniture catalog
+		shop._open_furniture_catalog()
+		await get_tree().create_timer(0.5).timeout
+		get_viewport().get_texture().get_image().save_png("user://screenshots/shop_catalog.png")
+		for child in shop.get_children():
+			if child is CanvasLayer and child.layer == 50:
+				child.queue_free()
+		shop.busy = false
+		shop.player.frozen = false
+		# walking past the bottom entrance auto-exits to the Crossroads
+		shop.player.position = Vector2(320, 430)
+		await get_tree().create_timer(1.4).timeout
+		print("EXIT_SCENE=", get_tree().current_scene.scene_file_path)
 		print("SHOP_SHOT_DONE")
 		get_tree().quit()
 

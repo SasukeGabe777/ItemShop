@@ -81,6 +81,11 @@ func _spawn_hero(hero_id: String) -> void:
 	hero = CombatHero.new()
 	add_child(hero)
 	hero.setup(hero_id, consumables)
+	if get_node_or_null("PatchSidekick") == null:
+		var patch := PatchFollower.attach(self, hero)
+		patch.name = "PatchSidekick"
+	else:
+		(get_node("PatchSidekick") as PatchFollower).target = hero
 	hero.meter = old_meter
 	if old_pos != Vector2.ZERO:
 		hero.global_position = old_pos
@@ -218,7 +223,8 @@ func _enter_room(idx: int) -> void:
 	var spawn_cells: Array = template.get("spawns", [])
 	var enemies: Array = entry["enemies"]
 	if kind == "boss":
-		AudioManager.play_track("final_boss" if world_id == "null_archive" else "boss_battle")
+		# boss rooms keep the dungeon's own track — the sudden music switch
+		# felt jarring mid-delve
 		var boss := Boss.new()
 		room_root.add_child(boss)
 		boss.setup(String(enemies[0]), hero)

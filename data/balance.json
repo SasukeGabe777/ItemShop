@@ -49,11 +49,7 @@
   "premium_glass_box": 1500,
   "premium_item_stand": 800,
   "purple_counter": 900,
-  "red_counter": 900,
-  "round_pedestal": 250,
   "small_display_crate": 350,
-  "small_table": 450,
-  "wall_rack": 600,
   "window_counter": 300,
   "wooden_shelf": 250
  },
@@ -118,13 +114,24 @@
   "customers_per_session_base": 5,
   "customers_per_session_per_appeal": 0.08,
   "display_slots_by_level": [
+   5,
    8,
    12,
-   16
+   16,
+   20
   ],
   "expansion_costs": [
    15000,
-   80000
+   80000,
+   200000,
+   450000
+  ],
+  "furniture_caps": [
+   5,
+   8,
+   12,
+   16,
+   20
   ],
   "wholesale_ratio": 0.55,
   "window_attention_bonus": 0.25,

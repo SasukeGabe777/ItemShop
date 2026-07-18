@@ -326,6 +326,8 @@ FF_CUSTOMERS = [
     "tidus", "yuna", "auron", "rikku", "lulu", "wakka",
     "zidane", "vivi", "garnet", "kuja", "lightning", "noctis",
     "kain", "rydia", "bartz", "gilgamesh",
+    # named shop customers need their own character (never a stand-in)
+    "cloud", "cid_vii", "mog",
 ]
 
 
@@ -537,6 +539,213 @@ def prep_customer_walk_anims() -> None:
         print(f"  {world}: {done} animated customers")
 
 
+## ---------------------------------------------------------------------------
+## Generic walk-row understanding for RPG-style rips (M&L Superstar Saga etc.):
+## find horizontal rows of similar-sized frames, split side-by-side animation
+## blocks apart, and classify each row's facing from symmetry + face detail.
+## Only rows that pass the classifier become animations; everything else on
+## the sheet (battle poses, effects, props) is ignored.
+
+AUTO_WALK_CUSTOMERS = {
+    "mario": {
+        "pattern": "mario_%s.png",
+        "names": ["bowser_usa", "princess_peach", "mario_overworld",
+                  "luigi_overworld", "toad", "koopa_troopas", "goomba"],
+    },
+}
+
+## Manual row overrides after checking tools/out/walk_review.png +
+## tools/out/segs_<name>.png: {(world, name): {"down": seg_id, "side": seg_id,
+## "up": seg_id (-1 drops the direction), "side_faces_left": bool}}.
+AUTO_WALK_FIXES: dict[tuple[str, str], dict] = {
+    ("mario", "bowser_usa"): {"down": 1, "side": 3, "up": -1},
+    ("mario", "princess_peach"): {"side": 4, "up": 2},
+    ("mario", "mario_overworld"): {"down": 0, "side": 2, "up": 9},
+    ("mario", "luigi_overworld"): {"down": 0, "side": 3, "up": 6},
+    ("mario", "toad"): {"side": 2, "up": 4},
+    ("mario", "koopa_troopas"): {"down": 0, "side": 1, "up": 2},
+}
+
+
+def _row_segments(img: Image.Image) -> list:
+    """Candidate animation rows: islands clustered by vertical overlap, then
+    split on wide x-gaps (sheets pack several blocks side by side). Returns
+    [{frames, ys, xs}] sorted top-to-bottom, left-to-right."""
+    boxes = [b for b in find_islands(img, min_area=80, merge_gap=1)
+             if 10 <= b[2] - b[0] <= 90 and 16 <= b[3] - b[1] <= 90]
+    boxes.sort(key=lambda b: ((b[1] + b[3]) / 2, b[0]))
+    clusters: list[list] = []
+    for b in boxes:
+        yc = (b[1] + b[3]) / 2
+        placed = False
+        for cl in clusters:
+            cy = sum((c[1] + c[3]) / 2 for c in cl) / len(cl)
+            ch = sum(c[3] - c[1] for c in cl) / len(cl)
+            if abs(yc - cy) < ch * 0.45:
+                cl.append(b)
+                placed = True
+                break
+        if not placed:
+            clusters.append([b])
+    segments: list[dict] = []
+    for cl in clusters:
+        cl.sort(key=lambda b: b[0])
+        widths = sorted(b[2] - b[0] for b in cl)
+        med_w = widths[len(widths) // 2]
+        seg: list = [cl[0]]
+        for prev, b in zip(cl, cl[1:]):
+            if b[0] - prev[2] > med_w * 1.6:
+                segments.append({"boxes": seg})
+                seg = []
+            seg.append(b)
+        segments.append({"boxes": seg})
+    out: list[dict] = []
+    for s in segments:
+        bs = s["boxes"]
+        if len(bs) < 4:
+            continue
+        hs = sorted(b[3] - b[1] for b in bs)
+        ws = sorted(b[2] - b[0] for b in bs)
+        med_h, med_w = hs[len(hs) // 2], ws[len(ws) // 2]
+        bs = [b for b in bs
+              if 0.72 <= (b[3] - b[1]) / med_h <= 1.28 and 0.55 <= (b[2] - b[0]) / med_w <= 1.5]
+        if len(bs) < 4:
+            continue
+        out.append({"boxes": bs, "y": bs[0][1], "x": bs[0][0]})
+    out.sort(key=lambda s: (s["y"], s["x"]))
+    return out
+
+
+def _frame_faces_left(f: Image.Image) -> bool | None:
+    """One side frame's facing: the face (bright skin/eye pixels in the upper
+    half) sits on the side the character looks toward. None = can't tell."""
+    a = np.asarray(f).astype(np.float32)
+    top = a[: max(1, int(a.shape[0] * 0.5))]
+    vis = top[..., 3] > 10
+    bright = vis & (top[..., :3].max(axis=2) > 150) & \
+        ((top[..., :3].max(axis=2) - top[..., :3].min(axis=2)) < 110)
+    _, xs = np.nonzero(bright)
+    if len(xs) < 6:
+        return None
+    return bool(xs.mean() < f.width / 2.0)
+
+
+def _facing_left(frames: list) -> bool:
+    votes = 0
+    for f in frames[:6]:
+        v = _frame_faces_left(f)
+        if v is not None:
+            votes += 1 if v else -1
+    return votes > 0
+
+
+def _filter_side_frames(frames: list) -> list:
+    """Side rows on these sheets often pack left- AND right-facing cycles in
+    one band; keep only the majority facing so the animation doesn't flip
+    mid-stride."""
+    majority = _facing_left(frames)
+    kept = [f for f in frames if _frame_faces_left(f) in (majority, None)]
+    return kept if len(kept) >= 3 else frames
+
+
+def detect_walk_rows(img: Image.Image) -> dict:
+    """{'down': frames, 'side': frames, 'up': frames, 'side_faces_left': bool,
+    'segments': all} — empty dict when the sheet has no readable walk rows."""
+    segments = _row_segments(img)
+    if len(segments) < 2:
+        return {}
+    scored = []
+    for i, seg in enumerate(segments[:14]):  # walk cycles live near the top
+        frames = [clean_alpha(img.crop(tuple(b)), lo=1, hi=255) for b in seg["boxes"]]
+        sym = sum(_mirror_symmetry(f) for f in frames[:6]) / min(6, len(frames))
+        fd = sum(_face_detail(f) for f in frames[:6]) / min(6, len(frames))
+        scored.append({"id": i, "frames": frames, "sym": sym, "fd": fd})
+    down = max(scored, key=lambda s: s["sym"] * 0.8 + s["fd"] * 1.4)
+    rest = [s for s in scored if s["id"] != down["id"]]
+    if not rest:
+        return {}
+    up = max(rest, key=lambda s: s["sym"] * 1.2 - s["fd"] * 1.4)
+    rest2 = [s for s in rest if s["id"] != up["id"]]
+    side = min(rest2, key=lambda s: s["sym"]) if rest2 else None
+    out = {"down": down["frames"], "segments": scored}
+    if down["sym"] < 0.55 or down["fd"] < 0.3:
+        return {}
+    if side is not None and side["sym"] < down["sym"] - 0.08:
+        out["side"] = side["frames"]
+        out["side_faces_left"] = _facing_left(side["frames"])
+    if up["id"] != down["id"] and up["sym"] > 0.55 and up["fd"] < down["fd"]:
+        out["up"] = up["frames"]
+    return out
+
+
+def prep_auto_walk_anims() -> None:
+    """Walk manifests for AUTO_WALK_CUSTOMERS via detect_walk_rows. A sheet
+    that only yields a readable down row still upgrades the static frame to
+    the verified front-facing stand; side/up rows are added when found."""
+    for world, cfg in AUTO_WALK_CUSTOMERS.items():
+        src_dir = ROOT / f"assets/franchises/{world}/raw/customers"
+        done = 0
+        for name in cfg["names"]:
+            path = src_dir / (cfg["pattern"] % name)
+            if not path.exists():
+                print(f"  {world}/{name}: MISSING")
+                continue
+            img = _key_sheet(load_rgba(path))
+            rows = detect_walk_rows(img)
+            fix = AUTO_WALK_FIXES.get((world, name), {})
+            if fix and rows.get("segments"):
+                segs = {s["id"]: s["frames"] for s in rows["segments"]}
+                for key in ("down", "side", "up"):
+                    if key in fix and fix[key] in segs:
+                        rows[key] = segs[fix[key]]
+                    elif key in fix and fix[key] < 0:
+                        rows.pop(key, None)
+                if "side_faces_left" in fix:
+                    rows["side_faces_left"] = fix["side_faces_left"]
+            if not rows.get("down"):
+                print(f"  {world}/{name}: no readable walk rows, left static")
+                continue
+            slug = CUSTOMER_FIXES.get((world, name), {}).get("rename",
+                                                             name.replace("3rd_", "third_"))
+
+            def cycle(frames: list) -> list:
+                if len(frames) < 3:
+                    return frames
+                base = sorted(f.width for f in frames)[len(frames) // 2]
+                walk = [f for f in frames[1:9] if f.width <= base * 1.3]
+                return walk[:6] if len(walk) >= 2 else frames[1:5]
+
+            anims = {"idle_down": [rows["down"][0]], "walk_down": cycle(rows["down"])}
+            if rows.get("side"):
+                side = _filter_side_frames(rows["side"])
+                if _facing_left(side):
+                    side = [f.transpose(Image.FLIP_LEFT_RIGHT) for f in side]
+                anims["idle_side"] = [side[0]]
+                anims["walk_side"] = cycle(side)
+            if rows.get("up"):
+                anims["idle_up"] = [rows["up"][0]]
+                anims["walk_up"] = cycle(rows["up"])
+            all_fr = [f for v in anims.values() for f in v]
+            max_h = max(f.height for f in all_fr)
+            if max_h > 46:
+                k = 42.0 / max_h
+                resized = {a: [resize_rgba(f, (max(1, round(f.width * k)), max(1, round(f.height * k))))
+                               for f in v] for a, v in anims.items()}
+                anims = resized
+                all_fr = [f for v in anims.values() for f in v]
+            cell = (max(f.width for f in all_fr) + 4, max(f.height for f in all_fr) + 2)
+            _compose_anims(anims, cell,
+                           ROOT / f"assets/franchises/{world}/processed/sheets/pool_{slug}.png",
+                           ROOT / f"assets/franchises/{world}/manifests/pool_{slug}.json",
+                           f"res://assets/franchises/{world}/processed/sheets/pool_{slug}.png",
+                           fps={"walk_down": 8, "walk_side": 8, "walk_up": 8})
+            out = ROOT / f"assets/franchises/{world}/processed/customers"
+            out.mkdir(parents=True, exist_ok=True)
+            anims["idle_down"][0].save(out / f"{slug}.png")
+            done += 1
+        print(f"  {world}: {done} auto-animated customers")
+
+
 ## Display names for pool slugs the automatic title-casing gets wrong
 ## (multi-character sheets keep the file name; the frame we extract from
 ## them is verified visually against this name).
@@ -559,6 +768,10 @@ POOL_DISPLAY_NAMES = {
     "hidden_leaf_ninja": "Leaf Ninja",
     "mickey_mouse": "Mickey",
     "donald_duck": "Donald",
+    "cid_vii": "Cid",
+    "moogle": "Moogle",
+    "bulma": "Bulma",
+    "zabuza": "Zabuza",
 }
 
 
@@ -629,7 +842,8 @@ FRANCHISE_CUSTOMERS = {
     "mario": ("mario_%s.png", [
         "goomba", "koopa_troopas", "boo", "bob_omb", "dry_bones",
         "hammer_bro", "blooper", "bowser_usa",
-        "lady_lima", "beanbean_kingdom_residents", "cheep_cheep_puffer_cheep"]),
+        "lady_lima", "beanbean_kingdom_residents", "cheep_cheep_puffer_cheep",
+        "princess_peach", "mario_overworld", "luigi_overworld", "toad"]),
     "pokemon": ("pokemon_%s.png", [
         "snorlax", "ditto", "mew", "mewtwo", "dratini_dragonair_dragonite",
         "absol", "aerodactyl", "aipom", "banette", "blissey", "bellossom",
@@ -637,8 +851,56 @@ FRANCHISE_CUSTOMERS = {
     "kingdom_hearts": ("kh_%s_gba.png", [
         "donald_duck", "goofy", "mickey_mouse", "kairi", "hades",
         "ariel", "peter_pan", "alice", "hercules",
-        "wakka", "tidus", "selphie"]),
+        "wakka", "tidus", "selphie", "moogle"]),
 }
+
+
+## Additional characters pulled out of multi-character sheets that already
+## contribute someone else to the pool: (world, sheet file, slug, crop box).
+## Boxes are read off tools/cand_sheet.py-style renders of the keyed sheet.
+EXTRA_CUSTOMER_CROPS: list[tuple[str, str, str, tuple]] = [
+    ("dragon_ball", "raw/customers/sprite_bulma_s_familly.png", "bulma", (18, 26, 38, 62)),
+    ("naruto", "raw/customers/naruto_zabuza_haku.png", "zabuza", (0, 0, 40, 39)),
+]
+
+
+def prep_extra_customer_crops() -> None:
+    """Extra pool characters from sheets whose filename character already got
+    extracted under a different slug (e.g. haku from the zabuza sheet)."""
+    for world, rel, slug, box in EXTRA_CUSTOMER_CROPS:
+        path = ROOT / f"assets/franchises/{world}" / rel
+        if not path.exists():
+            print(f"  {world}/{slug}: MISSING {rel}")
+            continue
+        img = _key_sheet(load_rgba(path))
+        best = None
+        if box is not None:
+            # crops carry their own background cell colors (multi-block
+            # checker sheets defeat the whole-sheet key) — key again locally
+            best = largest_component(_key_sheet(load_rgba(path).crop(tuple(box))))
+        else:
+            best_s = 8.0
+            for cand_box in find_islands(img, min_area=80, merge_gap=1)[:260]:
+                w, h = cand_box[2] - cand_box[0], cand_box[3] - cand_box[1]
+                if not (14 <= w <= 52 and 20 <= h <= 66 and h >= w * 0.75):
+                    continue
+                cand = img.crop(tuple(cand_box))
+                s = front_score(cand)
+                if s > best_s:
+                    best_s = s
+                    best = cand
+        if best is None:
+            print(f"  {world}/{slug}: no clean frame found, skipped")
+            continue
+        best = clean_alpha(best, lo=1, hi=255)
+        if best.height > 44:
+            k = 40.0 / best.height
+            best = resize_rgba(best, (max(1, round(best.width * k)), 40))
+            best = clean_alpha(largest_component(clean_alpha(best, lo=128, hi=128)), lo=1, hi=255)
+        out = ROOT / f"assets/franchises/{world}/processed/customers"
+        out.mkdir(parents=True, exist_ok=True)
+        best.save(out / f"{slug}.png")
+        print(f"  {world}/{slug}: extra crop written")
 
 
 ## Manual corrections after visually checking tools/out/pool_sheet.png:
@@ -655,6 +917,8 @@ CUSTOMER_FIXES: dict[tuple[str, str], dict] = {
     ("mario", "dry_bones"): {"box": (8, 302, 26, 328)},
     ("mario", "koopa_troopas"): {"box": (8, 77, 31, 109), "rename": "koopa_troopa"},
     ("mario", "lady_lima"): {"box": (281, 50, 302, 83)},
+    ("mario", "mario_overworld"): {"rename": "mario"},
+    ("mario", "luigi_overworld"): {"rename": "luigi"},
     ("naruto", "kiba_akamaru_shino_hinata"): {"rename": "kiba"},
     ("naruto", "konohamaru_ebisu"): {"rename": "ebisu"},
     ("naruto", "neji_lee_tenten"): {"rename": "tenten"},
@@ -959,7 +1223,9 @@ if __name__ == "__main__":
             old.unlink()
         print("ff customers..."); prep_ff_customers()
         print("franchise customers..."); prep_franchise_customers()
+        print("extra crops..."); prep_extra_customer_crops()
         print("walk anims..."); prep_customer_walk_anims()
+        print("auto walk anims..."); prep_auto_walk_anims()
         write_customer_pool()
         print("done")
         sys.exit(0)

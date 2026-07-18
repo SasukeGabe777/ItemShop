@@ -1,0 +1,75 @@
+{
+  "asset_id": "pool_koopa_troopa",
+  "sheet": "res://assets/franchises/mario/processed/sheets/pool_koopa_troopa.png",
+  "native_scale": 1,
+  "display_scale": 1,
+  "pivot": [
+    12,
+    29
+  ],
+  "grid": {
+    "frame_width": 25,
+    "frame_height": 33,
+    "columns": 8,
+    "rows": 3
+  },
+  "animations": {
+    "idle_down": {
+      "frames": [
+        0
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "walk_down": {
+      "frames": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "fps": 8,
+      "loop": true
+    },
+    "idle_side": {
+      "frames": [
+        7
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "walk_side": {
+      "frames": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "fps": 8,
+      "loop": true
+    },
+    "idle_up": {
+      "frames": [
+        14
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "walk_up": {
+      "frames": [
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "fps": 8,
+      "loop": true
+    }
+  }
+}

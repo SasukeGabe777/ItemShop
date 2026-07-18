@@ -2,6 +2,13 @@
   "schema": "crossroads.customer_visuals.v2",
   "pool": [
     {
+      "slug": "bulma",
+      "name": "Bulma",
+      "world": "dragon_ball",
+      "static": "res://assets/franchises/dragon_ball/processed/customers/bulma.png",
+      "manifest": ""
+    },
+    {
       "slug": "future_trunks",
       "name": "Trunks",
       "world": "dragon_ball",
@@ -114,6 +121,20 @@
       "manifest": ""
     },
     {
+      "slug": "cid_vii",
+      "name": "Cid",
+      "world": "final_fantasy",
+      "static": "res://assets/franchises/final_fantasy/processed/customers/cid_vii.png",
+      "manifest": ""
+    },
+    {
+      "slug": "cloud",
+      "name": "Cloud",
+      "world": "final_fantasy",
+      "static": "res://assets/franchises/final_fantasy/processed/customers/cloud.png",
+      "manifest": ""
+    },
+    {
       "slug": "garnet",
       "name": "Garnet",
       "world": "final_fantasy",
@@ -167,6 +188,13 @@
       "name": "Lulu",
       "world": "final_fantasy",
       "static": "res://assets/franchises/final_fantasy/processed/customers/lulu.png",
+      "manifest": ""
+    },
+    {
+      "slug": "mog",
+      "name": "Mog",
+      "world": "final_fantasy",
+      "static": "res://assets/franchises/final_fantasy/processed/customers/mog.png",
       "manifest": ""
     },
     {
@@ -345,6 +373,13 @@
       "manifest": ""
     },
     {
+      "slug": "moogle",
+      "name": "Moogle",
+      "world": "kingdom_hearts",
+      "static": "res://assets/franchises/kingdom_hearts/processed/customers/moogle.png",
+      "manifest": ""
+    },
+    {
       "slug": "peter_pan",
       "name": "Peter Pan",
       "world": "kingdom_hearts",
@@ -405,7 +440,7 @@
       "name": "Bowser",
       "world": "mario",
       "static": "res://assets/franchises/mario/processed/customers/bowser_usa.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/mario/manifests/pool_bowser_usa.json"
     },
     {
       "slug": "cheep_cheep_puffer_cheep",
@@ -426,7 +461,7 @@
       "name": "Goomba",
       "world": "mario",
       "static": "res://assets/franchises/mario/processed/customers/goomba.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/mario/manifests/pool_goomba.json"
     },
     {
       "slug": "hammer_bro",
@@ -440,7 +475,7 @@
       "name": "Koopa Troopa",
       "world": "mario",
       "static": "res://assets/franchises/mario/processed/customers/koopa_troopa.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/mario/manifests/pool_koopa_troopa.json"
     },
     {
       "slug": "lady_lima",
@@ -448,6 +483,34 @@
       "world": "mario",
       "static": "res://assets/franchises/mario/processed/customers/lady_lima.png",
       "manifest": ""
+    },
+    {
+      "slug": "luigi",
+      "name": "Luigi",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/luigi.png",
+      "manifest": "res://assets/franchises/mario/manifests/pool_luigi.json"
+    },
+    {
+      "slug": "mario",
+      "name": "Mario",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/mario.png",
+      "manifest": "res://assets/franchises/mario/manifests/pool_mario.json"
+    },
+    {
+      "slug": "princess_peach",
+      "name": "Princess Peach",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/princess_peach.png",
+      "manifest": "res://assets/franchises/mario/manifests/pool_princess_peach.json"
+    },
+    {
+      "slug": "toad",
+      "name": "Toad",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/toad.png",
+      "manifest": "res://assets/franchises/mario/manifests/pool_toad.json"
     },
     {
       "slug": "choji",
@@ -524,6 +587,13 @@
       "name": "Tenten",
       "world": "naruto",
       "static": "res://assets/franchises/naruto/processed/customers/tenten.png",
+      "manifest": ""
+    },
+    {
+      "slug": "zabuza",
+      "name": "Zabuza",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/zabuza.png",
       "manifest": ""
     },
     {

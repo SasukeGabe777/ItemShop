@@ -1,0 +1,72 @@
+{
+  "asset_id": "pool_goomba",
+  "sheet": "res://assets/franchises/mario/processed/sheets/pool_goomba.png",
+  "native_scale": 1,
+  "display_scale": 1,
+  "pivot": [
+    12,
+    21
+  ],
+  "grid": {
+    "frame_width": 25,
+    "frame_height": 25,
+    "columns": 8,
+    "rows": 3
+  },
+  "animations": {
+    "idle_down": {
+      "frames": [
+        0
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "walk_down": {
+      "frames": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "fps": 8,
+      "loop": true
+    },
+    "idle_side": {
+      "frames": [
+        7
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "walk_side": {
+      "frames": [
+        8,
+        9,
+        10
+      ],
+      "fps": 8,
+      "loop": true
+    },
+    "idle_up": {
+      "frames": [
+        11
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "walk_up": {
+      "frames": [
+        12,
+        13,
+        14,
+        15,
+        16,
+        17
+      ],
+      "fps": 8,
+      "loop": true
+    }
+  }
+}

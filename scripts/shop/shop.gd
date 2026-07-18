@@ -26,9 +26,12 @@ const FURNITURE_AREA := Rect2(60, 132, 520, 258)
 const EDIT_GRID := 8.0
 ## Painted room art: its wooden-floor band is mapped onto y 120..420 so all
 ## gameplay coordinates keep working; the room is wider than the old one.
-const ROOM_BG := "res://assets/shared/ui/backgrounds/shopbackground.png"
-const BG_FLOOR_TOP_FRAC := 0.375
+const ROOM_BG := "res://assets/shared/ui/backgrounds/shopbackgroundupdated.png"
+const BG_FLOOR_TOP_FRAC := 0.4
 const BG_FLOOR_BOTTOM_FRAC := 0.825
+## Walking past the entrance gap at the bottom leaves to the Crossroads
+## automatically (like dungeon room doors) — no interact prompt needed.
+const EXIT_Y := 424.0
 
 
 func _ready() -> void:
@@ -40,6 +43,7 @@ func _ready() -> void:
 	player.position = Vector2(320, 300)
 	add_child(player)
 	player.add_child(ZoomCamera.new())
+	PatchFollower.attach(self, player)
 	hud = GameHUD.new()
 	add_child(hud)
 	prompt = UIKit.label("", 10, UIKit.COL_ACCENT)
@@ -158,19 +162,18 @@ func _build_furniture() -> void:
 	open_ic.position = Vector2(320, 140)
 	open_ic.add_to_group("interactables")
 	add_child(open_ic)
-	var exit_ic := InteractionComponent.new()
-	exit_ic.prompt = "Leave to the Crossroads"
-	exit_ic.action_id = "exit"
-	exit_ic.position = Vector2(320, 410)
-	exit_ic.add_to_group("interactables")
-	add_child(exit_ic)
 	var storage_ic := InteractionComponent.new()
 	storage_ic.prompt = "Storage & sorting"
 	storage_ic.action_id = "storage"
 	storage_ic.position = Vector2(160, 140)
 	storage_ic.add_to_group("interactables")
 	add_child(storage_ic)
-	if GameState.shop_level < 3:
+	var storage_chest := Sprite2D.new()
+	var chest_tex := Scenery.texture_or_null("chest")
+	storage_chest.texture = chest_tex if chest_tex != null else PlaceholderFactory.furniture_texture("chest", 28, 20)
+	storage_chest.position = Vector2(160, 140)
+	add_child(storage_chest)
+	if GameState.shop_level < 5:
 		var expand_ic := InteractionComponent.new()
 		expand_ic.prompt = "Expand shop"
 		expand_ic.action_id = "expand"
@@ -301,6 +304,17 @@ func _process(delta: float) -> void:
 		return
 	if session_active:
 		_run_session(delta)
+	if player.position.y > EXIT_Y:
+		if session_active:
+			player.position.y = EXIT_Y
+			if not get_meta("exit_toasted", false):
+				set_meta("exit_toasted", true)
+				_toast("Close up first — customers are browsing!")
+				get_tree().create_timer(2.0).timeout.connect(func() -> void: set_meta("exit_toasted", false))
+		else:
+			busy = true
+			SceneRouter.go("town")
+			return
 	var ic := player.nearest_interactable()
 	prompt.visible = ic != null
 	if ic != null:
@@ -331,11 +345,6 @@ func _activate(action: String) -> void:
 				_toast("Not while customers are browsing!")
 				return
 			_enter_edit_mode()
-		"exit":
-			if session_active:
-				_toast("Close up first — customers are browsing!")
-				return
-			SceneRouter.go("town")
 
 
 func _toast(text: String) -> void:
@@ -517,32 +526,47 @@ func _open_furniture_catalog() -> void:
 	var list_parts := UIKit.scroll_list(Vector2(400, 220))
 	vb.add_child(list_parts[0])
 	var list: VBoxContainer = list_parts[1]
+	var cap := _furniture_cap()
 	var ids: Array = ContentDatabase.furniture.keys()
 	ids.sort_custom(func(a: String, b: String) -> bool:
+		var ua := int(ContentDatabase.get_furniture(a).get("unlock_level", 1))
+		var ub := int(ContentDatabase.get_furniture(b).get("unlock_level", 1))
+		if ua != ub:
+			return ua < ub
 		return int(prices.get(a, prices.get("default", 400))) < int(prices.get(b, prices.get("default", 400))))
 	for id: String in ids:
 		var fid := id
 		var def := ContentDatabase.get_furniture(fid)
+		var unlock := int(def.get("unlock_level", 1))
 		var price := int(prices.get(fid, prices.get("default", 400)))
 		var slots := maxi(1, (def.get("display_slots", [[0, -12]]) as Array).size())
 		var row := HBoxContainer.new()
 		var lbl := UIKit.label("%s — %d slot%s — %dg" % [String(def.get("name", fid)), slots, "s" if slots > 1 else "", price], 10)
 		lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		row.add_child(lbl)
-		row.add_child(UIKit.button("Buy", func() -> void:
-			if EconomyManager.gold < price:
-				_toast("Not enough gold!")
-				return
-			var spot := _find_free_spot(fid)
-			if spot == Vector2.INF:
-				_toast("No floor space left — rearrange first.")
-				return
-			EconomyManager.spend_gold(price)
-			dev_spawn_furniture(fid, spot)
-			hud.refresh()
-			_close_modal(cat_layer)
-			_open_furniture_catalog()))
+		if unlock > GameState.shop_level:
+			lbl.add_theme_color_override("font_color", UIKit.COL_DIM)
+			row.add_child(UIKit.label("Shop Lv.%d" % unlock, 9, UIKit.COL_DIM))
+		else:
+			row.add_child(UIKit.button("Buy", func() -> void:
+				if ShopFurnitureManager.layout.size() >= cap:
+					_toast("The shop only fits %d pieces — expand it first!" % cap)
+					return
+				if EconomyManager.gold < price:
+					_toast("Not enough gold!")
+					return
+				var spot := _find_free_spot(fid)
+				if spot == Vector2.INF:
+					_toast("No floor space left — rearrange first.")
+					return
+				EconomyManager.spend_gold(price)
+				dev_spawn_furniture(fid, spot)
+				hud.refresh()
+				_close_modal(cat_layer)
+				_open_furniture_catalog()))
 		list.add_child(row)
+	vb.add_child(UIKit.label("Furniture: %d of %d (shop Lv.%d) — expanding the shop raises the cap and unlocks new pieces." % [
+		ShopFurnitureManager.layout.size(), cap, GameState.shop_level], 9, UIKit.COL_DIM))
 	vb.add_child(UIKit.label("New pieces appear on a free spot — use Rearrange furniture to place them.", 9, UIKit.COL_DIM))
 	vb.add_child(UIKit.button("Close", func() -> void: _close_modal(cat_layer)))
 
@@ -575,8 +599,13 @@ func _open_storage() -> void:
 	vb.add_child(UIKit.button("Close", func() -> void: _close_modal(storage_layer)))
 
 
+func _furniture_cap() -> int:
+	var caps: Array = ContentDatabase.bal("shop", {}).get("furniture_caps", [5, 8, 12, 16, 20])
+	return int(caps[clampi(GameState.shop_level - 1, 0, caps.size() - 1)])
+
+
 func _open_expand() -> void:
-	var costs: Array = ContentDatabase.bal("shop", {}).get("expansion_costs", [15000, 80000])
+	var costs: Array = ContentDatabase.bal("shop", {}).get("expansion_costs", [15000, 80000, 200000, 450000])
 	var idx := GameState.shop_level - 1
 	if idx >= costs.size():
 		return
@@ -586,7 +615,19 @@ func _open_expand() -> void:
 	var parts := UIKit.modal(self, "Expand the shop")
 	var expand_layer: CanvasLayer = parts[0]
 	var vb: VBoxContainer = parts[1]
-	vb.add_child(UIKit.label("Level %d -> %d: more display slots. Cost: %dg" % [GameState.shop_level, GameState.shop_level + 1, cost]))
+	var caps: Array = ContentDatabase.bal("shop", {}).get("furniture_caps", [5, 8, 12, 16, 20])
+	var slots_by_level: Array = ContentDatabase.bal("shop", {}).get("display_slots_by_level", [5, 8, 12, 16, 20])
+	var next_idx := clampi(GameState.shop_level, 0, caps.size() - 1)
+	vb.add_child(UIKit.label("Shop level %d -> %d   Cost: %dg" % [GameState.shop_level, GameState.shop_level + 1, cost]))
+	vb.add_child(UIKit.label("Display slots %d -> %d   Furniture cap %d -> %d" % [
+		int(slots_by_level[clampi(GameState.shop_level - 1, 0, slots_by_level.size() - 1)]), int(slots_by_level[next_idx]),
+		_furniture_cap(), int(caps[next_idx])], 10))
+	var unlocked: Array[String] = []
+	for fid: String in ContentDatabase.furniture:
+		if int(ContentDatabase.get_furniture(fid).get("unlock_level", 1)) == GameState.shop_level + 1:
+			unlocked.append(String(ContentDatabase.get_furniture(fid).get("name", fid)))
+	if not unlocked.is_empty():
+		vb.add_child(UIKit.label("Unlocks: %s" % ", ".join(unlocked), 10, UIKit.COL_GOOD))
 	var row := HBoxContainer.new()
 	row.alignment = BoxContainer.ALIGNMENT_CENTER
 	row.add_theme_constant_override("separation", 12)
@@ -734,5 +775,6 @@ func _end_session() -> void:
 		elif StoryEventManager.has_pending():
 			SceneRouter.go("story", {"return_to": "shop"})
 		else:
-			DayBriefing.maybe_show(self)))
+			PatchDebrief.show_debrief(self, session_summary, func() -> void:
+				DayBriefing.maybe_show(self))))
 	busy = false

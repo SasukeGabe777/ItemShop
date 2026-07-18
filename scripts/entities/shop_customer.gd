@@ -15,6 +15,8 @@ var _exit_pos: Vector2
 var _speed := 70.0
 var _leaving := false
 var _paused_for_negotiation := false
+var _leg_target := Vector2.INF
+var _leg_axis := -1  # 0 = walking out x, 1 = walking out y
 
 
 func setup(cust: Dictionary, browse_points: Array[Vector2], exit_pos: Vector2, preferred_browse_point: Vector2 = Vector2.INF) -> void:
@@ -35,12 +37,14 @@ func setup(cust: Dictionary, browse_points: Array[Vector2], exit_pos: Vector2, p
 		# stable stand-in); walk-ins vary per spawn and take on the pool
 		# character's name — the archetype stays as their title.
 		var named := bool(cust.get("named", false))
-		var entry: Dictionary = ContentDatabase.customer_pool_entry_by_name(String(cust.get("name", ""))) if named else {}
-		if entry.is_empty():
-			var cid := String(cust.get("id", "cust"))
-			var salt := 0 if named else int(get_instance_id() % 1000)
-			entry = ContentDatabase.customer_pool_entry(cid, salt)
-			if not named and String(entry.get("name", "")) != "":
+		var entry: Dictionary = {}
+		if named:
+			# named customers only ever use their OWN character's art — a
+			# placeholder beats Princess Peach walking around in Vegeta's body
+			entry = ContentDatabase.customer_pool_entry_by_name(String(cust.get("name", "")))
+		else:
+			entry = ContentDatabase.customer_pool_entry(String(cust.get("id", "cust")), int(get_instance_id() % 1000))
+			if String(entry.get("name", "")) != "":
 				cust["name"] = String(entry.get("name", ""))
 		var pool_manifest := String(entry.get("manifest", ""))
 		var static_path := String(entry.get("static", ""))
@@ -109,9 +113,21 @@ func _physics_process(delta: float) -> void:
 				brain.begin_browsing()
 		visual.face(Vector2.UP if not _leaving else Vector2.DOWN, false)
 		return
-	velocity = to_target.normalized() * _speed
+	# cardinal-only movement: walk one axis at a time (L-shaped paths) —
+	# diagonal walking looks wrong with most of the 4-direction sheets
+	if target != _leg_target:
+		_leg_target = target
+		_leg_axis = -1
+	if _leg_axis == 0 and absf(to_target.x) <= 2.0:
+		_leg_axis = -1
+	elif _leg_axis == 1 and absf(to_target.y) <= 2.0:
+		_leg_axis = -1
+	if _leg_axis == -1:
+		_leg_axis = 0 if absf(to_target.x) >= absf(to_target.y) else 1
+	var step := Vector2(signf(to_target.x), 0.0) if _leg_axis == 0 else Vector2(0.0, signf(to_target.y))
+	velocity = step * _speed
 	move_and_slide()
-	visual.face(to_target, true)
+	visual.face(step, true)
 
 
 func _start_leaving() -> void:

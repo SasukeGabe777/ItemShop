@@ -17,6 +17,7 @@ func _ready() -> void:
 	player.position = SceneRouter.last_town_position if SceneRouter.last_town_position != Vector2.ZERO else Vector2(320, 240)
 	add_child(player)
 	player.add_child(ZoomCamera.new())
+	PatchFollower.attach(self, player)
 	hud = GameHUD.new()
 	add_child(hud)
 	prompt = UIKit.label("", 10, UIKit.COL_ACCENT)

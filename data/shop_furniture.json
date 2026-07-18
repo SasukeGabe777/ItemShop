@@ -21,7 +21,8 @@
     40.0,
     24.0
    ],
-   "sprite": ""
+   "sprite": "",
+   "unlock_level": 2
   },
   {
    "allowed_categories": [],
@@ -44,30 +45,8 @@
     40.0,
     24.0
    ],
-   "sprite": ""
-  },
-  {
-   "allowed_categories": [],
-   "appeal_modifiers": {},
-   "blocks_movement": false,
-   "customer_attention_modifier": 0.0,
-   "display_slots": [
-    [
-     0.0,
-     -12.0
-    ]
-   ],
-   "furniture_type": "pedestal",
-   "id": "round_pedestal",
-   "is_moveable": true,
-   "name": "Round Pedestal",
-   "price_modifier": 1.0,
-   "scenery": "barrel",
-   "size": [
-    32.0,
-    24.0
-   ],
-   "sprite": ""
+   "sprite": "",
+   "unlock_level": 2
   },
   {
    "allowed_categories": [],
@@ -90,72 +69,8 @@
     36.0,
     24.0
    ],
-   "sprite": ""
-  },
-  {
-   "allowed_categories": [],
-   "appeal_modifiers": {
-    "cozy": 1.0
-   },
-   "blocks_movement": false,
-   "customer_attention_modifier": 0.05,
-   "display_slots": [
-    [
-     -12.0,
-     -12.0
-    ],
-    [
-     12.0,
-     -12.0
-    ]
-   ],
-   "furniture_type": "small_table",
-   "id": "small_table",
-   "is_moveable": true,
-   "name": "Small Table",
-   "price_modifier": 1.0,
-   "scenery": "",
-   "size": [
-    48.0,
-    26.0
-   ],
-   "sprite": ""
-  },
-  {
-   "allowed_categories": [
-    "weapon",
-    "armor"
-   ],
-   "appeal_modifiers": {
-    "intense": 1.0
-   },
-   "blocks_movement": false,
-   "customer_attention_modifier": 0.05,
-   "display_slots": [
-    [
-     -16.0,
-     -10.0
-    ],
-    [
-     0.0,
-     -10.0
-    ],
-    [
-     16.0,
-     -10.0
-    ]
-   ],
-   "furniture_type": "wall_rack",
-   "id": "wall_rack",
-   "is_moveable": true,
-   "name": "Wall Rack",
-   "price_modifier": 1.0,
-   "scenery": "",
-   "size": [
-    52.0,
-    18.0
-   ],
-   "sprite": ""
+   "sprite": "",
+   "unlock_level": 4
   },
   {
    "allowed_categories": [],
@@ -178,7 +93,8 @@
     40.0,
     24.0
    ],
-   "sprite": "res://assets/shared/furniture/basic_item_stand.png"
+   "sprite": "res://assets/shared/furniture/basic_item_stand.png",
+   "unlock_level": 1
   },
   {
    "allowed_categories": [],
@@ -201,7 +117,8 @@
     40.0,
     24.0
    ],
-   "sprite": "res://assets/shared/furniture/premium_item_stand.png"
+   "sprite": "res://assets/shared/furniture/premium_item_stand.png",
+   "unlock_level": 3
   },
   {
    "allowed_categories": [],
@@ -224,7 +141,8 @@
     40.0,
     24.0
    ],
-   "sprite": "res://assets/shared/furniture/glass_display_case.png"
+   "sprite": "res://assets/shared/furniture/glass_display_case.png",
+   "unlock_level": 4
   },
   {
    "allowed_categories": [],
@@ -247,7 +165,8 @@
     40,
     24
    ],
-   "sprite": "res://assets/shared/furniture/luxury_glass_display_case.png"
+   "sprite": "res://assets/shared/furniture/luxury_glass_display_case.png",
+   "unlock_level": 5
   },
   {
    "allowed_categories": [],
@@ -278,7 +197,8 @@
     40.0,
     24.0
    ],
-   "sprite": "res://assets/shared/furniture/purple_counter.png"
+   "sprite": "res://assets/shared/furniture/purple_counter.png",
+   "unlock_level": 3
   },
   {
    "allowed_categories": [],
@@ -309,38 +229,8 @@
     40.0,
     24.0
    ],
-   "sprite": "res://assets/shared/furniture/green_counter.png"
-  },
-  {
-   "allowed_categories": [],
-   "appeal_modifiers": {},
-   "blocks_movement": false,
-   "customer_attention_modifier": 0.0,
-   "display_slots": [
-    [
-     -13.0,
-     -12.0
-    ],
-    [
-     0.0,
-     -12.0
-    ],
-    [
-     13.0,
-     -12.0
-    ]
-   ],
-   "furniture_type": "counter",
-   "id": "red_counter",
-   "is_moveable": true,
-   "name": "Red Counter",
-   "price_modifier": 1.0,
-   "scenery": "",
-   "size": [
-    40.0,
-    24.0
-   ],
-   "sprite": ""
+   "sprite": "res://assets/shared/furniture/green_counter.png",
+   "unlock_level": 3
   },
   {
    "allowed_categories": [],
@@ -367,7 +257,8 @@
     40.0,
     24.0
    ],
-   "sprite": "res://assets/shared/furniture/small_display_crate.png"
+   "sprite": "res://assets/shared/furniture/small_display_crate.png",
+   "unlock_level": 1
   },
   {
    "allowed_categories": [],
@@ -390,7 +281,8 @@
     40.0,
     24.0
    ],
-   "sprite": "res://assets/shared/furniture/basic_glass_box.png"
+   "sprite": "res://assets/shared/furniture/basic_glass_box.png",
+   "unlock_level": 2
   },
   {
    "allowed_categories": [],
@@ -413,7 +305,8 @@
     40.0,
     24.0
    ],
-   "sprite": "res://assets/shared/furniture/premium_glass_box.png"
+   "sprite": "res://assets/shared/furniture/premium_glass_box.png",
+   "unlock_level": 4
   }
  ],
  "schema": "crossroads.shop_furniture.v1"
