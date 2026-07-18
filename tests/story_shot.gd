@@ -11,6 +11,7 @@ class Probe:
 		get_viewport().get_texture().get_image().save_png("user://screenshots/story_intro.png")
 		print("TRACK=", AudioManager.current_track, " music_stream=", AudioManager.music_player.stream != null)
 		print("VOICE_stream=", AudioManager.sfx_player.stream != null)
+		print("LOBBY_stream=", AudioManager._resolve_stream("crossroads_day") != null)
 		for pressed in [true, false]:
 			var ev := InputEventAction.new()
 			ev.action = "interact"

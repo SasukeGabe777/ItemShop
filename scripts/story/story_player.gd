@@ -2,7 +2,9 @@ extends Node2D
 ## Dialogue scene player. Plays queued story scenes (portrait blobs + typed
 ## text), then routes onward. Also hosts the chapter-failure restart flow.
 
-const BACKDROP := "res://assets/shared/ui/titlescreenupdated.png"
+## Animated starry-sky backdrop (frames exported from begingame_scene.gif).
+const BG_FRAME_PATTERN := "res://assets/scene_backgrounds/begingame_scene_%d.png"
+const BG_FRAME_SECONDS := 0.5
 
 var lines: Array = []
 var line_index: int = 0
@@ -43,18 +45,28 @@ func _build_ui() -> void:
 	bg.color = UIKit.COL_BG
 	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
 	layer.add_child(bg)
-	# the Crossroads key art, dimmed, as the storytelling backdrop
-	if ResourceLoader.exists(BACKDROP):
+	# animated starry-sky backdrop
+	var frames: Array[Texture2D] = []
+	var i := 0
+	while ResourceLoader.exists(BG_FRAME_PATTERN % i):
+		frames.append(load(BG_FRAME_PATTERN % i))
+		i += 1
+	if not frames.is_empty():
 		var art := TextureRect.new()
-		art.texture = load(BACKDROP)
+		art.texture = frames[0]
 		art.set_anchors_preset(Control.PRESET_FULL_RECT)
 		art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		art.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 		layer.add_child(art)
-		var dim := ColorRect.new()
-		dim.color = Color(0.05, 0.06, 0.12, 0.55)
-		dim.set_anchors_preset(Control.PRESET_FULL_RECT)
-		layer.add_child(dim)
+		if frames.size() > 1:
+			var frame_idx := [0]
+			var timer := Timer.new()
+			timer.wait_time = BG_FRAME_SECONDS
+			timer.autostart = true
+			art.add_child(timer)
+			timer.timeout.connect(func() -> void:
+				frame_idx[0] = (frame_idx[0] + 1) % frames.size()
+				art.texture = frames[frame_idx[0]])
 	var margin := MarginContainer.new()
 	margin.set_anchors_preset(Control.PRESET_FULL_RECT)
 	margin.add_theme_constant_override("margin_left", 14)

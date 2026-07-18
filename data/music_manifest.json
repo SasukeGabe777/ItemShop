@@ -11,8 +11,8 @@
   "tracks": {
     "main_menu": {"file": "main_menu", "loop": true},
     "newgame_begin": {"file": "newgame_begin", "loop": true},
-    "crossroads_day": {"file": "crossroads_day", "loop": true},
-    "crossroads_night": {"file": "crossroads_night", "loop": true},
+    "crossroads_day": {"file": "lobby_area", "loop": true},
+    "crossroads_night": {"file": "lobby_area", "loop": true},
     "item_shop": {"file": "item_shop", "loop": true},
     "negotiation": {"file": "negotiation", "loop": true},
     "dungeon_kingdom_hearts": {"file": "dungeon_kingdom_hearts", "loop": true},
