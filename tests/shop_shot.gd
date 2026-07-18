@@ -34,8 +34,18 @@ class Probe:
 		get_viewport().get_texture().get_image().save_png("user://screenshots/shop_session.png")
 		print("CUSTOMERS=", shop.live_customers.size())
 		print("NEGO_stream=", AudioManager._resolve_stream("negotiation") != null)
+		# freeze the live session so its own negotiations can't stack on top of
+		# the forced panel below
+		shop.session_active = false
+		shop.busy = true
+		for child in shop.get_children():
+			if child is NegotiationPanel:
+				child.queue_free()
+		await get_tree().create_timer(0.3).timeout
+		# tiny budget on purpose: exercises the purse indicator + budget-capped
+		# counteroffer notes in the negotiation screenshot
 		var cust := {"id": "probe_cust", "name": "Kakashi", "archetype": "adventurer",
-			"budget": 500, "world": "naruto", "named": true, "line": "Yo. Nice shop."}
+			"budget": 25, "world": "naruto", "named": true, "line": "Yo. Nice shop."}
 		var nego_panel := NegotiationPanel.new()
 		nego_panel.setup(cust, "kh_potion", load("res://assets/franchises/naruto/processed/customers/kakashi.png"))
 		shop.add_child(nego_panel)

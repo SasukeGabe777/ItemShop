@@ -64,6 +64,7 @@ func _ready() -> void:
 		mood_txt = "Bad"
 		mood_col = UIKit.COL_BAD
 	facts.add_child(UIKit.label("Mood: %s" % mood_txt, 14, mood_col))
+	facts.add_child(_purse_label())
 	info.add_child(facts)
 	info.add_child(UIKit.spacer(false))
 	var item_box := VBoxContainer.new()
@@ -92,6 +93,11 @@ func _ready() -> void:
 	if String(customer.get("line", "")) != "":
 		_say(cname, String(customer["line"]))
 	_say(cname, "How much for the %s?" % ContentDatabase.item_name(item_id))
+	var afford := float(nego.budget) / maxf(1.0, float(nego.market_value))
+	if afford < 0.7:
+		_note("Their purse looks far too light for this — expect offers well under market value.")
+	elif afford < 1.0:
+		_note("Their purse looks a touch light — full market price may be out of reach.")
 
 	# ---- running state of the haggle (accept button doubles as the
 	# customer's standing counter-offer) ----
@@ -139,6 +145,35 @@ func _say(who: String, text: String) -> void:
 		chat_scroll.scroll_vertical = int(chat_scroll.get_v_scroll_bar().max_value)
 
 
+## Narration line in the chat: observations the shopkeeper makes.
+func _note(text: String) -> void:
+	chat.add_child(UIKit.label("(%s)" % text, 10, UIKit.COL_DIM))
+	await get_tree().process_frame
+	if is_instance_valid(chat_scroll):
+		chat_scroll.scroll_vertical = int(chat_scroll.get_v_scroll_bar().max_value)
+
+
+## Coin pips + phrase sizing the customer's wallet against this item's price.
+func _purse_label() -> Label:
+	var afford := float(nego.budget) / maxf(1.0, float(nego.market_value))
+	var filled := clampi(int(ceil(afford * 2.5)), 1, 5)
+	var pips := "●".repeat(filled) + "○".repeat(5 - filled)
+	var txt := "can pay well over market"
+	var col := UIKit.COL_GOOD
+	if afford < 0.7:
+		txt = "can't afford this item"
+		col = UIKit.COL_BAD
+	elif afford < 1.0:
+		txt = "a little short for this"
+		col = UIKit.COL_ACCENT
+	elif afford < 1.3:
+		txt = "can afford market price"
+	var lbl := UIKit.label("Purse %s  %s" % [pips, txt], 12, col)
+	lbl.tooltip_text = "How much coin they carry compared to this item's market value (~%dg).\nA short purse means lowball offers — it's all they can pay." % nego.market_value
+	lbl.mouse_filter = Control.MOUSE_FILTER_STOP
+	return lbl
+
+
 func _propose() -> void:
 	your_offer_lbl.text = "Your last offer: %dg" % int(price_spin.value)
 	your_offer_lbl.add_theme_color_override("font_color", UIKit.COL_INK)
@@ -163,6 +198,8 @@ func _handle(outcome: Dictionary) -> void:
 			_finish(outcome)
 		Negotiation.RESULT_COUNTER, Negotiation.RESULT_FINAL_WARNING:
 			last_counter = int(outcome["price"])
+			if bool(outcome.get("budget_capped", false)):
+				_note("They turn out their pockets — %dg is every coin they're carrying." % last_counter)
 			accept_counter_btn.text = "Accept their %dg" % last_counter
 			accept_counter_btn.visible = true
 			price_spin.value = last_counter

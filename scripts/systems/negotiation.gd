@@ -68,6 +68,12 @@ func counter_price() -> int:
 	return mini(budget, int(round(target)))
 
 
+## True when the wallet (not willingness) is what limits their counteroffer —
+## they would pay more for this item if they had the coin.
+func counter_is_budget_capped() -> bool:
+	return counter_price() >= budget
+
+
 ## Evaluate a proposed price. Returns
 ## {result, price, relationship_delta, perfect, message}.
 func propose(price: int) -> Dictionary:
@@ -93,19 +99,23 @@ func propose(price: int) -> Dictionary:
 		if over_ratio > 1.5:
 			loss = int(cfg.get("relationship_loss_gouge", 2))
 		return _res(RESULT_LEAVE, 0, -loss, false, "Forget it! I'm leaving.")
+	var capped := counter_is_budget_capped()
 	if over_ratio >= float(cfg.get("final_warning_threshold", 1.12)) and rounds_left == 1:
 		warned = true
 		rounds_left -= 1
-		return _res(RESULT_FINAL_WARNING, counter_price(), 0, false, "This is my FINAL offer.")
+		var warn_msg := "This is my FINAL offer. My purse holds nothing more." if capped else "This is my FINAL offer."
+		return _res(RESULT_FINAL_WARNING, counter_price(), 0, false, warn_msg, false, capped)
 	rounds_left -= 1
-	return _res(RESULT_COUNTER, counter_price(), 0, false, "Hmm... how about this instead?")
+	var counter_msg := "I want it, truly — but this is everything I have." if capped else "Hmm... how about this instead?"
+	return _res(RESULT_COUNTER, counter_price(), 0, false, counter_msg, false, capped)
 
 
-func _res(result: String, price: int, rel_delta: int, perfect: bool, message: String, was_first: bool = false) -> Dictionary:
+func _res(result: String, price: int, rel_delta: int, perfect: bool, message: String, was_first: bool = false, budget_capped: bool = false) -> Dictionary:
 	log.append("%s -> %s" % [result, price])
 	return {
 		"result": result, "price": price, "relationship_delta": rel_delta,
 		"perfect": perfect, "message": message, "first_offer": was_first,
+		"budget_capped": budget_capped,
 	}
 
 
