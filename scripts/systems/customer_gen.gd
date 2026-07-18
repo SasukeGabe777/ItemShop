@@ -8,9 +8,6 @@ static var rng := RandomNumberGenerator.new()
 ## A runtime customer dictionary:
 ## {id, name, archetype, budget, hero_ref, color, quirk, line, named}
 static func generate_session_customers() -> Array[Dictionary]:
-	var onboarding_customer := _vertical_slice_customer()
-	if not onboarding_customer.is_empty():
-		return [onboarding_customer]
 	var shop_cfg: Dictionary = ContentDatabase.bal("shop", {})
 	var appeal := InventoryManager.shop_appeal()
 	var appeal_total := 0
@@ -28,6 +25,11 @@ static func generate_session_customers() -> Array[Dictionary]:
 				out.append(named)
 				continue
 		out.append(_make_walk_in())
+	# the vertical-slice onboarding customer leads the day but never replaces
+	# the crowd — a failed scripted sale must not starve the shop of business
+	var onboarding_customer := _vertical_slice_customer()
+	if not onboarding_customer.is_empty():
+		out.insert(0, onboarding_customer)
 	return out
 
 

@@ -64,7 +64,9 @@ func _test_first_shop_sale() -> void:
 	var slot: Dictionary = ShopFurnitureManager.get_all_available_display_slots()[0]
 	_check((slot.get("position", Vector2.ZERO) as Vector2).distance_to(moved_furniture_position) < 40.0, "the browse target follows the moved stand")
 	var customers := CustomerGen.generate_session_customers()
-	_check(customers.size() == 1, "the onboarding shop session uses one deterministic customer")
+	_check(not customers.is_empty() and String(customers[0].get("id", "")) == "moogle_c",
+		"the onboarding shop session leads with the deterministic customer")
+	_check(customers.size() >= 2, "the onboarding session still brings regular business")
 	if not customers.is_empty():
 		var interest := ShopFurnitureManager.choose_display_slot_for_customer(customers[0])
 		_check(String(interest.get("item_id", "")) == "kh_potion", "the customer inspects the displayed Potion")
@@ -180,7 +182,8 @@ func _complete_after_dungeon() -> void:
 func _test_recovered_item_sale(cfg: Dictionary) -> void:
 	_check(InventoryManager.place_display(0, "lucid_shard"), "the recovered Lucid Shard can be displayed")
 	var customers := CustomerGen.generate_session_customers()
-	_check(customers.size() == 1, "the recovered-item session uses the same deterministic customer")
+	_check(not customers.is_empty() and String(customers[0].get("id", "")) == String(cfg.get("customer_id", "")),
+		"the recovered-item session leads with the deterministic customer")
 	if customers.is_empty():
 		return
 	var interest := ShopFurnitureManager.choose_display_slot_for_customer(customers[0])
