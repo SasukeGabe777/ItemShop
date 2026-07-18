@@ -195,7 +195,9 @@ func _build_hud() -> void:
 	consum_label.clip_text = true
 	consum_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.add_child(consum_label)
-	row.add_child(UIKit.label("J attack K special L dodge I item U finisher", 8, UIKit.COL_DIM))
+	var hints := "A attack  X special  B dodge  Y item  RB finisher" if UIKit.pad_connected() \
+		else "J attack K special L dodge I item U finisher"
+	row.add_child(UIKit.label(hints, 8, UIKit.COL_DIM))
 	boss_bar = _hud_bar("boss", Vector2(0, 16), Color(0.8, 0.3, 0.5))
 	boss_bar.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	boss_bar.visible = false
@@ -446,7 +448,7 @@ func _spawn_switch_pad(at: Vector2) -> void:
 	var pad_tex := Scenery.texture_or_null("save_point")
 	spr.texture = pad_tex if pad_tex != null else PlaceholderFactory.flat_texture(Color(0.4, 0.9, 1.0, 0.7), 24, 24)
 	pad.add_child(spr)
-	var lbl := UIKit.label("SAVE POINT: switch hero [E]", 8, UIKit.COL_ACCENT)
+	var lbl := UIKit.label("SAVE POINT: switch hero [%s]" % UIKit.interact_key(), 8, UIKit.COL_ACCENT)
 	lbl.position = Vector2(-46, -34)
 	pad.add_child(lbl)
 	var inside := {"v": false}

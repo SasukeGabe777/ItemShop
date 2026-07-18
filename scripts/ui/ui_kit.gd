@@ -18,6 +18,41 @@ const BAR_BLUE := "res://assets/shared/ui/processed/bar_blue.png"
 static var _light_theme: Theme = null
 
 
+## ---- controller support -------------------------------------------------
+
+static func pad_connected() -> bool:
+	return not Input.get_connected_joypads().is_empty()
+
+
+## Key name shown in interact prompts: "A" on a controller, "E" otherwise.
+static func interact_key() -> String:
+	return "A" if pad_connected() else "E"
+
+
+static func _first_button_in(node: Node) -> Button:
+	if node is Button and (node as Button).visible and not (node as Button).disabled:
+		return node
+	for child in node.get_children():
+		var b := _first_button_in(child)
+		if b != null:
+			return b
+	return null
+
+
+## Focuses the first usable button under `root` (deferred, so it works right
+## after building a menu) when a controller is plugged in — the D-pad and A
+## button then drive every menu via Godot's built-in focus navigation.
+static func focus_first_button(root: Node) -> void:
+	if not pad_connected():
+		return
+	(func() -> void:
+		if not is_instance_valid(root):
+			return
+		var b := _first_button_in(root)
+		if b != null:
+			b.grab_focus()).call_deferred()
+
+
 ## Theme for content inside the supplied white ornate panels: dark text and
 ## the white/blue bar textures as button states.
 static func light_theme() -> Theme:
@@ -178,6 +213,8 @@ static func modal(parent: Node, title: String) -> Array:
 	if title != "":
 		vb.add_child(header(title))
 		vb.add_child(hsep())
+	# controller: focus the first button once the caller has filled the modal
+	focus_first_button(vb)
 	return [layer, vb]
 
 

@@ -118,7 +118,7 @@ func _process(_delta: float) -> void:
 	var ic := player.nearest_interactable()
 	prompt.visible = ic != null
 	if ic != null:
-		prompt.text = "[E] " + ic.prompt
+		prompt.text = "[%s] %s" % [UIKit.interact_key(), ic.prompt]
 		prompt.position = player.position + Vector2(-30, -34)
 	if Input.is_action_just_pressed("interact") and ic != null:
 		_activate(ic.action_id)

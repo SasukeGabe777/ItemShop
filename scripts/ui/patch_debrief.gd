@@ -92,7 +92,7 @@ func _ready() -> void:
 	_text.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_text.custom_minimum_size = Vector2(340, 40)
 	vb.add_child(_text)
-	var hint := UIKit.label("[E] continue", 8, Color("#8fa0b8"))
+	var hint := UIKit.label("[%s] continue" % UIKit.interact_key(), 8, Color("#8fa0b8"))
 	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	vb.add_child(hint)
 

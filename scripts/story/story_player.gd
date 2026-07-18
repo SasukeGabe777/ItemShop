@@ -98,7 +98,7 @@ func _build_ui() -> void:
 	text_label.add_theme_font_size_override("normal_font_size", 11)
 	text_label.add_theme_color_override("default_color", UIKit.COL_INK)
 	vb.add_child(text_label)
-	continue_hint = UIKit.label("[E / Space] continue", 8, UIKit.COL_DIM)
+	continue_hint = UIKit.label("[A] continue" if UIKit.pad_connected() else "[E / Space] continue", 8, UIKit.COL_DIM)
 	vb.add_child(continue_hint)
 
 
