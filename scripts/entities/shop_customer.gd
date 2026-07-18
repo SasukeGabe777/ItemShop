@@ -30,16 +30,27 @@ func setup(cust: Dictionary, browse_points: Array[Vector2], exit_pos: Vector2, p
 		sprite_id = String(cust.get("id", "cust"))
 	var manifest := "res://assets/franchises/%s/manifests/%s.json" % [String(cust.get("world", "")), sprite_id]
 	if not visual.setup_from_manifest(manifest):
-		# no real sheet: draw a character from the FF customer pool. Named
-		# customers keep a stable look; walk-ins vary per spawn.
-		var cid := String(cust.get("id", "cust"))
-		var salt := 0 if bool(cust.get("named", false)) else int(get_instance_id() % 1000)
-		var pool_tex := ContentDatabase.customer_pool_texture(cid, salt)
-		if pool_tex != null:
-			visual.setup_static(pool_tex)
+		# no real sheet: draw a character from the customer pool. Named
+		# customers get their own character when the pool has them (or a
+		# stable stand-in); walk-ins vary per spawn and take on the pool
+		# character's name — the archetype stays as their title.
+		var named := bool(cust.get("named", false))
+		var entry: Dictionary = ContentDatabase.customer_pool_entry_by_name(String(cust.get("name", ""))) if named else {}
+		if entry.is_empty():
+			var cid := String(cust.get("id", "cust"))
+			var salt := 0 if named else int(get_instance_id() % 1000)
+			entry = ContentDatabase.customer_pool_entry(cid, salt)
+			if not named and String(entry.get("name", "")) != "":
+				cust["name"] = String(entry.get("name", ""))
+		var pool_manifest := String(entry.get("manifest", ""))
+		var static_path := String(entry.get("static", ""))
+		if pool_manifest != "" and visual.setup_from_manifest(pool_manifest):
+			pass
+		elif static_path != "" and ResourceLoader.exists(static_path):
+			visual.setup_static(load(static_path))
 		else:
-			visual.setup_placeholder(cid, String(cust.get("world", "")), String(cust.get("color", "#c0c0c0")), 15)
-	if bool(cust.get("named", false)):
+			visual.setup_placeholder(String(cust.get("id", "cust")), String(cust.get("world", "")), String(cust.get("color", "#c0c0c0")), 15)
+	if String(cust.get("name", "")) != "":
 		var tag := UIKit.label(String(cust.get("name", "")), 8, UIKit.COL_ACCENT)
 		tag.position = Vector2(-20, -34)
 		add_child(tag)
@@ -82,7 +93,7 @@ func resume_after_negotiation() -> void:
 
 func _physics_process(delta: float) -> void:
 	if _paused_for_negotiation:
-		visual.face(Vector2.UP, false)
+		visual.face(Vector2.DOWN, false)
 		return
 	brain.tick(delta)
 	var target := _exit_pos if _leaving else (_waypoints[0] if not _waypoints.is_empty() else position)
@@ -96,7 +107,7 @@ func _physics_process(delta: float) -> void:
 			_waypoints.remove_at(0)
 			if _waypoints.is_empty():
 				brain.begin_browsing()
-		visual.face(Vector2.UP, false)
+		visual.face(Vector2.UP if not _leaving else Vector2.DOWN, false)
 		return
 	velocity = to_target.normalized() * _speed
 	move_and_slide()

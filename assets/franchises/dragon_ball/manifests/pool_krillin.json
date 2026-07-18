@@ -1,0 +1,68 @@
+{
+  "asset_id": "pool_krillin",
+  "sheet": "res://assets/franchises/dragon_ball/processed/sheets/pool_krillin.png",
+  "native_scale": 1,
+  "display_scale": 1,
+  "pivot": [
+    11,
+    27
+  ],
+  "grid": {
+    "frame_width": 22,
+    "frame_height": 31,
+    "columns": 8,
+    "rows": 2
+  },
+  "animations": {
+    "idle_down": {
+      "frames": [
+        0
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "walk_down": {
+      "frames": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "fps": 8,
+      "loop": true
+    },
+    "idle_side": {
+      "frames": [
+        5
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "walk_side": {
+      "frames": [
+        6,
+        7,
+        8
+      ],
+      "fps": 8,
+      "loop": true
+    },
+    "idle_up": {
+      "frames": [
+        9
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "walk_up": {
+      "frames": [
+        10,
+        11,
+        12,
+        13
+      ],
+      "fps": 8,
+      "loop": true
+    }
+  }
+}

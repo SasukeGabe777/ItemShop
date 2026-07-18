@@ -1,0 +1,37 @@
+2026-07-18 03:01:01,377 INFO Opening game page: https://www.spriters-resource.com/ds_dsi/pokemonheartgoldsoulsilver/
+2026-07-18 03:01:07,566 INFO Game: Pokémon HeartGold / SoulSilver
+2026-07-18 03:01:07,566 INFO Platform/category: Ds Dsi
+2026-07-18 03:01:07,566 INFO Asset count reported: 42
+2026-07-18 03:01:07,566 INFO Assets selected: 10
+2026-07-18 03:01:07,566 INFO Sections: Playable Characters, Overworld, Battle, Trainers, Miscellaneous
+2026-07-18 03:01:07,567 INFO Destination: C:\Users\Game Station\Desktop\crossroads\assets\franchises\pokemon\raw\customers_updated
+2026-07-18 03:01:07,567 INFO Filename pattern: sprite_<asset>
+2026-07-18 03:01:07,567 INFO Visiting asset 26778: https://www.spriters-resource.com/ds_dsi/pokemonheartgoldsoulsilver/asset/26778/
+2026-07-18 03:01:12,705 INFO Trying download control: download attribute
+2026-07-18 03:01:15,312 DEBUG Waited 2.00 seconds before next request.
+2026-07-18 03:01:15,312 INFO Visiting asset 26777: https://www.spriters-resource.com/ds_dsi/pokemonheartgoldsoulsilver/asset/26777/
+2026-07-18 03:01:18,340 INFO Trying download control: download attribute
+2026-07-18 03:01:20,552 DEBUG Waited 2.00 seconds before next request.
+2026-07-18 03:01:20,552 INFO Visiting asset 26954: https://www.spriters-resource.com/ds_dsi/pokemonheartgoldsoulsilver/asset/26954/
+2026-07-18 03:01:22,423 INFO Trying download control: download attribute
+2026-07-18 03:01:24,676 DEBUG Waited 2.00 seconds before next request.
+2026-07-18 03:01:24,676 INFO Visiting asset 67543: https://www.spriters-resource.com/ds_dsi/pokemonheartgoldsoulsilver/asset/67543/
+2026-07-18 03:01:26,818 INFO Trying download control: download attribute
+2026-07-18 03:01:29,053 DEBUG Waited 2.00 seconds before next request.
+2026-07-18 03:01:29,053 INFO Visiting asset 26794: https://www.spriters-resource.com/ds_dsi/pokemonheartgoldsoulsilver/asset/26794/
+2026-07-18 03:01:33,890 INFO Trying download control: download attribute
+2026-07-18 03:01:36,131 DEBUG Waited 2.00 seconds before next request.
+2026-07-18 03:01:36,131 INFO Visiting asset 26795: https://www.spriters-resource.com/ds_dsi/pokemonheartgoldsoulsilver/asset/26795/
+2026-07-18 03:01:38,051 INFO Trying download control: download attribute
+2026-07-18 03:01:40,282 DEBUG Waited 2.00 seconds before next request.
+2026-07-18 03:01:40,282 INFO Visiting asset 26828: https://www.spriters-resource.com/ds_dsi/pokemonheartgoldsoulsilver/asset/26828/
+2026-07-18 03:01:42,094 INFO Trying download control: download attribute
+2026-07-18 03:01:44,333 DEBUG Waited 2.00 seconds before next request.
+2026-07-18 03:01:44,333 INFO Visiting asset 26953: https://www.spriters-resource.com/ds_dsi/pokemonheartgoldsoulsilver/asset/26953/
+2026-07-18 03:01:46,094 INFO Trying download control: download attribute
+2026-07-18 03:01:48,389 DEBUG Waited 2.00 seconds before next request.
+2026-07-18 03:01:48,389 INFO Visiting asset 26952: https://www.spriters-resource.com/ds_dsi/pokemonheartgoldsoulsilver/asset/26952/
+2026-07-18 03:01:50,293 INFO Trying download control: download attribute
+2026-07-18 03:01:52,535 DEBUG Waited 2.00 seconds before next request.
+2026-07-18 03:01:52,535 INFO Visiting asset 26955: https://www.spriters-resource.com/ds_dsi/pokemonheartgoldsoulsilver/asset/26955/
+2026-07-18 03:01:54,517 INFO Trying download control: download attribute

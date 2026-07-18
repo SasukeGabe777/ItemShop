@@ -177,13 +177,35 @@ func get_furniture(id: String) -> Dictionary:
 	return furniture.get(id, {})
 
 
-## Stable visual for a customer without a real spritesheet: the same key
-## always maps to the same pool character (salt varies walk-in duplicates).
-func customer_pool_texture(key: String, salt: int = 0) -> Texture2D:
+## Stable pool entry ({slug, name, world, static, manifest}) for a customer
+## without a dedicated spritesheet: the same key always maps to the same
+## pool character (salt varies walk-in duplicates).
+func customer_pool_entry(key: String, salt: int = 0) -> Dictionary:
 	if customer_visual_pool.is_empty():
-		return null
-	var path := String(customer_visual_pool[absi((key + str(salt)).hash()) % customer_visual_pool.size()])
-	return load(path) if ResourceLoader.exists(path) else null
+		return {}
+	return customer_visual_pool[absi((key + str(salt)).hash()) % customer_visual_pool.size()]
+
+
+## Pool entry whose character name matches a named customer (e.g. the
+## "Kakashi" customer gets the kakashi pool sprite). Empty when no match.
+func customer_pool_entry_by_name(cname: String) -> Dictionary:
+	if cname == "":
+		return {}
+	var want := cname.to_lower().replace(" ", "_").replace(".", "")
+	for e: Dictionary in customer_visual_pool:
+		if String(e.get("slug", "")) == want or String(e.get("name", "")).to_lower() == cname.to_lower():
+			return e
+	# partial: "Donald" matches donald_duck
+	for e: Dictionary in customer_visual_pool:
+		var slug := String(e.get("slug", ""))
+		if slug != "" and (slug.begins_with(want + "_") or want.begins_with(slug + "_")):
+			return e
+	return {}
+
+
+func customer_pool_texture(key: String, salt: int = 0) -> Texture2D:
+	var path := String(customer_pool_entry(key, salt).get("static", ""))
+	return load(path) if path != "" and ResourceLoader.exists(path) else null
 
 
 func get_location(id: String) -> Dictionary:

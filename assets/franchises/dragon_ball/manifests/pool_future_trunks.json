@@ -1,0 +1,69 @@
+{
+  "asset_id": "pool_future_trunks",
+  "sheet": "res://assets/franchises/dragon_ball/processed/sheets/pool_future_trunks.png",
+  "native_scale": 1,
+  "display_scale": 1,
+  "pivot": [
+    10,
+    29
+  ],
+  "grid": {
+    "frame_width": 20,
+    "frame_height": 33,
+    "columns": 8,
+    "rows": 2
+  },
+  "animations": {
+    "idle_down": {
+      "frames": [
+        0
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "walk_down": {
+      "frames": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "fps": 8,
+      "loop": true
+    },
+    "idle_side": {
+      "frames": [
+        5
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "walk_side": {
+      "frames": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "fps": 8,
+      "loop": true
+    },
+    "idle_up": {
+      "frames": [
+        10
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "walk_up": {
+      "frames": [
+        11,
+        12,
+        13,
+        14
+      ],
+      "fps": 8,
+      "loop": true
+    }
+  }
+}

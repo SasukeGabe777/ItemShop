@@ -33,6 +33,10 @@ class Probe:
 		await get_tree().create_timer(3.8).timeout
 		get_viewport().get_texture().get_image().save_png("user://screenshots/shop_session.png")
 		print("CUSTOMERS=", shop.live_customers.size())
+		for c: Node in shop.live_customers:
+			print("CUST_NAME=", c.data.get("name", "?"), " arch=", c.data.get("archetype", ""))
+		var goku_frames := SpriteFramesBuilder.from_manifest_path("res://assets/franchises/dragon_ball/manifests/pool_goku.json")
+		print("GOKU_ANIMS=", goku_frames.get_animation_names() if goku_frames != null else "null")
 		print("NEGO_stream=", AudioManager._resolve_stream("negotiation") != null)
 		# freeze the live session so its own negotiations can't stack on top of
 		# the forced panel below

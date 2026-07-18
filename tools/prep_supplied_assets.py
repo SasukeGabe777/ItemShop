@@ -361,18 +361,228 @@ def frame_score(im: Image.Image) -> float:
             - whiteish * 150.0 - darkish * 15.0)
 
 
+def _mirror_symmetry(im: Image.Image) -> float:
+    """0..1: how horizontally symmetric the sprite is. Front- and back-facing
+    stands score high, side profiles and action poses score low."""
+    a = np.asarray(im)
+    al = a[..., 3] > 10
+    fl = al[:, ::-1]
+    union = (al | fl).sum()
+    if union == 0:
+        return 0.0
+    iou = float((al & fl).sum()) / float(union)
+    both = al & fl
+    col = 0.0
+    if both.any():
+        rgb = a[..., :3].astype(np.int16)
+        diff = np.abs(rgb - rgb[:, ::-1]).max(axis=2)
+        col = float((diff[both] <= 48).mean())
+    return 0.55 * iou + 0.45 * col
+
+
+def _face_detail(im: Image.Image) -> float:
+    """0..1: color variety in the upper half. Faces (eyes/skin/hair edges)
+    are busy; the back of a head is a flat hair blob."""
+    a = np.asarray(im)
+    top = a[: max(1, int(a.shape[0] * 0.45))]
+    vis = top[top[..., 3] > 10][:, :3]
+    if len(vis) < 10:
+        return 0.0
+    ncol = len(np.unique(vis // 24, axis=0))
+    return min(1.0, ncol / 10.0)
+
+
+def front_score(im: Image.Image) -> float:
+    """frame_score biased hard toward front-facing standing frames: the pool
+    sprite IS the customer's face in the shop and the negotiation portrait."""
+    s = frame_score(im)
+    if s < 0:
+        return s
+    return s + 110.0 * _mirror_symmetry(im) + 45.0 * _face_detail(im)
+
+
+def _key_sheet(img: Image.Image, extra_keys: list | None = None) -> Image.Image:
+    """Key a rip's background: the dominant corner color plus any color
+    covering >12% of the sheet (checker backgrounds have two), plus caller
+    extras (e.g. grid-line colors)."""
+    from collections import Counter
+
+    a = np.array(img)
+    opaque = a[a[..., 3] > 0][:, :3]
+    keyed: list[tuple[int, int, int]] = [tuple(int(v) for v in k) for k in (extra_keys or [])]
+    corners = [tuple(a[0, 0]), tuple(a[0, -1]), tuple(a[-1, 0]), tuple(a[-1, -1])]
+    corner = Counter(corners).most_common(1)[0][0]
+    if corner[3] > 0:
+        keyed.append((int(corner[0]), int(corner[1]), int(corner[2])))
+    if len(opaque):
+        for col, cnt in Counter(map(tuple, opaque)).most_common(4):
+            col = tuple(int(c) for c in col)
+            if cnt / len(opaque) > 0.12 and not any(
+                    max(abs(col[i] - k[i]) for i in range(3)) <= 12 for k in keyed):
+                keyed.append(col)
+    for k in keyed:
+        img = chroma_key(img, k, tol=12)
+    return img
+
+
+def _sheet_rows(img: Image.Image, n_rows: int = 4) -> list:
+    """Sprite rows on a LoG2-style strip: the rows sit in one tall alpha
+    block (they touch, so gaps can't split them); title/credit text forms
+    separate short bands. Take the tallest band and cut it into n_rows
+    equal rows."""
+    a = np.array(img)
+    rows = (a[..., 3] > 10).any(axis=1)
+    bands: list[tuple[int, int]] = []
+    y, height = 0, img.height
+    while y < height:
+        while y < height and not rows[y]:
+            y += 1
+        if y >= height:
+            break
+        y0 = y
+        while y < height and rows[y]:
+            y += 1
+        bands.append((y0, y))
+    if not bands:
+        return []
+    y0, y1 = max(bands, key=lambda b: b[1] - b[0])
+    if (y1 - y0) < n_rows * 16:
+        return []
+    step = (y1 - y0) / n_rows
+    return [(int(y0 + i * step), int(y0 + (i + 1) * step)) for i in range(n_rows)]
+
+
+## Sheets with clean multi-direction walk rows become fully animated
+## customers. log2 = Legacy-of-Goku-2 strips: 4 sprite rows top-to-bottom =
+## facing down, side, side, up; frame 0 of a row stands, the walk follows.
+WALK_ANIM_WORLDS = {
+    "dragon_ball": {
+        "pattern": "sprite_%s.png",
+        "names": ["goku", "vegeta", "piccolo", "krillin", "gohan_casual",
+                  "future_trunks", "tien_shinhan", "yamcha", "hercule_mr_satan",
+                  "goku_super_saiyan", "vegeta_super_saiyan"],
+        "side_row": 1, "up_row": 3, "side_faces_left": True,
+    },
+}
+
+
+def prep_customer_walk_anims() -> None:
+    """Directional walk animations for pool customers whose rips carry full
+    walk rows. Writes processed/sheets/pool_<name>.png + manifests/pool_<name>.json
+    and overwrites the static frame with the front-facing stand."""
+    for world, cfg in WALK_ANIM_WORLDS.items():
+        src_dir = ROOT / f"assets/franchises/{world}/raw/customers"
+        done = 0
+        for name in cfg["names"]:
+            path = src_dir / (cfg["pattern"] % name)
+            if not path.exists():
+                print(f"  {world}/{name}: MISSING {path.name}")
+                continue
+            img = _key_sheet(load_rgba(path))
+            bands = _sheet_rows(img)
+            if len(bands) < 4:
+                print(f"  {world}/{name}: only {len(bands)} sprite rows, skipped")
+                continue
+
+            def row_frames(i: int) -> list:
+                y0, y1 = bands[i]
+                min_h = int((y1 - y0) * 0.55)
+                return [f for f in _band_frames(img, (0, y0, img.width, y1))
+                        if f.height >= min_h and f.width >= 12]
+
+            down = row_frames(0)
+            side = row_frames(cfg["side_row"])
+            up = row_frames(cfg["up_row"])
+            if len(down) < 5 or len(side) < 5 or len(up) < 5:
+                print(f"  {world}/{name}: thin rows (%d/%d/%d), skipped" % (len(down), len(side), len(up)))
+                continue
+            if cfg["side_faces_left"]:
+                side = [f.transpose(Image.FLIP_LEFT_RIGHT) for f in side]
+
+            # frames after the walk cycle are actions (punches lunge wider
+            # than strides) — keep near-stand-width frames only
+            def cycle(frames: list) -> list:
+                base = frames[1].width
+                out = [f for f in frames[1:7] if f.width <= base * 1.3]
+                return out[:4] if len(out) >= 2 else frames[1:4]
+
+            down = [down[0]] + cycle(down)
+            side = [side[0]] + cycle(side)
+            up = [up[0]] + cycle(up)
+            # one shared scale so the cycle doesn't wobble between frames
+            all_fr = down + side + up
+            max_h = max(f.height for f in all_fr)
+            if max_h > 44:
+                k = 40.0 / max_h
+                all_fr = [resize_rgba(f, (max(1, round(f.width * k)), max(1, round(f.height * k)))) for f in all_fr]
+                down = all_fr[:len(down)]
+                side = all_fr[len(down):len(down) + len(side)]
+                up = all_fr[len(down) + len(side):]
+            anims = {
+                "idle_down": [down[0]], "walk_down": down[1:],
+                "idle_side": [side[0]], "walk_side": side[1:],
+                "idle_up": [up[0]], "walk_up": up[1:],
+            }
+            cell = (max(f.width for f in all_fr) + 4, max(f.height for f in all_fr) + 2)
+            _compose_anims(anims, cell,
+                           ROOT / f"assets/franchises/{world}/processed/sheets/pool_{name}.png",
+                           ROOT / f"assets/franchises/{world}/manifests/pool_{name}.json",
+                           f"res://assets/franchises/{world}/processed/sheets/pool_{name}.png",
+                           fps={"walk_down": 8, "walk_side": 8, "walk_up": 8})
+            # the front-facing stand doubles as the static frame + portrait
+            out = ROOT / f"assets/franchises/{world}/processed/customers"
+            out.mkdir(parents=True, exist_ok=True)
+            down[0].save(out / f"{name}.png")
+            done += 1
+        print(f"  {world}: {done} animated customers")
+
+
+## Display names for pool slugs the automatic title-casing gets wrong
+## (multi-character sheets keep the file name; the frame we extract from
+## them is verified visually against this name).
+POOL_DISPLAY_NAMES = {
+    "gohan_casual": "Gohan",
+    "goku_super_saiyan": "Super Saiyan Goku",
+    "vegeta_super_saiyan": "Super Saiyan Vegeta",
+    "hercule_mr_satan": "Mr. Satan",
+    "future_trunks": "Trunks",
+    "tien_shinhan": "Tien",
+    "bob_omb": "Bob-omb",
+    "bowser_usa": "Bowser",
+    "koopa_troopas": "Koopa Troopa",
+    "hammer_bro": "Hammer Bro",
+    "cheep_cheep_puffer_cheep": "Cheep Cheep",
+    "beanbean_kingdom_residents": "Beanbean Resident",
+    "lady_lima": "Lady Lima",
+    "dry_bones": "Dry Bones",
+    "sasuke_black_outfit": "Sasuke",
+    "hidden_leaf_ninja": "Leaf Ninja",
+    "mickey_mouse": "Mickey",
+    "donald_duck": "Donald",
+}
+
+
 def write_customer_pool() -> None:
-    """data/customer_visuals.json = every extracted customer frame across
-    all franchises."""
+    """data/customer_visuals.json v2: every extracted pool customer with its
+    display name, static frame and (when animated) walk manifest."""
     import json as _json
 
-    pool: list[str] = []
+    entries: list[dict] = []
     for png in sorted((ROOT / "assets/franchises").glob("*/processed/customers/*.png")):
-        rel = png.relative_to(ROOT).as_posix()
-        pool.append("res://" + rel)
-    doc = {"schema": "crossroads.customer_visuals.v1", "pool": pool}
+        slug = png.stem
+        world = png.relative_to(ROOT / "assets/franchises").parts[0]
+        manifest = ROOT / f"assets/franchises/{world}/manifests/pool_{slug}.json"
+        entries.append({
+            "slug": slug,
+            "name": POOL_DISPLAY_NAMES.get(slug, slug.replace("_", " ").title()),
+            "world": world,
+            "static": "res://" + png.relative_to(ROOT).as_posix(),
+            "manifest": ("res://" + manifest.relative_to(ROOT).as_posix()) if manifest.exists() else "",
+        })
+    doc = {"schema": "crossroads.customer_visuals.v2", "pool": entries}
     (ROOT / "data/customer_visuals.json").write_text(_json.dumps(doc, indent=2) + "\n", encoding="utf-8")
-    print(f"  customer pool: {len(pool)} entries")
+    animated = sum(1 for e in entries if e["manifest"])
+    print(f"  customer pool: {len(entries)} entries ({animated} animated)")
 
 
 def prep_ff_customers() -> None:
@@ -396,7 +606,7 @@ def prep_ff_customers() -> None:
             w, h = box[2] - box[0], box[3] - box[1]
             if 12 <= w <= 20 and 18 <= h <= 28:
                 candidates.append(img.crop(tuple(box)))
-        best = max(candidates, key=frame_score)
+        best = max(candidates, key=front_score)
         if frame_score(best) < 10.0:
             print(f"  {name}: no clean frame found, skipped")
             continue
@@ -431,13 +641,38 @@ FRANCHISE_CUSTOMERS = {
 }
 
 
-def prep_franchise_customers() -> None:
-    """Best standing frame per picked character from the newly supplied
-    franchise customer sheets. Backgrounds vary (solid pastels, the DBZ
-    two-tone green checker); key the corner color(s), collect stand-sized
-    islands and keep the best-scoring frame."""
-    from collections import Counter
+## Manual corrections after visually checking tools/out/pool_sheet.png:
+## "box" = explicit crop from the keyed raw sheet when the scorer misfires,
+## "rename" = output slug when the winning frame from a multi-character
+## sheet is a different character than the file name suggests.
+CUSTOMER_FIXES: dict[tuple[str, str], dict] = {
+    ("kingdom_hearts", "goofy"): {"box": (171, 0, 203, 64)},
+    ("kingdom_hearts", "hades"): {"box": (2, 2, 46, 95)},
+    ("kingdom_hearts", "hercules"): {"box": (7, 286, 48, 353)},
+    ("kingdom_hearts", "tidus"): {"box": (0, 0, 19, 55)},
+    ("kingdom_hearts", "wakka"): {"box": (81, 1, 119, 53)},
+    ("mario", "boo"): {"box": (4, 983, 32, 1005)},
+    ("mario", "dry_bones"): {"box": (8, 302, 26, 328)},
+    ("mario", "koopa_troopas"): {"box": (8, 77, 31, 109), "rename": "koopa_troopa"},
+    ("mario", "lady_lima"): {"box": (281, 50, 302, 83)},
+    ("naruto", "kiba_akamaru_shino_hinata"): {"rename": "kiba"},
+    ("naruto", "konohamaru_ebisu"): {"rename": "ebisu"},
+    ("naruto", "neji_lee_tenten"): {"rename": "tenten"},
+    ("naruto", "shikamaru_ino_choji"): {"rename": "choji"},
+    ("naruto", "zabuza_haku"): {"rename": "haku"},
+    ("naruto", "orochimaru_kabuto_misumi_itachi"): {"rename": "kabuto"},
+    ("pokemon", "absol"): {"rename": "pichu"},
+    ("pokemon", "articuno_zapdos_moltres"): {"rename": "zapdos"},
+    ("pokemon", "blissey"): {"rename": "girafarig"},
+    ("pokemon", "dratini_dragonair_dragonite"): {"rename": "dragonite"},
+}
 
+
+def prep_franchise_customers() -> None:
+    """Best front-facing standing frame per picked character from the
+    supplied franchise customer sheets. Backgrounds vary (solid pastels, the
+    DBZ two-tone green checker); key them out, collect stand-sized islands
+    and keep the best front-facing frame."""
     for world, (pattern, names) in FRANCHISE_CUSTOMERS.items():
         src_dir = ROOT / f"assets/franchises/{world}/raw/customers"
         out = ROOT / f"assets/franchises/{world}/processed/customers"
@@ -448,35 +683,22 @@ def prep_franchise_customers() -> None:
             if not path.exists():
                 print(f"  {world}/{name}: MISSING {path.name}")
                 continue
-            img = load_rgba(path)
-            a = np.array(img)
-            # backgrounds vary (pastel fills, colored borders, the DBZ
-            # two-tone checker): key the corner color plus any color that
-            # covers >12% of the sheet — backgrounds dominate these rips
-            opaque = a[a[..., 3] > 0][:, :3]
-            keyed: list[tuple[int, int, int]] = []
-            corners = [tuple(a[0, 0]), tuple(a[0, -1]), tuple(a[-1, 0]), tuple(a[-1, -1])]
-            corner = Counter(corners).most_common(1)[0][0]
-            if corner[3] > 0:
-                keyed.append((int(corner[0]), int(corner[1]), int(corner[2])))
-            if len(opaque):
-                for col, cnt in Counter(map(tuple, opaque)).most_common(4):
-                    if cnt / len(opaque) > 0.12 and not any(
-                            max(abs(col[i] - k[i]) for i in range(3)) <= 12 for k in keyed):
-                        keyed.append((int(col[0]), int(col[1]), int(col[2])))
-            for k in keyed:
-                img = chroma_key(img, k, tol=12)
+            img = _key_sheet(load_rgba(path))
+            fix = CUSTOMER_FIXES.get((world, name), {})
             best = None
-            best_s = 8.0
-            for box in find_islands(img, min_area=80, merge_gap=1)[:260]:
-                w, h = box[2] - box[0], box[3] - box[1]
-                if not (14 <= w <= 52 and 20 <= h <= 66 and h >= w * 0.75):
-                    continue
-                cand = img.crop(tuple(box))
-                s = frame_score(cand)
-                if s > best_s:
-                    best_s = s
-                    best = cand
+            if "box" in fix:
+                best = img.crop(tuple(fix["box"]))
+            else:
+                best_s = 8.0
+                for box in find_islands(img, min_area=80, merge_gap=1)[:260]:
+                    w, h = box[2] - box[0], box[3] - box[1]
+                    if not (14 <= w <= 52 and 20 <= h <= 66 and h >= w * 0.75):
+                        continue
+                    cand = img.crop(tuple(box))
+                    s = front_score(cand)
+                    if s > best_s:
+                        best_s = s
+                        best = cand
             if best is None:
                 print(f"  {world}/{name}: no clean frame found, skipped")
                 continue
@@ -485,7 +707,7 @@ def prep_franchise_customers() -> None:
                 k = 40.0 / best.height
                 best = resize_rgba(best, (max(1, round(best.width * k)), 40))
                 best = clean_alpha(largest_component(clean_alpha(best, lo=128, hi=128)), lo=1, hi=255)
-            slug = name.replace("3rd_", "third_")
+            slug = fix.get("rename", name.replace("3rd_", "third_"))
             best.save(out / f"{slug}.png")
             done += 1
         print(f"  {world}: {done}/{len(names)} customers")
@@ -617,6 +839,16 @@ def prep_sora_field() -> None:
 
 
 if __name__ == "__main__":
+    if len(sys.argv) > 1 and sys.argv[1] == "customers":
+        # regenerate from scratch so renamed slugs leave no stale files
+        for old in (ROOT / "assets/franchises").glob("*/processed/customers/*.png"):
+            old.unlink()
+        print("ff customers..."); prep_ff_customers()
+        print("franchise customers..."); prep_franchise_customers()
+        print("walk anims..."); prep_customer_walk_anims()
+        write_customer_pool()
+        print("done")
+        sys.exit(0)
     print("sora..."); prep_sora()
     print("shadow..."); prep_shadow()
     print("large body / fat bandit..."); prep_large_body()

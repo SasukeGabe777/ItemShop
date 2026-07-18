@@ -4285,3 +4285,12 @@ navigating to "https://www.spriters-resource.com/mobile/finalfantasyrecordkeeper
 2026-07-18 00:08:17,740 INFO Destination: assets\franchises\dragon_ball\raw
 2026-07-18 00:08:17,741 INFO Filename pattern: dbz_<asset>
 2026-07-18 00:08:17,741 INFO Dry run only; no assets downloaded.
+2026-07-18 02:59:20,803 INFO Opening game page: https://www.spriters-resource.com/ds_dsi/pokemonheartgoldsoulsilver/
+2026-07-18 02:59:34,592 INFO Game: Pokémon HeartGold / SoulSilver
+2026-07-18 02:59:34,592 INFO Platform/category: Ds Dsi
+2026-07-18 02:59:34,593 INFO Asset count reported: 42
+2026-07-18 02:59:34,593 INFO Assets selected: 1
+2026-07-18 02:59:34,593 INFO Sections: Playable Characters, Overworld, Battle, Trainers, Miscellaneous
+2026-07-18 02:59:34,593 INFO Destination: assets\franchises\pokemon\raw
+2026-07-18 02:59:34,593 INFO Filename pattern: pokemon_<asset>
+2026-07-18 02:59:34,593 INFO Dry run only; no assets downloaded.
