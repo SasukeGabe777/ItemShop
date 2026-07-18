@@ -69,3 +69,11 @@
 2026-07-17 23:27:23,951 DEBUG Waited 3.31 seconds before next request.
 2026-07-17 23:27:23,951 INFO Visiting asset 79030: https://www.spriters-resource.com/ds_dsi/narutopotn/asset/79030/
 2026-07-17 23:27:28,762 INFO Trying download control: download attribute
+2026-07-17 23:54:37,657 INFO Game: Kingdom Hearts: Chain of Memories
+2026-07-17 23:54:37,658 INFO Platform/category: Game Boy Advance
+2026-07-17 23:54:37,658 INFO Asset count reported: 147
+2026-07-17 23:54:37,658 INFO Assets selected: 100
+2026-07-17 23:54:37,658 INFO Sections: Playable Characters, Summons, Non-Playable Characters, Enemies & Bosses, Backgrounds, Miscellaneous
+2026-07-17 23:54:37,658 INFO Destination: assets\franchises\naruto\raw
+2026-07-17 23:54:37,658 INFO Filename pattern: naruto_<asset>
+2026-07-17 23:54:37,658 INFO Dry run only; no assets downloaded.

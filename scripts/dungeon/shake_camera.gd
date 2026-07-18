@@ -1,5 +1,6 @@
-extends Camera2D
+extends ZoomCamera
 ## Camera with additive trauma shake, used by FX.shake via the group.
+## Inherits mouse-wheel zoom from ZoomCamera.
 
 var _trauma: float = 0.0
 

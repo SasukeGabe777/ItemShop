@@ -41,10 +41,15 @@ func setup(instance: Dictionary, def: Dictionary, p_slot_base: int, window_indic
 	var fp_arr: Array = def.get("size", [40, 24])
 	var fp := Vector2(float(fp_arr[0]), float(fp_arr[1]))
 	var tex := _body_sprite.texture
+	var display_surface_y := 0.0  # 0 = use the data offsets as-is
 	if tex != null and tex.get_width() > fp.x * 1.5:
 		var k := fp.x / float(tex.get_width())
+		var drawn_h := tex.get_height() * k
 		_body_sprite.scale = Vector2(k, k)
-		_body_sprite.position = Vector2(0, fp.y / 2.0 - tex.get_height() * k / 2.0)
+		_body_sprite.position = Vector2(0, fp.y / 2.0 - drawn_h / 2.0)
+		# tall art: items sit on the platform near the TOP of the sprite,
+		# not at the data offsets tuned for the old 24px scenery pieces
+		display_surface_y = fp.y / 2.0 - drawn_h + drawn_h * 0.22
 	add_child(_body_sprite)
 
 	if bool(def.get("blocks_movement", false)):
@@ -60,6 +65,8 @@ func setup(instance: Dictionary, def: Dictionary, p_slot_base: int, window_indic
 
 	for i in slot_count:
 		var offset := Vector2(float(slots[i][0]), float(slots[i][1]))
+		if display_surface_y != 0.0:
+			offset.y = display_surface_y
 		_slot_offsets.append(offset)
 		var item_spr := Sprite2D.new()
 		item_spr.name = "ItemSprite%d" % i
@@ -110,6 +117,17 @@ func slot_global_positions() -> Array[Vector2]:
 	var out: Array[Vector2] = []
 	for offset in _slot_offsets:
 		out.append(position + offset)
+	return out
+
+
+## Where customers stand to look at each slot: on the floor in front of the
+## piece (slot offsets can sit high on tall display art).
+func browse_global_positions() -> Array[Vector2]:
+	var size_arr: Array = type_def.get("size", [40, 24])
+	var floor_y := float(size_arr[1]) / 2.0 + 4.0
+	var out: Array[Vector2] = []
+	for offset in _slot_offsets:
+		out.append(position + Vector2(offset.x, floor_y))
 	return out
 
 

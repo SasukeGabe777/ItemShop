@@ -6,3 +6,186 @@
 2026-07-16 00:05:52,747 INFO Destination: assets\franchises\kingdom_hearts\raw
 2026-07-16 00:05:52,747 INFO Filename pattern: kh_<asset>_gba
 2026-07-16 00:05:52,747 INFO Dry run only; no assets downloaded.
+2026-07-17 23:55:27,574 INFO Game: Kingdom Hearts: Chain of Memories
+2026-07-17 23:55:27,574 INFO Platform/category: Game Boy Advance
+2026-07-17 23:55:27,576 INFO Asset count reported: 147
+2026-07-17 23:55:27,576 INFO Assets selected: 59
+2026-07-17 23:55:27,576 INFO Sections: Playable Characters, Summons, Non-Playable Characters, Enemies & Bosses, Backgrounds, Miscellaneous
+2026-07-17 23:55:27,576 INFO Destination: assets\franchises\kingdom_hearts\raw
+2026-07-17 23:55:27,576 INFO Filename pattern: kh_<asset>_gba
+2026-07-17 23:55:27,580 INFO Visiting asset 1037: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1037/
+2026-07-17 23:55:29,564 INFO Trying download control: download attribute
+2026-07-17 23:55:33,127 DEBUG Waited 3.01 seconds before next request.
+2026-07-17 23:55:33,127 INFO Visiting asset 1039: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1039/
+2026-07-17 23:55:34,878 INFO Trying download control: download attribute
+2026-07-17 23:55:37,758 DEBUG Waited 2.53 seconds before next request.
+2026-07-17 23:55:37,758 INFO Visiting asset 1032: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1032/
+2026-07-17 23:55:42,514 INFO Trying download control: download attribute
+2026-07-17 23:55:45,106 DEBUG Waited 2.44 seconds before next request.
+2026-07-17 23:55:45,107 INFO Visiting asset 1040: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1040/
+2026-07-17 23:55:46,926 INFO Trying download control: download attribute
+2026-07-17 23:55:50,181 DEBUG Waited 2.60 seconds before next request.
+2026-07-17 23:55:50,181 INFO Visiting asset 1041: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1041/
+2026-07-17 23:55:51,783 INFO Trying download control: download attribute
+2026-07-17 23:55:55,766 DEBUG Waited 3.77 seconds before next request.
+2026-07-17 23:55:55,766 INFO Visiting asset 1030: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1030/
+2026-07-17 23:55:57,644 INFO Trying download control: download attribute
+2026-07-17 23:56:02,218 DEBUG Waited 3.91 seconds before next request.
+2026-07-17 23:56:02,218 INFO Visiting asset 1048: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1048/
+2026-07-17 23:56:04,106 INFO Trying download control: download attribute
+2026-07-17 23:56:08,130 DEBUG Waited 3.64 seconds before next request.
+2026-07-17 23:56:08,130 INFO Visiting asset 1049: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1049/
+2026-07-17 23:56:09,861 INFO Trying download control: download attribute
+2026-07-17 23:56:13,833 DEBUG Waited 3.77 seconds before next request.
+2026-07-17 23:56:13,833 INFO Visiting asset 1060: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1060/
+2026-07-17 23:56:15,616 INFO Trying download control: download attribute
+2026-07-17 23:56:18,257 DEBUG Waited 2.47 seconds before next request.
+2026-07-17 23:56:18,257 INFO Visiting asset 1057: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1057/
+2026-07-17 23:56:19,943 INFO Trying download control: download attribute
+2026-07-17 23:56:23,590 DEBUG Waited 3.42 seconds before next request.
+2026-07-17 23:56:23,590 INFO Visiting asset 1058: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1058/
+2026-07-17 23:56:25,405 INFO Trying download control: download attribute
+2026-07-17 23:56:29,281 DEBUG Waited 3.69 seconds before next request.
+2026-07-17 23:56:29,281 INFO Visiting asset 1070: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1070/
+2026-07-17 23:56:31,028 INFO Trying download control: download attribute
+2026-07-17 23:56:34,982 DEBUG Waited 3.73 seconds before next request.
+2026-07-17 23:56:34,982 INFO Visiting asset 1126: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1126/
+2026-07-17 23:56:36,786 INFO Trying download control: download attribute
+2026-07-17 23:56:39,945 DEBUG Waited 2.85 seconds before next request.
+2026-07-17 23:56:39,946 INFO Visiting asset 109523: https://www.spriters-resource.com/game_boy_advance/khcom/asset/109523/
+2026-07-17 23:56:41,934 INFO Trying download control: download attribute
+2026-07-17 23:56:44,556 DEBUG Waited 2.26 seconds before next request.
+2026-07-17 23:56:44,556 INFO Visiting asset 1076: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1076/
+2026-07-17 23:56:46,319 INFO Trying download control: download attribute
+2026-07-17 23:56:49,006 DEBUG Waited 2.49 seconds before next request.
+2026-07-17 23:56:49,006 INFO Visiting asset 1074: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1074/
+2026-07-17 23:56:50,714 INFO Trying download control: download attribute
+2026-07-17 23:56:54,036 DEBUG Waited 3.14 seconds before next request.
+2026-07-17 23:56:54,036 INFO Visiting asset 1077: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1077/
+2026-07-17 23:56:55,785 INFO Trying download control: download attribute
+2026-07-17 23:56:59,051 DEBUG Waited 2.83 seconds before next request.
+2026-07-17 23:56:59,051 INFO Visiting asset 1083: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1083/
+2026-07-17 23:57:00,716 INFO Trying download control: download attribute
+2026-07-17 23:57:04,269 DEBUG Waited 3.37 seconds before next request.
+2026-07-17 23:57:04,269 INFO Visiting asset 1084: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1084/
+2026-07-17 23:57:06,006 INFO Trying download control: download attribute
+2026-07-17 23:57:09,083 DEBUG Waited 2.70 seconds before next request.
+2026-07-17 23:57:09,083 INFO Visiting asset 105086: https://www.spriters-resource.com/game_boy_advance/khcom/asset/105086/
+2026-07-17 23:57:10,867 INFO Trying download control: download attribute
+2026-07-17 23:57:13,113 DEBUG Waited 2.01 seconds before next request.
+2026-07-17 23:57:13,113 INFO Visiting asset 1087: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1087/
+2026-07-17 23:57:15,003 INFO Trying download control: download attribute
+2026-07-17 23:57:18,513 DEBUG Waited 3.12 seconds before next request.
+2026-07-17 23:57:18,514 INFO Visiting asset 1090: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1090/
+2026-07-17 23:57:20,230 INFO Trying download control: download attribute
+2026-07-17 23:57:23,704 DEBUG Waited 3.22 seconds before next request.
+2026-07-17 23:57:23,704 INFO Visiting asset 1092: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1092/
+2026-07-17 23:57:25,286 INFO Trying download control: download attribute
+2026-07-17 23:57:28,598 DEBUG Waited 3.11 seconds before next request.
+2026-07-17 23:57:28,598 INFO Visiting asset 1093: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1093/
+2026-07-17 23:57:30,204 INFO Trying download control: download attribute
+2026-07-17 23:57:33,181 DEBUG Waited 2.84 seconds before next request.
+2026-07-17 23:57:33,181 INFO Visiting asset 1095: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1095/
+2026-07-17 23:57:34,695 INFO Trying download control: download attribute
+2026-07-17 23:57:38,429 DEBUG Waited 3.59 seconds before next request.
+2026-07-17 23:57:38,429 INFO Visiting asset 1096: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1096/
+2026-07-17 23:57:40,018 INFO Trying download control: download attribute
+2026-07-17 23:57:43,219 DEBUG Waited 3.06 seconds before next request.
+2026-07-17 23:57:43,219 INFO Visiting asset 1097: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1097/
+2026-07-17 23:57:44,704 INFO Trying download control: download attribute
+2026-07-17 23:57:47,497 DEBUG Waited 2.66 seconds before next request.
+2026-07-17 23:57:47,497 INFO Visiting asset 1107: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1107/
+2026-07-17 23:57:48,987 INFO Trying download control: download attribute
+2026-07-17 23:57:52,088 DEBUG Waited 2.95 seconds before next request.
+2026-07-17 23:57:52,088 INFO Visiting asset 1108: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1108/
+2026-07-17 23:57:53,559 INFO Trying download control: download attribute
+2026-07-17 23:57:56,093 DEBUG Waited 2.39 seconds before next request.
+2026-07-17 23:57:56,094 INFO Visiting asset 1110: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1110/
+2026-07-17 23:57:57,560 INFO Trying download control: download attribute
+2026-07-17 23:58:01,495 DEBUG Waited 3.78 seconds before next request.
+2026-07-17 23:58:01,495 INFO Visiting asset 1112: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1112/
+2026-07-17 23:58:03,041 INFO Trying download control: download attribute
+2026-07-17 23:58:06,986 DEBUG Waited 3.80 seconds before next request.
+2026-07-17 23:58:06,986 INFO Visiting asset 1113: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1113/
+2026-07-17 23:58:08,556 INFO Trying download control: download attribute
+2026-07-17 23:58:11,470 DEBUG Waited 2.76 seconds before next request.
+2026-07-17 23:58:11,470 INFO Visiting asset 1105: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1105/
+2026-07-17 23:58:12,992 INFO Trying download control: download attribute
+2026-07-17 23:58:16,619 DEBUG Waited 3.47 seconds before next request.
+2026-07-17 23:58:16,619 INFO Visiting asset 1118: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1118/
+2026-07-17 23:58:18,310 INFO Trying download control: download attribute
+2026-07-17 23:58:21,564 DEBUG Waited 3.10 seconds before next request.
+2026-07-17 23:58:21,564 INFO Visiting asset 1120: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1120/
+2026-07-17 23:58:23,027 INFO Trying download control: download attribute
+2026-07-17 23:58:26,621 DEBUG Waited 3.45 seconds before next request.
+2026-07-17 23:58:26,621 INFO Visiting asset 1125: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1125/
+2026-07-17 23:58:31,220 INFO Trying download control: download attribute
+2026-07-17 23:58:33,453 DEBUG Waited 2.06 seconds before next request.
+2026-07-17 23:58:33,453 INFO Visiting asset 1127: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1127/
+2026-07-17 23:58:35,059 INFO Trying download control: download attribute
+2026-07-17 23:58:37,930 DEBUG Waited 2.60 seconds before next request.
+2026-07-17 23:58:37,930 INFO Visiting asset 1128: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1128/
+2026-07-17 23:58:39,709 INFO Trying download control: download attribute
+2026-07-17 23:58:42,759 DEBUG Waited 2.88 seconds before next request.
+2026-07-17 23:58:42,759 INFO Visiting asset 1129: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1129/
+2026-07-17 23:58:44,267 INFO Trying download control: download attribute
+2026-07-17 23:58:47,294 DEBUG Waited 2.88 seconds before next request.
+2026-07-17 23:58:47,294 INFO Visiting asset 1130: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1130/
+2026-07-17 23:58:51,803 INFO Trying download control: download attribute
+2026-07-17 23:58:53,970 DEBUG Waited 2.00 seconds before next request.
+2026-07-17 23:58:53,970 INFO Visiting asset 1131: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1131/
+2026-07-17 23:58:55,580 INFO Trying download control: download attribute
+2026-07-17 23:58:58,611 DEBUG Waited 2.89 seconds before next request.
+2026-07-17 23:58:58,611 INFO Visiting asset 1134: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1134/
+2026-07-17 23:59:00,119 INFO Trying download control: download attribute
+2026-07-17 23:59:02,491 DEBUG Waited 2.21 seconds before next request.
+2026-07-17 23:59:02,492 INFO Visiting asset 1136: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1136/
+2026-07-17 23:59:07,134 INFO Trying download control: download attribute
+2026-07-17 23:59:10,006 DEBUG Waited 2.54 seconds before next request.
+2026-07-17 23:59:10,006 INFO Visiting asset 29567: https://www.spriters-resource.com/game_boy_advance/khcom/asset/29567/
+2026-07-17 23:59:15,276 INFO Trying download control: download attribute
+2026-07-17 23:59:18,911 DEBUG Waited 3.42 seconds before next request.
+2026-07-17 23:59:18,911 INFO Visiting asset 1140: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1140/
+2026-07-17 23:59:21,235 INFO Trying download control: download attribute
+2026-07-17 23:59:23,571 DEBUG Waited 2.12 seconds before next request.
+2026-07-17 23:59:23,571 INFO Visiting asset 1142: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1142/
+2026-07-17 23:59:25,246 INFO Trying download control: download attribute
+2026-07-17 23:59:27,653 DEBUG Waited 2.23 seconds before next request.
+2026-07-17 23:59:27,653 INFO Visiting asset 1145: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1145/
+2026-07-17 23:59:29,218 INFO Trying download control: download attribute
+2026-07-17 23:59:31,942 DEBUG Waited 2.57 seconds before next request.
+2026-07-17 23:59:31,942 INFO Visiting asset 1146: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1146/
+2026-07-17 23:59:33,440 INFO Trying download control: download attribute
+2026-07-17 23:59:36,065 DEBUG Waited 2.47 seconds before next request.
+2026-07-17 23:59:36,065 INFO Visiting asset 1152: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1152/
+2026-07-17 23:59:37,555 INFO Trying download control: download attribute
+2026-07-17 23:59:40,259 DEBUG Waited 2.56 seconds before next request.
+2026-07-17 23:59:40,259 INFO Visiting asset 1153: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1153/
+2026-07-17 23:59:41,735 INFO Trying download control: download attribute
+2026-07-17 23:59:44,388 DEBUG Waited 2.48 seconds before next request.
+2026-07-17 23:59:44,388 INFO Visiting asset 1104: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1104/
+2026-07-17 23:59:48,850 INFO Trying download control: download attribute
+2026-07-17 23:59:52,685 DEBUG Waited 3.67 seconds before next request.
+2026-07-17 23:59:52,686 INFO Visiting asset 1159: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1159/
+2026-07-18 00:00:07,281 INFO Trying download control: download attribute
+2026-07-18 00:00:11,417 DEBUG Waited 3.92 seconds before next request.
+2026-07-18 00:00:11,417 INFO Visiting asset 1160: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1160/
+2026-07-18 00:00:18,363 INFO Trying download control: download attribute
+2026-07-18 00:00:20,866 DEBUG Waited 2.30 seconds before next request.
+2026-07-18 00:00:20,866 INFO Visiting asset 1161: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1161/
+2026-07-18 00:00:22,714 INFO Trying download control: download attribute
+2026-07-18 00:00:25,650 DEBUG Waited 2.73 seconds before next request.
+2026-07-18 00:00:25,650 INFO Visiting asset 1162: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1162/
+2026-07-18 00:00:27,405 INFO Trying download control: download attribute
+2026-07-18 00:00:30,013 DEBUG Waited 2.39 seconds before next request.
+2026-07-18 00:00:30,013 INFO Visiting asset 1135: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1135/
+2026-07-18 00:00:31,656 INFO Trying download control: download attribute
+2026-07-18 00:00:34,460 DEBUG Waited 2.59 seconds before next request.
+2026-07-18 00:00:34,460 INFO Visiting asset 1132: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1132/
+2026-07-18 00:00:39,193 INFO Trying download control: download attribute
+2026-07-18 00:00:42,130 DEBUG Waited 2.69 seconds before next request.
+2026-07-18 00:00:42,130 INFO Visiting asset 1169: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1169/
+2026-07-18 00:00:43,974 INFO Trying download control: download attribute
+2026-07-18 00:00:48,158 DEBUG Waited 3.94 seconds before next request.
+2026-07-18 00:00:48,159 INFO Visiting asset 1170: https://www.spriters-resource.com/game_boy_advance/khcom/asset/1170/
+2026-07-18 00:00:49,923 INFO Trying download control: download attribute

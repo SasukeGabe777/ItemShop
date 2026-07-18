@@ -40,7 +40,6 @@ func _ready() -> void:
 	add_child(room_root)
 	_spawn_hero(String(DungeonManager.pending.get("hero_id", "sora")))
 	camera = Camera2D.new()
-	camera.zoom = Vector2(1.4, 1.4)
 	camera.add_to_group("shake_camera")
 	camera.set_script(preload("res://scripts/dungeon/shake_camera.gd"))
 	hero.add_child(camera)

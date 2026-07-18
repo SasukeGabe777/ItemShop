@@ -22,8 +22,13 @@ var nego_queue: Array = []  # [{customer: Dictionary, item: String, node: ShopCu
 
 const ENTRANCE := Vector2(320, 400)
 ## Area furniture may occupy: inside the walls, clear of the door strip.
-const FURNITURE_AREA := Rect2(150, 132, 340, 258)
+const FURNITURE_AREA := Rect2(60, 132, 520, 258)
 const EDIT_GRID := 8.0
+## Painted room art: its wooden-floor band is mapped onto y 120..420 so all
+## gameplay coordinates keep working; the room is wider than the old one.
+const ROOM_BG := "res://assets/shared/ui/backgrounds/shopbackground.png"
+const BG_FLOOR_TOP_FRAC := 0.375
+const BG_FLOOR_BOTTOM_FRAC := 0.825
 
 
 func _ready() -> void:
@@ -34,9 +39,7 @@ func _ready() -> void:
 	player = TownPlayer.new()
 	player.position = Vector2(320, 300)
 	add_child(player)
-	var cam := Camera2D.new()
-	cam.zoom = Vector2(1.5, 1.5)
-	player.add_child(cam)
+	player.add_child(ZoomCamera.new())
 	hud = GameHUD.new()
 	add_child(hud)
 	prompt = UIKit.label("", 10, UIKit.COL_ACCENT)
@@ -103,19 +106,27 @@ func _show_first_shop_guide() -> void:
 
 
 func _build_room() -> void:
-	Scenery.tiled_floor(self, Rect2(140, 120, 360, 300), "floor_cobble", Color("#5a4a3a"), -10, Color(0.92, 0.82, 0.72))
-	Scenery.prop(self, Vector2(320, 270), "rug", -9)
-	Scenery.prop(self, Vector2(160, 175), "lamp_lit")
-	Scenery.prop(self, Vector2(480, 175), "lamp_lit")
-	Scenery.prop(self, Vector2(478, 400), "crates")
-	Scenery.prop(self, Vector2(162, 400), "barrel")
-	# walls
+	if ResourceLoader.exists(ROOM_BG):
+		var bg := Sprite2D.new()
+		bg.texture = load(ROOM_BG)
+		var tex_h := float(bg.texture.get_height())
+		var s := 300.0 / ((BG_FLOOR_BOTTOM_FRAC - BG_FLOOR_TOP_FRAC) * tex_h)
+		bg.scale = Vector2(s, s)
+		# floor band top lands on y=120; horizontally centered on the room
+		var top := 120.0 - BG_FLOOR_TOP_FRAC * tex_h * s
+		bg.position = Vector2(320.0, top + tex_h * s / 2.0)
+		bg.z_index = -10
+		add_child(bg)
+	else:
+		Scenery.tiled_floor(self, Rect2(140, 120, 360, 300), "floor_cobble", Color("#5a4a3a"), -10, Color(0.92, 0.82, 0.72))
+	# invisible collision walls hugging the art's floor edges; the bottom
+	# pair leaves a gap for the entrance stairs
 	for wall_def: Array in [
-		[Vector2(320, 112), Vector2(376, 16)],
-		[Vector2(132, 270), Vector2(16, 316)],
-		[Vector2(508, 270), Vector2(16, 316)],
-		[Vector2(214, 428), Vector2(164, 16)],
-		[Vector2(426, 428), Vector2(164, 16)],
+		[Vector2(320, 112), Vector2(620, 16)],
+		[Vector2(42, 270), Vector2(16, 316)],
+		[Vector2(598, 270), Vector2(16, 316)],
+		[Vector2(152, 428), Vector2(204, 16)],
+		[Vector2(488, 428), Vector2(204, 16)],
 	]:
 		var body := StaticBody2D.new()
 		body.position = wall_def[0]
@@ -125,15 +136,7 @@ func _build_room() -> void:
 		rect.size = wall_def[1]
 		shape.shape = rect
 		body.add_child(shape)
-		var poly := Polygon2D.new()
-		var h: Vector2 = wall_def[1] / 2.0
-		poly.polygon = PackedVector2Array([-h, Vector2(h.x, -h.y), h, Vector2(-h.x, h.y)])
-		poly.color = Color("#3a3028")
-		body.add_child(poly)
 		add_child(body)
-	var door_lbl := UIKit.label("~ door ~", 9, UIKit.COL_DIM)
-	door_lbl.position = Vector2(300, 424)
-	add_child(door_lbl)
 
 
 func _build_furniture() -> void:
@@ -281,7 +284,7 @@ func dev_set_display_item(slot: int, item_id: String) -> bool:
 func _rebuild_browse_points() -> void:
 	browse_points.clear()
 	for piece in furniture_nodes:
-		browse_points.append_array(piece.slot_global_positions())
+		browse_points.append_array(piece.browse_global_positions())
 
 
 func _refresh_display_sprites() -> void:

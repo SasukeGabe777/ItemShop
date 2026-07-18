@@ -21,6 +21,7 @@ class Probe:
 		DirAccess.make_dir_recursive_absolute("user://screenshots/")
 		get_viewport().get_texture().get_image().save_png("user://screenshots/shop_guide.png")
 		GameState.tutorials_seen.append("first_shop_vertical_slice")
+		ZoomCamera.preferred_zoom = 1.0
 		SceneRouter.go("shop")
 		await get_tree().create_timer(1.5).timeout
 		var shop: Node = get_tree().current_scene

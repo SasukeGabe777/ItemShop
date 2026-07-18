@@ -315,3 +315,11 @@
 2026-07-16 01:18:34,246 DEBUG Waited 2.62 seconds before next request.
 2026-07-16 01:18:34,246 INFO Visiting asset 7444: https://www.spriters-resource.com/game_boy_advance/mlss/asset/7444/
 2026-07-16 01:18:36,138 INFO Trying download control: download attribute
+2026-07-18 00:04:18,753 INFO Game: Mario & Luigi: Superstar Saga
+2026-07-18 00:04:18,754 INFO Platform/category: Game Boy Advance
+2026-07-18 00:04:18,754 INFO Asset count reported: 201
+2026-07-18 00:04:18,754 INFO Assets selected: 100
+2026-07-18 00:04:18,754 INFO Sections: Playable Characters, Non-Playable Characters, Enemies, Bosses, Maps, Miscellaneous, Unused Content
+2026-07-18 00:04:18,754 INFO Destination: assets\franchises\mario\raw
+2026-07-18 00:04:18,754 INFO Filename pattern: mario_<asset>
+2026-07-18 00:04:18,754 INFO Dry run only; no assets downloaded.
