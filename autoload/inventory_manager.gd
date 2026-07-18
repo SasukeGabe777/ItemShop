@@ -169,6 +169,12 @@ func shop_appeal() -> Dictionary:
 		var a: Dictionary = ContentDatabase.get_item(id).get("appeal", {})
 		for k: String in a:
 			appeal[k] = int(appeal[k]) + int(a[k])
+	# placed furniture and decor contribute their appeal_modifiers
+	for inst: Dictionary in ShopFurnitureManager.layout:
+		var mods: Dictionary = ShopFurnitureManager.type_def(inst).get("appeal_modifiers", {})
+		for k: String in mods:
+			if k in appeal:
+				appeal[k] = int(appeal[k]) + int(mods[k])
 	for deco in GameState.decorations:
 		appeal["cozy"] = int(appeal["cozy"]) + 1
 	return appeal

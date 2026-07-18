@@ -68,6 +68,24 @@ class Probe:
 		shop.player.position = Vector2(210, 190)
 		await get_tree().create_timer(0.6).timeout
 		get_viewport().get_texture().get_image().save_png("user://screenshots/shop_storage.png")
+		# decor pieces + y-sort: player standing BEHIND the trophy must draw
+		# behind it, stands must never draw over the player
+		shop.dev_spawn_furniture("dragon_trophy", Vector2(440, 250))
+		shop.dev_spawn_furniture("crystal_cluster", Vector2(150, 280))
+		shop.dev_spawn_furniture("woven_rug", Vector2(320, 330))
+		shop.player.position = Vector2(440, 235)
+		await get_tree().create_timer(0.5).timeout
+		get_viewport().get_texture().get_image().save_png("user://screenshots/shop_decor_placed.png")
+		shop._open_decor_catalog()
+		await get_tree().create_timer(0.5).timeout
+		get_viewport().get_texture().get_image().save_png("user://screenshots/shop_decor_catalog.png")
+		for child in shop.get_children():
+			if child is CanvasLayer and child.layer == 50:
+				child.queue_free()
+		shop.busy = false
+		shop.player.frozen = false
+		await get_tree().create_timer(0.2).timeout
+		print("APPEAL=", InventoryManager.shop_appeal())
 		# Patch's end-of-session debrief
 		PatchDebrief.show_debrief(shop, {"sales": 3, "revenue": 460, "perfect": 2, "left": 1, "orders": 0}, Callable())
 		await get_tree().create_timer(0.7).timeout

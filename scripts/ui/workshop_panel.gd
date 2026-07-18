@@ -49,6 +49,17 @@ func _fill() -> void:
 		var row := UIKit.item_row(out_id, suffix, "Craft" if can else "—", func() -> void:
 			_craft(rid))
 		list.add_child(row)
+	# future recipes show greyed so the workshop hints at what's coming
+	var locked := ContentDatabase.recipes_for_chapter(99).filter(func(r: Dictionary) -> bool:
+		return int(r.get("unlock_chapter", 1)) > TimeManager.chapter)
+	locked.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
+		return int(a.get("unlock_chapter", 1)) < int(b.get("unlock_chapter", 1)))
+	if not locked.is_empty():
+		list.add_child(UIKit.label("— locked recipes —", 9, UIKit.COL_DIM))
+	for r in locked:
+		var row := UIKit.item_row(String(r["output"]), "unlocks in Chapter %d" % int(r.get("unlock_chapter", 1)), "", Callable())
+		row.modulate = Color(1, 1, 1, 0.45)
+		list.add_child(row)
 
 
 func _craft(recipe_id: String) -> void:

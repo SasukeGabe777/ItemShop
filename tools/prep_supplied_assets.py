@@ -1216,7 +1216,118 @@ def prep_world_items() -> None:
         print(f"  {world}: {done} item icons")
 
 
+## Decor furniture from assets/items/furniture: pure-appeal pieces with no
+## display slots, sold in the shop's Decorate catalog. Indices refer to the
+## tools/out/decor_<sheet>.png contact sheets (min_area=100, merge_gap=1,
+## sizes 10..100). (id, name, price, appeal_modifiers)
+DECOR_PICKS = {
+    "Interior_objects": {
+        17: ("oak_bookshelf", "Oak Bookshelf", 350, {"cozy": 1, "retro": 1}),
+        22: ("weapon_display", "Weapon Display", 600, {"intense": 2}),
+        25: ("woven_rug", "Woven Rug", 250, {"cozy": 2}),
+        42: ("guild_banner", "Guild Banner", 400, {"intense": 1}),
+        12: ("dragon_skull", "Dragon Skull", 900, {"intense": 2}),
+        48: ("potted_orchid", "Potted Orchid", 200, {"cozy": 1}),
+        49: ("gilded_chest", "Gilded Chest", 500, {"retro": 1}),
+        46: ("scholars_desk", "Scholar's Desk", 450, {"modern": 1}),
+        39: ("reading_bench", "Reading Bench", 300, {"cozy": 1}),
+    },
+    "cozyInterior_objects": {
+        1: ("plant_cabinet", "Plant Cabinet", 420, {"cozy": 2}),
+        8: ("potion_shelf", "Potion Shelf", 380, {"retro": 1}),
+        16: ("jungle_planter", "Jungle Planter", 350, {"cozy": 2}),
+        19: ("dragon_painting", "Dragon Painting", 700, {"retro": 2}),
+        47: ("flower_vases", "Flower Vases", 180, {"cozy": 1}),
+        26: ("mine_cart", "Mine Cart", 550, {"modern": 1}),
+    },
+    "supplies_objects": {
+        6: ("stocked_shelf", "Stocked Shelf", 320, {"modern": 1}),
+        25: ("produce_barrels", "Produce Barrels", 280, {"cozy": 1}),
+        58: ("arms_rack", "Arms Rack", 650, {"intense": 2}),
+        69: ("kite_shield", "Kite Shield", 300, {"intense": 1}),
+    },
+    "Other_objects": {
+        6: ("dragon_trophy", "Dragon Trophy", 1500, {"intense": 3}),
+        9: ("ale_barrel", "Ale Barrel", 220, {"cozy": 1}),
+        13: ("knight_bust", "Knight Bust", 480, {"intense": 1}),
+        14: ("war_banner_red", "War Banner (Red)", 350, {"intense": 1}),
+        15: ("war_banner_blue", "War Banner (Blue)", 350, {"intense": 1}),
+    },
+    "Cave_objects_source": {
+        7: ("crystal_cluster", "Crystal Cluster", 800, {"retro": 2}),
+        11: ("azure_crystals", "Azure Crystals", 450, {"retro": 1}),
+        21: ("stone_idol", "Stone Idol", 950, {"retro": 2}),
+        67: ("fossil_skull", "Fossil Skull", 700, {"retro": 1, "intense": 1}),
+    },
+}
+DECOR_PARAMS = dict(min_area=100, merge_gap=1, lo=10, hi=100)
+
+
+def prep_shop_decor() -> None:
+    """Slice the decor picks, write their sprites, and register them as
+    zero-slot decor furniture (defs + prices). Idempotent."""
+    import json as _json
+
+    out = ROOT / "assets/shared/furniture/decor"
+    out.mkdir(parents=True, exist_ok=True)
+    written: list[tuple[str, str, int, dict, tuple]] = []
+    for sheet, picks in DECOR_PICKS.items():
+        img = load_rgba(ROOT / f"assets/items/furniture/{sheet}.png")
+        p = DECOR_PARAMS
+        boxes = [b for b in find_islands(img, min_area=p["min_area"], merge_gap=p["merge_gap"])
+                 if p["lo"] <= b[2] - b[0] <= p["hi"] and p["lo"] <= b[3] - b[1] <= p["hi"]]
+        for idx, (did, name, price, appeal) in picks.items():
+            if idx >= len(boxes):
+                print(f"  decor/{did}: index {idx} out of range ({len(boxes)})")
+                continue
+            im = clean_alpha(img.crop(tuple(boxes[idx])), lo=1, hi=255)
+            if im.height > 64:
+                k = 64.0 / im.height
+                im = resize_rgba(im, (max(1, round(im.width * k)), 64))
+            im.save(out / f"{did}.png")
+            written.append((did, name, price, appeal, (im.width, im.height)))
+    # a couple of the supplied plants round out the cozy corner (they're
+    # small trees at native size — cap them like the sheet picks)
+    for n, (did, name, price) in {1: ("garden_bush", "Shade Tree", 260),
+                                  6: ("berry_bush", "Bloom Tree", 320)}.items():
+        src = ROOT / f"assets/items/furniture/plants/Bushes{n}/Bush{n}_1.png"
+        if src.exists():
+            im = clean_alpha(load_rgba(src), lo=1, hi=255)
+            if im.height > 64:
+                k = 64.0 / im.height
+                im = resize_rgba(im, (max(1, round(im.width * k)), 64))
+            im.save(out / f"{did}.png")
+            written.append((did, name, price, {"cozy": 2}, (im.width, im.height)))
+
+    FLAT = {"woven_rug"}  # lies on the floor, drawn under everyone
+    doc = _json.loads((ROOT / "data/shop_furniture.json").read_text(encoding="utf-8"))
+    by_id = {f["id"]: f for f in doc["furniture"]}
+    for did, name, price, appeal, (w, h) in written:
+        by_id[did] = {
+            "id": did, "name": name, "decor": True, "flat": did in FLAT,
+            "furniture_type": "decor",
+            "display_slots": [], "allowed_categories": [],
+            "appeal_modifiers": {k: float(v) for k, v in appeal.items()},
+            "blocks_movement": False, "customer_attention_modifier": 0.0,
+            "is_moveable": True, "price_modifier": 1.0, "scenery": "",
+            "size": [float(max(16, w)), float(max(12, min(28, round(h * 0.45))))],
+            "sprite": f"res://assets/shared/furniture/decor/{did}.png",
+            "unlock_level": 1,
+        }
+    doc["furniture"] = sorted(by_id.values(), key=lambda f: f["id"])
+    (ROOT / "data/shop_furniture.json").write_text(_json.dumps(doc, indent=1, sort_keys=True) + "\n", encoding="utf-8")
+
+    bal = _json.loads((ROOT / "data/balance.json").read_text(encoding="utf-8"))
+    for did, _name, price, _appeal, _sz in written:
+        bal["furniture_prices"][did] = price
+    (ROOT / "data/balance.json").write_text(_json.dumps(bal, indent=1, sort_keys=True) + "\n", encoding="utf-8")
+    print(f"  decor: {len(written)} pieces written + registered")
+
+
 if __name__ == "__main__":
+    if len(sys.argv) > 1 and sys.argv[1] == "decor":
+        print("shop decor..."); prep_shop_decor()
+        sys.exit(0)
     if len(sys.argv) > 1 and sys.argv[1] == "customers":
         # regenerate from scratch so renamed slugs leave no stale files
         for old in (ROOT / "assets/franchises").glob("*/processed/customers/*.png"):

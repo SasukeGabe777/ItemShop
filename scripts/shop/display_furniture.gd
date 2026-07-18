@@ -31,7 +31,10 @@ func setup(instance: Dictionary, def: Dictionary, p_slot_base: int, window_indic
 	set_meta("dev_instance_id", uid)
 
 	var slots: Array = def.get("display_slots", [[0, -12]])
-	slot_count = maxi(1, slots.size())
+	# decor pieces are pure appeal: no display slots, no interactions
+	slot_count = 0 if bool(def.get("decor", false)) else maxi(1, slots.size())
+	if bool(def.get("flat", false)):
+		z_index = -1  # rugs and the like lie under everyone's feet
 
 	_body_sprite = Sprite2D.new()
 	_body_sprite.texture = _resolve_texture(def)
@@ -50,6 +53,10 @@ func setup(instance: Dictionary, def: Dictionary, p_slot_base: int, window_indic
 		# tall art: items sit on the platform near the TOP of the sprite,
 		# not at the data offsets tuned for the old 24px scenery pieces
 		display_surface_y = fp.y / 2.0 - drawn_h + drawn_h * 0.22
+	elif tex != null and tex.get_height() > fp.y:
+		# native-size art taller than its footprint (decor plants, banners):
+		# stand it on the footprint's bottom edge
+		_body_sprite.position = Vector2(0, fp.y / 2.0 - tex.get_height() / 2.0)
 	add_child(_body_sprite)
 
 	if bool(def.get("blocks_movement", false)):

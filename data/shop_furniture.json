@@ -2,6 +2,935 @@
  "furniture": [
   {
    "allowed_categories": [],
+   "appeal_modifiers": {
+    "cozy": 1.0
+   },
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "decor": true,
+   "display_slots": [],
+   "flat": false,
+   "furniture_type": "decor",
+   "id": "ale_barrel",
+   "is_moveable": true,
+   "name": "Ale Barrel",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    29.0,
+    18.0
+   ],
+   "sprite": "res://assets/shared/furniture/decor/ale_barrel.png",
+   "unlock_level": 1
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {
+    "intense": 2.0
+   },
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "decor": true,
+   "display_slots": [],
+   "flat": false,
+   "furniture_type": "decor",
+   "id": "arms_rack",
+   "is_moveable": true,
+   "name": "Arms Rack",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    32.0,
+    15.0
+   ],
+   "sprite": "res://assets/shared/furniture/decor/arms_rack.png",
+   "unlock_level": 1
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {
+    "retro": 1.0
+   },
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "decor": true,
+   "display_slots": [],
+   "flat": false,
+   "furniture_type": "decor",
+   "id": "azure_crystals",
+   "is_moveable": true,
+   "name": "Azure Crystals",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    28.0,
+    21.0
+   ],
+   "sprite": "res://assets/shared/furniture/decor/azure_crystals.png",
+   "unlock_level": 1
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {},
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "display_slots": [
+    [
+     0.0,
+     -12.0
+    ]
+   ],
+   "furniture_type": "display_case",
+   "id": "basic_glass_box",
+   "is_moveable": true,
+   "name": "Basic Glass Box",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    40.0,
+    24.0
+   ],
+   "sprite": "res://assets/shared/furniture/basic_glass_box.png",
+   "unlock_level": 2
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {},
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "display_slots": [
+    [
+     0.0,
+     -12.0
+    ]
+   ],
+   "furniture_type": "item_stand",
+   "id": "basic_item_stand",
+   "is_moveable": true,
+   "name": "Basic Item Stand",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    40.0,
+    24.0
+   ],
+   "sprite": "res://assets/shared/furniture/basic_item_stand.png",
+   "unlock_level": 1
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {
+    "cozy": 2.0
+   },
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "decor": true,
+   "display_slots": [],
+   "flat": false,
+   "furniture_type": "decor",
+   "id": "berry_bush",
+   "is_moveable": true,
+   "name": "Bloom Tree",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    79.0,
+    28.0
+   ],
+   "sprite": "res://assets/shared/furniture/decor/berry_bush.png",
+   "unlock_level": 1
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {
+    "retro": 2.0
+   },
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "decor": true,
+   "display_slots": [],
+   "flat": false,
+   "furniture_type": "decor",
+   "id": "crystal_cluster",
+   "is_moveable": true,
+   "name": "Crystal Cluster",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    44.0,
+    21.0
+   ],
+   "sprite": "res://assets/shared/furniture/decor/crystal_cluster.png",
+   "unlock_level": 1
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {},
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "display_slots": [
+    [
+     0.0,
+     -12.0
+    ]
+   ],
+   "furniture_type": "display_case",
+   "id": "display_case",
+   "is_moveable": true,
+   "name": "Display Case",
+   "price_modifier": 1.0,
+   "scenery": "chest_gold",
+   "size": [
+    36.0,
+    24.0
+   ],
+   "sprite": "",
+   "unlock_level": 4
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {
+    "retro": 2.0
+   },
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "decor": true,
+   "display_slots": [],
+   "flat": false,
+   "furniture_type": "decor",
+   "id": "dragon_painting",
+   "is_moveable": true,
+   "name": "Dragon Painting",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    60.0,
+    20.0
+   ],
+   "sprite": "res://assets/shared/furniture/decor/dragon_painting.png",
+   "unlock_level": 1
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {
+    "intense": 2.0
+   },
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "decor": true,
+   "display_slots": [],
+   "flat": false,
+   "furniture_type": "decor",
+   "id": "dragon_skull",
+   "is_moveable": true,
+   "name": "Dragon Skull",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    24.0,
+    12.0
+   ],
+   "sprite": "res://assets/shared/furniture/decor/dragon_skull.png",
+   "unlock_level": 1
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {
+    "intense": 3.0
+   },
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "decor": true,
+   "display_slots": [],
+   "flat": false,
+   "furniture_type": "decor",
+   "id": "dragon_trophy",
+   "is_moveable": true,
+   "name": "Dragon Trophy",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    42.0,
+    20.0
+   ],
+   "sprite": "res://assets/shared/furniture/decor/dragon_trophy.png",
+   "unlock_level": 1
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {
+    "cozy": 1.0
+   },
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "decor": true,
+   "display_slots": [],
+   "flat": false,
+   "furniture_type": "decor",
+   "id": "flower_vases",
+   "is_moveable": true,
+   "name": "Flower Vases",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    40.0,
+    14.0
+   ],
+   "sprite": "res://assets/shared/furniture/decor/flower_vases.png",
+   "unlock_level": 1
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {
+    "intense": 1.0,
+    "retro": 1.0
+   },
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "decor": true,
+   "display_slots": [],
+   "flat": false,
+   "furniture_type": "decor",
+   "id": "fossil_skull",
+   "is_moveable": true,
+   "name": "Fossil Skull",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    34.0,
+    18.0
+   ],
+   "sprite": "res://assets/shared/furniture/decor/fossil_skull.png",
+   "unlock_level": 1
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {
+    "cozy": 2.0
+   },
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "decor": true,
+   "display_slots": [],
+   "flat": false,
+   "furniture_type": "decor",
+   "id": "garden_bush",
+   "is_moveable": true,
+   "name": "Shade Tree",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    73.0,
+    28.0
+   ],
+   "sprite": "res://assets/shared/furniture/decor/garden_bush.png",
+   "unlock_level": 1
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {
+    "retro": 1.0
+   },
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "decor": true,
+   "display_slots": [],
+   "flat": false,
+   "furniture_type": "decor",
+   "id": "gilded_chest",
+   "is_moveable": true,
+   "name": "Gilded Chest",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    23.0,
+    12.0
+   ],
+   "sprite": "res://assets/shared/furniture/decor/gilded_chest.png",
+   "unlock_level": 1
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {},
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "display_slots": [
+    [
+     0.0,
+     -12.0
+    ]
+   ],
+   "furniture_type": "display_case",
+   "id": "glass_display_case",
+   "is_moveable": true,
+   "name": "Glass Display Case",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    40.0,
+    24.0
+   ],
+   "sprite": "res://assets/shared/furniture/glass_display_case.png",
+   "unlock_level": 4
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {},
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "display_slots": [
+    [
+     -13.0,
+     -12.0
+    ],
+    [
+     0.0,
+     -12.0
+    ],
+    [
+     13.0,
+     -12.0
+    ]
+   ],
+   "furniture_type": "counter",
+   "id": "green_counter",
+   "is_moveable": true,
+   "name": "Green Counter",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    40.0,
+    24.0
+   ],
+   "sprite": "res://assets/shared/furniture/green_counter.png",
+   "unlock_level": 3
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {
+    "intense": 1.0
+   },
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "decor": true,
+   "display_slots": [],
+   "flat": false,
+   "furniture_type": "decor",
+   "id": "guild_banner",
+   "is_moveable": true,
+   "name": "Guild Banner",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    45.0,
+    19.0
+   ],
+   "sprite": "res://assets/shared/furniture/decor/guild_banner.png",
+   "unlock_level": 1
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {
+    "cozy": 2.0
+   },
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "decor": true,
+   "display_slots": [],
+   "flat": false,
+   "furniture_type": "decor",
+   "id": "jungle_planter",
+   "is_moveable": true,
+   "name": "Jungle Planter",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    52.0,
+    19.0
+   ],
+   "sprite": "res://assets/shared/furniture/decor/jungle_planter.png",
+   "unlock_level": 1
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {
+    "intense": 1.0
+   },
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "decor": true,
+   "display_slots": [],
+   "flat": false,
+   "furniture_type": "decor",
+   "id": "kite_shield",
+   "is_moveable": true,
+   "name": "Kite Shield",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    16.0,
+    15.0
+   ],
+   "sprite": "res://assets/shared/furniture/decor/kite_shield.png",
+   "unlock_level": 1
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {
+    "intense": 1.0
+   },
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "decor": true,
+   "display_slots": [],
+   "flat": false,
+   "furniture_type": "decor",
+   "id": "knight_bust",
+   "is_moveable": true,
+   "name": "Knight Bust",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    21.0,
+    12.0
+   ],
+   "sprite": "res://assets/shared/furniture/decor/knight_bust.png",
+   "unlock_level": 1
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {},
+   "blocks_movement": false,
+   "customer_attention_modifier": 1.0,
+   "display_slots": [
+    [
+     0,
+     -12
+    ]
+   ],
+   "furniture_type": "display_case",
+   "id": "luxury_glass_display_case",
+   "is_moveable": true,
+   "name": "Luxury Glass Display Case",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    40,
+    24
+   ],
+   "sprite": "res://assets/shared/furniture/luxury_glass_display_case.png",
+   "unlock_level": 5
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {
+    "modern": 1.0
+   },
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "decor": true,
+   "display_slots": [],
+   "flat": false,
+   "furniture_type": "decor",
+   "id": "mine_cart",
+   "is_moveable": true,
+   "name": "Mine Cart",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    33.0,
+    14.0
+   ],
+   "sprite": "res://assets/shared/furniture/decor/mine_cart.png",
+   "unlock_level": 1
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {
+    "cozy": 1.0,
+    "retro": 1.0
+   },
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "decor": true,
+   "display_slots": [],
+   "flat": false,
+   "furniture_type": "decor",
+   "id": "oak_bookshelf",
+   "is_moveable": true,
+   "name": "Oak Bookshelf",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    46.0,
+    26.0
+   ],
+   "sprite": "res://assets/shared/furniture/decor/oak_bookshelf.png",
+   "unlock_level": 1
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {
+    "cozy": 2.0
+   },
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "decor": true,
+   "display_slots": [],
+   "flat": false,
+   "furniture_type": "decor",
+   "id": "plant_cabinet",
+   "is_moveable": true,
+   "name": "Plant Cabinet",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    36.0,
+    26.0
+   ],
+   "sprite": "res://assets/shared/furniture/decor/plant_cabinet.png",
+   "unlock_level": 1
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {
+    "retro": 1.0
+   },
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "decor": true,
+   "display_slots": [],
+   "flat": false,
+   "furniture_type": "decor",
+   "id": "potion_shelf",
+   "is_moveable": true,
+   "name": "Potion Shelf",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    36.0,
+    24.0
+   ],
+   "sprite": "res://assets/shared/furniture/decor/potion_shelf.png",
+   "unlock_level": 1
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {
+    "cozy": 1.0
+   },
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "decor": true,
+   "display_slots": [],
+   "flat": false,
+   "furniture_type": "decor",
+   "id": "potted_orchid",
+   "is_moveable": true,
+   "name": "Potted Orchid",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    18.0,
+    15.0
+   ],
+   "sprite": "res://assets/shared/furniture/decor/potted_orchid.png",
+   "unlock_level": 1
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {},
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.5,
+   "display_slots": [
+    [
+     0.0,
+     -12.0
+    ]
+   ],
+   "furniture_type": "display_case",
+   "id": "premium_glass_box",
+   "is_moveable": true,
+   "name": "Premium Glass Box",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    40.0,
+    24.0
+   ],
+   "sprite": "res://assets/shared/furniture/premium_glass_box.png",
+   "unlock_level": 4
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {},
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "display_slots": [
+    [
+     0.0,
+     -12.0
+    ]
+   ],
+   "furniture_type": "item_stand",
+   "id": "premium_item_stand",
+   "is_moveable": true,
+   "name": "Premium Item Stand",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    40.0,
+    24.0
+   ],
+   "sprite": "res://assets/shared/furniture/premium_item_stand.png",
+   "unlock_level": 3
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {
+    "cozy": 1.0
+   },
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "decor": true,
+   "display_slots": [],
+   "flat": false,
+   "furniture_type": "decor",
+   "id": "produce_barrels",
+   "is_moveable": true,
+   "name": "Produce Barrels",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    28.0,
+    16.0
+   ],
+   "sprite": "res://assets/shared/furniture/decor/produce_barrels.png",
+   "unlock_level": 1
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {},
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "display_slots": [
+    [
+     -13.0,
+     -12.0
+    ],
+    [
+     0.0,
+     -12.0
+    ],
+    [
+     13.0,
+     -12.0
+    ]
+   ],
+   "furniture_type": "counter",
+   "id": "purple_counter",
+   "is_moveable": true,
+   "name": "Purple Counter",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    40.0,
+    24.0
+   ],
+   "sprite": "res://assets/shared/furniture/purple_counter.png",
+   "unlock_level": 3
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {
+    "cozy": 1.0
+   },
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "decor": true,
+   "display_slots": [],
+   "flat": false,
+   "furniture_type": "decor",
+   "id": "reading_bench",
+   "is_moveable": true,
+   "name": "Reading Bench",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    47.0,
+    12.0
+   ],
+   "sprite": "res://assets/shared/furniture/decor/reading_bench.png",
+   "unlock_level": 1
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {
+    "modern": 1.0
+   },
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "decor": true,
+   "display_slots": [],
+   "flat": false,
+   "furniture_type": "decor",
+   "id": "scholars_desk",
+   "is_moveable": true,
+   "name": "Scholar's Desk",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    56.0,
+    15.0
+   ],
+   "sprite": "res://assets/shared/furniture/decor/scholars_desk.png",
+   "unlock_level": 1
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {},
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "display_slots": [
+    [
+     -10.0,
+     -12.0
+    ],
+    [
+     10.0,
+     -12.0
+    ]
+   ],
+   "furniture_type": "small_table",
+   "id": "small_display_crate",
+   "is_moveable": true,
+   "name": "Small Display Crate",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    40.0,
+    24.0
+   ],
+   "sprite": "res://assets/shared/furniture/small_display_crate.png",
+   "unlock_level": 1
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {
+    "modern": 1.0
+   },
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "decor": true,
+   "display_slots": [],
+   "flat": false,
+   "furniture_type": "decor",
+   "id": "stocked_shelf",
+   "is_moveable": true,
+   "name": "Stocked Shelf",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    45.0,
+    20.0
+   ],
+   "sprite": "res://assets/shared/furniture/decor/stocked_shelf.png",
+   "unlock_level": 1
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {
+    "retro": 2.0
+   },
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "decor": true,
+   "display_slots": [],
+   "flat": false,
+   "furniture_type": "decor",
+   "id": "stone_idol",
+   "is_moveable": true,
+   "name": "Stone Idol",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    54.0,
+    27.0
+   ],
+   "sprite": "res://assets/shared/furniture/decor/stone_idol.png",
+   "unlock_level": 1
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {
+    "intense": 1.0
+   },
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "decor": true,
+   "display_slots": [],
+   "flat": false,
+   "furniture_type": "decor",
+   "id": "war_banner_blue",
+   "is_moveable": true,
+   "name": "War Banner (Blue)",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    23.0,
+    14.0
+   ],
+   "sprite": "res://assets/shared/furniture/decor/war_banner_blue.png",
+   "unlock_level": 1
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {
+    "intense": 1.0
+   },
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "decor": true,
+   "display_slots": [],
+   "flat": false,
+   "furniture_type": "decor",
+   "id": "war_banner_red",
+   "is_moveable": true,
+   "name": "War Banner (Red)",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    23.0,
+    14.0
+   ],
+   "sprite": "res://assets/shared/furniture/decor/war_banner_red.png",
+   "unlock_level": 1
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {
+    "intense": 2.0
+   },
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "decor": true,
+   "display_slots": [],
+   "flat": false,
+   "furniture_type": "decor",
+   "id": "weapon_display",
+   "is_moveable": true,
+   "name": "Weapon Display",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    48.0,
+    19.0
+   ],
+   "sprite": "res://assets/shared/furniture/decor/weapon_display.png",
+   "unlock_level": 1
+  },
+  {
+   "allowed_categories": [],
    "appeal_modifiers": {},
    "blocks_movement": false,
    "customer_attention_modifier": 0.0,
@@ -50,263 +979,26 @@
   },
   {
    "allowed_categories": [],
-   "appeal_modifiers": {},
+   "appeal_modifiers": {
+    "cozy": 2.0
+   },
    "blocks_movement": false,
    "customer_attention_modifier": 0.0,
-   "display_slots": [
-    [
-     0.0,
-     -12.0
-    ]
-   ],
-   "furniture_type": "display_case",
-   "id": "display_case",
+   "decor": true,
+   "display_slots": [],
+   "flat": true,
+   "furniture_type": "decor",
+   "id": "woven_rug",
    "is_moveable": true,
-   "name": "Display Case",
-   "price_modifier": 1.0,
-   "scenery": "chest_gold",
-   "size": [
-    36.0,
-    24.0
-   ],
-   "sprite": "",
-   "unlock_level": 4
-  },
-  {
-   "allowed_categories": [],
-   "appeal_modifiers": {},
-   "blocks_movement": false,
-   "customer_attention_modifier": 0.0,
-   "display_slots": [
-    [
-     0.0,
-     -12.0
-    ]
-   ],
-   "furniture_type": "item_stand",
-   "id": "basic_item_stand",
-   "is_moveable": true,
-   "name": "Basic Item Stand",
+   "name": "Woven Rug",
    "price_modifier": 1.0,
    "scenery": "",
    "size": [
-    40.0,
-    24.0
+    60.0,
+    28.0
    ],
-   "sprite": "res://assets/shared/furniture/basic_item_stand.png",
+   "sprite": "res://assets/shared/furniture/decor/woven_rug.png",
    "unlock_level": 1
-  },
-  {
-   "allowed_categories": [],
-   "appeal_modifiers": {},
-   "blocks_movement": false,
-   "customer_attention_modifier": 0.0,
-   "display_slots": [
-    [
-     0.0,
-     -12.0
-    ]
-   ],
-   "furniture_type": "item_stand",
-   "id": "premium_item_stand",
-   "is_moveable": true,
-   "name": "Premium Item Stand",
-   "price_modifier": 1.0,
-   "scenery": "",
-   "size": [
-    40.0,
-    24.0
-   ],
-   "sprite": "res://assets/shared/furniture/premium_item_stand.png",
-   "unlock_level": 3
-  },
-  {
-   "allowed_categories": [],
-   "appeal_modifiers": {},
-   "blocks_movement": false,
-   "customer_attention_modifier": 0.0,
-   "display_slots": [
-    [
-     0.0,
-     -12.0
-    ]
-   ],
-   "furniture_type": "display_case",
-   "id": "glass_display_case",
-   "is_moveable": true,
-   "name": "Glass Display Case",
-   "price_modifier": 1.0,
-   "scenery": "",
-   "size": [
-    40.0,
-    24.0
-   ],
-   "sprite": "res://assets/shared/furniture/glass_display_case.png",
-   "unlock_level": 4
-  },
-  {
-   "allowed_categories": [],
-   "appeal_modifiers": {},
-   "blocks_movement": false,
-   "customer_attention_modifier": 1.0,
-   "display_slots": [
-    [
-     0,
-     -12
-    ]
-   ],
-   "furniture_type": "display_case",
-   "id": "luxury_glass_display_case",
-   "is_moveable": true,
-   "name": "Luxury Glass Display Case",
-   "price_modifier": 1.0,
-   "scenery": "",
-   "size": [
-    40,
-    24
-   ],
-   "sprite": "res://assets/shared/furniture/luxury_glass_display_case.png",
-   "unlock_level": 5
-  },
-  {
-   "allowed_categories": [],
-   "appeal_modifiers": {},
-   "blocks_movement": false,
-   "customer_attention_modifier": 0.0,
-   "display_slots": [
-    [
-     -13.0,
-     -12.0
-    ],
-    [
-     0.0,
-     -12.0
-    ],
-    [
-     13.0,
-     -12.0
-    ]
-   ],
-   "furniture_type": "counter",
-   "id": "purple_counter",
-   "is_moveable": true,
-   "name": "Purple Counter",
-   "price_modifier": 1.0,
-   "scenery": "",
-   "size": [
-    40.0,
-    24.0
-   ],
-   "sprite": "res://assets/shared/furniture/purple_counter.png",
-   "unlock_level": 3
-  },
-  {
-   "allowed_categories": [],
-   "appeal_modifiers": {},
-   "blocks_movement": false,
-   "customer_attention_modifier": 0.0,
-   "display_slots": [
-    [
-     -13.0,
-     -12.0
-    ],
-    [
-     0.0,
-     -12.0
-    ],
-    [
-     13.0,
-     -12.0
-    ]
-   ],
-   "furniture_type": "counter",
-   "id": "green_counter",
-   "is_moveable": true,
-   "name": "Green Counter",
-   "price_modifier": 1.0,
-   "scenery": "",
-   "size": [
-    40.0,
-    24.0
-   ],
-   "sprite": "res://assets/shared/furniture/green_counter.png",
-   "unlock_level": 3
-  },
-  {
-   "allowed_categories": [],
-   "appeal_modifiers": {},
-   "blocks_movement": false,
-   "customer_attention_modifier": 0.0,
-   "display_slots": [
-    [
-     -10.0,
-     -12.0
-    ],
-    [
-     10.0,
-     -12.0
-    ]
-   ],
-   "furniture_type": "small_table",
-   "id": "small_display_crate",
-   "is_moveable": true,
-   "name": "Small Display Crate",
-   "price_modifier": 1.0,
-   "scenery": "",
-   "size": [
-    40.0,
-    24.0
-   ],
-   "sprite": "res://assets/shared/furniture/small_display_crate.png",
-   "unlock_level": 1
-  },
-  {
-   "allowed_categories": [],
-   "appeal_modifiers": {},
-   "blocks_movement": false,
-   "customer_attention_modifier": 0.0,
-   "display_slots": [
-    [
-     0.0,
-     -12.0
-    ]
-   ],
-   "furniture_type": "display_case",
-   "id": "basic_glass_box",
-   "is_moveable": true,
-   "name": "Basic Glass Box",
-   "price_modifier": 1.0,
-   "scenery": "",
-   "size": [
-    40.0,
-    24.0
-   ],
-   "sprite": "res://assets/shared/furniture/basic_glass_box.png",
-   "unlock_level": 2
-  },
-  {
-   "allowed_categories": [],
-   "appeal_modifiers": {},
-   "blocks_movement": false,
-   "customer_attention_modifier": 0.5,
-   "display_slots": [
-    [
-     0.0,
-     -12.0
-    ]
-   ],
-   "furniture_type": "display_case",
-   "id": "premium_glass_box",
-   "is_moveable": true,
-   "name": "Premium Glass Box",
-   "price_modifier": 1.0,
-   "scenery": "",
-   "size": [
-    40.0,
-    24.0
-   ],
-   "sprite": "res://assets/shared/furniture/premium_glass_box.png",
-   "unlock_level": 4
   }
  ],
  "schema": "crossroads.shop_furniture.v1"

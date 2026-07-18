@@ -59,7 +59,19 @@ func type_def(instance: Dictionary) -> Dictionary:
 
 
 func slots_per_instance(instance: Dictionary) -> int:
-	return maxi(1, (type_def(instance).get("display_slots", [[0, -12]]) as Array).size())
+	var def := type_def(instance)
+	if bool(def.get("decor", false)):
+		return 0
+	return maxi(1, (def.get("display_slots", [[0, -12]]) as Array).size())
+
+
+## Pieces that count against the shop-level furniture cap (decor doesn't).
+func stand_count() -> int:
+	var n := 0
+	for inst: Dictionary in layout:
+		if not bool(type_def(inst).get("decor", false)):
+			n += 1
+	return n
 
 
 func total_slot_count() -> int:

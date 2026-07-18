@@ -36,6 +36,9 @@ const EXIT_Y := 424.0
 
 func _ready() -> void:
 	add_to_group("shop_runtime")
+	# draw order follows feet position — rebuilt furniture would otherwise
+	# land after the player in the tree and draw on top of them
+	y_sort_enabled = true
 	AudioManager.play_track("item_shop")
 	_build_room()
 	_build_furniture()
@@ -69,6 +72,7 @@ func _build_corner_buttons() -> void:
 	box.theme = UIKit.light_theme()
 	layer.add_child(box)
 	box.add_child(UIKit.button("Buy furniture", _open_furniture_catalog, 9))
+	box.add_child(UIKit.button("Decorate", _open_decor_catalog, 9))
 	box.add_child(UIKit.button("Rearrange furniture", _on_rearrange_pressed, 9))
 
 
@@ -582,24 +586,24 @@ func _open_furniture_catalog() -> void:
 	vb.add_child(list_parts[0])
 	var list: VBoxContainer = list_parts[1]
 	var cap := _furniture_cap()
-	var at_cap := ShopFurnitureManager.layout.size() >= cap
+	var at_cap := ShopFurnitureManager.stand_count() >= cap
 	if at_cap:
-		vb.add_child(UIKit.label("SHOP FULL — %d of %d pieces placed. Expand the shop, or store/sell furniture in Rearrange mode." % [
-			ShopFurnitureManager.layout.size(), cap], 10, UIKit.COL_BAD))
+		vb.add_child(UIKit.label("SHOP FULL — %d of %d stands placed. Expand the shop, or store/sell furniture in Rearrange mode." % [
+			ShopFurnitureManager.stand_count(), cap], 10, UIKit.COL_BAD))
 	# stored furniture goes back on the floor for free
 	for i in ShopFurnitureManager.stored.size():
 		var stored_idx := i
 		var stored_id := String(ShopFurnitureManager.stored[i])
 		var sdef := ContentDatabase.get_furniture(stored_id)
-		if sdef.is_empty():
+		if sdef.is_empty() or bool(sdef.get("decor", false)):
 			continue
 		var srow := HBoxContainer.new()
 		var slbl := UIKit.label("In storage: %s" % String(sdef.get("name", stored_id)), 10, UIKit.COL_ACCENT)
 		slbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		srow.add_child(slbl)
 		var place_btn := UIKit.button("Place", func() -> void:
-			if ShopFurnitureManager.layout.size() >= cap:
-				_toast("The shop only fits %d pieces — expand it first!" % cap)
+			if ShopFurnitureManager.stand_count() >= cap:
+				_toast("The shop only fits %d stands — expand it first!" % cap)
 				return
 			var spot := _find_free_spot(stored_id)
 			if spot == Vector2.INF:
@@ -612,7 +616,8 @@ func _open_furniture_catalog() -> void:
 		place_btn.disabled = at_cap
 		srow.add_child(place_btn)
 		vb.add_child(srow)
-	var ids: Array = ContentDatabase.furniture.keys()
+	var ids: Array = ContentDatabase.furniture.keys().filter(func(fid: String) -> bool:
+		return not bool(ContentDatabase.get_furniture(fid).get("decor", false)))
 	ids.sort_custom(func(a: String, b: String) -> bool:
 		var ua := int(ContentDatabase.get_furniture(a).get("unlock_level", 1))
 		var ub := int(ContentDatabase.get_furniture(b).get("unlock_level", 1))
@@ -634,8 +639,8 @@ func _open_furniture_catalog() -> void:
 			row.add_child(UIKit.label("Shop Lv.%d" % unlock, 9, UIKit.COL_DIM))
 		else:
 			var buy_btn := UIKit.button("Buy", func() -> void:
-				if ShopFurnitureManager.layout.size() >= cap:
-					_toast("The shop only fits %d pieces — expand it first!" % cap)
+				if ShopFurnitureManager.stand_count() >= cap:
+					_toast("The shop only fits %d stands — expand it first!" % cap)
 					return
 				if EconomyManager.gold < price:
 					_toast("Not enough gold!")
@@ -652,11 +657,107 @@ func _open_furniture_catalog() -> void:
 			buy_btn.disabled = at_cap
 			row.add_child(buy_btn)
 		list.add_child(row)
-	var cap_line := UIKit.label("Furniture: %d of %d (shop Lv.%d) — expanding the shop raises the cap and unlocks new pieces." % [
-		ShopFurnitureManager.layout.size(), cap, GameState.shop_level], 9, UIKit.COL_BAD if at_cap else UIKit.COL_DIM)
+	var cap_line := UIKit.label("Stands: %d of %d (shop Lv.%d) — expanding the shop raises the cap and unlocks new pieces. Decor is separate." % [
+		ShopFurnitureManager.stand_count(), cap, GameState.shop_level], 9, UIKit.COL_BAD if at_cap else UIKit.COL_DIM)
 	vb.add_child(cap_line)
 	vb.add_child(UIKit.label("New pieces appear on a free spot — use Rearrange furniture to place them.", 9, UIKit.COL_DIM))
 	vb.add_child(UIKit.button("Close", func() -> void: _close_modal(cat_layer)))
+
+
+## Decor catalog: appeal-only pieces with no display slots. They don't count
+## against the stand cap — only floor space limits them.
+func _open_decor_catalog() -> void:
+	if session_active:
+		_toast("Not while customers are browsing!")
+		return
+	if busy or edit_mode:
+		return
+	busy = true
+	player.frozen = true
+	var prices: Dictionary = ContentDatabase.bal("furniture_prices", {})
+	var parts := UIKit.modal(self, "Decorate the shop — %dg" % EconomyManager.gold)
+	var decor_layer: CanvasLayer = parts[0]
+	var vb: VBoxContainer = parts[1]
+	var appeal := InventoryManager.shop_appeal()
+	vb.add_child(UIKit.label("Shop appeal — cozy %d | intense %d | retro %d | modern %d (dominant: %s)" % [
+		int(appeal["cozy"]), int(appeal["intense"]), int(appeal["retro"]), int(appeal["modern"]),
+		InventoryManager.dominant_appeal()], 9, UIKit.COL_DIM))
+	# stored decor goes back on the floor for free
+	for i in ShopFurnitureManager.stored.size():
+		var stored_idx := i
+		var stored_id := String(ShopFurnitureManager.stored[i])
+		var sdef := ContentDatabase.get_furniture(stored_id)
+		if sdef.is_empty() or not bool(sdef.get("decor", false)):
+			continue
+		var srow := HBoxContainer.new()
+		var slbl := UIKit.label("In storage: %s" % String(sdef.get("name", stored_id)), 10, UIKit.COL_ACCENT)
+		slbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		srow.add_child(slbl)
+		srow.add_child(UIKit.button("Place", func() -> void:
+			var spot := _find_free_spot(stored_id)
+			if spot == Vector2.INF:
+				_toast("No floor space left — rearrange first.")
+				return
+			ShopFurnitureManager.stored.remove_at(stored_idx)
+			dev_spawn_furniture(stored_id, spot)
+			_close_modal(decor_layer)
+			_open_decor_catalog()))
+		vb.add_child(srow)
+	var list_parts := UIKit.scroll_list(Vector2(430, 220))
+	vb.add_child(list_parts[0])
+	var list: VBoxContainer = list_parts[1]
+	var ids: Array = ContentDatabase.furniture.keys().filter(func(fid: String) -> bool:
+		return bool(ContentDatabase.get_furniture(fid).get("decor", false)))
+	ids.sort_custom(func(a: String, b: String) -> bool:
+		return int(prices.get(a, 400)) < int(prices.get(b, 400)))
+	for id: String in ids:
+		var fid := id
+		var def := ContentDatabase.get_furniture(fid)
+		var price := int(prices.get(fid, 400))
+		var row := HBoxContainer.new()
+		row.add_theme_constant_override("separation", 6)
+		var icon := TextureRect.new()
+		var spr := String(def.get("sprite", ""))
+		icon.texture = load(spr) if spr != "" and ResourceLoader.exists(spr) else null
+		icon.custom_minimum_size = Vector2(26, 26)
+		icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		icon.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		row.add_child(icon)
+		var lbl := UIKit.label(String(def.get("name", fid)), 10)
+		lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		lbl.clip_text = true
+		row.add_child(lbl)
+		var mods: Dictionary = def.get("appeal_modifiers", {})
+		var bits: Array[String] = []
+		for k: String in mods:
+			bits.append("%s +%d" % [k, int(mods[k])])
+		var appeal_lbl := UIKit.label(", ".join(bits), 9, UIKit.COL_GOOD)
+		appeal_lbl.custom_minimum_size = Vector2(110, 0)
+		row.add_child(appeal_lbl)
+		var price_lbl := UIKit.label("%dg" % price, 10, UIKit.COL_INK)
+		price_lbl.custom_minimum_size = Vector2(48, 0)
+		price_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+		row.add_child(price_lbl)
+		var buy_btn := UIKit.button("Buy", func() -> void:
+			if EconomyManager.gold < price:
+				_toast("Not enough gold!")
+				return
+			var spot := _find_free_spot(fid)
+			if spot == Vector2.INF:
+				_toast("No floor space left — rearrange first.")
+				return
+			EconomyManager.spend_gold(price)
+			dev_spawn_furniture(fid, spot)
+			hud.refresh()
+			_close_modal(decor_layer)
+			_open_decor_catalog())
+		buy_btn.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		row.add_child(buy_btn)
+		list.add_child(row)
+	vb.add_child(UIKit.label("Decor raises the shop's appeal, drawing matching customers. Move or store it in Rearrange mode.", 9, UIKit.COL_DIM))
+	vb.add_child(UIKit.button("Close", func() -> void: _close_modal(decor_layer)))
 
 
 func _open_storage() -> void:
