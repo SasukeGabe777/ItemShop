@@ -196,6 +196,54 @@ def resize_rgba(img: Image.Image, size: tuple[int, int]) -> Image.Image:
     return Image.fromarray(small.astype(np.uint8))
 
 
+def largest_component(img: Image.Image, thresh: int = 10) -> Image.Image:
+    """Zero out everything but the largest connected opaque region. Island
+    detection's merge_gap dilation can pull detached shadow specks from
+    neighboring sheet pieces into a slice; those read as gray smudges in-game."""
+    a = np.array(img)
+    alpha = a[..., 3] > thresh
+    h, w = alpha.shape
+    labels = np.zeros((h, w), dtype=np.int32)
+    best_label, best_area, next_label = 0, 0, 0
+    for sy in range(h):
+        xs = np.nonzero(alpha[sy] & (labels[sy] == 0))[0]
+        for sx in xs:
+            if labels[sy, sx]:
+                continue
+            next_label += 1
+            stack = [(sy, sx)]
+            labels[sy, sx] = next_label
+            area = 0
+            while stack:
+                cy, cx = stack.pop()
+                area += 1
+                for ny in range(max(0, cy - 1), min(h - 1, cy + 1) + 1):
+                    row = alpha[ny]
+                    lrow = labels[ny]
+                    for nx in range(max(0, cx - 1), min(w - 1, cx + 1) + 1):
+                        if row[nx] and not lrow[nx]:
+                            lrow[nx] = next_label
+                            stack.append((ny, nx))
+            if area > best_area:
+                best_area, best_label = area, next_label
+    a[labels != best_label] = 0
+    return Image.fromarray(a)
+
+
+def clean_alpha(img: Image.Image, lo: int = 40, hi: int = 216) -> Image.Image:
+    """Snap ghost alpha (<lo) to 0 and near-opaque (>=hi) to 255, then trim to
+    the visible content. Kills the faint resize halo rows that render as light
+    gray fringes over bright backgrounds in-game."""
+    a = np.array(img)
+    alpha = a[..., 3]
+    a[alpha < lo] = 0
+    hi_mask = a[..., 3] >= hi
+    a[..., 3][hi_mask] = 255
+    bbox = Image.fromarray(a[..., 3]).getbbox()
+    out = Image.fromarray(a)
+    return out.crop(bbox) if bbox is not None else out
+
+
 def save_island(img: Image.Image, box: tuple[int, int, int, int], out_path: str | Path, size: int | None = None) -> None:
     """Save one island as a standalone icon PNG (optionally fit into size^2)."""
     crop = img.crop(box)

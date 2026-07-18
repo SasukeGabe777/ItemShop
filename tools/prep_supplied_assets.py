@@ -16,7 +16,7 @@ import numpy as np
 from PIL import Image
 
 sys.path.insert(0, str(Path(__file__).parent))
-from slice_lib import chroma_key, compose_grid, find_islands, load_rgba, resize_rgba, save_island
+from slice_lib import chroma_key, clean_alpha, compose_grid, find_islands, largest_component, load_rgba, resize_rgba, save_island
 
 ROOT = Path(__file__).resolve().parent.parent
 KH = ROOT / "assets/franchises/kingdom_hearts"
@@ -221,15 +221,46 @@ def prep_menu_ui() -> None:
     }
     for name, idx in named.items():
         save_island(img, boxes[idx], out / f"{name}.png")
-    # UI-scale variants (premultiplied resize: no dark edge halos)
-    for name, target in [("bar_white", ("h", 24)), ("bar_blue", ("h", 24)), ("cursor_hand", ("w", 24))]:
+
+    # Game-scale variants: drop merged-in specks, premultiplied resize (no
+    # dark halos), binarize alpha (semi rows read as gray dashes on white),
+    # then sweep any specks the binarize detached (baked shadow crumbs).
+    def refine(name: str, axis: str, target: int, shave: str = "rows") -> None:
         p = out / f"{name}.png"
-        im = Image.open(p).convert("RGBA")
-        if target[0] == "h":
-            size = (max(1, round(im.width * target[1] / im.height)), target[1])
+        im = clean_alpha(largest_component(Image.open(p).convert("RGBA")), lo=1, hi=255)
+        if axis == "h":
+            size = (max(1, round(im.width * target / im.height)), target)
         else:
-            size = (target[1], max(1, round(im.height * target[1] / im.width)))
-        resize_rgba(im, size).save(p)
+            size = (target, max(1, round(im.height * target / im.width)))
+        im = clean_alpha(resize_rgba(im, size), lo=128, hi=128)
+        im = clean_alpha(largest_component(im), lo=1, hi=255)
+        if shave != "none":
+            # baked drop shadows leave sparse near-black crumbs along the
+            # borders (they touch the outline, so largest_component keeps
+            # them); shave any edge row/col that is mostly empty. Columns
+            # only where sparse edge columns aren't art (bars' pointed caps
+            # and the cursor's fingertip are legitimately sparse).
+            alpha = np.array(im)[..., 3] > 0
+            t, b, l, r = 0, alpha.shape[0], 0, alpha.shape[1]
+            while b - t > 2 and alpha[t, l:r].sum() < 0.6 * (r - l):
+                t += 1
+            while b - t > 2 and alpha[b - 1, l:r].sum() < 0.6 * (r - l):
+                b -= 1
+            if shave == "both":
+                while r - l > 2 and alpha[t:b, l].sum() < 0.6 * (b - t):
+                    l += 1
+                while r - l > 2 and alpha[t:b, r - 1].sum() < 0.6 * (b - t):
+                    r -= 1
+            im = im.crop((l, t, r, b))
+        im.save(p)
+
+    refine("bar_white", "h", 24)
+    refine("bar_blue", "h", 24)
+    refine("cursor_hand", "w", 24, shave="none")
+    # Pre-scale the modal panel to its in-game width: the nine-patch must
+    # only ever stretch UP — nearest-filter DOWN-scaling decimates the ornate
+    # border into a tattered edge.
+    refine("panel_wide", "w", 380, shave="both")
     print(f"  wrote {len(named)} menu UI pieces -> {out}")
 
 

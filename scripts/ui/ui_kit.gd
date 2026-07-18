@@ -144,11 +144,13 @@ static func modal(parent: Node, title: String) -> Array:
 	# supplied ornate white panel + light theme for its content
 	if ResourceLoader.exists(PANEL_WIDE):
 		var style := StyleBoxTexture.new()
+		# panel_wide.png is pre-scaled to 380px (the modal min width) so the
+		# nine-patch only stretches up; margins are in that scaled space
 		style.texture = load(PANEL_WIDE)
-		style.texture_margin_left = 30
-		style.texture_margin_right = 30
-		style.texture_margin_top = 22
-		style.texture_margin_bottom = 22
+		style.texture_margin_left = 20
+		style.texture_margin_right = 20
+		style.texture_margin_top = 14
+		style.texture_margin_bottom = 14
 		style.content_margin_left = 36
 		style.content_margin_right = 36
 		style.content_margin_top = 28
