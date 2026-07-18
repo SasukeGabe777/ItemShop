@@ -128,20 +128,10 @@ static func item_row(item_id: String, suffix: String, action_text: String, on_pr
 	return row
 
 
-static func modal(parent: Node, title: String) -> Array:
-	## Returns [layer, content_vbox]. Caller fills content and frees layer.
-	var layer := CanvasLayer.new()
-	layer.layer = 50
-	parent.add_child(layer)
-	var dim := ColorRect.new()
-	dim.color = Color(0, 0, 0, 0.55)
-	dim.set_anchors_preset(Control.PRESET_FULL_RECT)
-	layer.add_child(dim)
-	var center := CenterContainer.new()
-	center.set_anchors_preset(Control.PRESET_FULL_RECT)
-	layer.add_child(center)
-	var p := panel(Vector2(380, 0))
-	# supplied ornate white panel + light theme for its content
+## The supplied ornate white panel with the light theme for its content;
+## falls back to the plain dark panel when the texture is missing.
+static func ornate_panel(min_size: Vector2 = Vector2.ZERO) -> PanelContainer:
+	var p := panel(min_size)
 	if ResourceLoader.exists(PANEL_WIDE):
 		var style := StyleBoxTexture.new()
 		# panel_wide.png is pre-scaled to 380px (the modal min width) so the
@@ -157,6 +147,22 @@ static func modal(parent: Node, title: String) -> Array:
 		style.content_margin_bottom = 26
 		p.add_theme_stylebox_override("panel", style)
 		p.theme = light_theme()
+	return p
+
+
+static func modal(parent: Node, title: String) -> Array:
+	## Returns [layer, content_vbox]. Caller fills content and frees layer.
+	var layer := CanvasLayer.new()
+	layer.layer = 50
+	parent.add_child(layer)
+	var dim := ColorRect.new()
+	dim.color = Color(0, 0, 0, 0.55)
+	dim.set_anchors_preset(Control.PRESET_FULL_RECT)
+	layer.add_child(dim)
+	var center := CenterContainer.new()
+	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	layer.add_child(center)
+	var p := ornate_panel(Vector2(380, 0))
 	center.add_child(p)
 	var vb := VBoxContainer.new()
 	vb.add_theme_constant_override("separation", 6)

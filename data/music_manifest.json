@@ -3,9 +3,14 @@
   "default_dir": "res://assets/music/default/",
   "override_dir": "user://music_overrides/",
   "project_override_dir": "res://assets/music/user_overrides/",
-  "formats": ["ogg", "wav"],
+  "formats": ["ogg", "wav", "mp3"],
+  "sfx_dir": "res://assets/music/sound_effects/",
+  "voices": {
+    "patch": ["patch_voice", "patch_voice_2"]
+  },
   "tracks": {
     "main_menu": {"file": "main_menu", "loop": true},
+    "newgame_begin": {"file": "newgame_begin", "loop": true},
     "crossroads_day": {"file": "crossroads_day", "loop": true},
     "crossroads_night": {"file": "crossroads_night", "loop": true},
     "item_shop": {"file": "item_shop", "loop": true},

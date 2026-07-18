@@ -2,6 +2,8 @@ extends Node2D
 ## Dialogue scene player. Plays queued story scenes (portrait blobs + typed
 ## text), then routes onward. Also hosts the chapter-failure restart flow.
 
+const BACKDROP := "res://assets/shared/ui/titlescreenupdated.png"
+
 var lines: Array = []
 var line_index: int = 0
 var name_label: Label
@@ -21,25 +23,49 @@ func _ready() -> void:
 		_route_out()
 		return
 	lines = scene_data.get("lines", [])
+	_apply_scene_music()
 	_build_ui()
 	_show_line(0)
 
 
+## Scenes may name a music track ("music" in story_scenes.json); scenes
+## without one keep whatever is already playing.
+func _apply_scene_music() -> void:
+	var track := String(scene_data.get("music", ""))
+	if track != "":
+		AudioManager.play_track(track)
+
+
 func _build_ui() -> void:
+	var layer := CanvasLayer.new()
+	add_child(layer)
 	var bg := ColorRect.new()
 	bg.color = UIKit.COL_BG
 	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
-	var layer := CanvasLayer.new()
-	add_child(layer)
 	layer.add_child(bg)
+	# the Crossroads key art, dimmed, as the storytelling backdrop
+	if ResourceLoader.exists(BACKDROP):
+		var art := TextureRect.new()
+		art.texture = load(BACKDROP)
+		art.set_anchors_preset(Control.PRESET_FULL_RECT)
+		art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		art.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+		layer.add_child(art)
+		var dim := ColorRect.new()
+		dim.color = Color(0.05, 0.06, 0.12, 0.55)
+		dim.set_anchors_preset(Control.PRESET_FULL_RECT)
+		layer.add_child(dim)
+	var margin := MarginContainer.new()
+	margin.set_anchors_preset(Control.PRESET_FULL_RECT)
+	margin.add_theme_constant_override("margin_left", 14)
+	margin.add_theme_constant_override("margin_right", 14)
+	margin.add_theme_constant_override("margin_bottom", 8)
+	layer.add_child(margin)
 	var center := VBoxContainer.new()
-	center.set_anchors_preset(Control.PRESET_FULL_RECT)
 	center.alignment = BoxContainer.ALIGNMENT_END
-	layer.add_child(center)
-	var scene_id_lbl := UIKit.label("  %s" % String(scene_data.get("id", "")), 8, UIKit.COL_DIM)
-	center.add_child(scene_id_lbl)
-	var panel := UIKit.panel()
-	panel.custom_minimum_size = Vector2(0, 120)
+	margin.add_child(center)
+	var panel := UIKit.ornate_panel()
+	panel.custom_minimum_size = Vector2(0, 124)
 	center.add_child(panel)
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 12)
@@ -58,17 +84,28 @@ func _build_ui() -> void:
 	text_label.bbcode_enabled = false
 	text_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	text_label.add_theme_font_size_override("normal_font_size", 11)
+	text_label.add_theme_color_override("default_color", UIKit.COL_INK)
 	vb.add_child(text_label)
 	continue_hint = UIKit.label("[E / Space] continue", 8, UIKit.COL_DIM)
 	vb.add_child(continue_hint)
+
+
+## Speaker colors were tuned for the dark HUD; darken the bright ones so
+## they stay readable on the white ornate panel.
+func _panel_speaker_color(who: String) -> Color:
+	var c := StoryEventManager.speaker_color(who)
+	if c.get_luminance() > 0.55:
+		c = c.darkened(0.45)
+	return c
 
 
 func _show_line(idx: int) -> void:
 	line_index = idx
 	var line: Dictionary = lines[idx]
 	var who := String(line.get("who", ""))
+	AudioManager.play_voice(who)
 	name_label.text = StoryEventManager.speaker_display_name(who)
-	name_label.add_theme_color_override("font_color", StoryEventManager.speaker_color(who))
+	name_label.add_theme_color_override("font_color", _panel_speaker_color(who))
 	var hero_data: Dictionary = ContentDatabase.heroes.get(who, ContentDatabase.npcs.get(who, {}))
 	portrait.texture = ContentDatabase.entity_texture(who, String(hero_data.get("world", "crossroads")), String(hero_data.get("color", "#c0c0c0")), 24)
 	text_label.text = ""
@@ -107,6 +144,7 @@ func _scene_done() -> void:
 	if StoryEventManager.has_pending():
 		scene_data = StoryEventManager.pop_next()
 		lines = scene_data.get("lines", [])
+		_apply_scene_music()
 		_show_line(0)
 		return
 	_route_out()
@@ -119,6 +157,7 @@ func _route_out() -> void:
 		if StoryEventManager.has_pending():
 			scene_data = StoryEventManager.pop_next()
 			lines = scene_data.get("lines", [])
+			_apply_scene_music()
 			_show_line(0)
 			return
 	SceneRouter.go(dest if dest != "dungeon" else "dungeon")

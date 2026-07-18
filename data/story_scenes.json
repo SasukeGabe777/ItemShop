@@ -1,7 +1,7 @@
 {
   "schema": "crossroads.story.v1",
   "scenes": [
-    {"id": "intro", "trigger": {"type": "game_start"}, "lines": [
+    {"id": "intro", "trigger": {"type": "game_start"}, "music": "newgame_begin", "lines": [
       {"who": "patch", "text": "Boot sequence... hello! I'm Patch. I'm what's left of the World Bridge's maintenance system."},
       {"who": "hero", "text": "...The bridge outside is in a thousand pieces."},
       {"who": "patch", "text": "One thousand and seven, actually. I counted. It's all I've done for a week."},

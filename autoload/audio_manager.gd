@@ -1,13 +1,16 @@
 extends Node
 ## AudioManager: music playback with user-override resolution. A file named
 ## after a track id in user://music_overrides/ (or the project override folder)
-## replaces the default track. OGG and WAV supported.
+## replaces the default track. OGG, WAV and MP3 supported. Also plays one-shot
+## SFX and character voice blips from the manifest's sound_effects dir.
 
 var music_player: AudioStreamPlayer
 var stinger_player: AudioStreamPlayer
+var sfx_player: AudioStreamPlayer
 var current_track: String = ""
 var music_volume_db: float = -8.0
 var muted: bool = false
+var _last_voice: Dictionary = {}  # speaker -> last file index, avoids repeats
 
 
 func _ready() -> void:
@@ -17,6 +20,9 @@ func _ready() -> void:
 	stinger_player = AudioStreamPlayer.new()
 	stinger_player.bus = "Master"
 	add_child(stinger_player)
+	sfx_player = AudioStreamPlayer.new()
+	sfx_player.bus = "Master"
+	add_child(sfx_player)
 	DirAccess.make_dir_recursive_absolute("user://music_overrides/")
 
 
@@ -47,6 +53,36 @@ func play_stinger(track_id: String) -> void:
 	stinger_player.play()
 
 
+## One-shot effect from the manifest's sfx dir (file name without extension).
+func play_sfx(sfx_name: String, volume_offset_db: float = 0.0) -> void:
+	if muted:
+		return
+	var dir := String(ContentDatabase.music.get("sfx_dir", "res://assets/music/sound_effects/"))
+	var stream := _load_stream(dir + sfx_name + ".wav")
+	if stream == null:
+		return
+	_set_loop(stream, false)
+	sfx_player.stream = stream
+	sfx_player.volume_db = music_volume_db + volume_offset_db
+	sfx_player.play()
+
+
+## Character voice blip: picks one of the speaker's files from the manifest
+## "voices" map, never repeating the previous pick when there is a choice.
+func play_voice(speaker: String) -> void:
+	var voices: Dictionary = ContentDatabase.music.get("voices", {})
+	var files: Array = voices.get(speaker, [])
+	if files.is_empty():
+		return
+	var idx := 0
+	if files.size() > 1:
+		idx = randi() % files.size()
+		if idx == int(_last_voice.get(speaker, -1)):
+			idx = (idx + 1) % files.size()
+	_last_voice[speaker] = idx
+	play_sfx(String(files[idx]), 4.0)
+
+
 func stop_music() -> void:
 	music_player.stop()
 	current_track = ""
@@ -71,6 +107,8 @@ func _set_loop(stream: AudioStream, loop: bool) -> void:
 			w.loop_end = w.data.size() / 2  # 16-bit mono frames
 	elif stream is AudioStreamOggVorbis:
 		(stream as AudioStreamOggVorbis).loop = loop
+	elif stream is AudioStreamMP3:
+		(stream as AudioStreamMP3).loop = loop
 
 
 ## Resolution order: user:// overrides, project override folder, defaults.
@@ -106,4 +144,6 @@ func _load_stream(path: String) -> AudioStream:
 		return AudioStreamOggVorbis.load_from_file(path)
 	if path.ends_with(".wav"):
 		return AudioStreamWAV.load_from_file(path)
+	if path.ends_with(".mp3"):
+		return AudioStreamMP3.load_from_file(path)
 	return null
