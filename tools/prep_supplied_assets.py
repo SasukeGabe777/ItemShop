@@ -838,6 +838,108 @@ def prep_sora_field() -> None:
                         "attack_1": 14, "attack_2": 14, "attack_3": 14})
 
 
+## Item icons from the supplied items.png rips. Indices/anchors were read
+## off tools/item_sheet.py contact sheets (identical detection params, so
+## the numbering is deterministic). by_box crops straight from the raw
+## sheet and keys the crop's own corner color (for the differently-colored
+## border strips these sheets carry).
+WORLD_ITEM_PICKS = {
+    "pokemon": {
+        "params": dict(min_area=24, merge_gap=1, lo=6, hi=40),
+        "by_index": {
+            14: "poke_ball", 11: "great_ball", 8: "ultra_ball", 5: "master_ball",
+            36: "pkmn_potion", 43: "full_restore", 54: "escape_rope",
+            56: "water_stone", 38: "thunder_stone", 99: "moon_stone",
+            102: "focus_band", 149: "bicycle_voucher",
+            39: "super_potion", 40: "hyper_potion", 42: "pkmn_ether",
+            41: "lava_cookie", 55: "leaf_stone", 57: "tiny_mushroom",
+            58: "big_mushroom", 60: "pecha_berry", 66: "cheri_berry",
+            68: "oran_berry", 91: "sitrus_berry", 67: "star_piece",
+            21: "red_shard", 23: "blue_shard", 27: "yellow_shard",
+            30: "green_shard", 112: "nugget", 120: "twisted_spoon",
+            103: "black_glasses", 87: "root_fossil", 104: "red_orb",
+            105: "blue_orb", 121: "technical_machine", 145: "leftovers",
+            167: "amulet_coin", 165: "shell_bell", 24: "soda_pop", 26: "lemonade",
+        },
+    },
+    "dragon_ball": {
+        "params": dict(min_area=20, merge_gap=0, lo=5, hi=30),
+        "by_anchor": {
+            (93, 72): "dragon_ball", (31, 71): "capsule", (129, 52): "sacred_water",
+            (345, 35): "turtle_gi", (327, 34): "weighted_clothing",
+            (309, 69): "saiyan_armor", (194, 52): "energy_crystal",
+            (307, 199): "scouter", (30, 34): "hearty_ramen",
+            (62, 36): "dino_drumstick", (75, 34): "mega_burger",
+            (142, 33): "marbled_beef", (30, 52): "fresh_milk",
+            (63, 53): "chilled_soda", (153, 188): "zeni_coin",
+            (124, 90): "ancient_idol",
+        },
+        "by_box": {"giant_river_fish": (168, 28, 210, 53)},
+    },
+    "naruto": {
+        "params": dict(min_area=24, merge_gap=1, lo=6, hi=40),
+        "by_index": {
+            21: "kunai", 27: "shuriken", 36: "fuma_shuriken",
+            56: "soldier_pill", 57: "chakra_pill", 63: "ramen_bowl",
+            62: "smoke_bomb", 7: "field_medkit", 10: "makibishi_spikes",
+            12: "ichiraku_ticket",
+        },
+        "by_box": {
+            "gama_wallet": (2, 986, 34, 1033),
+            "dango_skewer": (103, 986, 135, 1032),
+            "forehead_protector": (305, 992, 333, 1028),
+            "explosive_tag": (550, 986, 588, 1033),
+            "ryo_pouch": (744, 986, 780, 1033),
+            "substitution_log": (600, 138, 655, 196),
+        },
+    },
+}
+
+
+def _fit_icon(im: Image.Image, max_px: int = 22) -> Image.Image:
+    if im.width <= max_px and im.height <= max_px:
+        return im
+    k = max_px / max(im.width, im.height)
+    return resize_rgba(im, (max(1, round(im.width * k)), max(1, round(im.height * k))))
+
+
+def prep_world_items() -> None:
+    for world, cfg in WORLD_ITEM_PICKS.items():
+        raw = load_rgba(ROOT / f"assets/franchises/{world}/raw/items.png")
+        img = _key_sheet(raw.copy())
+        p = cfg["params"]
+        boxes = [b for b in find_islands(img, min_area=p["min_area"], merge_gap=p["merge_gap"])
+                 if p["lo"] <= b[2] - b[0] <= p["hi"] and p["lo"] <= b[3] - b[1] <= p["hi"]]
+        out = ROOT / f"assets/franchises/{world}/processed/items"
+        out.mkdir(parents=True, exist_ok=True)
+        done = 0
+        for idx, iid in cfg.get("by_index", {}).items():
+            if idx >= len(boxes):
+                print(f"  {world}/{iid}: index {idx} out of range ({len(boxes)})")
+                continue
+            _fit_icon(clean_alpha(img.crop(tuple(boxes[idx])), lo=1, hi=255)).save(out / f"{iid}.png")
+            done += 1
+        for anchor, iid in cfg.get("by_anchor", {}).items():
+            hit = None
+            for b in boxes:
+                if abs(b[0] - anchor[0]) <= 3 and abs(b[1] - anchor[1]) <= 3:
+                    hit = b
+                    break
+            if hit is None:
+                print(f"  {world}/{iid}: no island at {anchor}")
+                continue
+            _fit_icon(clean_alpha(img.crop(tuple(hit)), lo=1, hi=255)).save(out / f"{iid}.png")
+            done += 1
+        for iid, box in cfg.get("by_box", {}).items():
+            # key the crop independently (the border strips use different
+            # background colors) and keep only the item itself — grid-line
+            # slivers survive the keying at crop edges
+            crop = largest_component(_key_sheet(raw.crop(box)))
+            _fit_icon(clean_alpha(crop, lo=1, hi=255)).save(out / f"{iid}.png")
+            done += 1
+        print(f"  {world}: {done} item icons")
+
+
 if __name__ == "__main__":
     if len(sys.argv) > 1 and sys.argv[1] == "customers":
         # regenerate from scratch so renamed slugs leave no stale files
@@ -847,6 +949,10 @@ if __name__ == "__main__":
         print("franchise customers..."); prep_franchise_customers()
         print("walk anims..."); prep_customer_walk_anims()
         write_customer_pool()
+        print("done")
+        sys.exit(0)
+    if len(sys.argv) > 1 and sys.argv[1] == "items":
+        print("world items..."); prep_world_items()
         print("done")
         sys.exit(0)
     print("sora..."); prep_sora()

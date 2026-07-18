@@ -2355,278 +2355,920 @@
   },
   {
    "category": "weapon",
-   "desc": "",
+   "desc": "A keyblade of hearts and dice. Fortune favors whoever holds it.",
    "id": "lady_luck_keyblade",
    "name": "Lady Luck Keyblade",
    "needs_ai_balance": true,
    "needs_description": true,
    "price": 420,
-   "tags": [],
+   "tags": [
+    "sword",
+    "key"
+   ],
    "world": "kingdom_hearts"
   },
   {
    "category": "treasure",
-   "desc": "",
+   "desc": "A spotted pink egg that wobbles hopefully when you hum.",
    "id": "pink_yoshi_egg",
    "name": "Pink Yoshi Egg",
    "needs_ai_balance": true,
    "needs_description": true,
    "price": 120.0,
-   "tags": [],
+   "tags": [
+    "egg",
+    "cute",
+    "rare"
+   ],
    "world": "mario"
   },
   {
-   "category": "misc",
-   "desc": "",
+   "category": "treasure",
+   "desc": "A spotted blue egg. Something inside is practicing its flutter jump.",
    "id": "blue_yoshi_egg",
    "name": "Blue Yoshi Egg",
    "needs_ai_balance": true,
    "needs_description": true,
    "price": 120,
-   "tags": [],
+   "tags": [
+    "egg",
+    "cute",
+    "rare"
+   ],
    "world": "crossover"
   },
   {
-   "category": "misc",
-   "desc": "",
+   "category": "treasure",
+   "desc": "A spotted red egg, warm to the touch and faintly impatient.",
    "id": "red_yoshi_egg",
    "name": "Red Yoshi Egg",
    "needs_ai_balance": true,
    "needs_description": true,
    "price": 120,
-   "tags": [],
+   "tags": [
+    "egg",
+    "cute",
+    "rare"
+   ],
    "world": "crossover"
   },
   {
-   "category": "misc",
-   "desc": "",
+   "category": "treasure",
+   "desc": "A spotted orange egg that smells vaguely of melon.",
    "id": "orange_yoshi_egg",
    "name": "Orange Yoshi Egg",
    "needs_ai_balance": true,
    "needs_description": true,
    "price": 120,
-   "tags": [],
+   "tags": [
+    "egg",
+    "cute",
+    "rare"
+   ],
    "world": "crossover"
   },
   {
-   "category": "misc",
-   "desc": "",
+   "category": "treasure",
+   "desc": "A spotted aqua egg cool as sea glass.",
    "id": "aqua_yoshi_egg",
    "name": "Aqua Yoshi Egg",
    "needs_ai_balance": true,
    "needs_description": true,
    "price": 120,
-   "tags": [],
+   "tags": [
+    "egg",
+    "cute",
+    "rare"
+   ],
    "world": "crossover"
   },
   {
-   "category": "misc",
-   "desc": "",
+   "category": "material",
+   "desc": "A giggling bean from the Beanbean fields. It knows something you don't.",
    "id": "hee_bean",
    "name": "Hee Bean",
    "needs_ai_balance": true,
    "needs_description": true,
    "price": 120,
-   "tags": [],
+   "tags": [
+    "bean",
+    "plant"
+   ],
    "world": "mario"
   },
   {
-   "category": "misc",
-   "desc": "",
+   "category": "material",
+   "desc": "A chuckling bean prized for brewing Chuckola Cola.",
    "id": "chuckle_bean",
    "name": "Chuckle Bean",
    "needs_ai_balance": true,
    "needs_description": true,
    "price": 120,
-   "tags": [],
+   "tags": [
+    "bean",
+    "plant"
+   ],
    "world": "crossover"
   },
   {
-   "category": "misc",
-   "desc": "",
+   "category": "material",
+   "desc": "A hooting bean that whistles softly in a breeze.",
    "id": "hoo_bean",
    "name": "Hoo Bean",
    "needs_ai_balance": true,
    "needs_description": true,
    "price": 120,
-   "tags": [],
+   "tags": [
+    "bean",
+    "plant"
+   ],
    "world": "crossover"
   },
   {
-   "category": "misc",
-   "desc": "",
+   "category": "weapon",
+   "desc": "A barrel-sized mallet on a stick. Swing with both hands and an apology ready.",
    "id": "dk_hammer",
    "name": "DK Hammer",
    "needs_ai_balance": true,
    "needs_description": true,
    "price": 120,
-   "tags": [],
+   "tags": [
+    "hammer",
+    "huge"
+   ],
    "world": "crossover"
   },
   {
-   "category": "misc",
-   "desc": "",
+   "category": "material",
+   "desc": "A whooping bean. Baristas fight over sacks of these.",
    "id": "woo_bean",
    "name": "Woo Bean",
    "needs_ai_balance": true,
    "needs_description": true,
    "price": 120,
-   "tags": [],
+   "tags": [
+    "bean",
+    "plant"
+   ],
    "world": "crossover"
   },
   {
-   "category": "misc",
-   "desc": "",
+   "category": "consumable",
+   "desc": "A green-capped mushroom that hands out second chances.",
    "id": "1up_mushroom",
    "name": "1UP Mushroom",
    "needs_ai_balance": true,
    "needs_description": true,
    "price": 120,
-   "tags": [],
+   "tags": [
+    "mushroom",
+    "rare",
+    "revive"
+   ],
    "world": "crossover"
   },
   {
    "category": "consumable",
-   "desc": "",
+   "desc": "A deluxe green mushroom. Comes with a second chance and a growth spurt.",
    "id": "1up_super_mushroom",
    "name": "1UP Super Mushroom",
    "needs_ai_balance": true,
    "needs_description": true,
    "price": 90,
-   "tags": [],
+   "tags": [
+    "mushroom",
+    "rare",
+    "revive"
+   ],
    "world": "crossover"
   },
   {
    "category": "treasure",
-   "desc": "",
+   "desc": "A legendary gray handheld from another world. Still has batteries.",
    "id": "gameboy",
    "name": "Gameboy",
    "needs_ai_balance": true,
    "needs_description": true,
    "price": 450,
-   "tags": [],
+   "tags": [
+    "technology",
+    "rare"
+   ],
    "world": "crossover"
   },
   {
    "category": "treasure",
-   "desc": "",
+   "desc": "An immaculate royal gown. Somehow never wrinkles, even mid-kidnapping.",
    "id": "peach_s_dress",
    "name": "Peach's Dress",
    "needs_ai_balance": true,
    "needs_description": true,
    "price": 10000.0,
-   "tags": [],
+   "tags": [
+    "clothing",
+    "royal",
+    "rare"
+   ],
    "world": "mario"
   },
   {
    "category": "food",
-   "desc": "",
+   "desc": "A purple-capped mushroom. Absolutely do not garnish anything with it.",
    "id": "poison_mushroom",
    "name": "Poison Mushroom",
    "needs_ai_balance": true,
    "needs_description": true,
    "price": 60,
-   "tags": [],
+   "tags": [
+    "mushroom",
+    "weird"
+   ],
    "world": "crossover"
   },
   {
    "category": "weapon",
-   "desc": "",
+   "desc": "A kingdom key gone sickly violet. It hums a wrong note.",
    "id": "poison_kingdom_key",
    "name": "Poison Kingdom Key",
    "needs_ai_balance": true,
    "needs_description": true,
    "price": 420,
-   "tags": [],
+   "tags": [
+    "sword",
+    "key",
+    "weird"
+   ],
    "world": "kingdom_hearts"
   },
   {
    "category": "weapon",
-   "desc": "",
+   "desc": "A golden lamp-themed keyblade. The third wish is always freedom.",
    "id": "three_wishes_keyblade",
    "name": "Three Wishes Keyblade",
    "needs_ai_balance": true,
    "needs_description": true,
    "price": 420,
-   "tags": [],
+   "tags": [
+    "sword",
+    "key"
+   ],
    "world": "crossover"
   },
   {
    "category": "weapon",
-   "desc": "",
+   "desc": "A coral keyblade smelling faintly of the tide.",
    "id": "crabclaw_keyblade",
    "name": "Crabclaw Keyblade",
    "needs_ai_balance": true,
    "needs_description": true,
    "price": 420,
-   "tags": [],
+   "tags": [
+    "sword",
+    "key"
+   ],
    "world": "crossover"
   },
   {
    "category": "weapon",
-   "desc": "",
+   "desc": "A pitch-black keyblade heavy with memories better left closed.",
    "id": "oblivion_keyblade",
    "name": "Oblivion Keyblade",
    "needs_ai_balance": true,
    "needs_description": true,
    "price": 420,
-   "tags": [],
+   "tags": [
+    "sword",
+    "key",
+    "rare"
+   ],
    "world": "crossover"
   },
   {
    "category": "weapon",
-   "desc": "",
+   "desc": "A harp-strung keyblade that chimes with pixie laughter.",
    "id": "fairy_harp_keyblade",
    "name": "Fairy Harp Keyblade",
    "needs_ai_balance": true,
    "needs_description": true,
    "price": 420,
-   "tags": [],
+   "tags": [
+    "sword",
+    "key"
+   ],
    "world": "crossover"
   },
   {
    "category": "weapon",
-   "desc": "",
+   "desc": "A keyblade carved from wooden toys and stardust.",
    "id": "wishing_star_keyblade",
    "name": "Wishing Star Keyblade",
    "needs_ai_balance": true,
    "needs_description": true,
    "price": 420,
-   "tags": [],
+   "tags": [
+    "sword",
+    "key"
+   ],
    "world": "crossover"
   },
   {
    "category": "weapon",
-   "desc": "",
+   "desc": "A coliseum-champion keyblade. Smells of laurels and sweat.",
    "id": "olympia_keyblade",
    "name": "Olympia Keyblade",
    "needs_ai_balance": true,
    "needs_description": true,
    "price": 420,
-   "tags": [],
+   "tags": [
+    "sword",
+    "key"
+   ],
    "world": "crossover"
   },
   {
    "category": "weapon",
-   "desc": "",
+   "desc": "A rose-wound keyblade. Every petal is a promise.",
    "id": "divine_rose_keyblade",
    "name": "Divine Rose Keyblade",
    "needs_ai_balance": true,
    "needs_description": true,
    "price": 420,
-   "tags": [],
+   "tags": [
+    "sword",
+    "key"
+   ],
    "world": "crossover"
   },
   {
    "category": "weapon",
-   "desc": "",
+   "desc": "A bat-winged blade with a baleful eye. It is definitely watching you.",
    "id": "soul_eater",
    "name": "Soul Eater",
    "needs_ai_balance": true,
    "needs_description": true,
    "price": 420,
-   "tags": [],
+   "tags": [
+    "sword",
+    "creepy"
+   ],
    "world": "kingdom_hearts"
+  },
+  {
+   "category": "consumable",
+   "desc": "A stronger spray-on medicine. Stings for exactly one second.",
+   "id": "super_potion",
+   "name": "Super Potion",
+   "price": 250,
+   "tags": [
+    "healing",
+    "spray"
+   ],
+   "world": "pokemon"
+  },
+  {
+   "category": "consumable",
+   "desc": "Hospital-grade healing in a convenient purple spray.",
+   "id": "hyper_potion",
+   "name": "Hyper Potion",
+   "price": 550,
+   "tags": [
+    "healing",
+    "spray"
+   ],
+   "world": "pokemon"
+  },
+  {
+   "category": "consumable",
+   "desc": "Restores a move's energy. Tastes like static.",
+   "id": "pkmn_ether",
+   "name": "Pok\u00e9mon Ether",
+   "price": 600,
+   "tags": [
+    "magic",
+    "healing"
+   ],
+   "world": "pokemon"
+  },
+  {
+   "category": "food",
+   "desc": "A Lavaridge specialty baked over volcanic heat. Cures every ailment known.",
+   "id": "lava_cookie",
+   "name": "Lava Cookie",
+   "price": 200,
+   "tags": [
+    "food",
+    "sweet"
+   ],
+   "world": "pokemon"
+  },
+  {
+   "category": "material",
+   "desc": "A peculiar stone with a leaf pattern. Certain creatures adore it.",
+   "id": "leaf_stone",
+   "name": "Leaf Stone",
+   "price": 850,
+   "tags": [
+    "stone",
+    "evolution",
+    "plant"
+   ],
+   "world": "pokemon"
+  },
+  {
+   "category": "material",
+   "desc": "A small, rather popular mushroom. Collectors buy them by the crate.",
+   "id": "tiny_mushroom",
+   "name": "Tiny Mushroom",
+   "price": 120,
+   "tags": [
+    "mushroom",
+    "plant"
+   ],
+   "world": "pokemon"
+  },
+  {
+   "category": "material",
+   "desc": "A rare, large mushroom. Smells like money and soil.",
+   "id": "big_mushroom",
+   "name": "Big Mushroom",
+   "price": 500,
+   "tags": [
+    "mushroom",
+    "plant",
+    "rare"
+   ],
+   "world": "pokemon"
+  },
+  {
+   "category": "food",
+   "desc": "Sweet as syrup. Cures poison on the way down.",
+   "id": "pecha_berry",
+   "name": "Pecha Berry",
+   "price": 80,
+   "tags": [
+    "food",
+    "berry",
+    "sweet",
+    "plant"
+   ],
+   "world": "pokemon"
+  },
+  {
+   "category": "food",
+   "desc": "A fiery little berry that loosens stiff joints.",
+   "id": "cheri_berry",
+   "name": "Cheri Berry",
+   "price": 80,
+   "tags": [
+    "food",
+    "berry",
+    "plant"
+   ],
+   "world": "pokemon"
+  },
+  {
+   "category": "food",
+   "desc": "A juicy blue berry. The classic trail snack of trainers.",
+   "id": "oran_berry",
+   "name": "Oran Berry",
+   "price": 100,
+   "tags": [
+    "food",
+    "berry",
+    "healing",
+    "plant"
+   ],
+   "world": "pokemon"
+  },
+  {
+   "category": "food",
+   "desc": "A big citrus berry that restores strength remarkably well.",
+   "id": "sitrus_berry",
+   "name": "Sitrus Berry",
+   "price": 300,
+   "tags": [
+    "food",
+    "berry",
+    "healing",
+    "rare",
+    "plant"
+   ],
+   "world": "pokemon"
+  },
+  {
+   "category": "treasure",
+   "desc": "A shard of pink gemstone that sparkles like a night sky.",
+   "id": "star_piece",
+   "name": "Star Piece",
+   "price": 1900,
+   "tags": [
+    "rare",
+    "valuable",
+    "stone"
+   ],
+   "world": "pokemon"
+  },
+  {
+   "category": "material",
+   "desc": "An ancient red shard. Hobbyists trade whole collections for one.",
+   "id": "red_shard",
+   "name": "Red Shard",
+   "price": 450,
+   "tags": [
+    "shard",
+    "stone"
+   ],
+   "world": "pokemon"
+  },
+  {
+   "category": "material",
+   "desc": "An ancient blue shard washed up from the seafloor.",
+   "id": "blue_shard",
+   "name": "Blue Shard",
+   "price": 450,
+   "tags": [
+    "shard",
+    "stone"
+   ],
+   "world": "pokemon"
+  },
+  {
+   "category": "material",
+   "desc": "An ancient yellow shard that glints like old amber.",
+   "id": "yellow_shard",
+   "name": "Yellow Shard",
+   "price": 450,
+   "tags": [
+    "shard",
+    "stone"
+   ],
+   "world": "pokemon"
+  },
+  {
+   "category": "material",
+   "desc": "An ancient green shard. Divers swear they bring luck.",
+   "id": "green_shard",
+   "name": "Green Shard",
+   "price": 450,
+   "tags": [
+    "shard",
+    "stone"
+   ],
+   "world": "pokemon"
+  },
+  {
+   "category": "treasure",
+   "desc": "A solid lump of pure gold. Why do so many people just hand these out?",
+   "id": "nugget",
+   "name": "Nugget",
+   "price": 2500,
+   "tags": [
+    "valuable",
+    "rare"
+   ],
+   "world": "pokemon"
+  },
+  {
+   "category": "accessory",
+   "desc": "A spoon bent by sheer willpower. Useless for soup, priceless for psychics.",
+   "id": "twisted_spoon",
+   "name": "Twisted Spoon",
+   "price": 700,
+   "tags": [
+    "magic",
+    "psychic"
+   ],
+   "world": "pokemon"
+  },
+  {
+   "category": "accessory",
+   "desc": "Shady-looking shades that make dark deeds 10% darker.",
+   "id": "black_glasses",
+   "name": "Black Glasses",
+   "price": 650,
+   "tags": [
+    "glasses",
+    "creepy"
+   ],
+   "world": "pokemon"
+  },
+  {
+   "category": "treasure",
+   "desc": "A fossilized root of an ancient sea plant. Museums pay handsomely.",
+   "id": "root_fossil",
+   "name": "Root Fossil",
+   "price": 1800,
+   "tags": [
+    "fossil",
+    "rare",
+    "stone"
+   ],
+   "world": "pokemon"
+  },
+  {
+   "category": "treasure",
+   "desc": "A deep-red orb said to stir the continent-maker from its slumber.",
+   "id": "red_orb",
+   "name": "Red Orb",
+   "price": 4200,
+   "tags": [
+    "orb",
+    "legendary",
+    "rare"
+   ],
+   "world": "pokemon"
+  },
+  {
+   "category": "treasure",
+   "desc": "A deep-blue orb said to call the sea-bringer. Keep it dry.",
+   "id": "blue_orb",
+   "name": "Blue Orb",
+   "price": 4200,
+   "tags": [
+    "orb",
+    "legendary",
+    "rare"
+   ],
+   "world": "pokemon"
+  },
+  {
+   "category": "material",
+   "desc": "A disc holding a battle technique. Single use, endless arguments.",
+   "id": "technical_machine",
+   "name": "Technical Machine",
+   "price": 1400,
+   "tags": [
+    "technology",
+    "rare"
+   ],
+   "world": "pokemon"
+  },
+  {
+   "category": "food",
+   "desc": "Somebody's unfinished meal that somehow never runs out.",
+   "id": "leftovers",
+   "name": "Leftovers",
+   "price": 900,
+   "tags": [
+    "food",
+    "healing",
+    "rare"
+   ],
+   "world": "pokemon"
+  },
+  {
+   "category": "accessory",
+   "desc": "A charm that doubles any payday. Merchants pretend not to want one.",
+   "id": "amulet_coin",
+   "name": "Amulet Coin",
+   "price": 1200,
+   "tags": [
+    "coin",
+    "lucky"
+   ],
+   "world": "pokemon"
+  },
+  {
+   "category": "accessory",
+   "desc": "A chime of pink shells that soothes wounds with every ring.",
+   "id": "shell_bell",
+   "name": "Shell Bell",
+   "price": 950,
+   "tags": [
+    "shell",
+    "healing"
+   ],
+   "world": "pokemon"
+  },
+  {
+   "category": "food",
+   "desc": "A fizzy drink best served ice-cold at a bicycle race.",
+   "id": "soda_pop",
+   "name": "Soda Pop",
+   "price": 120,
+   "tags": [
+    "food",
+    "cold",
+    "sweet"
+   ],
+   "world": "pokemon"
+  },
+  {
+   "category": "food",
+   "desc": "A very sweet can of lemonade from a rooftop vending machine.",
+   "id": "lemonade",
+   "name": "Lemonade",
+   "price": 180,
+   "tags": [
+    "food",
+    "cold",
+    "sweet"
+   ],
+   "world": "pokemon"
+  },
+  {
+   "category": "food",
+   "desc": "A steaming bowl big enough to satisfy... well, not a Saiyan.",
+   "id": "hearty_ramen",
+   "name": "Hearty Ramen",
+   "price": 110,
+   "tags": [
+    "food",
+    "noodles",
+    "hot"
+   ],
+   "world": "dragon_ball"
+  },
+  {
+   "category": "food",
+   "desc": "A roast drumstick the size of a small child. Serves one Saiyan.",
+   "id": "dino_drumstick",
+   "name": "Dino Drumstick",
+   "price": 260,
+   "tags": [
+    "food",
+    "meat",
+    "huge"
+   ],
+   "world": "dragon_ball"
+  },
+  {
+   "category": "food",
+   "desc": "A double-stacked burger from West City's finest drive-through.",
+   "id": "mega_burger",
+   "name": "Mega Burger",
+   "price": 140,
+   "tags": [
+    "food",
+    "meat"
+   ],
+   "world": "dragon_ball"
+  },
+  {
+   "category": "food",
+   "desc": "Premium marbled beef. Ox King insists it be grilled, never boiled.",
+   "id": "marbled_beef",
+   "name": "Marbled Beef",
+   "price": 420,
+   "tags": [
+    "food",
+    "meat",
+    "rare"
+   ],
+   "world": "dragon_ball"
+  },
+  {
+   "category": "food",
+   "desc": "Delivered door to door by a very fast paper boy in training.",
+   "id": "fresh_milk",
+   "name": "Fresh Milk",
+   "price": 70,
+   "tags": [
+    "food",
+    "healing"
+   ],
+   "world": "dragon_ball"
+  },
+  {
+   "category": "food",
+   "desc": "An ice-cold can of soda. The official drink of tournament spectators.",
+   "id": "chilled_soda",
+   "name": "Chilled Soda",
+   "price": 90,
+   "tags": [
+    "food",
+    "cold",
+    "sweet"
+   ],
+   "world": "dragon_ball"
+  },
+  {
+   "category": "food",
+   "desc": "Caught bare-handed by tail-fishing. Feeds a village or one hungry boy.",
+   "id": "giant_river_fish",
+   "name": "Giant River Fish",
+   "price": 380,
+   "tags": [
+    "food",
+    "fish",
+    "huge"
+   ],
+   "world": "dragon_ball"
+  },
+  {
+   "category": "treasure",
+   "desc": "A gleaming gold zeni. Capsule Corp pocket change.",
+   "id": "zeni_coin",
+   "name": "Zeni Coin",
+   "price": 600,
+   "tags": [
+    "coin",
+    "valuable"
+   ],
+   "world": "dragon_ball"
+  },
+  {
+   "category": "treasure",
+   "desc": "A golden idol looted from a desert vault. Pilaf wants it back.",
+   "id": "ancient_idol",
+   "name": "Ancient Idol",
+   "price": 2600,
+   "tags": [
+    "rare",
+    "valuable",
+    "gold"
+   ],
+   "world": "dragon_ball"
+  },
+  {
+   "category": "weapon",
+   "desc": "A folding windmill shuriken. Demon wind included at no extra cost.",
+   "id": "fuma_shuriken",
+   "name": "Fuma Shuriken",
+   "price": 950,
+   "stats": {
+    "atk": 6
+   },
+   "tags": [
+    "ninja",
+    "throwing",
+    "blade",
+    "huge"
+   ],
+   "world": "naruto"
+  },
+  {
+   "category": "consumable",
+   "desc": "Scatter behind you and listen for the footsteps to stop.",
+   "id": "makibishi_spikes",
+   "name": "Makibishi Spikes",
+   "price": 90,
+   "tags": [
+    "ninja",
+    "trap"
+   ],
+   "world": "naruto"
+  },
+  {
+   "category": "consumable",
+   "desc": "Guaranteed to take exactly one hit for you. The log understands.",
+   "id": "substitution_log",
+   "name": "Substitution Log",
+   "price": 150,
+   "tags": [
+    "ninja",
+    "escape",
+    "wood"
+   ],
+   "world": "naruto"
+  },
+  {
+   "category": "consumable",
+   "desc": "Bandages, salves and a stern note about not overdoing it.",
+   "id": "field_medkit",
+   "name": "Field Medkit",
+   "price": 240,
+   "tags": [
+    "healing",
+    "medical"
+   ],
+   "world": "naruto"
+  },
+  {
+   "category": "accessory",
+   "desc": "A plump frog purse that guards its coins jealously.",
+   "id": "gama_wallet",
+   "name": "Gama-chan Wallet",
+   "price": 750,
+   "tags": [
+    "lucky",
+    "cute"
+   ],
+   "world": "naruto"
+  },
+  {
+   "category": "food",
+   "desc": "Three colorful rice dumplings on a stick. A certain jonin's favorite.",
+   "id": "dango_skewer",
+   "name": "Dango Skewer",
+   "price": 60,
+   "tags": [
+    "food",
+    "sweet"
+   ],
+   "world": "naruto"
+  },
+  {
+   "category": "treasure",
+   "desc": "A mission-reward pouch heavy with ryo. Don't let Naruto borrow it.",
+   "id": "ryo_pouch",
+   "name": "Ryo Pouch",
+   "price": 800,
+   "tags": [
+    "coin",
+    "valuable"
+   ],
+   "world": "naruto"
   }
  ],
  "schema": "crossroads.items.v1"
