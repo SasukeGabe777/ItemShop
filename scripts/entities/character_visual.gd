@@ -131,13 +131,32 @@ func face(direction: Vector2, moving: bool) -> void:
 			static_sprite.flip_h = direction.x < 0.0
 
 
-## One-shot action animation (e.g. "attack_1") resolved against the facing:
-## uses attack_1 as-is (side frames), flipped for left; falls back silently
-## when the sheet has no such animation.
+func is_action_playing() -> bool:
+	return _action_playing
+
+
+## One-shot action animation resolved against the facing: prefers a
+## direction-specific variant (attack_1_down / attack_1_side / attack_1_up),
+## falls back through the plain name and finally the first-swing variants so
+## every combo hit animates even on sheets with fewer attack rows.
 func play_action(action: String, direction: Vector2) -> void:
 	if not use_frames or animated == null:
 		return
-	if not animated.sprite_frames.has_animation(action):
+	var sfx := "side"
+	if absf(direction.y) > absf(direction.x):
+		sfx = "up" if direction.y < 0.0 else "down"
+	var candidates: Array[String] = ["%s_%s" % [action, sfx]]
+	if sfx != "side":
+		candidates.append("%s_side" % action)
+	candidates.append(action)
+	if action.begins_with("attack"):
+		candidates.append_array(["attack_1_%s" % sfx, "attack_1_side", "attack_1"])
+	var chosen := ""
+	for c in candidates:
+		if animated.sprite_frames.has_animation(c):
+			chosen = c
+			break
+	if chosen == "":
 		return
 	_action_playing = true
 	_action_seq += 1
@@ -146,7 +165,7 @@ func play_action(action: String, direction: Vector2) -> void:
 	# stop() first: replaying the SAME animation would otherwise resume on
 	# its last frame and finish instantly (the "one-frame attack" bug)
 	animated.stop()
-	animated.play(StringName(action))
+	animated.play(StringName(chosen))
 	if not animated.animation_finished.is_connected(_on_action_finished):
 		animated.animation_finished.connect(_on_action_finished)
 	# safety: never stay locked if the animation loops or stalls — but only

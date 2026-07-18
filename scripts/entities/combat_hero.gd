@@ -158,7 +158,8 @@ func _do_basic_attack() -> void:
 	var mult := float(dmgs[idx]) / 10.0
 	combo_index = (combo_index + 1) % hits
 	combo_reset_at = Time.get_ticks_msec() / 1000.0 + 0.9
-	attack_lock = 0.22 if idx < hits - 1 else 0.34
+	# lock matches the 3-frame swing at 10fps so every animation plays out
+	attack_lock = 0.3 if idx < hits - 1 else 0.42
 	visual.play_action("attack_%d" % (idx + 1), facing)
 	AudioManager.play_sfx("attack_enemy_1" if idx % 2 == 0 else "attack_enemy_2", -5.0)
 	set_meta("swings", int(get_meta("swings", 0)) + 1)

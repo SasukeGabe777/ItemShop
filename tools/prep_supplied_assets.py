@@ -1333,27 +1333,33 @@ def prep_shop_decor() -> None:
 MARIO_COMBAT = {
     "mario": dict(sheet="raw/heroes/mario_mario_overworld.png",
                   walk={"down": 0, "side": 2, "up": 9},
-                  attacks=[(13, [0, 1, 2], False), (14, [0, 1, 2], False), (15, [0, 1, 2], True)],
+                  attacks={"attack_1_down": (13, [0, 1, 2], False),
+                           "attack_2_down": (14, [0, 1, 2], False),
+                           "attack_1_side": (15, [0, 1, 2], True),
+                           "attack_2_side": (15, [1, 2, 3], True)},
                   cap=46),
     "luigi": dict(sheet="raw/heroes/mario_luigi_overworld.png",
                   walk={"down": 0, "side": 3, "up": 6},
-                  attacks=[(13, [0, 1, 2], False), (14, [0, 1, 2], False), (8, [0, 1, 2], False)],
+                  attacks={"attack_1_down": (8, [0, 1, 2], False),
+                           "attack_2_down": (13, [0, 1, 2], False),
+                           "attack_1_side": (14, [0, 1, 2], False),
+                           "attack_2_side": (14, [1, 2, 3], False)},
                   cap=46),
     "goomba": dict(sheet="raw/enemies/mario_goomba.png",
                    walk={"down": 0, "side": 1, "up": 5},
-                   attacks=[(2, [0, 1, 2], False)], cap=34),
+                   attacks={"attack_1": (2, [0, 1, 2], False)}, cap=34),
     "koopa_troopa": dict(sheet="raw/enemies/mario_koopa_troopas.png",
                          walk={"down": 0, "side": 1, "up": 2},
-                         attacks=[(4, [0, 1, 2], False)], cap=38),
+                         attacks={"attack_1": (4, [0, 1, 2], False)}, cap=38),
     "boo": dict(sheet="raw/enemies/mario_boo.png",
                 walk={"down": 0, "side": 1, "up": 7},
-                attacks=[(3, [0, 1, 2], False)], cap=34),
+                attacks={"attack_1": (3, [0, 1, 2], False)}, cap=34),
     "bobomb_enemy": dict(sheet="raw/enemies/mario_bob_omb.png",
                          walk={"down": 7, "side": 2},
-                         attacks=[(6, [0, 1, 2], False)], cap=30),
+                         attacks={"attack_1": (6, [0, 1, 2], False)}, cap=30),
     "bowser": dict(sheet="raw/enemies/mario_bowser_boss.png",
                    walk={"down": 1, "side": 3},
-                   attacks=[(7, [0, 1, 2], False)], cap=64),
+                   attacks={"attack_1": (7, [0, 1, 2], False)}, cap=64),
 }
 
 
@@ -1394,14 +1400,14 @@ def prep_mario_combat() -> None:
             up = segs[walk_cfg["up"]]
             anims["idle_up"] = [up[0]]
             anims["walk_up"] = cycle(up)
-        for n, (seg_id, idxs, flip) in enumerate(cfg.get("attacks", [])):
+        for anim_name, (seg_id, idxs, flip) in cfg.get("attacks", {}).items():
             if seg_id not in segs:
                 continue
             frames = [segs[seg_id][i] for i in idxs if i < len(segs[seg_id])]
             if flip:
                 frames = [f.transpose(Image.FLIP_LEFT_RIGHT) for f in frames]
             if frames:
-                anims["attack_%d" % (n + 1)] = frames
+                anims[anim_name] = frames
 
         all_fr = [f for v in anims.values() for f in v]
         cap = float(cfg["cap"])
@@ -1412,12 +1418,15 @@ def prep_mario_combat() -> None:
                          for f in v] for a, v in anims.items()}
             all_fr = [f for v in anims.values() for f in v]
         cell = (max(f.width for f in all_fr) + 4, max(f.height for f in all_fr) + 2)
+        fps = {"walk_down": 8, "walk_side": 8, "walk_up": 8}
+        for a in anims:
+            if a.startswith("attack"):
+                fps[a] = 10
         _compose_anims(anims, cell,
                        MARIO / f"processed/sheets/{uid}.png",
                        MARIO / f"manifests/{uid}.json",
                        f"res://assets/franchises/mario/processed/sheets/{uid}.png",
-                       fps={"walk_down": 8, "walk_side": 8, "walk_up": 8,
-                            "attack_1": 12, "attack_2": 12, "attack_3": 12})
+                       fps=fps)
 
     # Firebrand fireballs from the bros-moves sheet's bottom effect strip;
     # Luigi's is the same ball hue-rotated to green
@@ -1466,26 +1475,69 @@ def prep_mario_rooms() -> None:
         for rid, box in crops.items():
             img.crop(box).save(out / f"{rid}.png")
             print(f"  room {rid}: {box}")
-    # a hedge block from the Mushroom Kingdom map: nine-patched over the
-    # dungeon's obstacle/wall rects so blockers read as solid hedges
+    # the FULL rounded hedge pill (scalloped border on all four sides) so
+    # nine-patched blockers keep proper caps like the map's own hedges
     m1 = Image.open(src_dir / MARIO_ROOM_CROPS["mushroom"][0]).convert("RGB")
-    m1.crop((166, 899, 198, 929)).save(out / "hedge.png")
-    print("  hedge tile written")
+    m1.crop((162, 893, 196, 1006)).save(out / "hedge.png")
+    print("  hedge pill written")
 
 
 def prep_kh_hud_bars() -> None:
-    """Chain of Memories 'Monstro' HP bars from the supplied icons sheet:
-    long framed bars used as TextureProgressBar art in the dungeon HUD."""
+    """Chain of Memories battle-HUD art from the supplied icons sheet: the
+    labeled Enemy HP bars (green fill / red boss / dark empty) and the
+    reload cards used as the power-up meter."""
     sheet = load_rgba(ROOT / "assets/wip_sprites/Game Boy Advance - Kingdom Hearts_ Chain of Memories - Miscellaneous - Icons and Health Bars.png")
     out = ROOT / "assets/shared/ui/hud"
     out.mkdir(parents=True, exist_ok=True)
-    rows = {"bar_blue": 38, "bar_red": 66, "bar_yellow": 110, "bar_empty": 164}
-    for name, y0 in rows.items():
-        region = sheet.crop((486, y0 - 3, 536, y0 + 17))
-        keyed = chroma_key(region, (0, 255, 255), tol=40)
-        trimmed = clean_alpha(keyed, lo=1, hi=255)
+    for old in out.glob("bar_*.png"):
+        old.unlink()
+    # locate each bar with a STRONG cyan key (splits the tightly-stacked
+    # pyramids), then cut pixels from a soft key so outlines survive. The
+    # HP tag sits right of the pill; slivers of neighboring bars are
+    # dropped by keeping only components that overlap the bar's own rows.
+    sec_soft = chroma_key(sheet.crop((185, 25, 648, 165)), (0, 255, 255), tol=40)
+    sec_hard = chroma_key(sheet.crop((185, 25, 648, 165)), (0, 255, 255), tol=90)
+    pills = [b for b in find_islands(sec_hard, min_area=60, merge_gap=0)
+             if 6 <= b[3] - b[1] <= 16 and b[2] - b[0] >= 40]
+
+    def classify(b) -> str:
+        a = np.array(sec_hard.crop(tuple(b))).astype(int)
+        vis = a[a[..., 3] > 10][:, :3]
+        r_m, g_m, b_m = vis[:, 0].mean(), vis[:, 1].mean(), vis[:, 2].mean()
+        if g_m > r_m + 20 and g_m > b_m + 20:
+            return "bar_hp"
+        if r_m > g_m + 30 and r_m > b_m + 30:
+            return "bar_boss"
+        if max(r_m, g_m, b_m) < 115 and abs(r_m - g_m) < 15 and b_m >= g_m:
+            return "bar_under"
+        return ""
+
+    best: dict[str, tuple] = {}
+    for b in pills:
+        c = classify(b)
+        if c and (c not in best or (b[2] - b[0]) > (best[c][2] - best[c][0])):
+            best[c] = tuple(b)
+    for name in ["bar_hp", "bar_boss", "bar_under"]:
+        if name not in best:
+            print(f"  MISSING {name}!")
+            continue
+        x0, y0, x1, y1 = best[name]
+        pad = sec_soft.crop((max(0, x0 - 2), max(0, y0 - 3), x1 + 3, y1 + 4))
+        band_y0, band_y1 = 3, 3 + (y1 - y0)
+        keep = Image.new("RGBA", pad.size, (0, 0, 0, 0))
+        for isl in find_islands(pad, min_area=20, merge_gap=0):
+            if isl[3] - isl[1] >= 6 and isl[1] <= band_y1 and isl[3] >= band_y0:
+                keep.alpha_composite(pad.crop(tuple(isl)), (isl[0], isl[1]))
+        trimmed = clean_alpha(keep, lo=1, hi=255)
         trimmed.save(out / f"{name}.png")
         print(f"  {name}: {trimmed.size}")
+    # reload cards for the power-up meter, downscaled to HUD height
+    for name, box in {"card_full": (26, 402, 58, 448), "card_empty": (26, 276, 58, 320)}.items():
+        keyed = clean_alpha(chroma_key(sheet.crop(box), (0, 255, 255), tol=40), lo=1, hi=255)
+        k = 22.0 / keyed.height
+        keyed = resize_rgba(keyed, (max(1, round(keyed.width * k)), 22))
+        keyed.save(out / f"{name}.png")
+        print(f"  {name}: {keyed.size}")
 
 
 def prep_mario_portraits() -> None:

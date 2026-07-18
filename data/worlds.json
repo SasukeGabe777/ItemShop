@@ -38,7 +38,8 @@
     "lamp_lit",
     "barrel",
     "crate_lantern"
-   ]
+   ],
+   "obstacle_style": "grid"
   },
   {
    "id": "mario",

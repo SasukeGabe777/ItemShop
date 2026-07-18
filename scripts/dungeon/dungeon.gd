@@ -11,7 +11,7 @@ var room_root: Node2D
 var camera: Camera2D
 var hud_layer: CanvasLayer
 var hp_bar: Range
-var meter_bar: Range
+var meter_cards: Array = []  # 3 reload-card TextureProgressBars (or 1 fallback bar)
 var boss_bar: Range
 var loot_label: Label
 var consum_label: Label
@@ -94,24 +94,25 @@ func _spawn_hero(hero_id: String) -> void:
 	hero.defeated.connect(_on_hero_defeated)
 	if hp_bar != null:
 		hero.hp_changed.connect(_on_hp_changed)
-		hero.meter_changed.connect(func(v: float) -> void: meter_bar.value = v)
+		hero.meter_changed.connect(_set_meter_display)
 		hero.consumables_changed.connect(_on_consumables_changed)
 		_on_hp_changed(hero.health.hp, hero.health.max_hp)
 		_on_consumables_changed(hero.consumables)
 
 
-## Chain-of-Memories-style framed bar when the ripped art is present,
-## plain ProgressBar otherwise.
+## Chain-of-Memories labeled HP bar (green fill / red boss over the dark
+## empty bar) when the ripped art is present, plain ProgressBar otherwise.
 static func _hud_bar(kind: String, min_size: Vector2, fallback_tint: Color) -> Range:
 	var fill := "res://assets/shared/ui/hud/bar_%s.png" % kind
-	const UNDER := "res://assets/shared/ui/hud/bar_empty.png"
+	const UNDER := "res://assets/shared/ui/hud/bar_under.png"
 	if ResourceLoader.exists(fill) and ResourceLoader.exists(UNDER):
 		var tb := TextureProgressBar.new()
 		tb.texture_under = load(UNDER)
 		tb.texture_progress = load(fill)
 		tb.nine_patch_stretch = true
-		tb.stretch_margin_left = 5
-		tb.stretch_margin_right = 5
+		tb.stretch_margin_left = 4
+		# the HP tag cap lives in the right margin so it never stretches
+		tb.stretch_margin_right = 26
 		tb.stretch_margin_top = 3
 		tb.stretch_margin_bottom = 3
 		tb.custom_minimum_size = min_size
@@ -124,42 +125,83 @@ static func _hud_bar(kind: String, min_size: Vector2, fallback_tint: Color) -> R
 	return pb
 
 
+## The power-up meter: three CoM reload cards that fill pink one by one.
+func _build_meter_cards(row: HBoxContainer) -> void:
+	const FULL := "res://assets/shared/ui/hud/card_full.png"
+	const EMPTY := "res://assets/shared/ui/hud/card_empty.png"
+	meter_cards.clear()
+	if ResourceLoader.exists(FULL) and ResourceLoader.exists(EMPTY):
+		for i in 3:
+			var card := TextureProgressBar.new()
+			card.texture_under = load(EMPTY)
+			card.texture_progress = load(FULL)
+			card.fill_mode = TextureProgressBar.FILL_BOTTOM_TO_TOP
+			card.max_value = 100
+			card.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+			row.add_child(card)
+			meter_cards.append(card)
+	else:
+		var pb := ProgressBar.new()
+		pb.custom_minimum_size = Vector2(70, 12)
+		pb.show_percentage = false
+		pb.modulate = Color(0.5, 0.7, 1.0)
+		pb.max_value = _meter_max()
+		row.add_child(pb)
+		meter_cards.append(pb)
+
+
+func _meter_max() -> float:
+	return float(ContentDatabase.bal("dungeon", {}).get("meter_max", 100))
+
+
+func _set_meter_display(v: float) -> void:
+	if meter_cards.size() == 1 and meter_cards[0] is ProgressBar:
+		(meter_cards[0] as ProgressBar).value = v
+		return
+	var per := _meter_max() / maxf(1.0, float(meter_cards.size()))
+	for i in meter_cards.size():
+		(meter_cards[i] as TextureProgressBar).value = clampf((v - i * per) / per * 100.0, 0.0, 100.0)
+
+
 func _build_hud() -> void:
 	hud_layer = CanvasLayer.new()
 	hud_layer.layer = 20
 	add_child(hud_layer)
-	# the same white ornate panel the rest of the game's menus use
+	# the same white ornate panel as the rest of the menus, slimmed down to
+	# a single row
 	var panel := UIKit.ornate_panel()
 	panel.set_anchors_preset(Control.PRESET_TOP_WIDE)
+	var slim: StyleBox = panel.get_theme_stylebox("panel").duplicate()
+	slim.content_margin_top = 4
+	slim.content_margin_bottom = 4
+	slim.content_margin_left = 48
+	slim.content_margin_right = 48
+	panel.add_theme_stylebox_override("panel", slim)
 	hud_layer.add_child(panel)
 	var vb := VBoxContainer.new()
+	vb.add_theme_constant_override("separation", 1)
 	panel.add_child(vb)
 	var row := HBoxContainer.new()
-	row.add_theme_constant_override("separation", 10)
+	row.add_theme_constant_override("separation", 8)
 	vb.add_child(row)
 	var hero_def := ContentDatabase.get_hero(String(DungeonManager.pending.get("hero_id", "")))
 	row.add_child(UIKit.label("%s @ %s" % [String(hero_def.get("name", "?")), String(ContentDatabase.get_world(world_id).get("location", world_id))], 9, UIKit.COL_ACCENT))
-	hp_bar = _hud_bar("yellow", Vector2(120, 14), Color(0.9, 0.4, 0.4))
+	hp_bar = _hud_bar("hp", Vector2(130, 16), Color(0.9, 0.4, 0.4))
 	row.add_child(hp_bar)
-	meter_bar = _hud_bar("blue", Vector2(84, 14), Color(0.5, 0.7, 1.0))
-	meter_bar.max_value = float(ContentDatabase.bal("dungeon", {}).get("meter_max", 100))
-	row.add_child(meter_bar)
+	_build_meter_cards(row)
 	loot_label = UIKit.label("", 8, UIKit.COL_DIM)
 	row.add_child(loot_label)
-	var row2 := HBoxContainer.new()
-	row2.add_theme_constant_override("separation", 10)
-	vb.add_child(row2)
 	consum_label = UIKit.label("", 8, UIKit.COL_DIM)
 	consum_label.clip_text = true
-	row2.add_child(consum_label)
-	row2.add_child(UIKit.spacer(false))
-	row2.add_child(UIKit.label("J attack K special L dodge I item U finisher", 8, UIKit.COL_DIM))
-	boss_bar = _hud_bar("red", Vector2(0, 14), Color(0.8, 0.3, 0.5))
+	consum_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_child(consum_label)
+	row.add_child(UIKit.label("J attack K special L dodge I item U finisher", 8, UIKit.COL_DIM))
+	boss_bar = _hud_bar("boss", Vector2(0, 16), Color(0.8, 0.3, 0.5))
 	boss_bar.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	boss_bar.visible = false
 	vb.add_child(boss_bar)
 	hero.hp_changed.connect(_on_hp_changed)
-	hero.meter_changed.connect(func(v: float) -> void: meter_bar.value = v)
+	hero.meter_changed.connect(_set_meter_display)
 	hero.consumables_changed.connect(_on_consumables_changed)
 	_on_hp_changed(hero.health.hp, hero.health.max_hp)
 	_on_consumables_changed(hero.consumables)
@@ -326,20 +368,37 @@ func _wall(r: Rect2, w: Dictionary, obstacle: bool = false) -> void:
 	# nine-patched blocks instead of flat polygons — much clearer walls
 	var ob_tex_path := String(w.get("obstacle_texture", ""))
 	if ob_tex_path != "" and ResourceLoader.exists(ob_tex_path):
-		var patch := NinePatchRect.new()
-		patch.texture = load(ob_tex_path)
-		var m := mini(8, int(minf(r.size.x, r.size.y) / 3.0))
-		patch.patch_margin_left = m
-		patch.patch_margin_right = m
-		patch.patch_margin_top = m
-		patch.patch_margin_bottom = m
-		# tile the interior — stretching smears the hedge into streaks on
-		# long thin wall rects
-		patch.axis_stretch_horizontal = NinePatchRect.AXIS_STRETCH_MODE_TILE
-		patch.axis_stretch_vertical = NinePatchRect.AXIS_STRETCH_MODE_TILE
-		patch.size = r.size
-		patch.position = -r.size / 2.0
-		body.add_child(patch)
+		var ob_tex: Texture2D = load(ob_tex_path)
+		if String(w.get("obstacle_style", "ninepatch")) == "grid":
+			# fill the rect with whole copies of the texture (crate piles) —
+			# nine-patching a cluster leaves broken slivers at the seams
+			var cols := maxi(1, int(round(r.size.x / 32.0)))
+			var rows := maxi(1, int(round(r.size.y / 32.0)))
+			var cw := r.size.x / cols
+			var chh := r.size.y / rows
+			for gy in rows:
+				for gx in cols:
+					var spr := Sprite2D.new()
+					spr.texture = ob_tex
+					spr.scale = Vector2(cw / ob_tex.get_width(), chh / ob_tex.get_height())
+					spr.position = Vector2(-r.size.x / 2.0 + (gx + 0.5) * cw,
+						-r.size.y / 2.0 + (gy + 0.5) * chh)
+					body.add_child(spr)
+		else:
+			var patch := NinePatchRect.new()
+			patch.texture = ob_tex
+			var m := mini(10, int(minf(r.size.x, r.size.y) / 3.0))
+			patch.patch_margin_left = m
+			patch.patch_margin_right = m
+			patch.patch_margin_top = m
+			patch.patch_margin_bottom = m
+			# tile the interior — stretching smears the hedge into streaks
+			# on long thin wall rects
+			patch.axis_stretch_horizontal = NinePatchRect.AXIS_STRETCH_MODE_TILE
+			patch.axis_stretch_vertical = NinePatchRect.AXIS_STRETCH_MODE_TILE
+			patch.size = r.size
+			patch.position = -r.size / 2.0
+			body.add_child(patch)
 	else:
 		body.add_child(poly)
 	room_root.add_child(body)
