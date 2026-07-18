@@ -1473,6 +1473,21 @@ def prep_mario_rooms() -> None:
     print("  hedge tile written")
 
 
+def prep_kh_hud_bars() -> None:
+    """Chain of Memories 'Monstro' HP bars from the supplied icons sheet:
+    long framed bars used as TextureProgressBar art in the dungeon HUD."""
+    sheet = load_rgba(ROOT / "assets/wip_sprites/Game Boy Advance - Kingdom Hearts_ Chain of Memories - Miscellaneous - Icons and Health Bars.png")
+    out = ROOT / "assets/shared/ui/hud"
+    out.mkdir(parents=True, exist_ok=True)
+    rows = {"bar_blue": 38, "bar_red": 66, "bar_yellow": 110, "bar_empty": 164}
+    for name, y0 in rows.items():
+        region = sheet.crop((486, y0 - 3, 536, y0 + 17))
+        keyed = chroma_key(region, (0, 255, 255), tol=40)
+        trimmed = clean_alpha(keyed, lo=1, hi=255)
+        trimmed.save(out / f"{name}.png")
+        print(f"  {name}: {trimmed.size}")
+
+
 def prep_mario_portraits() -> None:
     """Story-dialogue mugshots for Mario and Luigi from the supplied
     equipment-menu sheet (front-facing mugs, background keyed out)."""
@@ -1494,6 +1509,7 @@ if __name__ == "__main__":
         print("mario combat..."); prep_mario_combat()
         print("mario rooms..."); prep_mario_rooms()
         print("mario portraits..."); prep_mario_portraits()
+        print("kh hud bars..."); prep_kh_hud_bars()
         sys.exit(0)
     if len(sys.argv) > 1 and sys.argv[1] == "decor":
         print("shop decor..."); prep_shop_decor()

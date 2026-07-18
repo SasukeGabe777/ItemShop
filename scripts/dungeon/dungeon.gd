@@ -10,9 +10,9 @@ var room_index: int = 0
 var room_root: Node2D
 var camera: Camera2D
 var hud_layer: CanvasLayer
-var hp_bar: ProgressBar
-var meter_bar: ProgressBar
-var boss_bar: ProgressBar
+var hp_bar: Range
+var meter_bar: Range
+var boss_bar: Range
 var loot_label: Label
 var consum_label: Label
 var switch_available: Array[String] = []
@@ -100,11 +100,36 @@ func _spawn_hero(hero_id: String) -> void:
 		_on_consumables_changed(hero.consumables)
 
 
+## Chain-of-Memories-style framed bar when the ripped art is present,
+## plain ProgressBar otherwise.
+static func _hud_bar(kind: String, min_size: Vector2, fallback_tint: Color) -> Range:
+	var fill := "res://assets/shared/ui/hud/bar_%s.png" % kind
+	const UNDER := "res://assets/shared/ui/hud/bar_empty.png"
+	if ResourceLoader.exists(fill) and ResourceLoader.exists(UNDER):
+		var tb := TextureProgressBar.new()
+		tb.texture_under = load(UNDER)
+		tb.texture_progress = load(fill)
+		tb.nine_patch_stretch = true
+		tb.stretch_margin_left = 5
+		tb.stretch_margin_right = 5
+		tb.stretch_margin_top = 3
+		tb.stretch_margin_bottom = 3
+		tb.custom_minimum_size = min_size
+		tb.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		return tb
+	var pb := ProgressBar.new()
+	pb.custom_minimum_size = min_size
+	pb.show_percentage = false
+	pb.modulate = fallback_tint
+	return pb
+
+
 func _build_hud() -> void:
 	hud_layer = CanvasLayer.new()
 	hud_layer.layer = 20
 	add_child(hud_layer)
-	var panel := UIKit.panel()
+	# the same white ornate panel the rest of the game's menus use
+	var panel := UIKit.ornate_panel()
 	panel.set_anchors_preset(Control.PRESET_TOP_WIDE)
 	hud_layer.add_child(panel)
 	var vb := VBoxContainer.new()
@@ -114,16 +139,10 @@ func _build_hud() -> void:
 	vb.add_child(row)
 	var hero_def := ContentDatabase.get_hero(String(DungeonManager.pending.get("hero_id", "")))
 	row.add_child(UIKit.label("%s @ %s" % [String(hero_def.get("name", "?")), String(ContentDatabase.get_world(world_id).get("location", world_id))], 9, UIKit.COL_ACCENT))
-	hp_bar = ProgressBar.new()
-	hp_bar.custom_minimum_size = Vector2(100, 10)
-	hp_bar.show_percentage = false
-	hp_bar.modulate = Color(0.9, 0.4, 0.4)
+	hp_bar = _hud_bar("yellow", Vector2(120, 14), Color(0.9, 0.4, 0.4))
 	row.add_child(hp_bar)
-	meter_bar = ProgressBar.new()
-	meter_bar.custom_minimum_size = Vector2(70, 10)
+	meter_bar = _hud_bar("blue", Vector2(84, 14), Color(0.5, 0.7, 1.0))
 	meter_bar.max_value = float(ContentDatabase.bal("dungeon", {}).get("meter_max", 100))
-	meter_bar.show_percentage = false
-	meter_bar.modulate = Color(0.5, 0.7, 1.0)
 	row.add_child(meter_bar)
 	loot_label = UIKit.label("", 8, UIKit.COL_DIM)
 	row.add_child(loot_label)
@@ -135,10 +154,8 @@ func _build_hud() -> void:
 	row2.add_child(consum_label)
 	row2.add_child(UIKit.spacer(false))
 	row2.add_child(UIKit.label("J attack K special L dodge I item U finisher", 8, UIKit.COL_DIM))
-	boss_bar = ProgressBar.new()
-	boss_bar.custom_minimum_size = Vector2(0, 10)
-	boss_bar.show_percentage = false
-	boss_bar.modulate = Color(0.8, 0.3, 0.5)
+	boss_bar = _hud_bar("red", Vector2(0, 14), Color(0.8, 0.3, 0.5))
+	boss_bar.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	boss_bar.visible = false
 	vb.add_child(boss_bar)
 	hero.hp_changed.connect(_on_hp_changed)
@@ -226,6 +243,32 @@ func _enter_room(idx: int) -> void:
 	for ob in template.get("obstacles", []):
 		var r := Rect2(float(ob[0]) * CELL, float(ob[1]) * CELL, float(ob[2]) * CELL, float(ob[3]) * CELL)
 		_wall(r, w, true)
+	# cosmetic props (lamps, barrels...) dress the room corners in worlds
+	# that define them
+	var props: Array = w.get("room_props", [])
+	if not props.is_empty():
+		var prop_n := 0
+		for s: Vector2i in [Vector2i(2, 2), Vector2i(17, 2), Vector2i(2, 9), Vector2i(17, 9)]:
+			var blocked := false
+			for ob in template.get("obstacles", []):
+				if s.x >= int(ob[0]) - 1 and s.x <= int(ob[0]) + int(ob[2]) \
+						and s.y >= int(ob[1]) - 1 and s.y <= int(ob[1]) + int(ob[3]):
+					blocked = true
+					break
+			if blocked:
+				continue
+			var prop_tex := Scenery.texture_or_null(String(props[(idx + prop_n) % props.size()]))
+			prop_n += 1
+			if prop_tex == null:
+				continue
+			var prop := Sprite2D.new()
+			prop.texture = prop_tex
+			var pk := minf(1.0, 44.0 / prop_tex.get_height())
+			prop.scale = Vector2(pk, pk)
+			prop.position = Vector2(s.x * CELL + CELL / 2.0,
+				(s.y + 1) * CELL - prop_tex.get_height() * pk / 2.0)
+			prop.z_index = -1
+			room_root.add_child(prop)
 	# player spawn
 	var ps: Array = template.get("player_spawn", [10, 6])
 	hero.global_position = Vector2(float(ps[0]) * CELL + CELL / 2.0, float(ps[1]) * CELL + CELL / 2.0)

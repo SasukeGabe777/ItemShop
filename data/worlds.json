@@ -32,6 +32,12 @@
     "thunder_shard",
     "gummi_block",
     "keychain"
+   ],
+   "obstacle_texture": "res://assets/locations/processed/crates.png",
+   "room_props": [
+    "lamp_lit",
+    "barrel",
+    "crate_lantern"
    ]
   },
   {
