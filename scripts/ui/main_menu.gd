@@ -12,6 +12,14 @@ const CURSOR_HAND := "res://assets/shared/ui/processed/cursor_hand.png"
 var ui_root: Control
 var hand_cursor: TextureRect
 var _hand_tween: Tween
+var _menu_buttons: Array[Button] = []
+var _art_size := Vector2(1672, 941)
+
+# menu bar positions as fractions of the ART image (measured off the png)
+const BAR_FRACTIONS := {
+	"left": 0.0969, "right": 0.5263, "height": 0.0638,
+	"tops": [0.579, 0.659, 0.739, 0.820],
+}
 
 
 func _ready() -> void:
@@ -46,20 +54,15 @@ func _build_art_menu() -> void:
 		blue_style.texture_margin_bottom = 3
 	var empty_style := StyleBoxEmpty.new()
 	var rows: Array = [
-		["NEW GAME", 0.579, _on_new_game],
-		["LOAD", 0.659, _on_load],
-		["CONFIG", 0.739, _on_config],
-		["EXTRAS", 0.820, _on_extras],
+		["NEW GAME", _on_new_game],
+		["LOAD", _on_load],
+		["CONFIG", _on_config],
+		["EXTRAS", _on_extras],
 	]
 	var first_btn: Button = null
 	for row: Array in rows:
 		var b := Button.new()
 		b.text = String(row[0])
-		b.anchor_left = 0.097
-		b.anchor_right = 0.526
-		b.anchor_top = float(row[1])
-		b.anchor_bottom = float(row[1]) + 0.064
-		b.offset_left = 0; b.offset_right = 0; b.offset_top = 0; b.offset_bottom = 0
 		b.add_theme_font_size_override("font_size", 12)
 		b.add_theme_color_override("font_color", Color("#3a3f52"))
 		b.add_theme_color_override("font_hover_color", Color.WHITE)
@@ -78,10 +81,11 @@ func _build_art_menu() -> void:
 			b.add_theme_stylebox_override("hover", hover)
 			b.add_theme_stylebox_override("focus", hover)
 			b.add_theme_stylebox_override("pressed", hover)
-		b.pressed.connect(Callable(row[2]))
+		b.pressed.connect(Callable(row[1]))
 		b.mouse_entered.connect(b.grab_focus)  # hover and keyboard share one selection
 		b.focus_entered.connect(func() -> void: _point_hand_at(b))
 		ui_root.add_child(b)
+		_menu_buttons.append(b)
 		if first_btn == null:
 			first_btn = b
 	if ResourceLoader.exists(CURSOR_HAND):
@@ -94,6 +98,27 @@ func _build_art_menu() -> void:
 		ui_root.add_child(hand_cursor)
 	if first_btn != null:
 		first_btn.grab_focus.call_deferred()
+	var tex: Texture2D = art.texture
+	_art_size = Vector2(tex.get_width(), tex.get_height())
+	get_viewport().size_changed.connect(_layout_menu_buttons)
+	_layout_menu_buttons.call_deferred()
+
+
+## Buttons must sit on the art's painted bars, so lay them out from the art's
+## actual drawn rect (KEEP_ASPECT_COVERED math), not viewport fractions.
+func _layout_menu_buttons() -> void:
+	var vp := ui_root.get_viewport_rect().size
+	var art_scale := maxf(vp.x / _art_size.x, vp.y / _art_size.y)
+	var drawn := _art_size * art_scale
+	var origin := (vp - drawn) / 2.0
+	var tops: Array = BAR_FRACTIONS["tops"]
+	for i in range(_menu_buttons.size()):
+		var b := _menu_buttons[i]
+		b.position = origin + Vector2(float(BAR_FRACTIONS["left"]), float(tops[i])) * drawn
+		b.size = Vector2((float(BAR_FRACTIONS["right"]) - float(BAR_FRACTIONS["left"])) * drawn.x, float(BAR_FRACTIONS["height"]) * drawn.y)
+	var focused := get_viewport().gui_get_focus_owner()
+	if focused is Button and focused in _menu_buttons:
+		_point_hand_at(focused)
 	var quit_btn := UIKit.button("Quit", func() -> void: get_tree().quit(), 9)
 	quit_btn.flat = true
 	quit_btn.anchor_left = 0.94

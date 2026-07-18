@@ -4,15 +4,15 @@ class Probe:
 	func _ready() -> void:
 		await get_tree().create_timer(1.4).timeout
 		DirAccess.make_dir_recursive_absolute("user://screenshots/")
-		get_viewport().get_texture().get_image().save_png("user://screenshots/menu_new.png")
-		# simulate pressing Down twice to verify keyboard nav + cursor tracking
-		for i in range(2):
+		get_viewport().get_texture().get_image().save_png("user://screenshots/menu_wide.png")
+		for pressed in [true, false]:
 			var ev := InputEventAction.new()
-			ev.action = "ui_down"
-			ev.pressed = true
+			ev.action = "ui_accept"
+			ev.pressed = pressed
 			Input.parse_input_event(ev)
-			await get_tree().create_timer(0.4).timeout
-		get_viewport().get_texture().get_image().save_png("user://screenshots/menu_new_nav.png")
+			await get_tree().process_frame
+		await get_tree().create_timer(0.6).timeout
+		get_viewport().get_texture().get_image().save_png("user://screenshots/menu_modal.png")
 		print("MENU_SHOT_DONE")
 		get_tree().quit()
 

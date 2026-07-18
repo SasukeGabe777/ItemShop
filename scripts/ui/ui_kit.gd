@@ -3,11 +3,55 @@ class_name UIKit
 
 const COL_BG := Color("#1c1e30")
 const COL_PANEL := Color("#282b44")
-const COL_ACCENT := Color("#e8b84a")
-const COL_TEXT := Color("#e8e8f0")
-const COL_DIM := Color("#9aa0b8")
-const COL_GOOD := Color("#7ad07a")
-const COL_BAD := Color("#e07070")
+# Palette tuned to read on BOTH the dark HUD bar and the white ornate panels.
+const COL_ACCENT := Color("#c8922a")
+const COL_TEXT := Color("#e8e8f0")   # sentinel: labels with this color inherit the ambient theme
+const COL_INK := Color("#2c3050")    # dark text used inside light panels
+const COL_DIM := Color("#767d95")
+const COL_GOOD := Color("#4a9a55")
+const COL_BAD := Color("#c65555")
+
+const PANEL_WIDE := "res://assets/shared/ui/processed/panel_wide.png"
+const BAR_WHITE := "res://assets/shared/ui/processed/bar_white.png"
+const BAR_BLUE := "res://assets/shared/ui/processed/bar_blue.png"
+
+static var _light_theme: Theme = null
+
+
+## Theme for content inside the supplied white ornate panels: dark text and
+## the white/blue bar textures as button states.
+static func light_theme() -> Theme:
+	if _light_theme != null:
+		return _light_theme
+	var t := Theme.new()
+	t.set_color("font_color", "Label", COL_INK)
+	t.set_color("font_color", "Button", COL_INK)
+	t.set_color("font_hover_color", "Button", Color.WHITE)
+	t.set_color("font_focus_color", "Button", Color.WHITE)
+	t.set_color("font_pressed_color", "Button", Color.WHITE)
+	t.set_color("font_hover_pressed_color", "Button", Color.WHITE)
+	t.set_color("font_disabled_color", "Button", Color(COL_INK, 0.4))
+	if ResourceLoader.exists(BAR_WHITE) and ResourceLoader.exists(BAR_BLUE):
+		var normal := StyleBoxTexture.new()
+		normal.texture = load(BAR_WHITE)
+		for sb: StyleBoxTexture in [normal]:
+			sb.texture_margin_left = 12
+			sb.texture_margin_right = 12
+			sb.texture_margin_top = 3
+			sb.texture_margin_bottom = 3
+		var active := StyleBoxTexture.new()
+		active.texture = load(BAR_BLUE)
+		active.texture_margin_left = 12
+		active.texture_margin_right = 12
+		active.texture_margin_top = 3
+		active.texture_margin_bottom = 3
+		t.set_stylebox("normal", "Button", normal)
+		t.set_stylebox("disabled", "Button", normal)
+		t.set_stylebox("hover", "Button", active)
+		t.set_stylebox("focus", "Button", active)
+		t.set_stylebox("pressed", "Button", active)
+	_light_theme = t
+	return t
 
 
 static func panel(min_size: Vector2 = Vector2.ZERO) -> PanelContainer:
@@ -27,7 +71,9 @@ static func label(text: String, size: int = 10, color: Color = COL_TEXT) -> Labe
 	var l := Label.new()
 	l.text = text
 	l.add_theme_font_size_override("font_size", size)
-	l.add_theme_color_override("font_color", color)
+	# COL_TEXT means "ambient": inherit white on dark HUD, ink inside light modals
+	if color != COL_TEXT:
+		l.add_theme_color_override("font_color", color)
 	return l
 
 
@@ -97,6 +143,20 @@ static func modal(parent: Node, title: String) -> Array:
 	center.set_anchors_preset(Control.PRESET_FULL_RECT)
 	layer.add_child(center)
 	var p := panel(Vector2(380, 0))
+	# supplied ornate white panel + light theme for its content
+	if ResourceLoader.exists(PANEL_WIDE):
+		var style := StyleBoxTexture.new()
+		style.texture = load(PANEL_WIDE)
+		style.texture_margin_left = 30
+		style.texture_margin_right = 30
+		style.texture_margin_top = 22
+		style.texture_margin_bottom = 22
+		style.content_margin_left = 20
+		style.content_margin_right = 20
+		style.content_margin_top = 16
+		style.content_margin_bottom = 16
+		p.add_theme_stylebox_override("panel", style)
+		p.theme = light_theme()
 	center.add_child(p)
 	var vb := VBoxContainer.new()
 	vb.add_theme_constant_override("separation", 6)
