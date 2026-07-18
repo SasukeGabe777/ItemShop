@@ -90,7 +90,9 @@ func _expedition_dialog(world_id: String) -> void:
 			if not bool(ww.get("final", false)) and BridgeManager.is_repaired(wid):
 				hero_options.append(String(ww.get("hero", "")))
 	else:
-		hero_options.append(String(w.get("hero", "")))
+		# a world may field several of its own heroes (Mario AND Luigi)
+		for hid: Variant in w.get("heroes", [w.get("hero", "")]):
+			hero_options.append(String(hid))
 		for wid in ContentDatabase.world_order:
 			var ww := ContentDatabase.get_world(wid)
 			if wid != world_id and not bool(ww.get("final", false)) and BridgeManager.is_repaired(wid):

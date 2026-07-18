@@ -1,62 +1,1353 @@
 {
-  "schema": "crossroads.enemies.v1",
-  "enemies": [
-    {"id": "shadow_heartless", "name": "Shadow Heartless", "world": "kingdom_hearts", "hp": 20, "atk": 6, "spd": 90, "behavior": "chaser", "size": 14, "color": "#181828", "loot": [["lucid_shard", 0.4], ["kh_potion", 0.15], ["munny_pouch", 0.05]], "gold": [4, 10]},
-    {"id": "soldier_heartless", "name": "Soldier Heartless", "world": "kingdom_hearts", "hp": 32, "atk": 8, "spd": 110, "behavior": "lunger", "size": 15, "color": "#284878", "loot": [["lucid_shard", 0.3], ["blaze_shard", 0.15], ["kh_ether", 0.08]], "gold": [8, 16]},
-    {"id": "large_body", "name": "Large Body", "world": "kingdom_hearts", "hp": 90, "atk": 12, "spd": 60, "behavior": "tank", "size": 24, "color": "#6858c8", "loot": [["kh_potion", 0.3], ["kh_mythril", 0.08], ["sea_salt_ice_cream", 0.2]], "gold": [15, 30]},
-    {"id": "yellow_opera", "name": "Yellow Opera", "world": "kingdom_hearts", "hp": 24, "atk": 7, "spd": 100, "behavior": "shooter", "size": 13, "color": "#e8d040", "loot": [["thunder_shard", 0.35], ["kh_ether", 0.1]], "gold": [6, 14]},
-    {"id": "red_nocturne", "name": "Red Nocturne", "world": "kingdom_hearts", "hp": 22, "atk": 8, "spd": 95, "behavior": "shooter", "size": 13, "color": "#d84040", "loot": [["blaze_shard", 0.35], ["kh_ether", 0.1]], "gold": [6, 14]},
-
-    {"id": "goomba", "name": "Goomba", "world": "mario", "hp": 18, "atk": 6, "spd": 80, "behavior": "chaser", "size": 13, "color": "#a05828", "loot": [["super_mushroom", 0.15], ["gold_coin", 0.5]], "gold": [5, 12]},
-    {"id": "koopa_troopa", "name": "Koopa Troopa", "world": "mario", "hp": 34, "atk": 8, "spd": 90, "behavior": "shell", "size": 15, "color": "#38a038", "loot": [["koopa_shell", 0.4], ["gold_coin", 0.35]], "gold": [8, 16]},
-    {"id": "shy_guy", "name": "Shy Guy", "world": "mario", "hp": 28, "atk": 8, "spd": 105, "behavior": "lunger", "size": 14, "color": "#d83838", "loot": [["gold_coin", 0.4], ["red_coin", 0.1], ["fire_flower", 0.08]], "gold": [8, 18]},
-    {"id": "boo", "name": "Boo", "world": "mario", "hp": 30, "atk": 9, "spd": 85, "behavior": "shy_ghost", "size": 15, "color": "#f0f0f8", "loot": [["red_coin", 0.15], ["one_up_mushroom", 0.05]], "gold": [10, 20]},
-    {"id": "bobomb_enemy", "name": "Bob-omb", "world": "mario", "hp": 16, "atk": 14, "spd": 100, "behavior": "bomber", "size": 13, "color": "#282838", "loot": [["mario_bobomb", 0.3], ["pow_block", 0.1]], "gold": [8, 18]},
-
-    {"id": "bomb_ff", "name": "Bomb", "world": "final_fantasy", "hp": 30, "atk": 14, "spd": 90, "behavior": "bomber", "size": 16, "color": "#e86028", "loot": [["blaze_shard", 0.3], ["ff_potion", 0.15]], "gold": [12, 24]},
-    {"id": "flan", "name": "Flan", "world": "final_fantasy", "hp": 60, "atk": 9, "spd": 55, "behavior": "tank", "size": 18, "color": "#5878e8", "loot": [["ff_ether", 0.15], ["crystal_shard_ff", 0.1]], "gold": [14, 26]},
-    {"id": "cactuar", "name": "Cactuar", "world": "final_fantasy", "hp": 25, "atk": 12, "spd": 170, "behavior": "skitter_shooter", "size": 14, "color": "#48b048", "loot": [["chocobo_feather", 0.25], ["hero_drink", 0.06]], "gold": [20, 40]},
-    {"id": "tonberry", "name": "Tonberry", "world": "final_fantasy", "hp": 80, "atk": 25, "spd": 35, "behavior": "creeper", "size": 14, "color": "#387848", "loot": [["ff_elixir", 0.08], ["remedy", 0.15]], "gold": [25, 50]},
-    {"id": "sahagin", "name": "Sahagin", "world": "final_fantasy", "hp": 42, "atk": 11, "spd": 115, "behavior": "lunger", "size": 15, "color": "#38a0a0", "loot": [["mythril_sword", 0.03], ["ff_potion", 0.2], ["crystal_shard_ff", 0.12]], "gold": [14, 28]},
-
-    {"id": "keese", "name": "Keese", "world": "zelda", "hp": 14, "atk": 6, "spd": 140, "behavior": "swooper", "size": 12, "color": "#383858", "loot": [["rupee", 0.4]], "gold": [4, 10]},
-    {"id": "octorok", "name": "Octorok", "world": "zelda", "hp": 30, "atk": 9, "spd": 70, "behavior": "shooter", "size": 15, "color": "#c85858", "loot": [["rupee", 0.35], ["deku_nut", 0.15]], "gold": [8, 16]},
-    {"id": "bokoblin", "name": "Bokoblin", "world": "zelda", "hp": 40, "atk": 10, "spd": 105, "behavior": "lunger", "size": 15, "color": "#a04858", "loot": [["rupee", 0.3], ["wooden_shield", 0.06], ["red_potion", 0.1]], "gold": [10, 20]},
-    {"id": "chuchu", "name": "ChuChu", "world": "zelda", "hp": 26, "atk": 7, "spd": 75, "behavior": "chaser", "size": 14, "color": "#48c858", "loot": [["green_potion", 0.15], ["rupee", 0.3]], "gold": [6, 14]},
-    {"id": "skulltula", "name": "Skulltula", "world": "zelda", "hp": 45, "atk": 12, "spd": 95, "behavior": "ambusher", "size": 17, "color": "#786848", "loot": [["small_key", 0.15], ["rupee", 0.25], ["deku_wood", 0.2]], "gold": [12, 24]},
-
-    {"id": "rogue_ninja", "name": "Rogue Ninja", "world": "naruto", "hp": 45, "atk": 12, "spd": 130, "behavior": "lunger", "size": 15, "color": "#584878", "loot": [["kunai", 0.2], ["shuriken", 0.3], ["smoke_bomb", 0.15]], "gold": [14, 28]},
-    {"id": "sound_ninja", "name": "Sound Ninja", "world": "naruto", "hp": 40, "atk": 13, "spd": 120, "behavior": "shooter", "size": 15, "color": "#788088", "loot": [["explosive_tag", 0.2], ["chakra_pill", 0.1]], "gold": [14, 28]},
-    {"id": "puppet", "name": "Puppet", "world": "naruto", "hp": 55, "atk": 11, "spd": 100, "behavior": "shooter", "size": 16, "color": "#985838", "loot": [["ninja_scroll", 0.12], ["kunai", 0.2]], "gold": [16, 30]},
-    {"id": "giant_snake", "name": "Giant Snake", "world": "naruto", "hp": 85, "atk": 15, "spd": 90, "behavior": "lunger", "size": 22, "color": "#6858a8", "loot": [["chakra_crystal", 0.12], ["soldier_pill", 0.15]], "gold": [20, 40]},
-    {"id": "clone_impostor", "name": "Shadow Clone Impostor", "world": "naruto", "hp": 35, "atk": 12, "spd": 135, "behavior": "splitter", "size": 15, "color": "#e8a030", "loot": [["soldier_pill", 0.12], ["ramen_bowl", 0.2]], "gold": [12, 26]},
-
-    {"id": "saibaman", "name": "Saibaman", "world": "dragon_ball", "hp": 50, "atk": 14, "spd": 130, "behavior": "bomber", "size": 15, "color": "#68b838", "loot": [["senzu_bean", 0.05], ["capsule", 0.15]], "gold": [18, 36]},
-    {"id": "rr_robot", "name": "Red Ribbon Robot", "world": "dragon_ball", "hp": 70, "atk": 14, "spd": 95, "behavior": "shooter", "size": 18, "color": "#a83848", "loot": [["capsule", 0.2], ["scouter", 0.06], ["energy_crystal", 0.1]], "gold": [20, 40]},
-    {"id": "frieza_soldier", "name": "Frieza Soldier", "world": "dragon_ball", "hp": 60, "atk": 15, "spd": 120, "behavior": "lunger", "size": 16, "color": "#8858c8", "loot": [["scouter", 0.1], ["saiyan_armor", 0.03], ["capsule", 0.15]], "gold": [22, 44]},
-    {"id": "cell_junior", "name": "Cell Junior", "world": "dragon_ball", "hp": 85, "atk": 18, "spd": 145, "behavior": "teleporter", "size": 16, "color": "#4888c8", "loot": [["energy_crystal", 0.15], ["sacred_water", 0.08]], "gold": [28, 55]},
-    {"id": "dbz_dinosaur", "name": "Dinosaur", "world": "dragon_ball", "hp": 110, "atk": 16, "spd": 80, "behavior": "tank", "size": 26, "color": "#889038", "loot": [["dino_tail", 0.35], ["capsule", 0.1]], "gold": [25, 50]},
-
-    {"id": "corrupt_rattata", "name": "Bridge-Corrupted Rattata", "world": "pokemon", "hp": 40, "atk": 12, "spd": 150, "behavior": "chaser", "size": 13, "color": "#9858a8", "loot": [["pkmn_potion", 0.2], ["poke_ball", 0.15]], "gold": [16, 32]},
-    {"id": "corrupt_zubat", "name": "Bridge-Corrupted Zubat", "world": "pokemon", "hp": 35, "atk": 11, "spd": 155, "behavior": "swooper", "size": 13, "color": "#5868c8", "loot": [["escape_rope", 0.15], ["poke_ball", 0.15]], "gold": [16, 32]},
-    {"id": "corrupt_gastly", "name": "Bridge-Corrupted Gastly", "world": "pokemon", "hp": 50, "atk": 14, "spd": 100, "behavior": "shy_ghost", "size": 16, "color": "#584878", "loot": [["moon_stone", 0.1], ["great_ball", 0.1]], "gold": [20, 40]},
-    {"id": "corrupt_magnemite", "name": "Bridge-Corrupted Magnemite", "world": "pokemon", "hp": 55, "atk": 13, "spd": 90, "behavior": "shooter", "size": 14, "color": "#8898b8", "loot": [["thunder_stone", 0.12], ["great_ball", 0.1]], "gold": [20, 40]},
-    {"id": "corrupt_beedrill", "name": "Bridge-Corrupted Beedrill", "world": "pokemon", "hp": 60, "atk": 16, "spd": 160, "behavior": "swooper", "size": 16, "color": "#c8b038", "loot": [["ultra_ball", 0.08], ["full_restore", 0.06], ["rare_candy", 0.04]], "gold": [24, 48]},
-
-    {"id": "fade_goomba", "name": "Heartless Goomba", "world": "null_archive", "hp": 60, "atk": 15, "spd": 110, "behavior": "chaser", "size": 14, "color": "#282838", "loot": [["gold_coin", 0.4], ["lucid_shard", 0.3]], "gold": [20, 40]},
-    {"id": "fade_bomb_tag", "name": "Tagged Bomb", "world": "null_archive", "hp": 45, "atk": 22, "spd": 105, "behavior": "bomber", "size": 16, "color": "#804060", "loot": [["explosive_tag", 0.3], ["blaze_shard", 0.25]], "gold": [22, 44]},
-    {"id": "fade_saibadeku", "name": "Deku Saibaman", "world": "null_archive", "hp": 70, "atk": 17, "spd": 125, "behavior": "bomber", "size": 15, "color": "#486048", "loot": [["deku_wood", 0.3], ["senzu_bean", 0.06]], "gold": [24, 48]},
-    {"id": "fade_tonberry_ball", "name": "Tonberry Trainer", "world": "null_archive", "hp": 110, "atk": 30, "spd": 40, "behavior": "creeper", "size": 15, "color": "#385858", "loot": [["poke_ball", 0.3], ["ff_elixir", 0.08]], "gold": [35, 70]},
-    {"id": "fade_gastly_boo", "name": "Boostly", "world": "null_archive", "hp": 75, "atk": 18, "spd": 95, "behavior": "shy_ghost", "size": 17, "color": "#8078a8", "loot": [["moon_stone", 0.12], ["red_coin", 0.2]], "gold": [28, 56]}
-  ],
-  "bosses": [
-    {"id": "corrupted_fat_bandit", "name": "Corrupted Fat Bandit", "world": "kingdom_hearts", "hp": 350, "atk": 14, "spd": 55, "behavior": "boss_tank", "size": 34, "color": "#7858b8", "loot": [["world_shard_kh", 1.0], ["kh_mythril", 1.0], ["kingdom_key", 0.5]], "gold": [300, 400], "attacks": ["belly_flop", "flame_breath", "static_pulse"], "telegraph": 0.7},
-    {"id": "king_bobomb", "name": "King Bob-omb", "world": "mario", "hp": 500, "atk": 17, "spd": 50, "behavior": "boss_bomber", "size": 36, "color": "#303048", "loot": [["world_shard_mario", 1.0], ["royal_crown", 1.0], ["starman", 0.5]], "gold": [500, 700], "attacks": ["bomb_toss", "shockwave", "minion_call"], "telegraph": 0.7},
-    {"id": "behemoth", "name": "Behemoth", "world": "final_fantasy", "hp": 750, "atk": 22, "spd": 85, "behavior": "boss_charger", "size": 38, "color": "#6838a8", "loot": [["world_shard_ff", 1.0], ["genji_glove", 1.0], ["materia", 0.8]], "gold": [900, 1200], "attacks": ["horn_charge", "meteor_rain", "tail_sweep"], "telegraph": 0.65},
-    {"id": "gohma", "name": "Gohma", "world": "zelda", "hp": 900, "atk": 24, "spd": 95, "behavior": "boss_ambusher", "size": 36, "color": "#a86838", "loot": [["world_shard_zelda", 1.0], ["heart_container", 1.0], ["triforce_fragment", 0.6]], "gold": [1400, 1800], "attacks": ["eye_beam", "ceiling_drop", "larva_swarm"], "telegraph": 0.6},
-    {"id": "zabuza", "name": "Corrupted Zabuza", "world": "naruto", "hp": 1100, "atk": 28, "spd": 130, "behavior": "boss_assassin", "size": 22, "color": "#485868", "loot": [["world_shard_naruto", 1.0], ["summoning_scroll", 1.0], ["sannin_token", 0.5]], "gold": [2000, 2600], "attacks": ["water_dragon", "hidden_mist", "executioner_cleave"], "telegraph": 0.55},
-    {"id": "great_ape_vegeta", "name": "Great Ape Vegeta", "world": "dragon_ball", "hp": 1500, "atk": 32, "spd": 90, "behavior": "boss_ape", "size": 48, "color": "#684828", "loot": [["world_shard_dbz", 1.0], ["saiyan_armor", 1.0], ["dragon_ball", 0.7]], "gold": [3200, 4000], "attacks": ["mouth_beam", "ground_slam", "boulder_throw"], "telegraph": 0.6},
-    {"id": "mewtwo", "name": "Mewtwo", "world": "pokemon", "hp": 1800, "atk": 34, "spd": 140, "behavior": "boss_psychic", "size": 26, "color": "#a878c8", "loot": [["world_shard_pkmn", 1.0], ["master_ball", 1.0], ["pokedex", 0.5]], "gold": [4500, 5500], "attacks": ["shadow_ball", "psychic_grip", "barrier", "teleport_strike"], "telegraph": 0.5},
-    {"id": "the_fade", "name": "The Fade", "world": "null_archive", "hp": 2600, "atk": 36, "spd": 110, "behavior": "boss_fade", "size": 42, "color": "#202030", "loot": [], "gold": [0, 0], "attacks": ["null_wave", "memory_swarm", "world_eater", "static_storm"], "telegraph": 0.5, "phases": 3}
-  ]
+ "schema": "crossroads.enemies.v1",
+ "enemies": [
+  {
+   "id": "shadow_heartless",
+   "name": "Shadow Heartless",
+   "world": "kingdom_hearts",
+   "hp": 20,
+   "atk": 6,
+   "spd": 90,
+   "behavior": "chaser",
+   "size": 14,
+   "color": "#181828",
+   "loot": [
+    [
+     "lucid_shard",
+     0.4
+    ],
+    [
+     "kh_potion",
+     0.15
+    ],
+    [
+     "munny_pouch",
+     0.05
+    ]
+   ],
+   "gold": [
+    4,
+    10
+   ]
+  },
+  {
+   "id": "soldier_heartless",
+   "name": "Soldier Heartless",
+   "world": "kingdom_hearts",
+   "hp": 32,
+   "atk": 8,
+   "spd": 110,
+   "behavior": "lunger",
+   "size": 15,
+   "color": "#284878",
+   "loot": [
+    [
+     "lucid_shard",
+     0.3
+    ],
+    [
+     "blaze_shard",
+     0.15
+    ],
+    [
+     "kh_ether",
+     0.08
+    ]
+   ],
+   "gold": [
+    8,
+    16
+   ]
+  },
+  {
+   "id": "large_body",
+   "name": "Large Body",
+   "world": "kingdom_hearts",
+   "hp": 90,
+   "atk": 12,
+   "spd": 60,
+   "behavior": "tank",
+   "size": 24,
+   "color": "#6858c8",
+   "loot": [
+    [
+     "kh_potion",
+     0.3
+    ],
+    [
+     "kh_mythril",
+     0.08
+    ],
+    [
+     "sea_salt_ice_cream",
+     0.2
+    ]
+   ],
+   "gold": [
+    15,
+    30
+   ]
+  },
+  {
+   "id": "yellow_opera",
+   "name": "Yellow Opera",
+   "world": "kingdom_hearts",
+   "hp": 24,
+   "atk": 7,
+   "spd": 100,
+   "behavior": "shooter",
+   "size": 13,
+   "color": "#e8d040",
+   "loot": [
+    [
+     "thunder_shard",
+     0.35
+    ],
+    [
+     "kh_ether",
+     0.1
+    ]
+   ],
+   "gold": [
+    6,
+    14
+   ]
+  },
+  {
+   "id": "red_nocturne",
+   "name": "Red Nocturne",
+   "world": "kingdom_hearts",
+   "hp": 22,
+   "atk": 8,
+   "spd": 95,
+   "behavior": "shooter",
+   "size": 13,
+   "color": "#d84040",
+   "loot": [
+    [
+     "blaze_shard",
+     0.35
+    ],
+    [
+     "kh_ether",
+     0.1
+    ]
+   ],
+   "gold": [
+    6,
+    14
+   ]
+  },
+  {
+   "id": "goomba",
+   "name": "Goomba",
+   "world": "mario",
+   "hp": 18,
+   "atk": 6,
+   "spd": 80,
+   "behavior": "chaser",
+   "size": 13,
+   "color": "#a05828",
+   "loot": [
+    [
+     "super_mushroom",
+     0.15
+    ],
+    [
+     "gold_coin",
+     0.5
+    ]
+   ],
+   "gold": [
+    5,
+    12
+   ]
+  },
+  {
+   "id": "koopa_troopa",
+   "name": "Koopa Troopa",
+   "world": "mario",
+   "hp": 34,
+   "atk": 8,
+   "spd": 90,
+   "behavior": "shell",
+   "size": 15,
+   "color": "#38a038",
+   "loot": [
+    [
+     "koopa_shell",
+     0.4
+    ],
+    [
+     "gold_coin",
+     0.35
+    ]
+   ],
+   "gold": [
+    8,
+    16
+   ]
+  },
+  {
+   "id": "shy_guy",
+   "name": "Shy Guy",
+   "world": "mario",
+   "hp": 28,
+   "atk": 8,
+   "spd": 105,
+   "behavior": "lunger",
+   "size": 14,
+   "color": "#d83838",
+   "loot": [
+    [
+     "gold_coin",
+     0.4
+    ],
+    [
+     "red_coin",
+     0.1
+    ],
+    [
+     "fire_flower",
+     0.08
+    ]
+   ],
+   "gold": [
+    8,
+    18
+   ]
+  },
+  {
+   "id": "boo",
+   "name": "Boo",
+   "world": "mario",
+   "hp": 30,
+   "atk": 9,
+   "spd": 85,
+   "behavior": "shy_ghost",
+   "size": 15,
+   "color": "#f0f0f8",
+   "loot": [
+    [
+     "red_coin",
+     0.15
+    ],
+    [
+     "one_up_mushroom",
+     0.05
+    ]
+   ],
+   "gold": [
+    10,
+    20
+   ]
+  },
+  {
+   "id": "bobomb_enemy",
+   "name": "Bob-omb",
+   "world": "mario",
+   "hp": 16,
+   "atk": 14,
+   "spd": 100,
+   "behavior": "bomber",
+   "size": 13,
+   "color": "#282838",
+   "loot": [
+    [
+     "mario_bobomb",
+     0.3
+    ],
+    [
+     "pow_block",
+     0.1
+    ]
+   ],
+   "gold": [
+    8,
+    18
+   ]
+  },
+  {
+   "id": "bomb_ff",
+   "name": "Bomb",
+   "world": "final_fantasy",
+   "hp": 30,
+   "atk": 14,
+   "spd": 90,
+   "behavior": "bomber",
+   "size": 16,
+   "color": "#e86028",
+   "loot": [
+    [
+     "blaze_shard",
+     0.3
+    ],
+    [
+     "ff_potion",
+     0.15
+    ]
+   ],
+   "gold": [
+    12,
+    24
+   ]
+  },
+  {
+   "id": "flan",
+   "name": "Flan",
+   "world": "final_fantasy",
+   "hp": 60,
+   "atk": 9,
+   "spd": 55,
+   "behavior": "tank",
+   "size": 18,
+   "color": "#5878e8",
+   "loot": [
+    [
+     "ff_ether",
+     0.15
+    ],
+    [
+     "crystal_shard_ff",
+     0.1
+    ]
+   ],
+   "gold": [
+    14,
+    26
+   ]
+  },
+  {
+   "id": "cactuar",
+   "name": "Cactuar",
+   "world": "final_fantasy",
+   "hp": 25,
+   "atk": 12,
+   "spd": 170,
+   "behavior": "skitter_shooter",
+   "size": 14,
+   "color": "#48b048",
+   "loot": [
+    [
+     "chocobo_feather",
+     0.25
+    ],
+    [
+     "hero_drink",
+     0.06
+    ]
+   ],
+   "gold": [
+    20,
+    40
+   ]
+  },
+  {
+   "id": "tonberry",
+   "name": "Tonberry",
+   "world": "final_fantasy",
+   "hp": 80,
+   "atk": 25,
+   "spd": 35,
+   "behavior": "creeper",
+   "size": 14,
+   "color": "#387848",
+   "loot": [
+    [
+     "ff_elixir",
+     0.08
+    ],
+    [
+     "remedy",
+     0.15
+    ]
+   ],
+   "gold": [
+    25,
+    50
+   ]
+  },
+  {
+   "id": "sahagin",
+   "name": "Sahagin",
+   "world": "final_fantasy",
+   "hp": 42,
+   "atk": 11,
+   "spd": 115,
+   "behavior": "lunger",
+   "size": 15,
+   "color": "#38a0a0",
+   "loot": [
+    [
+     "mythril_sword",
+     0.03
+    ],
+    [
+     "ff_potion",
+     0.2
+    ],
+    [
+     "crystal_shard_ff",
+     0.12
+    ]
+   ],
+   "gold": [
+    14,
+    28
+   ]
+  },
+  {
+   "id": "keese",
+   "name": "Keese",
+   "world": "zelda",
+   "hp": 14,
+   "atk": 6,
+   "spd": 140,
+   "behavior": "swooper",
+   "size": 12,
+   "color": "#383858",
+   "loot": [
+    [
+     "rupee",
+     0.4
+    ]
+   ],
+   "gold": [
+    4,
+    10
+   ]
+  },
+  {
+   "id": "octorok",
+   "name": "Octorok",
+   "world": "zelda",
+   "hp": 30,
+   "atk": 9,
+   "spd": 70,
+   "behavior": "shooter",
+   "size": 15,
+   "color": "#c85858",
+   "loot": [
+    [
+     "rupee",
+     0.35
+    ],
+    [
+     "deku_nut",
+     0.15
+    ]
+   ],
+   "gold": [
+    8,
+    16
+   ]
+  },
+  {
+   "id": "bokoblin",
+   "name": "Bokoblin",
+   "world": "zelda",
+   "hp": 40,
+   "atk": 10,
+   "spd": 105,
+   "behavior": "lunger",
+   "size": 15,
+   "color": "#a04858",
+   "loot": [
+    [
+     "rupee",
+     0.3
+    ],
+    [
+     "wooden_shield",
+     0.06
+    ],
+    [
+     "red_potion",
+     0.1
+    ]
+   ],
+   "gold": [
+    10,
+    20
+   ]
+  },
+  {
+   "id": "chuchu",
+   "name": "ChuChu",
+   "world": "zelda",
+   "hp": 26,
+   "atk": 7,
+   "spd": 75,
+   "behavior": "chaser",
+   "size": 14,
+   "color": "#48c858",
+   "loot": [
+    [
+     "green_potion",
+     0.15
+    ],
+    [
+     "rupee",
+     0.3
+    ]
+   ],
+   "gold": [
+    6,
+    14
+   ]
+  },
+  {
+   "id": "skulltula",
+   "name": "Skulltula",
+   "world": "zelda",
+   "hp": 45,
+   "atk": 12,
+   "spd": 95,
+   "behavior": "ambusher",
+   "size": 17,
+   "color": "#786848",
+   "loot": [
+    [
+     "small_key",
+     0.15
+    ],
+    [
+     "rupee",
+     0.25
+    ],
+    [
+     "deku_wood",
+     0.2
+    ]
+   ],
+   "gold": [
+    12,
+    24
+   ]
+  },
+  {
+   "id": "rogue_ninja",
+   "name": "Rogue Ninja",
+   "world": "naruto",
+   "hp": 45,
+   "atk": 12,
+   "spd": 130,
+   "behavior": "lunger",
+   "size": 15,
+   "color": "#584878",
+   "loot": [
+    [
+     "kunai",
+     0.2
+    ],
+    [
+     "shuriken",
+     0.3
+    ],
+    [
+     "smoke_bomb",
+     0.15
+    ]
+   ],
+   "gold": [
+    14,
+    28
+   ]
+  },
+  {
+   "id": "sound_ninja",
+   "name": "Sound Ninja",
+   "world": "naruto",
+   "hp": 40,
+   "atk": 13,
+   "spd": 120,
+   "behavior": "shooter",
+   "size": 15,
+   "color": "#788088",
+   "loot": [
+    [
+     "explosive_tag",
+     0.2
+    ],
+    [
+     "chakra_pill",
+     0.1
+    ]
+   ],
+   "gold": [
+    14,
+    28
+   ]
+  },
+  {
+   "id": "puppet",
+   "name": "Puppet",
+   "world": "naruto",
+   "hp": 55,
+   "atk": 11,
+   "spd": 100,
+   "behavior": "shooter",
+   "size": 16,
+   "color": "#985838",
+   "loot": [
+    [
+     "ninja_scroll",
+     0.12
+    ],
+    [
+     "kunai",
+     0.2
+    ]
+   ],
+   "gold": [
+    16,
+    30
+   ]
+  },
+  {
+   "id": "giant_snake",
+   "name": "Giant Snake",
+   "world": "naruto",
+   "hp": 85,
+   "atk": 15,
+   "spd": 90,
+   "behavior": "lunger",
+   "size": 22,
+   "color": "#6858a8",
+   "loot": [
+    [
+     "chakra_crystal",
+     0.12
+    ],
+    [
+     "soldier_pill",
+     0.15
+    ]
+   ],
+   "gold": [
+    20,
+    40
+   ]
+  },
+  {
+   "id": "clone_impostor",
+   "name": "Shadow Clone Impostor",
+   "world": "naruto",
+   "hp": 35,
+   "atk": 12,
+   "spd": 135,
+   "behavior": "splitter",
+   "size": 15,
+   "color": "#e8a030",
+   "loot": [
+    [
+     "soldier_pill",
+     0.12
+    ],
+    [
+     "ramen_bowl",
+     0.2
+    ]
+   ],
+   "gold": [
+    12,
+    26
+   ]
+  },
+  {
+   "id": "saibaman",
+   "name": "Saibaman",
+   "world": "dragon_ball",
+   "hp": 50,
+   "atk": 14,
+   "spd": 130,
+   "behavior": "bomber",
+   "size": 15,
+   "color": "#68b838",
+   "loot": [
+    [
+     "senzu_bean",
+     0.05
+    ],
+    [
+     "capsule",
+     0.15
+    ]
+   ],
+   "gold": [
+    18,
+    36
+   ]
+  },
+  {
+   "id": "rr_robot",
+   "name": "Red Ribbon Robot",
+   "world": "dragon_ball",
+   "hp": 70,
+   "atk": 14,
+   "spd": 95,
+   "behavior": "shooter",
+   "size": 18,
+   "color": "#a83848",
+   "loot": [
+    [
+     "capsule",
+     0.2
+    ],
+    [
+     "scouter",
+     0.06
+    ],
+    [
+     "energy_crystal",
+     0.1
+    ]
+   ],
+   "gold": [
+    20,
+    40
+   ]
+  },
+  {
+   "id": "frieza_soldier",
+   "name": "Frieza Soldier",
+   "world": "dragon_ball",
+   "hp": 60,
+   "atk": 15,
+   "spd": 120,
+   "behavior": "lunger",
+   "size": 16,
+   "color": "#8858c8",
+   "loot": [
+    [
+     "scouter",
+     0.1
+    ],
+    [
+     "saiyan_armor",
+     0.03
+    ],
+    [
+     "capsule",
+     0.15
+    ]
+   ],
+   "gold": [
+    22,
+    44
+   ]
+  },
+  {
+   "id": "cell_junior",
+   "name": "Cell Junior",
+   "world": "dragon_ball",
+   "hp": 85,
+   "atk": 18,
+   "spd": 145,
+   "behavior": "teleporter",
+   "size": 16,
+   "color": "#4888c8",
+   "loot": [
+    [
+     "energy_crystal",
+     0.15
+    ],
+    [
+     "sacred_water",
+     0.08
+    ]
+   ],
+   "gold": [
+    28,
+    55
+   ]
+  },
+  {
+   "id": "dbz_dinosaur",
+   "name": "Dinosaur",
+   "world": "dragon_ball",
+   "hp": 110,
+   "atk": 16,
+   "spd": 80,
+   "behavior": "tank",
+   "size": 26,
+   "color": "#889038",
+   "loot": [
+    [
+     "dino_tail",
+     0.35
+    ],
+    [
+     "capsule",
+     0.1
+    ]
+   ],
+   "gold": [
+    25,
+    50
+   ]
+  },
+  {
+   "id": "corrupt_rattata",
+   "name": "Bridge-Corrupted Rattata",
+   "world": "pokemon",
+   "hp": 40,
+   "atk": 12,
+   "spd": 150,
+   "behavior": "chaser",
+   "size": 13,
+   "color": "#9858a8",
+   "loot": [
+    [
+     "pkmn_potion",
+     0.2
+    ],
+    [
+     "poke_ball",
+     0.15
+    ]
+   ],
+   "gold": [
+    16,
+    32
+   ]
+  },
+  {
+   "id": "corrupt_zubat",
+   "name": "Bridge-Corrupted Zubat",
+   "world": "pokemon",
+   "hp": 35,
+   "atk": 11,
+   "spd": 155,
+   "behavior": "swooper",
+   "size": 13,
+   "color": "#5868c8",
+   "loot": [
+    [
+     "escape_rope",
+     0.15
+    ],
+    [
+     "poke_ball",
+     0.15
+    ]
+   ],
+   "gold": [
+    16,
+    32
+   ]
+  },
+  {
+   "id": "corrupt_gastly",
+   "name": "Bridge-Corrupted Gastly",
+   "world": "pokemon",
+   "hp": 50,
+   "atk": 14,
+   "spd": 100,
+   "behavior": "shy_ghost",
+   "size": 16,
+   "color": "#584878",
+   "loot": [
+    [
+     "moon_stone",
+     0.1
+    ],
+    [
+     "great_ball",
+     0.1
+    ]
+   ],
+   "gold": [
+    20,
+    40
+   ]
+  },
+  {
+   "id": "corrupt_magnemite",
+   "name": "Bridge-Corrupted Magnemite",
+   "world": "pokemon",
+   "hp": 55,
+   "atk": 13,
+   "spd": 90,
+   "behavior": "shooter",
+   "size": 14,
+   "color": "#8898b8",
+   "loot": [
+    [
+     "thunder_stone",
+     0.12
+    ],
+    [
+     "great_ball",
+     0.1
+    ]
+   ],
+   "gold": [
+    20,
+    40
+   ]
+  },
+  {
+   "id": "corrupt_beedrill",
+   "name": "Bridge-Corrupted Beedrill",
+   "world": "pokemon",
+   "hp": 60,
+   "atk": 16,
+   "spd": 160,
+   "behavior": "swooper",
+   "size": 16,
+   "color": "#c8b038",
+   "loot": [
+    [
+     "ultra_ball",
+     0.08
+    ],
+    [
+     "full_restore",
+     0.06
+    ],
+    [
+     "rare_candy",
+     0.04
+    ]
+   ],
+   "gold": [
+    24,
+    48
+   ]
+  },
+  {
+   "id": "fade_goomba",
+   "name": "Heartless Goomba",
+   "world": "null_archive",
+   "hp": 60,
+   "atk": 15,
+   "spd": 110,
+   "behavior": "chaser",
+   "size": 14,
+   "color": "#282838",
+   "loot": [
+    [
+     "gold_coin",
+     0.4
+    ],
+    [
+     "lucid_shard",
+     0.3
+    ]
+   ],
+   "gold": [
+    20,
+    40
+   ]
+  },
+  {
+   "id": "fade_bomb_tag",
+   "name": "Tagged Bomb",
+   "world": "null_archive",
+   "hp": 45,
+   "atk": 22,
+   "spd": 105,
+   "behavior": "bomber",
+   "size": 16,
+   "color": "#804060",
+   "loot": [
+    [
+     "explosive_tag",
+     0.3
+    ],
+    [
+     "blaze_shard",
+     0.25
+    ]
+   ],
+   "gold": [
+    22,
+    44
+   ]
+  },
+  {
+   "id": "fade_saibadeku",
+   "name": "Deku Saibaman",
+   "world": "null_archive",
+   "hp": 70,
+   "atk": 17,
+   "spd": 125,
+   "behavior": "bomber",
+   "size": 15,
+   "color": "#486048",
+   "loot": [
+    [
+     "deku_wood",
+     0.3
+    ],
+    [
+     "senzu_bean",
+     0.06
+    ]
+   ],
+   "gold": [
+    24,
+    48
+   ]
+  },
+  {
+   "id": "fade_tonberry_ball",
+   "name": "Tonberry Trainer",
+   "world": "null_archive",
+   "hp": 110,
+   "atk": 30,
+   "spd": 40,
+   "behavior": "creeper",
+   "size": 15,
+   "color": "#385858",
+   "loot": [
+    [
+     "poke_ball",
+     0.3
+    ],
+    [
+     "ff_elixir",
+     0.08
+    ]
+   ],
+   "gold": [
+    35,
+    70
+   ]
+  },
+  {
+   "id": "fade_gastly_boo",
+   "name": "Boostly",
+   "world": "null_archive",
+   "hp": 75,
+   "atk": 18,
+   "spd": 95,
+   "behavior": "shy_ghost",
+   "size": 17,
+   "color": "#8078a8",
+   "loot": [
+    [
+     "moon_stone",
+     0.12
+    ],
+    [
+     "red_coin",
+     0.2
+    ]
+   ],
+   "gold": [
+    28,
+    56
+   ]
+  }
+ ],
+ "bosses": [
+  {
+   "id": "corrupted_fat_bandit",
+   "name": "Corrupted Fat Bandit",
+   "world": "kingdom_hearts",
+   "hp": 350,
+   "atk": 14,
+   "spd": 55,
+   "behavior": "boss_tank",
+   "size": 34,
+   "color": "#7858b8",
+   "loot": [
+    [
+     "world_shard_kh",
+     1.0
+    ],
+    [
+     "kh_mythril",
+     1.0
+    ],
+    [
+     "kingdom_key",
+     0.5
+    ]
+   ],
+   "gold": [
+    300,
+    400
+   ],
+   "attacks": [
+    "belly_flop",
+    "flame_breath",
+    "static_pulse"
+   ],
+   "telegraph": 0.7
+  },
+  {
+   "id": "king_bobomb",
+   "name": "King Bob-omb",
+   "world": "mario",
+   "hp": 500,
+   "atk": 17,
+   "spd": 50,
+   "behavior": "boss_bomber",
+   "size": 36,
+   "color": "#303048",
+   "loot": [
+    [
+     "world_shard_mario",
+     1.0
+    ],
+    [
+     "royal_crown",
+     1.0
+    ],
+    [
+     "starman",
+     0.5
+    ]
+   ],
+   "gold": [
+    500,
+    700
+   ],
+   "attacks": [
+    "bomb_toss",
+    "shockwave",
+    "minion_call"
+   ],
+   "telegraph": 0.7
+  },
+  {
+   "id": "behemoth",
+   "name": "Behemoth",
+   "world": "final_fantasy",
+   "hp": 750,
+   "atk": 22,
+   "spd": 85,
+   "behavior": "boss_charger",
+   "size": 38,
+   "color": "#6838a8",
+   "loot": [
+    [
+     "world_shard_ff",
+     1.0
+    ],
+    [
+     "genji_glove",
+     1.0
+    ],
+    [
+     "materia",
+     0.8
+    ]
+   ],
+   "gold": [
+    900,
+    1200
+   ],
+   "attacks": [
+    "horn_charge",
+    "meteor_rain",
+    "tail_sweep"
+   ],
+   "telegraph": 0.65
+  },
+  {
+   "id": "gohma",
+   "name": "Gohma",
+   "world": "zelda",
+   "hp": 900,
+   "atk": 24,
+   "spd": 95,
+   "behavior": "boss_ambusher",
+   "size": 36,
+   "color": "#a86838",
+   "loot": [
+    [
+     "world_shard_zelda",
+     1.0
+    ],
+    [
+     "heart_container",
+     1.0
+    ],
+    [
+     "triforce_fragment",
+     0.6
+    ]
+   ],
+   "gold": [
+    1400,
+    1800
+   ],
+   "attacks": [
+    "eye_beam",
+    "ceiling_drop",
+    "larva_swarm"
+   ],
+   "telegraph": 0.6
+  },
+  {
+   "id": "zabuza",
+   "name": "Corrupted Zabuza",
+   "world": "naruto",
+   "hp": 1100,
+   "atk": 28,
+   "spd": 130,
+   "behavior": "boss_assassin",
+   "size": 22,
+   "color": "#485868",
+   "loot": [
+    [
+     "world_shard_naruto",
+     1.0
+    ],
+    [
+     "summoning_scroll",
+     1.0
+    ],
+    [
+     "sannin_token",
+     0.5
+    ]
+   ],
+   "gold": [
+    2000,
+    2600
+   ],
+   "attacks": [
+    "water_dragon",
+    "hidden_mist",
+    "executioner_cleave"
+   ],
+   "telegraph": 0.55
+  },
+  {
+   "id": "great_ape_vegeta",
+   "name": "Great Ape Vegeta",
+   "world": "dragon_ball",
+   "hp": 1500,
+   "atk": 32,
+   "spd": 90,
+   "behavior": "boss_ape",
+   "size": 48,
+   "color": "#684828",
+   "loot": [
+    [
+     "world_shard_dbz",
+     1.0
+    ],
+    [
+     "saiyan_armor",
+     1.0
+    ],
+    [
+     "dragon_ball",
+     0.7
+    ]
+   ],
+   "gold": [
+    3200,
+    4000
+   ],
+   "attacks": [
+    "mouth_beam",
+    "ground_slam",
+    "boulder_throw"
+   ],
+   "telegraph": 0.6
+  },
+  {
+   "id": "mewtwo",
+   "name": "Mewtwo",
+   "world": "pokemon",
+   "hp": 1800,
+   "atk": 34,
+   "spd": 140,
+   "behavior": "boss_psychic",
+   "size": 26,
+   "color": "#a878c8",
+   "loot": [
+    [
+     "world_shard_pkmn",
+     1.0
+    ],
+    [
+     "master_ball",
+     1.0
+    ],
+    [
+     "pokedex",
+     0.5
+    ]
+   ],
+   "gold": [
+    4500,
+    5500
+   ],
+   "attacks": [
+    "shadow_ball",
+    "psychic_grip",
+    "barrier",
+    "teleport_strike"
+   ],
+   "telegraph": 0.5
+  },
+  {
+   "id": "the_fade",
+   "name": "The Fade",
+   "world": "null_archive",
+   "hp": 2600,
+   "atk": 36,
+   "spd": 110,
+   "behavior": "boss_fade",
+   "size": 42,
+   "color": "#202030",
+   "loot": [],
+   "gold": [
+    0,
+    0
+   ],
+   "attacks": [
+    "null_wave",
+    "memory_swarm",
+    "world_eater",
+    "static_storm"
+   ],
+   "telegraph": 0.5,
+   "phases": 3
+  },
+  {
+   "id": "bowser",
+   "name": "Bowser",
+   "world": "mario",
+   "hp": 520,
+   "atk": 16,
+   "spd": 55,
+   "behavior": "boss_tank",
+   "size": 34,
+   "color": "#e8a030",
+   "telegraph": 0.65,
+   "attacks": [
+    "hammer_slam",
+    "flame_volley",
+    "shell_charge",
+    "minion_call"
+   ],
+   "loot": [
+    [
+     "world_shard_mario",
+     1.0
+    ],
+    [
+     "royal_crown",
+     1.0
+    ],
+    [
+     "starman",
+     0.5
+    ]
+   ],
+   "gold": [
+    180,
+    320
+   ]
+  }
+ ]
 }

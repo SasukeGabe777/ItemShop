@@ -201,7 +201,12 @@ func _do_special() -> void:
 
 func _spawn_projectile(speed: float, dmg_ratio: float, color: Color) -> void:
 	var p := Projectile.new()
-	p.setup(_attack_damage(dmg_ratio), facing, speed, color, CombatHero.LAYER_ENEMY_HURT)
+	var sp: Dictionary = hero_def.get("combat", {}).get("special", {})
+	var tex: Texture2D = null
+	var tex_path := String(sp.get("sprite", ""))
+	if tex_path != "" and ResourceLoader.exists(tex_path):
+		tex = load(tex_path)
+	p.setup(_attack_damage(dmg_ratio), facing, speed, color, CombatHero.LAYER_ENEMY_HURT, tex)
 	p.global_position = global_position + facing * 10.0
 	get_parent().add_child(p)
 

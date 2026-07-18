@@ -183,9 +183,23 @@ func _enter_room(idx: int) -> void:
 	# floor: worlds with supplied tile art get it (tinted to their palette);
 	# everything else keeps the flat data-driven color
 	var floor_rect := Rect2(0, 0, grid.x * CELL, grid.y * CELL)
-	if world_id == "kingdom_hearts":
+	# worlds with painted room art (map crops sized to the room grid) use it;
+	# KH gets its tiled cobble; everything else keeps the flat color
+	var bg_cfg: Dictionary = w.get("room_backgrounds", {})
+	var bg_list: Array = bg_cfg.get(String(entry.get("kind", "combat")), bg_cfg.get("combat", []))
+	var bg_done := false
+	if not bg_list.is_empty():
+		var bg_path := String(bg_list[idx % bg_list.size()])
+		if ResourceLoader.exists(bg_path):
+			var bg := Sprite2D.new()
+			bg.texture = load(bg_path)
+			bg.position = floor_rect.get_center()
+			bg.z_index = -10
+			room_root.add_child(bg)
+			bg_done = true
+	if not bg_done and world_id == "kingdom_hearts":
 		Scenery.tiled_floor(room_root, floor_rect, "floor_cobble", Color(String(w.get("floor_color", "#333344"))), -10, Color(0.62, 0.62, 0.85))
-	else:
+	elif not bg_done:
 		Scenery.tiled_floor(room_root, floor_rect, "", Color(String(w.get("floor_color", "#333344"))), -10)
 	# perimeter walls (gap at top center = exit door)
 	_wall(Rect2(-16, -16, grid.x * CELL / 2.0 - CELL, grid.y * 0 + 16 + 16), w)   # top-left
@@ -265,6 +279,10 @@ func _wall(r: Rect2, w: Dictionary, obstacle: bool = false) -> void:
 	var h := r.size / 2.0
 	poly.polygon = PackedVector2Array([-h, Vector2(h.x, -h.y), h, Vector2(-h.x, h.y)])
 	poly.color = Color(String(w.get("wall_color", "#222233"))) if not obstacle else Color(String(w.get("wall_color", "#222233"))).lightened(0.15)
+	# over painted map floors the blockers read as translucent overlays so
+	# the art shows through
+	if obstacle and w.has("room_backgrounds"):
+		poly.color.a = 0.45
 	body.add_child(poly)
 	room_root.add_child(body)
 

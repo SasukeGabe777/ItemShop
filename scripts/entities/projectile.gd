@@ -7,7 +7,7 @@ var packet: Dictionary = {}
 var lifetime: float = 2.0
 
 
-func setup(damage_packet: Dictionary, direction: Vector2, speed: float, color: Color, target_layer: int) -> void:
+func setup(damage_packet: Dictionary, direction: Vector2, speed: float, color: Color, target_layer: int, texture: Texture2D = null) -> void:
 	packet = damage_packet
 	velocity = direction.normalized() * speed
 	collision_layer = 0
@@ -18,7 +18,7 @@ func setup(damage_packet: Dictionary, direction: Vector2, speed: float, color: C
 	shape.shape = circle
 	add_child(shape)
 	var sprite := Sprite2D.new()
-	sprite.texture = PlaceholderFactory.flat_texture(color, 6, 6)
+	sprite.texture = texture if texture != null else PlaceholderFactory.flat_texture(color, 6, 6)
 	add_child(sprite)
 	area_entered.connect(_on_area)
 	body_entered.connect(_on_body)

@@ -1,136 +1,412 @@
 {
-  "schema": "crossroads.heroes.v1",
-  "heroes": [
-    {
-      "id": "sora",
-      "name": "Sora",
-      "world": "kingdom_hearts",
-      "weapon_type": "keyblade",
-      "color": "#d04848",
-      "base_stats": {"hp": 100, "atk": 10, "def": 5, "spd": 120},
-      "combat": {
-        "basic": {"hits": 3, "dmg": [8, 8, 14], "range": 26, "arc": 100},
-        "special": {"kind": "burst", "name": "Magic Burst", "dmg": 22, "radius": 60, "cost": 35},
-        "dodge": {"kind": "roll", "distance": 70, "iframes": 0.35},
-        "finisher": {"name": "Trinity Flash", "dmg": 70, "radius": 90}
-      },
-      "default_equipment": {"weapon": "kingdom_key"},
-      "hire_cost": 120,
-      "bio": "A cheerful Keyblade wielder who trusts every shopkeeper unconditionally. Every single one.",
-      "guild_line": "Wait, I can HAGGLE? Is that allowed?"
+ "schema": "crossroads.heroes.v1",
+ "heroes": [
+  {
+   "id": "sora",
+   "name": "Sora",
+   "world": "kingdom_hearts",
+   "weapon_type": "keyblade",
+   "color": "#d04848",
+   "base_stats": {
+    "hp": 100,
+    "atk": 10,
+    "def": 5,
+    "spd": 120
+   },
+   "combat": {
+    "basic": {
+     "hits": 3,
+     "dmg": [
+      8,
+      8,
+      14
+     ],
+     "range": 26,
+     "arc": 100
     },
-    {
-      "id": "mario",
-      "name": "Mario",
-      "world": "mario",
-      "weapon_type": "hammer",
-      "color": "#e03030",
-      "base_stats": {"hp": 110, "atk": 11, "def": 6, "spd": 125},
-      "combat": {
-        "basic": {"hits": 3, "dmg": [9, 9, 15], "range": 24, "arc": 90},
-        "special": {"kind": "projectile", "name": "Fireball", "dmg": 16, "speed": 260, "cost": 25},
-        "dodge": {"kind": "roll", "distance": 65, "iframes": 0.3},
-        "finisher": {"name": "Ground Pound", "dmg": 75, "radius": 95}
-      },
-      "default_equipment": {},
-      "hire_cost": 200,
-      "bio": "Says little, jumps a lot, communicates entirely in thumbs-ups.",
-      "guild_line": "Okey-dokey!"
+    "special": {
+     "kind": "burst",
+     "name": "Magic Burst",
+     "dmg": 22,
+     "radius": 60,
+     "cost": 35
     },
-    {
-      "id": "cloud",
-      "name": "Cloud",
-      "world": "final_fantasy",
-      "weapon_type": "greatsword",
-      "color": "#e8d44c",
-      "base_stats": {"hp": 130, "atk": 15, "def": 8, "spd": 105},
-      "combat": {
-        "basic": {"hits": 3, "dmg": [13, 13, 20], "range": 34, "arc": 130},
-        "special": {"kind": "dash", "name": "Braver", "dmg": 30, "distance": 90, "cost": 35},
-        "dodge": {"kind": "guard", "reduction": 0.75, "duration": 0.6},
-        "finisher": {"name": "Limit Break", "dmg": 95, "radius": 85}
-      },
-      "default_equipment": {"weapon": "buster_sword"},
-      "hire_cost": 400,
-      "bio": "Stands dramatically in corners. Insists he is not interested. Buys hair gel weekly.",
-      "guild_line": "...Not interested. (He was interested.)"
+    "dodge": {
+     "kind": "roll",
+     "distance": 70,
+     "iframes": 0.35
     },
-    {
-      "id": "link",
-      "name": "Link",
-      "world": "zelda",
-      "weapon_type": "sword_shield",
-      "color": "#4caf50",
-      "base_stats": {"hp": 120, "atk": 12, "def": 10, "spd": 115},
-      "combat": {
-        "basic": {"hits": 3, "dmg": [10, 10, 16], "range": 26, "arc": 110},
-        "special": {"kind": "spin", "name": "Spin Attack", "dmg": 24, "radius": 55, "cost": 30},
-        "dodge": {"kind": "guard", "reduction": 0.8, "duration": 0.6},
-        "finisher": {"name": "Triforce Slash", "dmg": 85, "radius": 80}
-      },
-      "default_equipment": {"weapon": "master_sword", "armor": "hylian_shield"},
-      "hire_cost": 600,
-      "bio": "Has never spoken. Is understood perfectly by everyone except Patch.",
-      "guild_line": "..."
-    },
-    {
-      "id": "naruto",
-      "name": "Naruto",
-      "world": "naruto",
-      "weapon_type": "ninja_tool",
-      "color": "#ff9820",
-      "base_stats": {"hp": 115, "atk": 12, "def": 6, "spd": 140},
-      "combat": {
-        "basic": {"hits": 3, "dmg": [9, 9, 15], "range": 24, "arc": 90},
-        "special": {"kind": "clones", "name": "Shadow Clone Strike", "dmg": 12, "count": 3, "radius": 70, "cost": 30},
-        "dodge": {"kind": "vanish", "distance": 85, "iframes": 0.4},
-        "finisher": {"name": "Rasengan", "dmg": 90, "radius": 70}
-      },
-      "default_equipment": {"weapon": "kunai"},
-      "hire_cost": 800,
-      "bio": "Future Hokage, current ramen debtor. Negotiates loudly and from a position of zero savings.",
-      "guild_line": "I'll pay you back after I'm Hokage! Believe it!"
-    },
-    {
-      "id": "goku",
-      "name": "Goku",
-      "world": "dragon_ball",
-      "weapon_type": "martial",
-      "color": "#ff7028",
-      "base_stats": {"hp": 150, "atk": 17, "def": 9, "spd": 135},
-      "combat": {
-        "basic": {"hits": 4, "dmg": [11, 11, 11, 18], "range": 22, "arc": 80},
-        "special": {"kind": "projectile", "name": "Ki Blast", "dmg": 18, "speed": 300, "cost": 20},
-        "dodge": {"kind": "vanish", "distance": 95, "iframes": 0.4},
-        "finisher": {"name": "Kamehameha", "dmg": 110, "radius": 110, "beam": true}
-      },
-      "default_equipment": {"armor": "turtle_gi"},
-      "hire_cost": 1200,
-      "bio": "The strongest customer alive. Orders 40,000 gold of food, pats his pockets, laughs.",
-      "guild_line": "I left my money in my other gi! Chi-Chi has my other gi."
-    },
-    {
-      "id": "pikachu",
-      "name": "Pikachu",
-      "world": "pokemon",
-      "weapon_type": "held_item",
-      "color": "#f8d030",
-      "base_stats": {"hp": 90, "atk": 13, "def": 5, "spd": 155},
-      "combat": {
-        "basic": {"hits": 3, "dmg": [8, 8, 13], "range": 20, "arc": 90},
-        "special": {"kind": "projectile", "name": "Thunderbolt", "dmg": 24, "speed": 340, "cost": 30},
-        "dodge": {"kind": "roll", "distance": 90, "iframes": 0.35},
-        "finisher": {"name": "Charged Thunder", "dmg": 95, "radius": 100}
-      },
-      "default_equipment": {},
-      "hire_cost": 1500,
-      "bio": "The shop's finest negotiator. Vocabulary: one word. Closure rate: 100%.",
-      "guild_line": "Pika. (Patch: 'That was a scathing critique of your margins.')"
+    "finisher": {
+     "name": "Trinity Flash",
+     "dmg": 70,
+     "radius": 90
     }
-  ],
-  "npcs": [
-    {"id": "hero", "name": "Hero", "world": "crossroads", "color": "#3858a8", "bio": "Shopkeeper of the Crossroads. Runs the till, repairs the World Bridge, herds legends."},
-    {"id": "patch", "name": "Patch", "world": "crossroads", "color": "#66e0ff", "bio": "A tiny floating fragment of the World Bridge. Advisor, tutorial, and increasingly sentimental."},
-    {"id": "red", "name": "Red", "world": "pokemon", "color": "#c03028", "bio": "Pikachu's trainer. Appears in the guild and story scenes. Also silent. Patch is outnumbered."}
-  ]
+   },
+   "default_equipment": {
+    "weapon": "kingdom_key"
+   },
+   "hire_cost": 120,
+   "bio": "A cheerful Keyblade wielder who trusts every shopkeeper unconditionally. Every single one.",
+   "guild_line": "Wait, I can HAGGLE? Is that allowed?"
+  },
+  {
+   "id": "mario",
+   "name": "Mario",
+   "world": "mario",
+   "weapon_type": "hammer",
+   "color": "#e03030",
+   "base_stats": {
+    "hp": 110,
+    "atk": 11,
+    "def": 6,
+    "spd": 125
+   },
+   "combat": {
+    "basic": {
+     "hits": 3,
+     "dmg": [
+      9,
+      9,
+      15
+     ],
+     "range": 24,
+     "arc": 90
+    },
+    "special": {
+     "kind": "projectile",
+     "name": "Fireball",
+     "dmg": 16,
+     "speed": 260,
+     "cost": 25,
+     "sprite": "res://assets/franchises/mario/processed/fireball.png"
+    },
+    "dodge": {
+     "kind": "roll",
+     "distance": 65,
+     "iframes": 0.3
+    },
+    "finisher": {
+     "name": "Ground Pound",
+     "dmg": 75,
+     "radius": 95
+    }
+   },
+   "default_equipment": {},
+   "hire_cost": 200,
+   "bio": "Says little, jumps a lot, communicates entirely in thumbs-ups.",
+   "guild_line": "Okey-dokey!"
+  },
+  {
+   "id": "luigi",
+   "name": "Luigi",
+   "world": "mario",
+   "weapon_type": "hammer",
+   "color": "#30a030",
+   "base_stats": {
+    "hp": 100,
+    "atk": 10,
+    "def": 5,
+    "spd": 135
+   },
+   "combat": {
+    "basic": {
+     "hits": 3,
+     "dmg": [
+      9,
+      9,
+      15
+     ],
+     "range": 24,
+     "arc": 90
+    },
+    "special": {
+     "kind": "projectile",
+     "name": "Green Fireball",
+     "dmg": 15,
+     "speed": 280,
+     "cost": 22,
+     "sprite": "res://assets/franchises/mario/processed/fireball_green.png"
+    },
+    "dodge": {
+     "kind": "roll",
+     "distance": 65,
+     "iframes": 0.3
+    },
+    "finisher": {
+     "name": "Thunderhand Slam",
+     "dmg": 70,
+     "radius": 90
+    }
+   },
+   "default_equipment": {},
+   "hire_cost": 170,
+   "bio": "The taller, greener, and considerably more nervous Mario brother. Jumps higher when scared, which is always.",
+   "guild_line": "I-I'm ready! Probably! Is it dark in there?"
+  },
+  {
+   "id": "cloud",
+   "name": "Cloud",
+   "world": "final_fantasy",
+   "weapon_type": "greatsword",
+   "color": "#e8d44c",
+   "base_stats": {
+    "hp": 130,
+    "atk": 15,
+    "def": 8,
+    "spd": 105
+   },
+   "combat": {
+    "basic": {
+     "hits": 3,
+     "dmg": [
+      13,
+      13,
+      20
+     ],
+     "range": 34,
+     "arc": 130
+    },
+    "special": {
+     "kind": "dash",
+     "name": "Braver",
+     "dmg": 30,
+     "distance": 90,
+     "cost": 35
+    },
+    "dodge": {
+     "kind": "guard",
+     "reduction": 0.75,
+     "duration": 0.6
+    },
+    "finisher": {
+     "name": "Limit Break",
+     "dmg": 95,
+     "radius": 85
+    }
+   },
+   "default_equipment": {
+    "weapon": "buster_sword"
+   },
+   "hire_cost": 400,
+   "bio": "Stands dramatically in corners. Insists he is not interested. Buys hair gel weekly.",
+   "guild_line": "...Not interested. (He was interested.)"
+  },
+  {
+   "id": "link",
+   "name": "Link",
+   "world": "zelda",
+   "weapon_type": "sword_shield",
+   "color": "#4caf50",
+   "base_stats": {
+    "hp": 120,
+    "atk": 12,
+    "def": 10,
+    "spd": 115
+   },
+   "combat": {
+    "basic": {
+     "hits": 3,
+     "dmg": [
+      10,
+      10,
+      16
+     ],
+     "range": 26,
+     "arc": 110
+    },
+    "special": {
+     "kind": "spin",
+     "name": "Spin Attack",
+     "dmg": 24,
+     "radius": 55,
+     "cost": 30
+    },
+    "dodge": {
+     "kind": "guard",
+     "reduction": 0.8,
+     "duration": 0.6
+    },
+    "finisher": {
+     "name": "Triforce Slash",
+     "dmg": 85,
+     "radius": 80
+    }
+   },
+   "default_equipment": {
+    "weapon": "master_sword",
+    "armor": "hylian_shield"
+   },
+   "hire_cost": 600,
+   "bio": "Has never spoken. Is understood perfectly by everyone except Patch.",
+   "guild_line": "..."
+  },
+  {
+   "id": "naruto",
+   "name": "Naruto",
+   "world": "naruto",
+   "weapon_type": "ninja_tool",
+   "color": "#ff9820",
+   "base_stats": {
+    "hp": 115,
+    "atk": 12,
+    "def": 6,
+    "spd": 140
+   },
+   "combat": {
+    "basic": {
+     "hits": 3,
+     "dmg": [
+      9,
+      9,
+      15
+     ],
+     "range": 24,
+     "arc": 90
+    },
+    "special": {
+     "kind": "clones",
+     "name": "Shadow Clone Strike",
+     "dmg": 12,
+     "count": 3,
+     "radius": 70,
+     "cost": 30
+    },
+    "dodge": {
+     "kind": "vanish",
+     "distance": 85,
+     "iframes": 0.4
+    },
+    "finisher": {
+     "name": "Rasengan",
+     "dmg": 90,
+     "radius": 70
+    }
+   },
+   "default_equipment": {
+    "weapon": "kunai"
+   },
+   "hire_cost": 800,
+   "bio": "Future Hokage, current ramen debtor. Negotiates loudly and from a position of zero savings.",
+   "guild_line": "I'll pay you back after I'm Hokage! Believe it!"
+  },
+  {
+   "id": "goku",
+   "name": "Goku",
+   "world": "dragon_ball",
+   "weapon_type": "martial",
+   "color": "#ff7028",
+   "base_stats": {
+    "hp": 150,
+    "atk": 17,
+    "def": 9,
+    "spd": 135
+   },
+   "combat": {
+    "basic": {
+     "hits": 4,
+     "dmg": [
+      11,
+      11,
+      11,
+      18
+     ],
+     "range": 22,
+     "arc": 80
+    },
+    "special": {
+     "kind": "projectile",
+     "name": "Ki Blast",
+     "dmg": 18,
+     "speed": 300,
+     "cost": 20
+    },
+    "dodge": {
+     "kind": "vanish",
+     "distance": 95,
+     "iframes": 0.4
+    },
+    "finisher": {
+     "name": "Kamehameha",
+     "dmg": 110,
+     "radius": 110,
+     "beam": true
+    }
+   },
+   "default_equipment": {
+    "armor": "turtle_gi"
+   },
+   "hire_cost": 1200,
+   "bio": "The strongest customer alive. Orders 40,000 gold of food, pats his pockets, laughs.",
+   "guild_line": "I left my money in my other gi! Chi-Chi has my other gi."
+  },
+  {
+   "id": "pikachu",
+   "name": "Pikachu",
+   "world": "pokemon",
+   "weapon_type": "held_item",
+   "color": "#f8d030",
+   "base_stats": {
+    "hp": 90,
+    "atk": 13,
+    "def": 5,
+    "spd": 155
+   },
+   "combat": {
+    "basic": {
+     "hits": 3,
+     "dmg": [
+      8,
+      8,
+      13
+     ],
+     "range": 20,
+     "arc": 90
+    },
+    "special": {
+     "kind": "projectile",
+     "name": "Thunderbolt",
+     "dmg": 24,
+     "speed": 340,
+     "cost": 30
+    },
+    "dodge": {
+     "kind": "roll",
+     "distance": 90,
+     "iframes": 0.35
+    },
+    "finisher": {
+     "name": "Charged Thunder",
+     "dmg": 95,
+     "radius": 100
+    }
+   },
+   "default_equipment": {},
+   "hire_cost": 1500,
+   "bio": "The shop's finest negotiator. Vocabulary: one word. Closure rate: 100%.",
+   "guild_line": "Pika. (Patch: 'That was a scathing critique of your margins.')"
+  }
+ ],
+ "npcs": [
+  {
+   "id": "hero",
+   "name": "Hero",
+   "world": "crossroads",
+   "color": "#3858a8",
+   "bio": "Shopkeeper of the Crossroads. Runs the till, repairs the World Bridge, herds legends."
+  },
+  {
+   "id": "patch",
+   "name": "Patch",
+   "world": "crossroads",
+   "color": "#66e0ff",
+   "bio": "A tiny floating fragment of the World Bridge. Advisor, tutorial, and increasingly sentimental."
+  },
+  {
+   "id": "red",
+   "name": "Red",
+   "world": "pokemon",
+   "color": "#c03028",
+   "bio": "Pikachu's trainer. Appears in the guild and story scenes. Also silent. Patch is outnumbered."
+  }
+ ]
 }

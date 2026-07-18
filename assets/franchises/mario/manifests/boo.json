@@ -1,0 +1,78 @@
+{
+  "asset_id": "boo",
+  "sheet": "res://assets/franchises/mario/processed/sheets/boo.png",
+  "native_scale": 1,
+  "display_scale": 1,
+  "pivot": [
+    17,
+    23
+  ],
+  "grid": {
+    "frame_width": 35,
+    "frame_height": 27,
+    "columns": 8,
+    "rows": 3
+  },
+  "animations": {
+    "idle_down": {
+      "frames": [
+        0
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "walk_down": {
+      "frames": [
+        1,
+        2,
+        3
+      ],
+      "fps": 8,
+      "loop": true
+    },
+    "idle_side": {
+      "frames": [
+        4
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "walk_side": {
+      "frames": [
+        5,
+        6,
+        7
+      ],
+      "fps": 8,
+      "loop": true
+    },
+    "idle_up": {
+      "frames": [
+        8
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "walk_up": {
+      "frames": [
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "fps": 8,
+      "loop": true
+    },
+    "attack_1": {
+      "frames": [
+        15,
+        16,
+        17
+      ],
+      "fps": 12,
+      "loop": false
+    }
+  }
+}

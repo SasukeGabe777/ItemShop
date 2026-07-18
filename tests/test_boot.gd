@@ -5,14 +5,14 @@ func _ready() -> void:
 	var failures: Array[String] = []
 	if ContentDatabase.items.size() < 100:
 		failures.append("expected >=100 items, got %d" % ContentDatabase.items.size())
-	if ContentDatabase.heroes.size() != 7:
-		failures.append("expected 7 heroes, got %d" % ContentDatabase.heroes.size())
+	if ContentDatabase.heroes.size() != 8:
+		failures.append("expected 8 heroes, got %d" % ContentDatabase.heroes.size())
 	if ContentDatabase.worlds.size() != 8:
 		failures.append("expected 8 worlds, got %d" % ContentDatabase.worlds.size())
 	if ContentDatabase.enemies.size() < 30:
 		failures.append("expected >=30 enemies, got %d" % ContentDatabase.enemies.size())
-	if ContentDatabase.bosses.size() != 8:
-		failures.append("expected 8 bosses, got %d" % ContentDatabase.bosses.size())
+	if ContentDatabase.bosses.size() != 9:
+		failures.append("expected 9 bosses, got %d" % ContentDatabase.bosses.size())
 	if ContentDatabase.recipes.size() < 35:
 		failures.append("expected >=35 recipes, got %d" % ContentDatabase.recipes.size())
 	if not ContentDatabase.load_errors.is_empty():

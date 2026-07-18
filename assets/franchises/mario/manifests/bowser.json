@@ -1,0 +1,61 @@
+{
+  "asset_id": "bowser",
+  "sheet": "res://assets/franchises/mario/processed/sheets/bowser.png",
+  "native_scale": 1,
+  "display_scale": 1,
+  "pivot": [
+    22,
+    38
+  ],
+  "grid": {
+    "frame_width": 44,
+    "frame_height": 42,
+    "columns": 8,
+    "rows": 2
+  },
+  "animations": {
+    "idle_down": {
+      "frames": [
+        0
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "walk_down": {
+      "frames": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "fps": 8,
+      "loop": true
+    },
+    "idle_side": {
+      "frames": [
+        5
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "walk_side": {
+      "frames": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "fps": 8,
+      "loop": true
+    },
+    "attack_1": {
+      "frames": [
+        10,
+        11,
+        12
+      ],
+      "fps": 12,
+      "loop": false
+    }
+  }
+}

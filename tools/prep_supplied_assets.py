@@ -1324,7 +1324,155 @@ def prep_shop_decor() -> None:
     print(f"  decor: {len(written)} pieces written + registered")
 
 
+## ---------------------------------------------------------------------------
+## Mushroom Kingdom dungeon: combat manifests for Mario, Luigi, the four
+## enemies and Bowser from the supplied M&L sheets, plus painted room
+## backgrounds cropped from the two Superstar Saga map rips.
+## Segment ids refer to tools/combat_segs.py renders.
+
+MARIO_COMBAT = {
+    "mario": dict(sheet="raw/heroes/mario_mario_overworld.png",
+                  walk={"down": 0, "side": 2, "up": 9},
+                  attacks=[(13, [0, 1, 2], False), (14, [0, 1, 2], False), (15, [0, 1, 2], True)],
+                  cap=46),
+    "luigi": dict(sheet="raw/heroes/mario_luigi_overworld.png",
+                  walk={"down": 0, "side": 3, "up": 6},
+                  attacks=[(13, [0, 1, 2], False), (14, [0, 1, 2], False), (8, [0, 1, 2], False)],
+                  cap=46),
+    "goomba": dict(sheet="raw/enemies/mario_goomba.png",
+                   walk={"down": 0, "side": 1, "up": 5},
+                   attacks=[(2, [0, 1, 2], False)], cap=34),
+    "koopa_troopa": dict(sheet="raw/enemies/mario_koopa_troopas.png",
+                         walk={"down": 0, "side": 1, "up": 2},
+                         attacks=[(4, [0, 1, 2], False)], cap=38),
+    "boo": dict(sheet="raw/enemies/mario_boo.png",
+                walk={"down": 0, "side": 1, "up": 7},
+                attacks=[(3, [0, 1, 2], False)], cap=34),
+    "bobomb_enemy": dict(sheet="raw/enemies/mario_bob_omb.png",
+                         walk={"down": 7, "side": 2},
+                         attacks=[(6, [0, 1, 2], False)], cap=30),
+    "bowser": dict(sheet="raw/enemies/mario_bowser_boss.png",
+                   walk={"down": 1, "side": 3},
+                   attacks=[(7, [0, 1, 2], False)], cap=64),
+}
+
+
+def prep_mario_combat() -> None:
+    MARIO = ROOT / "assets/franchises/mario"
+    for uid, cfg in MARIO_COMBAT.items():
+        path = MARIO / cfg["sheet"]
+        if not path.exists():
+            print(f"  {uid}: MISSING {cfg['sheet']}")
+            continue
+        img = _key_sheet(load_rgba(path))
+        segments = _row_segments(img)
+        segs = {i: [clean_alpha(img.crop(tuple(b)), lo=1, hi=255) for b in s["boxes"]]
+                for i, s in enumerate(segments)}
+
+        def cycle(frames: list) -> list:
+            if len(frames) < 3:
+                return frames
+            base = sorted(f.width for f in frames)[len(frames) // 2]
+            walk = [f for f in frames[1:9] if f.width <= base * 1.3]
+            return walk[:6] if len(walk) >= 2 else frames[1:5]
+
+        anims: dict = {}
+        walk_cfg: dict = cfg["walk"]
+        if walk_cfg["down"] not in segs:
+            print(f"  {uid}: down seg {walk_cfg['down']} missing, skipped")
+            continue
+        down = segs[walk_cfg["down"]]
+        anims["idle_down"] = [down[0]]
+        anims["walk_down"] = cycle(down)
+        if walk_cfg.get("side", -1) in segs:
+            side = _filter_side_frames(segs[walk_cfg["side"]])
+            if _facing_left(side):
+                side = [f.transpose(Image.FLIP_LEFT_RIGHT) for f in side]
+            anims["idle_side"] = [side[0]]
+            anims["walk_side"] = cycle(side)
+        if walk_cfg.get("up", -1) in segs:
+            up = segs[walk_cfg["up"]]
+            anims["idle_up"] = [up[0]]
+            anims["walk_up"] = cycle(up)
+        for n, (seg_id, idxs, flip) in enumerate(cfg.get("attacks", [])):
+            if seg_id not in segs:
+                continue
+            frames = [segs[seg_id][i] for i in idxs if i < len(segs[seg_id])]
+            if flip:
+                frames = [f.transpose(Image.FLIP_LEFT_RIGHT) for f in frames]
+            if frames:
+                anims["attack_%d" % (n + 1)] = frames
+
+        all_fr = [f for v in anims.values() for f in v]
+        cap = float(cfg["cap"])
+        max_h = max(f.height for f in all_fr)
+        if max_h > cap:
+            k = cap / max_h
+            anims = {a: [resize_rgba(f, (max(1, round(f.width * k)), max(1, round(f.height * k))))
+                         for f in v] for a, v in anims.items()}
+            all_fr = [f for v in anims.values() for f in v]
+        cell = (max(f.width for f in all_fr) + 4, max(f.height for f in all_fr) + 2)
+        _compose_anims(anims, cell,
+                       MARIO / f"processed/sheets/{uid}.png",
+                       MARIO / f"manifests/{uid}.json",
+                       f"res://assets/franchises/mario/processed/sheets/{uid}.png",
+                       fps={"walk_down": 8, "walk_side": 8, "walk_up": 8,
+                            "attack_1": 12, "attack_2": 12, "attack_3": 12})
+
+    # Firebrand fireballs from the bros-moves sheet's bottom effect strip;
+    # Luigi's is the same ball hue-rotated to green
+    moves = load_rgba(MARIO / "raw/customers/mario_mario_s_bros_moves.png")
+    band = _key_sheet(moves.crop((0, 2470, moves.width, 2630)))
+    balls = [b for b in find_islands(band, min_area=60, merge_gap=0)
+             if 12 <= b[2] - b[0] <= 26 and 12 <= b[3] - b[1] <= 26
+             and abs((b[2] - b[0]) - (b[3] - b[1])) <= 6]
+    if balls:
+        ball = clean_alpha(band.crop(tuple(balls[len(balls) // 2])), lo=1, hi=255)
+        out = MARIO / "processed"
+        out.mkdir(parents=True, exist_ok=True)
+        ball.save(out / "fireball.png")
+        a = np.array(ball)
+        green = a.copy()
+        green[..., 0] = a[..., 1]
+        green[..., 1] = a[..., 0]
+        Image.fromarray(green).save(out / "fireball_green.png")
+        print(f"  fireball: {ball.size} (+green variant), {len(balls)} candidates")
+    else:
+        print("  fireball: no candidate found!")
+
+
+## 640x384 room-floor crops (exactly the 20x12-cell room grid) from the two
+## supplied Superstar Saga maps. Keys are room kinds.
+MARIO_ROOM_CROPS = {
+    "mushroom": ("Game Boy Advance - Mario & Luigi_ Superstar Saga - Maps - Mushroom Kingdom.png", {
+        "combat_plaza": (30, 770, 670, 1154),
+        "treasure_court": (60, 820, 700, 1204),
+    }),
+    "beanbean": ("Game Boy Advance - Mario & Luigi_ Superstar Saga - Maps - Beanbean Castle Town (Exterior).png", {
+        "start_town": (30, 660, 670, 1044),
+        "combat_town": (770, 680, 1410, 1064),
+        "combat_garden": (812, 190, 1452, 574),
+        "boss_castle": (475, 30, 1115, 414),
+    }),
+}
+
+
+def prep_mario_rooms() -> None:
+    src_dir = ROOT / "assets/locations/mariodungeon"
+    out = src_dir / "processed"
+    out.mkdir(parents=True, exist_ok=True)
+    for _key, (fname, crops) in MARIO_ROOM_CROPS.items():
+        img = Image.open(src_dir / fname).convert("RGB")
+        for rid, box in crops.items():
+            img.crop(box).save(out / f"{rid}.png")
+            print(f"  room {rid}: {box}")
+
+
 if __name__ == "__main__":
+    if len(sys.argv) > 1 and sys.argv[1] == "mario":
+        print("mario combat..."); prep_mario_combat()
+        print("mario rooms..."); prep_mario_rooms()
+        sys.exit(0)
     if len(sys.argv) > 1 and sys.argv[1] == "decor":
         print("shop decor..."); prep_shop_decor()
         sys.exit(0)
