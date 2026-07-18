@@ -266,9 +266,13 @@ def prep_lobby_locations() -> None:
         im = clean_alpha(im, lo=1, hi=255)
         if max(im.size) != max_dim:
             k = max_dim / max(im.size)
-            im = resize_rgba(im, (max(1, round(im.width * k)), max(1, round(im.height * k))))
-            im = clean_alpha(im, lo=128, hi=128)
-            im = clean_alpha(keep_components(im, 8), lo=1, hi=255)
+            size = (max(1, round(im.width * k)), max(1, round(im.height * k)))
+            if k > 1 and abs(k - round(k)) < 1e-6:
+                im = im.resize(size, Image.NEAREST)  # crisp integer upscale
+            else:
+                im = resize_rgba(im, size)
+                im = clean_alpha(im, lo=128, hi=128)
+                im = clean_alpha(keep_components(im, 8), lo=1, hi=255)
         im.save(out / f"{name}.png")
         print(f"  {name}: {im.size}")
 
@@ -309,6 +313,10 @@ def prep_lobby_locations() -> None:
         r, g, b = rgb[..., 0], rgb[..., 1], rgb[..., 2]
         return (np.abs(r - g) < 12) & (b > r + 30) & (r > 140) & (r < 210)
     finish(flood_bg(minish.crop((150, 855, 290, 990)), lavender_bg), "guild", 104, largest=True)
+
+    # Home: bed (Minish Cap interior, by Peitos) — solid dark-red bg
+    home = load_rgba(LOC / "raw/minish_home_interior.png")
+    finish(chroma_key(home.crop((6, 169, 40, 219)), (126, 0, 0), tol=30), "home", 100, largest=True)
 
 
 if __name__ == "__main__":

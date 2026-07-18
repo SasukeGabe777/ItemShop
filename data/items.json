@@ -2536,9 +2536,86 @@
       "name": "Poison Kingdom Key",
       "needs_ai_balance": true,
       "needs_description": true,
-      "price": 0,
+      "price": 0.0,
       "tags": [],
       "world": "kingdom_hearts"
+    },
+    {
+      "category": "weapon",
+      "desc": "",
+      "id": "three_wishes_keyblade",
+      "name": "Three Wishes Keyblade",
+      "needs_ai_balance": true,
+      "needs_description": true,
+      "price": 0.0,
+      "tags": [],
+      "world": "crossover"
+    },
+    {
+      "category": "weapon",
+      "desc": "",
+      "id": "crabclaw_keyblade",
+      "name": "Crabclaw Keyblade",
+      "needs_ai_balance": true,
+      "needs_description": true,
+      "price": 0.0,
+      "tags": [],
+      "world": "crossover"
+    },
+    {
+      "category": "weapon",
+      "desc": "",
+      "id": "oblivion_keyblade",
+      "name": "Oblivion Keyblade",
+      "needs_ai_balance": true,
+      "needs_description": true,
+      "price": 0.0,
+      "tags": [],
+      "world": "crossover"
+    },
+    {
+      "category": "weapon",
+      "desc": "",
+      "id": "fairy_harp_keyblade",
+      "name": "Fairy Harp Keyblade",
+      "needs_ai_balance": true,
+      "needs_description": true,
+      "price": 0.0,
+      "tags": [],
+      "world": "crossover"
+    },
+    {
+      "category": "weapon",
+      "desc": "",
+      "id": "wishing_star_keyblade",
+      "name": "Wishing Star Keyblade",
+      "needs_ai_balance": true,
+      "needs_description": true,
+      "price": 0.0,
+      "tags": [],
+      "world": "crossover"
+    },
+    {
+      "category": "weapon",
+      "desc": "",
+      "id": "olympia_keyblade",
+      "name": "Olympia Keyblade",
+      "needs_ai_balance": true,
+      "needs_description": true,
+      "price": 0.0,
+      "tags": [],
+      "world": "crossover"
+    },
+    {
+      "category": "weapon",
+      "desc": "",
+      "id": "divine_rose_keyblade",
+      "name": "Divine Rose Keyblade",
+      "needs_ai_balance": true,
+      "needs_description": true,
+      "price": 0,
+      "tags": [],
+      "world": "crossover"
     }
   ],
   "schema": "crossroads.items.v1"

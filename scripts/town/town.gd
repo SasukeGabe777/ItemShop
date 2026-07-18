@@ -38,7 +38,7 @@ func _build_ground() -> void:
 	Scenery.prop(self, Vector2(500, 415), "lamp_lit")
 	Scenery.prop(self, Vector2(320, 250), "rug", -8)
 	Scenery.prop(self, Vector2(330, 115), "crates")
-	Scenery.prop(self, Vector2(320, 390), "barrel")
+	Scenery.prop(self, Vector2(240, 255), "barrel")
 	# broken bridge visual at the top
 	for i in range(7):
 		var plank := Polygon2D.new()
@@ -95,7 +95,7 @@ func _build_buildings() -> void:
 	_door(Vector2(440, 150), Vector2(90, 60), Color("#4a7a54"), "Market", "market", "market")
 	_door(Vector2(200, 360), Vector2(90, 60), Color("#5a5a8a"), "Workshop", "workshop", "workshop")
 	_door(Vector2(440, 360), Vector2(90, 60), Color("#8a4a5a"), "Adventurers' Guild", "guild", "guild")
-	_door(Vector2(320, 470), Vector2(70, 50), Color("#6a6a4a"), "Home (rest)", "home")
+	_door(Vector2(320, 470), Vector2(70, 50), Color("#6a6a4a"), "Home (rest)", "home", "home")
 
 
 func _build_gates() -> void:
