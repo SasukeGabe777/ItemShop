@@ -876,6 +876,18 @@ WORLD_ITEM_PICKS = {
         },
         "by_box": {"giant_river_fish": (168, 28, 210, 53)},
     },
+    "mario": {
+        "path": "assets/franchises/mario/items.png",  # supplied at franchise root
+        "params": dict(min_area=60, merge_gap=1, lo=12, hi=34),
+        "by_anchor": {
+            (53, 8): "ultra_mushroom", (77, 9): "refreshing_herb",
+            (101, 8): "red_pepper", (119, 8): "green_pepper",
+            (138, 8): "blue_pepper", (6, 40): "koopa_shell",
+            (36, 40): "red_koopa_shell", (97, 35): "ice_flower",
+            (129, 34): "smash_egg", (240, 33): "copy_flower",
+            (273, 36): "mix_flower",
+        },
+    },
     "naruto": {
         "params": dict(min_area=24, merge_gap=1, lo=6, hi=40),
         "by_index": {
@@ -905,7 +917,7 @@ def _fit_icon(im: Image.Image, max_px: int = 22) -> Image.Image:
 
 def prep_world_items() -> None:
     for world, cfg in WORLD_ITEM_PICKS.items():
-        raw = load_rgba(ROOT / f"assets/franchises/{world}/raw/items.png")
+        raw = load_rgba(ROOT / cfg.get("path", f"assets/franchises/{world}/raw/items.png"))
         img = _key_sheet(raw.copy())
         p = cfg["params"]
         boxes = [b for b in find_islands(img, min_area=p["min_area"], merge_gap=p["merge_gap"])

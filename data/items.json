@@ -3269,6 +3269,122 @@
     "valuable"
    ],
    "world": "naruto"
+  },
+  {
+   "category": "consumable",
+   "desc": "A green-capped mushroom for serious growth spurts.",
+   "id": "ultra_mushroom",
+   "name": "Ultra Mushroom",
+   "price": 450,
+   "tags": [
+    "mushroom",
+    "powerup",
+    "rare"
+   ],
+   "world": "mario"
+  },
+  {
+   "category": "consumable",
+   "desc": "A minty four-leaf herb that clears any ailment, including embarrassment.",
+   "id": "refreshing_herb",
+   "name": "Refreshing Herb",
+   "price": 180,
+   "tags": [
+    "plant",
+    "healing",
+    "cure"
+   ],
+   "world": "mario"
+  },
+  {
+   "category": "food",
+   "desc": "Devilishly hot. Boosts power and ruins conversation.",
+   "id": "red_pepper",
+   "name": "Red Pepper",
+   "price": 220,
+   "tags": [
+    "food",
+    "spicy",
+    "buff"
+   ],
+   "world": "mario"
+  },
+  {
+   "category": "food",
+   "desc": "A crisp pepper that toughens the eater's hide.",
+   "id": "green_pepper",
+   "name": "Green Pepper",
+   "price": 220,
+   "tags": [
+    "food",
+    "spicy",
+    "buff"
+   ],
+   "world": "mario"
+  },
+  {
+   "category": "food",
+   "desc": "An impossibly blue pepper. Eat it and try to stand still.",
+   "id": "blue_pepper",
+   "name": "Blue Pepper",
+   "price": 220,
+   "tags": [
+    "food",
+    "spicy",
+    "buff"
+   ],
+   "world": "mario"
+  },
+  {
+   "category": "material",
+   "desc": "A red shell that never misses. The green ones are jealous.",
+   "id": "red_koopa_shell",
+   "name": "Red Koopa Shell",
+   "price": 280,
+   "tags": [
+    "shell",
+    "projectile",
+    "rare"
+   ],
+   "world": "mario"
+  },
+  {
+   "category": "consumable",
+   "desc": "Crack it over something's head. There is always a prize inside.",
+   "id": "smash_egg",
+   "name": "Smash Egg",
+   "price": 320,
+   "tags": [
+    "egg",
+    "weird"
+   ],
+   "world": "mario"
+  },
+  {
+   "category": "consumable",
+   "desc": "Split into a crowd of yourself and pile on.",
+   "id": "copy_flower",
+   "name": "Copy Flower",
+   "price": 600,
+   "tags": [
+    "powerup",
+    "plant",
+    "rare"
+   ],
+   "world": "mario"
+  },
+  {
+   "category": "consumable",
+   "desc": "A two-headed flower that pools everyone's fire into one blast.",
+   "id": "mix_flower",
+   "name": "Mix Flower",
+   "price": 550,
+   "tags": [
+    "powerup",
+    "plant",
+    "rare"
+   ],
+   "world": "mario"
   }
  ],
  "schema": "crossroads.items.v1"
