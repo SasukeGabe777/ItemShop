@@ -10,6 +10,7 @@ var _bob_time: float = 0.0
 var _moving: bool = false
 var use_frames: bool = false
 var _action_playing: bool = false
+var _action_seq: int = 0
 
 
 func setup_from_manifest(manifest_path: String) -> bool:
@@ -139,15 +140,20 @@ func play_action(action: String, direction: Vector2) -> void:
 	if not animated.sprite_frames.has_animation(action):
 		return
 	_action_playing = true
+	_action_seq += 1
+	var my_seq := _action_seq
 	animated.flip_h = direction.x < 0.0
-	animated.animation = StringName(action)
-	animated.play()
-	var end_action := func() -> void:
-		_action_playing = false
+	# stop() first: replaying the SAME animation would otherwise resume on
+	# its last frame and finish instantly (the "one-frame attack" bug)
+	animated.stop()
+	animated.play(StringName(action))
 	if not animated.animation_finished.is_connected(_on_action_finished):
 		animated.animation_finished.connect(_on_action_finished)
-	# safety: never stay locked if the animation loops or stalls
-	get_tree().create_timer(0.6).timeout.connect(end_action)
+	# safety: never stay locked if the animation loops or stalls — but only
+	# for THIS action; stale timers must not cut a newer swing short
+	get_tree().create_timer(0.6).timeout.connect(func() -> void:
+		if _action_seq == my_seq:
+			_action_playing = false)
 
 
 func _on_action_finished() -> void:

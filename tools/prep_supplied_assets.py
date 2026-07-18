@@ -1466,12 +1466,34 @@ def prep_mario_rooms() -> None:
         for rid, box in crops.items():
             img.crop(box).save(out / f"{rid}.png")
             print(f"  room {rid}: {box}")
+    # a hedge block from the Mushroom Kingdom map: nine-patched over the
+    # dungeon's obstacle/wall rects so blockers read as solid hedges
+    m1 = Image.open(src_dir / MARIO_ROOM_CROPS["mushroom"][0]).convert("RGB")
+    m1.crop((166, 899, 198, 929)).save(out / "hedge.png")
+    print("  hedge tile written")
+
+
+def prep_mario_portraits() -> None:
+    """Story-dialogue mugshots for Mario and Luigi from the supplied
+    equipment-menu sheet (front-facing mugs, background keyed out)."""
+    sheet = load_rgba(ROOT / "assets/wip_sprites/Game Boy Advance - Mario & Luigi_ Superstar Saga - Miscellaneous - Equipment Menu.png")
+    out = ROOT / "assets/franchises/mario/processed"
+    out.mkdir(parents=True, exist_ok=True)
+    for pid, box in {"mario": (102, 214, 162, 277), "luigi": (0, 390, 76, 462)}.items():
+        crop = sheet.crop(box)
+        # key ONLY the flat backdrop color — in a tight face crop the skin
+        # can dominate, which the share-based keyer would eat
+        corner = crop.getpixel((0, 0))
+        crop = largest_component(chroma_key(crop, (corner[0], corner[1], corner[2]), tol=12))
+        clean_alpha(crop, lo=1, hi=255).save(out / f"{pid}.png")
+        print(f"  portrait {pid}: {box}")
 
 
 if __name__ == "__main__":
     if len(sys.argv) > 1 and sys.argv[1] == "mario":
         print("mario combat..."); prep_mario_combat()
         print("mario rooms..."); prep_mario_rooms()
+        print("mario portraits..."); prep_mario_portraits()
         sys.exit(0)
     if len(sys.argv) > 1 and sys.argv[1] == "decor":
         print("shop decor..."); prep_shop_decor()

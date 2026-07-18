@@ -279,11 +279,26 @@ func _wall(r: Rect2, w: Dictionary, obstacle: bool = false) -> void:
 	var h := r.size / 2.0
 	poly.polygon = PackedVector2Array([-h, Vector2(h.x, -h.y), h, Vector2(-h.x, h.y)])
 	poly.color = Color(String(w.get("wall_color", "#222233"))) if not obstacle else Color(String(w.get("wall_color", "#222233"))).lightened(0.15)
-	# over painted map floors the blockers read as translucent overlays so
-	# the art shows through
-	if obstacle and w.has("room_backgrounds"):
-		poly.color.a = 0.45
-	body.add_child(poly)
+	# worlds with a supplied blocker texture (map-cut hedge) draw solid
+	# nine-patched blocks instead of flat polygons — much clearer walls
+	var ob_tex_path := String(w.get("obstacle_texture", ""))
+	if ob_tex_path != "" and ResourceLoader.exists(ob_tex_path):
+		var patch := NinePatchRect.new()
+		patch.texture = load(ob_tex_path)
+		var m := mini(8, int(minf(r.size.x, r.size.y) / 3.0))
+		patch.patch_margin_left = m
+		patch.patch_margin_right = m
+		patch.patch_margin_top = m
+		patch.patch_margin_bottom = m
+		# tile the interior — stretching smears the hedge into streaks on
+		# long thin wall rects
+		patch.axis_stretch_horizontal = NinePatchRect.AXIS_STRETCH_MODE_TILE
+		patch.axis_stretch_vertical = NinePatchRect.AXIS_STRETCH_MODE_TILE
+		patch.size = r.size
+		patch.position = -r.size / 2.0
+		body.add_child(patch)
+	else:
+		body.add_child(poly)
 	room_root.add_child(body)
 
 

@@ -87,7 +87,8 @@
     "boss": [
      "res://assets/locations/mariodungeon/processed/boss_castle.png"
     ]
-   }
+   },
+   "obstacle_texture": "res://assets/locations/mariodungeon/processed/hedge.png"
   },
   {
    "id": "final_fantasy",

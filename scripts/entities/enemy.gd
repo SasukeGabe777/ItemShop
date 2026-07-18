@@ -13,6 +13,7 @@ var health: HealthComponent
 var movement: MovementComponent
 var visual: CharacterVisual
 var hurtbox: HurtboxComponent
+var hit_radius: float = 10.0  # visual body radius, used for touch damage
 var hitbox: HitboxComponent
 var loot: LootTableComponent
 
@@ -55,14 +56,22 @@ func setup(id: String, player: Node2D) -> void:
 	var manifest := "res://assets/franchises/%s/manifests/%s.json" % [world_id, id]
 	if not visual.setup_from_manifest(manifest):
 		visual.setup_placeholder(id, world_id, String(def.get("color", "#a0a0a0")), size)
+	# real sprite sheets can be much larger than the data `size` tuned for
+	# placeholders — measure the art so hurtboxes match what's on screen
+	var vis := _visual_frame_size()
+	var body_h := maxf(float(size), vis.y * 0.8)
+	var body_w := maxf(float(size), vis.x * 0.8)
+	hit_radius = maxf(body_w, body_h) * 0.5
 
 	hurtbox = HurtboxComponent.new()
 	hurtbox.collision_layer = 8
 	hurtbox.collision_mask = 0
 	var hshape := CollisionShape2D.new()
 	var hcircle := CircleShape2D.new()
-	hcircle.radius = size * 0.55
+	hcircle.radius = maxf(size * 0.55, minf(body_w, body_h) * 0.5)
 	hshape.shape = hcircle
+	# sprite pivot sits at the feet; center the hurtbox on the body
+	hshape.position = Vector2(0, -body_h * 0.45)
 	hurtbox.add_child(hshape)
 	hurtbox.hit_received.connect(_on_hit)
 	add_child(hurtbox)
@@ -72,8 +81,9 @@ func setup(id: String, player: Node2D) -> void:
 	hitbox.collision_mask = 16
 	var ashape := CollisionShape2D.new()
 	var acircle := CircleShape2D.new()
-	acircle.radius = size * 0.5
+	acircle.radius = maxf(size * 0.5, minf(body_w, body_h) * 0.45)
 	ashape.shape = acircle
+	ashape.position = Vector2(0, -body_h * 0.35)
 	hitbox.add_child(ashape)
 	add_child(hitbox)
 
@@ -81,6 +91,17 @@ func setup(id: String, player: Node2D) -> void:
 	loot.enemy_id = id
 	add_child(loot)
 	_think_timer = rng.randf_range(0.0, 0.5)
+
+
+func _visual_frame_size() -> Vector2:
+	if visual == null or not visual.use_frames or visual.animated == null:
+		return Vector2.ZERO
+	var frames := visual.animated.sprite_frames
+	var anim := StringName("idle_down")
+	if not frames.has_animation(anim):
+		anim = frames.get_animation_names()[0]
+	var tex := frames.get_frame_texture(anim, 0)
+	return tex.get_size() if tex != null else Vector2.ZERO
 
 
 func take_packet(packet: Dictionary, from_position: Vector2) -> void:
@@ -190,7 +211,7 @@ func _touch_damage() -> void:
 	if _shots_cooldown > 0.0 and behavior != "shooter" and behavior != "skitter_shooter":
 		return
 	var dist := _to_player().length()
-	if dist < (float(def.get("size", 14)) * 0.5 + 9.0):
+	if dist < (hit_radius + 9.0):
 		hitbox.begin_swing({"damage": int(def.get("atk", 5)), "knockback": 160.0, "source": self})
 		get_tree().create_timer(0.1).timeout.connect(hitbox.end_swing)
 		if behavior != "shooter" and behavior != "skitter_shooter":
