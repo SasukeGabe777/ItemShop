@@ -29,6 +29,7 @@ func _ready() -> void:
 
 func reset_campaign() -> void:
 	campaign_active = true
+	DayBriefing.reset()
 	endless_mode = false
 	merchant_level = 1
 	merchant_xp = 0

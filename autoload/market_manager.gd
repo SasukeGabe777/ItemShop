@@ -99,6 +99,34 @@ func wholesale_catalog() -> Array[String]:
 	return out
 
 
+## Combined key -> multiplier map from all active events, e.g.
+## {"tag:healing": 1.6, "cat:weapon": 1.5}. Drives the day briefing,
+## market-row trend colors and walk-in customer bias.
+func event_effects() -> Dictionary:
+	var out: Dictionary = {}
+	for ev_ref in active_events:
+		var ev: Dictionary = ContentDatabase.market_events.get(String(ev_ref["id"]), {})
+		var mults: Dictionary = ev.get("mults", {})
+		for key: String in mults:
+			out[key] = float(out.get(key, 1.0)) * float(mults[key])
+	return out
+
+
+## Full data for each active event: {id, name, desc, days_left, mults}.
+func active_event_details() -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	for ev_ref in active_events:
+		var ev: Dictionary = ContentDatabase.market_events.get(String(ev_ref["id"]), {})
+		if ev.is_empty():
+			continue
+		out.append({
+			"id": String(ev["id"]), "name": String(ev.get("name", ev["id"])),
+			"desc": String(ev.get("desc", "")), "days_left": int(ev_ref["days_left"]),
+			"mults": ev.get("mults", {}),
+		})
+	return out
+
+
 func active_event_names() -> Array[String]:
 	var out: Array[String] = []
 	for ev_ref in active_events:

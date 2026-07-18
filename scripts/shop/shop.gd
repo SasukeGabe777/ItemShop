@@ -732,5 +732,7 @@ func _end_session() -> void:
 		if "deadline_failed" in events:
 			SceneRouter.go("story", {"failure": true})
 		elif StoryEventManager.has_pending():
-			SceneRouter.go("story", {"return_to": "shop"})))
+			SceneRouter.go("story", {"return_to": "shop"})
+		else:
+			DayBriefing.maybe_show(self)))
 	busy = false

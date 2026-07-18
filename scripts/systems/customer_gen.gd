@@ -96,9 +96,37 @@ static func runtime_named(c: Dictionary) -> Dictionary:
 	}
 
 
+## How many currently boosted market-event goods this archetype likes. The day
+## briefing advertises these shoppers, so walk-in generation must honor it.
+static func event_match_count(arch: Dictionary) -> int:
+	var count := 0
+	var effects: Dictionary = MarketManager.event_effects()
+	for key: String in effects:
+		if float(effects[key]) <= 1.0:
+			continue
+		if key.begins_with("tag:") and key.trim_prefix("tag:") in arch.get("likes_tags", []):
+			count += 1
+		elif key.begins_with("cat:") and key.trim_prefix("cat:") in arch.get("likes_categories", []):
+			count += 1
+	return count
+
+
 static func _make_walk_in() -> Dictionary:
 	var ids: Array = ContentDatabase.archetypes.keys()
-	var arch_id := String(ids[rng.randi() % ids.size()])
+	# market events pull matching shoppers into town
+	var weights: Array[int] = []
+	var total := 0
+	for id in ids:
+		var w := 10 + 18 * event_match_count(ContentDatabase.get_archetype(String(id)))
+		weights.append(w)
+		total += w
+	var arch_id := String(ids[0])
+	var pick := rng.randi_range(1, total)
+	for i in range(ids.size()):
+		pick -= weights[i]
+		if pick <= 0:
+			arch_id = String(ids[i])
+			break
 	var arch: Dictionary = ContentDatabase.get_archetype(arch_id)
 	var brange: Array = arch.get("budget", [100, 500])
 	var chapter_scale := 1.0 + (TimeManager.chapter - 1) * 0.85

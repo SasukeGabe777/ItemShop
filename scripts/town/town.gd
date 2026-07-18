@@ -24,6 +24,8 @@ func _ready() -> void:
 	add_child(prompt)
 	if StoryEventManager.has_pending():
 		_play_story()
+	else:
+		DayBriefing.maybe_show(self)
 
 
 func _build_ground() -> void:
@@ -161,6 +163,8 @@ func _after_time_events(events: Array[String]) -> void:
 	AudioManager.play_track("crossroads_night" if TimeManager.period >= 3 else "crossroads_day")
 	if StoryEventManager.has_pending():
 		_play_story()
+	else:
+		DayBriefing.maybe_show(self)
 
 
 func _play_story() -> void:

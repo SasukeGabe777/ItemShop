@@ -4,6 +4,8 @@ extends CanvasLayer
 ## events, and pending order count. Also hosts the pause menu.
 
 var day_label: Label
+var period_label: Label
+var period_pips: Array[ColorRect] = []
 var gold_label: Label
 var deadline_label: Label
 var market_label: Label
@@ -40,6 +42,17 @@ func _ready() -> void:
 	vb.add_child(row)
 	day_label = UIKit.label("", 9)
 	row.add_child(day_label)
+	period_label = UIKit.label("", 11, UIKit.COL_ACCENT)
+	row.add_child(period_label)
+	var pip_box := HBoxContainer.new()
+	pip_box.add_theme_constant_override("separation", 3)
+	row.add_child(pip_box)
+	for i in range(TimeManager.periods_per_day()):
+		var pip := ColorRect.new()
+		pip.custom_minimum_size = Vector2(9, 9)
+		pip.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		pip_box.add_child(pip)
+		period_pips.append(pip)
 	gold_label = UIKit.label("", 9, UIKit.COL_ACCENT)
 	row.add_child(gold_label)
 	deadline_label = UIKit.label("", 9)
@@ -68,10 +81,23 @@ func refresh() -> void:
 	var chap := TimeManager.chapter
 	var world := ContentDatabase.world_for_chapter(chap)
 	var world_name := String(world.get("name", "The Null Archive"))
-	day_label.text = "Day %d/%d  %s  |  Ch.%d %s" % [
-		TimeManager.day, TimeManager.campaign_days(), TimeManager.period_name(), chap, world_name]
+	day_label.text = "Day %d/%d  |  Ch.%d %s" % [
+		TimeManager.day, TimeManager.campaign_days(), chap, world_name]
 	if GameState.endless_mode:
-		day_label.text = "Day %d  %s  |  Endless" % [TimeManager.day, TimeManager.period_name()]
+		day_label.text = "Day %d  |  Endless" % TimeManager.day
+	period_label.text = TimeManager.period_name()
+	var tip := "%s — period %d of %d today" % [
+		TimeManager.period_name(), TimeManager.period + 1, TimeManager.periods_per_day()]
+	period_label.tooltip_text = tip
+	period_label.mouse_filter = Control.MOUSE_FILTER_STOP
+	for i in range(period_pips.size()):
+		period_pips[i].tooltip_text = tip
+		if i < TimeManager.period:
+			period_pips[i].color = Color(UIKit.COL_DIM, 0.55)
+		elif i == TimeManager.period:
+			period_pips[i].color = UIKit.COL_ACCENT
+		else:
+			period_pips[i].color = Color(UIKit.COL_INK, 0.16)
 	gold_label.text = "%dg" % EconomyManager.gold
 	if GameState.endless_mode or chap > 7:
 		deadline_label.text = "The Fade looms..." if chap == 8 and not BridgeManager.fade_defeated else ""

@@ -102,6 +102,12 @@ static func spacer(vertical: bool = true) -> Control:
 	return c
 
 
+static func spacer_px(height: int) -> Control:
+	var c := Control.new()
+	c.custom_minimum_size = Vector2(0, height)
+	return c
+
+
 static func scroll_list(min_size: Vector2) -> Array:
 	var sc := ScrollContainer.new()
 	sc.custom_minimum_size = min_size
