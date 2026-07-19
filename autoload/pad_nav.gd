@@ -95,6 +95,10 @@ func _topmost_ui_layer() -> Node:
 		var cl := layer as CanvasLayer
 		if cl == null or not cl.visible or cl.get_meta("pad_recovery_skip", false):
 			continue
+		# never reach into another player's screen half (their SubViewport
+		# has its own focus; grabbing it would hijack their menu)
+		if cl.get_viewport() != get_viewport():
+			continue
 		if UIKit._first_button_in(cl) == null:
 			continue
 		if best == null or cl.layer >= best.layer:

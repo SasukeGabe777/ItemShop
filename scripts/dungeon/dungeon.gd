@@ -50,9 +50,18 @@ func _ready() -> void:
 		hero2.modulate = Color(1.0, 0.9, 0.85)
 		hero2.defeated.connect(_on_hero_defeated)
 	camera = Camera2D.new()
-	camera.add_to_group("shake_camera")
-	camera.set_script(preload("res://scripts/dungeon/shake_camera.gd"))
-	hero.add_child(camera)
+	if hero2 != null:
+		# co-op: a free-standing midpoint camera showing the whole room,
+		# zoom-adjustable by Player 1 only
+		camera.set_script(preload("res://scripts/dungeon/coop_camera.gd"))
+		camera.set("hero_a", hero)
+		camera.set("hero_b", hero2)
+		add_child(camera)
+		camera.make_current()
+	else:
+		camera.add_to_group("shake_camera")
+		camera.set_script(preload("res://scripts/dungeon/shake_camera.gd"))
+		hero.add_child(camera)
 	_build_hud()
 	if hero2 != null and hp_bar != null:
 		hp_bar2 = _hud_bar("hp", Vector2(110, 16), Color("#4a9a55"))
@@ -64,6 +73,15 @@ func _ready() -> void:
 		hero2.hp_changed.connect(func(hp: int, max_hp: int) -> void:
 			hp_bar2.max_value = max_hp
 			hp_bar2.value = hp)
+		# P2 gets their own special-attack reload cards next to their HP
+		var m2 := HBoxContainer.new()
+		m2.add_theme_constant_override("separation", 2)
+		bar_row.add_child(m2)
+		bar_row.move_child(m2, hp_bar2.get_index() + 1)
+		var meter_cards2: Array = []
+		_build_meter_cards_into(m2, meter_cards2)
+		_set_meter_cards(meter_cards2, hero2.meter)
+		hero2.meter_changed.connect(func(v: float) -> void: _set_meter_cards(meter_cards2, v))
 	_enter_room(0)
 
 
@@ -147,9 +165,13 @@ static func _hud_bar(kind: String, min_size: Vector2, fallback_tint: Color) -> R
 
 ## The power-up meter: three CoM reload cards that fill pink one by one.
 func _build_meter_cards(row: HBoxContainer) -> void:
+	_build_meter_cards_into(row, meter_cards)
+
+
+func _build_meter_cards_into(row: HBoxContainer, cards: Array) -> void:
 	const FULL := "res://assets/shared/ui/hud/card_full.png"
 	const EMPTY := "res://assets/shared/ui/hud/card_empty.png"
-	meter_cards.clear()
+	cards.clear()
 	if ResourceLoader.exists(FULL) and ResourceLoader.exists(EMPTY):
 		for i in 3:
 			var card := TextureProgressBar.new()
@@ -159,7 +181,7 @@ func _build_meter_cards(row: HBoxContainer) -> void:
 			card.max_value = 100
 			card.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 			row.add_child(card)
-			meter_cards.append(card)
+			cards.append(card)
 	else:
 		var pb := ProgressBar.new()
 		pb.custom_minimum_size = Vector2(70, 12)
@@ -167,7 +189,7 @@ func _build_meter_cards(row: HBoxContainer) -> void:
 		pb.modulate = Color(0.5, 0.7, 1.0)
 		pb.max_value = _meter_max()
 		row.add_child(pb)
-		meter_cards.append(pb)
+		cards.append(pb)
 
 
 func _meter_max() -> float:
@@ -175,12 +197,16 @@ func _meter_max() -> float:
 
 
 func _set_meter_display(v: float) -> void:
-	if meter_cards.size() == 1 and meter_cards[0] is ProgressBar:
-		(meter_cards[0] as ProgressBar).value = v
+	_set_meter_cards(meter_cards, v)
+
+
+func _set_meter_cards(cards: Array, v: float) -> void:
+	if cards.size() == 1 and cards[0] is ProgressBar:
+		(cards[0] as ProgressBar).value = v
 		return
-	var per := _meter_max() / maxf(1.0, float(meter_cards.size()))
-	for i in meter_cards.size():
-		(meter_cards[i] as TextureProgressBar).value = clampf((v - i * per) / per * 100.0, 0.0, 100.0)
+	var per := _meter_max() / maxf(1.0, float(cards.size()))
+	for i in cards.size():
+		(cards[i] as TextureProgressBar).value = clampf((v - i * per) / per * 100.0, 0.0, 100.0)
 
 
 func _build_hud() -> void:
@@ -249,9 +275,6 @@ func _process(_delta: float) -> void:
 	if door_open and hero != null and (hero.global_position.y < 30.0
 			or (hero2 != null and is_instance_valid(hero2) and hero2.global_position.y < 30.0)):
 		_next_room()
-	# co-op: one shared camera holds the midpoint between the two heroes
-	if hero2 != null and is_instance_valid(hero2) and camera != null and hero != null:
-		camera.position = (hero2.global_position - hero.global_position) * 0.5
 
 
 func _enter_room(idx: int) -> void:

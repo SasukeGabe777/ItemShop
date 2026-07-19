@@ -283,9 +283,9 @@ static func modal(parent: Node, title: String) -> Array:
 	parent.add_child(layer)
 	var vp := layer.get_viewport()
 	if vp is SubViewport:
-		# split-screen half: scale menus to fit the half-window view
+		# split-screen half: menus fill as much of the half as they can
 		var vsize := Vector2((vp as SubViewport).size)
-		var s := clampf(minf(vsize.x / 640.0, vsize.y / 620.0), 0.5, 1.15)
+		var s := clampf(minf(vsize.x / 660.0, vsize.y / 640.0), 0.5, 1.6)
 		layer.scale = Vector2(s, s)
 		layer.offset = (vsize - vsize * s) * 0.5
 	else:

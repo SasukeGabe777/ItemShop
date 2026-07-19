@@ -6,8 +6,8 @@ extends CanvasLayer
 var day_label: Label
 var period_label: Label
 var period_pips: Array[TextureRect] = []
-var period_portrait: TextureRect
-var period_plate_label: Label
+var period_portraits: Array[TextureRect] = []
+var period_plate_labels: Array[Label] = []
 var gold_label: Label
 var deadline_label: Label
 var market_label: Label
@@ -82,26 +82,40 @@ func _ready() -> void:
 	market_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	market_label.clip_text = true
 	row2.add_child(market_label)
-	# large circular sky portrait, top right, showing the current period
-	period_portrait = TextureRect.new()
-	period_portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	period_portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT
-	period_portrait.set_anchors_preset(Control.PRESET_TOP_RIGHT)
-	period_portrait.offset_left = -96
-	period_portrait.offset_right = -10
-	period_portrait.offset_top = 52
-	period_portrait.offset_bottom = 138
-	period_portrait.mouse_filter = Control.MOUSE_FILTER_STOP
-	add_child(period_portrait)
-	# ornate time-of-day plate right under the portrait
-	var plate := UIKit.nameplate("", 11)
-	period_plate_label = plate.get_child(0)
-	plate.set_anchors_preset(Control.PRESET_TOP_RIGHT)
-	plate.offset_left = -104
-	plate.offset_right = -2
-	plate.offset_top = 140
-	plate.offset_bottom = 164
-	add_child(plate)
+	# large circular sky portrait + time plate, top right of each player's
+	# screen: one set in single player, a smaller pair per half in 2P so
+	# both halves read identically
+	var edges: Array[float] = [1.0]
+	var psize := 86.0
+	if MultiplayerState.enabled:
+		edges = [0.5, 1.0]
+		psize = 56.0
+	for edge in edges:
+		var portrait := TextureRect.new()
+		portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT
+		portrait.anchor_left = edge
+		portrait.anchor_right = edge
+		portrait.anchor_top = 0.0
+		portrait.anchor_bottom = 0.0
+		portrait.offset_left = -psize - 10
+		portrait.offset_right = -10
+		portrait.offset_top = 52
+		portrait.offset_bottom = 52 + psize
+		portrait.mouse_filter = Control.MOUSE_FILTER_STOP
+		add_child(portrait)
+		period_portraits.append(portrait)
+		var plate := UIKit.nameplate("", 9 if MultiplayerState.enabled else 11)
+		period_plate_labels.append(plate.get_child(0))
+		plate.anchor_left = edge
+		plate.anchor_right = edge
+		plate.anchor_top = 0.0
+		plate.anchor_bottom = 0.0
+		plate.offset_left = -psize - 16
+		plate.offset_right = -4
+		plate.offset_top = 54 + psize
+		plate.offset_bottom = 76 + psize
+		add_child(plate)
 	EconomyManager.gold_changed.connect(func(_g: int) -> void: refresh())
 	TimeManager.period_advanced.connect(func(_d: int, _p: int) -> void:
 		refresh()
@@ -135,10 +149,12 @@ func refresh() -> void:
 		else:
 			period_pips[i].modulate = Color(0.6, 0.6, 0.7, 0.45)     # ahead
 	var pkey: String = PERIOD_KEYS[clampi(TimeManager.period, 0, PERIOD_KEYS.size() - 1)]
-	if ResourceLoader.exists(DAY_PORTRAIT % pkey):
-		period_portrait.texture = load(DAY_PORTRAIT % pkey)
-	period_portrait.tooltip_text = tip
-	period_plate_label.text = TimeManager.period_name()
+	for portrait in period_portraits:
+		if ResourceLoader.exists(DAY_PORTRAIT % pkey):
+			portrait.texture = load(DAY_PORTRAIT % pkey)
+		portrait.tooltip_text = tip
+	for lbl in period_plate_labels:
+		lbl.text = TimeManager.period_name()
 	gold_label.text = "%dg" % EconomyManager.gold
 	if GameState.endless_mode or chap > 7:
 		deadline_label.text = "The Fade looms..." if chap == 8 and not BridgeManager.fade_defeated else ""

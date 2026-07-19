@@ -70,6 +70,7 @@ func attach_split(scene: Node2D, p1: TownPlayer) -> TownPlayer:
 	_rig.set_meta("pad_recovery_skip", true)
 	scene.add_child(_rig)
 	_svc = SubViewportContainer.new()
+	_svc.set_script(preload("res://scripts/systems/p2_view_container.gd"))
 	_svc.stretch = false
 	_svc.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_rig.add_child(_svc)
