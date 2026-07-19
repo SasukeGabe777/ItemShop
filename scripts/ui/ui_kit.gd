@@ -288,6 +288,15 @@ static func modal(parent: Node, title: String) -> Array:
 		var s := clampf(minf(vsize.x / 640.0, vsize.y / 620.0), 0.5, 1.15)
 		layer.scale = Vector2(s, s)
 		layer.offset = (vsize - vsize * s) * 0.5
+	else:
+		var mp := (Engine.get_main_loop() as SceneTree).root.get_node_or_null("MultiplayerState")
+		if mp != null and mp.get("enabled") and mp.call("p2_viewport") != null:
+			# split-screen: P1's menus stay inside the LEFT half so P2's view
+			# and menus are never covered (both can browse at once)
+			var logical := Vector2(vp.get_visible_rect().size)
+			var s1 := clampf(minf(logical.x * 0.5 / 660.0, logical.y / 640.0), 0.35, 1.0)
+			layer.scale = Vector2(s1, s1)
+			layer.offset = Vector2((logical.x * 0.5 - logical.x * s1) * 0.5, (logical.y - logical.y * s1) * 0.5)
 	_count_modal(vp, 1)
 	layer.tree_exiting.connect(func() -> void:
 		_count_modal(vp, -1)

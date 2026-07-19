@@ -9,7 +9,7 @@ extends Node
 
 const P2_DEVICE := 1
 const CLONE_ACTIONS := ["move_left", "move_right", "move_up", "move_down", "interact", "cancel",
-	"attack", "special", "dodge", "use_item", "finisher"]
+	"attack", "special", "dodge", "use_item", "finisher", "zoom_in", "zoom_out"]
 const PIN_ACTIONS := [
 	"move_left", "move_right", "move_up", "move_down", "interact", "cancel",
 	"attack", "special", "dodge", "use_item", "finisher", "menu",
@@ -18,6 +18,8 @@ const PIN_ACTIONS := [
 ]
 
 var enabled: bool = false
+var p2_zoom: float = 1.5        # P2's own zoom level (P1 keeps ZoomCamera's)
+var p2_zoom_factor: float = 1.0  # physical-pixel factor of the P2 viewport
 var _rig: CanvasLayer = null
 var _p2_view: SubViewport = null
 var _ready_sets: Dictionary = {}  # action id -> {player_idx: true}
@@ -77,7 +79,8 @@ func attach_split(scene: Node2D, p1: TownPlayer) -> TownPlayer:
 	_p2_view.render_target_update_mode = SubViewport.UPDATE_ALWAYS
 	_svc.add_child(_p2_view)
 	var cam := Camera2D.new()
-	cam.zoom = Vector2.ONE * ZoomCamera.preferred_zoom
+	p2_zoom = ZoomCamera.preferred_zoom
+	cam.zoom = Vector2.ONE * p2_zoom
 	_p2_view.add_child(cam)
 	# keep P2's camera glued to their body, and P1's camera centered on the
 	# visible left half (the rig owns this so scenes stay untouched)
@@ -119,6 +122,9 @@ func _fit_rig() -> void:
 	_svc.scale = Vector2.ONE / factor
 	_svc.position = Vector2(logical.x * 0.5, 0.0)
 	_svc.size = Vector2(_p2_view.size)
+	# P2's viewport is `factor`x more pixels than P1's logical view, so its
+	# camera zoom must scale by the same factor or P2 sees far more world
+	p2_zoom_factor = factor
 
 
 const _FollowerScript := preload("res://scripts/systems/split_follower.gd")

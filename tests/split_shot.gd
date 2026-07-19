@@ -24,8 +24,9 @@ class Probe:
 		town.player2.position = Vector2(420, 300)
 		await get_tree().create_timer(0.5).timeout
 		get_viewport().get_texture().get_image().save_png("user://screenshots/split_town.png")
-		# P2 opens the market on their half only
+		# both players browse menus at the same time, each on their own half
 		town._activate("market", 2)
+		town._activate("gates", 1)
 		await get_tree().create_timer(0.6).timeout
 		get_viewport().get_texture().get_image().save_png("user://screenshots/split_p2_market.png")
 		SceneRouter.go("shop")
