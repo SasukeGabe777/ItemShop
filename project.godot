@@ -39,6 +39,7 @@ SceneRouter="*res://autoload/scene_router.gd"
 DebugManager="*res://autoload/debug_manager.gd"
 DevHubManager="*res://autoload/dev_hub_manager.gd"
 PadNav="*res://autoload/pad_nav.gd"
+MultiplayerState="*res://autoload/multiplayer_state.gd"
 
 [crossroads]
 

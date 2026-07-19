@@ -67,13 +67,16 @@ static func show_period(parent: Node, summary: Dictionary, on_done: Callable) ->
 func _ready() -> void:
 	layer = 58
 	# gameplay treats this exactly like a modal (blocks world interact polling)
-	UIKit._open_modals += 1
-	tree_exiting.connect(func() -> void: UIKit._open_modals = maxi(0, UIKit._open_modals - 1))
+	var vp := get_viewport()
+	UIKit._count_modal(vp, 1)
+	tree_exiting.connect(func() -> void: UIKit._count_modal(vp, -1))
 	if _host != null and "busy" in _host:
 		_host.busy = true
-	var hp: Variant = _host.get("player") if _host != null else null
-	if hp is TownPlayer:
-		(hp as TownPlayer).frozen = true
+	# day boundaries stop BOTH local players; player 1 holds the controls
+	for key in ["player", "player2"]:
+		var hp: Variant = _host.get(key) if _host != null else null
+		if hp is TownPlayer:
+			(hp as TownPlayer).frozen = true
 	var dim := ColorRect.new()
 	dim.color = Color.BLACK
 	dim.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -272,9 +275,10 @@ func _patch_portrait() -> Texture2D:
 func _finish() -> void:
 	if _host != null and is_instance_valid(_host) and "busy" in _host:
 		_host.busy = false
-		var hp: Variant = _host.get("player")
-		if hp is TownPlayer:
-			(hp as TownPlayer).frozen = false
+		for key in ["player", "player2"]:
+			var hp: Variant = _host.get(key)
+			if hp is TownPlayer:
+				(hp as TownPlayer).frozen = false
 	var cb := _on_done
 	queue_free()
 	if cb.is_valid():

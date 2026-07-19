@@ -17,13 +17,26 @@ const BAR_BLUE := "res://assets/shared/ui/processed/bar_blue.png"
 
 static var _light_theme: Theme = null
 static var _open_modals := 0
+static var _modals_by_viewport: Dictionary = {}  # viewport instance id -> count
 
 
 ## True while any UIKit.modal() is on screen. Gameplay code that polls raw
 ## actions (like "interact", which shares the pad's A button with ui_accept)
 ## must check this, or every press aimed at the modal also fires in-world.
-static func modal_open() -> bool:
-	return _open_modals > 0
+## Pass a viewport to ask about one player's screen half in split-screen —
+## P1's menu must never gate P2's world input, and vice versa.
+static func modal_open(vp: Viewport = null) -> bool:
+	if vp == null:
+		return _open_modals > 0
+	return int(_modals_by_viewport.get(vp.get_instance_id(), 0)) > 0
+
+
+static func _count_modal(vp: Viewport, delta: int) -> void:
+	_open_modals = maxi(0, _open_modals + delta)
+	if vp == null:
+		return
+	var key := vp.get_instance_id()
+	_modals_by_viewport[key] = maxi(0, int(_modals_by_viewport.get(key, 0)) + delta)
 
 
 ## ---- controller support -------------------------------------------------
@@ -268,9 +281,14 @@ static func modal(parent: Node, title: String) -> Array:
 	var layer := CanvasLayer.new()
 	layer.layer = 50
 	parent.add_child(layer)
-	_open_modals += 1
+	var vp := layer.get_viewport()
+	if vp is SubViewport:
+		# split-screen half: menus shrink to fit the half-height view
+		layer.scale = Vector2(0.68, 0.68)
+		layer.offset = Vector2((vp as SubViewport).size) * 0.16
+	_count_modal(vp, 1)
 	layer.tree_exiting.connect(func() -> void:
-		_open_modals = maxi(0, _open_modals - 1)
+		_count_modal(vp, -1)
 		AudioManager.play_sfx("menu_close", -4.0))
 	var dim := ColorRect.new()
 	dim.color = Color(0, 0, 0, 0.55)

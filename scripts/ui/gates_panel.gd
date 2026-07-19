@@ -170,6 +170,13 @@ func _expedition_dialog(world_id: String) -> void:
 		if not EconomyManager.can_afford(fee):
 			chosen_lbl.text = "Not enough gold for the hire fee (%dg)!" % fee
 			return
+		if MultiplayerState.enabled:
+			# both shopkeepers must sign off on spending the periods
+			var who := int(get_meta("owner_player", 1))
+			if not MultiplayerState.ready_up("expedition_%s" % world_id, who):
+				chosen_lbl.text = "Expedition %d/2 ready — the other player must Depart too!" % MultiplayerState.ready_count("expedition_%s" % world_id)
+				return
+			MultiplayerState.clear_ready("expedition_%s" % world_id)
 		dlg_layer.queue_free()
 		UIKit.confirm_time_cost(self, "The expedition", TimeManager.activity_cost("dungeon"), func() -> void:
 			EconomyManager.spend_gold(fee)

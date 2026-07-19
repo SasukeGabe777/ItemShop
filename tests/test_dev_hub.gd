@@ -53,7 +53,7 @@ func _ready() -> void:
 
 	var shop := SHOP_SCENE.instantiate()
 	add_child(shop)
-	var furniture: Node = shop.call("dev_spawn_furniture", "small_table", Vector2(260, 250))
+	var furniture: Node = shop.call("dev_spawn_furniture", "small_display_crate", Vector2(260, 250))
 	_check(furniture != null, "shop furniture can be spawned with the existing furniture system")
 	if furniture != null:
 		DevHubManager.select_object(furniture)

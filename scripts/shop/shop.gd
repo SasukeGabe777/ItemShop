@@ -3,8 +3,12 @@ extends Node2D
 ## open the shop for a one-period selling session with live customers.
 
 var player: TownPlayer
+var player2: TownPlayer = null
 var hud: GameHUD
 var prompt: Label
+var prompt2: Label = null
+var busy2: bool = false        # player 2 is inside a menu (their half only)
+var _nego_player: int = 1      # which local player is haggling right now
 var session_active: bool = false
 var customers_remaining: Array[Dictionary] = []
 var live_customers: Array[ShopCustomer] = []
@@ -60,6 +64,11 @@ func _ready() -> void:
 	prompt = UIKit.label("", 10, UIKit.COL_ACCENT)
 	prompt.z_index = 60
 	add_child(prompt)
+	if MultiplayerState.enabled:
+		player2 = MultiplayerState.attach_split(self, player)
+		prompt2 = UIKit.label("", 10, UIKit.COL_ACCENT)
+		prompt2.z_index = 60
+		add_child(prompt2)
 	_build_corner_buttons()
 	call_deferred("_show_first_shop_guide")
 
@@ -325,34 +334,60 @@ func _process(delta: float) -> void:
 	if edit_mode:
 		_process_edit()
 		return
-	if busy or player == null:
-		prompt.visible = false
+	if player == null:
 		return
-	if session_active:
+	# the session keeps flowing while at least one shopkeeper is free
+	var all_busy := busy and (player2 == null or busy2)
+	if session_active and not all_busy:
 		_run_session(delta)
-	if player.position.y > EXIT_Y:
+	_shop_player_frame(player, prompt, "", busy, 1)
+	if player2 != null:
+		_shop_player_frame(player2, prompt2, "p2_", busy2, 2)
+
+
+func _shop_player_frame(p: TownPlayer, pr: Label, prefix: String, p_busy: bool, idx: int) -> void:
+	if p_busy:
+		if pr != null:
+			pr.visible = false
+		return
+	if p.position.y > EXIT_Y:
 		if session_active:
-			player.position.y = EXIT_Y
+			p.position.y = EXIT_Y
 			if not get_meta("exit_toasted", false):
 				set_meta("exit_toasted", true)
 				_toast("Close up first — customers are browsing!")
 				get_tree().create_timer(2.0).timeout.connect(func() -> void: set_meta("exit_toasted", false))
-		else:
+		elif player2 == null:
 			busy = true
 			SceneRouter.go("town")
 			return
-	var ic := player.nearest_interactable()
-	prompt.visible = ic != null
-	if ic != null:
-		prompt.text = "[%s] %s" % [UIKit.interact_key(), ic.prompt]
-		prompt.position = player.position + Vector2(-40, -34)
-	_process_corner_focus()
-	# A doubles as ui_accept: while a modal is up, presses belong to the modal,
-	# not the world — without this every Confirm press re-opens the dialog.
-	# Same when a corner button is selected: A presses the button, not the world.
-	if Input.is_action_just_pressed("interact") and ic != null and not UIKit.modal_open() \
-			and not (get_viewport().gui_get_focus_owner() in corner_buttons):
-		_activate(ic.action_id)
+		else:
+			# split-screen: both shopkeepers leave together
+			var other: TownPlayer = player2 if p == player else player
+			if other != null and other.position.y > EXIT_Y - 10.0:
+				busy = true
+				SceneRouter.go("town")
+				return
+			p.position.y = EXIT_Y + 2.0
+			if not get_meta("exit_toasted", false):
+				set_meta("exit_toasted", true)
+				_toast("Leaving — 1/2 at the door")
+				get_tree().create_timer(2.0).timeout.connect(func() -> void: set_meta("exit_toasted", false))
+	var ic := p.nearest_interactable()
+	if pr != null:
+		pr.visible = ic != null
+		if ic != null:
+			pr.text = "[%s] %s" % [UIKit.interact_key(), ic.prompt]
+			pr.position = p.position + Vector2(-40, -34)
+	if idx == 1:
+		_process_corner_focus()
+	# A doubles as ui_accept: while a modal is up on THIS player's screen,
+	# presses belong to the modal, not the world. Same when a corner button
+	# is selected: A presses the button, not the world.
+	var vp := get_viewport() if idx == 1 else MultiplayerState.p2_viewport()
+	if Input.is_action_just_pressed(prefix + "interact") and ic != null and not UIKit.modal_open(vp) \
+			and not (idx == 1 and get_viewport().gui_get_focus_owner() in corner_buttons):
+		_activate(ic.action_id, idx)
 
 
 ## Right stick selects the lower-right shop buttons: flick left/right to move
@@ -381,9 +416,9 @@ func _process_corner_focus() -> void:
 		corner_buttons[maxi(corner_buttons.find(focus) - 1, 0)].grab_focus()
 
 
-func _activate(action: String) -> void:
+func _activate(action: String, who: int = 1) -> void:
 	if action.begins_with("slot_"):
-		_open_slot_picker(int(action.trim_prefix("slot_")))
+		_open_slot_picker(int(action.trim_prefix("slot_")), who)
 		return
 	match action:
 		"open_shop":
@@ -392,14 +427,21 @@ func _activate(action: String) -> void:
 			if InventoryManager.displayed_ids().is_empty():
 				_toast("Stock the display furniture first!")
 				return
+			if MultiplayerState.enabled and not MultiplayerState.ready_up("open_shop", who):
+				_toast("Opening the shop — %d/2 ready" % MultiplayerState.ready_count("open_shop"))
+				return
+			MultiplayerState.clear_ready("open_shop")
 			UIKit.confirm_time_cost(self, "Opening the shop", TimeManager.activity_cost("open_shop"), _begin_session)
 		"storage":
-			_open_storage()
+			_open_storage(who)
 		"expand":
-			_open_expand()
+			_open_expand(who)
 		"rearrange":
 			if session_active:
 				_toast("Not while customers are browsing!")
+				return
+			if who == 2:
+				_toast("Player 1 holds the furniture tools!")
 				return
 			_enter_edit_mode()
 
@@ -660,13 +702,17 @@ func _slot_info(slot: int) -> Dictionary:
 	return {}
 
 
-func _open_slot_picker(slot: int) -> void:
-	busy = true
-	player.frozen = true
+func _open_slot_picker(slot: int, who: int = 1) -> void:
+	if who == 2:
+		busy2 = true
+		player2.frozen = true
+	else:
+		busy = true
+		player.frozen = true
 	var info := _slot_info(slot)
 	var type_name := String(ContentDatabase.get_furniture(String(info.get("type", ""))).get("name", "stand"))
 	var allowed: Array = info.get("allowed_categories", [])
-	var parts := UIKit.modal(self, "Display slot %d (%s)" % [slot + 1, type_name])
+	var parts := UIKit.modal(MultiplayerState.menu_parent(who, self), "Display slot %d (%s)" % [slot + 1, type_name])
 	var pick_layer: CanvasLayer = parts[0]
 	var vb: VBoxContainer = parts[1]
 	(vb.get_parent() as PanelContainer).custom_minimum_size = Vector2(560, 0)
@@ -679,7 +725,7 @@ func _open_slot_picker(slot: int) -> void:
 		cur_row.add_child(cur_lbl)
 		cur_row.add_child(UIKit.button("Take back to storage", func() -> void:
 			InventoryManager.take_display(slot)
-			_close_modal(pick_layer), 8))
+			_close_modal(pick_layer, who), 8))
 		vb.add_child(cur_row)
 	# same sorting bar the market has
 	var sort_row := HBoxContainer.new()
@@ -697,19 +743,19 @@ func _open_slot_picker(slot: int) -> void:
 				continue
 			if not allowed.is_empty() and not (String(it.get("category", "")) in allowed):
 				continue
-			list.add_child(_make_pick_row(id, slot, pick_layer))
+			list.add_child(_make_pick_row(id, slot, pick_layer, who))
 	var refill := func() -> void: UIKit.rebuild_list(list, fill_rows)
 	for mode in ["name", "price", "category", "world"]:
 		sort_row.add_child(UIKit.button("Sort: %s" % mode, func() -> void:
 			sort_mode["v"] = mode
 			refill.call(), 8))
 	fill_rows.call()
-	vb.add_child(UIKit.button("Cancel", func() -> void: _close_modal(pick_layer)))
+	vb.add_child(UIKit.button("Cancel", func() -> void: _close_modal(pick_layer, who)))
 
 
 ## One stocking row, mirroring the market's layout: 24px icon, name, category,
 ## trend, value, owned count, action button.
-func _make_pick_row(id: String, slot: int, pick_layer: CanvasLayer) -> VBoxContainer:
+func _make_pick_row(id: String, slot: int, pick_layer: CanvasLayer, who: int = 1) -> VBoxContainer:
 	var it := ContentDatabase.get_item(id)
 	var entry := VBoxContainer.new()
 	entry.add_theme_constant_override("separation", 0)
@@ -748,7 +794,7 @@ func _make_pick_row(id: String, slot: int, pick_layer: CanvasLayer) -> VBoxConta
 	row.add_child(price_lbl)
 	var place_btn := UIKit.button("Place", func() -> void:
 		InventoryManager.place_display(slot, id)
-		_close_modal(pick_layer))
+		_close_modal(pick_layer, who))
 	place_btn.custom_minimum_size = Vector2(50, 0)
 	place_btn.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	row.add_child(place_btn)
@@ -767,10 +813,15 @@ func _make_pick_row(id: String, slot: int, pick_layer: CanvasLayer) -> VBoxConta
 	return entry
 
 
-func _close_modal(modal_layer: CanvasLayer) -> void:
+func _close_modal(modal_layer: CanvasLayer, who: int = 1) -> void:
 	modal_layer.queue_free()
-	busy = false
-	player.frozen = false
+	if who == 2:
+		busy2 = false
+		if player2 != null:
+			player2.frozen = false
+	else:
+		busy = false
+		player.frozen = false
 
 
 ## First grid position inside FURNITURE_AREA where this piece fits without
@@ -986,10 +1037,14 @@ func _open_decor_catalog() -> void:
 	vb.add_child(UIKit.button("Close", func() -> void: _close_modal(decor_layer)))
 
 
-func _open_storage() -> void:
-	busy = true
-	player.frozen = true
-	var parts := UIKit.modal(self, "Storage — %d items" % InventoryManager.total_items())
+func _open_storage(who: int = 1) -> void:
+	if who == 2:
+		busy2 = true
+		player2.frozen = true
+	else:
+		busy = true
+		player.frozen = true
+	var parts := UIKit.modal(MultiplayerState.menu_parent(who, self), "Storage — %d items" % InventoryManager.total_items())
 	var storage_layer: CanvasLayer = parts[0]
 	var vb: VBoxContainer = parts[1]
 	var sort_row := HBoxContainer.new()
@@ -1011,7 +1066,7 @@ func _open_storage() -> void:
 	var appeal := InventoryManager.shop_appeal()
 	vb.add_child(UIKit.label("Shop appeal — cozy %d | intense %d | retro %d | modern %d (dominant: %s)" % [
 		int(appeal["cozy"]), int(appeal["intense"]), int(appeal["retro"]), int(appeal["modern"]), InventoryManager.dominant_appeal()], 9, UIKit.COL_DIM))
-	vb.add_child(UIKit.button("Close", func() -> void: _close_modal(storage_layer)))
+	vb.add_child(UIKit.button("Close", func() -> void: _close_modal(storage_layer, who)))
 
 
 func _furniture_cap() -> int:
@@ -1019,15 +1074,19 @@ func _furniture_cap() -> int:
 	return int(caps[clampi(GameState.shop_level - 1, 0, caps.size() - 1)])
 
 
-func _open_expand() -> void:
+func _open_expand(who: int = 1) -> void:
 	var costs: Array = ContentDatabase.bal("shop", {}).get("expansion_costs", [15000, 80000, 200000, 450000])
 	var idx := GameState.shop_level - 1
 	if idx >= costs.size():
 		return
 	var cost := int(costs[idx])
-	busy = true
-	player.frozen = true
-	var parts := UIKit.modal(self, "Expand the shop")
+	if who == 2:
+		busy2 = true
+		player2.frozen = true
+	else:
+		busy = true
+		player.frozen = true
+	var parts := UIKit.modal(MultiplayerState.menu_parent(who, self), "Expand the shop")
 	var expand_layer: CanvasLayer = parts[0]
 	var vb: VBoxContainer = parts[1]
 	var caps: Array = ContentDatabase.bal("shop", {}).get("furniture_caps", [5, 8, 12, 16, 20])
@@ -1048,9 +1107,9 @@ func _open_expand() -> void:
 		if EconomyManager.spend_gold(cost):
 			GameState.shop_level += 1
 			InventoryManager.on_shop_expanded()
-			_close_modal(expand_layer)
+			_close_modal(expand_layer, who)
 			SceneRouter.go("shop")))
-	row.add_child(UIKit.button("Cancel", func() -> void: _close_modal(expand_layer)))
+	row.add_child(UIKit.button("Cancel", func() -> void: _close_modal(expand_layer, who)))
 	vb.add_child(row)
 
 
@@ -1070,7 +1129,7 @@ func _run_session(delta: float) -> void:
 	if spawn_timer <= 0.0 and not customers_remaining.is_empty() and live_customers.size() < 4:
 		spawn_timer = randf_range(1.2, 2.6)
 		_spawn_customer(customers_remaining.pop_front())
-	if negotiating == null and not nego_queue.is_empty() and not UIKit.modal_open():
+	if negotiating == null and not nego_queue.is_empty():
 		_open_next_negotiation()
 	if customers_remaining.is_empty() and live_customers.is_empty() and negotiating == null and nego_queue.is_empty():
 		_end_session()
@@ -1129,9 +1188,14 @@ func _on_negotiate_requested(cust: Dictionary, item_id: String) -> void:
 func _open_next_negotiation() -> void:
 	if negotiating != null or nego_queue.is_empty():
 		return
-	# never open a negotiation under another menu (slot picker, storage, ...):
-	# the customer waits in line; _run_session retries once the menu closes
-	if UIKit.modal_open():
+	# route the haggle to a shopkeeper who isn't in a menu; the customer
+	# waits in line and _run_session retries until someone frees up
+	var who := 0
+	if not busy and not UIKit.modal_open(get_viewport()):
+		who = 1
+	elif player2 != null and not busy2 and not UIKit.modal_open(MultiplayerState.p2_viewport()):
+		who = 2
+	if who == 0:
 		return
 	var entry: Dictionary = nego_queue.pop_front()
 	var node: ShopCustomer = entry["node"]
@@ -1149,17 +1213,28 @@ func _open_next_negotiation() -> void:
 		item_id = replacement
 	negotiating = node
 	_nego_item = item_id
+	_nego_player = who
 	var panel := NegotiationPanel.new()
 	panel.setup(entry["customer"], item_id, node.portrait_texture())
+	panel.pad_device = 0 if who == 1 else MultiplayerState.P2_DEVICE
 	panel.finished.connect(_on_negotiation_finished)
-	busy = true
-	player.frozen = true
-	add_child(panel)
+	if who == 2:
+		busy2 = true
+		player2.frozen = true
+	else:
+		busy = true
+		player.frozen = true
+	MultiplayerState.menu_parent(who, self).add_child(panel)
 
 
 func _on_negotiation_finished(outcome: Dictionary) -> void:
-	busy = false
-	player.frozen = false
+	if _nego_player == 2:
+		busy2 = false
+		if player2 != null:
+			player2.frozen = false
+	else:
+		busy = false
+		player.frozen = false
 	match String(outcome.get("result", "")):
 		Negotiation.RESULT_PERFECT, Negotiation.RESULT_ACCEPT:
 			session_summary["sales"] = int(session_summary["sales"]) + 1

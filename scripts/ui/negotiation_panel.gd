@@ -22,6 +22,7 @@ var last_counter: int = 0
 # right-stick price nudging: a tap moves 1g, holding ramps up fast
 const STICK_DEADZONE := 0.45
 const STICK_HOLD_DELAY := 0.35
+var pad_device := 0  # split-screen: which controller haggles here
 var _stick_hold := 0.0
 var _stick_accum := 0.0
 var _stick_stepped := false
@@ -168,7 +169,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if price_spin == null or not UIKit.pad_connected():
 		return
-	var v := Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y)
+	var v := Input.get_joy_axis(pad_device, JOY_AXIS_RIGHT_Y)
 	if absf(v) < STICK_DEADZONE:
 		_stick_hold = 0.0
 		_stick_accum = 0.0

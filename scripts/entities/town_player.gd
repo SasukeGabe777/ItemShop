@@ -8,6 +8,7 @@ const SPEED := 110.0
 var visual: CharacterVisual
 var facing: Vector2 = Vector2.DOWN
 var frozen: bool = false
+var input_prefix: String = ""  # "p2_" for the second local player
 var dev_speed_multiplier: float = 1.0
 var dev_collision_enabled: bool = true
 
@@ -36,7 +37,8 @@ func _physics_process(delta: float) -> void:
 	if frozen:
 		visual.face(facing, false)
 		return
-	var wish := Input.get_vector("move_left", "move_right", "move_up", "move_down")
+	var wish := Input.get_vector(input_prefix + "move_left", input_prefix + "move_right",
+		input_prefix + "move_up", input_prefix + "move_down")
 	if wish != Vector2.ZERO:
 		facing = wish
 	velocity = velocity.move_toward(wish.normalized() * SPEED * dev_speed_multiplier, 900.0 * delta)

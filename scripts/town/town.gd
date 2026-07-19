@@ -3,9 +3,12 @@ extends Node2D
 ## home and the seven World Bridge gates.
 
 var player: TownPlayer
+var player2: TownPlayer = null
 var hud: GameHUD
 var prompt: Label
-var busy: bool = false  # a panel or story scene is open
+var prompt2: Label = null
+var busy: bool = false   # player 1 has a panel / story open
+var busy2: bool = false  # player 2 has a panel open (their half only)
 
 
 func _ready() -> void:
@@ -23,6 +26,11 @@ func _ready() -> void:
 	prompt = UIKit.label("", 10, UIKit.COL_ACCENT)
 	prompt.z_index = 60
 	add_child(prompt)
+	if MultiplayerState.enabled:
+		player2 = MultiplayerState.attach_split(self, player)
+		prompt2 = UIKit.label("", 10, UIKit.COL_ACCENT)
+		prompt2.z_index = 60
+		add_child(prompt2)
 	if StoryEventManager.has_pending():
 		_play_story()
 	else:
@@ -116,44 +124,84 @@ func _center_plate(plate: Control, top_center: Vector2) -> void:
 
 
 func _process(_delta: float) -> void:
-	if busy or player == null:
-		prompt.visible = false
+	_player_frame(player, prompt, "", busy, 1)
+	if player2 != null:
+		_player_frame(player2, prompt2, "p2_", busy2, 2)
+
+
+func _player_frame(p: TownPlayer, pr: Label, prefix: String, p_busy: bool, idx: int) -> void:
+	if p_busy or p == null:
+		if pr != null:
+			pr.visible = false
 		return
-	var ic := player.nearest_interactable()
-	prompt.visible = ic != null
+	var ic := p.nearest_interactable()
+	pr.visible = ic != null
 	if ic != null:
-		prompt.text = "[%s] %s" % [UIKit.interact_key(), ic.prompt]
-		prompt.position = player.position + Vector2(-30, -34)
-	if Input.is_action_just_pressed("interact") and ic != null and not UIKit.modal_open():
-		_activate(ic.action_id)
+		pr.text = "[%s] %s" % [UIKit.interact_key(), ic.prompt]
+		pr.position = p.position + Vector2(-30, -34)
+	var vp := get_viewport() if idx == 1 else MultiplayerState.p2_viewport()
+	if Input.is_action_just_pressed(prefix + "interact") and ic != null and not UIKit.modal_open(vp):
+		_activate(ic.action_id, idx)
 
 
-func _activate(action: String) -> void:
+func _activate(action: String, who: int = 1) -> void:
 	match action:
 		"shop":
+			if MultiplayerState.enabled and not MultiplayerState.ready_up("enter_shop", who):
+				_toast("Entering the shop — %d/2 ready" % MultiplayerState.ready_count("enter_shop"),
+					player if who == 1 else player2)
+				return
+			MultiplayerState.clear_ready("enter_shop")
 			SceneRouter.last_town_position = player.position
 			SceneRouter.go("shop")
 		"market":
-			_open_panel(MarketPanel.new())
+			_open_panel(MarketPanel.new(), who)
 		"workshop":
-			_open_panel(WorkshopPanel.new())
+			_open_panel(WorkshopPanel.new(), who)
 		"guild":
-			_open_panel(GuildPanel.new())
+			_open_panel(GuildPanel.new(), who)
 		"gates":
-			_open_panel(GatesPanel.new())
+			_open_panel(GatesPanel.new(), who)
 		"home":
+			if MultiplayerState.enabled and not MultiplayerState.ready_up("rest", who):
+				_toast("Resting — %d/2 ready" % MultiplayerState.ready_count("rest"),
+					player if who == 1 else player2)
+				return
+			MultiplayerState.clear_ready("rest")
 			UIKit.confirm_time_cost(self, "Resting", TimeManager.activity_cost("rest"), func() -> void:
 				var day_sold: Array = EconomyManager.day_sales.duplicate(true)
 				var events := TimeManager.advance(TimeManager.activity_cost("rest"))
 				_after_time_events(events, day_sold))
 
 
-func _open_panel(panel: Node) -> void:
-	busy = true
-	player.frozen = true
-	add_child(panel)
+func _toast(text: String, over: Node2D) -> void:
+	var lbl := UIKit.label(text, 10, UIKit.COL_ACCENT)
+	lbl.position = (over.position if over != null else Vector2(280, 240)) + Vector2(-60, -48)
+	lbl.z_index = 70
+	add_child(lbl)
+	var tw := lbl.create_tween()
+	tw.tween_interval(1.6)
+	tw.tween_property(lbl, "modulate:a", 0.0, 0.4)
+	tw.tween_callback(lbl.queue_free)
+
+
+func _open_panel(panel: Node, who: int = 1) -> void:
+	panel.set_meta("owner_player", who)
+	if who == 2:
+		busy2 = true
+		player2.frozen = true
+		MultiplayerState.menu_parent(2, self).add_child(panel)
+	else:
+		busy = true
+		player.frozen = true
+		add_child(panel)
 	if panel.has_signal("closed"):
 		panel.connect("closed", func() -> void:
+			if who == 2:
+				busy2 = false
+				if player2 != null:
+					player2.frozen = false
+				return
 			busy = false
 			player.frozen = false
 			hud.refresh()
