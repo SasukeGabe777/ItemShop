@@ -283,9 +283,11 @@ static func modal(parent: Node, title: String) -> Array:
 	parent.add_child(layer)
 	var vp := layer.get_viewport()
 	if vp is SubViewport:
-		# split-screen half: menus shrink to fit the half-height view
-		layer.scale = Vector2(0.68, 0.68)
-		layer.offset = Vector2((vp as SubViewport).size) * 0.16
+		# split-screen half: scale menus to fit the half-window view
+		var vsize := Vector2((vp as SubViewport).size)
+		var s := clampf(minf(vsize.x / 640.0, vsize.y / 620.0), 0.5, 1.15)
+		layer.scale = Vector2(s, s)
+		layer.offset = (vsize - vsize * s) * 0.5
 	_count_modal(vp, 1)
 	layer.tree_exiting.connect(func() -> void:
 		_count_modal(vp, -1)

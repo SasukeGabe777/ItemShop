@@ -33,6 +33,13 @@ class Probe:
 		var shop: Node = get_tree().current_scene
 		print("SHOP scene=", shop, " player2=", shop.get("player2"), " p2vp=", MultiplayerState.p2_viewport())
 		get_viewport().get_texture().get_image().save_png("user://screenshots/split_shop.png")
+		# co-op dungeon: both heroes on one shared screen
+		DungeonManager.plan_expedition("kingdom_hearts", "sora", [], false, "sora")
+		SceneRouter.go("dungeon")
+		await get_tree().create_timer(1.6).timeout
+		var dungeon: Node = get_tree().current_scene
+		print("DUNGEON hero2=", dungeon.get("hero2"))
+		get_viewport().get_texture().get_image().save_png("user://screenshots/split_dungeon.png")
 		MultiplayerState.set_enabled(false)
 		print("SPLIT_SHOT_DONE")
 		get_tree().quit()

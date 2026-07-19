@@ -5,6 +5,8 @@ extends Node2D
 
 var world_id: String
 var hero: CombatHero
+var hero2: CombatHero = null  # split-screen partner (shared camera, pad 2)
+var hp_bar2: Range = null
 var layout: Array[Dictionary] = []
 var room_index: int = 0
 var room_root: Node2D
@@ -39,11 +41,29 @@ func _ready() -> void:
 	room_root = Node2D.new()
 	add_child(room_root)
 	_spawn_hero(String(DungeonManager.pending.get("hero_id", "sora")))
+	var hero2_id := String(DungeonManager.pending.get("hero2_id", ""))
+	if MultiplayerState.enabled and hero2_id != "" and not ContentDatabase.get_hero(hero2_id).is_empty():
+		hero2 = CombatHero.new()
+		add_child(hero2)
+		hero2.input_prefix = "p2_"
+		hero2.setup(hero2_id, [])
+		hero2.modulate = Color(1.0, 0.9, 0.85)
+		hero2.defeated.connect(_on_hero_defeated)
 	camera = Camera2D.new()
 	camera.add_to_group("shake_camera")
 	camera.set_script(preload("res://scripts/dungeon/shake_camera.gd"))
 	hero.add_child(camera)
 	_build_hud()
+	if hero2 != null and hp_bar != null:
+		hp_bar2 = _hud_bar("hp", Vector2(110, 16), Color("#4a9a55"))
+		hp_bar2.max_value = hero2.health.max_hp
+		hp_bar2.value = hero2.health.hp
+		var bar_row := hp_bar.get_parent()
+		bar_row.add_child(hp_bar2)
+		bar_row.move_child(hp_bar2, hp_bar.get_index() + 1)
+		hero2.hp_changed.connect(func(hp: int, max_hp: int) -> void:
+			hp_bar2.max_value = max_hp
+			hp_bar2.value = hp)
 	_enter_room(0)
 
 
@@ -226,8 +246,12 @@ func _process(_delta: float) -> void:
 	for id: String in DungeonManager.run_loot:
 		total += int(DungeonManager.run_loot[id])
 	loot_label.text = "Loot: %d items, %dg | Room %d/%d" % [total, DungeonManager.run_gold, room_index + 1, layout.size()]
-	if door_open and hero != null and hero.global_position.y < 30.0:
+	if door_open and hero != null and (hero.global_position.y < 30.0
+			or (hero2 != null and is_instance_valid(hero2) and hero2.global_position.y < 30.0)):
 		_next_room()
+	# co-op: one shared camera holds the midpoint between the two heroes
+	if hero2 != null and is_instance_valid(hero2) and camera != null and hero != null:
+		camera.position = (hero2.global_position - hero.global_position) * 0.5
 
 
 func _enter_room(idx: int) -> void:
@@ -316,6 +340,8 @@ func _enter_room(idx: int) -> void:
 	# player spawn
 	var ps: Array = template.get("player_spawn", [10, 6])
 	hero.global_position = Vector2(float(ps[0]) * CELL + CELL / 2.0, float(ps[1]) * CELL + CELL / 2.0)
+	if hero2 != null and is_instance_valid(hero2):
+		hero2.global_position = hero.global_position + Vector2(22, 0)
 	# chests
 	for ch in template.get("chests", []):
 		_spawn_chest(Vector2(float(ch[0]) * CELL + CELL / 2.0, float(ch[1]) * CELL + CELL / 2.0))
@@ -564,13 +590,29 @@ func _next_room() -> void:
 func _on_hero_defeated() -> void:
 	if finished:
 		return
+	# co-op: the run only ends when BOTH heroes are down
+	var someone_up := (hero != null and is_instance_valid(hero) and not hero.health.dead) \
+		or (hero2 != null and is_instance_valid(hero2) and not hero2.health.dead)
+	if someone_up:
+		var note := UIKit.label("A hero is down! Finish the fight!", 10, UIKit.COL_BAD)
+		note.position = Vector2(ContentDatabase.room_grid.x * CELL / 2.0 - 80, 56)
+		note.z_index = 70
+		room_root.add_child(note)
+		var tw := note.create_tween()
+		tw.tween_interval(2.0)
+		tw.tween_property(note, "modulate:a", 0.0, 0.5)
+		tw.tween_callback(note.queue_free)
+		return
 	AudioManager.play_stinger("failure_stinger")
 	_finish(false, false)
 
 
 func _finish(success: bool, boss_defeated: bool) -> void:
 	finished = true
-	var result := DungeonManager.finish_expedition(success, boss_defeated, hero.health.hp if hero != null else 0)
+	var hp_left := hero.health.hp if hero != null else 0
+	if hero2 != null and is_instance_valid(hero2):
+		hp_left = maxi(hp_left, hero2.health.hp)
+	var result := DungeonManager.finish_expedition(success, boss_defeated, hp_left)
 	var parts := UIKit.modal(self, "Expedition %s" % ("complete!" if success else "failed..."))
 	var end_layer: CanvasLayer = parts[0]
 	var vb: VBoxContainer = parts[1]

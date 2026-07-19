@@ -8,7 +8,8 @@ extends Node
 ## focus, driven by device-1 events re-pushed as device-0 into it.
 
 const P2_DEVICE := 1
-const CLONE_ACTIONS := ["move_left", "move_right", "move_up", "move_down", "interact", "cancel"]
+const CLONE_ACTIONS := ["move_left", "move_right", "move_up", "move_down", "interact", "cancel",
+	"attack", "special", "dodge", "use_item", "finisher"]
 const PIN_ACTIONS := [
 	"move_left", "move_right", "move_up", "move_down", "interact", "cancel",
 	"attack", "special", "dodge", "use_item", "finisher", "menu",
@@ -49,7 +50,12 @@ func menu_parent(player_idx: int, fallback: Node) -> Node:
 	return fallback
 
 
-## Build the bottom-half view + P2 body inside `scene`. Returns the P2 player.
+var _svc: SubViewportContainer = null
+
+
+## Build the right-half view + P2 body inside `scene`. Returns the P2 player.
+## The SubViewport renders at NATIVE window resolution (then scales down into
+## the stretched canvas space) so P2's half is exactly as sharp as P1's.
 func attach_split(scene: Node2D, p1: TownPlayer) -> TownPlayer:
 	_ready_sets.clear()
 	var p2 := TownPlayer.new()
@@ -61,22 +67,20 @@ func attach_split(scene: Node2D, p1: TownPlayer) -> TownPlayer:
 	_rig.layer = 15  # under menus/HUD, over the world
 	_rig.set_meta("pad_recovery_skip", true)
 	scene.add_child(_rig)
-	var svc := SubViewportContainer.new()
-	svc.stretch = true
-	svc.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
-	svc.anchor_top = 0.5
-	svc.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_rig.add_child(svc)
+	_svc = SubViewportContainer.new()
+	_svc.stretch = false
+	_svc.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_rig.add_child(_svc)
 	_p2_view = SubViewport.new()
 	_p2_view.world_2d = scene.get_viewport().world_2d
 	_p2_view.gui_disable_input = false
 	_p2_view.render_target_update_mode = SubViewport.UPDATE_ALWAYS
-	svc.add_child(_p2_view)
+	_svc.add_child(_p2_view)
 	var cam := Camera2D.new()
 	cam.zoom = Vector2.ONE * ZoomCamera.preferred_zoom
 	_p2_view.add_child(cam)
 	# keep P2's camera glued to their body, and P1's camera centered on the
-	# visible top half (the rig owns this so scenes stay untouched)
+	# visible left half (the rig owns this so scenes stay untouched)
 	var follower := Node.new()
 	follower.set_script(_FollowerScript)
 	follower.set("cam", cam)
@@ -85,13 +89,36 @@ func attach_split(scene: Node2D, p1: TownPlayer) -> TownPlayer:
 	_rig.add_child(follower)
 	var divider := ColorRect.new()
 	divider.color = Color(0.08, 0.08, 0.14)
-	divider.set_anchors_preset(Control.PRESET_TOP_WIDE)
-	divider.anchor_top = 0.5
-	divider.anchor_bottom = 0.5
-	divider.offset_top = -2
-	divider.offset_bottom = 2
+	divider.set_anchors_preset(Control.PRESET_CENTER)
+	divider.anchor_left = 0.5
+	divider.anchor_right = 0.5
+	divider.anchor_top = 0.0
+	divider.anchor_bottom = 1.0
+	divider.offset_left = -1
+	divider.offset_right = 1
+	divider.offset_top = 0
+	divider.offset_bottom = 0
 	_rig.add_child(divider)
+	_fit_rig()
+	var root := scene.get_viewport()
+	if not root.size_changed.is_connected(_fit_rig):
+		root.size_changed.connect(_fit_rig)
 	return p2
+
+
+## Size the P2 viewport to physical pixels: half the window wide, full height,
+## displayed scaled down by the window's stretch factor so pixels map 1:1.
+func _fit_rig() -> void:
+	if _svc == null or not is_instance_valid(_svc) or _p2_view == null:
+		return
+	var logical: Vector2 = _svc.get_viewport().get_visible_rect().size
+	var win := Vector2(DisplayServer.window_get_size())
+	var factor: float = maxf(1.0, win.x / maxf(1.0, logical.x))
+	var half := Vector2(logical.x * 0.5, logical.y)
+	_p2_view.size = Vector2i((half * factor).round())
+	_svc.scale = Vector2.ONE / factor
+	_svc.position = Vector2(logical.x * 0.5, 0.0)
+	_svc.size = Vector2(_p2_view.size)
 
 
 const _FollowerScript := preload("res://scripts/systems/split_follower.gd")

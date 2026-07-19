@@ -20,9 +20,9 @@ func reset() -> void:
 	rng.randomize()
 
 
-func plan_expedition(world_id: String, hero_id: String, consumables: Array = [], vertical_slice: bool = false) -> void:
+func plan_expedition(world_id: String, hero_id: String, consumables: Array = [], vertical_slice: bool = false, hero2_id: String = "") -> void:
 	pending = {
-		"world_id": world_id, "hero_id": hero_id,
+		"world_id": world_id, "hero_id": hero_id, "hero2_id": hero2_id,
 		"consumables": consumables.duplicate(), "vertical_slice": vertical_slice,
 	}
 	run_loot.clear()

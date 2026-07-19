@@ -18,6 +18,7 @@ var hitbox: HitboxComponent
 var loot: LootTableComponent
 
 var _think_timer: float = 0.0
+var _retarget_timer: float = 0.0
 var _state: String = "idle"
 var _state_time: float = 0.0
 var _shots_cooldown: float = 0.0
@@ -111,12 +112,30 @@ func take_packet(packet: Dictionary, from_position: Vector2) -> void:
 func _physics_process(delta: float) -> void:
 	if health.dead or target == null or not is_instance_valid(target):
 		return
+	# co-op: chase whichever living hero is closest
+	_retarget_timer -= delta
+	if _retarget_timer <= 0.0:
+		_retarget_timer = 0.5
+		_retarget_nearest_hero()
 	_shots_cooldown = maxf(0.0, _shots_cooldown - delta)
 	_state_time -= delta
 	var wish := _behavior_direction(delta)
 	movement.apply(self, wish, delta)
 	visual.face(wish if wish != Vector2.ZERO else (target.global_position - global_position), wish != Vector2.ZERO)
 	_touch_damage()
+
+
+func _retarget_nearest_hero() -> void:
+	var best: Node2D = null
+	var best_d := INF
+	for h in get_tree().get_nodes_in_group("combat_hero"):
+		if h is CombatHero and is_instance_valid(h) and not (h as CombatHero).health.dead:
+			var d := (h as Node2D).global_position.distance_squared_to(global_position)
+			if d < best_d:
+				best_d = d
+				best = h
+	if best != null:
+		target = best
 
 
 func _to_player() -> Vector2:

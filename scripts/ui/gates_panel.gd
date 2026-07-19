@@ -132,8 +132,19 @@ func _expedition_dialog(world_id: String) -> void:
 		var stats := InventoryManager.hero_stats(hid)
 		hero_pick.add_item("%s — %dg (HP %d ATK %d)" % [String(ContentDatabase.get_hero(hid).get("name", hid)),
 			int(ContentDatabase.get_hero(hid).get("hire_cost", 100)), int(stats["hp"]), int(stats["atk"])])
-	dvb.add_child(UIKit.label("Hire a hero:"))
+	dvb.add_child(UIKit.label("Hire a hero:" if not MultiplayerState.enabled else "Player 1's hero:"))
 	dvb.add_child(hero_pick)
+	var hero_pick2: OptionButton = null
+	if MultiplayerState.enabled:
+		hero_pick2 = OptionButton.new()
+		for hid in hero_options:
+			var stats2 := InventoryManager.hero_stats(hid)
+			hero_pick2.add_item("%s — %dg (HP %d ATK %d)" % [String(ContentDatabase.get_hero(hid).get("name", hid)),
+				int(ContentDatabase.get_hero(hid).get("hire_cost", 100)), int(stats2["hp"]), int(stats2["atk"])])
+		if hero_options.size() > 1:
+			hero_pick2.selected = 1
+		dvb.add_child(UIKit.label("Player 2's hero:"))
+		dvb.add_child(hero_pick2)
 	dvb.add_child(UIKit.label("Bring consumables (up to %d):" % int(ContentDatabase.bal("dungeon", {}).get("consumable_slots", 2))))
 	var chosen: Array = []
 	var chosen_lbl := UIKit.label("(none)", 9, UIKit.COL_DIM)
@@ -166,9 +177,13 @@ func _expedition_dialog(world_id: String) -> void:
 	var depart_label := "Depart: Short Traverse Town Run (2 periods)" if first_vertical_slice else "Depart (2 periods)"
 	go_row.add_child(UIKit.button(depart_label, func() -> void:
 		var hid := hero_options[hero_pick.selected]
+		var hid2 := ""
 		var fee := int(ContentDatabase.get_hero(hid).get("hire_cost", 100))
+		if hero_pick2 != null:
+			hid2 = hero_options[hero_pick2.selected]
+			fee += int(ContentDatabase.get_hero(hid2).get("hire_cost", 100))
 		if not EconomyManager.can_afford(fee):
-			chosen_lbl.text = "Not enough gold for the hire fee (%dg)!" % fee
+			chosen_lbl.text = "Not enough gold for the hire fee%s (%dg)!" % ["s" if hid2 != "" else "", fee]
 			return
 		if MultiplayerState.enabled:
 			# both shopkeepers must sign off on spending the periods
@@ -184,7 +199,9 @@ func _expedition_dialog(world_id: String) -> void:
 				InventoryManager.remove_item(String(c))
 			if GameState.meet_hero(hid):
 				StoryEventManager.fire("hero_met", {"hero": hid})
-			DungeonManager.plan_expedition(world_id, hid, chosen, first_vertical_slice)
+			if hid2 != "" and GameState.meet_hero(hid2):
+				StoryEventManager.fire("hero_met", {"hero": hid2})
+			DungeonManager.plan_expedition(world_id, hid, chosen, first_vertical_slice, hid2)
 			AudioManager.play_sfx("enter_expedition")
 			var events := TimeManager.advance(TimeManager.activity_cost("dungeon"))
 			if "deadline_failed" in events:

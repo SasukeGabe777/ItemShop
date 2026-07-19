@@ -32,10 +32,12 @@ var special_cooldown: float = 0.0
 var guarding: bool = false
 var consumables: Array = []
 var revives_available: int = 0
+var input_prefix: String = ""  # "p2_" for the second local player
 
 
 func setup(id: String, consumable_items: Array = []) -> void:
 	add_to_group("dev_player")
+	add_to_group("combat_hero")
 	set_meta("dev_object_type", "hero")
 	set_meta("dev_content_id", id)
 	hero_id = id
@@ -107,7 +109,8 @@ func _physics_process(delta: float) -> void:
 		combo_index = 0
 	var wish := Vector2.ZERO
 	if attack_lock <= 0.0 and not status.is_stunned():
-		wish = Input.get_vector("move_left", "move_right", "move_up", "move_down")
+		wish = Input.get_vector(input_prefix + "move_left", input_prefix + "move_right",
+			input_prefix + "move_up", input_prefix + "move_down")
 	if wish != Vector2.ZERO:
 		facing = wish
 	movement.max_speed = float(stats["spd"]) * (0.35 if guarding else 1.0)
@@ -124,20 +127,20 @@ func _position_hitbox() -> void:
 
 
 func _read_combat_input() -> void:
-	if Input.is_action_just_pressed("attack"):
+	if Input.is_action_just_pressed(input_prefix + "attack"):
 		_do_basic_attack()
-	elif Input.is_action_just_pressed("special"):
+	elif Input.is_action_just_pressed(input_prefix + "special"):
 		_do_special()
-	elif Input.is_action_just_pressed("dodge"):
+	elif Input.is_action_just_pressed(input_prefix + "dodge"):
 		_do_dodge(true)
-	elif Input.is_action_just_pressed("use_item"):
+	elif Input.is_action_just_pressed(input_prefix + "use_item"):
 		_use_consumable()
-	elif Input.is_action_just_pressed("finisher"):
+	elif Input.is_action_just_pressed(input_prefix + "finisher"):
 		_do_finisher()
 	var dodge: Dictionary = combat_def().get("dodge", {})
 	if String(dodge.get("kind", "roll")) == "guard":
 		var was := guarding
-		guarding = Input.is_action_pressed("dodge")
+		guarding = Input.is_action_pressed(input_prefix + "dodge")
 		hurtbox.guard_reduction = float(dodge.get("reduction", 0.75)) if guarding else 0.0
 		if guarding != was and guarding:
 			FX.flash(visual.body_node(), Color(0.6, 0.8, 1.0))
