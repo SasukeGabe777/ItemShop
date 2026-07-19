@@ -397,135 +397,6 @@
    ]
   },
   {
-   "id": "keese",
-   "name": "Keese",
-   "world": "zelda",
-   "hp": 14,
-   "atk": 6,
-   "spd": 140,
-   "behavior": "swooper",
-   "size": 12,
-   "color": "#383858",
-   "loot": [
-    [
-     "rupee",
-     0.4
-    ]
-   ],
-   "gold": [
-    4,
-    10
-   ]
-  },
-  {
-   "id": "octorok",
-   "name": "Octorok",
-   "world": "zelda",
-   "hp": 30,
-   "atk": 9,
-   "spd": 70,
-   "behavior": "shooter",
-   "size": 15,
-   "color": "#c85858",
-   "loot": [
-    [
-     "rupee",
-     0.35
-    ],
-    [
-     "deku_nut",
-     0.15
-    ]
-   ],
-   "gold": [
-    8,
-    16
-   ]
-  },
-  {
-   "id": "bokoblin",
-   "name": "Bokoblin",
-   "world": "zelda",
-   "hp": 40,
-   "atk": 10,
-   "spd": 105,
-   "behavior": "lunger",
-   "size": 15,
-   "color": "#a04858",
-   "loot": [
-    [
-     "rupee",
-     0.3
-    ],
-    [
-     "wooden_shield",
-     0.06
-    ],
-    [
-     "red_potion",
-     0.1
-    ]
-   ],
-   "gold": [
-    10,
-    20
-   ]
-  },
-  {
-   "id": "chuchu",
-   "name": "ChuChu",
-   "world": "zelda",
-   "hp": 26,
-   "atk": 7,
-   "spd": 75,
-   "behavior": "chaser",
-   "size": 14,
-   "color": "#48c858",
-   "loot": [
-    [
-     "green_potion",
-     0.15
-    ],
-    [
-     "rupee",
-     0.3
-    ]
-   ],
-   "gold": [
-    6,
-    14
-   ]
-  },
-  {
-   "id": "skulltula",
-   "name": "Skulltula",
-   "world": "zelda",
-   "hp": 45,
-   "atk": 12,
-   "spd": 95,
-   "behavior": "ambusher",
-   "size": 17,
-   "color": "#786848",
-   "loot": [
-    [
-     "small_key",
-     0.15
-    ],
-    [
-     "rupee",
-     0.25
-    ],
-    [
-     "deku_wood",
-     0.2
-    ]
-   ],
-   "gold": [
-    12,
-    24
-   ]
-  },
-  {
    "id": "rogue_ninja",
    "name": "Rogue Ninja",
    "world": "naruto",
@@ -1789,6 +1660,310 @@
     "static_pulse"
    ],
    "telegraph": 0.7
+  },
+  {
+   "id": "keese",
+   "name": "Keese",
+   "world": "zelda",
+   "hp": 20,
+   "atk": 8,
+   "spd": 145,
+   "behavior": "swooper",
+   "size": 12,
+   "color": "#383858",
+   "loot": [
+    [
+     "rupee",
+     0.4
+    ]
+   ],
+   "gold": [
+    6,
+    14
+   ]
+  },
+  {
+   "id": "octorok",
+   "name": "Octorok",
+   "world": "zelda",
+   "hp": 35,
+   "atk": 11,
+   "spd": 75,
+   "behavior": "shooter",
+   "size": 15,
+   "color": "#c85858",
+   "loot": [
+    [
+     "rupee",
+     0.35
+    ],
+    [
+     "deku_nut",
+     0.15
+    ]
+   ],
+   "gold": [
+    10,
+    20
+   ]
+  },
+  {
+   "id": "chuchu_green",
+   "name": "Green ChuChu",
+   "world": "zelda",
+   "hp": 30,
+   "atk": 9,
+   "spd": 70,
+   "behavior": "creeper",
+   "size": 14,
+   "color": "#48c858",
+   "loot": [
+    [
+     "green_potion",
+     0.15
+    ],
+    [
+     "rupee",
+     0.3
+    ]
+   ],
+   "gold": [
+    8,
+    16
+   ]
+  },
+  {
+   "id": "chuchu_blue",
+   "name": "Blue ChuChu",
+   "world": "zelda",
+   "hp": 55,
+   "atk": 13,
+   "spd": 80,
+   "behavior": "chaser",
+   "size": 14,
+   "color": "#58b8e8",
+   "loot": [
+    [
+     "blue_potion",
+     0.12
+    ],
+    [
+     "rupee",
+     0.3
+    ]
+   ],
+   "gold": [
+    12,
+    24
+   ]
+  },
+  {
+   "id": "rope",
+   "name": "Rope",
+   "world": "zelda",
+   "hp": 28,
+   "atk": 10,
+   "spd": 150,
+   "behavior": "lunger",
+   "size": 13,
+   "color": "#58a838",
+   "loot": [
+    [
+     "rupee",
+     0.3
+    ]
+   ],
+   "gold": [
+    8,
+    16
+   ]
+  },
+  {
+   "id": "leever",
+   "name": "Leever",
+   "world": "zelda",
+   "hp": 40,
+   "atk": 12,
+   "spd": 65,
+   "behavior": "creeper",
+   "size": 14,
+   "color": "#b04858",
+   "loot": [
+    [
+     "rupee",
+     0.3
+    ],
+    [
+     "green_potion",
+     0.1
+    ]
+   ],
+   "gold": [
+    10,
+    20
+   ]
+  },
+  {
+   "id": "ghini",
+   "name": "Ghini",
+   "world": "zelda",
+   "hp": 50,
+   "atk": 12,
+   "spd": 90,
+   "behavior": "shy_ghost",
+   "size": 16,
+   "color": "#d8d8e8",
+   "loot": [
+    [
+     "rupee",
+     0.3
+    ],
+    [
+     "wake_up_mushroom",
+     0.12
+    ]
+   ],
+   "gold": [
+    12,
+    24
+   ]
+  },
+  {
+   "id": "keaton",
+   "name": "Keaton",
+   "world": "zelda",
+   "hp": 60,
+   "atk": 14,
+   "spd": 130,
+   "behavior": "chaser",
+   "size": 16,
+   "color": "#e8b840",
+   "loot": [
+    [
+     "rupee",
+     0.5
+    ],
+    [
+     "kinstone",
+     0.15
+    ]
+   ],
+   "gold": [
+    20,
+    40
+   ]
+  },
+  {
+   "id": "spiked_beetle",
+   "name": "Spiked Beetle",
+   "world": "zelda",
+   "hp": 70,
+   "atk": 13,
+   "spd": 55,
+   "behavior": "tank",
+   "size": 15,
+   "color": "#4878c8",
+   "loot": [
+    [
+     "rupee",
+     0.3
+    ],
+    [
+     "kinstone",
+     0.1
+    ]
+   ],
+   "gold": [
+    12,
+    26
+   ]
+  },
+  {
+   "id": "moblin",
+   "name": "Spear Moblin",
+   "world": "zelda",
+   "hp": 80,
+   "atk": 15,
+   "spd": 85,
+   "behavior": "shooter",
+   "size": 20,
+   "color": "#487898",
+   "loot": [
+    [
+     "rupee",
+     0.3
+    ],
+    [
+     "remote_bomb",
+     0.12
+    ],
+    [
+     "red_potion",
+     0.1
+    ]
+   ],
+   "gold": [
+    18,
+    36
+   ]
+  },
+  {
+   "id": "stalfos",
+   "name": "Stalfos",
+   "world": "zelda",
+   "hp": 75,
+   "atk": 16,
+   "spd": 100,
+   "behavior": "chaser",
+   "size": 17,
+   "color": "#8898b8",
+   "loot": [
+    [
+     "rupee",
+     0.3
+    ],
+    [
+     "small_key",
+     0.12
+    ],
+    [
+     "remote_bomb",
+     0.1
+    ]
+   ],
+   "gold": [
+    16,
+    32
+   ]
+  },
+  {
+   "id": "darknut",
+   "name": "Darknut",
+   "world": "zelda",
+   "hp": 220,
+   "atk": 19,
+   "spd": 70,
+   "behavior": "tank",
+   "size": 24,
+   "color": "#b8b8c8",
+   "loot": [
+    [
+     "white_sword",
+     0.08
+    ],
+    [
+     "hylian_shield",
+     0.06
+    ],
+    [
+     "red_potion",
+     0.25
+    ]
+   ],
+   "gold": [
+    60,
+    120
+   ]
   }
  ],
  "bosses": [
@@ -2225,41 +2400,6 @@
    "telegraph": 0.55
   },
   {
-   "id": "gohma",
-   "name": "Gohma",
-   "world": "zelda",
-   "hp": 900,
-   "atk": 24,
-   "spd": 95,
-   "behavior": "boss_ambusher",
-   "size": 36,
-   "color": "#a86838",
-   "loot": [
-    [
-     "world_shard_zelda",
-     1.0
-    ],
-    [
-     "heart_container",
-     1.0
-    ],
-    [
-     "triforce_fragment",
-     0.6
-    ]
-   ],
-   "gold": [
-    1400,
-    1800
-   ],
-   "attacks": [
-    "eye_beam",
-    "ceiling_drop",
-    "larva_swarm"
-   ],
-   "telegraph": 0.6
-  },
-  {
    "id": "zabuza",
    "name": "Corrupted Zabuza",
    "world": "naruto",
@@ -2424,6 +2564,118 @@
     180,
     320
    ]
+  },
+  {
+   "id": "big_green_chuchu",
+   "name": "Big Green ChuChu",
+   "world": "zelda",
+   "hp": 950,
+   "atk": 22,
+   "spd": 85,
+   "behavior": "boss_charger",
+   "size": 44,
+   "color": "#48c858",
+   "loot": [
+    [
+     "world_shard_zelda",
+     1.0
+    ],
+    [
+     "heart_container",
+     1.0
+    ],
+    [
+     "element_earth",
+     1.0
+    ]
+   ],
+   "gold": [
+    1500,
+    1900
+   ],
+   "attacks": [
+    "gel_slam",
+    "gel_rain",
+    "chu_charge",
+    "split_bounce"
+   ],
+   "telegraph": 0.65
+  },
+  {
+   "id": "big_blue_chuchu",
+   "name": "Big Blue ChuChu",
+   "world": "zelda",
+   "hp": 1150,
+   "atk": 25,
+   "spd": 80,
+   "behavior": "boss_tank",
+   "size": 44,
+   "color": "#58b8e8",
+   "loot": [
+    [
+     "world_shard_zelda",
+     1.0
+    ],
+    [
+     "heart_container",
+     1.0
+    ],
+    [
+     "element_water",
+     1.0
+    ]
+   ],
+   "gold": [
+    1700,
+    2200
+   ],
+   "attacks": [
+    "gel_slam",
+    "spark_ring",
+    "chu_charge",
+    "storm_call"
+   ],
+   "telegraph": 0.6
+  },
+  {
+   "id": "vaati",
+   "name": "Vaati Transfigured",
+   "world": "zelda",
+   "hp": 1350,
+   "atk": 28,
+   "spd": 95,
+   "behavior": "boss_psychic",
+   "size": 52,
+   "color": "#6858c0",
+   "loot": [
+    [
+     "world_shard_zelda",
+     1.0
+    ],
+    [
+     "heart_container",
+     1.0
+    ],
+    [
+     "element_wind",
+     1.0
+    ],
+    [
+     "element_fire",
+     0.8
+    ]
+   ],
+   "gold": [
+    2000,
+    2600
+   ],
+   "attacks": [
+    "eye_beam",
+    "wind_gale",
+    "shadow_dive",
+    "orb_barrage"
+   ],
+   "telegraph": 0.6
   }
  ]
 }

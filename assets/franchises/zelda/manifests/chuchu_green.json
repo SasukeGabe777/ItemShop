@@ -1,0 +1,60 @@
+{
+  "asset_id": "chuchu_green",
+  "sheet": "res://assets/franchises/zelda/processed/sheets/chuchu_green.png",
+  "native_scale": 1,
+  "display_scale": 1,
+  "pivot": [
+    7,
+    15
+  ],
+  "grid": {
+    "frame_width": 14,
+    "frame_height": 17,
+    "columns": 1,
+    "rows": 1
+  },
+  "animations": {
+    "idle_down": {
+      "frames": [
+        0
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "walk_down": {
+      "frames": [
+        0
+      ],
+      "fps": 4,
+      "loop": true
+    },
+    "idle_up": {
+      "frames": [
+        0
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "walk_up": {
+      "frames": [
+        0
+      ],
+      "fps": 4,
+      "loop": true
+    },
+    "idle_side": {
+      "frames": [
+        0
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "walk_side": {
+      "frames": [
+        0
+      ],
+      "fps": 4,
+      "loop": true
+    }
+  }
+}

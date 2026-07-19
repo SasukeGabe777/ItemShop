@@ -3385,6 +3385,281 @@
     "rare"
    ],
    "world": "mario"
+  },
+  {
+   "id": "gust_jar",
+   "name": "Gust Jar",
+   "world": "zelda",
+   "category": "accessory",
+   "slot": "accessory",
+   "stats": {
+    "spd": 2
+   },
+   "price": 1200,
+   "tags": [
+    "tool",
+    "wind"
+   ],
+   "appeal": {
+    "retro": 1.0
+   },
+   "desc": "Inhales webs, dust, and unsuspecting ChuChus. Exhales them with interest."
+  },
+  {
+   "id": "cane_of_pacci",
+   "name": "Cane of Pacci",
+   "world": "zelda",
+   "category": "accessory",
+   "slot": "accessory",
+   "stats": {
+    "atk": 3
+   },
+   "price": 1400,
+   "tags": [
+    "tool",
+    "cane"
+   ],
+   "appeal": {
+    "retro": 1.0
+   },
+   "desc": "Flips pots, foes, and your worldview upside down."
+  },
+  {
+   "id": "mole_mitts",
+   "name": "Mole Mitts",
+   "world": "zelda",
+   "category": "accessory",
+   "slot": "accessory",
+   "stats": {
+    "def": 2
+   },
+   "price": 800,
+   "tags": [
+    "tool",
+    "glove"
+   ],
+   "appeal": {
+    "cozy": 1.0
+   },
+   "desc": "Dig through anything. Manicure not included."
+  },
+  {
+   "id": "zelda_lantern",
+   "name": "Lantern",
+   "world": "zelda",
+   "category": "accessory",
+   "slot": "accessory",
+   "stats": {
+    "def": 1
+   },
+   "price": 500,
+   "tags": [
+    "tool",
+    "light"
+   ],
+   "appeal": {
+    "cozy": 1.0
+   },
+   "desc": "Keeps the dark exactly one lantern-width away."
+  },
+  {
+   "id": "pegasus_boots",
+   "name": "Pegasus Boots",
+   "world": "zelda",
+   "category": "accessory",
+   "slot": "accessory",
+   "stats": {
+    "spd": 5
+   },
+   "price": 950,
+   "tags": [
+    "boots"
+   ],
+   "appeal": {
+    "modern": 1.0
+   },
+   "desc": "Run so fast the scenery apologizes."
+  },
+  {
+   "id": "rocs_cape",
+   "name": "Roc's Cape",
+   "world": "zelda",
+   "category": "accessory",
+   "slot": "accessory",
+   "stats": {
+    "spd": 3,
+    "def": 2
+   },
+   "price": 1600,
+   "tags": [
+    "cape"
+   ],
+   "appeal": {
+    "modern": 1.0
+   },
+   "desc": "Jump. Higher. No \u2014 higher than that."
+  },
+  {
+   "id": "white_sword",
+   "name": "White Sword",
+   "world": "zelda",
+   "category": "weapon",
+   "weapon_type": "sword_shield",
+   "stats": {
+    "atk": 9
+   },
+   "price": 1500,
+   "tags": [
+    "sword"
+   ],
+   "appeal": {
+    "retro": 1.0
+   },
+   "desc": "Three Picori blessings and a fresh coat of courage."
+  },
+  {
+   "id": "four_sword",
+   "name": "Four Sword",
+   "world": "zelda",
+   "category": "weapon",
+   "weapon_type": "sword_shield",
+   "stats": {
+    "atk": 13
+   },
+   "price": 2600,
+   "tags": [
+    "sword"
+   ],
+   "appeal": {
+    "retro": 1.0,
+    "modern": 1.0
+   },
+   "desc": "Splits its wielder into four. Splits the bill into one."
+  },
+  {
+   "id": "remote_bomb",
+   "name": "Remote Bomb",
+   "world": "zelda",
+   "category": "consumable",
+   "effect": {
+    "aoe_damage": 30
+   },
+   "price": 90,
+   "tags": [
+    "bomb"
+   ],
+   "appeal": {
+    "modern": 1.0
+   },
+   "desc": "Boom on your schedule. Mostly on your schedule."
+  },
+  {
+   "id": "wake_up_mushroom",
+   "name": "Wake-Up Mushroom",
+   "world": "zelda",
+   "category": "consumable",
+   "effect": {
+    "heal": 25,
+    "meter": 10
+   },
+   "price": 60,
+   "tags": [
+    "mushroom"
+   ],
+   "appeal": {
+    "cozy": 1.0
+   },
+   "desc": "Smells the way an alarm clock sounds."
+  },
+  {
+   "id": "kinstone",
+   "name": "Kinstone Piece",
+   "world": "zelda",
+   "category": "treasure",
+   "price": 120,
+   "tags": [
+    "valuable",
+    "charm"
+   ],
+   "appeal": {
+    "cozy": 1.0,
+    "retro": 1.0
+   },
+   "desc": "Half of a promise. Fuse it with a stranger's and fate does the paperwork."
+  },
+  {
+   "id": "big_key",
+   "name": "Big Key",
+   "world": "zelda",
+   "category": "treasure",
+   "price": 400,
+   "tags": [
+    "key"
+   ],
+   "appeal": {
+    "retro": 1.0
+   },
+   "desc": "Too big for pockets. Opens the one door that matters."
+  },
+  {
+   "id": "element_earth",
+   "name": "Earth Element",
+   "world": "zelda",
+   "category": "treasure",
+   "price": 3000,
+   "tags": [
+    "element",
+    "valuable"
+   ],
+   "appeal": {
+    "retro": 1.0
+   },
+   "desc": "The ground hums politely whenever it passes."
+  },
+  {
+   "id": "element_fire",
+   "name": "Fire Element",
+   "world": "zelda",
+   "category": "treasure",
+   "price": 3000,
+   "tags": [
+    "element",
+    "valuable"
+   ],
+   "appeal": {
+    "retro": 1.0
+   },
+   "desc": "Warm to the touch. Warmer to the argument."
+  },
+  {
+   "id": "element_water",
+   "name": "Water Element",
+   "world": "zelda",
+   "category": "treasure",
+   "price": 3000,
+   "tags": [
+    "element",
+    "valuable"
+   ],
+   "appeal": {
+    "retro": 1.0
+   },
+   "desc": "Never spills. Judges those who do."
+  },
+  {
+   "id": "element_wind",
+   "name": "Wind Element",
+   "world": "zelda",
+   "category": "treasure",
+   "price": 3000,
+   "tags": [
+    "element",
+    "valuable"
+   ],
+   "appeal": {
+    "retro": 1.0
+   },
+   "desc": "Restless in the display case. Checks the window."
   }
  ],
  "schema": "crossroads.items.v1"

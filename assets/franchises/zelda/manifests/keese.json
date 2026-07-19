@@ -1,0 +1,63 @@
+{
+  "asset_id": "keese",
+  "sheet": "res://assets/franchises/zelda/processed/sheets/keese.png",
+  "native_scale": 1,
+  "display_scale": 1,
+  "pivot": [
+    10,
+    12
+  ],
+  "grid": {
+    "frame_width": 20,
+    "frame_height": 14,
+    "columns": 2,
+    "rows": 1
+  },
+  "animations": {
+    "idle_down": {
+      "frames": [
+        0
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "walk_down": {
+      "frames": [
+        0,
+        1
+      ],
+      "fps": 4,
+      "loop": true
+    },
+    "idle_up": {
+      "frames": [
+        0
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "walk_up": {
+      "frames": [
+        0,
+        1
+      ],
+      "fps": 4,
+      "loop": true
+    },
+    "idle_side": {
+      "frames": [
+        0
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "walk_side": {
+      "frames": [
+        0,
+        1
+      ],
+      "fps": 4,
+      "loop": true
+    }
+  }
+}

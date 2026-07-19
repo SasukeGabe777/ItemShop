@@ -686,6 +686,90 @@
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/zapdos.png",
       "manifest": ""
+    },
+    {
+      "slug": "princess_zelda",
+      "name": "Princess Zelda",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/princess_zelda.png",
+      "manifest": ""
+    },
+    {
+      "slug": "king_daltus",
+      "name": "King Daltus",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/king_daltus.png",
+      "manifest": ""
+    },
+    {
+      "slug": "royal_guard",
+      "name": "Royal Guard",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/royal_guard.png",
+      "manifest": ""
+    },
+    {
+      "slug": "field_guard",
+      "name": "Field Guard",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/field_guard.png",
+      "manifest": ""
+    },
+    {
+      "slug": "din",
+      "name": "Din",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/din.png",
+      "manifest": ""
+    },
+    {
+      "slug": "nayru",
+      "name": "Nayru",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/nayru.png",
+      "manifest": ""
+    },
+    {
+      "slug": "farore",
+      "name": "Farore",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/farore.png",
+      "manifest": ""
+    },
+    {
+      "slug": "cucco",
+      "name": "Cucco",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/cucco.png",
+      "manifest": ""
+    },
+    {
+      "slug": "kid_boy_gold",
+      "name": "Tam",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/kid_boy_gold.png",
+      "manifest": ""
+    },
+    {
+      "slug": "kid_boy_blue",
+      "name": "Kip",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/kid_boy_blue.png",
+      "manifest": ""
+    },
+    {
+      "slug": "kid_girl_gold",
+      "name": "Romy",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/kid_girl_gold.png",
+      "manifest": ""
+    },
+    {
+      "slug": "kid_girl_auburn",
+      "name": "Ella",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/kid_girl_auburn.png",
+      "manifest": ""
     }
   ]
 }

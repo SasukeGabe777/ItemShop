@@ -90,7 +90,7 @@
     ]},
     {"id": "ch4_boss", "trigger": {"type": "boss_defeated", "chapter": 4}, "lines": [
       {"who": "link", "text": "... (Holds up the World Shard. A familiar jingle almost plays.)"},
-      {"who": "patch", "text": "Four shards! Also, Gohma's eye is NOT merchandise, please put it down."}
+      {"who": "patch", "text": "Four shards! Also, Vaati's eye is NOT merchandise, please put it down."}
     ]},
     {"id": "ch4_repair", "trigger": {"type": "repair_done", "chapter": 4}, "lines": [
       {"who": "patch", "text": "Gate Four: ONLINE. The Lost Woods have stopped rearranging our street signs."},

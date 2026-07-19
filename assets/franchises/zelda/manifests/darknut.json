@@ -1,0 +1,63 @@
+{
+  "asset_id": "darknut",
+  "sheet": "res://assets/franchises/zelda/processed/sheets/darknut.png",
+  "native_scale": 1,
+  "display_scale": 1,
+  "pivot": [
+    17,
+    42
+  ],
+  "grid": {
+    "frame_width": 34,
+    "frame_height": 44,
+    "columns": 2,
+    "rows": 1
+  },
+  "animations": {
+    "idle_down": {
+      "frames": [
+        0
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "walk_down": {
+      "frames": [
+        0,
+        1
+      ],
+      "fps": 4,
+      "loop": true
+    },
+    "idle_up": {
+      "frames": [
+        0
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "walk_up": {
+      "frames": [
+        0,
+        1
+      ],
+      "fps": 4,
+      "loop": true
+    },
+    "idle_side": {
+      "frames": [
+        0
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "walk_side": {
+      "frames": [
+        0,
+        1
+      ],
+      "fps": 4,
+      "loop": true
+    }
+  }
+}

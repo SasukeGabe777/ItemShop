@@ -1,0 +1,130 @@
+2026-07-19 02:29:07,184 INFO Opening game page: https://www.spriters-resource.com/game_boy_advance/thelegendofzeldatheminishcap/
+2026-07-19 02:29:13,316 INFO Game: The Legend of Zelda: The Minish Cap
+2026-07-19 02:29:13,316 INFO Platform/category: Game Boy Advance
+2026-07-19 02:29:13,316 INFO Asset count reported: 133
+2026-07-19 02:29:13,316 INFO Assets selected: 41
+2026-07-19 02:29:13,316 INFO Sections: Playable Characters, Non-Playable Characters, Enemies, Bosses, Maps, Tilesets, Miscellaneous, Unused Content
+2026-07-19 02:29:13,316 INFO Destination: C:\Users\Game Station\Desktop\crossroads\assets\franchises\zelda\raw\enemies
+2026-07-19 02:29:13,316 INFO Filename pattern: sprite_<asset>
+2026-07-19 02:29:13,316 INFO Visiting asset 6406: https://www.spriters-resource.com/game_boy_advance/thelegendofzeldatheminishcap/asset/6406/
+2026-07-19 02:29:18,239 INFO Trying download control: download attribute
+2026-07-19 02:29:20,819 DEBUG Waited 2.00 seconds before next request.
+2026-07-19 02:29:20,819 INFO Visiting asset 6411: https://www.spriters-resource.com/game_boy_advance/thelegendofzeldatheminishcap/asset/6411/
+2026-07-19 02:29:22,727 INFO Trying download control: download attribute
+2026-07-19 02:29:25,022 DEBUG Waited 2.00 seconds before next request.
+2026-07-19 02:29:25,023 INFO Visiting asset 6413: https://www.spriters-resource.com/game_boy_advance/thelegendofzeldatheminishcap/asset/6413/
+2026-07-19 02:29:26,866 INFO Trying download control: download attribute
+2026-07-19 02:29:29,145 DEBUG Waited 2.00 seconds before next request.
+2026-07-19 02:29:29,145 INFO Visiting asset 6414: https://www.spriters-resource.com/game_boy_advance/thelegendofzeldatheminishcap/asset/6414/
+2026-07-19 02:29:31,149 INFO Trying download control: download attribute
+2026-07-19 02:29:33,432 DEBUG Waited 2.00 seconds before next request.
+2026-07-19 02:29:33,432 INFO Visiting asset 6443: https://www.spriters-resource.com/game_boy_advance/thelegendofzeldatheminishcap/asset/6443/
+2026-07-19 02:29:35,066 INFO Trying download control: download attribute
+2026-07-19 02:29:37,445 DEBUG Waited 2.00 seconds before next request.
+2026-07-19 02:29:37,445 INFO Visiting asset 6445: https://www.spriters-resource.com/game_boy_advance/thelegendofzeldatheminishcap/asset/6445/
+2026-07-19 02:29:39,498 INFO Trying download control: download attribute
+2026-07-19 02:29:41,816 DEBUG Waited 2.00 seconds before next request.
+2026-07-19 02:29:41,816 INFO Visiting asset 64168: https://www.spriters-resource.com/game_boy_advance/thelegendofzeldatheminishcap/asset/64168/
+2026-07-19 02:29:43,724 INFO Trying download control: download attribute
+2026-07-19 02:29:45,950 DEBUG Waited 2.00 seconds before next request.
+2026-07-19 02:29:45,950 INFO Visiting asset 6449: https://www.spriters-resource.com/game_boy_advance/thelegendofzeldatheminishcap/asset/6449/
+2026-07-19 02:29:47,837 INFO Trying download control: download attribute
+2026-07-19 02:29:50,063 DEBUG Waited 2.00 seconds before next request.
+2026-07-19 02:29:50,063 INFO Visiting asset 6409: https://www.spriters-resource.com/game_boy_advance/thelegendofzeldatheminishcap/asset/6409/
+2026-07-19 02:29:51,890 INFO Trying download control: download attribute
+2026-07-19 02:29:54,101 DEBUG Waited 2.00 seconds before next request.
+2026-07-19 02:29:54,101 INFO Visiting asset 49617: https://www.spriters-resource.com/game_boy_advance/thelegendofzeldatheminishcap/asset/49617/
+2026-07-19 02:29:55,791 INFO Trying download control: download attribute
+2026-07-19 02:29:58,061 DEBUG Waited 2.00 seconds before next request.
+2026-07-19 02:29:58,061 INFO Visiting asset 6459: https://www.spriters-resource.com/game_boy_advance/thelegendofzeldatheminishcap/asset/6459/
+2026-07-19 02:29:59,606 INFO Trying download control: download attribute
+2026-07-19 02:30:01,785 DEBUG Waited 2.00 seconds before next request.
+2026-07-19 02:30:01,785 INFO Visiting asset 6472: https://www.spriters-resource.com/game_boy_advance/thelegendofzeldatheminishcap/asset/6472/
+2026-07-19 02:30:03,283 INFO Trying download control: download attribute
+2026-07-19 02:30:05,484 DEBUG Waited 2.00 seconds before next request.
+2026-07-19 02:30:05,484 INFO Visiting asset 6475: https://www.spriters-resource.com/game_boy_advance/thelegendofzeldatheminishcap/asset/6475/
+2026-07-19 02:30:07,151 INFO Trying download control: download attribute
+2026-07-19 02:30:09,315 DEBUG Waited 2.00 seconds before next request.
+2026-07-19 02:30:09,315 INFO Visiting asset 6405: https://www.spriters-resource.com/game_boy_advance/thelegendofzeldatheminishcap/asset/6405/
+2026-07-19 02:30:13,793 INFO Trying download control: download attribute
+2026-07-19 02:30:15,978 DEBUG Waited 2.00 seconds before next request.
+2026-07-19 02:30:15,978 INFO Visiting asset 6478: https://www.spriters-resource.com/game_boy_advance/thelegendofzeldatheminishcap/asset/6478/
+2026-07-19 02:30:17,660 INFO Trying download control: download attribute
+2026-07-19 02:30:19,843 DEBUG Waited 2.00 seconds before next request.
+2026-07-19 02:30:19,843 INFO Visiting asset 6480: https://www.spriters-resource.com/game_boy_advance/thelegendofzeldatheminishcap/asset/6480/
+2026-07-19 02:30:21,415 INFO Trying download control: download attribute
+2026-07-19 02:30:23,585 DEBUG Waited 2.00 seconds before next request.
+2026-07-19 02:30:23,585 INFO Visiting asset 6497: https://www.spriters-resource.com/game_boy_advance/thelegendofzeldatheminishcap/asset/6497/
+2026-07-19 02:30:25,115 INFO Trying download control: download attribute
+2026-07-19 02:30:27,296 DEBUG Waited 2.00 seconds before next request.
+2026-07-19 02:30:27,296 INFO Visiting asset 6498: https://www.spriters-resource.com/game_boy_advance/thelegendofzeldatheminishcap/asset/6498/
+2026-07-19 02:30:28,840 INFO Trying download control: download attribute
+2026-07-19 02:30:31,069 DEBUG Waited 2.00 seconds before next request.
+2026-07-19 02:30:31,069 INFO Visiting asset 6504: https://www.spriters-resource.com/game_boy_advance/thelegendofzeldatheminishcap/asset/6504/
+2026-07-19 02:30:32,591 INFO Trying download control: download attribute
+2026-07-19 02:30:34,739 DEBUG Waited 2.00 seconds before next request.
+2026-07-19 02:30:34,739 INFO Visiting asset 6509: https://www.spriters-resource.com/game_boy_advance/thelegendofzeldatheminishcap/asset/6509/
+2026-07-19 02:30:36,357 INFO Trying download control: download attribute
+2026-07-19 02:30:38,529 DEBUG Waited 2.00 seconds before next request.
+2026-07-19 02:30:38,529 INFO Visiting asset 6511: https://www.spriters-resource.com/game_boy_advance/thelegendofzeldatheminishcap/asset/6511/
+2026-07-19 02:30:40,019 INFO Trying download control: download attribute
+2026-07-19 02:30:42,188 DEBUG Waited 2.00 seconds before next request.
+2026-07-19 02:30:42,188 INFO Visiting asset 6512: https://www.spriters-resource.com/game_boy_advance/thelegendofzeldatheminishcap/asset/6512/
+2026-07-19 02:30:47,084 INFO Trying download control: download attribute
+2026-07-19 02:30:49,356 DEBUG Waited 2.00 seconds before next request.
+2026-07-19 02:30:49,356 INFO Visiting asset 6515: https://www.spriters-resource.com/game_boy_advance/thelegendofzeldatheminishcap/asset/6515/
+2026-07-19 02:30:51,316 INFO Trying download control: download attribute
+2026-07-19 02:30:53,574 DEBUG Waited 2.00 seconds before next request.
+2026-07-19 02:30:53,575 INFO Visiting asset 6517: https://www.spriters-resource.com/game_boy_advance/thelegendofzeldatheminishcap/asset/6517/
+2026-07-19 02:30:58,729 INFO Trying download control: download attribute
+2026-07-19 02:31:00,988 DEBUG Waited 2.00 seconds before next request.
+2026-07-19 02:31:00,988 INFO Visiting asset 6520: https://www.spriters-resource.com/game_boy_advance/thelegendofzeldatheminishcap/asset/6520/
+2026-07-19 02:31:05,817 INFO Trying download control: download attribute
+2026-07-19 02:31:08,053 DEBUG Waited 2.00 seconds before next request.
+2026-07-19 02:31:08,053 INFO Visiting asset 6564: https://www.spriters-resource.com/game_boy_advance/thelegendofzeldatheminishcap/asset/6564/
+2026-07-19 02:31:10,101 INFO Trying download control: download attribute
+2026-07-19 02:31:12,355 DEBUG Waited 2.00 seconds before next request.
+2026-07-19 02:31:12,355 INFO Visiting asset 6407: https://www.spriters-resource.com/game_boy_advance/thelegendofzeldatheminishcap/asset/6407/
+2026-07-19 02:31:14,352 INFO Trying download control: download attribute
+2026-07-19 02:31:16,622 DEBUG Waited 2.00 seconds before next request.
+2026-07-19 02:31:16,622 INFO Visiting asset 6556: https://www.spriters-resource.com/game_boy_advance/thelegendofzeldatheminishcap/asset/6556/
+2026-07-19 02:31:18,488 INFO Trying download control: download attribute
+2026-07-19 02:31:20,741 DEBUG Waited 2.00 seconds before next request.
+2026-07-19 02:31:20,741 INFO Visiting asset 6523: https://www.spriters-resource.com/game_boy_advance/thelegendofzeldatheminishcap/asset/6523/
+2026-07-19 02:31:25,628 INFO Trying download control: download attribute
+2026-07-19 02:31:27,854 DEBUG Waited 2.00 seconds before next request.
+2026-07-19 02:31:27,854 INFO Visiting asset 6524: https://www.spriters-resource.com/game_boy_advance/thelegendofzeldatheminishcap/asset/6524/
+2026-07-19 02:31:32,968 INFO Trying download control: download attribute
+2026-07-19 02:31:35,312 DEBUG Waited 2.00 seconds before next request.
+2026-07-19 02:31:35,312 INFO Visiting asset 6557: https://www.spriters-resource.com/game_boy_advance/thelegendofzeldatheminishcap/asset/6557/
+2026-07-19 02:31:37,061 INFO Trying download control: download attribute
+2026-07-19 02:31:39,271 DEBUG Waited 2.00 seconds before next request.
+2026-07-19 02:31:39,271 INFO Visiting asset 6448: https://www.spriters-resource.com/game_boy_advance/thelegendofzeldatheminishcap/asset/6448/
+2026-07-19 02:31:41,293 INFO Trying download control: download attribute
+2026-07-19 02:31:43,556 DEBUG Waited 2.00 seconds before next request.
+2026-07-19 02:31:43,556 INFO Visiting asset 6460: https://www.spriters-resource.com/game_boy_advance/thelegendofzeldatheminishcap/asset/6460/
+2026-07-19 02:31:48,478 INFO Trying download control: download attribute
+2026-07-19 02:31:50,740 DEBUG Waited 2.00 seconds before next request.
+2026-07-19 02:31:50,740 INFO Visiting asset 6415: https://www.spriters-resource.com/game_boy_advance/thelegendofzeldatheminishcap/asset/6415/
+2026-07-19 02:31:52,608 INFO Trying download control: download attribute
+2026-07-19 02:31:54,867 DEBUG Waited 2.00 seconds before next request.
+2026-07-19 02:31:54,867 INFO Visiting asset 6506: https://www.spriters-resource.com/game_boy_advance/thelegendofzeldatheminishcap/asset/6506/
+2026-07-19 02:31:56,825 INFO Trying download control: download attribute
+2026-07-19 02:31:59,122 DEBUG Waited 2.00 seconds before next request.
+2026-07-19 02:31:59,122 INFO Visiting asset 6546: https://www.spriters-resource.com/game_boy_advance/thelegendofzeldatheminishcap/asset/6546/
+2026-07-19 02:32:00,947 INFO Trying download control: download attribute
+2026-07-19 02:32:03,176 DEBUG Waited 2.00 seconds before next request.
+2026-07-19 02:32:03,176 INFO Visiting asset 6461: https://www.spriters-resource.com/game_boy_advance/thelegendofzeldatheminishcap/asset/6461/
+2026-07-19 02:32:05,035 INFO Trying download control: download attribute
+2026-07-19 02:32:07,317 DEBUG Waited 2.00 seconds before next request.
+2026-07-19 02:32:07,317 INFO Visiting asset 535841: https://www.spriters-resource.com/game_boy_advance/thelegendofzeldatheminishcap/asset/535841/
+2026-07-19 02:32:09,067 INFO Trying download control: download attribute
+2026-07-19 02:32:11,262 DEBUG Waited 2.00 seconds before next request.
+2026-07-19 02:32:11,262 INFO Visiting asset 6534: https://www.spriters-resource.com/game_boy_advance/thelegendofzeldatheminishcap/asset/6534/
+2026-07-19 02:32:13,047 INFO Trying download control: download attribute
+2026-07-19 02:32:15,258 DEBUG Waited 2.00 seconds before next request.
+2026-07-19 02:32:15,258 INFO Visiting asset 31116: https://www.spriters-resource.com/game_boy_advance/thelegendofzeldatheminishcap/asset/31116/
+2026-07-19 02:32:20,065 INFO Trying download control: download attribute
+2026-07-19 02:32:22,317 DEBUG Waited 2.00 seconds before next request.
+2026-07-19 02:32:22,317 INFO Visiting asset 6535: https://www.spriters-resource.com/game_boy_advance/thelegendofzeldatheminishcap/asset/6535/
+2026-07-19 02:32:24,047 INFO Trying download control: download attribute

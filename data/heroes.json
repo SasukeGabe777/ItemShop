@@ -215,10 +215,11 @@
      "arc": 110
     },
     "special": {
-     "kind": "spin",
-     "name": "Spin Attack",
-     "dmg": 24,
-     "radius": 55,
+     "kind": "bomb",
+     "name": "Bomb",
+     "dmg": 32,
+     "radius": 62,
+     "fuse": 2.0,
      "cost": 30
     },
     "dodge": {

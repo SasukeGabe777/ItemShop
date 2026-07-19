@@ -1,0 +1,35 @@
+{
+  "asset_id": "bomb_explosion",
+  "sheet": "res://assets/franchises/zelda/processed/sheets/bomb_explosion.png",
+  "native_scale": 1,
+  "display_scale": 1,
+  "pivot": [
+    24,
+    22
+  ],
+  "grid": {
+    "frame_width": 48,
+    "frame_height": 44,
+    "columns": 11,
+    "rows": 1
+  },
+  "animations": {
+    "explode": {
+      "frames": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "fps": 14,
+      "loop": false
+    }
+  }
+}

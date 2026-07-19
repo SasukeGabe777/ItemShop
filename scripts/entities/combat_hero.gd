@@ -201,6 +201,12 @@ func _do_special() -> void:
 			hitbox.begin_swing(_attack_damage(dmg_ratio))
 			get_tree().create_timer(0.25).timeout.connect(hitbox.end_swing)
 			FX.attack_trail(get_parent(), global_position, global_position + facing * 40.0, color)
+		"bomb":
+			var bomb := Bomb.new()
+			bomb.setup(_attack_damage(dmg_ratio), float(sp.get("radius", 60)),
+				float(sp.get("fuse", 2.0)), CombatHero.LAYER_ENEMY_HURT)
+			bomb.global_position = global_position + facing.normalized() * 12.0
+			get_parent().add_child(bomb)
 
 
 func _spawn_projectile(speed: float, dmg_ratio: float, color: Color) -> void:

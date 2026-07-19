@@ -1,0 +1,63 @@
+{
+  "asset_id": "spiked_beetle",
+  "sheet": "res://assets/franchises/zelda/processed/sheets/spiked_beetle.png",
+  "native_scale": 1,
+  "display_scale": 1,
+  "pivot": [
+    9,
+    18
+  ],
+  "grid": {
+    "frame_width": 19,
+    "frame_height": 20,
+    "columns": 2,
+    "rows": 1
+  },
+  "animations": {
+    "idle_down": {
+      "frames": [
+        0
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "walk_down": {
+      "frames": [
+        0,
+        1
+      ],
+      "fps": 4,
+      "loop": true
+    },
+    "idle_up": {
+      "frames": [
+        0
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "walk_up": {
+      "frames": [
+        0,
+        1
+      ],
+      "fps": 4,
+      "loop": true
+    },
+    "idle_side": {
+      "frames": [
+        0
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "walk_side": {
+      "frames": [
+        0,
+        1
+      ],
+      "fps": 4,
+      "loop": true
+    }
+  }
+}

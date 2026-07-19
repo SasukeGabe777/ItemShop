@@ -199,15 +199,22 @@
    "id": "zelda",
    "chapter": 4,
    "name": "The Legend of Zelda",
-   "location": "Lost Woods & Hyrule Ruins",
+   "location": "Hyrule",
    "hero": "link",
-   "boss": "gohma",
+   "boss": "big_green_chuchu",
    "enemies": [
     "keese",
     "octorok",
-    "bokoblin",
-    "chuchu",
-    "skulltula"
+    "chuchu_green",
+    "chuchu_blue",
+    "rope",
+    "leever",
+    "ghini",
+    "keaton",
+    "spiked_beetle",
+    "moblin",
+    "stalfos",
+    "darknut"
    ],
    "repair_cost": 120000,
    "world_shard": "world_shard_zelda",
@@ -215,22 +222,51 @@
    "floor_color": "#2f5d33",
    "wall_color": "#1c3a20",
    "accent_color": "#e8d048",
-   "dungeon_desc": "Forest paths that loop unless you listen, and a temple older than maps.",
+   "dungeon_desc": "Ranch lanes and castle gardens, too quiet since the wind changed.",
    "market_goods": [
     "red_potion",
     "green_potion",
+    "blue_potion",
     "deku_nut",
+    "wake_up_mushroom",
     "wooden_shield",
     "zelda_boomerang",
     "bomb_bag",
-    "deku_wood",
+    "remote_bomb",
     "fairy_bottle",
     "rupee",
-    "hookshot",
+    "zelda_lantern",
+    "pegasus_boots",
+    "gust_jar",
+    "rocs_cape",
+    "white_sword",
     "hylian_shield",
     "heart_container",
-    "fairy_charm"
-   ]
+    "kinstone"
+   ],
+   "boss_rotation": [
+    "big_green_chuchu",
+    "big_blue_chuchu",
+    "vaati"
+   ],
+   "room_backgrounds": {
+    "start": [
+     "res://assets/locations/zeldadungeon/processed/start_ranch.png"
+    ],
+    "combat": [
+     "res://assets/locations/zeldadungeon/processed/combat_orchard.png",
+     "res://assets/locations/zeldadungeon/processed/combat_pens.png",
+     "res://assets/locations/zeldadungeon/processed/combat_fields.png"
+    ],
+    "treasure": [
+     "res://assets/locations/zeldadungeon/processed/treasure_garden.png"
+    ],
+    "boss": [
+     "res://assets/locations/zeldadungeon/processed/boss_courtyard.png"
+    ]
+   },
+   "obstacle_texture": "res://assets/locations/zeldadungeon/processed/rocks.png",
+   "obstacle_style": "grid"
   },
   {
    "id": "naruto",
