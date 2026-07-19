@@ -29,6 +29,12 @@ class Probe:
 		town._activate("gates", 1)
 		await get_tree().create_timer(0.6).timeout
 		get_viewport().get_texture().get_image().save_png("user://screenshots/split_p2_market.png")
+		# same-menu lock: P1 must be refused while P2 holds the market
+		var busy_before: bool = town.busy
+		town._activate("market", 1)
+		await get_tree().process_frame
+		print("LOCK market busy_before=", busy_before, " after P1 tries (must stay true=gates only): ", town.busy,
+			" owner=", town._menu_owner)
 		SceneRouter.go("shop")
 		await get_tree().create_timer(1.5).timeout
 		var shop: Node = get_tree().current_scene

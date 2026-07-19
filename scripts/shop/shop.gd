@@ -24,6 +24,7 @@ var session_summary := {"sales": 0, "revenue": 0, "perfect": 0, "left": 0, "orde
 var negotiating: ShopCustomer = null
 var nego_queue: Array = []  # [{customer: Dictionary, item: String, node: ShopCustomer}]
 var corner_buttons: Array[Button] = []  # Buy furniture / Decorate / Rearrange
+var _menu_owner: Dictionary = {}  # menu key -> player idx holding it open
 var _rstick_edge := false
 var _nego_item := ""  # item under negotiation, for the sold-items summary
 # pad-driven furniture editing
@@ -421,6 +422,9 @@ func _process_corner_focus() -> void:
 
 
 func _activate(action: String, who: int = 1) -> void:
+	if MultiplayerState.enabled and _menu_owner.has(action):
+		_toast("In use by Player %d!" % int(_menu_owner[action]))
+		return
 	if action.begins_with("slot_"):
 		_open_slot_picker(int(action.trim_prefix("slot_")), who)
 		return
@@ -718,6 +722,7 @@ func _open_slot_picker(slot: int, who: int = 1) -> void:
 	var allowed: Array = info.get("allowed_categories", [])
 	var parts := UIKit.modal(MultiplayerState.menu_parent(who, self), "Display slot %d (%s)" % [slot + 1, type_name])
 	var pick_layer: CanvasLayer = parts[0]
+	_claim_menu("slot_%d" % slot, who, pick_layer)
 	var vb: VBoxContainer = parts[1]
 	(vb.get_parent() as PanelContainer).custom_minimum_size = Vector2(560, 0)
 	var current := String(InventoryManager.display[slot]) if slot < InventoryManager.display.size() else ""
@@ -815,6 +820,12 @@ func _make_pick_row(id: String, slot: int, pick_layer: CanvasLayer, who: int = 1
 		sub_pad.add_child(sub)
 		entry.add_child(sub_pad)
 	return entry
+
+
+## Marks a menu as held by a player; releases automatically however it closes.
+func _claim_menu(menu_key: String, who: int, layer: CanvasLayer) -> void:
+	_menu_owner[menu_key] = who
+	layer.tree_exiting.connect(func() -> void: _menu_owner.erase(menu_key))
 
 
 func _close_modal(modal_layer: CanvasLayer, who: int = 1) -> void:
@@ -1050,6 +1061,7 @@ func _open_storage(who: int = 1) -> void:
 		player.frozen = true
 	var parts := UIKit.modal(MultiplayerState.menu_parent(who, self), "Storage — %d items" % InventoryManager.total_items())
 	var storage_layer: CanvasLayer = parts[0]
+	_claim_menu("storage", who, storage_layer)
 	var vb: VBoxContainer = parts[1]
 	var sort_row := HBoxContainer.new()
 	sort_row.add_theme_constant_override("separation", 6)
@@ -1092,6 +1104,7 @@ func _open_expand(who: int = 1) -> void:
 		player.frozen = true
 	var parts := UIKit.modal(MultiplayerState.menu_parent(who, self), "Expand the shop")
 	var expand_layer: CanvasLayer = parts[0]
+	_claim_menu("expand", who, expand_layer)
 	var vb: VBoxContainer = parts[1]
 	var caps: Array = ContentDatabase.bal("shop", {}).get("furniture_caps", [5, 8, 12, 16, 20])
 	var next_idx := clampi(GameState.shop_level, 0, caps.size() - 1)

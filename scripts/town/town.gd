@@ -9,6 +9,7 @@ var prompt: Label
 var prompt2: Label = null
 var busy: bool = false   # player 1 has a panel / story open
 var busy2: bool = false  # player 2 has a panel open (their half only)
+var _menu_owner: Dictionary = {}  # menu key -> player idx holding it open
 
 
 func _ready() -> void:
@@ -159,14 +160,19 @@ func _activate(action: String, who: int = 1) -> void:
 			MultiplayerState.clear_ready("enter_shop")
 			SceneRouter.last_town_position = player.position
 			SceneRouter.go("shop")
-		"market":
-			_open_panel(MarketPanel.new(), who)
-		"workshop":
-			_open_panel(WorkshopPanel.new(), who)
-		"guild":
-			_open_panel(GuildPanel.new(), who)
-		"gates":
-			_open_panel(GatesPanel.new(), who)
+		"market", "workshop", "guild", "gates":
+			# one player per menu: two pads in one panel type cross wires
+			if MultiplayerState.enabled and _menu_owner.has(action):
+				_toast("The %s is in use by Player %d!" % [action.capitalize(), int(_menu_owner[action])],
+					player if who == 1 else player2)
+				return
+			var panel: Node
+			match action:
+				"market": panel = MarketPanel.new()
+				"workshop": panel = WorkshopPanel.new()
+				"guild": panel = GuildPanel.new()
+				_: panel = GatesPanel.new()
+			_open_panel(panel, who, action)
 		"home":
 			if MultiplayerState.enabled and not MultiplayerState.ready_up("rest", who):
 				_toast("Resting — %d/2 ready" % MultiplayerState.ready_count("rest"),
@@ -190,8 +196,12 @@ func _toast(text: String, over: Node2D) -> void:
 	tw.tween_callback(lbl.queue_free)
 
 
-func _open_panel(panel: Node, who: int = 1) -> void:
+func _open_panel(panel: Node, who: int = 1, menu_key: String = "") -> void:
 	panel.set_meta("owner_player", who)
+	if menu_key != "":
+		_menu_owner[menu_key] = who
+		# tree_exiting covers every close path (button, scene change, frees)
+		panel.tree_exiting.connect(func() -> void: _menu_owner.erase(menu_key))
 	if who == 2:
 		busy2 = true
 		player2.frozen = true
