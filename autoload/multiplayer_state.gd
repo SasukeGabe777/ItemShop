@@ -44,6 +44,8 @@ func set_enabled(value: bool) -> void:
 	enabled = value
 	_ready_sets.clear()
 	pending_confirm = {}
+	_focus_mem.clear()
+	_focus_paint.clear()
 	if enabled:
 		_split_input_devices()
 	else:
@@ -75,6 +77,8 @@ var _svc: SubViewportContainer = null
 func attach_split(scene: Node2D, p1: TownPlayer) -> TownPlayer:
 	_ready_sets.clear()
 	pending_confirm = {}
+	_focus_mem.clear()
+	_focus_paint.clear()
 	var p2 := TownPlayer.new()
 	p2.input_prefix = "p2_"
 	p2.position = p1.position + Vector2(24, 0)
@@ -186,6 +190,99 @@ const _SCROLL_SPEED := 620.0
 
 var _p2_held: Dictionary = {}       # ui action -> time until next synthetic press
 var _p2_last_focus: Control = null
+var _focus_mem: Dictionary = {}     # player idx -> last real focus in their viewport
+var _focus_paint: Dictionary = {}   # player idx -> button wearing the fake highlight
+
+
+## The engine allows ONE GUI focus per window: grabbing focus inside the P2
+## SubViewport wipes the root viewport's focus and vice versa, so two open
+## menus constantly kill each other's selector. Each player's focus is
+## remembered here and restored just-in-time when THEIR input arrives; the
+## side that doesn't hold the engine focus keeps a painted stand-in
+## highlight so both selectors stay visible.
+func _remember_focus() -> void:
+	_track_focus(1, get_viewport())
+	_track_focus(2, p2_viewport())
+
+
+func _track_focus(idx: int, vp: Viewport) -> void:
+	if vp == null:
+		return
+	var f := vp.gui_get_focus_owner()
+	if f != null:
+		_focus_mem[idx] = f
+		_paint_focus(idx, null)
+		return
+	var remembered: Variant = _focus_mem.get(idx)
+	if remembered != null and is_instance_valid(remembered) \
+			and remembered is Control and remembered.is_inside_tree() \
+			and remembered.get_viewport() == vp and UIKit.modal_open(vp):
+		_paint_focus(idx, remembered as Control)
+	else:
+		_focus_mem.erase(idx)
+		_paint_focus(idx, null)
+
+
+## Regrab a player's remembered focus (their selector) if the other player's
+## menu activity wiped it. Returns whatever ends up focused.
+func _restore_focus(idx: int) -> Control:
+	var vp: Viewport = get_viewport() if idx == 1 else p2_viewport()
+	if vp == null:
+		return null
+	var f := vp.gui_get_focus_owner()
+	if f != null:
+		return f
+	if not UIKit.modal_open(vp):
+		return null
+	var remembered: Variant = _focus_mem.get(idx)
+	if remembered != null and is_instance_valid(remembered) and remembered is Control \
+			and remembered.is_inside_tree() and remembered.get_viewport() == vp:
+		var m := remembered as Control
+		m.grab_focus()
+		return m
+	_focus_mem.erase(idx)
+	# no memory (e.g. both menus opened the same frame and the later grab
+	# wiped this one before it was ever seen): recover onto the topmost menu
+	var lay := _topmost_layer_in(vp)
+	if lay != null:
+		var b := UIKit._first_button_in(lay)
+		if b != null:
+			b.grab_focus()
+			return b
+	return null
+
+
+## Highest-layered visible CanvasLayer belonging to `vp` that holds a button.
+func _topmost_layer_in(vp: Viewport) -> Node:
+	var best: CanvasLayer = null
+	for layer: Node in vp.find_children("*", "CanvasLayer", true, false):
+		var cl := layer as CanvasLayer
+		if cl == null or not cl.visible or cl.get_meta("pad_recovery_skip", false):
+			continue
+		if cl.get_viewport() != vp:
+			continue
+		if UIKit._first_button_in(cl) == null:
+			continue
+		if best == null or cl.layer >= best.layer:
+			best = cl
+	return best
+
+
+## The stand-in highlight: the focus look, worn as the "normal" style.
+func _paint_focus(idx: int, c: Control) -> void:
+	var previous: Variant = _focus_paint.get(idx)
+	if previous == c:
+		return
+	if previous != null and is_instance_valid(previous) and previous is Control:
+		var prev := previous as Control
+		prev.remove_theme_stylebox_override("normal")
+		prev.remove_theme_color_override("font_color")
+	_focus_paint[idx] = c
+	if c is Button:
+		var t := UIKit.light_theme()
+		if t.has_stylebox("focus", "Button"):
+			c.add_theme_stylebox_override("normal", t.get_stylebox("focus", "Button"))
+		c.add_theme_color_override("font_color", Color.WHITE)
 
 
 ## PadNav for Player 2's half. Their menus live inside the SubViewport, whose
@@ -194,11 +291,22 @@ var _p2_last_focus: Control = null
 ## device 0) — so the left stick is polled here and turned into synthetic
 ## ui_* presses, which also gives P2 held-direction repeat like P1 has.
 func _process(delta: float) -> void:
-	if not enabled or p2_viewport() == null or not UIKit.modal_open(_p2_view):
+	if not enabled or p2_viewport() == null:
+		_p2_held.clear()
+		_p2_last_focus = null
+		return
+	_remember_focus()
+	if not UIKit.modal_open(_p2_view):
 		_p2_held.clear()
 		_p2_last_focus = null
 		return
 	var focus := _p2_view.gui_get_focus_owner()
+	if focus == null:
+		for dir: Array in _NAV_DIRS:
+			if Input.get_joy_axis(P2_DEVICE, dir[1]) * float(dir[2]) > 0.55 \
+					or Input.is_joy_button_pressed(P2_DEVICE, dir[3]):
+				focus = _restore_focus(2)
+				break
 	if focus != _p2_last_focus and focus != null and _p2_last_focus != null:
 		AudioManager.play_sfx("menu_movement", -8.0)
 	_p2_last_focus = focus
@@ -239,15 +347,41 @@ func _push_p2_nav(action: String) -> void:
 
 
 ## Route P2's pad into their SubViewport's GUI as device-0 events (the base
-## ui_* actions are pinned to device 0 while split-screen is on).
+## ui_* actions are pinned to device 0 while split-screen is on). Each
+## player's events first win back their own selector if the other player's
+## focus grabs wiped it (one engine focus per window — see _remember_focus).
 func _input(event: InputEvent) -> void:
-	if not enabled or p2_viewport() == null:
+	if not enabled:
 		return
-	if (event is InputEventJoypadButton or event is InputEventJoypadMotion) and event.device == P2_DEVICE:
+	var is_joy := event is InputEventJoypadButton or event is InputEventJoypadMotion
+	if is_joy and event.device == P2_DEVICE and p2_viewport() != null:
+		if _deliberate(event) and _p2_view.gui_get_focus_owner() == null:
+			_restore_focus(2)
 		var dup := event.duplicate()
 		dup.device = 0
 		dup.set_meta("p2src", true)  # the gate inside the viewport admits only these
 		_p2_view.push_input(dup)
+	elif (is_joy and event.device == 0) or event is InputEventKey:
+		var rvp := get_viewport()
+		if _deliberate(event) and rvp.gui_get_focus_owner() == null:
+			_restore_focus(1)
+		# PadNav's _unhandled_input rescues never fire while the split rig
+		# exists (the view container consumes the chain), so P1's B-to-close
+		# jump lives here in split-screen
+		if event.is_action_pressed("ui_cancel") and UIKit.modal_open(rvp):
+			var f := rvp.gui_get_focus_owner()
+			if f != null:
+				var close := PadNav._find_close_button(PadNav._menu_root_of(f))
+				if close != null and close != f:
+					close.grab_focus()
+					rvp.set_input_as_handled()
+
+
+## A press or a firm stick push — stick drift must not thrash the focus.
+func _deliberate(event: InputEvent) -> bool:
+	if event is InputEventJoypadMotion:
+		return absf(event.axis_value) > 0.5
+	return event.is_pressed()
 
 
 func _split_input_devices() -> void:

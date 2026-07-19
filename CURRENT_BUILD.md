@@ -1,6 +1,6 @@
 # Current Build
 
-Last audited/updated: **2026-07-16**
+Last audited/updated: **2026-07-18**
 
 Audited baseline: **`83865b5` - `Complete Kingdom Hearts playable vertical slice`**, plus this Location Workshop pass
 
@@ -28,6 +28,7 @@ finished player-facing result.
 | `tests/screenshot_dev_hub.tscn` (windowed) | **PASS - `DEV_HUB_SCREENSHOT_PASS`** | Today, Location, and Spawn rendered at both 640x360 and 1280x720 after live tab changes. |
 | `tests/test_kh_vertical_slice.tscn` | **PASS - `KH_VERTICAL_SLICE_PASS`** | Scoped starter inventory, persistent moved furniture, dynamic display targeting, two real negotiations/sales, a live two-room Sora dungeon with one Shadow and a guaranteed Lucid Shard pickup, loot return/resale, and save/reload persistence passed through a Playtest Workspace session. |
 | `tests/test_location_workshop.tscn` | **PASS - `LOCATION_WORKSHOP_PASS`** | A visual brief and proposal were saved, ground/walls/decor/collision were painted, all required marker types were placed and one moved, layout and review reloaded, and Play This Location launched the authored room in isolated development state. Test writes use `user://` scratch data. |
+| `tests/dual_picker_probe.tscn` and `tests/p2_input_probe.tscn` | **PASS - `DUAL_PICKER_PROBE_DONE`, `P2_INPUT_PROBE_DONE`** | In split-screen, simultaneous item-stand pickers retain independent virtual selectors; each pad navigates only its own menu, P1 can close its picker without closing P2's, and P2 market navigation/focus recovery remains intact. |
 | Normal project launch, windowed | **PASS** | The configured main scene reached the title screen under OpenGL on the current Windows/NVIDIA environment and exited cleanly after 180 frames. |
 
 ## Live Developer Hub - Verified automated core; visual/manual UX partial

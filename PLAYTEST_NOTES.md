@@ -2,6 +2,62 @@
 
 ---
 
+## 2026-07-18 - Independent split-screen item pickers
+
+### Date
+
+2026-07-18
+
+### Build tested
+
+- Commit/build: `4061f4e` plus the multiplayer focus-memory fix
+- Godot version: 4.7.1-stable
+- Platform: Windows, headless automated workflow and exported release smoke boot
+
+### Test route
+
+- Ran `tests/test_parse_all.tscn`.
+- In `tests/dual_picker_probe.tscn`, enabled local multiplayer, entered the
+  shop, and opened different item-stand pickers for both players on the same
+  frame.
+- Sent independent D-pad input to each picker, used P1's cancel-to-Close jump,
+  closed only P1's picker, and continued navigating P2's picker.
+- Ran `tests/p2_input_probe.tscn` through P2 stand and market navigation,
+  held-stick repeat, focus recovery, input isolation, and close behavior.
+- Exported the Windows release and booted `export/crossroads.exe` headlessly to
+  the configured title scene for 120 frames.
+
+### What worked
+
+- Parse coverage ended with `PARSE_TEST_PASS`.
+- The simultaneous-picker route ended with `DUAL_PICKER_PROBE_DONE`: both
+  players stayed busy while both menus were open, each selector moved from its
+  own remembered position, P1 closed only P1's picker, and P2 remained active.
+- The existing P2 route ended with `P2_INPUT_PROBE_DONE`; P1-style input did not
+  move P2, held-stick repeat advanced focus, lost focus recovered, and P2's
+  market closed cleanly.
+- The exported executable launched successfully and loaded all current content.
+
+### Bugs
+
+- The first dual-picker verification exposed stale freed Control references
+  during scene shutdown. Focus-memory reads now validate the untyped reference
+  before casting and erase stale entries; the rerun produced no script errors.
+- Godot still prints headless shutdown leak warnings from the short-lived probe
+  scenes. They did not affect the exercised state transitions or release boot.
+
+### Visual issues
+
+- Selector independence and menu state were verified headlessly. A two-pad,
+  windowed human check of the stand-in focus highlight remains useful.
+
+### Next action
+
+- Run one short two-controller shop session from the exported executable and
+  confirm both visible selector highlights read clearly while moving at once.
+
+---
+
 ## 2026-07-16 - Location Workshop automated workflow
 
 ### Date
