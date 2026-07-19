@@ -1,17 +1,17 @@
 {
-  "asset_id": "cloud",
-  "sheet": "res://assets/franchises/final_fantasy/processed/sheets/cloud.png",
+  "asset_id": "malboro",
+  "sheet": "res://assets/franchises/final_fantasy/processed/sheets/malboro.png",
   "native_scale": 1,
   "display_scale": 1,
   "pivot": [
-    10,
-    22
+    30,
+    58
   ],
   "grid": {
-    "frame_width": 20,
-    "frame_height": 26,
-    "columns": 8,
-    "rows": 2
+    "frame_width": 60,
+    "frame_height": 60,
+    "columns": 1,
+    "rows": 1
   },
   "animations": {
     "idle_down": {
@@ -23,59 +23,38 @@
     },
     "walk_down": {
       "frames": [
-        1,
-        2,
-        3,
-        4
+        0
       ],
-      "fps": 8,
+      "fps": 3,
       "loop": true
     },
     "idle_up": {
       "frames": [
-        5
+        0
       ],
       "fps": 3,
       "loop": true
     },
     "walk_up": {
       "frames": [
-        6,
-        7
+        0
       ],
-      "fps": 7,
+      "fps": 3,
       "loop": true
     },
     "idle_side": {
       "frames": [
-        8
+        0
       ],
       "fps": 3,
       "loop": true
     },
     "walk_side": {
       "frames": [
-        9,
-        10
+        0
       ],
-      "fps": 7,
+      "fps": 3,
       "loop": true
-    },
-    "attack_1": {
-      "frames": [
-        11,
-        12
-      ],
-      "fps": 12,
-      "loop": false
-    },
-    "attack_2": {
-      "frames": [
-        13,
-        14
-      ],
-      "fps": 12,
-      "loop": false
     }
   }
 }

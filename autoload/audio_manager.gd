@@ -119,7 +119,13 @@ func _set_loop(stream: AudioStream, loop: bool) -> void:
 		(stream as AudioStreamMP3).loop = loop
 
 
+var _variant_next: Dictionary = {}  # track id -> rotation cursor for _N variants
+
+
 ## Resolution order: user:// overrides, project override folder, defaults.
+## A track may ship several numbered takes (dungeon_final_fantasy_1.mp3,
+## dungeon_final_fantasy_2.mp3, ...): they play interchangeably, advancing
+## the rotation every time the track starts.
 func _resolve_stream(track_id: String) -> AudioStream:
 	var manifest: Dictionary = ContentDatabase.music
 	var tracks: Dictionary = manifest.get("tracks", {})
@@ -132,11 +138,25 @@ func _resolve_stream(track_id: String) -> AudioStream:
 	]
 	for dir in dirs:
 		for ext: String in formats:
-			var path := dir + file_base + "." + ext
-			var stream := _load_stream(path)
-			if stream != null:
-				return stream
+			var candidates: Array[String] = []
+			if _stream_exists(dir + file_base + "." + ext):
+				candidates.append(dir + file_base + "." + ext)
+			for n in range(1, 6):
+				var vp := "%s%s_%d.%s" % [dir, file_base, n, ext]
+				if _stream_exists(vp):
+					candidates.append(vp)
+			if candidates.is_empty():
+				continue
+			var idx := int(_variant_next.get(track_id, 0)) % candidates.size()
+			_variant_next[track_id] = idx + 1
+			return _load_stream(candidates[idx])
 	return null
+
+
+func _stream_exists(path: String) -> bool:
+	if path.begins_with("res://"):
+		return ResourceLoader.exists(path)
+	return FileAccess.file_exists(path)
 
 
 func _load_stream(path: String) -> AudioStream:

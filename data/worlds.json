@@ -135,13 +135,25 @@
    "name": "Final Fantasy",
    "location": "The Crystal Ruins",
    "hero": "cloud",
-   "boss": "behemoth",
+   "boss": "red_dragon",
+   "boss_rotation": [
+    "red_dragon",
+    "kaiser_dragon",
+    "goddess"
+   ],
    "enemies": [
-    "bomb_ff",
-    "flan",
-    "cactuar",
+    "ghost",
+    "giant_rat",
+    "guard_hound",
+    "imperial_shadow",
+    "soldier_3rd",
     "tonberry",
-    "sahagin"
+    "flan",
+    "sand_worm",
+    "ahriman",
+    "malboro",
+    "magitek_armor",
+    "behemoth"
    ],
    "repair_cost": 60000,
    "world_shard": "world_shard_ff",
@@ -149,7 +161,24 @@
    "floor_color": "#35406a",
    "wall_color": "#202848",
    "accent_color": "#78d8e8",
-   "dungeon_desc": "Crystal caverns grown through the bones of industrial ruins.",
+   "dungeon_desc": "Silent townships at the world's edge, abandoned when the crystals dimmed.",
+   "room_backgrounds": {
+    "start": [
+     "res://assets/locations/ffdungeon/processed/start_village.png"
+    ],
+    "combat": [
+     "res://assets/locations/ffdungeon/processed/combat_grove.png",
+     "res://assets/locations/ffdungeon/processed/combat_glade.png",
+     "res://assets/locations/ffdungeon/processed/combat_street.png"
+    ],
+    "treasure": [
+     "res://assets/locations/ffdungeon/processed/treasure_manor.png"
+    ],
+    "boss": [
+     "res://assets/locations/ffdungeon/processed/boss_night.png"
+    ]
+   },
+   "obstacle_texture": "res://assets/locations/ffdungeon/processed/trees.png",
    "market_goods": [
     "ff_potion",
     "hi_potion",

@@ -1,0 +1,38 @@
+[
+  {
+    "asset_id": "sprite_bosses",
+    "asset_name": "Bosses",
+    "asset_page_url": "https://www.spriters-resource.com/game_boy_advance/finalfantasy6advance/asset/6806/",
+    "contributors": [
+      "Gravrain"
+    ],
+    "downloaded_at": "2026-07-19T06:31:55.359883+00:00",
+    "format": "PNG (image/png)",
+    "game": "Final Fantasy VI Advance",
+    "local_file": "sprite_bosses.png",
+    "platform": "Game Boy Advance",
+    "section": "Enemies & Bosses",
+    "size": "381.58 KB (1031x661)",
+    "source_url": "https://www.spriters-resource.com/media/assets/7/6806.png?updated=1775392609",
+    "submitted": "A long, long time ago",
+    "uploaded_by": "DrakeyC"
+  },
+  {
+    "asset_id": "sprite_enemies",
+    "asset_name": "Enemies",
+    "asset_page_url": "https://www.spriters-resource.com/game_boy_advance/finalfantasy6advance/asset/50459/",
+    "contributors": [
+      "Gravrain"
+    ],
+    "downloaded_at": "2026-07-19T06:31:59.791985+00:00",
+    "format": "PNG (image/png)",
+    "game": "Final Fantasy VI Advance",
+    "local_file": "sprite_enemies.png",
+    "platform": "Game Boy Advance",
+    "section": "Enemies & Bosses",
+    "size": "715.56 KB (1411x873)",
+    "source_url": "https://www.spriters-resource.com/media/assets/47/50459.png?updated=1775393311",
+    "submitted": "A long, long time ago",
+    "uploaded_by": "DrakeyC"
+  }
+]

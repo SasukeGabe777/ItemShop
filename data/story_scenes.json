@@ -68,7 +68,7 @@
       {"who": "patch", "text": "Sir, the corner is not for sale. Sir, please stop brooding near the ice cream."}
     ]},
     {"id": "ch3_boss", "trigger": {"type": "boss_defeated", "chapter": 3}, "lines": [
-      {"who": "cloud", "text": "Behemoth's down. It had... crossover attacks. It threw a Poké Ball at me."},
+      {"who": "cloud", "text": "Red Dragon's down. It had... crossover attacks. It threw a Poké Ball at me."},
       {"who": "patch", "text": "That's bridge corruption for you. Worlds leaking into worlds. Shard secured. Three of seven!"}
     ]},
     {"id": "ch3_repair", "trigger": {"type": "repair_done", "chapter": 3}, "lines": [

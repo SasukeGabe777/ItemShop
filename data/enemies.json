@@ -1866,12 +1866,262 @@
    "id": "behemoth",
    "name": "Behemoth",
    "world": "final_fantasy",
-   "hp": 750,
-   "atk": 22,
-   "spd": 85,
-   "behavior": "boss_charger",
-   "size": 38,
+   "hp": 180,
+   "atk": 17,
+   "spd": 80,
+   "behavior": "tank",
+   "size": 30,
    "color": "#6838a8",
+   "loot": [
+    [
+     "genji_glove",
+     0.08
+    ],
+    [
+     "materia",
+     0.25
+    ],
+    [
+     "hi_potion",
+     0.3
+    ]
+   ],
+   "gold": [
+    60,
+    120
+   ]
+  },
+  {
+   "id": "ghost",
+   "name": "Ghost",
+   "world": "final_fantasy",
+   "hp": 34,
+   "atk": 11,
+   "spd": 95,
+   "behavior": "shy_ghost",
+   "size": 15,
+   "color": "#b8bcd0",
+   "loot": [
+    [
+     "ff_ether",
+     0.14
+    ],
+    [
+     "phoenix_down",
+     0.06
+    ]
+   ],
+   "gold": [
+    18,
+    38
+   ]
+  },
+  {
+   "id": "giant_rat",
+   "name": "Giant Rat",
+   "world": "final_fantasy",
+   "hp": 26,
+   "atk": 9,
+   "spd": 150,
+   "behavior": "chaser",
+   "size": 13,
+   "color": "#8858b0",
+   "loot": [
+    [
+     "ff_potion",
+     0.22
+    ]
+   ],
+   "gold": [
+    12,
+    26
+   ]
+  },
+  {
+   "id": "guard_hound",
+   "name": "Guard Hound",
+   "world": "final_fantasy",
+   "hp": 40,
+   "atk": 13,
+   "spd": 165,
+   "behavior": "lunger",
+   "size": 16,
+   "color": "#3858c0",
+   "loot": [
+    [
+     "ff_potion",
+     0.2
+    ],
+    [
+     "remedy",
+     0.08
+    ]
+   ],
+   "gold": [
+    20,
+    40
+   ]
+  },
+  {
+   "id": "imperial_shadow",
+   "name": "Imperial Shadow",
+   "world": "final_fantasy",
+   "hp": 44,
+   "atk": 15,
+   "spd": 175,
+   "behavior": "ambusher",
+   "size": 15,
+   "color": "#3a5a44",
+   "loot": [
+    [
+     "ff_ether",
+     0.12
+    ],
+    [
+     "mythril_sword",
+     0.05
+    ]
+   ],
+   "gold": [
+    26,
+    52
+   ]
+  },
+  {
+   "id": "soldier_3rd",
+   "name": "SOLDIER 3rd Class",
+   "world": "final_fantasy",
+   "hp": 52,
+   "atk": 14,
+   "spd": 120,
+   "behavior": "chaser",
+   "size": 16,
+   "color": "#4868b8",
+   "loot": [
+    [
+     "hi_potion",
+     0.18
+    ],
+    [
+     "mythril_sword",
+     0.07
+    ]
+   ],
+   "gold": [
+    24,
+    48
+   ]
+  },
+  {
+   "id": "sand_worm",
+   "name": "Sand Worm",
+   "world": "final_fantasy",
+   "hp": 70,
+   "atk": 14,
+   "spd": 70,
+   "behavior": "creeper",
+   "size": 22,
+   "color": "#c8c070",
+   "loot": [
+    [
+     "chocobo_feather",
+     0.15
+    ],
+    [
+     "remedy",
+     0.1
+    ]
+   ],
+   "gold": [
+    22,
+    50
+   ]
+  },
+  {
+   "id": "ahriman",
+   "name": "Ahriman",
+   "world": "final_fantasy",
+   "hp": 48,
+   "atk": 13,
+   "spd": 130,
+   "behavior": "swooper",
+   "size": 18,
+   "color": "#d07828",
+   "loot": [
+    [
+     "ff_ether",
+     0.15
+    ],
+    [
+     "crystal_shard_ff",
+     0.1
+    ]
+   ],
+   "gold": [
+    24,
+    46
+   ]
+  },
+  {
+   "id": "malboro",
+   "name": "Malboro",
+   "world": "final_fantasy",
+   "hp": 90,
+   "atk": 16,
+   "spd": 65,
+   "behavior": "tank",
+   "size": 24,
+   "color": "#3a7838",
+   "loot": [
+    [
+     "remedy",
+     0.35
+    ],
+    [
+     "ff_ribbon",
+     0.04
+    ]
+   ],
+   "gold": [
+    35,
+    70
+   ]
+  },
+  {
+   "id": "magitek_armor",
+   "name": "Magitek Armor",
+   "world": "final_fantasy",
+   "hp": 100,
+   "atk": 16,
+   "spd": 75,
+   "behavior": "shooter",
+   "size": 24,
+   "color": "#788858",
+   "loot": [
+    [
+     "crystal_shard_ff",
+     0.2
+    ],
+    [
+     "materia",
+     0.12
+    ]
+   ],
+   "gold": [
+    40,
+    80
+   ]
+  },
+  {
+   "id": "red_dragon",
+   "name": "Red Dragon",
+   "world": "final_fantasy",
+   "hp": 800,
+   "atk": 20,
+   "spd": 75,
+   "behavior": "boss_charger",
+   "size": 40,
+   "color": "#c05020",
    "loot": [
     [
      "world_shard_ff",
@@ -1891,11 +2141,88 @@
     1200
    ],
    "attacks": [
-    "horn_charge",
-    "meteor_rain",
-    "tail_sweep"
+    "flame_crush",
+    "fireball_ring",
+    "dragon_dive",
+    "cinder_storm"
    ],
    "telegraph": 0.65
+  },
+  {
+   "id": "kaiser_dragon",
+   "name": "Kaiser Dragon",
+   "world": "final_fantasy",
+   "hp": 950,
+   "atk": 23,
+   "spd": 85,
+   "behavior": "boss_tank",
+   "size": 44,
+   "color": "#a8a890",
+   "loot": [
+    [
+     "world_shard_ff",
+     1.0
+    ],
+    [
+     "ff_ribbon",
+     1.0
+    ],
+    [
+     "materia",
+     0.8
+    ]
+   ],
+   "gold": [
+    1100,
+    1500
+   ],
+   "attacks": [
+    "wing_buffet",
+    "feather_volley",
+    "kaiser_rush",
+    "ultima_storm"
+   ],
+   "telegraph": 0.6
+  },
+  {
+   "id": "goddess",
+   "name": "Goddess",
+   "world": "final_fantasy",
+   "hp": 1100,
+   "atk": 25,
+   "spd": 80,
+   "behavior": "boss_psychic",
+   "size": 46,
+   "color": "#b070c8",
+   "loot": [
+    [
+     "world_shard_ff",
+     1.0
+    ],
+    [
+     "ff_ribbon",
+     1.0
+    ],
+    [
+     "genji_glove",
+     0.8
+    ],
+    [
+     "materia",
+     1.0
+    ]
+   ],
+   "gold": [
+    1400,
+    1900
+   ],
+   "attacks": [
+    "judgment",
+    "holy_volley",
+    "charm_rush",
+    "lightning_storm"
+   ],
+   "telegraph": 0.55
   },
   {
    "id": "gohma",
