@@ -228,6 +228,11 @@ static func spacer_px(height: int) -> Control:
 
 
 static func scroll_list(min_size: Vector2) -> Array:
+	if _mp_split_active():
+		# split-screen: narrow lists let the whole menu scale up further
+		# (a 500px list can never grow past ~1.5x inside half a window)
+		min_size.x = minf(min_size.x, 420.0)
+		min_size.y = minf(min_size.y, 240.0)
 	var sc := ScrollContainer.new()
 	sc.custom_minimum_size = min_size
 	sc.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -282,21 +287,6 @@ static func modal(parent: Node, title: String) -> Array:
 	layer.layer = 50
 	parent.add_child(layer)
 	var vp := layer.get_viewport()
-	if vp is SubViewport:
-		# split-screen half: menus fill as much of the half as they can
-		var vsize := Vector2((vp as SubViewport).size)
-		var s := clampf(minf(vsize.x / 660.0, vsize.y / 640.0), 0.5, 1.6)
-		layer.scale = Vector2(s, s)
-		layer.offset = (vsize - vsize * s) * 0.5
-	else:
-		var mp := (Engine.get_main_loop() as SceneTree).root.get_node_or_null("MultiplayerState")
-		if mp != null and mp.get("enabled") and mp.call("p2_viewport") != null:
-			# split-screen: P1's menus stay inside the LEFT half so P2's view
-			# and menus are never covered (both can browse at once)
-			var logical := Vector2(vp.get_visible_rect().size)
-			var s1 := clampf(minf(logical.x * 0.5 / 660.0, logical.y / 640.0), 0.35, 1.0)
-			layer.scale = Vector2(s1, s1)
-			layer.offset = Vector2((logical.x * 0.5 - logical.x * s1) * 0.5, (logical.y - logical.y * s1) * 0.5)
 	_count_modal(vp, 1)
 	layer.tree_exiting.connect(func() -> void:
 		_count_modal(vp, -1)
@@ -316,9 +306,53 @@ static func modal(parent: Node, title: String) -> Array:
 	if title != "":
 		vb.add_child(header(title))
 		vb.add_child(hsep())
+	# split-screen: once the caller has filled the modal, measure it and scale
+	# it to FILL its player's half — fixed guesses left menus unreadably small.
+	# Refits whenever the panel's size changes (sorting, list rebuilds).
+	if vp is SubViewport or _mp_split_active():
+		var fit := func() -> void: _fit_modal_to_half(layer, p, dim)
+		fit.call_deferred()
+		p.resized.connect(fit)
 	# controller: focus the first button once the caller has filled the modal
 	focus_first_button(vb)
 	return [layer, vb]
+
+
+static func _mp_split_active() -> bool:
+	var mp := (Engine.get_main_loop() as SceneTree).root.get_node_or_null("MultiplayerState")
+	return mp != null and bool(mp.get("enabled")) and mp.call("p2_viewport") != null
+
+
+## Scale a modal so it fills most of its player's screen half. P2's menus
+## live inside their SubViewport (physical pixels, the viewport IS the half);
+## P1's live on the root viewport and are confined to the LEFT half so P2's
+## view is never covered. Single-player modals are left at native layout.
+static func _fit_modal_to_half(layer: CanvasLayer, p: PanelContainer, dim: ColorRect) -> void:
+	if not is_instance_valid(layer) or not is_instance_valid(p) or not layer.is_inside_tree():
+		return
+	var vp := layer.get_viewport()
+	if vp == null:
+		return
+	var half: Vector2
+	var frame: Vector2  # the full region the layer's controls span unscaled
+	if vp is SubViewport:
+		half = Vector2((vp as SubViewport).size)
+		frame = half
+	elif _mp_split_active():
+		frame = Vector2(vp.get_visible_rect().size)
+		half = Vector2(frame.x * 0.5, frame.y)
+	else:
+		return
+	var psize := p.get_combined_minimum_size()
+	if psize.x < 1.0 or psize.y < 1.0:
+		return
+	var s := clampf(minf(half.x * 0.95 / psize.x, half.y * 0.92 / psize.y), 0.5, 2.4)
+	layer.scale = Vector2(s, s)
+	layer.offset = (half - frame * s) * 0.5
+	# the darkening backdrop must cover exactly this half at any scale
+	dim.set_anchors_preset(Control.PRESET_TOP_LEFT)
+	dim.position = -layer.offset / s
+	dim.size = half / s
 
 
 ## Time-cost confirmation required before any period-consuming activity.

@@ -117,6 +117,7 @@ func _ready() -> void:
 		plate.offset_bottom = 76 + psize
 		add_child(plate)
 	EconomyManager.gold_changed.connect(func(_g: int) -> void: refresh())
+	set_process(true)
 	TimeManager.period_advanced.connect(func(_d: int, _p: int) -> void:
 		refresh()
 		_flash_period_banner())
@@ -125,6 +126,23 @@ func _ready() -> void:
 	InventoryManager.orders_changed.connect(refresh)
 	BridgeManager.gate_repaired.connect(func(_w: String) -> void: refresh())
 	refresh()
+
+
+## The HUD draws above P2's SubViewport, so the corner portrait would sit on
+## top of that half's (now full-half) menus — duck each half's portrait and
+## time plate while a menu is open on that half.
+func _process(_delta: float) -> void:
+	for i in period_portraits.size():
+		var vp: Viewport = get_viewport()
+		if period_portraits.size() > 1 and i == 1:
+			vp = MultiplayerState.p2_viewport()
+			if vp == null:
+				vp = get_viewport()
+		var covered := UIKit.modal_open(vp)
+		period_portraits[i].visible = not covered
+		var plate := period_plate_labels[i].get_parent() as Control
+		if plate != null:
+			plate.visible = not covered
 
 
 func refresh() -> void:

@@ -724,7 +724,7 @@ func _open_slot_picker(slot: int, who: int = 1) -> void:
 	var pick_layer: CanvasLayer = parts[0]
 	_claim_menu("slot_%d" % slot, who, pick_layer)
 	var vb: VBoxContainer = parts[1]
-	(vb.get_parent() as PanelContainer).custom_minimum_size = Vector2(560, 0)
+	(vb.get_parent() as PanelContainer).custom_minimum_size = Vector2(460 if MultiplayerState.enabled else 560, 0)
 	var current := String(InventoryManager.display[slot]) if slot < InventoryManager.display.size() else ""
 	if current != "":
 		var cur_row := HBoxContainer.new()
