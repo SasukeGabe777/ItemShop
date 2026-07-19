@@ -81,7 +81,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 ## The modal/panel this control lives in: its CanvasLayer, or the scene root.
-func _menu_root_of(c: Control) -> Node:
+static func _menu_root_of(c: Control) -> Node:
 	var node: Node = c
 	while node != null and not (node is CanvasLayer):
 		node = node.get_parent()
@@ -107,7 +107,7 @@ func _topmost_ui_layer() -> Node:
 
 
 ## Last Close/Cancel/Done-style button inside the menu (they sit at the end).
-func _find_close_button(root: Node) -> Button:
+static func _find_close_button(root: Node) -> Button:
 	var found: Button = null
 	var stack: Array[Node] = [root]
 	while not stack.is_empty():

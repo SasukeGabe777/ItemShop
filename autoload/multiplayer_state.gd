@@ -174,6 +174,70 @@ func clear_ready(action_id: String = "") -> void:
 
 ## ---- input plumbing -------------------------------------------------------
 
+const _NAV_DIRS := [
+	["ui_up", JOY_AXIS_LEFT_Y, -1.0, JOY_BUTTON_DPAD_UP],
+	["ui_down", JOY_AXIS_LEFT_Y, 1.0, JOY_BUTTON_DPAD_DOWN],
+	["ui_left", JOY_AXIS_LEFT_X, -1.0, JOY_BUTTON_DPAD_LEFT],
+	["ui_right", JOY_AXIS_LEFT_X, 1.0, JOY_BUTTON_DPAD_RIGHT],
+]
+const _REPEAT_DELAY := 0.38
+const _REPEAT_RATE := 0.14
+const _SCROLL_SPEED := 620.0
+
+var _p2_held: Dictionary = {}       # ui action -> time until next synthetic press
+var _p2_last_focus: Control = null
+
+
+## PadNav for Player 2's half. Their menus live inside the SubViewport, whose
+## built-in focus navigation ignores pumped JoypadMotion events (the engine
+## double-checks those against the global Input state, which is pinned to
+## device 0) — so the left stick is polled here and turned into synthetic
+## ui_* presses, which also gives P2 held-direction repeat like P1 has.
+func _process(delta: float) -> void:
+	if not enabled or p2_viewport() == null or not UIKit.modal_open(_p2_view):
+		_p2_held.clear()
+		_p2_last_focus = null
+		return
+	var focus := _p2_view.gui_get_focus_owner()
+	if focus != _p2_last_focus and focus != null and _p2_last_focus != null:
+		AudioManager.play_sfx("menu_movement", -8.0)
+	_p2_last_focus = focus
+	for dir: Array in _NAV_DIRS:
+		var action: String = dir[0]
+		var stick: bool = Input.get_joy_axis(P2_DEVICE, dir[1]) * float(dir[2]) > 0.55
+		var dpad: bool = Input.is_joy_button_pressed(P2_DEVICE, dir[3])
+		if (stick or dpad) and focus != null:
+			if not _p2_held.has(action):
+				_p2_held[action] = _REPEAT_DELAY
+				if stick and not dpad:
+					# a D-pad press already navigated via its own pumped event;
+					# a stick push did not (see above), so fire the first step
+					_push_p2_nav(action)
+			else:
+				_p2_held[action] -= delta
+				if _p2_held[action] <= 0.0:
+					_p2_held[action] = _REPEAT_RATE
+					_push_p2_nav(action)
+		else:
+			_p2_held.erase(action)
+	# right stick scrolls whatever list holds P2's focus, like PadNav for P1
+	var rv := Input.get_joy_axis(P2_DEVICE, JOY_AXIS_RIGHT_Y)
+	if absf(rv) >= 0.3 and focus != null:
+		var node: Node = focus
+		while node != null and not (node is ScrollContainer):
+			node = node.get_parent()
+		if node is ScrollContainer:
+			(node as ScrollContainer).scroll_vertical += int(rv * _SCROLL_SPEED * delta)
+
+
+func _push_p2_nav(action: String) -> void:
+	var ev := InputEventAction.new()
+	ev.action = action
+	ev.pressed = true
+	ev.set_meta("p2src", true)
+	_p2_view.push_input(ev)
+
+
 ## Route P2's pad into their SubViewport's GUI as device-0 events (the base
 ## ui_* actions are pinned to device 0 while split-screen is on).
 func _input(event: InputEvent) -> void:

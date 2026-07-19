@@ -52,8 +52,61 @@ class Probe:
 		_pad(0, false)
 		await get_tree().create_timer(0.3).timeout
 		print("busy2 after A on focused: ", shop.busy2, "  focus: ", _desc(vp.gui_get_focus_owner()))
+		# ---- the market-stuck repro: stick nav, focus recovery, B-to-close
+		DayBriefing.last_shown_day = TimeManager.day
+		SceneRouter.go("town")
+		await get_tree().create_timer(1.2).timeout
+		var town: Node = get_tree().current_scene
+		vp = MultiplayerState.p2_viewport()
+		town._activate("market", 2)
+		await get_tree().create_timer(0.5).timeout
+		if vp.gui_get_focus_owner() == null:
+			# headless has no pad, so the auto-focus-on-open never ran; the
+			# stick test needs a starting focus like a real session has
+			var first := UIKit._first_button_in(vp)
+			if first != null:
+				first.grab_focus()
+			await get_tree().process_frame
+		var f0: Control = vp.gui_get_focus_owner()
+		print("P2 market focus after open: ", _desc(f0))
+		_stick(1, 1.0)  # left stick pushed down
+		await get_tree().create_timer(0.2).timeout
+		var f1: Control = vp.gui_get_focus_owner()
+		print("P2 focus after stick-down (must differ): ", _desc(f1), "  moved=", f1 != f0)
+		await get_tree().create_timer(0.6).timeout
+		var f2: Control = vp.gui_get_focus_owner()
+		print("P2 focus after stick HELD (repeat, must differ again): ", _desc(f2), "  moved=", f2 != f1)
+		_stick(1, 0.0)
+		await get_tree().process_frame
+		# lost focus + A must recover onto the menu instead of soft-locking
+		if vp.gui_get_focus_owner() != null:
+			vp.gui_get_focus_owner().release_focus()
+		await get_tree().process_frame
+		_pad(0, true)
+		await get_tree().process_frame
+		_pad(0, false)
+		await get_tree().process_frame
+		print("P2 focus recovered by A after loss: ", _desc(vp.gui_get_focus_owner()))
+		# B jumps to the Close button, then A closes the market
+		_pad(1, true)
+		await get_tree().process_frame
+		_pad(1, false)
+		await get_tree().process_frame
+		print("P2 focus after B (must be Close): ", _desc(vp.gui_get_focus_owner()))
+		_pad(0, true)
+		await get_tree().process_frame
+		_pad(0, false)
+		await get_tree().create_timer(0.3).timeout
+		print("P2 market closed: modal_open=", UIKit.modal_open(vp), "  busy2=", town.busy2)
 		print("P2_INPUT_PROBE_DONE")
 		get_tree().quit()
+
+	func _stick(axis: int, value: float) -> void:
+		var ev := InputEventJoypadMotion.new()
+		ev.device = 1
+		ev.axis = axis
+		ev.axis_value = value
+		Input.parse_input_event(ev)
 
 	func _pad(button: int, pressed: bool) -> void:
 		var ev := InputEventJoypadButton.new()
