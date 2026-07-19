@@ -37,6 +37,15 @@ class Probe:
 		_pad(12, false)
 		await get_tree().process_frame
 		print("P2 focus after dpad-down x2: ", _desc(vp.gui_get_focus_owner()))
+		# an UNTAGGED event (what container-forwarding of P1's pad looks like)
+		# must be swallowed by the gate and move nothing
+		var intruder := InputEventJoypadButton.new()
+		intruder.device = 0
+		intruder.button_index = 11  # dpad up
+		intruder.pressed = true
+		vp.push_input(intruder)
+		await get_tree().process_frame
+		print("P2 focus after P1-style intruder (must be unchanged): ", _desc(vp.gui_get_focus_owner()))
 		print("busy2 before A: ", shop.busy2)
 		_pad(0, true)  # A press on focused button
 		await get_tree().process_frame

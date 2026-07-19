@@ -79,6 +79,9 @@ func attach_split(scene: Node2D, p1: TownPlayer) -> TownPlayer:
 	_p2_view.gui_disable_input = false
 	_p2_view.render_target_update_mode = SubViewport.UPDATE_ALWAYS
 	_svc.add_child(_p2_view)
+	var gate := Node.new()
+	gate.set_script(preload("res://scripts/systems/p2_input_gate.gd"))
+	_p2_view.add_child(gate)
 	var cam := Camera2D.new()
 	p2_zoom = ZoomCamera.preferred_zoom
 	cam.zoom = Vector2.ONE * p2_zoom
@@ -164,6 +167,7 @@ func _input(event: InputEvent) -> void:
 	if (event is InputEventJoypadButton or event is InputEventJoypadMotion) and event.device == P2_DEVICE:
 		var dup := event.duplicate()
 		dup.device = 0
+		dup.set_meta("p2src", true)  # the gate inside the viewport admits only these
 		_p2_view.push_input(dup)
 
 

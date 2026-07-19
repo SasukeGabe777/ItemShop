@@ -126,6 +126,11 @@ func _center_plate(plate: Control, top_center: Vector2) -> void:
 func _process(_delta: float) -> void:
 	_player_frame(player, prompt, "", busy, 1)
 	if player2 != null:
+		# watchdog: if P2 is flagged busy but nothing is actually open on
+		# their half, unstick them (guards against any menu-state desync)
+		if busy2 and not UIKit.modal_open(MultiplayerState.p2_viewport()):
+			busy2 = false
+			player2.frozen = false
 		_player_frame(player2, prompt2, "p2_", busy2, 2)
 
 

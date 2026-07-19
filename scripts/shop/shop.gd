@@ -342,6 +342,10 @@ func _process(delta: float) -> void:
 		_run_session(delta)
 	_shop_player_frame(player, prompt, "", busy, 1)
 	if player2 != null:
+		# watchdog: unstick P2 if their busy flag outlives their menus
+		if busy2 and _nego_player != 2 and not UIKit.modal_open(MultiplayerState.p2_viewport()):
+			busy2 = false
+			player2.frozen = false
 		_shop_player_frame(player2, prompt2, "p2_", busy2, 2)
 
 
