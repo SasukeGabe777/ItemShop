@@ -101,13 +101,14 @@ func _build_art_menu() -> void:
 		ui_root.add_child(hand_cursor)
 	if first_btn != null:
 		first_btn.grab_focus.call_deferred()
-	# 2P split-screen toggle mirrors the Quit button in the opposite corner
-	var mp_btn := UIKit.button("2 PLAYERS: %s" % ("ON" if MultiplayerState.enabled else "OFF"), Callable(), 9)
-	mp_btn.flat = true
+	# 2P split-screen toggle mirrors the Quit button in the opposite corner —
+	# ornate bar styling, or it vanishes into the pale sky art
+	var mp_btn := UIKit.button("2 PLAYERS: %s" % ("ON" if MultiplayerState.enabled else "OFF"), Callable(), 10)
+	mp_btn.theme = UIKit.light_theme()
 	mp_btn.anchor_left = 0.005
-	mp_btn.anchor_right = 0.14
+	mp_btn.anchor_right = 0.155
 	mp_btn.anchor_top = 0.015
-	mp_btn.anchor_bottom = 0.07
+	mp_btn.anchor_bottom = 0.075
 	mp_btn.offset_left = 0
 	mp_btn.offset_right = 0
 	mp_btn.offset_top = 0
