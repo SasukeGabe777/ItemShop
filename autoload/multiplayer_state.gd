@@ -23,6 +23,19 @@ var p2_zoom_factor: float = 1.0  # physical-pixel factor of the P2 viewport
 var _rig: CanvasLayer = null
 var _p2_view: SubViewport = null
 var _ready_sets: Dictionary = {}  # action id -> {player_idx: true}
+var pending_confirm: Dictionary = {}  # {key, player, text, on_confirm}
+
+
+## Ask the OTHER player to approve something with a world-side A press
+## (used for expeditions: the gates menu holds one player, the partner
+## just needs to say yes from wherever they stand).
+func request_confirm(key: String, player_idx: int, text: String, on_confirm: Callable) -> void:
+	pending_confirm = {"key": key, "player": player_idx, "text": text, "on_confirm": on_confirm}
+
+
+func clear_confirm(key: String = "") -> void:
+	if key == "" or String(pending_confirm.get("key", "")) == key:
+		pending_confirm = {}
 
 
 func set_enabled(value: bool) -> void:
@@ -30,6 +43,7 @@ func set_enabled(value: bool) -> void:
 		return
 	enabled = value
 	_ready_sets.clear()
+	pending_confirm = {}
 	if enabled:
 		_split_input_devices()
 	else:
@@ -60,6 +74,7 @@ var _svc: SubViewportContainer = null
 ## the stretched canvas space) so P2's half is exactly as sharp as P1's.
 func attach_split(scene: Node2D, p1: TownPlayer) -> TownPlayer:
 	_ready_sets.clear()
+	pending_confirm = {}
 	var p2 := TownPlayer.new()
 	p2.input_prefix = "p2_"
 	p2.position = p1.position + Vector2(24, 0)

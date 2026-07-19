@@ -185,30 +185,34 @@ func _expedition_dialog(world_id: String) -> void:
 		if not EconomyManager.can_afford(fee):
 			chosen_lbl.text = "Not enough gold for the hire fee%s (%dg)!" % ["s" if hid2 != "" else "", fee]
 			return
+		var launch := func() -> void:
+			dlg_layer.queue_free()
+			UIKit.confirm_time_cost(self, "The expedition", TimeManager.activity_cost("dungeon"), func() -> void:
+				EconomyManager.spend_gold(fee)
+				for c in chosen:
+					InventoryManager.remove_item(String(c))
+				if GameState.meet_hero(hid):
+					StoryEventManager.fire("hero_met", {"hero": hid})
+				if hid2 != "" and GameState.meet_hero(hid2):
+					StoryEventManager.fire("hero_met", {"hero": hid2})
+				DungeonManager.plan_expedition(world_id, hid, chosen, first_vertical_slice, hid2)
+				AudioManager.play_sfx("enter_expedition")
+				var events := TimeManager.advance(TimeManager.activity_cost("dungeon"))
+				if "deadline_failed" in events:
+					SceneRouter.go("story", {"failure": true})
+				elif StoryEventManager.has_pending():
+					SceneRouter.go("story", {"return_to": "dungeon"})
+				else:
+					SceneRouter.go("dungeon"))
 		if MultiplayerState.enabled:
-			# both shopkeepers must sign off on spending the periods
+			# the partner joins with a world-side A press — no second menu
 			var who := int(get_meta("owner_player", 1))
-			if not MultiplayerState.ready_up("expedition_%s" % world_id, who):
-				chosen_lbl.text = "Expedition %d/2 ready — the other player must Depart too!" % MultiplayerState.ready_count("expedition_%s" % world_id)
-				return
-			MultiplayerState.clear_ready("expedition_%s" % world_id)
-		dlg_layer.queue_free()
-		UIKit.confirm_time_cost(self, "The expedition", TimeManager.activity_cost("dungeon"), func() -> void:
-			EconomyManager.spend_gold(fee)
-			for c in chosen:
-				InventoryManager.remove_item(String(c))
-			if GameState.meet_hero(hid):
-				StoryEventManager.fire("hero_met", {"hero": hid})
-			if hid2 != "" and GameState.meet_hero(hid2):
-				StoryEventManager.fire("hero_met", {"hero": hid2})
-			DungeonManager.plan_expedition(world_id, hid, chosen, first_vertical_slice, hid2)
-			AudioManager.play_sfx("enter_expedition")
-			var events := TimeManager.advance(TimeManager.activity_cost("dungeon"))
-			if "deadline_failed" in events:
-				SceneRouter.go("story", {"failure": true})
-			elif StoryEventManager.has_pending():
-				SceneRouter.go("story", {"return_to": "dungeon"})
-			else:
-				SceneRouter.go("dungeon"))))
+			var other := 3 - who
+			MultiplayerState.request_confirm("expedition", other,
+				"Join the expedition to %s!" % String(ContentDatabase.get_world(world_id).get("name", world_id)), launch)
+			dlg_layer.tree_exiting.connect(func() -> void: MultiplayerState.clear_confirm("expedition"))
+			chosen_lbl.text = "Waiting for Player %d — they press A anywhere to join!" % other
+			return
+		launch.call()))
 	go_row.add_child(UIKit.button("Cancel", func() -> void: dlg_layer.queue_free()))
 	dvb.add_child(go_row)

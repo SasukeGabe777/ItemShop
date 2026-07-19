@@ -24,6 +24,21 @@ class Probe:
 		town.player2.position = Vector2(420, 300)
 		await get_tree().create_timer(0.5).timeout
 		get_viewport().get_texture().get_image().save_png("user://screenshots/split_town.png")
+		# expedition partner-confirm: P2's world-side A press must fire it
+		var confirmed := {"v": false}
+		MultiplayerState.request_confirm("expedition", 2, "Join the expedition!", func() -> void: confirmed["v"] = true)
+		var jev := InputEventJoypadButton.new()
+		jev.device = 1
+		jev.button_index = 0
+		jev.pressed = true
+		Input.parse_input_event(jev)
+		await get_tree().process_frame
+		await get_tree().process_frame
+		var jev2: InputEventJoypadButton = jev.duplicate()
+		jev2.pressed = false
+		Input.parse_input_event(jev2)
+		await get_tree().process_frame
+		print("CONFIRM fired by P2 world press: ", confirmed["v"], "  pending cleared: ", MultiplayerState.pending_confirm.is_empty())
 		# both players browse menus at the same time, each on their own half
 		town._activate("market", 2)
 		town._activate("gates", 1)

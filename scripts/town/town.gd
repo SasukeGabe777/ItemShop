@@ -140,12 +140,25 @@ func _player_frame(p: TownPlayer, pr: Label, prefix: String, p_busy: bool, idx: 
 		if pr != null:
 			pr.visible = false
 		return
+	var vp := get_viewport() if idx == 1 else MultiplayerState.p2_viewport()
+	# a partner-confirmation request (e.g. joining an expedition) takes
+	# priority over anything else this player could interact with
+	var pc: Dictionary = MultiplayerState.pending_confirm
+	if not pc.is_empty() and int(pc.get("player", 0)) == idx and not UIKit.modal_open(vp):
+		pr.visible = true
+		pr.text = "[%s] %s" % [UIKit.interact_key(), String(pc.get("text", ""))]
+		pr.position = p.position + Vector2(-60, -34)
+		if Input.is_action_just_pressed(prefix + "interact"):
+			var cb: Callable = pc.get("on_confirm", Callable())
+			MultiplayerState.clear_confirm()
+			if cb.is_valid():
+				cb.call()
+		return
 	var ic := p.nearest_interactable()
 	pr.visible = ic != null
 	if ic != null:
 		pr.text = "[%s] %s" % [UIKit.interact_key(), ic.prompt]
 		pr.position = p.position + Vector2(-30, -34)
-	var vp := get_viewport() if idx == 1 else MultiplayerState.p2_viewport()
 	if Input.is_action_just_pressed(prefix + "interact") and ic != null and not UIKit.modal_open(vp):
 		_activate(ic.action_id, idx)
 
