@@ -33,6 +33,28 @@ static func flash(node: CanvasItem, color: Color = Color(1, 1, 1), duration: flo
 	tw.tween_property(node, "modulate", Color.WHITE, duration)
 
 
+const DEATH_SHEET := "res://assets/shared/fx/enemy_death.png"
+const DEATH_FRAMES := 7
+
+
+## The heart-and-darkness poof every defeated enemy releases (KH style).
+static func enemy_death(parent: Node2D, at: Vector2, effect_scale: float = 1.0) -> void:
+	if not ResourceLoader.exists(DEATH_SHEET):
+		return
+	var spr := Sprite2D.new()
+	spr.texture = load(DEATH_SHEET)
+	spr.hframes = DEATH_FRAMES
+	spr.frame = 0
+	spr.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	spr.position = at + Vector2(0, -14.0 * effect_scale)
+	spr.scale = Vector2(effect_scale, effect_scale)
+	spr.z_index = 40
+	parent.add_child(spr)
+	var tw := spr.create_tween()
+	tw.tween_property(spr, "frame", DEATH_FRAMES - 1, 0.55)
+	tw.tween_callback(spr.queue_free)
+
+
 static func burst(parent: Node2D, at: Vector2, color: Color, amount: int = 10) -> void:
 	var p := CPUParticles2D.new()
 	p.position = at

@@ -336,6 +336,7 @@ func _enter_room(idx: int) -> void:
 		boss_bar.value = boss.health.max_hp
 		boss.boss_hp_changed.connect(func(hp: int, _mx: int) -> void: boss_bar.value = hp)
 		boss.killed.connect(func(_id: String, _at: Vector2) -> void:
+			DungeonManager.run_kills += 1
 			AudioManager.play_sfx("boss_Defeated", 2.0)
 			_on_room_cleared(true))
 	else:
@@ -463,7 +464,7 @@ func _spawn_switch_pad(at: Vector2) -> void:
 	checker.wait_time = 0.1
 	checker.autostart = true
 	checker.timeout.connect(func() -> void:
-		if inside["v"] and Input.is_action_just_pressed("interact"):
+		if inside["v"] and Input.is_action_just_pressed("interact") and not UIKit.modal_open():
 			_open_switch_menu())
 	pad.add_child(checker)
 	room_root.add_child(pad)
@@ -498,6 +499,7 @@ func _check_room_clear() -> void:
 
 
 func _on_enemy_killed(enemy_id: String, at: Vector2) -> void:
+	DungeonManager.run_kills += 1
 	hero.on_enemy_killed()
 	var cfg: Dictionary = ContentDatabase.bal("kingdom_hearts_vertical_slice", {})
 	if (
@@ -572,18 +574,30 @@ func _finish(success: bool, boss_defeated: bool) -> void:
 	var parts := UIKit.modal(self, "Expedition %s" % ("complete!" if success else "failed..."))
 	var end_layer: CanvasLayer = parts[0]
 	var vb: VBoxContainer = parts[1]
+	(vb.get_parent() as PanelContainer).custom_minimum_size = Vector2(430, 0)
 	if boss_defeated and world_id != "null_archive":
-		vb.add_child(UIKit.label("WORLD SHARD RECOVERED!", 12, UIKit.COL_GOOD))
+		vb.add_child(UIKit.label("WORLD SHARD RECOVERED!", 14, UIKit.COL_GOOD))
 	if boss_defeated and world_id == "null_archive":
-		vb.add_child(UIKit.label("The Fade has stopped fighting...", 12, UIKit.COL_ACCENT))
+		vb.add_child(UIKit.label("The Fade has stopped fighting...", 14, UIKit.COL_ACCENT))
+	# expedition ledger, mirroring the shop's end-of-day summary
+	vb.add_child(UIKit.label("Gold found: %dg   Enemies defeated: %d" % [
+		int(result["gold"]), int(result.get("kills", 0))], 11, UIKit.COL_ACCENT))
 	var loot: Dictionary = result["loot"]
-	var lines: Array[String] = []
-	for id: String in loot:
-		lines.append("%s x%d" % [ContentDatabase.item_name(id), int(loot[id])])
-	vb.add_child(UIKit.label("Loot: " + (", ".join(lines) if not lines.is_empty() else "nothing"), 9))
-	vb.add_child(UIKit.label("Gold found: %dg" % int(result["gold"]), 9, UIKit.COL_ACCENT))
+	if loot.is_empty():
+		vb.add_child(UIKit.label("Loot: nothing this time", 9, UIKit.COL_DIM))
+	else:
+		vb.add_child(UIKit.label("Loot brought home:", 9))
+		for id: String in loot:
+			vb.add_child(UIKit.label("  x%d %s — worth ~%dg" % [
+				int(loot[id]), ContentDatabase.item_name(id), MarketManager.market_value(id) * int(loot[id])], 9))
+	if hero != null:
+		vb.add_child(UIKit.label("Hero HP left: %d" % int(result.get("hp_left", 0)), 9, UIKit.COL_DIM))
 	if not success:
 		vb.add_child(UIKit.label("The hero retreated. Loot was kept; the shard was not reached.", 9, UIKit.COL_DIM))
+	vb.add_child(UIKit.hsep())
+	var status := DayTransition.fade_status()
+	if status != null:
+		vb.add_child(status)
 	vb.add_child(UIKit.button("Return to the Crossroads", func() -> void:
 		end_layer.queue_free()
 		if StoryEventManager.has_pending():

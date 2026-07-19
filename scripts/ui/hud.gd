@@ -5,7 +5,9 @@ extends CanvasLayer
 
 var day_label: Label
 var period_label: Label
-var period_pips: Array[ColorRect] = []
+var period_pips: Array[TextureRect] = []
+var period_portrait: TextureRect
+var period_plate_label: Label
 var gold_label: Label
 var deadline_label: Label
 var market_label: Label
@@ -13,6 +15,10 @@ var orders_label: Label
 
 
 const HUD_BAR := "res://assets/shared/ui/processed/hud_bar.png"
+# sliced from daycycle.png: one sky per period, plus circular portraits
+const DAY_THUMB := "res://assets/shared/ui/backgrounds/processed/daycycle_%s.png"
+const DAY_PORTRAIT := "res://assets/shared/ui/backgrounds/processed/portrait_%s.png"
+const PERIOD_KEYS := ["morning", "afternoon", "evening", "night"]
 
 
 func _ready() -> void:
@@ -44,20 +50,28 @@ func _ready() -> void:
 	row.add_child(day_label)
 	period_label = UIKit.label("", 11, UIKit.COL_ACCENT)
 	row.add_child(period_label)
+	gold_label = UIKit.label("", 11, UIKit.COL_ACCENT)
+	row.add_child(gold_label)
+	# the stakes read large — this is the Fade's countdown
+	deadline_label = UIKit.label("", 11)
+	row.add_child(deadline_label)
+	row.add_child(UIKit.spacer(false))
+	# day-cycle skies sit on the right, before the Menu button
 	var pip_box := HBoxContainer.new()
 	pip_box.add_theme_constant_override("separation", 3)
 	row.add_child(pip_box)
 	for i in range(TimeManager.periods_per_day()):
-		var pip := ColorRect.new()
-		pip.custom_minimum_size = Vector2(9, 9)
+		var pip := TextureRect.new()
+		var key: String = PERIOD_KEYS[mini(i, PERIOD_KEYS.size() - 1)]
+		if ResourceLoader.exists(DAY_THUMB % key):
+			pip.texture = load(DAY_THUMB % key)
+		pip.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		pip.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+		pip.clip_contents = true
+		pip.custom_minimum_size = Vector2(26, 15)
 		pip.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 		pip_box.add_child(pip)
 		period_pips.append(pip)
-	gold_label = UIKit.label("", 9, UIKit.COL_ACCENT)
-	row.add_child(gold_label)
-	deadline_label = UIKit.label("", 9)
-	row.add_child(deadline_label)
-	row.add_child(UIKit.spacer(false))
 	row.add_child(UIKit.button("Menu", _open_pause, 8))
 	var row2 := HBoxContainer.new()
 	row2.add_theme_constant_override("separation", 10)
@@ -68,8 +82,30 @@ func _ready() -> void:
 	market_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	market_label.clip_text = true
 	row2.add_child(market_label)
+	# large circular sky portrait, top right, showing the current period
+	period_portrait = TextureRect.new()
+	period_portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	period_portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT
+	period_portrait.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+	period_portrait.offset_left = -96
+	period_portrait.offset_right = -10
+	period_portrait.offset_top = 52
+	period_portrait.offset_bottom = 138
+	period_portrait.mouse_filter = Control.MOUSE_FILTER_STOP
+	add_child(period_portrait)
+	# ornate time-of-day plate right under the portrait
+	var plate := UIKit.nameplate("", 11)
+	period_plate_label = plate.get_child(0)
+	plate.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+	plate.offset_left = -104
+	plate.offset_right = -2
+	plate.offset_top = 140
+	plate.offset_bottom = 164
+	add_child(plate)
 	EconomyManager.gold_changed.connect(func(_g: int) -> void: refresh())
-	TimeManager.period_advanced.connect(func(_d: int, _p: int) -> void: refresh())
+	TimeManager.period_advanced.connect(func(_d: int, _p: int) -> void:
+		refresh()
+		_flash_period_banner())
 	TimeManager.day_started.connect(func(_d: int) -> void: refresh())
 	MarketManager.events_changed.connect(refresh)
 	InventoryManager.orders_changed.connect(refresh)
@@ -93,11 +129,16 @@ func refresh() -> void:
 	for i in range(period_pips.size()):
 		period_pips[i].tooltip_text = tip
 		if i < TimeManager.period:
-			period_pips[i].color = Color(UIKit.COL_DIM, 0.55)
+			period_pips[i].modulate = Color(0.45, 0.45, 0.5, 0.9)   # spent
 		elif i == TimeManager.period:
-			period_pips[i].color = UIKit.COL_ACCENT
+			period_pips[i].modulate = Color.WHITE                    # now
 		else:
-			period_pips[i].color = Color(UIKit.COL_INK, 0.16)
+			period_pips[i].modulate = Color(0.6, 0.6, 0.7, 0.45)     # ahead
+	var pkey: String = PERIOD_KEYS[clampi(TimeManager.period, 0, PERIOD_KEYS.size() - 1)]
+	if ResourceLoader.exists(DAY_PORTRAIT % pkey):
+		period_portrait.texture = load(DAY_PORTRAIT % pkey)
+	period_portrait.tooltip_text = tip
+	period_plate_label.text = TimeManager.period_name()
 	gold_label.text = "%dg" % EconomyManager.gold
 	if GameState.endless_mode or chap > 7:
 		deadline_label.text = "The Fade looms..." if chap == 8 and not BridgeManager.fade_defeated else ""
@@ -111,6 +152,72 @@ func refresh() -> void:
 	orders_label.text = "Orders: %d" % InventoryManager.orders.size()
 	var events := MarketManager.active_event_names()
 	market_label.text = "Market: " + (", ".join(events) if not events.is_empty() else "calm")
+
+
+var _period_banner: Control = null
+
+
+## Brief center-screen banner whenever the period changes: the new sky plus
+## "Afternoon — period 2 of 4", so time passing is impossible to miss.
+func _flash_period_banner() -> void:
+	if _period_banner != null and is_instance_valid(_period_banner):
+		_period_banner.queue_free()
+	var key: String = PERIOD_KEYS[clampi(TimeManager.period, 0, PERIOD_KEYS.size() - 1)]
+	var banner := PanelContainer.new()
+	banner.theme = UIKit.light_theme()
+	if ResourceLoader.exists(HUD_BAR):
+		var style := StyleBoxTexture.new()
+		style.texture = load(HUD_BAR)
+		style.texture_margin_left = 14
+		style.texture_margin_right = 14
+		style.texture_margin_top = 7
+		style.texture_margin_bottom = 7
+		style.set_content_margin_all(10)
+		banner.add_theme_stylebox_override("panel", style)
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 10)
+	banner.add_child(row)
+	var sky := TextureRect.new()
+	if ResourceLoader.exists(DAY_THUMB % key):
+		sky.texture = load(DAY_THUMB % key)
+	sky.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	sky.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	sky.clip_contents = true
+	sky.custom_minimum_size = Vector2(52, 30)
+	row.add_child(sky)
+	row.add_child(UIKit.label("%s — period %d of %d" % [
+		TimeManager.period_name(), TimeManager.period + 1, TimeManager.periods_per_day()], 15, UIKit.COL_ACCENT))
+	banner.set_anchors_preset(Control.PRESET_CENTER_TOP)
+	banner.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	banner.offset_top = 60
+	banner.modulate.a = 0.0
+	add_child(banner)
+	_period_banner = banner
+	var tw := banner.create_tween()
+	tw.tween_property(banner, "modulate:a", 1.0, 0.25)
+	# stay up while Patch is talking or a menu covers the screen, and for at
+	# least a couple of seconds either way, so the change actually registers
+	var age := {"t": 0.0}
+	var timer := Timer.new()
+	timer.wait_time = 0.25
+	timer.autostart = true
+	banner.add_child(timer)
+	timer.timeout.connect(func() -> void:
+		age["t"] += 0.25
+		var hold := UIKit.modal_open() or get_tree().get_first_node_in_group("patch_speaking") != null
+		if age["t"] >= 2.2 and not hold:
+			timer.stop()
+			var out := banner.create_tween()
+			out.tween_property(banner, "modulate:a", 0.0, 0.5)
+			out.tween_callback(banner.queue_free))
+
+
+## Start/Back (the "menu" action) opens the pause menu on a pad — the Menu
+## button is no longer reachable via stray A presses.
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("menu") and not UIKit.modal_open() and not get_tree().paused:
+		get_viewport().set_input_as_handled()
+		_open_pause()
 
 
 func _open_pause() -> void:

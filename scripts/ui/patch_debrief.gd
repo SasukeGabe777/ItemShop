@@ -45,6 +45,7 @@ static func _pick_lines(s: Dictionary) -> Array[String]:
 
 func _ready() -> void:
 	layer = 55
+	add_to_group("patch_speaking")  # the HUD period banner waits for Patch
 	if _lines.is_empty():
 		_finish()
 		return

@@ -24,8 +24,25 @@ func _ready() -> void:
 
 
 func _fill() -> void:
-	for child in content.get_children():
-		child.queue_free()
+	UIKit.rebuild_list(content, _fill_rows)
+
+
+func _fill_rows() -> void:
+	# the broken bridge itself: one plank per chapter world, lit when repaired
+	var strip := HBoxContainer.new()
+	strip.add_theme_constant_override("separation", 4)
+	strip.alignment = BoxContainer.ALIGNMENT_CENTER
+	for i in range(7):
+		var world := ContentDatabase.world_for_chapter(i + 1)
+		var repaired := BridgeManager.is_repaired(String(world.get("id", "")))
+		var plank := ColorRect.new()
+		plank.custom_minimum_size = Vector2(44, 10)
+		plank.color = Color(String(world.get("accent_color", "#888888"))) if repaired else Color("#2a2d3f")
+		plank.tooltip_text = "%s — %s" % [String(world.get("name", "?")), "repaired" if repaired else "broken"]
+		plank.mouse_filter = Control.MOUSE_FILTER_STOP
+		strip.add_child(plank)
+	content.add_child(strip)
+	content.add_child(UIKit.hsep())
 	for world_id in ContentDatabase.world_order:
 		var w := ContentDatabase.get_world(world_id)
 		var final := bool(w.get("final", false))
@@ -46,12 +63,23 @@ func _fill() -> void:
 			row.add_child(UIKit.label("Ch.%d  %s — sealed" % [chap, String(w.get("name", world_id))], 10, UIKit.COL_DIM))
 			content.add_child(row)
 			continue
-		var lbl := UIKit.label("Ch.%d  %s — %s" % [chap, String(w.get("name", world_id)), status] if not final else "FINAL  %s — %s" % [String(w.get("name", "")), status])
+		var wins := int(GameState.stats.get("expedition_wins_%s" % world_id, 0))
+		var mastered := wins >= 3
+		var lbl_text := "Ch.%d  %s — %s" % [chap, String(w.get("name", world_id)), status] if not final else "FINAL  %s — %s" % [String(w.get("name", "")), status]
+		if mastered:
+			lbl_text = "★ " + lbl_text
+		var lbl := UIKit.label(lbl_text)
+		if mastered:
+			# three boss kills: the dungeon is fully mastered — gold it
+			lbl.add_theme_color_override("font_color", UIKit.COL_ACCENT)
 		lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		row.add_child(lbl)
 		var accessible := world_id in BridgeManager.accessible_worlds()
 		if accessible:
-			row.add_child(UIKit.button("Expedition", func() -> void: _expedition_dialog(world_id)))
+			var exp_btn := UIKit.button("★ Expedition" if mastered else "Expedition", func() -> void: _expedition_dialog(world_id))
+			if mastered:
+				exp_btn.add_theme_color_override("font_color", UIKit.COL_ACCENT)
+			row.add_child(exp_btn)
 		if not final and not BridgeManager.is_repaired(world_id) and BridgeManager.has_shard(world_id):
 			var can_pay := EconomyManager.can_afford(BridgeManager.repair_cost(world_id))
 			var pay_btn := UIKit.button("Pay repair", func() -> void:

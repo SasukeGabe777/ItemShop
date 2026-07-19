@@ -35,3 +35,12 @@
 2026-07-18 03:01:52,535 DEBUG Waited 2.00 seconds before next request.
 2026-07-18 03:01:52,535 INFO Visiting asset 26955: https://www.spriters-resource.com/ds_dsi/pokemonheartgoldsoulsilver/asset/26955/
 2026-07-18 03:01:54,517 INFO Trying download control: download attribute
+2026-07-18 20:30:57,101 INFO Opening game page: https://www.spriters-resource.com/game_boy_advance/khcom/
+2026-07-18 20:31:11,881 INFO Game: Kingdom Hearts: Chain of Memories
+2026-07-18 20:31:11,882 INFO Platform/category: Game Boy Advance
+2026-07-18 20:31:11,882 INFO Asset count reported: 147
+2026-07-18 20:31:11,882 INFO Assets selected: 39
+2026-07-18 20:31:11,882 INFO Sections: Playable Characters, Summons, Non-Playable Characters, Enemies & Bosses, Backgrounds, Miscellaneous
+2026-07-18 20:31:11,882 INFO Destination: C:\Users\Game Station\Desktop\crossroads\assets\franchises\pokemon\raw\customers_updated
+2026-07-18 20:31:11,882 INFO Filename pattern: sprite_<asset>
+2026-07-18 20:31:11,883 INFO Dry run only; no assets downloaded.

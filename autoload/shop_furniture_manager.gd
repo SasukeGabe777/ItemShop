@@ -200,12 +200,18 @@ func placement_valid(uid: int, at: Vector2, room: Rect2) -> bool:
 	var inst := instance_by_uid(uid)
 	if inst.is_empty():
 		return false
+	# decorations (banners, plants, ...) hang anywhere — walls included — and
+	# may overlap anything; only functional furniture competes for floor space
+	if bool(type_def(inst).get("decor", false)):
+		return true
 	var r := instance_rect(inst, at)
 	if not room.encloses(r.grow(2.0)):
 		return false
 	for other: Dictionary in layout:
 		if int(other.get("uid", 0)) == uid:
 			continue
+		if bool(type_def(other).get("decor", false)):
+			continue  # a banner behind a shelf is fine
 		if r.grow(2.0).intersects(instance_rect(other)):
 			return false
 	return true

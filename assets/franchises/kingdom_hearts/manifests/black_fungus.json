@@ -1,0 +1,87 @@
+{
+ "asset_id": "black_fungus",
+ "sheet": "res://assets/franchises/kingdom_hearts/processed/sheets/black_fungus.png",
+ "native_scale": 1,
+ "display_scale": 1,
+ "pivot": [
+  15,
+  48
+ ],
+ "grid": {
+  "frame_width": 30,
+  "frame_height": 49,
+  "columns": 8,
+  "rows": 1
+ },
+ "animations": {
+  "idle_down": {
+   "frames": [
+    0,
+    1,
+    2
+   ],
+   "fps": 4,
+   "loop": true
+  },
+  "walk_down": {
+   "frames": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "fps": 7,
+   "loop": true
+  },
+  "idle_up": {
+   "frames": [
+    0,
+    1,
+    2
+   ],
+   "fps": 4,
+   "loop": true
+  },
+  "walk_up": {
+   "frames": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "fps": 7,
+   "loop": true
+  },
+  "idle_side": {
+   "frames": [
+    0,
+    1,
+    2
+   ],
+   "fps": 4,
+   "loop": true
+  },
+  "walk_side": {
+   "frames": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "fps": 7,
+   "loop": true
+  }
+ }
+}

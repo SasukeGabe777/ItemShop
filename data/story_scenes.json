@@ -5,7 +5,12 @@
       {"who": "patch", "text": "Boot sequence... hello! I'm Patch. I'm what's left of the World Bridge's maintenance system."},
       {"who": "hero", "text": "...The bridge outside is in a thousand pieces."},
       {"who": "patch", "text": "One thousand and seven, actually. I counted. It's all I've done for a week."},
+      {"who": "hero", "text": "What could shatter a bridge between worlds?"},
+      {"who": "patch", "text": "The Fade. It unmakes connected things. Bridges first — then the worlds they held together."},
+      {"who": "patch", "text": "It's still gnawing at the gates. Each gate has a deadline, and when it passes... that world goes dark. Then the rest follow. Us included."},
       {"who": "patch", "text": "Here's the plan: you run the item shop, we fund repairs, and we reconnect all seven gates. Easy!"},
+      {"who": "patch", "text": "Every gate needs TWO things before its deadline: the repair fee in gold, and its World Shard — you hire a hero and lead an expedition to take it back from what the Fade left behind."},
+      {"who": "patch", "text": "Sell by day, expedition when you can spare the time, pay the repair before the clock runs out. Miss ONE deadline and the Fade finishes what it started."},
       {"who": "hero", "text": "Seven gates. One shop. Thirty-five days."},
       {"who": "patch", "text": "I said 'easy', not 'reasonable'. First gate: Kingdom Hearts. It's the cheap one!"}
     ]},

@@ -19,6 +19,14 @@ var edit_hint: Label = null
 var session_summary := {"sales": 0, "revenue": 0, "perfect": 0, "left": 0, "orders": 0}
 var negotiating: ShopCustomer = null
 var nego_queue: Array = []  # [{customer: Dictionary, item: String, node: ShopCustomer}]
+var corner_buttons: Array[Button] = []  # Buy furniture / Decorate / Rearrange
+var _rstick_edge := false
+var _nego_item := ""  # item under negotiation, for the sold-items summary
+# pad-driven furniture editing
+var edit_sel: DisplayFurniture = null
+var pad_carrying := false
+var _edit_stick_edge := false
+var _pad_carry_pos := Vector2.ZERO
 
 const ENTRANCE := Vector2(320, 400)
 ## Area furniture may occupy: inside the walls, clear of the door strip.
@@ -71,9 +79,15 @@ func _build_corner_buttons() -> void:
 	box.alignment = BoxContainer.ALIGNMENT_END
 	box.theme = UIKit.light_theme()
 	layer.add_child(box)
-	box.add_child(UIKit.button("Buy furniture", _open_furniture_catalog, 9))
-	box.add_child(UIKit.button("Decorate", _open_decor_catalog, 9))
-	box.add_child(UIKit.button("Rearrange furniture", _on_rearrange_pressed, 9))
+	# pad_nav's A-press focus recovery must not land here — the right stick
+	# is the deliberate way to select these while walking around
+	layer.set_meta("pad_recovery_skip", true)
+	corner_buttons.clear()
+	for def: Array in [["Buy furniture", _open_furniture_catalog],
+			["Decorate", _open_decor_catalog], ["Rearrange furniture", _on_rearrange_pressed]]:
+		var b := UIKit.button(String(def[0]), def[1], 9)
+		box.add_child(b)
+		corner_buttons.append(b)
 
 
 func _on_rearrange_pressed() -> void:
@@ -332,8 +346,39 @@ func _process(delta: float) -> void:
 	if ic != null:
 		prompt.text = "[%s] %s" % [UIKit.interact_key(), ic.prompt]
 		prompt.position = player.position + Vector2(-40, -34)
-	if Input.is_action_just_pressed("interact") and ic != null:
+	_process_corner_focus()
+	# A doubles as ui_accept: while a modal is up, presses belong to the modal,
+	# not the world — without this every Confirm press re-opens the dialog.
+	# Same when a corner button is selected: A presses the button, not the world.
+	if Input.is_action_just_pressed("interact") and ic != null and not UIKit.modal_open() \
+			and not (get_viewport().gui_get_focus_owner() in corner_buttons):
 		_activate(ic.action_id)
+
+
+## Right stick selects the lower-right shop buttons: flick left/right to move
+## between them, move the character (left stick) or press B to put it away.
+func _process_corner_focus() -> void:
+	if not UIKit.pad_connected() or UIKit.modal_open():
+		return
+	var focus := get_viewport().gui_get_focus_owner()
+	var selected := focus in corner_buttons
+	if selected and (Input.is_action_just_pressed("ui_cancel")
+			or Input.get_vector("move_left", "move_right", "move_up", "move_down").length() > 0.3):
+		focus.release_focus()
+		return
+	var x := Input.get_joy_axis(0, JOY_AXIS_RIGHT_X)
+	if absf(x) < 0.6:
+		_rstick_edge = false
+		return
+	if _rstick_edge:
+		return
+	_rstick_edge = true
+	if not selected:
+		corner_buttons[0].grab_focus()
+	elif x > 0.0:
+		corner_buttons[mini(corner_buttons.find(focus) + 1, corner_buttons.size() - 1)].grab_focus()
+	else:
+		corner_buttons[maxi(corner_buttons.find(focus) - 1, 0)].grab_focus()
 
 
 func _activate(action: String) -> void:
@@ -377,18 +422,28 @@ func _enter_edit_mode() -> void:
 	edit_mode = true
 	player.frozen = true
 	prompt.visible = false
+	var f := get_viewport().gui_get_focus_owner()
+	if f != null:
+		f.release_focus()  # A must edit furniture now, not re-press Rearrange
 	for piece in furniture_nodes:
 		if piece.is_moveable():
 			piece.set_edit_highlight(true)
-	edit_hint = UIKit.label("EDIT MODE — click furniture to pick up, click to place. Holding: [Q] store  [X] sell 50%. Right-click cancels, [E] done", 9, UIKit.COL_ACCENT)
+	var hint_text := "EDIT MODE — click furniture to pick up, click to place. Holding: [Q] store  [X] sell 50%. Right-click cancels, [E] done"
+	if UIKit.pad_connected():
+		hint_text = "EDIT MODE — L-stick: choose a piece · A: pick up / place · holding: Y store, X sell 50% · B: cancel / done"
+	edit_hint = UIKit.label(hint_text, 9, UIKit.COL_ACCENT)
 	edit_hint.position = Vector2(150, 124)
 	edit_hint.z_index = 70
 	add_child(edit_hint)
+	if UIKit.pad_connected():
+		_set_edit_sel(_first_moveable())
 
 
 func _exit_edit_mode() -> void:
 	if carrying != null:
 		_cancel_carry()
+	pad_carrying = false
+	_set_edit_sel(null)
 	edit_mode = false
 	player.frozen = false
 	for piece in furniture_nodes:
@@ -399,13 +454,112 @@ func _exit_edit_mode() -> void:
 
 
 func _process_edit() -> void:
-	if Input.is_action_just_pressed("interact"):
-		_exit_edit_mode()
-		return
-	if carrying != null:
+	if Input.is_action_just_pressed("interact") and not UIKit.modal_open():
+		# on a pad, A means pick up / place; on keyboard, E means done
+		if UIKit.pad_connected() and Input.is_joy_button_pressed(0, JOY_BUTTON_A):
+			_pad_edit_interact()
+		else:
+			_exit_edit_mode()
+			return
+	if UIKit.pad_connected():
+		_process_pad_edit(get_process_delta_time())
+	if carrying != null and not pad_carrying:
 		var pos := (get_global_mouse_position() / EDIT_GRID).round() * EDIT_GRID
 		carrying.position = pos
 		carrying.set_ghost(ShopFurnitureManager.placement_valid(carrying.uid, pos, FURNITURE_AREA))
+
+
+# ---- pad-driven editing: flick to select, A to pick/place, stick to move ----
+
+func _first_moveable() -> DisplayFurniture:
+	for piece in furniture_nodes:
+		if is_instance_valid(piece) and piece.is_moveable():
+			return piece
+	return null
+
+
+func _set_edit_sel(piece: DisplayFurniture) -> void:
+	if edit_sel != null and is_instance_valid(edit_sel):
+		edit_sel.modulate = Color.WHITE
+	edit_sel = piece
+	if edit_sel != null and is_instance_valid(edit_sel):
+		edit_sel.modulate = Color(1.35, 1.3, 0.8)
+
+
+## Nearest moveable piece in the flicked direction from the current selection.
+func _move_edit_sel(dir: Vector2) -> void:
+	if edit_sel == null or not is_instance_valid(edit_sel):
+		_set_edit_sel(_first_moveable())
+		return
+	var best: DisplayFurniture = null
+	var best_d := 1e9
+	for piece in furniture_nodes:
+		if piece == edit_sel or not is_instance_valid(piece) or not piece.is_moveable():
+			continue
+		var delta := piece.position - edit_sel.position
+		if delta.length() < 1.0 or delta.normalized().dot(dir) < 0.35:
+			continue
+		if delta.length() < best_d:
+			best_d = delta.length()
+			best = piece
+	if best != null:
+		_set_edit_sel(best)
+
+
+func _process_pad_edit(delta: float) -> void:
+	if Input.is_action_just_pressed("cancel") or Input.is_action_just_pressed("ui_cancel"):
+		if carrying != null:
+			_cancel_carry()
+			pad_carrying = false
+			_set_edit_sel(edit_sel if edit_sel != null and is_instance_valid(edit_sel) else _first_moveable())
+		else:
+			_exit_edit_mode()
+		return
+	var v := Input.get_vector("move_left", "move_right", "move_up", "move_down")
+	if carrying == null or not pad_carrying:
+		# selection mode: flick toward the piece you want
+		if v.length() < 0.55:
+			_edit_stick_edge = false
+		elif not _edit_stick_edge:
+			_edit_stick_edge = true
+			_move_edit_sel(v.normalized())
+		return
+	# carrying with the pad: stick slides the piece on the grid
+	if v.length() > 0.2:
+		_pad_carry_pos += v * 150.0 * delta
+		_pad_carry_pos = _pad_carry_pos.clamp(Vector2(16, 40), Vector2(624, 440))
+		var snapped := (_pad_carry_pos / EDIT_GRID).round() * EDIT_GRID
+		carrying.position = snapped
+		carrying.set_ghost(ShopFurnitureManager.placement_valid(carrying.uid, snapped, FURNITURE_AREA))
+	if Input.is_action_just_pressed("use_item"):  # Y — store
+		_put_away_carried(false)
+	elif Input.is_action_just_pressed("special"):  # X — sell half price
+		_put_away_carried(true)
+	if carrying == null:  # put-away succeeded (it can refuse for the last stand)
+		pad_carrying = false
+		_set_edit_sel(_first_moveable())
+
+
+func _pad_edit_interact() -> void:
+	if carrying == null:
+		if edit_sel != null and is_instance_valid(edit_sel) and edit_sel.is_moveable():
+			carrying = edit_sel
+			carry_origin = edit_sel.position
+			pad_carrying = true
+			_pad_carry_pos = edit_sel.position
+		return
+	var pos := (carrying.position / EDIT_GRID).round() * EDIT_GRID
+	if ShopFurnitureManager.placement_valid(carrying.uid, pos, FURNITURE_AREA):
+		carrying.position = pos
+		ShopFurnitureManager.move_instance(carrying.uid, pos)
+		carrying.set_edit_highlight(true)
+		var placed := carrying
+		carrying = null
+		pad_carrying = false
+		_rebuild_browse_points()
+		_set_edit_sel(placed)  # straight back to selection mode
+	else:
+		_toast("Can't place it there.")
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -515,30 +669,102 @@ func _open_slot_picker(slot: int) -> void:
 	var parts := UIKit.modal(self, "Display slot %d (%s)" % [slot + 1, type_name])
 	var pick_layer: CanvasLayer = parts[0]
 	var vb: VBoxContainer = parts[1]
+	(vb.get_parent() as PanelContainer).custom_minimum_size = Vector2(560, 0)
 	var current := String(InventoryManager.display[slot]) if slot < InventoryManager.display.size() else ""
 	if current != "":
-		vb.add_child(UIKit.label("Currently: %s" % ContentDatabase.item_name(current)))
-		vb.add_child(UIKit.button("Take back to storage", func() -> void:
+		var cur_row := HBoxContainer.new()
+		cur_row.add_theme_constant_override("separation", 8)
+		var cur_lbl := UIKit.label("Currently: %s" % ContentDatabase.item_name(current))
+		cur_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		cur_row.add_child(cur_lbl)
+		cur_row.add_child(UIKit.button("Take back to storage", func() -> void:
 			InventoryManager.take_display(slot)
-			_close_modal(pick_layer)))
-	var list_parts := UIKit.scroll_list(Vector2(340, 200))
+			_close_modal(pick_layer), 8))
+		vb.add_child(cur_row)
+	# same sorting bar the market has
+	var sort_row := HBoxContainer.new()
+	sort_row.add_theme_constant_override("separation", 6)
+	vb.add_child(sort_row)
+	sort_row.add_child(UIKit.spacer(false))
+	var list_parts := UIKit.scroll_list(Vector2(500, 230))
 	vb.add_child(list_parts[0])
 	var list: VBoxContainer = list_parts[1]
-	for id in InventoryManager.sorted_ids("price"):
-		var it := ContentDatabase.get_item(id)
-		if it.get("sellable", true) == false:
-			continue
-		if not allowed.is_empty() and not (String(it.get("category", "")) in allowed):
-			continue
-		var appeal: Dictionary = it.get("appeal", {})
-		var appeal_bits: Array[String] = []
-		for k: String in appeal:
-			appeal_bits.append("%s+%d" % [k, int(appeal[k])])
-		list.add_child(UIKit.item_row(id, "x%d ~%dg %s" % [InventoryManager.count(id), MarketManager.market_value(id), " ".join(appeal_bits)],
-			"Place", func() -> void:
-				InventoryManager.place_display(slot, id)
-				_close_modal(pick_layer)))
+	var sort_mode := {"v": "price"}
+	var fill_rows := func() -> void:
+		for id in InventoryManager.sorted_ids(sort_mode["v"]):
+			var it := ContentDatabase.get_item(id)
+			if it.get("sellable", true) == false:
+				continue
+			if not allowed.is_empty() and not (String(it.get("category", "")) in allowed):
+				continue
+			list.add_child(_make_pick_row(id, slot, pick_layer))
+	var refill := func() -> void: UIKit.rebuild_list(list, fill_rows)
+	for mode in ["name", "price", "category", "world"]:
+		sort_row.add_child(UIKit.button("Sort: %s" % mode, func() -> void:
+			sort_mode["v"] = mode
+			refill.call(), 8))
+	fill_rows.call()
 	vb.add_child(UIKit.button("Cancel", func() -> void: _close_modal(pick_layer)))
+
+
+## One stocking row, mirroring the market's layout: 24px icon, name, category,
+## trend, value, owned count, action button.
+func _make_pick_row(id: String, slot: int, pick_layer: CanvasLayer) -> VBoxContainer:
+	var it := ContentDatabase.get_item(id)
+	var entry := VBoxContainer.new()
+	entry.add_theme_constant_override("separation", 0)
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 6)
+	row.custom_minimum_size = Vector2(0, 26)
+	entry.add_child(row)
+	var icon := TextureRect.new()
+	icon.texture = ContentDatabase.item_texture(id)
+	icon.custom_minimum_size = Vector2(24, 24)
+	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	icon.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	row.add_child(icon)
+	var name_lbl := UIKit.label(ContentDatabase.item_name(id), 10)
+	name_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	name_lbl.clip_text = true
+	row.add_child(name_lbl)
+	var cat_lbl := UIKit.label(String(it.get("category", "")).capitalize(), 9, UIKit.COL_DIM)
+	cat_lbl.custom_minimum_size = Vector2(64, 0)
+	row.add_child(cat_lbl)
+	var mult := MarketManager.price_multiplier(id)
+	var trend_lbl := UIKit.label("— steady", 9, UIKit.COL_DIM)
+	if mult >= 1.05:
+		trend_lbl = UIKit.label("▲ %s today" % DayBriefing._pct(mult), 10, UIKit.COL_GOOD)
+	elif mult <= 0.95:
+		trend_lbl = UIKit.label("▼ %s today" % DayBriefing._pct(mult), 10, UIKit.COL_BAD)
+	trend_lbl.custom_minimum_size = Vector2(78, 0)
+	row.add_child(trend_lbl)
+	var price_lbl := UIKit.label("x%d  ~%dg" % [InventoryManager.count(id), MarketManager.market_value(id)], 9, UIKit.COL_INK)
+	price_lbl.custom_minimum_size = Vector2(72, 0)
+	price_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	price_lbl.tooltip_text = "You own %d; sells for about %dg today" % [InventoryManager.count(id), MarketManager.market_value(id)]
+	price_lbl.mouse_filter = Control.MOUSE_FILTER_STOP
+	row.add_child(price_lbl)
+	var place_btn := UIKit.button("Place", func() -> void:
+		InventoryManager.place_display(slot, id)
+		_close_modal(pick_layer))
+	place_btn.custom_minimum_size = Vector2(50, 0)
+	place_btn.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	row.add_child(place_btn)
+	var appeal: Dictionary = it.get("appeal", {})
+	if not appeal.is_empty():
+		var bits: Array[String] = []
+		for k: String in appeal:
+			bits.append("%s+%d" % [k, int(appeal[k])])
+		var sub := UIKit.label(" ".join(bits), 8, UIKit.COL_DIM)
+		sub.clip_text = true
+		var sub_pad := MarginContainer.new()
+		sub_pad.add_theme_constant_override("margin_left", 30)
+		sub_pad.add_theme_constant_override("margin_bottom", 4)
+		sub_pad.add_child(sub)
+		entry.add_child(sub_pad)
+	return entry
 
 
 func _close_modal(modal_layer: CanvasLayer) -> void:
@@ -832,7 +1058,7 @@ func _open_expand() -> void:
 
 func _begin_session() -> void:
 	session_active = true
-	session_summary = {"sales": 0, "revenue": 0, "perfect": 0, "left": 0, "orders": 0}
+	session_summary = {"sales": 0, "revenue": 0, "perfect": 0, "left": 0, "orders": 0, "sold": []}
 	customers_remaining.clear()
 	customers_remaining.append_array(CustomerGen.generate_session_customers())
 	spawn_timer = 0.5
@@ -844,6 +1070,8 @@ func _run_session(delta: float) -> void:
 	if spawn_timer <= 0.0 and not customers_remaining.is_empty() and live_customers.size() < 4:
 		spawn_timer = randf_range(1.2, 2.6)
 		_spawn_customer(customers_remaining.pop_front())
+	if negotiating == null and not nego_queue.is_empty() and not UIKit.modal_open():
+		_open_next_negotiation()
 	if customers_remaining.is_empty() and live_customers.is_empty() and negotiating == null and nego_queue.is_empty():
 		_end_session()
 
@@ -901,6 +1129,10 @@ func _on_negotiate_requested(cust: Dictionary, item_id: String) -> void:
 func _open_next_negotiation() -> void:
 	if negotiating != null or nego_queue.is_empty():
 		return
+	# never open a negotiation under another menu (slot picker, storage, ...):
+	# the customer waits in line; _run_session retries once the menu closes
+	if UIKit.modal_open():
+		return
 	var entry: Dictionary = nego_queue.pop_front()
 	var node: ShopCustomer = entry["node"]
 	if node == null or not is_instance_valid(node):
@@ -916,6 +1148,7 @@ func _open_next_negotiation() -> void:
 			return
 		item_id = replacement
 	negotiating = node
+	_nego_item = item_id
 	var panel := NegotiationPanel.new()
 	panel.setup(entry["customer"], item_id, node.portrait_texture())
 	panel.finished.connect(_on_negotiation_finished)
@@ -931,6 +1164,7 @@ func _on_negotiation_finished(outcome: Dictionary) -> void:
 		Negotiation.RESULT_PERFECT, Negotiation.RESULT_ACCEPT:
 			session_summary["sales"] = int(session_summary["sales"]) + 1
 			session_summary["revenue"] = int(session_summary["revenue"]) + int(outcome.get("price", 0))
+			(session_summary["sold"] as Array).append({"item": _nego_item, "price": int(outcome.get("price", 0))})
 			if bool(outcome.get("perfect", false)):
 				session_summary["perfect"] = int(session_summary["perfect"]) + 1
 		_:
@@ -946,22 +1180,35 @@ func _on_negotiation_finished(outcome: Dictionary) -> void:
 
 func _end_session() -> void:
 	session_active = false
+	# snapshot the whole day's sales BEFORE advancing (rollover clears the log)
+	var day_sold: Array = EconomyManager.day_sales.duplicate(true)
 	var events := TimeManager.advance(TimeManager.activity_cost("open_shop"))
-	var parts := UIKit.modal(self, "Shop session complete")
-	var end_layer: CanvasLayer = parts[0]
-	var vb: VBoxContainer = parts[1]
-	vb.add_child(UIKit.label("Sales: %d   Revenue: %dg" % [int(session_summary["sales"]), int(session_summary["revenue"])]))
-	vb.add_child(UIKit.label("Perfect deals: %d   Walked away: %d   New orders: %d" % [
-		int(session_summary["perfect"]), int(session_summary["left"]), int(session_summary["orders"])]))
-	vb.add_child(UIKit.label("Merchant Lv.%d  combo x%d" % [GameState.merchant_level, EconomyManager.combo], 9, UIKit.COL_DIM))
-	vb.add_child(UIKit.button("Continue", func() -> void:
-		end_layer.queue_free()
+	if "new_day" in events:
+		# the day rolled over: the full-screen day transition replaces the
+		# little summary modal + Patch popup (it contains both)
+		busy = false
+		var day_summary := session_summary.duplicate(true)
+		day_summary["sold"] = day_sold
+		var total := 0
+		for e: Dictionary in day_sold:
+			total += int(e.get("price", 0))
+		day_summary["sales"] = day_sold.size()
+		day_summary["revenue"] = total
+		DayTransition.show_transition(self, TimeManager.day - 1, day_summary, func() -> void:
+			hud.refresh()
+			if StoryEventManager.has_pending():
+				SceneRouter.go("story", {"return_to": "shop"})
+			else:
+				DayBriefing.maybe_show(self))
+		return
+	# a period passed but the day goes on: same info panel, single sky —
+	# players stay up to date with the Fade after every stretch of the day
+	busy = false
+	DayTransition.show_period(self, session_summary, func() -> void:
 		hud.refresh()
 		if "deadline_failed" in events:
 			SceneRouter.go("story", {"failure": true})
 		elif StoryEventManager.has_pending():
 			SceneRouter.go("story", {"return_to": "shop"})
 		else:
-			PatchDebrief.show_debrief(self, session_summary, func() -> void:
-				DayBriefing.maybe_show(self))))
-	busy = false
+			DayBriefing.maybe_show(self))

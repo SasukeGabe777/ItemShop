@@ -8,6 +8,7 @@ signal expedition_finished(result: Dictionary)
 var pending: Dictionary = {}     # {world_id, hero_id, consumables: Array, vertical_slice: bool}
 var run_loot: Dictionary = {}    # item_id -> qty gathered during a live run
 var run_gold: int = 0
+var run_kills: int = 0
 var rng := RandomNumberGenerator.new()
 
 
@@ -15,6 +16,7 @@ func reset() -> void:
 	pending.clear()
 	run_loot.clear()
 	run_gold = 0
+	run_kills = 0
 	rng.randomize()
 
 
@@ -25,6 +27,7 @@ func plan_expedition(world_id: String, hero_id: String, consumables: Array = [],
 	}
 	run_loot.clear()
 	run_gold = 0
+	run_kills = 0
 
 
 ## Generate the run's room sequence from handcrafted templates.
@@ -41,16 +44,30 @@ func generate_layout(world_id: String, seed_value: int = -1, vertical_slice: boo
 	var combats := ContentDatabase.room_templates_by_kind("combat")
 	var treasures := ContentDatabase.room_templates_by_kind("treasure")
 	var boss_rooms := ContentDatabase.room_templates_by_kind("boss")
+	# each run fields a different warband drawn from the world's full roster —
+	# shadows are the Fade's foot soldiers and always march
+	var full_pool: Array = w.get("enemies", [])
+	var run_pool: Array = []
+	if "shadow_heartless" in full_pool:
+		run_pool.append("shadow_heartless")
+	var others: Array = full_pool.filter(func(e: Variant) -> bool: return not (e in run_pool))
+	for i in range(others.size() - 1, 0, -1):
+		var j := lrng.randi_range(0, i)
+		var tmp: Variant = others[i]
+		others[i] = others[j]
+		others[j] = tmp
+	for i in range(mini(4, others.size())):
+		run_pool.append(others[i])
 	var layout: Array[Dictionary] = []
-	layout.append(_room_entry(starts[lrng.randi() % starts.size()], world_id, lrng, 0))
+	layout.append(_room_entry(starts[lrng.randi() % starts.size()], world_id, lrng, 0, run_pool))
 	var middle := maxi(1, room_count - 2)
 	var treasure_at := lrng.randi_range(0, middle - 1) if middle > 1 else -1
 	for i in range(middle):
 		if i == treasure_at:
-			layout.append(_room_entry(treasures[lrng.randi() % treasures.size()], world_id, lrng, i + 1))
+			layout.append(_room_entry(treasures[lrng.randi() % treasures.size()], world_id, lrng, i + 1, run_pool))
 		else:
-			layout.append(_room_entry(combats[lrng.randi() % combats.size()], world_id, lrng, i + 1))
-	layout.append(_room_entry(boss_rooms[lrng.randi() % boss_rooms.size()], world_id, lrng, room_count - 1))
+			layout.append(_room_entry(combats[lrng.randi() % combats.size()], world_id, lrng, i + 1, run_pool))
+	layout.append(_room_entry(boss_rooms[lrng.randi() % boss_rooms.size()], world_id, lrng, room_count - 1, run_pool))
 	return layout
 
 
@@ -72,19 +89,33 @@ func _vertical_slice_layout(world_id: String) -> Array[Dictionary]:
 	]
 
 
-func _room_entry(template: Dictionary, world_id: String, lrng: RandomNumberGenerator, depth: int) -> Dictionary:
+func _room_entry(template: Dictionary, world_id: String, lrng: RandomNumberGenerator, depth: int, pool_override: Array = []) -> Dictionary:
 	var w := ContentDatabase.get_world(world_id)
-	var pool: Array = w.get("enemies", [])
+	var pool: Array = pool_override if not pool_override.is_empty() else w.get("enemies", [])
 	var spawn_list: Array = []
 	var kind := String(template.get("kind", "combat"))
 	if kind == "boss":
-		spawn_list.append(String(w.get("boss", "")))
+		spawn_list.append(boss_for_world(world_id))
 	else:
 		for p in template.get("spawns", []):
 			if pool.is_empty():
 				break
 			spawn_list.append(String(pool[lrng.randi() % pool.size()]))
+		# the Fade's shadows always show up somewhere in a fight
+		if not spawn_list.is_empty() and "shadow_heartless" in pool and not ("shadow_heartless" in spawn_list):
+			spawn_list[0] = "shadow_heartless"
 	return {"template": template, "kind": kind, "enemies": spawn_list, "depth": depth}
+
+
+## The boss escalates with each completed expedition: worlds may define a
+## "boss_rotation" list walked by the number of boss kills there.
+func boss_for_world(world_id: String) -> String:
+	var w := ContentDatabase.get_world(world_id)
+	var rotation: Array = w.get("boss_rotation", [])
+	if rotation.is_empty():
+		return String(w.get("boss", ""))
+	var wins := int(GameState.stats.get("expedition_wins_%s" % world_id, 0))
+	return String(rotation[mini(wins, rotation.size() - 1)])
 
 
 func add_run_loot(item_id: String, qty: int = 1) -> void:
@@ -119,6 +150,9 @@ func finish_expedition(success: bool, boss_defeated: bool, hp_left: int) -> Dict
 		InventoryManager.add_item(id, int(run_loot[id]))
 	EconomyManager.add_gold(run_gold)
 	GameState.add_stat("expeditions")
+	if boss_defeated:
+		# drives the boss rotation and the gates panel's mastery star
+		GameState.add_stat("expedition_wins_%s" % world_id)
 	if success and vertical_slice:
 		var slice_cfg: Dictionary = ContentDatabase.bal("kingdom_hearts_vertical_slice", {})
 		var completion_flag := String(slice_cfg.get("completion_flag", ""))
@@ -137,9 +171,11 @@ func finish_expedition(success: bool, boss_defeated: bool, hp_left: int) -> Dict
 		"success": success, "boss_defeated": boss_defeated, "world_id": world_id,
 		"vertical_slice": vertical_slice,
 		"loot": run_loot.duplicate(), "gold": run_gold, "hp_left": hp_left,
+		"kills": run_kills,
 	}
 	run_loot.clear()
 	run_gold = 0
+	run_kills = 0
 	pending.clear()
 	expedition_finished.emit(result)
 	return result

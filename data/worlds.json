@@ -13,7 +13,34 @@
     "soldier_heartless",
     "large_body",
     "yellow_opera",
-    "red_nocturne"
+    "red_nocturne",
+    "air_pirate",
+    "air_soldier",
+    "aquatank",
+    "bandit_kh",
+    "barrel_spider",
+    "black_fungus",
+    "blue_rhapsody",
+    "bouncywild",
+    "card_of_hearts",
+    "card_of_spades",
+    "creeper_plant",
+    "crescendo",
+    "dark_ball",
+    "defender",
+    "gargoyle",
+    "green_requiem",
+    "neoshadow",
+    "pirate_kh",
+    "powerwild",
+    "screwdiver",
+    "search_ghost",
+    "sea_neon",
+    "tornado_step",
+    "white_mushroom",
+    "wight_knight",
+    "wizard_kh",
+    "wyvern"
    ],
    "repair_cost": 10000,
    "world_shard": "world_shard_kh",
@@ -39,7 +66,12 @@
     "barrel",
     "crate_lantern"
    ],
-   "obstacle_style": "grid"
+   "obstacle_style": "grid",
+   "boss_rotation": [
+    "corrupted_fat_bandit",
+    "guard_armor",
+    "darkside"
+   ]
   },
   {
    "id": "mario",

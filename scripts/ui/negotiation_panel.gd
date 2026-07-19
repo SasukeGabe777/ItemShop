@@ -19,6 +19,13 @@ var accept_counter_btn: Button
 var your_offer_lbl: Label
 var last_counter: int = 0
 
+# right-stick price nudging: a tap moves 1g, holding ramps up fast
+const STICK_DEADZONE := 0.45
+const STICK_HOLD_DELAY := 0.35
+var _stick_hold := 0.0
+var _stick_accum := 0.0
+var _stick_stepped := false
+
 
 func setup(cust: Dictionary, target_item: String, portrait: Texture2D = null) -> void:
 	customer = cust
@@ -122,12 +129,16 @@ func _ready() -> void:
 	price_spin.value = int(round(nego.market_value * 1.25))
 	price_spin.custom_minimum_size = Vector2(130, 30)
 	price_spin.get_line_edit().add_theme_font_size_override("font_size", 14)
+	# pad/keyboard focus navigation must never land in the LineEdit (it eats
+	# arrow keys for the caret); mouse users can still click in to type
+	price_spin.get_line_edit().focus_mode = Control.FOCUS_CLICK
 	offer_row.add_child(price_spin)
-	for pct: Array in [["-10%", 0.9], ["+10%", 1.1]]:
-		var factor := float(pct[1])
-		var nudge := func() -> void:
-			price_spin.value = maxi(1, int(round(price_spin.value * factor)))
-		offer_row.add_child(UIKit.button(String(pct[0]), nudge, 12))
+	var nudge := func(factor: float) -> void:
+		price_spin.value = maxi(1, int(round(price_spin.value * factor)))
+	var minus_btn := UIKit.button("-10%", nudge.bind(0.9), 12)
+	offer_row.add_child(minus_btn)
+	var plus_btn := UIKit.button("+10%", nudge.bind(1.1), 12)
+	offer_row.add_child(plus_btn)
 	offer_btn = UIKit.button("Propose price", _propose, 12)
 	offer_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	offer_row.add_child(offer_btn)
@@ -135,7 +146,50 @@ func _ready() -> void:
 	var decline := func() -> void:
 		EconomyManager.break_combo()
 		_finish({"result": Negotiation.RESULT_LEAVE, "price": 0, "relationship_delta": 0, "perfect": false})
-	vb.add_child(UIKit.button("Decline to sell", decline, 12))
+	if UIKit.pad_connected():
+		vb.add_child(UIKit.label("Right stick: adjust price by 1g — hold to speed up", 9, UIKit.COL_DIM))
+	var decline_btn := UIKit.button("Decline to sell", decline, 12)
+	vb.add_child(decline_btn)
+	# Godot's geometric focus picker gets lost in this layout (the full-width
+	# Decline button wins every horizontal probe), so wire the pad path by hand:
+	# left/right cycles -10% / +10% / Propose, down is Decline, up is the
+	# customer's counter-offer button whenever it is showing.
+	var cycle: Array[Control] = [minus_btn, plus_btn, offer_btn]
+	for i in cycle.size():
+		var c := cycle[i]
+		c.focus_neighbor_left = c.get_path_to(cycle[(i - 1 + cycle.size()) % cycle.size()])
+		c.focus_neighbor_right = c.get_path_to(cycle[(i + 1) % cycle.size()])
+		c.focus_neighbor_top = c.get_path_to(accept_counter_btn)
+		c.focus_neighbor_bottom = c.get_path_to(decline_btn)
+	accept_counter_btn.focus_neighbor_bottom = accept_counter_btn.get_path_to(offer_btn)
+	decline_btn.focus_neighbor_top = decline_btn.get_path_to(offer_btn)
+
+
+func _process(delta: float) -> void:
+	if price_spin == null or not UIKit.pad_connected():
+		return
+	var v := Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y)
+	if absf(v) < STICK_DEADZONE:
+		_stick_hold = 0.0
+		_stick_accum = 0.0
+		_stick_stepped = false
+		return
+	var dir := -signf(v)  # stick up raises the price
+	if not _stick_stepped:
+		_stick_stepped = true
+		price_spin.value += dir
+		return
+	_stick_hold += delta
+	if _stick_hold < STICK_HOLD_DELAY:
+		return
+	# after the hold delay the rate ramps hard: ~15 g/s at first, quadrupling
+	# every second held, topping out near 1000 g/s
+	var held := _stick_hold - STICK_HOLD_DELAY
+	_stick_accum += 15.0 * pow(4.0, minf(held, 3.0)) * delta
+	if _stick_accum >= 1.0:
+		var step := floorf(_stick_accum)
+		_stick_accum -= step
+		price_spin.value += dir * step
 
 
 func _say(who: String, text: String) -> void:
@@ -194,7 +248,7 @@ func _handle(outcome: Dictionary) -> void:
 			nego.finalize_sale(outcome)
 			AudioManager.play_sfx("itemsale", 2.0)
 			if bool(outcome.get("perfect", false)):
-				AudioManager.play_stinger("victory_stinger")
+				AudioManager.play_sfx("achievement_unlocked", 2.0)
 			_finish(outcome)
 		Negotiation.RESULT_COUNTER, Negotiation.RESULT_FINAL_WARNING:
 			last_counter = int(outcome["price"])

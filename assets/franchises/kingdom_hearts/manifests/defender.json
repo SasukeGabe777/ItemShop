@@ -1,0 +1,87 @@
+{
+ "asset_id": "defender",
+ "sheet": "res://assets/franchises/kingdom_hearts/processed/sheets/defender.png",
+ "native_scale": 1,
+ "display_scale": 1,
+ "pivot": [
+  39,
+  76
+ ],
+ "grid": {
+  "frame_width": 78,
+  "frame_height": 77,
+  "columns": 8,
+  "rows": 1
+ },
+ "animations": {
+  "idle_down": {
+   "frames": [
+    0,
+    1,
+    2
+   ],
+   "fps": 4,
+   "loop": true
+  },
+  "walk_down": {
+   "frames": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "fps": 7,
+   "loop": true
+  },
+  "idle_up": {
+   "frames": [
+    0,
+    1,
+    2
+   ],
+   "fps": 4,
+   "loop": true
+  },
+  "walk_up": {
+   "frames": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "fps": 7,
+   "loop": true
+  },
+  "idle_side": {
+   "frames": [
+    0,
+    1,
+    2
+   ],
+   "fps": 4,
+   "loop": true
+  },
+  "walk_side": {
+   "frames": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "fps": 7,
+   "loop": true
+  }
+ }
+}

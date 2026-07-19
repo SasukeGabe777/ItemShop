@@ -11,12 +11,16 @@ const REPEAT_RATE := 0.14
 const SCROLL_SPEED := 620.0
 
 var _held: Dictionary = {}  # action -> time until next synthetic press
+var _last_focus: Control = null
 
 
 func _process(delta: float) -> void:
 	if not UIKit.pad_connected():
 		return
 	var focus := get_viewport().gui_get_focus_owner()
+	if focus != _last_focus and focus != null and _last_focus != null:
+		AudioManager.play_sfx("menu_movement", -8.0)
+	_last_focus = focus
 	_echo_directions(delta, focus)
 	_right_stick_scroll(delta, focus)
 
@@ -33,7 +37,10 @@ func _echo_directions(delta: float, focus: Control) -> void:
 				var ev := InputEventAction.new()
 				ev.action = action
 				ev.pressed = true
-				Input.parse_input_event(ev)
+				# push_input drives GUI focus only; parse_input_event would also
+				# flip Input's global action state, leaving the action stuck
+				# "pressed" (no matching release) until the next real press.
+				get_viewport().push_input(ev)
 		else:
 			_held.erase(action)
 
@@ -60,9 +67,11 @@ func _unhandled_input(event: InputEvent) -> void:
 		if close != null and close != focus:
 			close.grab_focus()
 			get_viewport().set_input_as_handled()
-	elif event.is_action_pressed("ui_accept") and focus == null:
+	elif event.is_action_pressed("ui_accept") and focus == null and UIKit.modal_open():
 		# a menu is open but nothing is focused (opened pre-pad, or focus
-		# was lost) — recover onto the topmost layer's first button
+		# was lost) — recover onto the topmost layer's first button.
+		# Never fires in the open world: A there means interact, and grabbing
+		# the HUD's Menu button mid-furniture-edit hijacked the next press.
 		var root := _topmost_ui_layer()
 		if root != null:
 			var b := UIKit._first_button_in(root)
@@ -84,7 +93,7 @@ func _topmost_ui_layer() -> Node:
 	var best: CanvasLayer = null
 	for layer: Node in get_tree().root.find_children("*", "CanvasLayer", true, false):
 		var cl := layer as CanvasLayer
-		if cl == null or not cl.visible:
+		if cl == null or not cl.visible or cl.get_meta("pad_recovery_skip", false):
 			continue
 		if UIKit._first_button_in(cl) == null:
 			continue
@@ -101,7 +110,7 @@ func _find_close_button(root: Node) -> Button:
 		var node: Node = stack.pop_back()
 		if node is Button and (node as Button).visible and not (node as Button).disabled:
 			var t := (node as Button).text.to_lower()
-			if "close" in t or "cancel" in t or t.begins_with("back") or "done" in t:
+			if "close" in t or "cancel" in t or t.begins_with("back") or "done" in t or t.begins_with("decline"):
 				found = node
 		for child in node.get_children():
 			stack.append(child)

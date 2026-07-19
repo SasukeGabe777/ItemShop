@@ -1040,6 +1040,755 @@
     28,
     56
    ]
+  },
+  {
+   "id": "air_pirate",
+   "name": "Air Pirate",
+   "world": "kingdom_hearts",
+   "hp": 40,
+   "atk": 9,
+   "spd": 120,
+   "behavior": "swooper",
+   "size": 16,
+   "color": "#7a5c3a",
+   "loot": [
+    [
+     "thunder_shard",
+     0.25
+    ],
+    [
+     "munny_pouch",
+     0.08
+    ]
+   ],
+   "gold": [
+    8,
+    18
+   ]
+  },
+  {
+   "id": "air_soldier",
+   "name": "Air Soldier",
+   "world": "kingdom_hearts",
+   "hp": 34,
+   "atk": 8,
+   "spd": 125,
+   "behavior": "swooper",
+   "size": 15,
+   "color": "#3a6aa0",
+   "loot": [
+    [
+     "lucid_shard",
+     0.3
+    ],
+    [
+     "kh_ether",
+     0.06
+    ]
+   ],
+   "gold": [
+    7,
+    15
+   ]
+  },
+  {
+   "id": "aquatank",
+   "name": "Aquatank",
+   "world": "kingdom_hearts",
+   "hp": 80,
+   "atk": 10,
+   "spd": 45,
+   "behavior": "tank",
+   "size": 24,
+   "color": "#3a78c8",
+   "loot": [
+    [
+     "frost_shard",
+     0.35
+    ],
+    [
+     "kh_potion",
+     0.12
+    ]
+   ],
+   "gold": [
+    12,
+    24
+   ]
+  },
+  {
+   "id": "bandit_kh",
+   "name": "Bandit",
+   "world": "kingdom_hearts",
+   "hp": 36,
+   "atk": 9,
+   "spd": 115,
+   "behavior": "lunger",
+   "size": 15,
+   "color": "#a05828",
+   "loot": [
+    [
+     "munny_pouch",
+     0.2
+    ],
+    [
+     "blaze_shard",
+     0.15
+    ]
+   ],
+   "gold": [
+    10,
+    20
+   ]
+  },
+  {
+   "id": "barrel_spider",
+   "name": "Barrel Spider",
+   "world": "kingdom_hearts",
+   "hp": 45,
+   "atk": 11,
+   "spd": 70,
+   "behavior": "ambusher",
+   "size": 18,
+   "color": "#8a5a2a",
+   "loot": [
+    [
+     "blaze_shard",
+     0.3
+    ],
+    [
+     "gummi_block",
+     0.08
+    ]
+   ],
+   "gold": [
+    8,
+    16
+   ]
+  },
+  {
+   "id": "black_fungus",
+   "name": "Black Fungus",
+   "world": "kingdom_hearts",
+   "hp": 55,
+   "atk": 9,
+   "spd": 40,
+   "behavior": "creeper",
+   "size": 16,
+   "color": "#383048",
+   "loot": [
+    [
+     "kh_mythril",
+     0.1
+    ],
+    [
+     "lucid_shard",
+     0.35
+    ]
+   ],
+   "gold": [
+    10,
+    22
+   ]
+  },
+  {
+   "id": "blue_rhapsody",
+   "name": "Blue Rhapsody",
+   "world": "kingdom_hearts",
+   "hp": 24,
+   "atk": 7,
+   "spd": 85,
+   "behavior": "shooter",
+   "size": 13,
+   "color": "#4878e0",
+   "loot": [
+    [
+     "frost_shard",
+     0.4
+    ],
+    [
+     "kh_ether",
+     0.07
+    ]
+   ],
+   "gold": [
+    5,
+    12
+   ]
+  },
+  {
+   "id": "bouncywild",
+   "name": "Bouncywild",
+   "world": "kingdom_hearts",
+   "hp": 28,
+   "atk": 6,
+   "spd": 130,
+   "behavior": "skitter_shooter",
+   "size": 14,
+   "color": "#c07840",
+   "loot": [
+    [
+     "munny_pouch",
+     0.25
+    ],
+    [
+     "kh_potion",
+     0.1
+    ]
+   ],
+   "gold": [
+    8,
+    18
+   ]
+  },
+  {
+   "id": "card_of_hearts",
+   "name": "Card of Hearts",
+   "world": "kingdom_hearts",
+   "hp": 30,
+   "atk": 8,
+   "spd": 105,
+   "behavior": "lunger",
+   "size": 15,
+   "color": "#c04848",
+   "loot": [
+    [
+     "lucid_shard",
+     0.3
+    ],
+    [
+     "keychain",
+     0.04
+    ]
+   ],
+   "gold": [
+    6,
+    14
+   ]
+  },
+  {
+   "id": "card_of_spades",
+   "name": "Card of Spades",
+   "world": "kingdom_hearts",
+   "hp": 30,
+   "atk": 9,
+   "spd": 105,
+   "behavior": "lunger",
+   "size": 15,
+   "color": "#383858",
+   "loot": [
+    [
+     "thunder_shard",
+     0.3
+    ],
+    [
+     "keychain",
+     0.04
+    ]
+   ],
+   "gold": [
+    6,
+    14
+   ]
+  },
+  {
+   "id": "creeper_plant",
+   "name": "Creeper Plant",
+   "world": "kingdom_hearts",
+   "hp": 42,
+   "atk": 8,
+   "spd": 30,
+   "behavior": "creeper",
+   "size": 16,
+   "color": "#4a9a55",
+   "loot": [
+    [
+     "kh_potion",
+     0.3
+    ],
+    [
+     "lucid_shard",
+     0.2
+    ]
+   ],
+   "gold": [
+    7,
+    15
+   ]
+  },
+  {
+   "id": "crescendo",
+   "name": "Crescendo",
+   "world": "kingdom_hearts",
+   "hp": 26,
+   "atk": 5,
+   "spd": 95,
+   "behavior": "shy_ghost",
+   "size": 14,
+   "color": "#58b070",
+   "loot": [
+    [
+     "kh_potion",
+     0.35
+    ],
+    [
+     "sea_salt_ice_cream",
+     0.08
+    ]
+   ],
+   "gold": [
+    6,
+    13
+   ]
+  },
+  {
+   "id": "dark_ball",
+   "name": "Darkball",
+   "world": "kingdom_hearts",
+   "hp": 38,
+   "atk": 9,
+   "spd": 100,
+   "behavior": "chaser",
+   "size": 16,
+   "color": "#282038",
+   "loot": [
+    [
+     "lucid_shard",
+     0.4
+    ],
+    [
+     "kh_mythril",
+     0.06
+    ]
+   ],
+   "gold": [
+    8,
+    17
+   ]
+  },
+  {
+   "id": "defender",
+   "name": "Defender",
+   "world": "kingdom_hearts",
+   "hp": 95,
+   "atk": 12,
+   "spd": 55,
+   "behavior": "tank",
+   "size": 24,
+   "color": "#8a3a3a",
+   "loot": [
+    [
+     "kh_mythril",
+     0.15
+    ],
+    [
+     "gummi_block",
+     0.12
+    ]
+   ],
+   "gold": [
+    16,
+    30
+   ]
+  },
+  {
+   "id": "gargoyle",
+   "name": "Gargoyle",
+   "world": "kingdom_hearts",
+   "hp": 36,
+   "atk": 9,
+   "spd": 110,
+   "behavior": "swooper",
+   "size": 16,
+   "color": "#6a4a8a",
+   "loot": [
+    [
+     "thunder_shard",
+     0.28
+    ],
+    [
+     "lucid_shard",
+     0.2
+    ]
+   ],
+   "gold": [
+    8,
+    16
+   ]
+  },
+  {
+   "id": "green_requiem",
+   "name": "Green Requiem",
+   "world": "kingdom_hearts",
+   "hp": 20,
+   "atk": 4,
+   "spd": 80,
+   "behavior": "shy_ghost",
+   "size": 12,
+   "color": "#48b048",
+   "loot": [
+    [
+     "kh_potion",
+     0.45
+    ],
+    [
+     "kh_ether",
+     0.1
+    ]
+   ],
+   "gold": [
+    5,
+    11
+   ]
+  },
+  {
+   "id": "neoshadow",
+   "name": "Neoshadow",
+   "world": "kingdom_hearts",
+   "hp": 60,
+   "atk": 11,
+   "spd": 115,
+   "behavior": "ambusher",
+   "size": 17,
+   "color": "#101020",
+   "loot": [
+    [
+     "lucid_shard",
+     0.45
+    ],
+    [
+     "kh_mythril",
+     0.1
+    ]
+   ],
+   "gold": [
+    14,
+    26
+   ]
+  },
+  {
+   "id": "pirate_kh",
+   "name": "Pirate",
+   "world": "kingdom_hearts",
+   "hp": 38,
+   "atk": 9,
+   "spd": 100,
+   "behavior": "lunger",
+   "size": 15,
+   "color": "#5a4a3a",
+   "loot": [
+    [
+     "munny_pouch",
+     0.22
+    ],
+    [
+     "gummi_block",
+     0.08
+    ]
+   ],
+   "gold": [
+    10,
+    20
+   ]
+  },
+  {
+   "id": "powerwild",
+   "name": "Powerwild",
+   "world": "kingdom_hearts",
+   "hp": 34,
+   "atk": 9,
+   "spd": 125,
+   "behavior": "lunger",
+   "size": 15,
+   "color": "#7a5a30",
+   "loot": [
+    [
+     "munny_pouch",
+     0.2
+    ],
+    [
+     "kh_potion",
+     0.1
+    ]
+   ],
+   "gold": [
+    9,
+    18
+   ]
+  },
+  {
+   "id": "screwdiver",
+   "name": "Screwdiver",
+   "world": "kingdom_hearts",
+   "hp": 32,
+   "atk": 8,
+   "spd": 110,
+   "behavior": "lunger",
+   "size": 15,
+   "color": "#3a8ab0",
+   "loot": [
+    [
+     "frost_shard",
+     0.3
+    ],
+    [
+     "thunder_shard",
+     0.15
+    ]
+   ],
+   "gold": [
+    7,
+    15
+   ]
+  },
+  {
+   "id": "search_ghost",
+   "name": "Search Ghost",
+   "world": "kingdom_hearts",
+   "hp": 34,
+   "atk": 8,
+   "spd": 75,
+   "behavior": "shy_ghost",
+   "size": 16,
+   "color": "#584878",
+   "loot": [
+    [
+     "lucid_shard",
+     0.35
+    ],
+    [
+     "kh_ether",
+     0.08
+    ]
+   ],
+   "gold": [
+    8,
+    16
+   ]
+  },
+  {
+   "id": "sea_neon",
+   "name": "Sea Neon",
+   "world": "kingdom_hearts",
+   "hp": 26,
+   "atk": 7,
+   "spd": 90,
+   "behavior": "swooper",
+   "size": 14,
+   "color": "#48a0c8",
+   "loot": [
+    [
+     "frost_shard",
+     0.35
+    ],
+    [
+     "lucid_shard",
+     0.15
+    ]
+   ],
+   "gold": [
+    6,
+    13
+   ]
+  },
+  {
+   "id": "tornado_step",
+   "name": "Tornado Step",
+   "world": "kingdom_hearts",
+   "hp": 36,
+   "atk": 8,
+   "spd": 105,
+   "behavior": "shell",
+   "size": 15,
+   "color": "#48a078",
+   "loot": [
+    [
+     "thunder_shard",
+     0.35
+    ],
+    [
+     "gummi_block",
+     0.06
+    ]
+   ],
+   "gold": [
+    8,
+    16
+   ]
+  },
+  {
+   "id": "white_mushroom",
+   "name": "White Mushroom",
+   "world": "kingdom_hearts",
+   "hp": 22,
+   "atk": 3,
+   "spd": 70,
+   "behavior": "shy_ghost",
+   "size": 13,
+   "color": "#d8d0c0",
+   "loot": [
+    [
+     "sea_salt_ice_cream",
+     0.3
+    ],
+    [
+     "kh_potion",
+     0.25
+    ],
+    [
+     "keychain",
+     0.05
+    ]
+   ],
+   "gold": [
+    4,
+    10
+   ]
+  },
+  {
+   "id": "wight_knight",
+   "name": "Wight Knight",
+   "world": "kingdom_hearts",
+   "hp": 42,
+   "atk": 10,
+   "spd": 100,
+   "behavior": "lunger",
+   "size": 17,
+   "color": "#584a5a",
+   "loot": [
+    [
+     "lucid_shard",
+     0.3
+    ],
+    [
+     "kh_mythril",
+     0.08
+    ]
+   ],
+   "gold": [
+    9,
+    18
+   ]
+  },
+  {
+   "id": "wizard_kh",
+   "name": "Wizard",
+   "world": "kingdom_hearts",
+   "hp": 40,
+   "atk": 11,
+   "spd": 80,
+   "behavior": "shooter",
+   "size": 15,
+   "color": "#4838a0",
+   "loot": [
+    [
+     "kh_ether",
+     0.25
+    ],
+    [
+     "thunder_shard",
+     0.25
+    ]
+   ],
+   "gold": [
+    12,
+    24
+   ]
+  },
+  {
+   "id": "wyvern",
+   "name": "Wyvern",
+   "world": "kingdom_hearts",
+   "hp": 55,
+   "atk": 11,
+   "spd": 130,
+   "behavior": "swooper",
+   "size": 19,
+   "color": "#8a6a2a",
+   "loot": [
+    [
+     "blaze_shard",
+     0.3
+    ],
+    [
+     "kh_mythril",
+     0.08
+    ]
+   ],
+   "gold": [
+    12,
+    24
+   ]
+  },
+  {
+   "id": "guard_armor",
+   "name": "Guard Armor",
+   "world": "kingdom_hearts",
+   "hp": 450,
+   "atk": 15,
+   "spd": 60,
+   "behavior": "boss_tank",
+   "size": 36,
+   "color": "#786a9a",
+   "loot": [
+    [
+     "world_shard_kh",
+     1.0
+    ],
+    [
+     "kh_mythril",
+     1.0
+    ],
+    [
+     "keychain",
+     0.5
+    ]
+   ],
+   "gold": [
+    350,
+    450
+   ],
+   "attacks": [
+    "belly_flop",
+    "static_pulse",
+    "flame_breath"
+   ],
+   "telegraph": 0.65
+  },
+  {
+   "id": "darkside",
+   "name": "Darkside",
+   "world": "kingdom_hearts",
+   "hp": 600,
+   "atk": 17,
+   "spd": 45,
+   "behavior": "boss_tank",
+   "size": 44,
+   "color": "#201830",
+   "loot": [
+    [
+     "world_shard_kh",
+     1.0
+    ],
+    [
+     "kh_mythril",
+     1.0
+    ],
+    [
+     "kingdom_key",
+     0.5
+    ]
+   ],
+   "gold": [
+    420,
+    560
+   ],
+   "attacks": [
+    "belly_flop",
+    "flame_breath",
+    "static_pulse"
+   ],
+   "telegraph": 0.7
   }
  ],
  "bosses": [

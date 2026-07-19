@@ -259,7 +259,8 @@ func _on_died() -> void:
 			child.global_position = global_position + Vector2(rng.randf_range(-12, 12), rng.randf_range(-12, 12))
 	var drops := loot.roll()
 	killed.emit(enemy_id, global_position)
-	FX.burst(get_parent(), global_position, Color(String(def.get("color", "#ffffff"))), 14)
+	# bosses get a bigger release than rank-and-file heartless
+	FX.enemy_death(get_parent(), global_position, 1.6 if not def.get("attacks", []).is_empty() else 1.0)
 	for item_id: String in drops["items"]:
 		var pickup := LootPickup.new()
 		pickup.setup_item(item_id)

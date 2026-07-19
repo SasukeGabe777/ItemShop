@@ -130,9 +130,13 @@ func _pick_equipment(hero_id: String, slot: String) -> void:
 				if InventoryManager.equip(hero_id, slot, id):
 					AudioManager.play_sfx("equip_hero_item")
 					pick_layer.queue_free()
-					_show_hero(hero_id)))
+					_show_hero(hero_id)
+					# the pad's focus died with the pick modal — land it back
+					# on the rebuilt equipment rows
+					UIKit.focus_first_button(detail)))
 	pvb.add_child(UIKit.button("Unequip", func() -> void:
 		InventoryManager.equip(hero_id, slot, "")
 		pick_layer.queue_free()
-		_show_hero(hero_id)))
+		_show_hero(hero_id)
+		UIKit.focus_first_button(detail)))
 	pvb.add_child(UIKit.button("Cancel", func() -> void: pick_layer.queue_free()))

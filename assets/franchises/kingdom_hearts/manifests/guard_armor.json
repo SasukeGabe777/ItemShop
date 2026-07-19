@@ -1,0 +1,75 @@
+{
+ "asset_id": "guard_armor",
+ "sheet": "res://assets/franchises/kingdom_hearts/processed/sheets/guard_armor.png",
+ "native_scale": 1,
+ "display_scale": 1,
+ "pivot": [
+  26,
+  70
+ ],
+ "grid": {
+  "frame_width": 53,
+  "frame_height": 71,
+  "columns": 4,
+  "rows": 1
+ },
+ "animations": {
+  "idle_down": {
+   "frames": [
+    0,
+    1,
+    2
+   ],
+   "fps": 4,
+   "loop": true
+  },
+  "walk_down": {
+   "frames": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "fps": 7,
+   "loop": true
+  },
+  "idle_up": {
+   "frames": [
+    0,
+    1,
+    2
+   ],
+   "fps": 4,
+   "loop": true
+  },
+  "walk_up": {
+   "frames": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "fps": 7,
+   "loop": true
+  },
+  "idle_side": {
+   "frames": [
+    0,
+    1,
+    2
+   ],
+   "fps": 4,
+   "loop": true
+  },
+  "walk_side": {
+   "frames": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "fps": 7,
+   "loop": true
+  }
+ }
+}

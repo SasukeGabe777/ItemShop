@@ -47,8 +47,10 @@ func _set_sort(mode: String) -> void:
 
 
 func _fill() -> void:
-	for child in _list.get_children():
-		child.queue_free()
+	UIKit.rebuild_list(_list, _fill_rows)
+
+
+func _fill_rows() -> void:
 	var catalog := MarketManager.wholesale_catalog()
 	match _sort_mode:
 		"name":
@@ -75,15 +77,57 @@ func _fill() -> void:
 				if absf(ma - mb) > 0.001:
 					return ma > mb
 				return String(ContentDatabase.get_item(a).get("world", "")) < String(ContentDatabase.get_item(b).get("world", "")))
+	# progression gate: everything is listed (like the workshop's locked
+	# recipes), but goods beyond the current chapter's customer purses are
+	# greyed out and can't be bought yet
+	var locked: Array[String] = []
 	for id in catalog:
-		_list.add_child(_make_row(id))
+		if _locked_reason(id) == "":
+			_list.add_child(_make_row(id))
+		else:
+			locked.append(id)
+	if not locked.is_empty():
+		_list.add_child(UIKit.label("— beyond today's market —", 9, UIKit.COL_DIM))
+	for id in locked:
+		_list.add_child(_make_row(id, _locked_reason(id)))
 
 
-func _make_row(id: String) -> VBoxContainer:
+## Why an item can't be bought yet ("" = purchasable). Two gates: the item's
+## world must be reachable (chapter), and its price must sit inside what this
+## chapter's customers can realistically pay — no Peach's Dress on Day 1.
+func _locked_reason(id: String) -> String:
+	var it := ContentDatabase.get_item(id)
+	var w := ContentDatabase.get_world(String(it.get("world", "")))
+	var world_ch := int(w.get("chapter", 99 if bool(w.get("final", false)) else 1))
+	if world_ch > TimeManager.chapter:
+		return "world sealed until Ch.%d" % world_ch
+	var price := ContentDatabase.item_price(id)
+	if float(price) > _price_cap(TimeManager.chapter):
+		return "customers can't afford this until Ch.%d" % _chapter_for_price(price)
+	return ""
+
+
+## Customer budgets scale ~0.85x per chapter (see CustomerGen); the cap keeps
+## market stock inside what those purses can actually pay.
+static func _price_cap(chapter: int) -> float:
+	var cfg: Dictionary = ContentDatabase.bal("market_unlock", {})
+	return float(cfg.get("base_cap", 800.0)) * (1.0 + float(cfg.get("per_chapter_scale", 0.85)) * (chapter - 1))
+
+
+static func _chapter_for_price(price: int) -> int:
+	for ch in range(1, 9):
+		if float(price) <= _price_cap(ch):
+			return ch
+	return 8
+
+
+func _make_row(id: String, locked_reason: String = "") -> VBoxContainer:
 	var it := ContentDatabase.get_item(id)
 	var cost := MarketManager.wholesale_cost(id)
 	var value := MarketManager.market_value(id)
 	var entry := VBoxContainer.new()
+	if locked_reason != "":
+		entry.modulate = Color(1, 1, 1, 0.45)
 	entry.add_theme_constant_override("separation", 0)
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 6)
@@ -125,6 +169,10 @@ func _make_row(id: String) -> VBoxContainer:
 			AudioManager.play_sfx("acquired", -4.0)
 			_gold_lbl.text = "Gold: %dg" % EconomyManager.gold
 			_fill())
+	if locked_reason != "":
+		buy_btn.disabled = true
+		buy_btn.text = "—"
+		buy_btn.tooltip_text = locked_reason
 	buy_btn.custom_minimum_size = Vector2(46, 0)
 	buy_btn.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	row.add_child(buy_btn)
@@ -133,6 +181,8 @@ func _make_row(id: String) -> VBoxContainer:
 	var sub_text := String(it.get("desc", ""))
 	if owned > 0:
 		sub_text = "Owned: %d — %s" % [owned, sub_text]
+	if locked_reason != "":
+		sub_text = "%s — %s" % [locked_reason, sub_text]
 	var sub := UIKit.label(sub_text, 8, UIKit.COL_DIM)
 	sub.clip_text = true
 	var sub_pad := MarginContainer.new()

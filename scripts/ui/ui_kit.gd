@@ -16,6 +16,14 @@ const BAR_WHITE := "res://assets/shared/ui/processed/bar_white.png"
 const BAR_BLUE := "res://assets/shared/ui/processed/bar_blue.png"
 
 static var _light_theme: Theme = null
+static var _open_modals := 0
+
+
+## True while any UIKit.modal() is on screen. Gameplay code that polls raw
+## actions (like "interact", which shares the pad's A button with ui_accept)
+## must check this, or every press aimed at the modal also fires in-world.
+static func modal_open() -> bool:
+	return _open_modals > 0
 
 
 ## ---- controller support -------------------------------------------------
@@ -30,6 +38,8 @@ static func interact_key() -> String:
 
 
 static func _first_button_in(node: Node) -> Button:
+	if node.is_queued_for_deletion():
+		return null
 	if node is Button and (node as Button).visible and not (node as Button).disabled:
 		return node
 	for child in node.get_children():
@@ -37,6 +47,39 @@ static func _first_button_in(node: Node) -> Button:
 		if b != null:
 			return b
 	return null
+
+
+## Clears `list`'s children and calls `fill` to rebuild them, keeping the
+## controller selector alive: when focus was inside the list, it is restored
+## onto the same row index (clamped) of the rebuilt list. Without this, a
+## rebuild frees the focused button and the pad selector vanishes.
+static func rebuild_list(list: Node, fill: Callable) -> void:
+	var row := -1
+	if list.is_inside_tree():
+		var focus := list.get_viewport().gui_get_focus_owner()
+		if focus != null:
+			var old := list.get_children()
+			for i in old.size():
+				if old[i] == focus or old[i].is_ancestor_of(focus):
+					row = i
+					break
+	for child in list.get_children():
+		child.queue_free()
+	fill.call()
+	if row < 0:
+		return
+	var rows := list.get_children().filter(func(c: Node) -> bool:
+		return not c.is_queued_for_deletion())
+	if rows.is_empty():
+		return
+	var b := _first_button_in(rows[clampi(row, 0, rows.size() - 1)])
+	if b == null:
+		for r: Node in rows:
+			b = _first_button_in(r)
+			if b != null:
+				break
+	if b != null:
+		b.grab_focus()
 
 
 ## Focuses the first usable button under `root` (deferred, so it works right
@@ -124,6 +167,34 @@ static func button(text: String, on_press: Callable, size: int = 10) -> Button:
 	return b
 
 
+## Ornate location nameplate: large gold text on the white bar texture,
+## matching the menus. Center it with `reset_size()` then position.
+static func nameplate(text: String, font_size: int = 13) -> PanelContainer:
+	var p := PanelContainer.new()
+	if ResourceLoader.exists(BAR_WHITE):
+		var sb := StyleBoxTexture.new()
+		sb.texture = load(BAR_WHITE)
+		sb.texture_margin_left = 16
+		sb.texture_margin_right = 16
+		sb.texture_margin_top = 4
+		sb.texture_margin_bottom = 4
+		sb.content_margin_left = 16
+		sb.content_margin_right = 16
+		sb.content_margin_top = 3
+		sb.content_margin_bottom = 3
+		p.add_theme_stylebox_override("panel", sb)
+	else:
+		var sb := StyleBoxFlat.new()
+		sb.bg_color = Color(0.96, 0.95, 0.9)
+		sb.set_corner_radius_all(6)
+		sb.set_content_margin_all(6)
+		p.add_theme_stylebox_override("panel", sb)
+	var l := label(text, font_size, COL_ACCENT)
+	l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	p.add_child(l)
+	return p
+
+
 static func hsep() -> HSeparator:
 	return HSeparator.new()
 
@@ -197,7 +268,10 @@ static func modal(parent: Node, title: String) -> Array:
 	var layer := CanvasLayer.new()
 	layer.layer = 50
 	parent.add_child(layer)
-	layer.tree_exiting.connect(func() -> void: AudioManager.play_sfx("menu_close", -4.0))
+	_open_modals += 1
+	layer.tree_exiting.connect(func() -> void:
+		_open_modals = maxi(0, _open_modals - 1)
+		AudioManager.play_sfx("menu_close", -4.0))
 	var dim := ColorRect.new()
 	dim.color = Color(0, 0, 0, 0.55)
 	dim.set_anchors_preset(Control.PRESET_FULL_RECT)

@@ -25,8 +25,10 @@ func _ready() -> void:
 
 
 func _fill() -> void:
-	for child in list.get_children():
-		child.queue_free()
+	UIKit.rebuild_list(list, _fill_rows)
+
+
+func _fill_rows() -> void:
 	var recipes := ContentDatabase.recipes_for_chapter(TimeManager.chapter)
 	recipes.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
 		return int(a.get("unlock_chapter", 1)) < int(b.get("unlock_chapter", 1)))

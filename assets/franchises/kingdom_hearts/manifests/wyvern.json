@@ -1,0 +1,84 @@
+{
+ "asset_id": "wyvern",
+ "sheet": "res://assets/franchises/kingdom_hearts/processed/sheets/wyvern.png",
+ "native_scale": 1,
+ "display_scale": 1,
+ "pivot": [
+  48,
+  63
+ ],
+ "grid": {
+  "frame_width": 96,
+  "frame_height": 64,
+  "columns": 7,
+  "rows": 1
+ },
+ "animations": {
+  "idle_down": {
+   "frames": [
+    0,
+    1,
+    2
+   ],
+   "fps": 4,
+   "loop": true
+  },
+  "walk_down": {
+   "frames": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "fps": 7,
+   "loop": true
+  },
+  "idle_up": {
+   "frames": [
+    0,
+    1,
+    2
+   ],
+   "fps": 4,
+   "loop": true
+  },
+  "walk_up": {
+   "frames": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "fps": 7,
+   "loop": true
+  },
+  "idle_side": {
+   "frames": [
+    0,
+    1,
+    2
+   ],
+   "fps": 4,
+   "loop": true
+  },
+  "walk_side": {
+   "frames": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "fps": 7,
+   "loop": true
+  }
+ }
+}

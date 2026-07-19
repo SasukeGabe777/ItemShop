@@ -38,17 +38,7 @@ func _build_ground() -> void:
 	Scenery.prop(self, Vector2(140, 415), "lamp_lit")
 	Scenery.prop(self, Vector2(500, 415), "lamp_lit")
 	Scenery.prop(self, Vector2(320, 250), "rug", -8)
-	Scenery.prop(self, Vector2(330, 115), "crates")
-	Scenery.prop(self, Vector2(240, 255), "barrel")
-	# broken bridge visual at the top
-	for i in range(7):
-		var plank := Polygon2D.new()
-		var x := 140.0 + i * 55.0
-		plank.polygon = PackedVector2Array([Vector2(x, 40), Vector2(x + 40, 40), Vector2(x + 40, 70), Vector2(x, 70)])
-		var world := ContentDatabase.world_for_chapter(i + 1)
-		var repaired := BridgeManager.is_repaired(String(world.get("id", "")))
-		plank.color = Color(String(world.get("accent_color", "#888888"))) if repaired else Color("#2a2d3f")
-		add_child(plank)
+	# (the broken-bridge plank strip now lives inside the World Bridge menu)
 
 
 const LOBBY_SPRITE := "res://assets/locations/processed/lobby/%s.png"
@@ -64,7 +54,6 @@ func _door(pos: Vector2, size: Vector2, color: Color, title: String, action: Str
 	shape.shape = rect
 	body.add_child(shape)
 	var h := size / 2.0
-	var label_top := -h.y - 14
 	var tex_path := LOBBY_SPRITE % sprite_name
 	if sprite_name != "" and ResourceLoader.exists(tex_path):
 		# building art with its base at the door rect's bottom edge
@@ -73,15 +62,15 @@ func _door(pos: Vector2, size: Vector2, color: Color, title: String, action: Str
 		spr.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 		spr.position = Vector2(0, h.y - spr.texture.get_height() / 2.0)
 		body.add_child(spr)
-		label_top = h.y - spr.texture.get_height() - 14.0
 	else:
 		var poly := Polygon2D.new()
 		poly.polygon = PackedVector2Array([-h, Vector2(h.x, -h.y), h, Vector2(-h.x, h.y)])
 		poly.color = color
 		body.add_child(poly)
-	var lbl := UIKit.label(title, 9)
-	lbl.position = Vector2(-h.x, label_top)
-	body.add_child(lbl)
+	# ornate nameplate centered directly under the location
+	var plate := UIKit.nameplate(title)
+	body.add_child(plate)
+	_center_plate(plate, Vector2(0, h.y + 4.0))
 	add_child(body)
 	var ic := InteractionComponent.new()
 	ic.prompt = title
@@ -106,9 +95,24 @@ func _build_gates() -> void:
 	ic.position = Vector2(320, 90)
 	ic.add_to_group("interactables")
 	add_child(ic)
-	var lbl := UIKit.label("~ World Bridge ~", 10, UIKit.COL_ACCENT)
-	lbl.position = Vector2(272, 90)
-	add_child(lbl)
+	var tex_path := LOBBY_SPRITE % "worldbridge"
+	if ResourceLoader.exists(tex_path):
+		var spr := Sprite2D.new()
+		spr.texture = load(tex_path)
+		spr.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		spr.position = Vector2(320, 46)
+		add_child(spr)
+	var plate := UIKit.nameplate("World Bridge")
+	add_child(plate)
+	_center_plate(plate, Vector2(320, 94))
+
+
+## Containers only know their real size after a layout pass — centering with
+## reset_size() alone leaves long titles offset to the right.
+func _center_plate(plate: Control, top_center: Vector2) -> void:
+	(func() -> void:
+		if is_instance_valid(plate):
+			plate.position = top_center - Vector2(plate.size.x / 2.0, 0)).call_deferred()
 
 
 func _process(_delta: float) -> void:
@@ -120,7 +124,7 @@ func _process(_delta: float) -> void:
 	if ic != null:
 		prompt.text = "[%s] %s" % [UIKit.interact_key(), ic.prompt]
 		prompt.position = player.position + Vector2(-30, -34)
-	if Input.is_action_just_pressed("interact") and ic != null:
+	if Input.is_action_just_pressed("interact") and ic != null and not UIKit.modal_open():
 		_activate(ic.action_id)
 
 
@@ -139,8 +143,9 @@ func _activate(action: String) -> void:
 			_open_panel(GatesPanel.new())
 		"home":
 			UIKit.confirm_time_cost(self, "Resting", TimeManager.activity_cost("rest"), func() -> void:
+				var day_sold: Array = EconomyManager.day_sales.duplicate(true)
 				var events := TimeManager.advance(TimeManager.activity_cost("rest"))
-				_after_time_events(events))
+				_after_time_events(events, day_sold))
 
 
 func _open_panel(panel: Node) -> void:
@@ -156,11 +161,24 @@ func _open_panel(panel: Node) -> void:
 				_play_story())
 
 
-func _after_time_events(events: Array[String]) -> void:
+func _after_time_events(events: Array[String], day_sold: Array = []) -> void:
 	hud.refresh()
 	if "deadline_failed" in events:
 		SceneRouter.go("story", {"failure": true})
 		return
+	if "new_day" in events:
+		var summary := {}
+		if not day_sold.is_empty():
+			var total := 0
+			for e: Dictionary in day_sold:
+				total += int(e.get("price", 0))
+			summary = {"sales": day_sold.size(), "revenue": total, "sold": day_sold}
+		DayTransition.show_transition(self, TimeManager.day - 1, summary, _resume_new_day)
+		return
+	DayTransition.show_period(self, {}, _resume_new_day)
+
+
+func _resume_new_day() -> void:
 	AudioManager.play_track("crossroads_night" if TimeManager.period >= 3 else "crossroads_day")
 	if StoryEventManager.has_pending():
 		_play_story()

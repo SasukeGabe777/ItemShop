@@ -8,6 +8,13 @@ var gold: int = 0
 var combo: int = 0  # consecutive first-offer successes
 var lifetime_earned: int = 0
 var lifetime_spent: int = 0
+var day_sales: Array = []  # [{item, price}] sold today (runtime only, for summaries)
+
+
+func _ready() -> void:
+	# day-enders snapshot day_sales BEFORE calling TimeManager.advance —
+	# this wipe runs during the advance, as the new day starts
+	TimeManager.day_started.connect(func(_d: int) -> void: day_sales.clear())
 
 
 func reset() -> void:
@@ -15,6 +22,7 @@ func reset() -> void:
 	combo = 0
 	lifetime_earned = 0
 	lifetime_spent = 0
+	day_sales.clear()
 	gold_changed.emit(gold)
 
 
@@ -45,6 +53,7 @@ func combo_bonus() -> float:
 
 
 func record_sale(item_id: String, price: int, customer_id: String, first_offer: bool, perfect: bool) -> void:
+	day_sales.append({"item": item_id, "price": price})
 	add_gold(price)
 	GameState.add_stat("sales")
 	GameState.learn_item(item_id)

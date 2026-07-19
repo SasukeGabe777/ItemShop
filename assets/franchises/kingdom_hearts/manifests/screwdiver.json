@@ -1,0 +1,78 @@
+{
+ "asset_id": "screwdiver",
+ "sheet": "res://assets/franchises/kingdom_hearts/processed/sheets/screwdiver.png",
+ "native_scale": 1,
+ "display_scale": 1,
+ "pivot": [
+  86,
+  61
+ ],
+ "grid": {
+  "frame_width": 172,
+  "frame_height": 62,
+  "columns": 5,
+  "rows": 1
+ },
+ "animations": {
+  "idle_down": {
+   "frames": [
+    0,
+    1,
+    2
+   ],
+   "fps": 4,
+   "loop": true
+  },
+  "walk_down": {
+   "frames": [
+    0,
+    1,
+    2,
+    3,
+    4
+   ],
+   "fps": 7,
+   "loop": true
+  },
+  "idle_up": {
+   "frames": [
+    0,
+    1,
+    2
+   ],
+   "fps": 4,
+   "loop": true
+  },
+  "walk_up": {
+   "frames": [
+    0,
+    1,
+    2,
+    3,
+    4
+   ],
+   "fps": 7,
+   "loop": true
+  },
+  "idle_side": {
+   "frames": [
+    0,
+    1,
+    2
+   ],
+   "fps": 4,
+   "loop": true
+  },
+  "walk_side": {
+   "frames": [
+    0,
+    1,
+    2,
+    3,
+    4
+   ],
+   "fps": 7,
+   "loop": true
+  }
+ }
+}
