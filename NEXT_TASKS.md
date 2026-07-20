@@ -11,21 +11,30 @@ below reflect the **actual** current state (see `CURRENT_BUILD.md`).
 Animation is the standing pain point across all heroes. The player-reported
 failure modes are **stiff/static motion**, **wrong/jerky motion**, and
 **invisible weapons/effects** — all three are resolved by matching our ripped
-frames to a **reference recording of the real game**, not by re-ripping. Raw
-`.rom` files are a fallback only; GBA/SNES sprites are runtime-assembled
-metasprites, so direct ROM ripping is harder than using the existing sheets.
+frames to **ground-truth frames captured from the real game**, not by re-ripping.
 
-Method (see also `docs/AGENT_GUIDE.md` §4–5):
+The capture pipeline is **built and proven** (2026-07-20) — see
+`docs/SPRITE_REFERENCE_PIPELINE.md` and `tools/rom_ref/`. It drives the real game
+in BizHawk, navigates to gameplay autonomously, and reconstructs the hero on full
+transparency from OAM (no chroma-key). Proven end to end on Minish Cap: Link's
+walk-down cycle captured as clean isolated frames.
 
-1. Capture short reference clips (emulator GIF capture, e.g. mGBA *Tools → Record
-   GIF*) of each hero's idle, walk (each direction), attack combo, and
-   special/dodge. A savestate before each action makes this quick.
-2. Rebuild the manifest against the reference: correct frame selection, order,
-   fps, pivot (feet), and per-frame weapon-overlay offsets.
-3. `--import`, then verify **windowed** in-engine (look at every screenshot),
-   then export and commit.
+Method:
 
-Priority order (highest impact first — verified from manifests):
+1. Convert + place the battery save, launch the ROM with a capture Lua, and dump
+   frames via the OAM path (`tools/rom_ref/oam_dump.lua` + `decode_oam.py`).
+2. Retune the per-game hero-isolation band from the `obj_all` full-layer render;
+   filter the shadow object.
+3. Cut the isolated frames into the standard animation set (order, fps, feet
+   pivot, weapon offsets) and write the hero manifest.
+4. `--import`, verify **windowed** in-engine (look at every screenshot), export,
+   commit.
+
+Immediate next step: capture Link's **full** move set (idle + walk ×4 dirs +
+sword ×dir), drop the shadow, and build `link.json` — the first hero actually
+fixed by this pipeline.
+
+Priority order after Link (highest impact first — verified from manifests):
 
 1. **Idle motion for all five playable heroes.** Every hero currently has a
    1-frame idle, so nobody breathes when standing — likely the biggest source of

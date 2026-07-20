@@ -118,8 +118,11 @@ portraits, and ~100 added items/customers.
 Universal issue: **every hero has a 1-frame idle** (no idle motion). Coverage is
 uneven — Naruto and Cloud are the thinnest of the playable heroes. Reported
 player-facing complaints are "stiff/static," "wrong/jerky motion," and
-"weapon/effect invisible" — all resolvable with per-action reference recordings
-of the real games (see `NEXT_TASKS.md`).
+"weapon/effect invisible" — all resolvable with ground-truth frames from the
+real game. The **capture pipeline is built and proven** (Minish Cap: Link's
+walk cycle isolated on transparency) — see `docs/SPRITE_REFERENCE_PIPELINE.md`
+and `tools/rom_ref/`. Building the first full hero manifest from it is the
+active Priority 0 in `NEXT_TASKS.md`.
 
 ## Test suite (present at 9f97b5b — re-run before relying on these)
 

@@ -346,3 +346,34 @@ Data lives in `data/*.json`, loaded by `ContentDatabase` (see
   the next agent reuses the pattern.
 - If you learn a new pitfall the hard way, **add it to this guide** — that is
   how it stays alive across models and sessions.
+
+## 11. Real-game animation reference (emulator capture)
+
+When you need to know what an animation *actually* looks like (frame count,
+order, timing, weapon offsets) instead of guessing from a static rip, drive the
+real game in **BizHawk** and capture ground-truth frames. Full workflow:
+`docs/SPRITE_REFERENCE_PIPELINE.md`. Tooling: `tools/rom_ref/` (Lua capture +
+`decode_oam.py`). ROMs/saves/emulator/output are gitignored (`savestates/`,
+`roms/`, `tools/rom_ref/out/`) — never commit them.
+
+Non-obvious facts that cost time during bring-up:
+
+- Provided saves are **battery saves in export containers**, not savestates.
+  SharkPort `.sps` (GBA/SNES), ARDS `.duc` (DS). **BizHawk names SaveRAM by its
+  gamedb canonical name, not the ROM filename** — boot once to see the name/size
+  it wants.
+- **EEPROM 8 KB saves** (Minish Cap, Mario & Luigi): convert SharkPort by
+  **reversing each 8-byte block**, pad `0xFF` to 128 KB, append 16-byte `0xFF`
+  footer. **Flash 64 KB saves** (KH:CoM, DBZ, FF6 Advance) are NOT 8-byte-swapped
+  — use a different transform; verify per game.
+- Lua input: `joypad.set({Start=true})` with **no port arg** (a port silently
+  does nothing), **held ~30 frames**, and **wait ~900 frames past the boot logos**
+  before any input. `client.screenshot(path)`, `client.exit()`; guard the launch
+  with a `timeout`.
+- Quality frames come from the **OAM sprite-dump** (raw OAM + OBJ VRAM + OBJ
+  palette per frame, reconstructed in Python) — isolated hero on transparency, no
+  chroma-key. The hero-isolation X-band is **per-game**; retune it from the
+  `obj_all_*.png` full-layer render. `decode_oam.py` handles 4bpp/1D only so far.
+- An emulator capture can also map **dungeon layouts and barriers** 1:1 later
+  (walk the hero into every edge, record where movement stops) — a planned second
+  use of this same harness.
