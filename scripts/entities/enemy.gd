@@ -17,6 +17,7 @@ var hit_radius: float = 10.0  # visual body radius, used for touch damage
 var hitbox: HitboxComponent
 var loot: LootTableComponent
 
+var stun_time: float = 0.0
 var _think_timer: float = 0.0
 var _retarget_timer: float = 0.0
 var _state: String = "idle"
@@ -109,8 +110,20 @@ func take_packet(packet: Dictionary, from_position: Vector2) -> void:
 	hurtbox.receive(packet, from_position)
 
 
+## Held in place by a thrown item (Deku Nut and friends). Enemies carry no
+## status component, so the timer lives here.
+func apply_stun(seconds: float) -> void:
+	stun_time = maxf(stun_time, seconds)
+	if visual != null:
+		FX.flash(visual.body_node(), Color(1.0, 1.0, 0.5))
+
+
 func _physics_process(delta: float) -> void:
 	if health.dead or target == null or not is_instance_valid(target):
+		return
+	if stun_time > 0.0:
+		stun_time -= delta
+		movement.apply(self, Vector2.ZERO, delta)
 		return
 	# co-op: chase whichever living hero is closest
 	_retarget_timer -= delta

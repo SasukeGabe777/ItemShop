@@ -17,6 +17,8 @@ var meter_cards: Array = []  # 3 reload-card TextureProgressBars (or 1 fallback 
 var boss_bar: Range
 var loot_label: Label
 var consum_label: Label
+var consum_label2: Label = null
+var hud_vb: VBoxContainer = null
 var switch_available: Array[String] = []
 var door_open: bool = false
 var finished: bool = false
@@ -46,7 +48,7 @@ func _ready() -> void:
 		hero2 = CombatHero.new()
 		add_child(hero2)
 		hero2.input_prefix = "p2_"
-		hero2.setup(hero2_id, [])
+		hero2.setup(hero2_id, DungeonManager.pending.get("consumables2", []))
 		hero2.modulate = Color(1.0, 0.9, 0.85)
 		hero2.defeated.connect(_on_hero_defeated)
 	camera = Camera2D.new()
@@ -82,6 +84,19 @@ func _ready() -> void:
 		_build_meter_cards_into(m2, meter_cards2)
 		_set_meter_cards(meter_cards2, hero2.meter)
 		hero2.meter_changed.connect(func(v: float) -> void: _set_meter_cards(meter_cards2, v))
+		# P2 packs their own items, so they get their own readout
+		consum_label2 = UIKit.label("", 8, UIKit.COL_DIM)
+		consum_label2.clip_text = true
+		consum_label2.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		var item_row := HBoxContainer.new()
+		item_row.add_theme_constant_override("separation", 14)
+		hud_vb.add_child(item_row)
+		hud_vb.move_child(item_row, boss_bar.get_index())
+		consum_label.get_parent().remove_child(consum_label)
+		item_row.add_child(consum_label)
+		item_row.add_child(consum_label2)
+		hero2.consumables_changed.connect(_on_consumables2_changed)
+		_on_consumables2_changed(hero2.consumables)
 	_enter_room(0)
 
 
@@ -227,6 +242,7 @@ func _build_hud() -> void:
 	var vb := VBoxContainer.new()
 	vb.add_theme_constant_override("separation", 1)
 	panel.add_child(vb)
+	hud_vb = vb
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 8)
 	vb.add_child(row)
@@ -260,11 +276,24 @@ func _on_hp_changed(hp: int, max_hp: int) -> void:
 	hp_bar.value = hp
 
 
-func _on_consumables_changed(items: Array) -> void:
+## "Items: Hi-Potion (heals 100), Ether (+30 meter)" — the next item to be used
+## is first, so a player can see what Y will actually do before pressing it.
+static func _consumable_text(items: Array, prefix: String) -> String:
 	var names: Array[String] = []
 	for id in items:
-		names.append(ContentDatabase.item_name(String(id)))
-	consum_label.text = "Items: " + (", ".join(names) if not names.is_empty() else "none")
+		var nm := ContentDatabase.item_name(String(id))
+		var fx := ContentDatabase.item_effect_summary(String(id))
+		names.append("%s (%s)" % [nm, fx] if fx != "" else nm)
+	return prefix + (", ".join(names) if not names.is_empty() else "none")
+
+
+func _on_consumables_changed(items: Array) -> void:
+	consum_label.text = _consumable_text(items, "Items: ")
+
+
+func _on_consumables2_changed(items: Array) -> void:
+	if consum_label2 != null:
+		consum_label2.text = _consumable_text(items, "P2: ")
 
 
 func _process(_delta: float) -> void:

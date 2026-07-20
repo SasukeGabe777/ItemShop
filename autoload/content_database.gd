@@ -116,6 +116,57 @@ func item_price(id: String) -> int:
 	return int(get_item(id).get("price", 0))
 
 
+## Effect keys CombatHero._use_consumable actually acts on. Items whose only
+## effects are outside this list (poke balls' `capture`, escape ropes'
+## `escape`, rare candy's `level_up`) would burn an item slot and do nothing,
+## so they are kept out of the expedition picker — they remain sellable stock.
+const FIELD_EFFECTS := ["heal", "meter", "buff_atk", "buff_def", "invincible",
+	"aoe_damage", "ranged_damage", "stun", "self_damage", "revive"]
+
+
+## True when taking this item into a dungeon has any effect at all.
+func is_field_usable(id: String) -> bool:
+	var fx: Dictionary = get_item(id).get("effect", {})
+	for k: String in fx:
+		if k in FIELD_EFFECTS:
+			return true
+	return false
+
+
+## Short human-readable summary of what a consumable does when used in a
+## dungeon ("heals 100", "+30 meter"). Shown in the expedition picker and the
+## run HUD so a player can tell a 40 HP potion from a 200 HP one before
+## spending a slot on it. Mirrors CombatHero._use_consumable — keep in sync.
+func item_effect_summary(id: String) -> String:
+	var fx: Dictionary = get_item(id).get("effect", {})
+	if fx.is_empty():
+		return ""
+	var parts: Array[String] = []
+	if fx.has("heal"):
+		parts.append("heals %d" % int(fx["heal"]))
+	if fx.has("revive"):
+		parts.append("revives")
+	if fx.has("meter"):
+		parts.append("+%d meter" % int(fx["meter"]))
+	if fx.has("buff_atk"):
+		parts.append("+%d ATK" % int(fx["buff_atk"]))
+	if fx.has("buff_def"):
+		parts.append("+%d DEF" % int(fx["buff_def"]))
+	if fx.has("invincible"):
+		parts.append("%.1fs invincible" % float(fx["invincible"]))
+	if fx.has("aoe_damage"):
+		parts.append("%d blast" % int(fx["aoe_damage"]))
+	if fx.has("ranged_damage"):
+		parts.append("%d ranged" % int(fx["ranged_damage"]))
+	if fx.has("stun"):
+		parts.append("stuns %.1fs" % float(fx["stun"]))
+	if fx.has("self_damage"):
+		parts.append("HURTS you %d" % int(fx["self_damage"]))
+	if parts.is_empty():
+		return "no combat use"
+	return ", ".join(parts)
+
+
 func get_enemy(id: String) -> Dictionary:
 	if enemies.has(id):
 		return enemies[id]

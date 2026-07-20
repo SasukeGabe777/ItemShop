@@ -263,6 +263,22 @@ func _use_consumable() -> void:
 	if fx.has("aoe_damage"):
 		_aoe_damage(90.0, float(fx["aoe_damage"]) / 10.0)
 		FX.shake(5.0)
+	if fx.has("ranged_damage"):
+		var p := Projectile.new()
+		p.setup(_attack_damage(float(fx["ranged_damage"]) / 10.0), facing.normalized(),
+			320.0, Color(String(hero_def.get("color", "#ffffff"))), CombatHero.LAYER_ENEMY_HURT)
+		p.global_position = global_position + facing.normalized() * 12.0
+		get_parent().add_child(p)
+	if fx.has("stun"):
+		for node in get_tree().get_nodes_in_group("enemies"):
+			var e := node as Node2D
+			if e != null and is_instance_valid(e) and e.has_method("apply_stun") \
+					and e.global_position.distance_to(global_position) <= 110.0:
+				e.apply_stun(float(fx["stun"]))
+	if fx.has("self_damage"):
+		# trap items (the poison mushroom) — honest about being a bad idea
+		health.take_damage(int(fx["self_damage"]), self)
+		FX.flash(visual.body_node(), Color(0.6, 1.0, 0.4))
 	if fx.has("revive"):
 		revives_available += 1
 	hp_changed.emit(health.hp, health.max_hp)

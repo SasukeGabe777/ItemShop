@@ -20,10 +20,12 @@ func reset() -> void:
 	rng.randomize()
 
 
-func plan_expedition(world_id: String, hero_id: String, consumables: Array = [], vertical_slice: bool = false, hero2_id: String = "") -> void:
+func plan_expedition(world_id: String, hero_id: String, consumables: Array = [], vertical_slice: bool = false, hero2_id: String = "", consumables2: Array = []) -> void:
 	pending = {
 		"world_id": world_id, "hero_id": hero_id, "hero2_id": hero2_id,
 		"consumables": consumables.duplicate(), "vertical_slice": vertical_slice,
+		# co-op: player 2 packs their own items rather than sharing P1's belt
+		"consumables2": consumables2.duplicate(),
 	}
 	run_loot.clear()
 	run_gold = 0

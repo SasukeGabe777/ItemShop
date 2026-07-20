@@ -145,31 +145,59 @@ func _expedition_dialog(world_id: String) -> void:
 			hero_pick2.selected = 1
 		dvb.add_child(UIKit.label("Player 2's hero:"))
 		dvb.add_child(hero_pick2)
-	dvb.add_child(UIKit.label("Bring consumables (up to %d):" % int(ContentDatabase.bal("dungeon", {}).get("consumable_slots", 2))))
+	# --- consumables: each player packs their own belt ----------------------
+	var max_slots := int(ContentDatabase.bal("dungeon", {}).get("consumable_slots", 2))
 	var chosen: Array = []
-	var chosen_lbl := UIKit.label("(none)", 9, UIKit.COL_DIM)
-	var pick_row := HBoxContainer.new()
-	var consum_pick := OptionButton.new()
+	var chosen2: Array = []
+	# the dropdown says what each item actually does, so a 40 HP potion is
+	# distinguishable from a 200 HP one before a slot is spent on it
 	var consum_ids: Array[String] = []
+	var consum_labels: Array[String] = []
 	for id in InventoryManager.sorted_ids("name"):
 		var it := ContentDatabase.get_item(id)
-		if String(it.get("category", "")) in ["consumable", "food"]:
+		# only offer items that actually do something in a dungeon; capture and
+		# escape items have no field effect and would waste a slot
+		if String(it.get("category", "")) in ["consumable", "food"] 				and ContentDatabase.is_field_usable(id):
 			consum_ids.append(id)
-			consum_pick.add_item("%s x%d" % [ContentDatabase.item_name(id), InventoryManager.count(id)])
-	pick_row.add_child(consum_pick)
-	pick_row.add_child(UIKit.button("Add", func() -> void:
-		var max_slots := int(ContentDatabase.bal("dungeon", {}).get("consumable_slots", 2))
-		if chosen.size() >= max_slots or consum_ids.is_empty():
-			return
-		var id := consum_ids[consum_pick.selected]
-		var already := chosen.count(id)
-		if InventoryManager.count(id) > already:
-			chosen.append(id)
+			var fx := ContentDatabase.item_effect_summary(id)
+			consum_labels.append("%s x%d%s" % [ContentDatabase.item_name(id),
+				InventoryManager.count(id), " — %s" % fx if fx != "" else ""])
+	# a picker per player; stock is shared, so both belts count against it
+	var make_picker := func(target: Array, other: Array, who: String) -> void:
+		dvb.add_child(UIKit.label("%sconsumables (up to %d):" % [who, max_slots]))
+		var lbl := UIKit.label("(none)", 9, UIKit.COL_DIM)
+		var row := HBoxContainer.new()
+		var pick := OptionButton.new()
+		for t in consum_labels:
+			pick.add_item(t)
+		row.add_child(pick)
+		row.add_child(UIKit.button("Add", func() -> void:
+			if target.size() >= max_slots or consum_ids.is_empty():
+				return
+			var id := consum_ids[pick.selected]
+			# reserved by BOTH belts — you cannot pack the same potion twice
+			var reserved := target.count(id) + other.count(id)
+			if InventoryManager.count(id) <= reserved:
+				lbl.text = "No more %s in stock!" % ContentDatabase.item_name(id)
+				return
+			target.append(id)
 			var names: Array[String] = []
-			for c in chosen:
-				names.append(ContentDatabase.item_name(String(c)))
-			chosen_lbl.text = ", ".join(names)))
-	dvb.add_child(pick_row)
+			for c in target:
+				var fx2 := ContentDatabase.item_effect_summary(String(c))
+				names.append("%s (%s)" % [ContentDatabase.item_name(String(c)), fx2]
+					if fx2 != "" else ContentDatabase.item_name(String(c)))
+			lbl.text = ", ".join(names)))
+		row.add_child(UIKit.button("Clear", func() -> void:
+			target.clear()
+			lbl.text = "(none)"))
+		dvb.add_child(row)
+		dvb.add_child(lbl)
+	if MultiplayerState.enabled:
+		make_picker.call(chosen, chosen2, "Player 1's ")
+		make_picker.call(chosen2, chosen, "Player 2's ")
+	else:
+		make_picker.call(chosen, chosen2, "Bring ")
+	var chosen_lbl := UIKit.label("", 9, UIKit.COL_DIM)
 	dvb.add_child(chosen_lbl)
 	var go_row := HBoxContainer.new()
 	go_row.alignment = BoxContainer.ALIGNMENT_CENTER
@@ -191,11 +219,13 @@ func _expedition_dialog(world_id: String) -> void:
 				EconomyManager.spend_gold(fee)
 				for c in chosen:
 					InventoryManager.remove_item(String(c))
+				for c2 in chosen2:
+					InventoryManager.remove_item(String(c2))
 				if GameState.meet_hero(hid):
 					StoryEventManager.fire("hero_met", {"hero": hid})
 				if hid2 != "" and GameState.meet_hero(hid2):
 					StoryEventManager.fire("hero_met", {"hero": hid2})
-				DungeonManager.plan_expedition(world_id, hid, chosen, first_vertical_slice, hid2)
+				DungeonManager.plan_expedition(world_id, hid, chosen, first_vertical_slice, hid2, chosen2)
 				AudioManager.play_sfx("enter_expedition")
 				var events := TimeManager.advance(TimeManager.activity_cost("dungeon"))
 				if "deadline_failed" in events:
