@@ -1,23 +1,28 @@
 {
   "schema": "crossroads.dev_status.v1",
-  "vertical_slice_goal": "Manually verify the playable Kingdom Hearts shop-to-Traverse-Town-to-shop loop and record only its largest usability issues.",
+  "vertical_slice_goal": "Polish hero animation across the five built worlds (idle motion, thin sets, weapon overlays) using real-game reference recordings.",
   "working_systems": [
-    "Title, story, town, shop, dungeon, and main-menu scenes launch",
-    "Core save/load, negotiation, inventory, campaign, and combat logic",
-    "Automated Kingdom Hearts vertical slice: starter sale, two-room Sora expedition, Shadow defeat, Lucid Shard return/resale, and save/reload",
-    "Data-driven content database and placeholder fallbacks",
+    "Five built franchise worlds: Kingdom Hearts, Mario, Final Fantasy, Zelda, Naruto (heroes, rosters, items, customers, dungeon art)",
+    "Local 2-player split-screen with per-device input isolation and co-op dungeons",
+    "Controller support: D-pad movement, menu focus navigation, stick scroll, trigger zoom",
+    "Per-player consumable belts; every offered consumable has an implemented effect",
+    "Autosave every day-portion, loadable from the Continue menu",
+    "Core save/load, negotiation, inventory, economy, campaign, and combat logic",
+    "Data-driven content database (225 items, 85 enemies, 25 bosses, 8 heroes) with placeholder fallbacks",
     "Development-only F1 Live Developer Hub core workflows"
   ],
   "incomplete_systems": [
-    "Human-controlled Kingdom Hearts vertical-slice acceptance test",
-    "Longer Chapter 1 boss, World Shard, and gate-repair route",
-    "Runtime locations are not yet adopted by normal campaign scenes",
-    "Asset Factory chroma-key background detection test",
-    "Most Kingdom Hearts customer, enemy, and item presentation art"
+    "Hero animation: every hero has a 1-frame idle; Naruto and Cloud sets are thin; Link weapon overlay needs verification",
+    "Dragon Ball and Pokemon are data-only stubs (no hero manifest, no dungeon art) and are not playable expeditions",
+    "KH boss_rotation references guard_armor and darkside, which are enemies, not bosses",
+    "Asset Factory chroma-key test fails on an 8-bit vs float precision comparison",
+    "25 items still flagged needs_ai_balance",
+    "data/locations.json is empty; campaign scenes still build layouts in code",
+    "No recorded human acceptance run of the expanded multi-world build"
   ],
   "next_tasks": [
-    "Play docs/KH_VERTICAL_SLICE.md from a new game without development tools",
-    "Record only the largest item-placement, customer-movement, exit-clarity, or sale-screen issue",
-    "Fix only a blocker found by the human acceptance run"
+    "Record real-game reference clips and rebuild hero manifests: idle motion for all five playable heroes first",
+    "Fill Naruto and Cloud animation sets; verify Link's composited sword overlay",
+    "Fix the KH boss_rotation references and the Asset Factory test-precision bug"
   ]
 }

@@ -33,3 +33,9 @@ ai_workspace/current/*
 
 # Local rendered-document QA output
 docs/.guide_render*/
+
+# ROMs, battery saves, emulator, and animation-reference capture output — never commit
+# (copyrighted material / local-only tooling for the sprite-animation reference pipeline)
+savestates/
+roms/
+tools/rom_ref/out/
