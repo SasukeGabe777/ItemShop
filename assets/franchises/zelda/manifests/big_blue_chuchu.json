@@ -5,12 +5,12 @@
   "display_scale": 1,
   "pivot": [
     44,
-    84
+    88
   ],
   "grid": {
     "frame_width": 88,
-    "frame_height": 86,
-    "columns": 1,
+    "frame_height": 90,
+    "columns": 5,
     "rows": 1
   },
   "animations": {
@@ -23,9 +23,12 @@
     },
     "walk_down": {
       "frames": [
-        0
+        1,
+        2,
+        3,
+        4
       ],
-      "fps": 4,
+      "fps": 6,
       "loop": true
     },
     "idle_up": {
@@ -37,9 +40,12 @@
     },
     "walk_up": {
       "frames": [
-        0
+        1,
+        2,
+        3,
+        4
       ],
-      "fps": 4,
+      "fps": 6,
       "loop": true
     },
     "idle_side": {
@@ -51,9 +57,12 @@
     },
     "walk_side": {
       "frames": [
-        0
+        1,
+        2,
+        3,
+        4
       ],
-      "fps": 4,
+      "fps": 6,
       "loop": true
     }
   }

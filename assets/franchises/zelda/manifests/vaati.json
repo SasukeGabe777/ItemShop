@@ -10,50 +10,56 @@
   "grid": {
     "frame_width": 116,
     "frame_height": 106,
-    "columns": 1,
+    "columns": 2,
     "rows": 1
   },
   "animations": {
     "idle_down": {
       "frames": [
-        0
+        0,
+        1
       ],
       "fps": 3,
       "loop": true
     },
     "walk_down": {
       "frames": [
-        0
+        0,
+        1
       ],
-      "fps": 4,
+      "fps": 3,
       "loop": true
     },
     "idle_up": {
       "frames": [
-        0
+        0,
+        1
       ],
       "fps": 3,
       "loop": true
     },
     "walk_up": {
       "frames": [
-        0
+        0,
+        1
       ],
-      "fps": 4,
+      "fps": 3,
       "loop": true
     },
     "idle_side": {
       "frames": [
-        0
+        0,
+        1
       ],
       "fps": 3,
       "loop": true
     },
     "walk_side": {
       "frames": [
-        0
+        0,
+        1
       ],
-      "fps": 4,
+      "fps": 3,
       "loop": true
     }
   }

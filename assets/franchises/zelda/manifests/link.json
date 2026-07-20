@@ -4,12 +4,12 @@
   "native_scale": 1,
   "display_scale": 1,
   "pivot": [
-    13,
-    24
+    24,
+    38
   ],
   "grid": {
-    "frame_width": 26,
-    "frame_height": 28,
+    "frame_width": 48,
+    "frame_height": 48,
     "columns": 8,
     "rows": 5
   },
