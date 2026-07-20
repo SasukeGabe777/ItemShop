@@ -182,6 +182,17 @@ island boxes are band-relative — offset them back
 - Esperville pines: tileset rows on pure black at the sheet's bottom-left.
 - Lon Lon props (boulder/rocks/haystack/stumps): objects on plain grass,
   flood the greens.
+- Naruto: Path of the Ninja 2 enemy sheet: a palette-variant grid where **every
+  cell has its own background colour**, so no single key works. Cells are
+  auto-detected as large uniform-colour regions and each is keyed against its
+  own background (`detect_cells` in `tools/prep_naruto_world.py`) — reuse this
+  whenever a rip is "the same creature in N colours".
+- Objects on busy terrain that share the terrain's hue (a green tree on green
+  grass) cannot be flooded reliably; pick a non-green prop instead (posts,
+  rocks, stumps) rather than fighting the key.
+- Room crops: when a map's screens are narrower than 640, cut 320x192 and
+  upscale 2x. Besides fitting, it lands each 16px source tile on exactly one
+  32px dungeon cell.
 
 ## 5. Manifests and the CharacterVisual contract
 
@@ -285,8 +296,12 @@ Data lives in `data/*.json`, loaded by `ContentDatabase` (see
 | Sprite has garbage text baked in | island bbox overlaps ripper credit — `largest_component` per frame |
 | Icon/prop clipped | `largest_component` ate a detached part — widen crop or `keep_components` |
 | "X doesn't render" in one screenshot | may be off-camera — time series + position prints before concluding |
-| Giant diff on a data file | wrong JSON indent for that file |
+| Giant diff on a data file | wrong JSON indent for that file, **or** Python wrote CRLF — these files are LF, so always `open(..., newline="\n")` |
 | grep on godot output shows nothing | block buffering — write to a log file, grep the file |
+| Corner key leaves "1 island" on a character sheet | 1px **border frame** around the sheet: the corner samples the frame, not the background. Sample `(1,1)` too and key both |
+| Extraction picks a title letter / HP bar / manga panel | score islands for character-likeness: fill ratio < 0.82 (panels are solid), mean chroma > 12 (title letters are achromatic), ≥ 9 colours (UI text is flat) |
+| Sprite has a "STAND"/"Block" label stuck to it | label shares the island bbox — `largest_component` per frame |
+| Probe screenshots blank white despite a wait | warmup scales with asset count; a world-sized addition can need 2.5–3.5 s, not 0.4 s |
 | Texture loads as null in `_wall`/props | passed full path to `Scenery.texture_or_null` (it wants a bare name) — `load()` full paths directly |
 
 ## 9. Checklist: adding or fixing a world
