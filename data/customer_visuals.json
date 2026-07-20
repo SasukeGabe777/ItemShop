@@ -770,6 +770,378 @@
       "world": "zelda",
       "static": "res://assets/franchises/zelda/processed/customers/kid_girl_auburn.png",
       "manifest": ""
+    },
+    {
+      "slug": "third_hokage",
+      "name": "Third Hokage",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/third_hokage.png"
+    },
+    {
+      "slug": "iruka",
+      "name": "Iruka",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/iruka.png"
+    },
+    {
+      "slug": "asuma",
+      "name": "Asuma",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/asuma.png"
+    },
+    {
+      "slug": "might_guy",
+      "name": "Might Guy",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/might_guy.png"
+    },
+    {
+      "slug": "misumi",
+      "name": "Misumi",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/misumi.png"
+    },
+    {
+      "slug": "itachi",
+      "name": "Itachi",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/itachi.png"
+    },
+    {
+      "slug": "dosu",
+      "name": "Dosu",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/dosu.png"
+    },
+    {
+      "slug": "kin",
+      "name": "Kin",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/kin.png"
+    },
+    {
+      "slug": "zaku",
+      "name": "Zaku",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/zaku.png"
+    },
+    {
+      "slug": "shikamaru",
+      "name": "Shikamaru",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/shikamaru.png"
+    },
+    {
+      "slug": "ino",
+      "name": "Ino",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/ino.png"
+    },
+    {
+      "slug": "akamaru",
+      "name": "Akamaru",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/akamaru.png"
+    },
+    {
+      "slug": "shino",
+      "name": "Shino",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/shino.png"
+    },
+    {
+      "slug": "hinata",
+      "name": "Hinata",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/hinata.png"
+    },
+    {
+      "slug": "konohamaru",
+      "name": "Konohamaru",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/konohamaru.png"
+    },
+    {
+      "slug": "neji",
+      "name": "Neji",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/neji.png"
+    },
+    {
+      "slug": "rock_lee",
+      "name": "Rock Lee",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/rock_lee.png"
+    },
+    {
+      "slug": "teuchi",
+      "name": "Teuchi",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/teuchi.png"
+    },
+    {
+      "slug": "tazuna",
+      "name": "Tazuna",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/tazuna.png"
+    },
+    {
+      "slug": "mizuki",
+      "name": "Mizuki",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/mizuki.png"
+    },
+    {
+      "slug": "mist_ninja",
+      "name": "Mist Ninja",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/mist_ninja.png"
+    },
+    {
+      "slug": "rain_ninja",
+      "name": "Rain Ninja",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/rain_ninja.png"
+    },
+    {
+      "slug": "chunin_examiner",
+      "name": "Chunin Examiner",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/chunin_examiner.png"
+    },
+    {
+      "slug": "jus_bobobo",
+      "name": "Bobobo",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_bobobo.png"
+    },
+    {
+      "slug": "jus_byakuya",
+      "name": "Byakuya",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_byakuya.png"
+    },
+    {
+      "slug": "jus_chopper",
+      "name": "Chopper",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_chopper.png"
+    },
+    {
+      "slug": "jus_diobrando",
+      "name": "Dio Brando",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_diobrando.png"
+    },
+    {
+      "slug": "jus_donpatch",
+      "name": "Don Patch",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_donpatch.png"
+    },
+    {
+      "slug": "jus_eve",
+      "name": "Eve",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_eve.png"
+    },
+    {
+      "slug": "jus_frieza",
+      "name": "Frieza",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_frieza.png"
+    },
+    {
+      "slug": "jus_giornogiovanna",
+      "name": "Giorno",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_giornogiovanna.png"
+    },
+    {
+      "slug": "jus_gon",
+      "name": "Gon",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_gon.png"
+    },
+    {
+      "slug": "jus_gotenks",
+      "name": "Gotenks",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_gotenks.png"
+    },
+    {
+      "slug": "jus_hiei",
+      "name": "Hiei",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_hiei.png"
+    },
+    {
+      "slug": "jus_ichigo",
+      "name": "Ichigo",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_ichigo.png"
+    },
+    {
+      "slug": "jus_jonathanjoestar",
+      "name": "Jonathan Joestar",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_jonathanjoestar.png"
+    },
+    {
+      "slug": "jus_josephjoestar",
+      "name": "Joseph Joestar",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_josephjoestar.png"
+    },
+    {
+      "slug": "jus_josukehigashikata",
+      "name": "Josuke",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_josukehigashikata.png"
+    },
+    {
+      "slug": "jus_jotarokujo",
+      "name": "Jotaro",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_jotarokujo.png"
+    },
+    {
+      "slug": "jus_allen",
+      "name": "Allen Walker",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_allen.png"
+    },
+    {
+      "slug": "jus_kenshin",
+      "name": "Kenshin",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_kenshin.png"
+    },
+    {
+      "slug": "jus_killua",
+      "name": "Killua",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_killua.png"
+    },
+    {
+      "slug": "jus_kon",
+      "name": "Kon",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_kon.png"
+    },
+    {
+      "slug": "jus_kuwabara",
+      "name": "Kuwabara",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_kuwabara.png"
+    },
+    {
+      "slug": "jus_l",
+      "name": "L",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_l.png"
+    },
+    {
+      "slug": "jus_light",
+      "name": "Light",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_light.png"
+    },
+    {
+      "slug": "jus_luffy",
+      "name": "Luffy",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_luffy.png"
+    },
+    {
+      "slug": "jus_mello",
+      "name": "Mello",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_mello.png"
+    },
+    {
+      "slug": "jus_misaamane",
+      "name": "Misa Amane",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_misaamane.png"
+    },
+    {
+      "slug": "jus_nami",
+      "name": "Nami",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_nami.png"
+    },
+    {
+      "slug": "jus_nicorobin",
+      "name": "Nico Robin",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_nicorobin.png"
+    },
+    {
+      "slug": "jus_orihime",
+      "name": "Orihime",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_orihime.png"
+    },
+    {
+      "slug": "jus_renji",
+      "name": "Renji",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_renji.png"
+    },
+    {
+      "slug": "jus_rukiakuchiki",
+      "name": "Rukia",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_rukiakuchiki.png"
+    },
+    {
+      "slug": "jus_sanji",
+      "name": "Sanji",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_sanji.png"
+    },
+    {
+      "slug": "jus_sasuke",
+      "name": "Sasuke (JUS)",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_sasuke.png"
+    },
+    {
+      "slug": "jus_setokaiba",
+      "name": "Seto Kaiba",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_setokaiba.png"
+    },
+    {
+      "slug": "jus_sogeking",
+      "name": "Sogeking",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_sogeking.png"
+    },
+    {
+      "slug": "jus_yoh",
+      "name": "Yoh",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_yoh.png"
+    },
+    {
+      "slug": "jus_yugi",
+      "name": "Yugi",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_yugi.png"
+    },
+    {
+      "slug": "jus_yusuke",
+      "name": "Yusuke",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_yusuke.png"
+    },
+    {
+      "slug": "jus_zoro",
+      "name": "Zoro",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_zoro.png"
     }
   ]
 }

@@ -1,0 +1,60 @@
+{
+  "asset_id": "giant_snake",
+  "sheet": "res://assets/franchises/naruto/processed/sheets/giant_snake.png",
+  "native_scale": 1,
+  "display_scale": 1,
+  "pivot": [
+    18,
+    22
+  ],
+  "grid": {
+    "frame_width": 36,
+    "frame_height": 23,
+    "columns": 1,
+    "rows": 1
+  },
+  "animations": {
+    "idle_down": {
+      "frames": [
+        0
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "walk_down": {
+      "frames": [
+        0
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "idle_up": {
+      "frames": [
+        0
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "walk_up": {
+      "frames": [
+        0
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "idle_side": {
+      "frames": [
+        0
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "walk_side": {
+      "frames": [
+        0
+      ],
+      "fps": 3,
+      "loop": true
+    }
+  }
+}

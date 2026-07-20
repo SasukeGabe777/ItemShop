@@ -397,135 +397,6 @@
    ]
   },
   {
-   "id": "rogue_ninja",
-   "name": "Rogue Ninja",
-   "world": "naruto",
-   "hp": 45,
-   "atk": 12,
-   "spd": 130,
-   "behavior": "lunger",
-   "size": 15,
-   "color": "#584878",
-   "loot": [
-    [
-     "kunai",
-     0.2
-    ],
-    [
-     "shuriken",
-     0.3
-    ],
-    [
-     "smoke_bomb",
-     0.15
-    ]
-   ],
-   "gold": [
-    14,
-    28
-   ]
-  },
-  {
-   "id": "sound_ninja",
-   "name": "Sound Ninja",
-   "world": "naruto",
-   "hp": 40,
-   "atk": 13,
-   "spd": 120,
-   "behavior": "shooter",
-   "size": 15,
-   "color": "#788088",
-   "loot": [
-    [
-     "explosive_tag",
-     0.2
-    ],
-    [
-     "chakra_pill",
-     0.1
-    ]
-   ],
-   "gold": [
-    14,
-    28
-   ]
-  },
-  {
-   "id": "puppet",
-   "name": "Puppet",
-   "world": "naruto",
-   "hp": 55,
-   "atk": 11,
-   "spd": 100,
-   "behavior": "shooter",
-   "size": 16,
-   "color": "#985838",
-   "loot": [
-    [
-     "ninja_scroll",
-     0.12
-    ],
-    [
-     "kunai",
-     0.2
-    ]
-   ],
-   "gold": [
-    16,
-    30
-   ]
-  },
-  {
-   "id": "giant_snake",
-   "name": "Giant Snake",
-   "world": "naruto",
-   "hp": 85,
-   "atk": 15,
-   "spd": 90,
-   "behavior": "lunger",
-   "size": 22,
-   "color": "#6858a8",
-   "loot": [
-    [
-     "chakra_crystal",
-     0.12
-    ],
-    [
-     "soldier_pill",
-     0.15
-    ]
-   ],
-   "gold": [
-    20,
-    40
-   ]
-  },
-  {
-   "id": "clone_impostor",
-   "name": "Shadow Clone Impostor",
-   "world": "naruto",
-   "hp": 35,
-   "atk": 12,
-   "spd": 135,
-   "behavior": "splitter",
-   "size": 15,
-   "color": "#e8a030",
-   "loot": [
-    [
-     "soldier_pill",
-     0.12
-    ],
-    [
-     "ramen_bowl",
-     0.2
-    ]
-   ],
-   "gold": [
-    12,
-    26
-   ]
-  },
-  {
    "id": "saibaman",
    "name": "Saibaman",
    "world": "dragon_ball",
@@ -1964,6 +1835,368 @@
     60,
     120
    ]
+  },
+  {
+   "id": "giant_snake",
+   "name": "Giant Snake",
+   "world": "naruto",
+   "hp": 85,
+   "atk": 15,
+   "spd": 90,
+   "behavior": "lunger",
+   "size": 22,
+   "color": "#6858a8",
+   "loot": [
+    [
+     "chakra_crystal",
+     0.12
+    ],
+    [
+     "soldier_pill",
+     0.15
+    ]
+   ],
+   "gold": [
+    20,
+    40
+   ]
+  },
+  {
+   "id": "forest_spider",
+   "name": "Forest Spider",
+   "world": "naruto",
+   "hp": 48,
+   "atk": 12,
+   "spd": 85,
+   "behavior": "ambusher",
+   "size": 18,
+   "color": "#8a5a3a",
+   "loot": [
+    [
+     "makibishi_spikes",
+     0.25
+    ],
+    [
+     "kunai",
+     0.15
+    ]
+   ],
+   "gold": [
+    12,
+    26
+   ]
+  },
+  {
+   "id": "nin_panther",
+   "name": "Nin-Panther",
+   "world": "naruto",
+   "hp": 55,
+   "atk": 14,
+   "spd": 155,
+   "behavior": "chaser",
+   "size": 16,
+   "color": "#b07840",
+   "loot": [
+    [
+     "soldier_pill",
+     0.18
+    ],
+    [
+     "ryo_pouch",
+     0.12
+    ]
+   ],
+   "gold": [
+    16,
+    32
+   ]
+  },
+  {
+   "id": "hawk_scout",
+   "name": "Hawk Scout",
+   "world": "naruto",
+   "hp": 32,
+   "atk": 10,
+   "spd": 170,
+   "behavior": "swooper",
+   "size": 14,
+   "color": "#c8a870",
+   "loot": [
+    [
+     "ninja_scroll",
+     0.1
+    ],
+    [
+     "ryo_pouch",
+     0.15
+    ]
+   ],
+   "gold": [
+    10,
+    24
+   ]
+  },
+  {
+   "id": "cave_scorpion",
+   "name": "Cave Scorpion",
+   "world": "naruto",
+   "hp": 60,
+   "atk": 15,
+   "spd": 90,
+   "behavior": "lunger",
+   "size": 16,
+   "color": "#5a5ab0",
+   "loot": [
+    [
+     "field_medkit",
+     0.15
+    ],
+    [
+     "makibishi_spikes",
+     0.2
+    ]
+   ],
+   "gold": [
+    16,
+    30
+   ]
+  },
+  {
+   "id": "rogue_ninja",
+   "name": "Rogue Ninja",
+   "world": "naruto",
+   "hp": 45,
+   "atk": 12,
+   "spd": 130,
+   "behavior": "chaser",
+   "size": 15,
+   "color": "#584878",
+   "loot": [
+    [
+     "kunai",
+     0.2
+    ],
+    [
+     "shuriken",
+     0.3
+    ],
+    [
+     "smoke_bomb",
+     0.15
+    ]
+   ],
+   "gold": [
+    14,
+    28
+   ]
+  },
+  {
+   "id": "mist_swordsman",
+   "name": "Mist Swordsman",
+   "world": "naruto",
+   "hp": 72,
+   "atk": 17,
+   "spd": 120,
+   "behavior": "lunger",
+   "size": 18,
+   "color": "#4a7fb0",
+   "loot": [
+    [
+     "kunai",
+     0.25
+    ],
+    [
+     "field_medkit",
+     0.12
+    ]
+   ],
+   "gold": [
+    22,
+    42
+   ]
+  },
+  {
+   "id": "kunoichi_blade",
+   "name": "Blade Kunoichi",
+   "world": "naruto",
+   "hp": 62,
+   "atk": 15,
+   "spd": 125,
+   "behavior": "chaser",
+   "size": 16,
+   "color": "#d08040",
+   "loot": [
+    [
+     "shuriken",
+     0.25
+    ],
+    [
+     "dango_skewer",
+     0.2
+    ]
+   ],
+   "gold": [
+    18,
+    36
+   ]
+  },
+  {
+   "id": "puppet",
+   "name": "Battle Puppet",
+   "world": "naruto",
+   "hp": 55,
+   "atk": 11,
+   "spd": 100,
+   "behavior": "shooter",
+   "size": 16,
+   "color": "#985838",
+   "loot": [
+    [
+     "ninja_scroll",
+     0.12
+    ],
+    [
+     "kunai",
+     0.2
+    ]
+   ],
+   "gold": [
+    16,
+    30
+   ]
+  },
+  {
+   "id": "bandit_brute",
+   "name": "Bandit Brute",
+   "world": "naruto",
+   "hp": 115,
+   "atk": 18,
+   "spd": 60,
+   "behavior": "tank",
+   "size": 24,
+   "color": "#8a6a4a",
+   "loot": [
+    [
+     "ryo_pouch",
+     0.35
+    ],
+    [
+     "ramen_bowl",
+     0.2
+    ]
+   ],
+   "gold": [
+    30,
+    55
+   ]
+  },
+  {
+   "id": "clone_impostor",
+   "name": "Shadow Clone Impostor",
+   "world": "naruto",
+   "hp": 35,
+   "atk": 12,
+   "spd": 135,
+   "behavior": "splitter",
+   "size": 15,
+   "color": "#e8a030",
+   "loot": [
+    [
+     "soldier_pill",
+     0.12
+    ],
+    [
+     "ramen_bowl",
+     0.2
+    ]
+   ],
+   "gold": [
+    12,
+    26
+   ]
+  },
+  {
+   "id": "sound_ninja",
+   "name": "Sound Ninja",
+   "world": "naruto",
+   "hp": 40,
+   "atk": 13,
+   "spd": 120,
+   "behavior": "shooter",
+   "size": 15,
+   "color": "#788088",
+   "loot": [
+    [
+     "explosive_tag",
+     0.2
+    ],
+    [
+     "chakra_pill",
+     0.1
+    ]
+   ],
+   "gold": [
+    14,
+    28
+   ]
+  },
+  {
+   "id": "jirobou",
+   "name": "Jirobou",
+   "world": "naruto",
+   "hp": 260,
+   "atk": 21,
+   "spd": 55,
+   "behavior": "tank",
+   "size": 28,
+   "color": "#e8c060",
+   "loot": [
+    [
+     "chakra_pill",
+     0.4
+    ],
+    [
+     "ninja_scroll",
+     0.25
+    ],
+    [
+     "ryo_pouch",
+     0.5
+    ]
+   ],
+   "gold": [
+    70,
+    120
+   ]
+  },
+  {
+   "id": "tayuya",
+   "name": "Tayuya",
+   "world": "naruto",
+   "hp": 230,
+   "atk": 20,
+   "spd": 130,
+   "behavior": "shooter",
+   "size": 22,
+   "color": "#c04858",
+   "loot": [
+    [
+     "chakra_pill",
+     0.4
+    ],
+    [
+     "summoning_scroll",
+     0.2
+    ],
+    [
+     "ryo_pouch",
+     0.5
+    ]
+   ],
+   "gold": [
+    70,
+    120
+   ]
   }
  ],
  "bosses": [
@@ -2676,6 +2909,80 @@
     "orb_barrage"
    ],
    "telegraph": 0.6
+  },
+  {
+   "id": "kidomaru",
+   "name": "Kidomaru",
+   "world": "naruto",
+   "hp": 1250,
+   "atk": 27,
+   "spd": 100,
+   "behavior": "boss_ranged",
+   "size": 26,
+   "color": "#b06840",
+   "loot": [
+    [
+     "world_shard_naruto",
+     1.0
+    ],
+    [
+     "summoning_scroll",
+     1.0
+    ],
+    [
+     "sharingan_fragment",
+     0.5
+    ]
+   ],
+   "gold": [
+    2200,
+    2800
+   ],
+   "attacks": [
+    "spider_web_net",
+    "golden_arrow",
+    "spider_drop",
+    "sticky_barrage"
+   ],
+   "telegraph": 0.6,
+   "phases": 2
+  },
+  {
+   "id": "kimimaro",
+   "name": "Kimimaro",
+   "world": "naruto",
+   "hp": 1500,
+   "atk": 31,
+   "spd": 120,
+   "behavior": "boss_charger",
+   "size": 28,
+   "color": "#e0e0e8",
+   "loot": [
+    [
+     "world_shard_naruto",
+     1.0
+    ],
+    [
+     "sannin_token",
+     1.0
+    ],
+    [
+     "training_weights",
+     0.5
+    ]
+   ],
+   "gold": [
+    2600,
+    3200
+   ],
+   "attacks": [
+    "bone_lance",
+    "dance_of_camellia",
+    "willow_barrage",
+    "bone_forest"
+   ],
+   "telegraph": 0.5,
+   "phases": 3
   }
  ]
 }

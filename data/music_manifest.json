@@ -19,7 +19,7 @@
     "dungeon_mario": {"file": "dungeon_mario", "loop": true},
     "dungeon_final_fantasy": {"file": "dungeon_final_fantasy", "loop": true},
     "dungeon_zelda": {"file": "dungeon_zelda", "loop": true},
-    "dungeon_naruto": {"file": "dungeon_naruto", "loop": true},
+    "dungeon_naruto": {"file": "naruto_dungeon", "loop": true},
     "dungeon_dragon_ball": {"file": "dungeon_dragon_ball", "loop": true},
     "dungeon_pokemon": {"file": "dungeon_pokemon", "loop": true},
     "boss_battle": {"file": "boss_battle", "loop": true},

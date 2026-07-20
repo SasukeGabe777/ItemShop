@@ -1,0 +1,60 @@
+{
+  "asset_id": "kidomaru",
+  "sheet": "res://assets/franchises/naruto/processed/sheets/kidomaru.png",
+  "native_scale": 1,
+  "display_scale": 1,
+  "pivot": [
+    41,
+    95
+  ],
+  "grid": {
+    "frame_width": 83,
+    "frame_height": 96,
+    "columns": 1,
+    "rows": 1
+  },
+  "animations": {
+    "idle_down": {
+      "frames": [
+        0
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "walk_down": {
+      "frames": [
+        0
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "idle_up": {
+      "frames": [
+        0
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "walk_up": {
+      "frames": [
+        0
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "idle_side": {
+      "frames": [
+        0
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "walk_side": {
+      "frames": [
+        0
+      ],
+      "fps": 3,
+      "loop": true
+    }
+  }
+}

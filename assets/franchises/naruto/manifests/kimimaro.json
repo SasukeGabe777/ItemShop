@@ -1,0 +1,60 @@
+{
+  "asset_id": "kimimaro",
+  "sheet": "res://assets/franchises/naruto/processed/sheets/kimimaro.png",
+  "native_scale": 1,
+  "display_scale": 1,
+  "pivot": [
+    50,
+    95
+  ],
+  "grid": {
+    "frame_width": 101,
+    "frame_height": 96,
+    "columns": 1,
+    "rows": 1
+  },
+  "animations": {
+    "idle_down": {
+      "frames": [
+        0
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "walk_down": {
+      "frames": [
+        0
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "idle_up": {
+      "frames": [
+        0
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "walk_up": {
+      "frames": [
+        0
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "idle_side": {
+      "frames": [
+        0
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "walk_side": {
+      "frames": [
+        0
+      ],
+      "fps": 3,
+      "loop": true
+    }
+  }
+}

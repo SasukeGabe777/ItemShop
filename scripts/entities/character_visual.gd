@@ -11,6 +11,7 @@ var _moving: bool = false
 var use_frames: bool = false
 var _action_playing: bool = false
 var _action_seq: int = 0
+var _base_offset: Vector2 = Vector2.ZERO
 
 
 func setup_from_manifest(manifest_path: String) -> bool:
@@ -41,6 +42,7 @@ func setup_from_manifest(manifest_path: String) -> bool:
 			pivot = Vector2(float(pv[0]), float(pv[1]))
 			shadow_w = int(cell.x * 0.45)
 	animated.offset = Vector2(cell.x / 2.0 - pivot.x, cell.y / 2.0 - pivot.y)
+	_base_offset = animated.offset
 	_add_shadow(maxi(10, shadow_w))
 	use_frames = true
 	return true
@@ -180,7 +182,20 @@ func _on_action_finished() -> void:
 
 
 func _process(delta: float) -> void:
-	if use_frames or static_sprite == null:
+	if use_frames:
+		# Sheets that only offer a single pose per creature have no motion of
+		# their own; without this a moving enemy slides across the floor
+		# perfectly frozen and reads as a broken sprite. Multi-frame walks
+		# animate themselves and are left alone.
+		if animated == null or _action_playing:
+			return
+		if _moving and animated.sprite_frames.get_frame_count(animated.animation) <= 1:
+			_bob_time += delta * 10.0
+			animated.offset = _base_offset + Vector2(0, -absf(sin(_bob_time)) * 2.0)
+		elif animated.offset != _base_offset:
+			animated.offset = _base_offset
+		return
+	if static_sprite == null:
 		return
 	if _moving:
 		_bob_time += delta * 10.0

@@ -284,15 +284,24 @@
    "id": "naruto",
    "chapter": 5,
    "name": "Naruto",
-   "location": "Hidden Leaf Outskirts",
+   "location": "Hidden Leaf Forest",
    "hero": "naruto",
    "boss": "zabuza",
    "enemies": [
-    "rogue_ninja",
-    "sound_ninja",
-    "puppet",
     "giant_snake",
-    "clone_impostor"
+    "forest_spider",
+    "nin_panther",
+    "hawk_scout",
+    "cave_scorpion",
+    "rogue_ninja",
+    "mist_swordsman",
+    "kunoichi_blade",
+    "puppet",
+    "bandit_brute",
+    "clone_impostor",
+    "sound_ninja",
+    "jirobou",
+    "tayuya"
    ],
    "repair_cost": 225000,
    "world_shard": "world_shard_naruto",
@@ -300,7 +309,7 @@
    "floor_color": "#4a5d2f",
    "wall_color": "#2d3a1c",
    "accent_color": "#ff9820",
-   "dungeon_desc": "Training grounds, rooftops, and a camp that was supposed to be hidden.",
+   "dungeon_desc": "Training grounds and forest road outside the village wall, quiet in the way that means someone is watching.",
    "market_goods": [
     "kunai",
     "shuriken",
@@ -316,6 +325,32 @@
     "sharingan_fragment",
     "training_weights",
     "sannin_token"
+   ],
+   "boss_rotation": [
+    "zabuza",
+    "kidomaru",
+    "kimimaro"
+   ],
+   "room_backgrounds": {
+    "start": [
+     "res://assets/locations/narutodungeon/processed/start_gate.png"
+    ],
+    "combat": [
+     "res://assets/locations/narutodungeon/processed/combat_forest.png",
+     "res://assets/locations/narutodungeon/processed/combat_grove.png",
+     "res://assets/locations/narutodungeon/processed/combat_cliffs.png"
+    ],
+    "treasure": [
+     "res://assets/locations/narutodungeon/processed/treasure_cave.png"
+    ],
+    "boss": [
+     "res://assets/locations/narutodungeon/processed/boss_ravine.png"
+    ]
+   },
+   "obstacle_props": [
+    "res://assets/locations/narutodungeon/processed/prop_post.png",
+    "res://assets/locations/narutodungeon/processed/prop_rock.png",
+    "res://assets/locations/narutodungeon/processed/prop_stump.png"
    ]
   },
   {

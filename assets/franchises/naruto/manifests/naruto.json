@@ -1,0 +1,84 @@
+{
+  "asset_id": "naruto",
+  "sheet": "res://assets/franchises/naruto/processed/sheets/naruto.png",
+  "native_scale": 1,
+  "display_scale": 1,
+  "pivot": [
+    12,
+    30
+  ],
+  "grid": {
+    "frame_width": 25,
+    "frame_height": 31,
+    "columns": 8,
+    "rows": 2
+  },
+  "animations": {
+    "idle_down": {
+      "frames": [
+        0
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "walk_down": {
+      "frames": [
+        0,
+        1,
+        2
+      ],
+      "fps": 9,
+      "loop": true
+    },
+    "idle_up": {
+      "frames": [
+        0
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "walk_up": {
+      "frames": [
+        0,
+        1,
+        2
+      ],
+      "fps": 9,
+      "loop": true
+    },
+    "idle_side": {
+      "frames": [
+        3
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "walk_side": {
+      "frames": [
+        3,
+        4,
+        5
+      ],
+      "fps": 9,
+      "loop": true
+    },
+    "attack_1_side": {
+      "frames": [
+        6,
+        7,
+        8
+      ],
+      "fps": 12,
+      "loop": false
+    },
+    "attack_2_side": {
+      "frames": [
+        9,
+        10,
+        11
+      ],
+      "fps": 12,
+      "loop": false
+    }
+  }
+}

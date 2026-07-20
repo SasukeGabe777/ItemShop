@@ -1,0 +1,60 @@
+{
+  "asset_id": "cave_scorpion",
+  "sheet": "res://assets/franchises/naruto/processed/sheets/cave_scorpion.png",
+  "native_scale": 1,
+  "display_scale": 1,
+  "pivot": [
+    19,
+    39
+  ],
+  "grid": {
+    "frame_width": 39,
+    "frame_height": 40,
+    "columns": 1,
+    "rows": 1
+  },
+  "animations": {
+    "idle_down": {
+      "frames": [
+        0
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "walk_down": {
+      "frames": [
+        0
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "idle_up": {
+      "frames": [
+        0
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "walk_up": {
+      "frames": [
+        0
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "idle_side": {
+      "frames": [
+        0
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "walk_side": {
+      "frames": [
+        0
+      ],
+      "fps": 3,
+      "loop": true
+    }
+  }
+}
