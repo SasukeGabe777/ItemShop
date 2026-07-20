@@ -179,12 +179,22 @@ func _on_load() -> void:
 	var layer: CanvasLayer = parts[0]
 	var vb: VBoxContainer = parts[1]
 	var any := false
+	# the autosave is taken at every day portion, so it is usually the newest
+	# thing here — offer it first
+	var auto := SaveManager.autosave_summary()
+	if not auto.is_empty():
+		any = true
+		vb.add_child(UIKit.button("Autosave — Day %d %s, Ch.%d, %dg%s" % [
+			int(auto["day"]), String(auto["period_name"]), int(auto["chapter"]),
+			int(auto["gold"]), " (Endless)" if bool(auto["endless"]) else ""],
+			func() -> void: SceneRouter.continue_autosave()))
+		vb.add_child(UIKit.hsep())
 	for slot in range(1, 4):
 		var summary := SaveManager.slot_summary(slot)
 		if summary.is_empty():
 			continue
 		any = true
-		var desc := "Slot %d — Day %d, Ch.%d, %dg%s" % [slot, int(summary["day"]), int(summary["chapter"]), int(summary["gold"]), " (Endless)" if bool(summary["endless"]) else ""]
+		var desc := "Slot %d — Day %d %s, Ch.%d, %dg%s" % [slot, int(summary["day"]), String(summary["period_name"]), int(summary["chapter"]), int(summary["gold"]), " (Endless)" if bool(summary["endless"]) else ""]
 		var row := HBoxContainer.new()
 		var b := UIKit.button(desc, func() -> void: SceneRouter.continue_campaign(slot))
 		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL

@@ -271,6 +271,10 @@ func _open_pause() -> void:
 		vb.add_child(UIKit.button(text, func() -> void:
 			SaveManager.save_to_slot(slot)
 			close.call()))
+	var auto := SaveManager.autosave_summary()
+	if not auto.is_empty():
+		vb.add_child(UIKit.label("Autosaved: Day %d, %s" % [int(auto["day"]),
+			String(auto["period_name"])], 9, UIKit.COL_DIM))
 	vb.add_child(UIKit.hsep())
 	vb.add_child(UIKit.button("Orders & encyclopedia", func() -> void:
 		close.call()

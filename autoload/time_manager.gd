@@ -26,8 +26,14 @@ func periods_per_day() -> int:
 
 
 func period_name() -> String:
+	return period_name_for(period)
+
+
+## Name of an arbitrary period index — used to label saves taken at some other
+## point in the day than the current one.
+func period_name_for(idx: int) -> String:
 	var names: Array = ContentDatabase.bal("period_names", ["Morning", "Afternoon", "Evening", "Night"])
-	return String(names[clampi(period, 0, names.size() - 1)])
+	return String(names[clampi(idx, 0, names.size() - 1)])
 
 
 func activity_cost(activity: String) -> int:

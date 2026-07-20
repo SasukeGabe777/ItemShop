@@ -74,11 +74,22 @@ func start_new_campaign(slot: int) -> void:
 	StoryEventManager.fire("chapter_start", {"chapter": 1})
 	SaveManager.checkpoint_chapter()
 	SaveManager.save_to_slot(slot)
+	# day 1 morning never *advances* into a period, so seed the autosave here
+	# to keep "every day portion has one" true from the very first minute
+	SaveManager.autosave()
 	go("town")
 
 
 func continue_campaign(slot: int) -> bool:
 	if not SaveManager.load_from_slot(slot):
+		return false
+	go("town")
+	return true
+
+
+## Resume from the rolling autosave taken at the last day portion.
+func continue_autosave() -> bool:
+	if not SaveManager.load_autosave():
 		return false
 	go("town")
 	return true

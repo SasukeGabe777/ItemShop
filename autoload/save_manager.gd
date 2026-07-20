@@ -12,13 +12,21 @@ const SAVE_VERSION := 1
 func _ready() -> void:
 	DirAccess.make_dir_recursive_absolute(SAVE_DIR)
 	TimeManager.day_started.connect(_on_day_started)
+	TimeManager.period_advanced.connect(_on_period_advanced)
 
 
 func _on_day_started(_day: int) -> void:
-	if GameState.campaign_active and not _development_autosave_blocked():
-		autosave()
+	# the autosave for the new day's morning is taken by _on_period_advanced,
+	# which fires immediately after this — saving here too would double-write
 	RelationshipManager.new_day_moods()
 	InventoryManager.expire_orders()
+
+
+## Autosave at every day portion (morning / afternoon / evening / night) so a
+## bad expedition or sale costs at most one period rather than a whole day.
+func _on_period_advanced(_day: int, _period: int) -> void:
+	if GameState.campaign_active and not _development_autosave_blocked():
+		autosave()
 
 
 func _collect() -> Dictionary:
@@ -90,13 +98,27 @@ func load_from_slot(slot: int) -> bool:
 
 
 func slot_summary(slot: int) -> Dictionary:
-	var d := _read(slot_path(slot))
+	return _summarize(_read(slot_path(slot)))
+
+
+## Summary of the rolling autosave, or {} if there isn't one yet.
+func autosave_summary() -> Dictionary:
+	return _summarize(_read(SAVE_DIR + "autosave.json"))
+
+
+func has_autosave() -> bool:
+	return FileAccess.file_exists(SAVE_DIR + "autosave.json")
+
+
+func _summarize(d: Dictionary) -> Dictionary:
 	if d.is_empty():
 		return {}
 	var t: Dictionary = d.get("time", {})
 	var e: Dictionary = d.get("economy", {})
+	var period := int(t.get("period", 0))
 	return {
 		"day": int(t.get("day", 1)), "chapter": int(t.get("chapter", 1)),
+		"period": period, "period_name": TimeManager.period_name_for(period),
 		"gold": int(e.get("gold", 0)), "timestamp": String(d.get("timestamp", "")),
 		"endless": bool(d.get("game_state", {}).get("endless_mode", false)),
 	}
