@@ -412,46 +412,40 @@ func _wall(r: Rect2, w: Dictionary, obstacle: bool = false) -> void:
 	rect.size = r.size
 	shape.shape = rect
 	body.add_child(shape)
-	var poly := Polygon2D.new()
-	var h := r.size / 2.0
-	poly.polygon = PackedVector2Array([-h, Vector2(h.x, -h.y), h, Vector2(-h.x, h.y)])
-	poly.color = Color(String(w.get("wall_color", "#222233"))) if not obstacle else Color(String(w.get("wall_color", "#222233"))).lightened(0.15)
-	# worlds with a supplied blocker texture (map-cut hedge) draw solid
-	# nine-patched blocks instead of flat polygons — much clearer walls
-	var ob_tex_path := String(w.get("obstacle_texture", ""))
-	if ob_tex_path != "" and ResourceLoader.exists(ob_tex_path):
-		var ob_tex: Texture2D = load(ob_tex_path)
-		if String(w.get("obstacle_style", "ninepatch")) == "grid":
-			# fill the rect with whole copies of the texture (crate piles) —
-			# nine-patching a cluster leaves broken slivers at the seams
-			var cols := maxi(1, int(round(r.size.x / 32.0)))
-			var rows := maxi(1, int(round(r.size.y / 32.0)))
-			var cw := r.size.x / cols
-			var chh := r.size.y / rows
-			for gy in rows:
-				for gx in cols:
-					var spr := Sprite2D.new()
-					spr.texture = ob_tex
-					spr.scale = Vector2(cw / ob_tex.get_width(), chh / ob_tex.get_height())
-					spr.position = Vector2(-r.size.x / 2.0 + (gx + 0.5) * cw,
-						-r.size.y / 2.0 + (gy + 0.5) * chh)
-					body.add_child(spr)
-		else:
-			var patch := NinePatchRect.new()
-			patch.texture = ob_tex
-			var m := mini(10, int(minf(r.size.x, r.size.y) / 3.0))
-			patch.patch_margin_left = m
-			patch.patch_margin_right = m
-			patch.patch_margin_top = m
-			patch.patch_margin_bottom = m
-			# tile the interior — stretching smears the hedge into streaks
-			# on long thin wall rects
-			patch.axis_stretch_horizontal = NinePatchRect.AXIS_STRETCH_MODE_TILE
-			patch.axis_stretch_vertical = NinePatchRect.AXIS_STRETCH_MODE_TILE
-			patch.size = r.size
-			patch.position = -r.size / 2.0
-			body.add_child(patch)
+	# interior obstacles in worlds with prop art get one UNSCALED keyed object
+	# per 32px cell (variant + jitter from a stable cell hash) so they read as
+	# placed objects on the painted rooms; stretching a map-crop tile over the
+	# rect smeared it and dragged its baked-in ground along ("messy walls"
+	# feedback). Perimeter walls are never textured — flat wall_color only.
+	var textures: Array[Texture2D] = []
+	if obstacle:
+		for p in w.get("obstacle_props", []):
+			var pp := String(p)
+			if ResourceLoader.exists(pp):
+				textures.append(load(pp))
+	if not textures.is_empty():
+		var cols := maxi(1, int(round(r.size.x / 32.0)))
+		var rows := maxi(1, int(round(r.size.y / 32.0)))
+		var cw := r.size.x / cols
+		var chh := r.size.y / rows
+		for gy in rows:
+			for gx in cols:
+				# stable per-cell hash: same room layout -> same props, but
+				# neighboring cells vary
+				var hv := hash(Vector2(r.position.x + gx * 31.0, r.position.y + gy * 37.0))
+				var tex := textures[hv % textures.size()]
+				var spr := Sprite2D.new()
+				spr.texture = tex
+				# bottom-aligned in its cell, tiny jitter so rows don't stamp
+				spr.position = Vector2(
+					-r.size.x / 2.0 + (gx + 0.5) * cw + float((hv >> 3) % 5) - 2.0,
+					-r.size.y / 2.0 + (gy + 1) * chh - tex.get_height() / 2.0)
+				body.add_child(spr)
 	else:
+		var poly := Polygon2D.new()
+		var h := r.size / 2.0
+		poly.polygon = PackedVector2Array([-h, Vector2(h.x, -h.y), h, Vector2(-h.x, h.y)])
+		poly.color = Color(String(w.get("wall_color", "#222233"))) if not obstacle else Color(String(w.get("wall_color", "#222233"))).lightened(0.15)
 		body.add_child(poly)
 	room_root.add_child(body)
 

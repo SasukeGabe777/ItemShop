@@ -60,17 +60,19 @@
     "gummi_block",
     "keychain"
    ],
-   "obstacle_texture": "res://assets/locations/processed/crates.png",
    "room_props": [
     "lamp_lit",
     "barrel",
     "crate_lantern"
    ],
-   "obstacle_style": "grid",
    "boss_rotation": [
     "corrupted_fat_bandit",
     "guard_armor",
     "darkside"
+   ],
+   "obstacle_props": [
+    "res://assets/locations/processed/prop_crates.png",
+    "res://assets/locations/processed/prop_barrel.png"
    ]
   },
   {
@@ -127,7 +129,10 @@
      "res://assets/locations/mariodungeon/processed/boss_castle.png"
     ]
    },
-   "obstacle_texture": "res://assets/locations/mariodungeon/processed/hedge.png"
+   "obstacle_props": [
+    "res://assets/locations/mariodungeon/processed/prop_tree_a.png",
+    "res://assets/locations/mariodungeon/processed/prop_tree_b.png"
+   ]
   },
   {
    "id": "final_fantasy",
@@ -178,7 +183,6 @@
      "res://assets/locations/ffdungeon/processed/boss_night.png"
     ]
    },
-   "obstacle_texture": "res://assets/locations/ffdungeon/processed/trees.png",
    "market_goods": [
     "ff_potion",
     "hi_potion",
@@ -193,6 +197,10 @@
     "hero_drink",
     "genji_glove",
     "ff_ribbon"
+   ],
+   "obstacle_props": [
+    "res://assets/locations/ffdungeon/processed/prop_pine.png",
+    "res://assets/locations/ffdungeon/processed/prop_pine_small.png"
    ]
   },
   {
@@ -265,8 +273,12 @@
      "res://assets/locations/zeldadungeon/processed/boss_courtyard.png"
     ]
    },
-   "obstacle_texture": "res://assets/locations/zeldadungeon/processed/rocks.png",
-   "obstacle_style": "grid"
+   "obstacle_props": [
+    "res://assets/locations/zeldadungeon/processed/prop_boulder.png",
+    "res://assets/locations/zeldadungeon/processed/prop_rocks.png",
+    "res://assets/locations/zeldadungeon/processed/prop_haystack.png",
+    "res://assets/locations/zeldadungeon/processed/prop_stumps.png"
+   ]
   },
   {
    "id": "naruto",
@@ -348,7 +360,7 @@
   {
    "id": "pokemon",
    "chapter": 7,
-   "name": "Pok\u00c3\u00a9mon",
+   "name": "PokÃ©mon",
    "location": "Viridian Path & Cerulean Depths",
    "hero": "pikachu",
    "boss": "mewtwo",
@@ -404,7 +416,7 @@
    "floor_color": "#26262e",
    "wall_color": "#141418",
    "accent_color": "#b8b8d0",
-   "dungeon_desc": "A broken region stitched from pieces of every world \u00e2\u20ac\u201d and worlds no one remembers.",
+   "dungeon_desc": "A broken region stitched from pieces of every world â€” and worlds no one remembers.",
    "market_goods": [],
    "final": true
   }
