@@ -201,7 +201,16 @@
    "obstacle_props": [
     "res://assets/locations/ffdungeon/processed/prop_pine.png",
     "res://assets/locations/ffdungeon/processed/prop_pine_small.png"
-   ]
+   ],
+   "barriers": {
+    "h": [
+     "res://assets/locations/ffdungeon/processed/barrier_fence.png",
+     "res://assets/locations/ffdungeon/processed/barrier_hedge.png"
+    ],
+    "v": [
+     "res://assets/locations/ffdungeon/processed/barrier_ruinwall.png"
+    ]
+   }
   },
   {
    "id": "zelda",

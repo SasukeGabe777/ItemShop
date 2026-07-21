@@ -63,6 +63,12 @@ func _ready() -> void:
 	else:
 		camera.add_to_group("shake_camera")
 		camera.set_script(preload("res://scripts/dungeon/shake_camera.gd"))
+		# clamp to the room rect: following the hero to a wall used to pan half
+		# the screen into the void beyond the painted background
+		camera.limit_left = 0
+		camera.limit_top = 0
+		camera.limit_right = ContentDatabase.room_grid.x * CELL
+		camera.limit_bottom = ContentDatabase.room_grid.y * CELL
 		hero.add_child(camera)
 	_build_hud()
 	if hero2 != null and hp_bar != null:
@@ -344,7 +350,8 @@ func _enter_room(idx: int) -> void:
 	_wall(Rect2(-16, -16, 16, grid.y * CELL + 32), w)
 	_wall(Rect2(grid.x * CELL, -16, 16, grid.y * CELL + 32), w)
 	_wall(Rect2(-16, grid.y * CELL, grid.x * CELL + 32, 16), w)
-	# door blocker until room cleared
+	# door blocker until room cleared: a barricade of the world's props where
+	# prop art exists (flat accent rect only as fallback)
 	var blocker := StaticBody2D.new()
 	blocker.name = "DoorBlocker"
 	blocker.collision_layer = 1
@@ -354,10 +361,11 @@ func _enter_room(idx: int) -> void:
 	bshape.shape = brect
 	blocker.add_child(bshape)
 	blocker.position = Vector2(grid.x * CELL / 2.0, 0)
-	var bpoly := Polygon2D.new()
-	bpoly.polygon = PackedVector2Array([Vector2(-CELL, -16), Vector2(CELL, -16), Vector2(CELL, 16), Vector2(-CELL, 16)])
-	bpoly.color = Color(String(w.get("accent_color", "#888888"))).darkened(0.3)
-	blocker.add_child(bpoly)
+	if not _stamp_props(blocker, brect.size, w):
+		var bpoly := Polygon2D.new()
+		bpoly.polygon = PackedVector2Array([Vector2(-CELL, -16), Vector2(CELL, -16), Vector2(CELL, 16), Vector2(-CELL, 16)])
+		bpoly.color = Color(String(w.get("accent_color", "#888888"))).darkened(0.3)
+		blocker.add_child(bpoly)
 	room_root.add_child(blocker)
 	# obstacles
 	for ob in template.get("obstacles", []):
@@ -389,14 +397,16 @@ func _enter_room(idx: int) -> void:
 				(s.y + 1) * CELL - prop_tex.get_height() * pk / 2.0)
 			prop.z_index = -1
 			room_root.add_child(prop)
-	# player spawn
+	# player spawn (nudged off obstacle cells — templates and defaults could
+	# drop heroes on top of a hedge/crate, standing "in" the collider)
 	var ps: Array = template.get("player_spawn", [10, 6])
-	hero.global_position = Vector2(float(ps[0]) * CELL + CELL / 2.0, float(ps[1]) * CELL + CELL / 2.0)
+	var pcell := _free_cell(Vector2i(int(ps[0]), int(ps[1])), template)
+	hero.global_position = _cell_center(pcell)
 	if hero2 != null and is_instance_valid(hero2):
-		hero2.global_position = hero.global_position + Vector2(22, 0)
+		hero2.global_position = _cell_center(_free_cell(pcell + Vector2i(1, 0), template)) + Vector2(-10, 0)
 	# chests
 	for ch in template.get("chests", []):
-		_spawn_chest(Vector2(float(ch[0]) * CELL + CELL / 2.0, float(ch[1]) * CELL + CELL / 2.0))
+		_spawn_chest(_cell_center(_free_cell(Vector2i(int(ch[0]), int(ch[1])), template)))
 	# enemies
 	var kind := String(entry["kind"])
 	var spawn_cells: Array = template.get("spawns", [])
@@ -408,7 +418,7 @@ func _enter_room(idx: int) -> void:
 		room_root.add_child(boss)
 		boss.setup(String(enemies[0]), hero)
 		var bs: Array = spawn_cells[0] if not spawn_cells.is_empty() else [10, 3]
-		boss.global_position = Vector2(float(bs[0]) * CELL + CELL / 2.0, float(bs[1]) * CELL + CELL / 2.0)
+		boss.global_position = _cell_center(_free_cell(Vector2i(int(bs[0]), int(bs[1])), template))
 		boss_bar.visible = true
 		boss_bar.max_value = boss.health.max_hp
 		boss_bar.value = boss.health.max_hp
@@ -423,13 +433,44 @@ func _enter_room(idx: int) -> void:
 			room_root.add_child(e)
 			e.setup(String(enemies[i]), hero)
 			var sc: Array = spawn_cells[i % maxi(1, spawn_cells.size())] if not spawn_cells.is_empty() else [10, 3]
-			e.global_position = Vector2(float(sc[0]) * CELL + CELL / 2.0, float(sc[1]) * CELL + CELL / 2.0)
+			e.global_position = _cell_center(_free_cell(Vector2i(int(sc[0]), int(sc[1])), template))
 			e.killed.connect(_on_enemy_killed)
 		if enemies.is_empty():
 			_on_room_cleared(false)
 	# hero switch pads in final dungeon rooms
 	if not switch_available.is_empty() and kind != "boss":
-		_spawn_switch_pad(Vector2(CELL * 1.5, CELL * 1.5))
+		_spawn_switch_pad(_cell_center(_free_cell(Vector2i(1, 1), template)))
+
+
+func _cell_center(c: Vector2i) -> Vector2:
+	return Vector2(c.x * CELL + CELL / 2.0, c.y * CELL + CELL / 2.0)
+
+
+## Nearest cell to `pref` that is inside the walkable interior and not covered
+## by an obstacle rect. Templates (and the [10, 6] default) can put spawns on
+## top of obstacles, which visually strands heroes/chests "in" the collider.
+func _free_cell(pref: Vector2i, template: Dictionary) -> Vector2i:
+	var grid := ContentDatabase.room_grid
+	var obs: Array = template.get("obstacles", [])
+	var blocked := func(c: Vector2i) -> bool:
+		if c.x < 1 or c.y < 1 or c.x > grid.x - 2 or c.y > grid.y - 2:
+			return true
+		for ob in obs:
+			if c.x >= int(ob[0]) and c.x < int(ob[0]) + int(ob[2]) \
+					and c.y >= int(ob[1]) and c.y < int(ob[1]) + int(ob[3]):
+				return true
+		return false
+	if not blocked.call(pref):
+		return pref
+	for radius in range(1, 10):
+		for dy in range(-radius, radius + 1):
+			for dx in range(-radius, radius + 1):
+				if maxi(absi(dx), absi(dy)) != radius:
+					continue
+				var c := pref + Vector2i(dx, dy)
+				if not blocked.call(c):
+					return c
+	return pref
 
 
 func _wall(r: Rect2, w: Dictionary, obstacle: bool = false) -> void:
@@ -446,37 +487,79 @@ func _wall(r: Rect2, w: Dictionary, obstacle: bool = false) -> void:
 	# placed objects on the painted rooms; stretching a map-crop tile over the
 	# rect smeared it and dragged its baked-in ground along ("messy walls"
 	# feedback). Perimeter walls are never textured — flat wall_color only.
-	var textures: Array[Texture2D] = []
-	if obstacle:
-		for p in w.get("obstacle_props", []):
-			var pp := String(p)
-			if ResourceLoader.exists(pp):
-				textures.append(load(pp))
-	if not textures.is_empty():
-		var cols := maxi(1, int(round(r.size.x / 32.0)))
-		var rows := maxi(1, int(round(r.size.y / 32.0)))
-		var cw := r.size.x / cols
-		var chh := r.size.y / rows
-		for gy in rows:
-			for gx in cols:
-				# stable per-cell hash: same room layout -> same props, but
-				# neighboring cells vary
-				var hv := hash(Vector2(r.position.x + gx * 31.0, r.position.y + gy * 37.0))
-				var tex := textures[hv % textures.size()]
-				var spr := Sprite2D.new()
-				spr.texture = tex
-				# bottom-aligned in its cell, tiny jitter so rows don't stamp
-				spr.position = Vector2(
-					-r.size.x / 2.0 + (gx + 0.5) * cw + float((hv >> 3) % 5) - 2.0,
-					-r.size.y / 2.0 + (gy + 1) * chh - tex.get_height() / 2.0)
-				body.add_child(spr)
-	else:
+	if not (obstacle and _stamp_props(body, r.size, w, r.position)):
 		var poly := Polygon2D.new()
 		var h := r.size / 2.0
 		poly.polygon = PackedVector2Array([-h, Vector2(h.x, -h.y), h, Vector2(-h.x, h.y)])
 		poly.color = Color(String(w.get("wall_color", "#222233"))) if not obstacle else Color(String(w.get("wall_color", "#222233"))).lightened(0.15)
 		body.add_child(poly)
 	room_root.add_child(body)
+
+
+## Stamp real-game art across a rect centered on `parent`'s origin. Two modes:
+## - `barriers` (worlds.json: {"h": [paths], "v": [paths]}): continuous wall
+##   RUNS — the strip texture repeats along the rect at native scale, the way
+##   the source games draw impassable borders (fences, hedges, cliffs,
+##   palisades). Repeating clean keyed strips is safe; the old "messy walls"
+##   smear came from STRETCHING map crops with baked-in ground. Tall wall
+##   textures keep their decorative top edge and may overhang the rect top by
+##   up to 16px, like real wall art does.
+## - `obstacle_props` fallback: scattered objects (variant + jitter from a
+##   stable cell hash, bottom-aligned).
+## Returns false when the world has neither so callers fall back to flat fill.
+func _stamp_props(parent: Node2D, size: Vector2, w: Dictionary, hash_seed: Vector2 = Vector2.ZERO) -> bool:
+	var barriers: Dictionary = w.get("barriers", {})
+	if not barriers.is_empty():
+		var vertical := size.y > size.x and not (barriers.get("v", []) as Array).is_empty()
+		var variants: Array = barriers.get("v", []) if vertical else barriers.get("h", [])
+		var strips: Array[Texture2D] = []
+		for p in variants:
+			var sp := String(p)
+			if ResourceLoader.exists(sp):
+				strips.append(load(sp))
+		if not strips.is_empty():
+			# one variant per rect (a run is one kind of wall, not a medley)
+			var tex := strips[hash(hash_seed) % strips.size()]
+			var spr := Sprite2D.new()
+			spr.texture = tex
+			spr.texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
+			spr.region_enabled = true
+			if vertical:
+				var draw_w := minf(tex.get_width(), size.x + 16.0)
+				spr.region_rect = Rect2(0, 0, draw_w, size.y)
+				spr.position = Vector2(0, 0)
+			else:
+				# keep the texture's top edge (wall crown); clip the excess
+				var draw_h := minf(tex.get_height(), size.y + 16.0)
+				spr.region_rect = Rect2(0, 0, size.x, draw_h)
+				spr.position = Vector2(0, size.y / 2.0 - draw_h / 2.0)
+			parent.add_child(spr)
+			return true
+	var textures: Array[Texture2D] = []
+	for p in w.get("obstacle_props", []):
+		var pp := String(p)
+		if ResourceLoader.exists(pp):
+			textures.append(load(pp))
+	if textures.is_empty():
+		return false
+	var cols := maxi(1, int(round(size.x / 32.0)))
+	var rows := maxi(1, int(round(size.y / 32.0)))
+	var cw := size.x / cols
+	var chh := size.y / rows
+	for gy in rows:
+		for gx in cols:
+			# stable per-cell hash: same room layout -> same props, but
+			# neighboring cells vary
+			var hv := hash(Vector2(hash_seed.x + gx * 31.0, hash_seed.y + gy * 37.0))
+			var tex := textures[hv % textures.size()]
+			var spr := Sprite2D.new()
+			spr.texture = tex
+			# bottom-aligned in its cell, tiny jitter so rows don't stamp
+			spr.position = Vector2(
+				-size.x / 2.0 + (gx + 0.5) * cw + float((hv >> 3) % 5) - 2.0,
+				-size.y / 2.0 + (gy + 1) * chh - tex.get_height() / 2.0)
+			parent.add_child(spr)
+	return true
 
 
 func _spawn_chest(at: Vector2) -> void:
