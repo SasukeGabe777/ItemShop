@@ -4,7 +4,7 @@ extends Node2D
 
 const IDS := ["shadow_heartless", "soldier_heartless", "neoshadow", "defender",
 	"wight_knight", "blue_rhapsody", "wizard_kh", "wyvern", "bouncywild",
-	"white_mushroom", "guard_armor", "darkside"]
+	"white_mushroom"]  # guard_armor/darkside are bosses now (KH rotation)
 
 
 func _ready() -> void:

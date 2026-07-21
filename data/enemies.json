@@ -1463,76 +1463,6 @@
    ]
   },
   {
-   "id": "guard_armor",
-   "name": "Guard Armor",
-   "world": "kingdom_hearts",
-   "hp": 450,
-   "atk": 15,
-   "spd": 60,
-   "behavior": "boss_tank",
-   "size": 36,
-   "color": "#786a9a",
-   "loot": [
-    [
-     "world_shard_kh",
-     1.0
-    ],
-    [
-     "kh_mythril",
-     1.0
-    ],
-    [
-     "keychain",
-     0.5
-    ]
-   ],
-   "gold": [
-    350,
-    450
-   ],
-   "attacks": [
-    "belly_flop",
-    "static_pulse",
-    "flame_breath"
-   ],
-   "telegraph": 0.65
-  },
-  {
-   "id": "darkside",
-   "name": "Darkside",
-   "world": "kingdom_hearts",
-   "hp": 600,
-   "atk": 17,
-   "spd": 45,
-   "behavior": "boss_tank",
-   "size": 44,
-   "color": "#201830",
-   "loot": [
-    [
-     "world_shard_kh",
-     1.0
-    ],
-    [
-     "kh_mythril",
-     1.0
-    ],
-    [
-     "kingdom_key",
-     0.5
-    ]
-   ],
-   "gold": [
-    420,
-    560
-   ],
-   "attacks": [
-    "belly_flop",
-    "flame_breath",
-    "static_pulse"
-   ],
-   "telegraph": 0.7
-  },
-  {
    "id": "keese",
    "name": "Keese",
    "world": "zelda",
@@ -2197,107 +2127,6 @@
     70,
     120
    ]
-  }
- ],
- "bosses": [
-  {
-   "id": "corrupted_fat_bandit",
-   "name": "Corrupted Fat Bandit",
-   "world": "kingdom_hearts",
-   "hp": 350,
-   "atk": 14,
-   "spd": 55,
-   "behavior": "boss_tank",
-   "size": 34,
-   "color": "#7858b8",
-   "loot": [
-    [
-     "world_shard_kh",
-     1.0
-    ],
-    [
-     "kh_mythril",
-     1.0
-    ],
-    [
-     "kingdom_key",
-     0.5
-    ]
-   ],
-   "gold": [
-    300,
-    400
-   ],
-   "attacks": [
-    "belly_flop",
-    "flame_breath",
-    "static_pulse"
-   ],
-   "telegraph": 0.7
-  },
-  {
-   "id": "king_bobomb",
-   "name": "King Bob-omb",
-   "world": "mario",
-   "hp": 500,
-   "atk": 17,
-   "spd": 50,
-   "behavior": "boss_bomber",
-   "size": 36,
-   "color": "#303048",
-   "loot": [
-    [
-     "world_shard_mario",
-     1.0
-    ],
-    [
-     "royal_crown",
-     1.0
-    ],
-    [
-     "starman",
-     0.5
-    ]
-   ],
-   "gold": [
-    500,
-    700
-   ],
-   "attacks": [
-    "bomb_toss",
-    "shockwave",
-    "minion_call"
-   ],
-   "telegraph": 0.7
-  },
-  {
-   "id": "behemoth",
-   "name": "Behemoth",
-   "world": "final_fantasy",
-   "hp": 180,
-   "atk": 17,
-   "spd": 80,
-   "behavior": "tank",
-   "size": 30,
-   "color": "#6838a8",
-   "loot": [
-    [
-     "genji_glove",
-     0.08
-    ],
-    [
-     "materia",
-     0.25
-    ],
-    [
-     "hi_potion",
-     0.3
-    ]
-   ],
-   "gold": [
-    60,
-    120
-   ]
   },
   {
    "id": "ghost",
@@ -2519,6 +2348,107 @@
     40,
     80
    ]
+  },
+  {
+   "id": "behemoth",
+   "name": "Behemoth",
+   "world": "final_fantasy",
+   "hp": 180,
+   "atk": 17,
+   "spd": 80,
+   "behavior": "tank",
+   "size": 30,
+   "color": "#6838a8",
+   "loot": [
+    [
+     "genji_glove",
+     0.08
+    ],
+    [
+     "materia",
+     0.25
+    ],
+    [
+     "hi_potion",
+     0.3
+    ]
+   ],
+   "gold": [
+    60,
+    120
+   ]
+  }
+ ],
+ "bosses": [
+  {
+   "id": "corrupted_fat_bandit",
+   "name": "Corrupted Fat Bandit",
+   "world": "kingdom_hearts",
+   "hp": 350,
+   "atk": 14,
+   "spd": 55,
+   "behavior": "boss_tank",
+   "size": 34,
+   "color": "#7858b8",
+   "loot": [
+    [
+     "world_shard_kh",
+     1.0
+    ],
+    [
+     "kh_mythril",
+     1.0
+    ],
+    [
+     "kingdom_key",
+     0.5
+    ]
+   ],
+   "gold": [
+    300,
+    400
+   ],
+   "attacks": [
+    "belly_flop",
+    "flame_breath",
+    "static_pulse"
+   ],
+   "telegraph": 0.7
+  },
+  {
+   "id": "king_bobomb",
+   "name": "King Bob-omb",
+   "world": "mario",
+   "hp": 500,
+   "atk": 17,
+   "spd": 50,
+   "behavior": "boss_bomber",
+   "size": 36,
+   "color": "#303048",
+   "loot": [
+    [
+     "world_shard_mario",
+     1.0
+    ],
+    [
+     "royal_crown",
+     1.0
+    ],
+    [
+     "starman",
+     0.5
+    ]
+   ],
+   "gold": [
+    500,
+    700
+   ],
+   "attacks": [
+    "bomb_toss",
+    "shockwave",
+    "minion_call"
+   ],
+   "telegraph": 0.7
   },
   {
    "id": "red_dragon",
@@ -2983,6 +2913,76 @@
    ],
    "telegraph": 0.5,
    "phases": 3
+  },
+  {
+   "id": "guard_armor",
+   "name": "Guard Armor",
+   "world": "kingdom_hearts",
+   "hp": 450,
+   "atk": 15,
+   "spd": 60,
+   "behavior": "boss_tank",
+   "size": 36,
+   "color": "#786a9a",
+   "loot": [
+    [
+     "world_shard_kh",
+     1.0
+    ],
+    [
+     "kh_mythril",
+     1.0
+    ],
+    [
+     "keychain",
+     0.5
+    ]
+   ],
+   "gold": [
+    350,
+    450
+   ],
+   "attacks": [
+    "belly_flop",
+    "static_pulse",
+    "flame_breath"
+   ],
+   "telegraph": 0.65
+  },
+  {
+   "id": "darkside",
+   "name": "Darkside",
+   "world": "kingdom_hearts",
+   "hp": 600,
+   "atk": 17,
+   "spd": 45,
+   "behavior": "boss_tank",
+   "size": 44,
+   "color": "#201830",
+   "loot": [
+    [
+     "world_shard_kh",
+     1.0
+    ],
+    [
+     "kh_mythril",
+     1.0
+    ],
+    [
+     "kingdom_key",
+     0.5
+    ]
+   ],
+   "gold": [
+    420,
+    560
+   ],
+   "attacks": [
+    "belly_flop",
+    "flame_breath",
+    "static_pulse"
+   ],
+   "telegraph": 0.7
   }
  ]
 }

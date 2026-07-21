@@ -50,21 +50,21 @@ Priority order (highest impact first — verified from manifests):
 
 Skip Goku and Pikachu until their worlds get dungeon art (see Priority 3).
 
-## Priority 1 — Fix verified data/test defects
+## Priority 1 — Fix verified data/test defects — **ALL DONE 2026-07-20**
 
-1. **KH `boss_rotation`** references `guard_armor` and `darkside`, which exist as
-   regular enemies but not as bosses. Either promote them to real boss entries or
-   trim the rotation to the defined boss(es). Re-run `test_boot` after.
-2. **Asset Factory chroma test** (`tests/test_asset_factory.gd:156`): fix the
-   test-precision comparison (quantize the expected color to 8-bit before
-   `is_equal_approx`, or widen tolerance) so `ASSET_FACTORY_TEST_PASS` is
-   reachable. This is a test bug, not a detection-logic bug.
-3. **FF roster modeling:** confirm the ~10 Final Fantasy monsters stored under
-   `bosses` resolve correctly for normal encounters; move them to `enemies` if
-   not.
-4. **Balance pass** for the 25 `needs_ai_balance` items (prices/stats/tags in
-   line with neighbors and `data/balance.json`), removing the marker as each is
-   done. Run `test_campaign` (the economy safety net) afterward.
+1. ~~KH `boss_rotation`~~ guard_armor + darkside refiled as bosses, ten FF6
+   monsters refiled as enemies (`tools/fix_boss_rosters.py`). Note: runtime
+   accessors fall back across the enemies/bosses dicts, so this was latent
+   taxonomy rot rather than broken rooms; `test_boot` now checks the dicts
+   directly so it can't regrow.
+2. ~~Asset Factory chroma test~~ expected color quantized to 8-bit;
+   `ASSET_FACTORY_TEST_PASS` reachable.
+3. ~~FF roster modeling~~ covered by the refiling in item 1.
+4. ~~Balance pass~~ all 25 `needs_ai_balance` markers resolved
+   (`tools/balance_flagged_items.py`, priced against unflagged neighbors;
+   the revive-mushroom price inversion was the standout). `CAMPAIGN_TEST_PASS`.
+   `test_boot`'s stale exact-9-bosses assertion (red since the FF world
+   landed) is now a floor.
 
 ## Priority 2 — Verify the current game end-to-end
 

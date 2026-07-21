@@ -2358,9 +2358,8 @@
    "desc": "A keyblade of hearts and dice. Fortune favors whoever holds it.",
    "id": "lady_luck_keyblade",
    "name": "Lady Luck Keyblade",
-   "needs_ai_balance": true,
    "needs_description": true,
-   "price": 420,
+   "price": 2600,
    "tags": [
     "sword",
     "key"
@@ -2372,9 +2371,8 @@
    "desc": "A spotted pink egg that wobbles hopefully when you hum.",
    "id": "pink_yoshi_egg",
    "name": "Pink Yoshi Egg",
-   "needs_ai_balance": true,
    "needs_description": true,
-   "price": 120.0,
+   "price": 550,
    "tags": [
     "egg",
     "cute",
@@ -2387,9 +2385,8 @@
    "desc": "A spotted blue egg. Something inside is practicing its flutter jump.",
    "id": "blue_yoshi_egg",
    "name": "Blue Yoshi Egg",
-   "needs_ai_balance": true,
    "needs_description": true,
-   "price": 120,
+   "price": 550,
    "tags": [
     "egg",
     "cute",
@@ -2402,9 +2399,8 @@
    "desc": "A spotted red egg, warm to the touch and faintly impatient.",
    "id": "red_yoshi_egg",
    "name": "Red Yoshi Egg",
-   "needs_ai_balance": true,
    "needs_description": true,
-   "price": 120,
+   "price": 550,
    "tags": [
     "egg",
     "cute",
@@ -2417,9 +2413,8 @@
    "desc": "A spotted orange egg that smells vaguely of melon.",
    "id": "orange_yoshi_egg",
    "name": "Orange Yoshi Egg",
-   "needs_ai_balance": true,
    "needs_description": true,
-   "price": 120,
+   "price": 550,
    "tags": [
     "egg",
     "cute",
@@ -2432,9 +2427,8 @@
    "desc": "A spotted aqua egg cool as sea glass.",
    "id": "aqua_yoshi_egg",
    "name": "Aqua Yoshi Egg",
-   "needs_ai_balance": true,
    "needs_description": true,
-   "price": 120,
+   "price": 550,
    "tags": [
     "egg",
     "cute",
@@ -2447,9 +2441,8 @@
    "desc": "A giggling bean from the Beanbean fields. It knows something you don't.",
    "id": "hee_bean",
    "name": "Hee Bean",
-   "needs_ai_balance": true,
    "needs_description": true,
-   "price": 120,
+   "price": 110,
    "tags": [
     "bean",
     "plant"
@@ -2461,9 +2454,8 @@
    "desc": "A chuckling bean prized for brewing Chuckola Cola.",
    "id": "chuckle_bean",
    "name": "Chuckle Bean",
-   "needs_ai_balance": true,
    "needs_description": true,
-   "price": 120,
+   "price": 140,
    "tags": [
     "bean",
     "plant"
@@ -2475,9 +2467,8 @@
    "desc": "A hooting bean that whistles softly in a breeze.",
    "id": "hoo_bean",
    "name": "Hoo Bean",
-   "needs_ai_balance": true,
    "needs_description": true,
-   "price": 120,
+   "price": 100,
    "tags": [
     "bean",
     "plant"
@@ -2489,9 +2480,8 @@
    "desc": "A barrel-sized mallet on a stick. Swing with both hands and an apology ready.",
    "id": "dk_hammer",
    "name": "DK Hammer",
-   "needs_ai_balance": true,
    "needs_description": true,
-   "price": 120,
+   "price": 1400,
    "tags": [
     "hammer",
     "huge"
@@ -2503,9 +2493,8 @@
    "desc": "A whooping bean. Baristas fight over sacks of these.",
    "id": "woo_bean",
    "name": "Woo Bean",
-   "needs_ai_balance": true,
    "needs_description": true,
-   "price": 120,
+   "price": 130,
    "tags": [
     "bean",
     "plant"
@@ -2517,9 +2506,8 @@
    "desc": "A green-capped mushroom that hands out second chances.",
    "id": "1up_mushroom",
    "name": "1UP Mushroom",
-   "needs_ai_balance": true,
    "needs_description": true,
-   "price": 120,
+   "price": 950,
    "tags": [
     "mushroom",
     "rare",
@@ -2535,9 +2523,8 @@
    "desc": "A deluxe green mushroom. Comes with a second chance and a growth spurt.",
    "id": "1up_super_mushroom",
    "name": "1UP Super Mushroom",
-   "needs_ai_balance": true,
    "needs_description": true,
-   "price": 90,
+   "price": 1500,
    "tags": [
     "mushroom",
     "rare",
@@ -2554,9 +2541,8 @@
    "desc": "A legendary gray handheld from another world. Still has batteries.",
    "id": "gameboy",
    "name": "Gameboy",
-   "needs_ai_balance": true,
    "needs_description": true,
-   "price": 450,
+   "price": 1800,
    "tags": [
     "technology",
     "rare"
@@ -2568,9 +2554,8 @@
    "desc": "An immaculate royal gown. Somehow never wrinkles, even mid-kidnapping.",
    "id": "peach_s_dress",
    "name": "Peach's Dress",
-   "needs_ai_balance": true,
    "needs_description": true,
-   "price": 10000.0,
+   "price": 10000,
    "tags": [
     "clothing",
     "royal",
@@ -2583,7 +2568,6 @@
    "desc": "A purple-capped mushroom. Absolutely do not garnish anything with it.",
    "id": "poison_mushroom",
    "name": "Poison Mushroom",
-   "needs_ai_balance": true,
    "needs_description": true,
    "price": 60,
    "tags": [
@@ -2600,9 +2584,8 @@
    "desc": "A kingdom key gone sickly violet. It hums a wrong note.",
    "id": "poison_kingdom_key",
    "name": "Poison Kingdom Key",
-   "needs_ai_balance": true,
    "needs_description": true,
-   "price": 420,
+   "price": 900,
    "tags": [
     "sword",
     "key",
@@ -2615,9 +2598,8 @@
    "desc": "A golden lamp-themed keyblade. The third wish is always freedom.",
    "id": "three_wishes_keyblade",
    "name": "Three Wishes Keyblade",
-   "needs_ai_balance": true,
    "needs_description": true,
-   "price": 420,
+   "price": 2400,
    "tags": [
     "sword",
     "key"
@@ -2629,9 +2611,8 @@
    "desc": "A coral keyblade smelling faintly of the tide.",
    "id": "crabclaw_keyblade",
    "name": "Crabclaw Keyblade",
-   "needs_ai_balance": true,
    "needs_description": true,
-   "price": 420,
+   "price": 2500,
    "tags": [
     "sword",
     "key"
@@ -2643,9 +2624,8 @@
    "desc": "A pitch-black keyblade heavy with memories better left closed.",
    "id": "oblivion_keyblade",
    "name": "Oblivion Keyblade",
-   "needs_ai_balance": true,
    "needs_description": true,
-   "price": 420,
+   "price": 7000,
    "tags": [
     "sword",
     "key",
@@ -2658,9 +2638,8 @@
    "desc": "A harp-strung keyblade that chimes with pixie laughter.",
    "id": "fairy_harp_keyblade",
    "name": "Fairy Harp Keyblade",
-   "needs_ai_balance": true,
    "needs_description": true,
-   "price": 420,
+   "price": 3000,
    "tags": [
     "sword",
     "key"
@@ -2672,9 +2651,8 @@
    "desc": "A keyblade carved from wooden toys and stardust.",
    "id": "wishing_star_keyblade",
    "name": "Wishing Star Keyblade",
-   "needs_ai_balance": true,
    "needs_description": true,
-   "price": 420,
+   "price": 1800,
    "tags": [
     "sword",
     "key"
@@ -2686,9 +2664,8 @@
    "desc": "A coliseum-champion keyblade. Smells of laurels and sweat.",
    "id": "olympia_keyblade",
    "name": "Olympia Keyblade",
-   "needs_ai_balance": true,
    "needs_description": true,
-   "price": 420,
+   "price": 2800,
    "tags": [
     "sword",
     "key"
@@ -2700,9 +2677,8 @@
    "desc": "A rose-wound keyblade. Every petal is a promise.",
    "id": "divine_rose_keyblade",
    "name": "Divine Rose Keyblade",
-   "needs_ai_balance": true,
    "needs_description": true,
-   "price": 420,
+   "price": 5500,
    "tags": [
     "sword",
     "key"
@@ -2714,9 +2690,8 @@
    "desc": "A bat-winged blade with a baleful eye. It is definitely watching you.",
    "id": "soul_eater",
    "name": "Soul Eater",
-   "needs_ai_balance": true,
    "needs_description": true,
-   "price": 420,
+   "price": 3500,
    "tags": [
     "sword",
     "creepy"

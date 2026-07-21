@@ -11,8 +11,10 @@ func _ready() -> void:
 		failures.append("expected 8 worlds, got %d" % ContentDatabase.worlds.size())
 	if ContentDatabase.enemies.size() < 30:
 		failures.append("expected >=30 enemies, got %d" % ContentDatabase.enemies.size())
-	if ContentDatabase.bosses.size() != 9:
-		failures.append("expected 9 bosses, got %d" % ContentDatabase.bosses.size())
+	# floor, not exact: the boss list grows with every world added (it was 9
+	# in the KH-only era; asserting equality made this test permanently red)
+	if ContentDatabase.bosses.size() < 9:
+		failures.append("expected >=9 bosses, got %d" % ContentDatabase.bosses.size())
 	if ContentDatabase.recipes.size() < 35:
 		failures.append("expected >=35 recipes, got %d" % ContentDatabase.recipes.size())
 	if not ContentDatabase.load_errors.is_empty():
@@ -38,6 +40,16 @@ func _ready() -> void:
 		for g in w.get("market_goods", []):
 			if not ContentDatabase.items.has(String(g)):
 				failures.append("world %s sells unknown item %s" % [wid, g])
+		# enemy pools must be filed under enemies, boss rotations under bosses.
+		# Runtime accessors fall back across the two dicts so misfiling is
+		# MASKED in play (bit KH and FF once, 2026-07-20) — check the dicts
+		# directly to keep the taxonomy honest.
+		for eid in w.get("enemies", []):
+			if not ContentDatabase.enemies.has(String(eid)):
+				failures.append("world %s pool entry %s is not filed as an enemy" % [wid, eid])
+		for bid in w.get("boss_rotation", []):
+			if not ContentDatabase.bosses.has(String(bid)):
+				failures.append("world %s rotation entry %s is not filed as a boss" % [wid, bid])
 		for e in w.get("enemies", []):
 			if not ContentDatabase.enemies.has(String(e)):
 				failures.append("world %s spawns unknown enemy %s" % [wid, e])

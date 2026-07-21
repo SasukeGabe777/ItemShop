@@ -153,7 +153,11 @@ func _test_background_removal() -> void:
 	var err := preview.load_sheet(sheet_path)
 	_check(err == "", "preview failed to load sheet: %s" % err)
 	_check(preview.chroma_enabled, "opaque sheet did not auto-enable background removal")
-	_check(preview.chroma_color.is_equal_approx(bg), "auto-detected wrong background color")
+	# the sheet round-trips through an 8-bit PNG, so quantize the expected
+	# color the same way before comparing — raw is_equal_approx against the
+	# float constant fails on precision alone (0.573 vs 146/255)
+	var bg8 := Color(roundf(bg.r * 255.0) / 255.0, roundf(bg.g * 255.0) / 255.0, roundf(bg.b * 255.0) / 255.0)
+	_check(preview.chroma_color.is_equal_approx(bg8), "auto-detected wrong background color")
 	var out_path := "user://test_factory_bg_frame.png"
 	err = preview.export_region_png(Rect2i(0, 0, 16, 16), out_path)
 	_check(err == "", "export_region_png failed: %s" % err)
