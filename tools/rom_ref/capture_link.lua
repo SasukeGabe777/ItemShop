@@ -1,6 +1,6 @@
 -- Phase 2: from the loaded save, select the file, reach in-game, and dump
 -- consecutive frames of Link walking (each direction) and swinging the sword.
-local out = "C:/Users/sasuk/OneDrive/Desktop/ItemShop/tools/rom_ref/out/"
+local out = "C:/Users/Game Station/Desktop/crossroads/tools/rom_ref/out/"
 local function wait(n) for i = 1, n do emu.frameadvance() end end
 local function hold(b, n) for i = 1, n do joypad.set(b); emu.frameadvance() end end
 local function dump(b, tag, n)

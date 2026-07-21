@@ -1,5 +1,5 @@
 -- Diagnose input: dump exact button names, test longer holds without port arg.
-local out = "C:/Users/sasuk/OneDrive/Desktop/ItemShop/tools/rom_ref/out/"
+local out = "C:/Users/Game Station/Desktop/crossroads/tools/rom_ref/out/"
 local function wait(n) for i = 1, n do emu.frameadvance() end end
 
 -- 1) write the exact controller button names BizHawk exposes for this core

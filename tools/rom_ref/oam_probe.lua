@@ -1,5 +1,5 @@
 -- Probe: confirm GBA memory-domain names + basic reads before building the dumper.
-local out = "C:/Users/sasuk/OneDrive/Desktop/ItemShop/tools/rom_ref/out/"
+local out = "C:/Users/Game Station/Desktop/crossroads/tools/rom_ref/out/"
 for i = 1, 900 do emu.frameadvance() end
 
 local f = io.open(out .. "domains.txt", "w")

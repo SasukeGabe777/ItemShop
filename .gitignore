@@ -39,3 +39,7 @@ docs/.guide_render*/
 savestates/
 roms/
 tools/rom_ref/out/
+
+# Stale sibling clone accidentally nested here; real repo is this folder
+ItemShop/
+!tools/rom_ref/out/.gdignore

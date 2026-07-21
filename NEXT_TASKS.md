@@ -27,14 +27,16 @@ Method (see also `docs/AGENT_GUIDE.md` §4–5):
 
 Priority order (highest impact first — verified from manifests):
 
-1. **Idle motion for all five playable heroes.** Every hero currently has a
-   1-frame idle, so nobody breathes when standing — likely the biggest source of
-   "looks static." Cheapest fix for the widest effect.
-2. **Naruto and Cloud full sets** — the thinnest playable heroes (Naruto: 3-frame
+1. ~~**Link full set**~~ **DONE 2026-07-20** via the OAM reference pipeline
+   (`docs/AGENT_GUIDE.md` §4 "Real-game reference capture"): blink idles,
+   real 10-frame walk cycles all directions, sword visibly in hand for both
+   attacks in every direction. Link is the template for the other heroes.
+2. **Idle motion for the other four playable heroes.** 1-frame idles, so nobody
+   breathes when standing — likely the biggest source of "looks static."
+3. **Naruto and Cloud full sets** — the thinnest playable heroes (Naruto: 3-frame
    walks, side-only attacks; Cloud: 2-frame up/side walks, non-directional
-   attacks).
-3. **Link weapon-overlay pass** — confirm the composited sword is visible and
-   correctly offset per frame/direction (the known "weapon invisible" case).
+   attacks). ROMs for their games are not in `savestates/ROMS` yet; the DBZ,
+   KH:CoM, M&L, FF6, Naruto PotN2 saves/ROMs there cover the other worlds.
 4. Sora, Mario, Luigi are the richest; touch only if a reference shows a clear
    wrong-frame/order problem.
 

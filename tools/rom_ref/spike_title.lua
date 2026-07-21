@@ -1,6 +1,6 @@
 -- Phase 0 spike: prove launch -> Lua -> screenshot -> readable PNG.
 -- Boots the ROM, advances past boot logos, dumps one screenshot, exits.
-local out = "C:/Users/sasuk/OneDrive/Desktop/ItemShop/tools/rom_ref/out/"
+local out = "C:/Users/Game Station/Desktop/crossroads/tools/rom_ref/out/"
 
 -- ~600 frames ≈ 10s of emulated time: enough to clear GBA/game logos.
 for i = 1, 600 do

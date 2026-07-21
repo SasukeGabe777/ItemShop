@@ -167,6 +167,32 @@ cut produces empty/absurd output, check this first.
 island boxes are band-relative — offset them back
 (`(b[0]+box[0], b[1]+box[1], ...)`) before cropping from the full sheet.
 
+### Real-game reference capture (`tools/rom_ref/` — the quality path for hero anims)
+
+When ripped sheets can't tell you frame order/timing (or lack the weapon), capture
+the real game. BizHawk + ROMs + converted battery saves live in `savestates/`
+(gitignored, never committed). Launch:
+`savestates\BizHawk-2.11.1-win-x64\EmuHawk.exe --lua=<abs path to script.lua> "<abs path to rom>"`.
+Lua scripts boot File 1 from the title screen (`wait(900)`, then the proven
+Start/A sequence in `capture_link_moves.lua`), drive the hero with
+`joypad.set`, and per frame dump OAM + OBJ-VRAM + OBJ-palette binaries;
+`decode_oam.py` then reconstructs the hero isolated on transparency — no
+background, no chroma key. Hard-won isolation rules (v1 broke immediately):
+
+- **Never isolate by screen-position band** — it breaks as soon as the hero
+  drifts (blocked walk, camera edge). Instead: drop static HUD objects (same
+  OAM tuple in >60% of all frames), keep the hero's **palette bank** (Link = 6)
+  plus any non-HUD object within 24 px of the body bbox (that pulls in sword +
+  effect sprites), and **anchor the crop on the drop-shadow object** (Link:
+  pal 5, tile 1) so every frame lands feet-registered in its cell.
+- **Prove a cycle repeats before picking frames**: 24 walk dumps looked like a
+  complete 8-pose cycle; a 60-frame run showed the real cycle is 10 poses.
+  `unique_poses.py` prints the pose-order string — trust it, not your eyes.
+- **Blinks/fidgets need dense sampling** (every 4 frames for ~10 s of standing).
+  Spaced idle dumps (every 20–45 frames) missed the 6-frame blink entirely.
+- `tools/build_link_from_oam.py` maps picked pose tags → sheet + manifest and is
+  the permanent record of the picks (inputs themselves are gitignored).
+
 ### Known-good source recipes (verified, reuse as-is)
 
 - Minish Cap enemy rips: see the `ZE` table in `tools/prep_zelda_world.py` —
@@ -303,6 +329,9 @@ Data lives in `data/*.json`, loaded by `ContentDatabase` (see
 | Sprite has a "STAND"/"Block" label stuck to it | label shares the island bbox — `largest_component` per frame |
 | Probe screenshots blank white despite a wait | warmup scales with asset count; a world-sized addition can need 2.5–3.5 s, not 0.4 s |
 | Texture loads as null in `_wall`/props | passed full path to `Scenery.texture_or_null` (it wants a bare name) — `load()` full paths directly |
+| OAM-decoded hero frames vanish for part of a capture | position-band isolation + hero drifted; use palette-bank/HUD-exclusion/shadow-anchor (§4 rom_ref) |
+| Walk anim hitches on loop despite "all" frames captured | capture never looped once — cycle is longer than it looks; dump 36+ frames and check `unique_poses.py` order repeats |
+| `--import` crawls through hundreds of capture PNGs | keep a `.gdignore` in `tools/rom_ref/out/` (committed via gitignore exception) |
 
 ## 9. Checklist: adding or fixing a world
 
