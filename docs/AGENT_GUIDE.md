@@ -335,6 +335,8 @@ Data lives in `data/*.json`, loaded by `ContentDatabase` (see
 | OAM-decoded hero frames vanish for part of a capture | position-band isolation + hero drifted; use palette-bank/HUD-exclusion/shadow-anchor (§4 rom_ref) |
 | Walk anim hitches on loop despite "all" frames captured | capture never looped once — cycle is longer than it looks; dump 36+ frames and check `unique_poses.py` order repeats |
 | `--import` crawls through hundreds of capture PNGs | keep a `.gdignore` in `tools/rom_ref/out/` (committed via gitignore exception) |
+| KH CoM dialog won't advance on A | scripted prompts can require **SELECT** (found on the "Changing Categories" tutorial; technique in `kh_sraid_explore1-9.lua`) |
+| KH CoM level-55 save frozen on the 13F Naminé textbox | hard freeze, NOT an input miss — A/B/Start/SELECT/movement all ignored, 10 SELECT strategies pixel-identical (`kh_13f_select1.lua`). Suspect BizHawk core sync or a bad conversion moment; try another GBA core before more input permutations |
 | Boom stays active forever in campaign tests | live `shop.gd` and headless `ShopSim` must each call `BoomManager.complete_shop_session()` exactly once per completed session |
 
 ## 9. Checklist: adding or fixing a world

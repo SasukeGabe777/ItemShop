@@ -39,14 +39,21 @@ Priority order (highest impact first — verified from manifests):
    (`docs/AGENT_GUIDE.md` §4 "Real-game reference capture"): blink idles,
    real 10-frame walk cycles all directions, sword visibly in hand for both
    attacks in every direction. Link is the template for the other heroes.
-2. **Idle motion for the other four playable heroes.** 1-frame idles, so nobody
-   breathes when standing — likely the biggest source of "looks static."
-3. **Naruto and Cloud full sets** — the thinnest playable heroes (Naruto: 3-frame
-   walks, side-only attacks; Cloud: 2-frame up/side walks, non-directional
-   attacks). ROMs for their games are not in `savestates/ROMS` yet; the DBZ,
-   KH:CoM, M&L, FF6, Naruto PotN2 saves/ROMs there cover the other worlds.
-4. Sora, Mario, Luigi are the richest; touch only if a reference shows a clear
-   wrong-frame/order problem.
+2. ~~**Sora + Mario real-game sets**~~ **DONE 2026-07-20/21** from the converted
+   saves (`tools/rom_ref/sps_convert.py`, `tools/merge_hero_sheets.py`): real
+   idles/walks both, Sora's battle Keyblade swing + dodge-roll tumble; old
+   attack rows grafted where battles were unreachable. **Parked:** Sora's
+   Strike Raid special — three capped attempts: fresh-game card economy
+   dead-ends before combat, and the level-55 save hard-freezes on its 13F
+   textbox (see §8 pitfalls in AGENT_GUIDE; next avenues: another BizHawk GBA
+   core, or solving the Key-of-Beginnings door-card prompt on the fresh-game
+   path). Mario battle attacks (jump/hammer) also unreached — needs a short
+   new-game M&L run to the first tutorial battle.
+3. **Idle motion for Naruto, Cloud, Luigi, Pikachu/Goku** (1-frame idles) and
+   **Naruto + Cloud full sets** — no ROMs for their games in `savestates/ROMS`
+   (FF6/PotN2 saves exist but no ROMs), so this is sheet-mining per §4, not
+   capture.
+4. Luigi is rich; touch only if a reference shows a wrong-frame/order problem.
 
 Skip Goku and Pikachu until their worlds get dungeon art (see Priority 3).
 
