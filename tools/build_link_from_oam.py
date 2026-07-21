@@ -46,6 +46,13 @@ ANIMS = [
     ("attack_2_down", ["sbd_09", "sbd_11", "sbd_12", "sbd_14"], 14, False),
     ("attack_2_side", ["sbr_05", "sbr_06", "sbr_07", "sbr_09"], 14, False),
     ("attack_2_up", ["sbu_05", "sbu_06", "sbu_07", "sbu_08"], 14, False),
+    # roll (R-button dodge): side is the tucked tumble from rrt_06 on (the
+    # first poses are a translucent wind-up ghost — skipped); down rolls read
+    # subtle in the source game too. roll_up is NOT wired yet: that capture
+    # bleached out in a screen-transition fade (unique_rup.png) — the engine
+    # falls back to roll_side until a clean recapture lands.
+    ("roll_down", ["rdn_04", "rdn_10", "rdn_16", "rdn_22", "rdn_28"], 16, False),
+    ("roll_side", ["rrt_06", "rrt_09", "rrt_12", "rrt_15", "rrt_18", "rrt_27"], 16, False),
 ]
 
 def main():

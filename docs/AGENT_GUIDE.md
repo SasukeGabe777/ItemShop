@@ -293,9 +293,12 @@ Data lives in `data/*.json`, loaded by `ContentDatabase` (see
   switches in `combat_hero.gd::_do_special` (`dash`, `projectile`, `clones`,
   `bomb`, ...). Adding a kind = one `match` arm + a data blob.
 - Dodge kinds are **deliberate character design**, not bugs: `roll`
-  (Sora/Mario/Pikachu — dash + iframes), `guard` (Cloud/Link — hold to block
-  75/80% damage; the flash is the guard-up cue), `vanish` (Naruto/Goku).
-  Don't "fix" a guard character into a roller because it feels different.
+  (Sora/Mario/Pikachu/Link — dash + iframes; Link switched from guard to roll
+  at the user's direction 2026-07-20 after his real Minish Cap R-roll was
+  captured), `guard` (Cloud — hold to block 75% damage; the flash is the
+  guard-up cue), `vanish` (Naruto/Goku). Don't "fix" a guard character into
+  a roller because it feels different. Dodge/special can play real frames:
+  `combat_hero` calls play_action("roll"/"special") — no-op without art.
 - Obstacles/walls (`dungeon.gd::_wall`): perimeter walls are **always flat
   `wall_color` polygons — never textured**. Interior obstacles in worlds with
   `obstacle_props` (worlds.json, full `res://` paths, loaded directly — NOT

@@ -37,7 +37,7 @@ func _ready() -> void:
 		["attack_1", Vector2(0, -1), "atk1 up"],
 		["attack_2", Vector2(0, 1), "atk2 dn"],
 		["attack_2", Vector2(1, 0), "atk2 side"],
-		["attack_2", Vector2(0, -1), "atk2 up"],
+		["roll", Vector2(1, 0), "roll side"],
 	]
 	var visuals: Array = []
 	for i in range(setups.size()):

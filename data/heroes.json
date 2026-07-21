@@ -223,9 +223,9 @@
      "cost": 30
     },
     "dodge": {
-     "kind": "guard",
-     "reduction": 0.8,
-     "duration": 0.6
+     "kind": "roll",
+     "distance": 80,
+     "iframes": 0.35
     },
     "finisher": {
      "name": "Triforce Slash",
