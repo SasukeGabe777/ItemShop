@@ -80,7 +80,13 @@ They are data-only stubs (hero/enemy/item/customer data but no dungeon art or
 hero manifest). Either build them out following `docs/AGENT_GUIDE.md` §9 (hero
 manifest, ~12 enemies, boss frames, room backdrops, obstacle props, item icons),
 or explicitly mark them deferred so the campaign's later chapters aren't silently
-broken. Confirm what happens today if a player reaches chapter 6-7.
+broken. **Confirmed 2026-07-20** (`tests/stub_worlds_probe.tscn`): reaching
+chapter 6-7 does NOT crash — layouts generate (7-8 rooms, boss rooms resolve
+great_ape_vegeta / mewtwo), all combat defs exist, but the hero and all five
+enemies per world have no visual manifests, so everything renders as colored
+placeholder shapes in flat untextured rooms. Playable, but reads as unfinished;
+the DBZ LoG2 ROM in savestates/ROMS can feed the capture pipeline for Goku's
+world when it's built out.
 
 ## Priority 4 — Locations (optional, low urgency)
 
