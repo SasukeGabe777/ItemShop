@@ -206,3 +206,29 @@ func _process(delta: float) -> void:
 
 func body_node() -> CanvasItem:
 	return animated if use_frames else static_sprite
+
+
+## Approximate top edge of the drawn sprite in this node's local space. It is
+## negative because sprites extend upward from the feet-aligned origin. Used to
+## anchor floating labels (name tags, speech) just above the character's head,
+## whatever art path (animated / static / placeholder) they ended up on.
+func top_y() -> float:
+	if use_frames and animated != null and animated.sprite_frames != null:
+		var tex := animated.sprite_frames.get_frame_texture(animated.animation, 0)
+		var h := float(tex.get_height()) if tex != null else 32.0
+		return animated.offset.y - h / 2.0
+	if static_sprite != null and static_sprite.texture != null:
+		return static_sprite.position.y - static_sprite.texture.get_height() / 2.0
+	return -32.0
+
+
+## Rendered pixel height of the current frame, before this node's own scale.
+## Lets callers keep wildly-sized art (giant bosses, tiny critters) within a
+## sane on-screen footprint.
+func sprite_height() -> float:
+	if use_frames and animated != null and animated.sprite_frames != null:
+		var tex := animated.sprite_frames.get_frame_texture(animated.animation, 0)
+		return float(tex.get_height()) if tex != null else 32.0
+	if static_sprite != null and static_sprite.texture != null:
+		return float(static_sprite.texture.get_height())
+	return 32.0

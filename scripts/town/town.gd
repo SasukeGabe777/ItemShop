@@ -17,6 +17,7 @@ func _ready() -> void:
 	_build_ground()
 	_build_buildings()
 	_build_gates()
+	add_child(LobbyCrossers.new())  # ambient travellers crossing the plaza
 	player = TownPlayer.new()
 	player.position = SceneRouter.last_town_position if SceneRouter.last_town_position != Vector2.ZERO else Vector2(320, 240)
 	add_child(player)

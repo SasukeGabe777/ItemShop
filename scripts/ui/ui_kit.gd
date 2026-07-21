@@ -170,6 +170,26 @@ static func header(text: String) -> Label:
 	return label(text, 14, COL_ACCENT)
 
 
+## A character's name floating directly above its sprite: white with a dark
+## outline so it reads on any world backdrop, horizontally centered on the
+## body's origin. `visual` supplies the sprite top; centering is deferred one
+## frame because a Label only knows its width after a layout pass. Shared by
+## shop customers and the lobby crossers so every name looks the same.
+static func floating_name(parent: Node2D, visual: CharacterVisual, text: String, gap: float = 3.0) -> Label:
+	var l := label(text, 8, Color.WHITE)
+	l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	l.add_theme_color_override("font_outline_color", Color(0.05, 0.05, 0.08, 0.9))
+	l.add_theme_constant_override("outline_size", 4)
+	l.z_index = 5
+	parent.add_child(l)
+	(func() -> void:
+		if is_instance_valid(l) and is_instance_valid(visual):
+			# honor any scale the caller put on the visual (e.g. size-capped crossers)
+			var top := visual.top_y() * visual.scale.y
+			l.position = Vector2(-l.size.x / 2.0, top - l.size.y - gap)).call_deferred()
+	return l
+
+
 static func button(text: String, on_press: Callable, size: int = 10) -> Button:
 	var b := Button.new()
 	b.text = text

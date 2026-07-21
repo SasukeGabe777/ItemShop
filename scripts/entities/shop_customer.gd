@@ -56,9 +56,7 @@ func setup(cust: Dictionary, browse_points: Array[Vector2], exit_pos: Vector2, p
 		else:
 			visual.setup_placeholder(String(cust.get("id", "cust")), String(cust.get("world", "")), String(cust.get("color", "#c0c0c0")), 15)
 	if String(cust.get("name", "")) != "":
-		var tag := UIKit.label(String(cust.get("name", "")), 8, UIKit.COL_ACCENT)
-		tag.position = Vector2(-20, -34)
-		add_child(tag)
+		UIKit.floating_name(self, visual, String(cust.get("name", "")))
 	brain = CustomerBrain.new()
 	brain.setup(cust)
 	brain.wants_to_negotiate.connect(func(c: Dictionary, item: String) -> void:
