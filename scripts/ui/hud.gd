@@ -123,6 +123,7 @@ func _ready() -> void:
 		_flash_period_banner())
 	TimeManager.day_started.connect(func(_d: int) -> void: refresh())
 	MarketManager.events_changed.connect(refresh)
+	BoomManager.boom_changed.connect(refresh)
 	InventoryManager.orders_changed.connect(refresh)
 	BridgeManager.gate_repaired.connect(func(_w: String) -> void: refresh())
 	refresh()
@@ -185,7 +186,10 @@ func refresh() -> void:
 			UIKit.COL_GOOD if BridgeManager.has_shard(wid) and EconomyManager.gold >= BridgeManager.repair_cost(wid) else UIKit.COL_INK)
 	orders_label.text = "Orders: %d" % InventoryManager.orders.size()
 	var events := MarketManager.active_event_names()
-	market_label.text = "Market: " + (", ".join(events) if not events.is_empty() else "calm")
+	var market_text := "Market: " + (", ".join(events) if not events.is_empty() else "calm")
+	market_label.text = ("BOOM: %s (%d session%s)  |  " % [BoomManager.display_name(), BoomManager.sessions_left,
+		"" if BoomManager.sessions_left == 1 else "s"] if BoomManager.is_active() else "") + market_text
+	market_label.add_theme_color_override("font_color", UIKit.COL_BAD if BoomManager.is_active() else UIKit.COL_DIM)
 
 
 var _period_banner: Control = null

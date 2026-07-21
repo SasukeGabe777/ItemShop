@@ -41,6 +41,7 @@ func _collect() -> Dictionary:
 		"inventory": InventoryManager.to_save(),
 		"relationships": RelationshipManager.to_save(),
 		"bridge": BridgeManager.to_save(),
+		"boom": BoomManager.to_save(),
 		"story": StoryEventManager.to_save(),
 		"furniture": ShopFurnitureManager.to_save(),
 	}
@@ -54,6 +55,7 @@ func _apply(d: Dictionary) -> void:
 	InventoryManager.from_save(d.get("inventory", {}))
 	RelationshipManager.from_save(d.get("relationships", {}))
 	BridgeManager.from_save(d.get("bridge", {}))
+	BoomManager.from_save(d.get("boom", {}))
 	StoryEventManager.from_save(d.get("story", {}))
 	ShopFurnitureManager.from_save(d.get("furniture", {}))
 

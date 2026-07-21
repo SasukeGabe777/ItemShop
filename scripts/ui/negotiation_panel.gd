@@ -38,7 +38,10 @@ func setup(cust: Dictionary, target_item: String, portrait: Texture2D = null) ->
 func _ready() -> void:
 	layer = 45
 	AudioManager.play_track("negotiation")
-	var parts := UIKit.modal(self, "%s wants: %s" % [String(customer.get("name", "?")), ContentDatabase.item_name(item_id)])
+	var item_label := ContentDatabase.item_name(item_id)
+	if nego.quantity > 1:
+		item_label = "%dx %s" % [nego.quantity, item_label]
+	var parts := UIKit.modal(self, "%s wants: %s" % [String(customer.get("name", "?")), item_label])
 	var vb: VBoxContainer = parts[1]
 	(vb.get_parent() as PanelContainer).custom_minimum_size = Vector2(500, 0)
 	vb.add_theme_constant_override("separation", 6)
@@ -100,7 +103,7 @@ func _ready() -> void:
 	chat.add_theme_constant_override("separation", 4)
 	if String(customer.get("line", "")) != "":
 		_say(cname, String(customer["line"]))
-	_say(cname, "How much for the %s?" % ContentDatabase.item_name(item_id))
+	_say(cname, "How much for %s?" % item_label)
 	var afford := float(nego.budget) / maxf(1.0, float(nego.market_value))
 	if afford < 0.7:
 		_note("Their purse looks far too light for this — expect offers well under market value.")

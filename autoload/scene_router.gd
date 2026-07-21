@@ -63,6 +63,7 @@ func start_new_campaign(slot: int) -> void:
 	InventoryManager.reset()
 	RelationshipManager.reset()
 	BridgeManager.reset()
+	BoomManager.reset()
 	DungeonManager.reset()
 	StoryEventManager.reset()
 	ShopFurnitureManager.reset()

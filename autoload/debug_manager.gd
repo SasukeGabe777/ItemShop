@@ -45,7 +45,7 @@ func _build_console() -> void:
 	output_label.scroll_following = true
 	vb.add_child(output_label)
 	input_line = LineEdit.new()
-	input_line.placeholder_text = "help | gold N | advance N | day | give ITEM [N] | shard WORLD | repair WORLD | unlock_all | scene ID | sim WORLD HERO"
+	input_line.placeholder_text = "help | boom ID [WORLD] | boom random | boom clear | gold N | advance N | day | give ITEM [N] | shard WORLD | repair WORLD"
 	input_line.text_submitted.connect(_on_command)
 	vb.add_child(input_line)
 	console_layer.visible = false
@@ -63,7 +63,20 @@ func _on_command(text: String) -> void:
 func run_command(parts: PackedStringArray) -> void:
 	match parts[0]:
 		"help":
-			log_line("gold N / advance N / day / give ITEM [N] / shard WORLD / repair WORLD / unlock_all / scene ID / sim WORLD HERO / save / load")
+			log_line("boom ID [WORLD] / boom random / boom clear / gold N / advance N / day / give ITEM [N] / shard WORLD / repair WORLD / unlock_all / scene ID / sim WORLD HERO / save / load")
+		"boom":
+			if parts.size() <= 1:
+				log_line("boom = %s (%d sessions)" % [BoomManager.display_name() if BoomManager.is_active() else "none", BoomManager.sessions_left])
+			elif parts[1] == "clear":
+				BoomManager.clear_active()
+				log_line("boom cleared")
+			elif parts[1] == "random":
+				BoomManager.clear_active()
+				BoomManager._roll_daily_boom(true)
+				log_line("boom = %s" % (BoomManager.display_name() if BoomManager.is_active() else "none rolled"))
+			else:
+				var world := String(parts[2]) if parts.size() > 2 else ""
+				log_line("boom %s -> %s" % [parts[1], BoomManager.force_boom(String(parts[1]), world)])
 		"gold":
 			EconomyManager.add_gold(int(parts[1]) if parts.size() > 1 else 10000)
 			log_line("gold = %d" % EconomyManager.gold)

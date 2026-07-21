@@ -15,6 +15,9 @@ var recipes: Dictionary = {}
 var archetypes: Dictionary = {}
 var named_customers: Dictionary = {}
 var market_events: Dictionary = {}
+var booms: Dictionary = {}
+var boom_daily_roll_chance := 0.0
+var boom_max_customers_per_session := 28
 var story_scenes: Dictionary = {}
 var rooms: Dictionary = {}
 var room_grid: Vector2i = Vector2i(20, 12)
@@ -64,6 +67,11 @@ func reload_all() -> void:
 	var m_doc: Dictionary = _load_json("res://data/market_events.json")
 	for ev: Dictionary in m_doc.get("events", []):
 		market_events[ev["id"]] = ev
+	var boom_doc: Dictionary = _load_json("res://data/booms.json")
+	for boom: Dictionary in boom_doc.get("booms", []):
+		booms[boom["id"]] = boom
+	boom_daily_roll_chance = float(boom_doc.get("daily_roll_chance", 0.0))
+	boom_max_customers_per_session = int(boom_doc.get("max_customers_per_session", 28))
 	var s_doc: Dictionary = _load_json("res://data/story_scenes.json")
 	for sc: Dictionary in s_doc.get("scenes", []):
 		story_scenes[sc["id"]] = sc
@@ -84,10 +92,10 @@ func reload_all() -> void:
 	customer_visual_pool = _load_json("res://data/customer_visuals.json").get("pool", [])
 	_build_live_items()
 	if load_errors.is_empty():
-		print("[ContentDatabase] loaded: %d items, %d enemies, %d bosses, %d heroes, %d worlds, %d recipes, %d archetypes, %d named customers, %d events, %d scenes, %d rooms" % [
+		print("[ContentDatabase] loaded: %d items, %d enemies, %d bosses, %d heroes, %d worlds, %d recipes, %d archetypes, %d named customers, %d events, %d booms, %d scenes, %d rooms" % [
 			items.size(), enemies.size(), bosses.size(), heroes.size(), worlds.size(),
 			recipes.size(), archetypes.size(), named_customers.size(), market_events.size(),
-			story_scenes.size(), rooms.size()])
+			booms.size(), story_scenes.size(), rooms.size()])
 	else:
 		push_error("[ContentDatabase] load errors: %s" % ", ".join(load_errors))
 

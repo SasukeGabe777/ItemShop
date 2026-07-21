@@ -2,6 +2,66 @@
 
 ---
 
+## 2026-07-20 - Shop Boom announcement and crowd flow
+
+### Date
+
+2026-07-20
+
+### Build tested
+
+- Commit/build: `098b911` plus the Boom-system pass
+- Godot version: 4.7.1-stable
+- Platform: Windows, headless behavior/economy suites and 1280x720 windowed visual probe
+
+### Test route
+
+- Forced **Kids' Adventure Day** through `BoomManager`.
+- Opened the real shop with six icon-backed matching goods across its displays.
+- Captured the pre-opening day briefing, first fast-wave arrivals, and the
+  full live-customer cap through `tests/boom_shop_shot.tscn`.
+- Ran `test_booms`, `test_parse_all`, `test_campaign`, `test_dev_hub`, and the
+  existing Kingdom Hearts vertical-slice route.
+
+### What worked
+
+- The briefing clearly announced the Boom before opening, named desired
+  categories/tags and the Cozy-shop bonus, and explained that the event waits
+  for a shop session.
+- The live session announced **22 incoming customers**, spawned them in fast
+  waves, and visibly reached eight simultaneous shoppers without clipping or
+  obvious pathing overlap.
+- Focused coverage verified all 14 definitions use valid current content,
+  traffic is at least twice normal, customer groups and merchandise are
+  strongly weighted, poor preparation causes requests/departures, bundle sales
+  account for every physical item, save/load and cooldowns work, and gate repair
+  creates the correct world celebration.
+- Campaign, Dev Hub, parse-all, and KH shop/expedition/save compatibility tests passed.
+
+### Bugs
+
+- The first visual pass exposed mojibake in new Boom separators. New Boom UI
+  strings now use ASCII-safe punctuation; the fresh screenshots are clean.
+- The first campaign pass exposed a simulation-only duration bug: live shop
+  sessions consumed a Boom, but `ShopSim` did not. Both paths now consume one
+  session exactly once, with focused regression coverage.
+- The repository's pre-existing boot test reports the actively changing
+  enemy/boss roster assumptions; no Boom reference or load errors were present.
+
+### Visual issues
+
+- Eight simultaneous customers make the shop intentionally busy. Names overlap
+  in the densest frame, but sprites, displays, the player, and the Boom HUD
+  remain readable at 1280x720.
+
+### Next action
+
+- Play one naturally rolled Boom with a controller and normal campaign stock;
+  tune only the first event whose traffic, budgets, or requested merchandise
+  feels unfair in a human session.
+
+---
+
 ## 2026-07-18 - Independent split-screen item pickers
 
 ### Date

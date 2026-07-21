@@ -11,7 +11,8 @@ static func run_session(price_factor: float = 1.25) -> Dictionary:
 	for cust in customers:
 		var interest := CustomerGen.pick_interest(cust)
 		if interest == "":
-			if not CustomerGen.maybe_make_order(cust).is_empty():
+			var direct_request := BoomManager.is_active() and CustomerGen.rng.randf() < BoomManager.request_frequency()
+			if not CustomerGen.maybe_make_order(cust, direct_request).is_empty():
 				results["orders"] = int(results["orders"]) + 1
 			continue
 		var nego := Negotiation.start(cust, interest)
@@ -24,7 +25,7 @@ static func run_session(price_factor: float = 1.25) -> Dictionary:
 		match String(outcome["result"]):
 			Negotiation.RESULT_PERFECT, Negotiation.RESULT_ACCEPT:
 				nego.finalize_sale(outcome)
-				results["sales"] = int(results["sales"]) + 1
+				results["sales"] = int(results["sales"]) + int(outcome.get("quantity", 1))
 				results["revenue"] = int(results["revenue"]) + int(outcome["price"])
 				if bool(outcome["perfect"]):
 					results["perfect"] = int(results["perfect"]) + 1
@@ -34,6 +35,8 @@ static func run_session(price_factor: float = 1.25) -> Dictionary:
 		# order chance after interaction too
 		if not CustomerGen.maybe_make_order(cust).is_empty():
 			results["orders"] = int(results["orders"]) + 1
+	if BoomManager.is_active():
+		BoomManager.complete_shop_session()
 	return results
 
 

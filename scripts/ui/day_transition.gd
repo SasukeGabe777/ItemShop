@@ -166,6 +166,9 @@ func _show_panel() -> void:
 	vb.add_child(UIKit.header(head))
 	vb.add_child(UIKit.hsep())
 	if not _summary.is_empty():
+		if String(_summary.get("boom_name", "")) != "":
+			vb.add_child(UIKit.label("BOOM COMPLETE: %s  |  %d customers arrived" % [
+				String(_summary["boom_name"]), int(_summary.get("customers", 0))], 13, UIKit.COL_ACCENT))
 		vb.add_child(UIKit.label("Sales: %d   Revenue: %dg" % [
 			int(_summary.get("sales", 0)), int(_summary.get("revenue", 0))]))
 		if _summary.has("perfect"):

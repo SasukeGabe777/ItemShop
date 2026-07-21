@@ -17,9 +17,11 @@ static func generate_session_customers() -> Array[Dictionary]:
 	var per := float(shop_cfg.get("customers_per_session_per_appeal", 0.08))
 	var n := base + int(floor(appeal_total * per)) + (1 if GameState.shop_level >= 2 else 0)
 	n = clampi(n, 2, 9)
+	if BoomManager.is_active():
+		n = clampi(int(round(n * BoomManager.traffic_multiplier())), 2, ContentDatabase.boom_max_customers_per_session)
 	var out: Array[Dictionary] = []
 	for i in range(n):
-		if rng.randf() < 0.35:
+		if rng.randf() < BoomManager.named_chance():
 			var named := _pick_named()
 			if not named.is_empty():
 				out.append(named)
@@ -61,6 +63,8 @@ static func _vertical_slice_customer() -> Dictionary:
 
 static func _pick_named() -> Dictionary:
 	var pool: Array[Dictionary] = []
+	var weights: Array[float] = []
+	var total := 0.0
 	for id: String in ContentDatabase.named_customers:
 		var c: Dictionary = ContentDatabase.named_customers[id]
 		if int(c.get("chapter", 1)) > TimeManager.chapter:
@@ -71,10 +75,17 @@ static func _pick_named() -> Dictionary:
 			if not BridgeManager.has_shard(world):
 				continue
 		pool.append(c)
+		var weight := BoomManager.customer_weight(String(c.get("archetype", "adventurer")), String(c.get("world", "")))
+		weights.append(weight)
+		total += weight
 	if pool.is_empty():
 		return {}
-	var c: Dictionary = pool[rng.randi() % pool.size()]
-	return runtime_named(c)
+	var pick := rng.randf_range(0.0, total)
+	for i in range(pool.size()):
+		pick -= weights[i]
+		if pick <= 0.0:
+			return runtime_named(pool[i])
+	return runtime_named(pool[-1])
 
 
 ## Public adapter used by development tooling to summon a specific named
@@ -85,7 +96,7 @@ static func runtime_named(c: Dictionary) -> Dictionary:
 	var mult := float(c.get("budget_mult", 1.0))
 	# budgets ride prosperity so late-game repair goals stay reachable
 	var chapter_scale := MarketManager.prosperity() * (1.0 + float(ContentDatabase.bal("customer_budget_chapter_scale", 0.25)) * (TimeManager.chapter - 1))
-	return {
+	var runtime := {
 		"id": String(c["id"]), "name": String(c["name"]),
 		"archetype": String(c.get("archetype", "adventurer")),
 		"budget": int(rng.randi_range(int(brange[0]), int(brange[1])) * mult * chapter_scale),
@@ -94,6 +105,7 @@ static func runtime_named(c: Dictionary) -> Dictionary:
 		"quirk": String(c.get("quirk", "")), "line": String(c.get("line", "")),
 		"named": true, "world": String(c.get("world", "")),
 	}
+	return BoomManager.apply_to_customer(runtime)
 
 
 ## How many currently boosted market-event goods this archetype likes. The day
@@ -117,7 +129,9 @@ static func _make_walk_in() -> Dictionary:
 	var weights: Array[int] = []
 	var total := 0
 	for id in ids:
-		var w := 10 + 18 * event_match_count(ContentDatabase.get_archetype(String(id)))
+		var w := int(round((10 + 18 * event_match_count(ContentDatabase.get_archetype(String(id)))) \
+			* BoomManager.customer_weight(String(id))))
+		w = maxi(1, w)
 		weights.append(w)
 		total += w
 	var arch_id := String(ids[0])
@@ -130,16 +144,19 @@ static func _make_walk_in() -> Dictionary:
 	var arch: Dictionary = ContentDatabase.get_archetype(arch_id)
 	var brange: Array = arch.get("budget", [100, 500])
 	var chapter_scale := 1.0 + (TimeManager.chapter - 1) * 0.85
-	return {
+	var runtime := {
 		"id": "walkin_%s" % arch_id, "name": String(arch.get("name", arch_id)),
 		"archetype": arch_id,
 		"budget": int(rng.randi_range(int(brange[0]), int(brange[1])) * chapter_scale),
 		"hero_ref": "", "color": String(arch.get("color", "#c0c0c0")),
 		"quirk": "", "line": "", "named": false, "world": "",
 	}
+	return BoomManager.apply_to_customer(runtime)
 
 
 static func likes_item(cust: Dictionary, item_id: String) -> bool:
+	if BoomManager.item_match_score(item_id) > 0.0:
+		return true
 	var arch: Dictionary = ContentDatabase.get_archetype(String(cust.get("archetype", "")))
 	var it := ContentDatabase.get_item(item_id)
 	var tags: Array = it.get("tags", [])
@@ -166,12 +183,13 @@ static func pick_interest(cust: Dictionary) -> String:
 		var it := ContentDatabase.get_item(id)
 		if it.get("sellable", true) == false:
 			continue
-		var price := MarketManager.market_value(id)
+		var price := MarketManager.market_value(id) * BoomManager.purchase_quantity(cust, id)
 		if price > int(cust.get("budget", 0)) * 1.6:
 			continue
 		var score := rng.randf_range(0.4, 1.0)
 		if likes_item(cust, id):
 			score += 0.8
+		score += BoomManager.item_match_score(id) * 1.4
 		# placement bonus now comes from the furniture the item sits on
 		# (classic window bonus + per-furniture attention modifier)
 		score += ShopFurnitureManager.slot_attention_bonus(slot)
@@ -181,38 +199,51 @@ static func pick_interest(cust: Dictionary) -> String:
 		if score > best_score:
 			best_score = score
 			best = id
+	# A Boom shopper who finds none of the announced goods will usually ask
+	# for them or leave disappointed instead of quietly buying random stock.
+	if best != "" and BoomManager.is_active() and String(cust.get("boom_id", "")) == BoomManager.active_boom_id \
+			and BoomManager.item_match_score(best) <= 0.0 and rng.randf() > BoomManager.off_theme_purchase_chance():
+		return ""
 	return best
 
 
 ## Chance the customer places an order instead of (or after) buying.
-static func maybe_make_order(cust: Dictionary) -> Dictionary:
+static func maybe_make_order(cust: Dictionary, direct_boom_request: bool = false) -> Dictionary:
 	var cfg: Dictionary = ContentDatabase.bal("orders", {})
-	if rng.randf() > float(cfg.get("chance_per_customer", 0.22)):
+	var chance := float(cfg.get("chance_per_customer", 0.22))
+	if BoomManager.is_active():
+		chance = maxf(chance, BoomManager.request_frequency() * 0.35)
+	if not direct_boom_request and rng.randf() > chance:
 		return {}
 	var arch: Dictionary = ContentDatabase.get_archetype(String(cust.get("archetype", "")))
 	var kind := "category"
 	var target := ""
-	var roll := rng.randf()
-	if roll < 0.35 and not arch.get("likes_tags", []).is_empty():
-		kind = "tag"
-		var tags: Array = arch.get("likes_tags", [])
-		target = String(tags[rng.randi() % tags.size()])
-	elif roll < 0.6 and String(cust.get("world", "")) != "":
-		kind = "world"
-		target = String(cust.get("world", ""))
-	elif roll < 0.85:
-		kind = "category"
-		var cats: Array = arch.get("likes_categories", [])
-		target = String(cats[rng.randi() % cats.size()]) if not cats.is_empty() else "consumable"
+	var boom_target := BoomManager.preferred_order_target() if direct_boom_request else {}
+	if not boom_target.is_empty():
+		kind = String(boom_target["kind"])
+		target = String(boom_target["target"])
 	else:
-		kind = "item"
-		var goods := MarketManager.wholesale_catalog()
-		if goods.is_empty():
-			return {}
-		target = goods[rng.randi() % goods.size()]
+		var roll := rng.randf()
+		if roll < 0.35 and not arch.get("likes_tags", []).is_empty():
+			kind = "tag"
+			var tags: Array = arch.get("likes_tags", [])
+			target = String(tags[rng.randi() % tags.size()])
+		elif roll < 0.6 and String(cust.get("world", "")) != "":
+			kind = "world"
+			target = String(cust.get("world", ""))
+		elif roll < 0.85:
+			kind = "category"
+			var cats: Array = arch.get("likes_categories", [])
+			target = String(cats[rng.randi() % cats.size()]) if not cats.is_empty() else "consumable"
+		else:
+			kind = "item"
+			var goods := MarketManager.wholesale_catalog()
+			if goods.is_empty():
+				return {}
+			target = goods[rng.randi() % goods.size()]
 	if target == "":
 		return {}
-	var qty := rng.randi_range(1, 3)
+	var qty := rng.randi_range(1, maxi(3, int(cust.get("purchase_qty", 1))))
 	var reward_each := _order_reward(kind, target)
 	return InventoryManager.add_order(String(cust.get("id", "")), kind, target, qty, reward_each)
 

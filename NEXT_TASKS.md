@@ -6,6 +6,14 @@ worlds — but Mario, Final Fantasy, Zelda, and Naruto were built afterward, plu
 local 2-player, controller support, consumable belts, and autosave. Priorities
 below reflect the **actual** current state (see `CURRENT_BUILD.md`).
 
+## Recently completed
+
+- **Shop Booms (2026-07-20):** 14 announced, data-driven high-traffic shop
+  events; focused merchandise/customer demand; direct requests and disappointed
+  departures; bundle sales; shop-appeal interaction; gate-repair celebrations;
+  save/load; debug/Dev Hub controls; focused and windowed verification. Schema
+  and extension notes are in `docs/BOOMS.md`.
+
 ## Priority 0 — Hero animation polish (active focus)
 
 Animation is the standing pain point across all heroes. The player-reported

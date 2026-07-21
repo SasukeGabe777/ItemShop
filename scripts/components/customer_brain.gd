@@ -4,7 +4,8 @@ extends Node
 ## decide -> negotiate (or leave). The shop scene listens to these signals.
 
 signal wants_to_negotiate(customer: Dictionary, item_id: String)
-signal wants_to_order(customer: Dictionary)
+signal wants_to_order(customer: Dictionary, direct_boom_request: bool)
+signal disappointed(customer: Dictionary)
 signal leaving()
 
 enum State { ENTERING, BROWSING, DECIDING, NEGOTIATING, LEAVING }
@@ -42,11 +43,18 @@ func _decide() -> void:
 	if interest != "":
 		state = State.NEGOTIATING
 		wants_to_negotiate.emit(customer, interest)
+	elif BoomManager.is_active() and String(customer.get("boom_id", "")) == BoomManager.active_boom_id \
+			and randf() < BoomManager.request_frequency():
+		wants_to_order.emit(customer, true)
+		state = State.LEAVING
+		leaving.emit()
 	elif randf() < 0.5:
-		wants_to_order.emit(customer)
+		wants_to_order.emit(customer, false)
 		state = State.LEAVING
 		leaving.emit()
 	else:
+		if BoomManager.is_active():
+			disappointed.emit(customer)
 		state = State.LEAVING
 		leaving.emit()
 

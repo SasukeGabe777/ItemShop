@@ -455,6 +455,23 @@ func _build_shop() -> void:
 		["Open Shop", shop.dev_open_shop], ["Close Shop", shop.dev_close_shop],
 		["Save Layout (Dev State)", DevHubManager.save_dev_state], ["Reload Layout", func() -> void: DevHubManager.load_dev_state(); shop.dev_rebuild_furniture(); _show_tab("Shop")],
 	])
+	var boom_tools := _section("Boom testing", "Force a data-defined Boom, then stock displays and open the real shop session. State uses the normal Boom save path.")
+	boom_tools.add_child(UIKit.label("Active: %s" % ("%s - %d session(s) left" % [BoomManager.display_name(), BoomManager.sessions_left]
+		if BoomManager.is_active() else "none"), 9, UIKit.COL_ACCENT if BoomManager.is_active() else UIKit.COL_DIM))
+	var boom_option := OptionButton.new()
+	var boom_ids := DevHubManager._sorted_keys(ContentDatabase.booms)
+	for id in boom_ids:
+		boom_option.add_item("%s - %s" % [id, ContentDatabase.booms[id].get("name", id)])
+	boom_tools.add_child(boom_option)
+	_action_row(boom_tools, [
+		["Force Selected Boom", func() -> void:
+			if boom_option.selected >= 0:
+				var world := DevHubManager.selected_world if String(ContentDatabase.booms[boom_ids[boom_option.selected]].get("dynamic_world", "")) != "" \
+					or bool(ContentDatabase.booms[boom_ids[boom_option.selected]].get("trigger_only", false)) else ""
+				BoomManager.force_boom(boom_ids[boom_option.selected], world)
+				_show_tab("Shop")],
+		["Clear Boom", func() -> void: BoomManager.clear_active(); _show_tab("Shop")],
+	])
 
 	var furniture := _section("Furniture placement", "Positions and display items use ShopFurnitureManager and InventoryManager's existing save-compatible format.")
 	var furniture_option := OptionButton.new()

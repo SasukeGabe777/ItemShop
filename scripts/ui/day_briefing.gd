@@ -14,7 +14,7 @@ static func reset() -> void:
 ## during the guided KH opening (until the first sale lands) so the tutorial
 ## modals stay uncluttered.
 static func maybe_show(parent: Node) -> void:
-	if TimeManager.day == last_shown_day:
+	if TimeManager.day == last_shown_day and not BoomManager.announcement_pending:
 		return
 	if StoryEventManager.has_pending():
 		return
@@ -50,6 +50,19 @@ static func show_report(parent: Node) -> CanvasLayer:
 	sub_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	vb.add_child(sub_lbl)
 	vb.add_child(UIKit.hsep())
+	if BoomManager.is_active():
+		var boom_title := UIKit.label("BOOM ALERT: %s" % BoomManager.display_name(), 17, UIKit.COL_BAD)
+		boom_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		vb.add_child(boom_title)
+		var boom_copy := UIKit.label(BoomManager.announcement(), 11, UIKit.COL_INK)
+		boom_copy.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		boom_copy.custom_minimum_size.x = 470
+		vb.add_child(boom_copy)
+		for line in BoomManager.summary_lines():
+			vb.add_child(UIKit.label("- " + line, 10, UIKit.COL_ACCENT))
+		vb.add_child(UIKit.label("Prepare your storage and displays before opening. This Boom is consumed by shop sessions, not by time passing.", 9, UIKit.COL_DIM))
+		vb.add_child(UIKit.hsep())
+		BoomManager.mark_announced()
 	var rep := UIKit.label("TODAY'S MARKET REPORT", 13, UIKit.COL_ACCENT)
 	rep.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	vb.add_child(rep)
@@ -92,7 +105,8 @@ static func show_report(parent: Node) -> CanvasLayer:
 	var btn_row := HBoxContainer.new()
 	btn_row.alignment = BoxContainer.ALIGNMENT_CENTER
 	vb.add_child(btn_row)
-	btn_row.add_child(UIKit.button("Start the day", func() -> void: layer.queue_free(), 12))
+	var button_text := "Prepare for the Boom" if BoomManager.is_active() else "Start the day"
+	btn_row.add_child(UIKit.button(button_text, func() -> void: layer.queue_free(), 12))
 	return layer
 
 

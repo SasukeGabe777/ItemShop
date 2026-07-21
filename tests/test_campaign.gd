@@ -51,12 +51,14 @@ func _reset_all() -> void:
 	InventoryManager.reset()
 	RelationshipManager.reset()
 	BridgeManager.reset()
+	BoomManager.reset()
 	DungeonManager.reset()
 	StoryEventManager.reset()
 	# deterministic economy proof: seed the gameplay RNGs (incl. the global one
 	# used for order deadlines)
 	seed(int(rng.seed))
 	MarketManager.rng.seed = rng.seed
+	BoomManager.rng.seed = rng.seed
 	CustomerGen.rng.seed = rng.seed
 	RelationshipManager.rng.seed = rng.seed
 	DungeonManager.rng.seed = rng.seed

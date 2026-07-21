@@ -15,6 +15,7 @@ so scenes stay thin (each .tscn is a single node + script).
 | InventoryManager | autoload/inventory_manager.gd | storage, display slots, orders, collection, hero equipment |
 | RelationshipManager | autoload/relationship_manager.gd | customer relationships, hero friendship, daily moods |
 | BridgeManager | autoload/bridge_manager.gd | gate states (shard/paid/repaired), accessibility, Fade |
+| BoomManager | autoload/boom_manager.gd | announced shop-traffic events, focused demand, session duration/cooldowns |
 | DungeonManager | autoload/dungeon_manager.gd | expedition planning, room layout gen, loot rolls, headless expedition sim |
 | StoryEventManager | autoload/story_event_manager.gd | trigger→scene matching, scene queue |
 | SaveManager | autoload/save_manager.gd | 3 slots + autosave + chapter checkpoint/restart |
@@ -57,7 +58,7 @@ simulation exercises the real negotiation/market/inventory code, not a copy.
 
 ## Data packs (data/)
 
-items, enemies(+bosses), heroes(+npcs), worlds, recipes, customers
+items, enemies(+bosses), heroes(+npcs), worlds, recipes, customers, booms
 (archetypes+named), market_events, story_scenes, rooms, balance,
 music_manifest. `tests/test_boot.gd` enforces referential integrity across all
 of them (every loot/recipe/market/world reference must resolve).

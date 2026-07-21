@@ -936,6 +936,7 @@ func ensure_dev_campaign(reset: bool = false) -> void:
 	InventoryManager.reset()
 	RelationshipManager.reset()
 	BridgeManager.reset()
+	BoomManager.reset()
 	DungeonManager.reset()
 	StoryEventManager.reset()
 	ShopFurnitureManager.reset()
@@ -1039,7 +1040,7 @@ func current_state_snapshot() -> Dictionary:
 		"game_state": GameState.to_save(), "time": TimeManager.to_save(),
 		"economy": EconomyManager.to_save(), "market": MarketManager.to_save(),
 		"inventory": InventoryManager.to_save(), "relationships": RelationshipManager.to_save(),
-		"bridge": BridgeManager.to_save(), "story": StoryEventManager.to_save(),
+		"bridge": BridgeManager.to_save(), "boom": BoomManager.to_save(), "story": StoryEventManager.to_save(),
 		"furniture": ShopFurnitureManager.to_save(),
 		"temporary_world_unlocks": temporary_world_unlocks,
 		"selected_object": selected_object_summary(),
@@ -1054,6 +1055,7 @@ func apply_state_snapshot(snapshot: Dictionary) -> void:
 	InventoryManager.from_save(snapshot.get("inventory", {}))
 	RelationshipManager.from_save(snapshot.get("relationships", {}))
 	BridgeManager.from_save(snapshot.get("bridge", {}))
+	BoomManager.from_save(snapshot.get("boom", {}))
 	StoryEventManager.from_save(snapshot.get("story", {}))
 	ShopFurnitureManager.from_save(snapshot.get("furniture", {}))
 	temporary_world_unlocks.clear()

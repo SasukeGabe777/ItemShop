@@ -21,6 +21,8 @@ var carrying: DisplayFurniture = null
 var carry_origin := Vector2.ZERO
 var edit_hint: Label = null
 var session_summary := {"sales": 0, "revenue": 0, "perfect": 0, "left": 0, "orders": 0}
+var session_boom_id := ""
+var session_boom_name := ""
 var negotiating: ShopCustomer = null
 var nego_queue: Array = []  # [{customer: Dictionary, item: String, node: ShopCustomer}]
 var corner_buttons: Array[Button] = []  # Buy furniture / Decorate / Rearrange
@@ -281,6 +283,7 @@ func dev_summon_customer(customer_id: String, at: Vector2 = ENTRANCE) -> ShopCus
 	c.set_meta("dev_content_id", customer_id)
 	c.negotiate_requested.connect(_on_negotiate_requested)
 	c.order_requested.connect(_on_order_requested)
+	c.boom_disappointed.connect(_on_boom_disappointed)
 	c.left.connect(func(me: ShopCustomer) -> void: live_customers.erase(me))
 	live_customers.append(c)
 	return c
@@ -439,7 +442,10 @@ func _activate(action: String, who: int = 1) -> void:
 				_toast("Opening the shop — %d/2 ready" % MultiplayerState.ready_count("open_shop"))
 				return
 			MultiplayerState.clear_ready("open_shop")
-			UIKit.confirm_time_cost(self, "Opening the shop", TimeManager.activity_cost("open_shop"), _begin_session)
+			var opening_title := "Opening the shop"
+			if BoomManager.is_active():
+				opening_title = "%s BOOM" % BoomManager.display_name()
+			UIKit.confirm_time_cost(self, opening_title, TimeManager.activity_cost("open_shop"), _begin_session)
 		"storage":
 			_open_storage(who)
 		"expand":
@@ -1134,17 +1140,24 @@ func _open_expand(who: int = 1) -> void:
 
 func _begin_session() -> void:
 	session_active = true
-	session_summary = {"sales": 0, "revenue": 0, "perfect": 0, "left": 0, "orders": 0, "sold": []}
+	session_boom_id = BoomManager.active_boom_id if BoomManager.is_active() else ""
+	session_boom_name = BoomManager.display_name() if BoomManager.is_active() else ""
+	session_summary = {"sales": 0, "revenue": 0, "perfect": 0, "left": 0, "orders": 0, "sold": [],
+		"customers": 0, "boom_id": session_boom_id, "boom_name": session_boom_name}
 	customers_remaining.clear()
 	customers_remaining.append_array(CustomerGen.generate_session_customers())
+	session_summary["customers"] = customers_remaining.size()
 	spawn_timer = 0.5
+	if BoomManager.is_active():
+		_show_boom_banner(customers_remaining.size())
+		BoomManager.mark_announced()
 	AudioManager.play_track("item_shop")
 
 
 func _run_session(delta: float) -> void:
 	spawn_timer -= delta
-	if spawn_timer <= 0.0 and not customers_remaining.is_empty() and live_customers.size() < 4:
-		spawn_timer = randf_range(1.2, 2.6)
+	if spawn_timer <= 0.0 and not customers_remaining.is_empty() and live_customers.size() < BoomManager.max_live_customers():
+		spawn_timer = BoomManager.next_spawn_delay()
 		_spawn_customer(customers_remaining.pop_front())
 	if negotiating == null and not nego_queue.is_empty():
 		_open_next_negotiation()
@@ -1164,6 +1177,7 @@ func _spawn_customer(cust: Dictionary) -> void:
 	c.setup(cust, browse_points, ENTRANCE, preferred_point)
 	c.negotiate_requested.connect(_on_negotiate_requested)
 	c.order_requested.connect(_on_order_requested)
+	c.boom_disappointed.connect(_on_boom_disappointed)
 	c.left.connect(func(me: ShopCustomer) -> void: live_customers.erase(me))
 	live_customers.append(c)
 	if bool(cust.get("named", false)) and String(cust.get("line", "")) != "":
@@ -1184,20 +1198,38 @@ func _speech(over: Node2D, text: String) -> void:
 	tw.tween_callback(lbl.queue_free)
 
 
-func _on_order_requested(cust: Dictionary) -> void:
-	var order := CustomerGen.maybe_make_order(cust)
+func _on_order_requested(cust: Dictionary, direct_boom_request: bool = false) -> void:
+	var order := CustomerGen.maybe_make_order(cust, direct_boom_request)
 	if not order.is_empty():
 		session_summary["orders"] = int(session_summary["orders"]) + 1
+		if direct_boom_request:
+			var node := _customer_node(cust)
+			if node != null:
+				_speech(node, "Please find me %s!" % BoomManager.order_label(String(order["kind"]), String(order["target"])))
 		hud.refresh()
+	elif direct_boom_request:
+		_on_boom_disappointed(cust)
+
+
+func _on_boom_disappointed(cust: Dictionary) -> void:
+	session_summary["left"] = int(session_summary["left"]) + 1
+	var node := _customer_node(cust)
+	if node != null:
+		_speech(node, "Nothing for the %s? I'll try another shop." % BoomManager.display_name())
+	if bool(cust.get("named", false)):
+		RelationshipManager.change_relationship(String(cust.get("id", "")), -1)
+
+
+func _customer_node(cust: Dictionary) -> ShopCustomer:
+	for customer in live_customers:
+		if customer.data == cust:
+			return customer
+	return null
 
 
 ## Customers may ask simultaneously; they wait in line while one panel is open.
 func _on_negotiate_requested(cust: Dictionary, item_id: String) -> void:
-	var node: ShopCustomer = null
-	for c in live_customers:
-		if c.data == cust:
-			node = c
-			break
+	var node := _customer_node(cust)
 	nego_queue.append({"customer": cust, "item": item_id, "node": node})
 	_open_next_negotiation()
 
@@ -1254,16 +1286,21 @@ func _on_negotiation_finished(outcome: Dictionary) -> void:
 		player.frozen = false
 	match String(outcome.get("result", "")):
 		Negotiation.RESULT_PERFECT, Negotiation.RESULT_ACCEPT:
-			session_summary["sales"] = int(session_summary["sales"]) + 1
+			var qty := maxi(1, int(outcome.get("quantity", 1)))
+			session_summary["sales"] = int(session_summary["sales"]) + qty
 			session_summary["revenue"] = int(session_summary["revenue"]) + int(outcome.get("price", 0))
-			(session_summary["sold"] as Array).append({"item": _nego_item, "price": int(outcome.get("price", 0))})
+			var unit_price := int(outcome.get("price", 0)) / qty
+			var remainder := int(outcome.get("price", 0)) - unit_price * qty
+			for i in range(qty):
+				(session_summary["sold"] as Array).append({"item": _nego_item, "price": unit_price + (remainder if i == 0 else 0)})
 			if bool(outcome.get("perfect", false)):
 				session_summary["perfect"] = int(session_summary["perfect"]) + 1
 		_:
 			session_summary["left"] = int(session_summary["left"]) + 1
 	if negotiating != null and is_instance_valid(negotiating):
 		if bool(outcome.get("result", "") in [Negotiation.RESULT_PERFECT, Negotiation.RESULT_ACCEPT]):
-			_speech(negotiating, "Thanks!")
+			var qty := maxi(1, int(outcome.get("quantity", 1)))
+			_speech(negotiating, "Thanks!" if qty == 1 else "I'll take all %d!" % qty)
 		negotiating.resume_after_negotiation()
 	negotiating = null
 	hud.refresh()
@@ -1274,6 +1311,8 @@ func _end_session() -> void:
 	session_active = false
 	# snapshot the whole day's sales BEFORE advancing (rollover clears the log)
 	var day_sold: Array = EconomyManager.day_sales.duplicate(true)
+	if session_boom_id != "":
+		BoomManager.complete_shop_session()
 	var events := TimeManager.advance(TimeManager.activity_cost("open_shop"))
 	if "new_day" in events:
 		# the day rolled over: the full-screen day transition replaces the
@@ -1304,3 +1343,27 @@ func _end_session() -> void:
 			SceneRouter.go("story", {"return_to": "shop"})
 		else:
 			DayBriefing.maybe_show(self))
+
+
+func _show_boom_banner(customer_count: int) -> void:
+	var layer := CanvasLayer.new()
+	layer.layer = 38
+	add_child(layer)
+	var panel := UIKit.ornate_panel(Vector2(430, 0))
+	panel.set_anchors_preset(Control.PRESET_CENTER_TOP)
+	panel.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	panel.offset_top = 50
+	layer.add_child(panel)
+	var vb := VBoxContainer.new()
+	vb.add_theme_constant_override("separation", 2)
+	panel.add_child(vb)
+	var title := UIKit.label("BOOM!  %s" % session_boom_name, 18, UIKit.COL_ACCENT)
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	vb.add_child(title)
+	var detail := UIKit.label("%d customers are arriving in fast waves. Keep the displays stocked!" % customer_count, 10, UIKit.COL_INK)
+	detail.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	vb.add_child(detail)
+	var tween := layer.create_tween()
+	tween.tween_interval(3.0)
+	tween.tween_property(panel, "modulate:a", 0.0, 0.5)
+	tween.tween_callback(layer.queue_free)

@@ -12,6 +12,7 @@ const RESULT_LEAVE := "leave"
 var customer: Dictionary          # runtime customer (see CustomerGen)
 var item_id: String
 var market_value: int
+var quantity: int = 1
 var tolerance: float              # max acceptable price ratio vs market value
 var budget: int
 var rounds_left: int
@@ -24,7 +25,8 @@ static func start(cust: Dictionary, target_item: String) -> Negotiation:
 	var n := Negotiation.new()
 	n.customer = cust
 	n.item_id = target_item
-	n.market_value = MarketManager.market_value(target_item)
+	n.quantity = BoomManager.purchase_quantity(cust, target_item)
+	n.market_value = MarketManager.market_value(target_item) * n.quantity
 	n.budget = int(cust.get("budget", 500))
 	var cfg: Dictionary = ContentDatabase.bal("negotiation", {})
 	var arch: Dictionary = ContentDatabase.get_archetype(String(cust.get("archetype", "adventurer")))
@@ -45,6 +47,9 @@ static func start(cust: Dictionary, target_item: String) -> Negotiation:
 	tol += GameState.merchant_level * float(mx.get("haggle_bonus_per_level", 0.01))
 	# combo bonus makes crowds slightly more agreeable
 	tol += EconomyManager.combo_bonus() * 0.1
+	# A shop dressed for the announced Boom earns extra enthusiasm, but the
+	# customer's normal archetype, relationship, mood, and purse still matter.
+	tol += BoomManager.negotiation_tolerance_bonus()
 	n.tolerance = maxf(1.02, tol)
 	n.rounds_left = int(cfg.get("counter_rounds", 2))
 	return n
@@ -123,7 +128,11 @@ func _res(result: String, price: int, rel_delta: int, perfect: bool, message: St
 func finalize_sale(outcome: Dictionary) -> void:
 	var cid := String(customer.get("id", ""))
 	InventoryManager.remove_from_display(item_id)
-	EconomyManager.record_sale(item_id, int(outcome["price"]), cid, bool(outcome.get("first_offer", false)), bool(outcome.get("perfect", false)))
+	if quantity > 1:
+		InventoryManager.remove_item(item_id, quantity - 1)
+	outcome["quantity"] = quantity
+	EconomyManager.record_bulk_sale(item_id, int(outcome["price"]), cid,
+		bool(outcome.get("first_offer", false)), bool(outcome.get("perfect", false)), quantity)
 	RelationshipManager.change_relationship(cid, int(outcome["relationship_delta"]))
 	GameState.know_customer(cid)
 	var slice_cfg: Dictionary = ContentDatabase.bal("kingdom_hearts_vertical_slice", {})

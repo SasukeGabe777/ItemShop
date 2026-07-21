@@ -53,12 +53,23 @@ func combo_bonus() -> float:
 
 
 func record_sale(item_id: String, price: int, customer_id: String, first_offer: bool, perfect: bool) -> void:
-	day_sales.append({"item": item_id, "price": price})
-	add_gold(price)
-	GameState.add_stat("sales")
+	record_bulk_sale(item_id, price, customer_id, first_offer, perfect, 1)
+
+
+## One negotiation may represent several inexpensive Boom goods. Inventory is
+## removed by Negotiation; this records each physical item for summaries and
+## progression while treating the bundle as one haggle/combo result.
+func record_bulk_sale(item_id: String, total_price: int, customer_id: String, first_offer: bool, perfect: bool, quantity: int) -> void:
+	var qty := maxi(1, quantity)
+	var unit_price := total_price / qty
+	var remainder := total_price - unit_price * qty
+	for i in range(qty):
+		day_sales.append({"item": item_id, "price": unit_price + (remainder if i == 0 else 0)})
+	add_gold(total_price)
+	GameState.add_stat("sales", qty)
 	GameState.learn_item(item_id)
 	var mx: Dictionary = ContentDatabase.bal("merchant_xp", {})
-	GameState.add_merchant_xp(int(mx.get("per_sale", 4)))
+	GameState.add_merchant_xp(int(mx.get("per_sale", 4)) * qty)
 	if perfect:
 		GameState.add_stat("perfect_deals")
 		GameState.add_merchant_xp(int(mx.get("per_perfect", 10)))
@@ -66,7 +77,8 @@ func record_sale(item_id: String, price: int, customer_id: String, first_offer: 
 		combo += 1
 	else:
 		combo = 0
-	sale_completed.emit(item_id, price, customer_id)
+	for i in range(qty):
+		sale_completed.emit(item_id, unit_price + (remainder if i == 0 else 0), customer_id)
 
 
 func break_combo() -> void:

@@ -4,7 +4,8 @@ extends CharacterBody2D
 ## then asks to negotiate, places an order, or leaves. Logic in CustomerBrain.
 
 signal negotiate_requested(customer: Dictionary, item_id: String)
-signal order_requested(customer: Dictionary)
+signal order_requested(customer: Dictionary, direct_boom_request: bool)
+signal boom_disappointed(customer: Dictionary)
 signal left(me: ShopCustomer)
 
 var data: Dictionary = {}
@@ -63,7 +64,8 @@ func setup(cust: Dictionary, browse_points: Array[Vector2], exit_pos: Vector2, p
 	brain.wants_to_negotiate.connect(func(c: Dictionary, item: String) -> void:
 		_paused_for_negotiation = true
 		negotiate_requested.emit(c, item))
-	brain.wants_to_order.connect(func(c: Dictionary) -> void: order_requested.emit(c))
+	brain.wants_to_order.connect(func(c: Dictionary, direct: bool) -> void: order_requested.emit(c, direct))
+	brain.disappointed.connect(func(c: Dictionary) -> void: boom_disappointed.emit(c))
 	brain.leaving.connect(_start_leaving)
 	add_child(brain)
 	var count := 1 + randi() % 3

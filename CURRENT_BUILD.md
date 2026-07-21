@@ -54,10 +54,10 @@ customers, and dungeon backdrops. Dragon Ball and Pokémon have
 hero/enemy/item/customer data but no dungeon art and no hero manifest, so they
 have no playable expedition yet.
 
-## Systems present (18 autoloads at 9f97b5b)
+## Systems present (19 autoloads; Boom system added 2026-07-20)
 
 GameState, ContentDatabase, TimeManager, MarketManager, EconomyManager,
-InventoryManager, RelationshipManager, BridgeManager, DungeonManager,
+InventoryManager, RelationshipManager, BridgeManager, **BoomManager**, DungeonManager,
 StoryEventManager, ShopFurnitureManager, SaveManager, AudioManager, SceneRouter,
 DebugManager, **DevHubManager**, **PadNav**, **MultiplayerState**.
 
@@ -71,6 +71,12 @@ The last three did not exist in the frozen docs:
 - **Controller support** (`PadNav`): D-pad movement, full menu focus navigation,
   right-stick scrolling, trigger zoom.
 - **Live Developer Hub** (`DevHubManager`): F1 development overlay (debug builds).
+- **Shop Booms** (`BoomManager`): announced one-session crowd events with
+  2-4x traffic, fast spawn waves, focused customer/item/world demand, direct
+  requests, disappointed departures, small-item bundle purchases, appeal
+  bonuses, cooldowns, save/load, debug/Dev Hub controls, and automatic
+  world-specific celebrations after gate repair. Fourteen starter definitions
+  use only current categories, tags, archetypes, worlds, and merchandise.
 
 Other work landed since the freeze: per-player **consumable belts** (and every
 offered consumable now has an implemented effect), **autosave every day-portion**

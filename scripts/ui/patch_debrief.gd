@@ -25,7 +25,14 @@ static func _pick_lines(s: Dictionary) -> Array[String]:
 	var perfect := int(s.get("perfect", 0))
 	var walked := int(s.get("left", 0))
 	var out: Array[String] = []
-	if sales == 0:
+	var boom_name := String(s.get("boom_name", ""))
+	if boom_name != "" and sales == 0:
+		out.append("The %s crowd came, saw empty shelves, and left. That was painful." % boom_name)
+		out.append("Next Boom, use the announcement to stock its categories and tags before opening.")
+	elif boom_name != "" and sales >= 8:
+		out.append("%d items sold during %s! THAT is how you ride a Boom!" % [sales, boom_name])
+		out.append("Watch the next announcement. A matching shop style can pull in an even larger crowd.")
+	elif sales == 0:
 		out.append("Not a single sale?! The Bridge isn't going to repair itself, you know...")
 		out.append("Check the day's market report — stock what's selling HIGH and price near market value.")
 	elif perfect >= 2 and perfect * 2 >= sales:
