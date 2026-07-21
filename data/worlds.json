@@ -204,8 +204,7 @@
    ],
    "barriers": {
     "h": [
-     "res://assets/locations/ffdungeon/processed/barrier_fence.png",
-     "res://assets/locations/ffdungeon/processed/barrier_hedge.png"
+     "res://assets/locations/ffdungeon/processed/barrier_fence.png"
     ],
     "v": [
      "res://assets/locations/ffdungeon/processed/barrier_ruinwall.png"
@@ -287,7 +286,12 @@
     "res://assets/locations/zeldadungeon/processed/prop_rocks.png",
     "res://assets/locations/zeldadungeon/processed/prop_haystack.png",
     "res://assets/locations/zeldadungeon/processed/prop_stumps.png"
-   ]
+   ],
+   "barriers": {
+    "h": [
+     "res://assets/locations/zeldadungeon/processed/barrier_hedge.png"
+    ]
+   }
   },
   {
    "id": "naruto",

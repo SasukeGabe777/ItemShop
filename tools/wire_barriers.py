@@ -11,10 +11,21 @@ import json
 WORLDS = "data/worlds.json"
 
 BARRIERS = {
+    # Minish Cap round hedge (BG1 overlay, CONFIRMED blocking in-game by the
+    # capture agent's edge probes). Tiles into rows and 2D-fills bigger rects
+    # like the North Hyrule Field hedge maze. No "v": the hedge fills
+    # vertical runs by 2D tiling.
+    "zelda": {
+        "h": [
+            "res://assets/locations/zeldadungeon/processed/barrier_hedge.png",
+        ],
+    },
     "final_fantasy": {
+        # barrier_hedge.png (Jidoor boxwood) was cut but is NOT wired: its
+        # bright green clashed with FF's yellow fields in probe shots. The
+        # file stays in ffdungeon/processed for future garden-themed rooms.
         "h": [
             "res://assets/locations/ffdungeon/processed/barrier_fence.png",
-            "res://assets/locations/ffdungeon/processed/barrier_hedge.png",
         ],
         "v": [
             "res://assets/locations/ffdungeon/processed/barrier_ruinwall.png",

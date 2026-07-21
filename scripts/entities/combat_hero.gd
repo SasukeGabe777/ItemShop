@@ -184,6 +184,8 @@ func _do_special() -> void:
 	meter_changed.emit(meter)
 	special_cooldown = 0.6
 	attack_lock = 0.3
+	# real special-move frames when the manifest has them (no-op otherwise)
+	visual.play_action("special", facing)
 	var kind := String(sp.get("kind", "burst"))
 	var color := Color(String(hero_def.get("color", "#ffffff")))
 	var dmg_ratio := float(sp.get("dmg", 20)) / 10.0
@@ -236,6 +238,8 @@ func _do_dodge(pressed: bool) -> void:
 		return
 	movement.dash(facing, float(dodge.get("distance", 70)), 0.16)
 	health.grant_iframes(float(dodge.get("iframes", 0.35)))
+	# real roll frames when the manifest has them (play_action no-ops otherwise)
+	visual.play_action("roll", facing)
 	if kind == "vanish":
 		visual.modulate.a = 0.25
 		get_tree().create_timer(0.2).timeout.connect(func() -> void:

@@ -72,7 +72,7 @@ func _ready() -> void:
 		hero.add_child(camera)
 	_build_hud()
 	if hero2 != null and hp_bar != null:
-		hp_bar2 = _hud_bar("hp", Vector2(110, 16), Color("#4a9a55"))
+		hp_bar2 = _hp_display(Vector2(110, 16), Color("#4a9a55"))
 		hp_bar2.max_value = hero2.health.max_hp
 		hp_bar2.value = hero2.health.hp
 		var bar_row := hp_bar.get_parent()
@@ -157,6 +157,46 @@ func _spawn_hero(hero_id: String) -> void:
 		hero.consumables_changed.connect(_on_consumables_changed)
 		_on_hp_changed(hero.health.hp, hero.health.max_hp)
 		_on_consumables_changed(hero.consumables)
+
+
+## Per-world HP display: worlds.json "hud" can theme it to the source game —
+## {"hp_style": "hearts", "heart_full/half/empty": paths} draws a HeartBar
+## (Minish Cap hearts in Hyrule); {"hp_style": "bar", "bar_fill/under": paths}
+## uses that game's bar art (CoM battle bar in Traverse Town). Anything else
+## falls back to the shared ornate bar.
+func _hp_display(min_size: Vector2, fallback_tint: Color) -> Range:
+	var hud_cfg: Dictionary = ContentDatabase.get_world(world_id).get("hud", {})
+	var style := String(hud_cfg.get("hp_style", ""))
+	if style == "hearts":
+		var full := _tex_if_exists(String(hud_cfg.get("heart_full", "")))
+		if full != null:
+			var hb := HeartBar.new()
+			hb.setup(full,
+				_tex_if_exists(String(hud_cfg.get("heart_half", ""))),
+				_tex_if_exists(String(hud_cfg.get("heart_empty", ""))))
+			hb.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+			return hb
+	elif style == "bar":
+		var fill := _tex_if_exists(String(hud_cfg.get("bar_fill", "")))
+		var under := _tex_if_exists(String(hud_cfg.get("bar_under", "")))
+		if fill != null and under != null:
+			var tb := TextureProgressBar.new()
+			tb.texture_under = under
+			tb.texture_progress = fill
+			tb.nine_patch_stretch = true
+			var m: Array = hud_cfg.get("bar_margins", [4, 3, 4, 3])
+			tb.stretch_margin_left = int(m[0])
+			tb.stretch_margin_top = int(m[1])
+			tb.stretch_margin_right = int(m[2])
+			tb.stretch_margin_bottom = int(m[3])
+			tb.custom_minimum_size = min_size
+			tb.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+			return tb
+	return _hud_bar("hp", min_size, fallback_tint)
+
+
+static func _tex_if_exists(path: String) -> Texture2D:
+	return load(path) if path != "" and ResourceLoader.exists(path) else null
 
 
 ## Chain-of-Memories labeled HP bar (green fill / red boss over the dark
@@ -254,7 +294,7 @@ func _build_hud() -> void:
 	vb.add_child(row)
 	var hero_def := ContentDatabase.get_hero(String(DungeonManager.pending.get("hero_id", "")))
 	row.add_child(UIKit.label("%s @ %s" % [String(hero_def.get("name", "?")), String(ContentDatabase.get_world(world_id).get("location", world_id))], 9, UIKit.COL_ACCENT))
-	hp_bar = _hud_bar("hp", Vector2(130, 16), Color(0.9, 0.4, 0.4))
+	hp_bar = _hp_display(Vector2(130, 16), Color(0.9, 0.4, 0.4))
 	row.add_child(hp_bar)
 	_build_meter_cards(row)
 	loot_label = UIKit.label("", 8, UIKit.COL_DIM)
@@ -525,12 +565,14 @@ func _stamp_props(parent: Node2D, size: Vector2, w: Dictionary, hash_seed: Vecto
 			spr.texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
 			spr.region_enabled = true
 			if vertical:
-				var draw_w := minf(tex.get_width(), size.x + 16.0)
+				var draw_w := maxf(size.x, minf(tex.get_width(), size.x + 16.0))
 				spr.region_rect = Rect2(0, 0, draw_w, size.y)
 				spr.position = Vector2(0, 0)
 			else:
-				# keep the texture's top edge (wall crown); clip the excess
-				var draw_h := minf(tex.get_height(), size.y + 16.0)
+				# cover the whole rect: shorter textures 2D-tile (hedge/fence
+				# blocks); taller ones keep their crown and overhang above the
+				# rect by up to 32px, bottom-aligned, like real wall art
+				var draw_h := maxf(size.y, minf(tex.get_height(), size.y + 32.0))
 				spr.region_rect = Rect2(0, 0, size.x, draw_h)
 				spr.position = Vector2(0, size.y / 2.0 - draw_h / 2.0)
 			parent.add_child(spr)
