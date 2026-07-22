@@ -448,18 +448,18 @@
     "bar_under": "res://assets/locations/dbzdungeon/processed/hud/bar_under.png",
     "bar_fill": "res://assets/locations/dbzdungeon/processed/hud/bar_fill.png",
     "bar_margins": [
-     10,
-     3,
-     12,
-     3
+     6,
+     5,
+     6,
+     5
     ],
     "boss_under": "res://assets/locations/dbzdungeon/processed/hud/boss_under.png",
     "boss_fill": "res://assets/locations/dbzdungeon/processed/hud/boss_fill.png",
     "boss_margins": [
      6,
-     2,
+     3,
      6,
-     2
+     3
     ]
    }
   },

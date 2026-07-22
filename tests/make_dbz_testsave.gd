@@ -29,14 +29,18 @@ func _ready() -> void:
 	# plenty for hire fees + the 400,000g gate repair at the end of the loop
 	EconomyManager.gold = 500000
 
-	# stock the shop: senzu beans to carry into the expedition, plus DBZ goods
+	# stock the shop with the current DBZ roster: plushie merch + consumables
+	# + equipment (all with real sprites) so the new items can be play-tested
 	InventoryManager.add_item("senzu_bean", 10)
-	for g in ["capsule", "scouter", "turtle_gi", "dragon_radar", "power_pole",
-			"saiyan_armor", "dragon_ball", "nimbus_token"]:
+	for g in ["goku_plushie", "vegeta_plushie", "piccolo_plushie", "cell_plushie",
+			"krillin_plushie", "king_kami_sculpture", "goku_favorite", "capsule",
+			"scouter", "turtle_gi", "saiyan_armor", "dragon_ball", "energy_crystal",
+			"dragon_ball_set"]:
 		InventoryManager.add_item(g, 3)
 	# put a few on the shop floor so the first sale needs no setup
 	var i := 0
-	for g in ["senzu_bean", "capsule", "scouter", "turtle_gi", "dragon_radar", "power_pole"]:
+	for g in ["goku_plushie", "vegeta_plushie", "cell_plushie", "senzu_bean",
+			"king_kami_sculpture", "goku_favorite"]:
 		InventoryManager.place_display(i, g)
 		i += 1
 

@@ -71,11 +71,19 @@ func _damage_line(l: float) -> void:
 		var enemy := node as Node2D
 		if enemy == null or not is_instance_valid(enemy) or enemy in _hit:
 			continue
-		var rel := enemy.global_position - global_position
+		# the beam fires from the caster's chest; enemy.global_position is their
+		# FEET, so aim at the body center (feet - hit_radius) and widen the
+		# perpendicular tolerance by the body half-height, or tall/short enemies
+		# standing right in the beam get skipped
+		var hr: float = float(enemy.get("hit_radius")) if enemy.get("hit_radius") != null else 12.0
+		var rel := (enemy.global_position - Vector2(0.0, hr)) - global_position
 		var along := rel.dot(dir)
 		if along < 0.0 or along > l:
 			continue
-		if absf(rel.cross(dir)) <= half_width + 8.0:
+		# generous vertical band: the beam leaves the chest but enemies stand on
+		# the ground at varying heights, so add a fixed slack (~the chest offset)
+		# on top of the body half-height, or short enemies slip under the beam
+		if absf(rel.cross(dir)) <= half_width + hr + 24.0:
 			_hit.append(enemy)
 			if enemy.has_method("take_packet"):
 				enemy.take_packet(packet, global_position)

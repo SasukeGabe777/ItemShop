@@ -598,13 +598,14 @@ func _stamp_props(parent: Node2D, size: Vector2, w: Dictionary, hash_seed: Vecto
 			spr.texture = tex
 			spr.texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
 			spr.region_enabled = true
-			# snap the tiled length to a WHOLE number of tiles so a run never
-			# ends on a spliced/partial tile (round -> nearest, min 1)
+			# tile a WHOLE number of tiles, then scale that strip to fit the rect
+			# exactly — no spliced partial at the ends, and no dead gap either
 			if vertical:
 				var th := float(tex.get_height())
 				var draw_w := maxf(size.x, minf(tex.get_width(), size.x + 16.0))
-				var vh := maxf(th, roundf(size.y / th) * th)
-				spr.region_rect = Rect2(0, 0, draw_w, vh)
+				var n := maxi(1, int(roundf(size.y / th)))
+				spr.region_rect = Rect2(0, 0, draw_w, n * th)
+				spr.scale = Vector2(1.0, size.y / (n * th))
 				spr.position = Vector2(0, 0)
 			else:
 				# cover the whole rect: shorter textures 2D-tile (hedge/fence
@@ -612,8 +613,9 @@ func _stamp_props(parent: Node2D, size: Vector2, w: Dictionary, hash_seed: Vecto
 				# rect by up to 32px, bottom-aligned, like real wall art
 				var tw := float(tex.get_width())
 				var draw_h := maxf(size.y, minf(tex.get_height(), size.y + 32.0))
-				var hw := maxf(tw, roundf(size.x / tw) * tw)
-				spr.region_rect = Rect2(0, 0, hw, draw_h)
+				var n := maxi(1, int(roundf(size.x / tw)))
+				spr.region_rect = Rect2(0, 0, n * tw, draw_h)
+				spr.scale = Vector2(size.x / (n * tw), 1.0)
 				spr.position = Vector2(0, size.y / 2.0 - draw_h / 2.0)
 			parent.add_child(spr)
 			return true
