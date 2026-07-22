@@ -5,3 +5,9 @@ etc.): **read `docs/AGENT_GUIDE.md` before making any change**, and see
 `CLAUDE.md` for the short list of non-negotiables (export/import loop,
 windowed screenshot probes, scripted asset extraction, JSON indent rules).
 Both files apply to you regardless of which agent harness loaded this file.
+
+## Work ownership
+
+- Claude owns all dungeon-related implementation, assets, data, and probes.
+- Codex works only on non-dungeon features unless the user explicitly changes
+  this division of responsibility.

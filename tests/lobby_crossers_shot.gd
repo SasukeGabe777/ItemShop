@@ -17,11 +17,13 @@ class Probe:
 		StoryEventManager.reset()
 		ShopFurnitureManager.reset()
 		DayBriefing.last_shown_day = TimeManager.day
+		ZoomCamera.preferred_zoom = 0.9
 		SceneRouter.go("town")
 		await get_tree().create_timer(1.5).timeout
 		DirAccess.make_dir_recursive_absolute("user://screenshots/")
 		var town: Node = get_tree().current_scene
-		town.player.position = Vector2(360, 350)
+		# Center the camera on the full 10x10-tile traveller area.
+		town.player.position = Vector2(320, 250)
 
 		var lc: LobbyCrossers = null
 		for ch in town.get_children():
@@ -33,13 +35,14 @@ class Probe:
 			get_tree().quit()
 			return
 
-		# force three travellers, place them in frame, then freeze the manager
-		# so nothing else spawns/moves and the shot stays readable
-		while lc._crossers.size() < 3:
+		# Force four travellers into each arm of the safe cross-shaped plaza
+		# region, then freeze the manager so the shot stays readable.
+		while lc._crossers.size() < 4:
 			lc._spawn()
-		var xs := [200, 320, 440]
-		for i in range(3):
-			(lc._crossers[i]["node"] as Node2D).position = Vector2(xs[i], 350)
+		var positions := [Vector2(320, 170), Vector2(172, 242),
+			Vector2(468, 242), Vector2(320, 330)]
+		for i in range(4):
+			(lc._crossers[i]["node"] as Node2D).position = positions[i]
 		lc._say(lc._crossers[1]["node"], lc._crossers[1]["visual"], "So this is the Crossroads...")
 		lc.set_process(false)
 		for c in lc._crossers:

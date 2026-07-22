@@ -14,8 +14,27 @@ const FADE := 0.55
 const TTL_MIN := 2.5
 const TTL_MAX := 4.5
 const LINE_CHANCE := 0.4
-# open lower plaza, clear of the building fronts (y 150/360) and the gates (y ~90)
-const AREA := Rect2(60, 300, 500, 130)
+const MAX_ROUTE_ATTEMPTS := 64
+# Ten 32px tiles around the rug at the plaza's center. The landmark footprints
+# include their art/nameplates (not just their smaller physics rectangles), so
+# travellers never fade in on top of one or walk through it during their visit.
+const AREA := Rect2(160, 90, 320, 320)
+const LANDMARK_FOOTPRINTS := [
+	Rect2(122, 36, 156, 174),  # Item Shop
+	Rect2(380, 54, 120, 156), # Market
+	Rect2(148, 270, 104, 140), # Workshop
+	Rect2(379, 274, 122, 136), # Adventurers' Guild
+]
+const ROUTE_DIRECTIONS := [
+	Vector2.RIGHT,
+	Vector2.LEFT,
+	Vector2.UP,
+	Vector2.DOWN,
+	Vector2(0.70710678, 0.70710678),
+	Vector2(-0.70710678, 0.70710678),
+	Vector2(0.70710678, -0.70710678),
+	Vector2(-0.70710678, -0.70710678),
+]
 
 const LINES := [
 	"So this is the Crossroads...",
@@ -67,12 +86,12 @@ func _spawn() -> void:
 	if pool.is_empty():
 		return
 	var entry: Dictionary = pool[_rng.randi() % pool.size()]
+	var ttl := _rng.randf_range(TTL_MIN, TTL_MAX)
+	var route := _pick_route(ttl)
 	var node := Node2D.new()
 	node.modulate.a = 0.0
-	node.position = Vector2(
-		_rng.randf_range(AREA.position.x, AREA.end.x),
-		_rng.randf_range(AREA.position.y, AREA.end.y))
-	var dir := Vector2.RIGHT if _rng.randf() < 0.5 else Vector2.LEFT
+	node.position = route["position"]
+	var dir: Vector2 = route["dir"]
 	var vis := CharacterVisual.new()
 	var manifest := String(entry.get("manifest", ""))
 	var static_path := String(entry.get("static", ""))
@@ -96,8 +115,43 @@ func _spawn() -> void:
 		_say(node, vis, LINES[_rng.randi() % LINES.size()])
 	_crossers.append({
 		"node": node, "visual": vis, "dir": dir,
-		"life": 0.0, "ttl": _rng.randf_range(TTL_MIN, TTL_MAX), "fading": false,
+		"life": 0.0, "ttl": ttl, "fading": false,
 	})
+
+
+## Pick both a spawn and a short route. Testing the complete segment keeps a
+## valid spawn from immediately drifting through a landmark or out of the plaza.
+func _pick_route(ttl: float) -> Dictionary:
+	for _attempt in range(MAX_ROUTE_ATTEMPTS):
+		var position := Vector2(
+			_rng.randf_range(AREA.position.x, AREA.end.x),
+			_rng.randf_range(AREA.position.y, AREA.end.y))
+		var dir: Vector2 = ROUTE_DIRECTIONS[_rng.randi() % ROUTE_DIRECTIONS.size()]
+		var destination := position + dir * SPEED * ttl
+		if _route_is_clear(position, destination):
+			return {"position": position, "dir": dir}
+	# The center horizontal lane is always open, even if a pathological random
+	# sequence misses every valid route during the bounded attempts above.
+	return {"position": Vector2(320, 250), "dir": Vector2.RIGHT}
+
+
+func _route_is_clear(from: Vector2, to: Vector2) -> bool:
+	var distance := from.distance_to(to)
+	var checks := maxi(1, int(ceil(distance / 8.0)))
+	for i in range(checks + 1):
+		var point := from.lerp(to, float(i) / checks)
+		if not _position_is_clear(point):
+			return false
+	return true
+
+
+func _position_is_clear(position: Vector2) -> bool:
+	if not AREA.has_point(position):
+		return false
+	for footprint: Rect2 in LANDMARK_FOOTPRINTS:
+		if footprint.has_point(position):
+			return false
+	return true
 
 
 ## A brief speech bubble above the crosser's head, fading itself out well
