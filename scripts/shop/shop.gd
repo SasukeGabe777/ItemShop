@@ -1358,6 +1358,7 @@ func _open_next_order_dialog() -> void:
 			_order_dialog_cancelled(entry)
 			return
 		entry["offer"] = offer
+		InventoryManager.mark_order_requested()
 		dialog.show_request(parent, cust, offer, node.portrait_texture())
 
 

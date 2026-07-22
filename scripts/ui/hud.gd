@@ -190,8 +190,9 @@ func refresh() -> void:
 			TimeManager.chapter_deadline_day(), BridgeManager.repair_cost(wid), shard]
 		deadline_label.add_theme_color_override("font_color",
 			UIKit.COL_GOOD if BridgeManager.has_shard(wid) and EconomyManager.gold >= BridgeManager.repair_cost(wid) else UIKit.COL_INK)
-	orders_label.text = "Orders: %d  |  Returning: %d" % [
-		InventoryManager.orders.size(), InventoryManager.due_orders().size()]
+	orders_label.text = "Orders: %d/%d  |  Returning: %d" % [
+		InventoryManager.orders.size(), InventoryManager.order_capacity(),
+		InventoryManager.due_orders().size()]
 	var events := MarketManager.active_event_names()
 	var market_text := "Market: " + (", ".join(events) if not events.is_empty() else "calm")
 	market_label.text = ("BOOM: %s (%d session%s)  |  " % [BoomManager.display_name(), BoomManager.sessions_left,

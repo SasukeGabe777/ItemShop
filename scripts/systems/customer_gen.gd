@@ -37,14 +37,12 @@ static func generate_session_customers() -> Array[Dictionary]:
 	# Decide up front who came specifically to commission the shop. Those
 	# customers ask even when the displays are full, making orders a visible
 	# part of a selling session instead of a hidden fallback for empty shelves.
-	var order_cfg: Dictionary = ContentDatabase.bal("orders", {})
-	var order_slots := maxi(0, int(order_cfg.get("max_active", 4)) - InventoryManager.orders.size())
-	for cust: Dictionary in out:
-		if order_slots <= 0:
-			break
-		if rng.randf() < float(order_cfg.get("chance_per_customer", 0.22)):
-			cust["order_intent"] = true
-			order_slots -= 1
+	if InventoryManager.can_request_order():
+		var order_cfg: Dictionary = ContentDatabase.bal("orders", {})
+		for cust: Dictionary in out:
+			if rng.randf() < float(order_cfg.get("chance_per_customer", 0.12)):
+				cust["order_intent"] = true
+				break
 	# Accepted orders produce real return visits on (or after) the promised day.
 	# The saved customer snapshot guarantees it is the same visible character.
 	var returning: Array[Dictionary] = []
@@ -375,8 +373,10 @@ static func pick_interest(cust: Dictionary) -> String:
 ## item before the player accepts, so every request is unambiguous.
 static func make_order_offer(cust: Dictionary, direct_boom_request: bool = false,
 		force: bool = false) -> Dictionary:
+	if not InventoryManager.can_request_order():
+		return {}
 	var cfg: Dictionary = ContentDatabase.bal("orders", {})
-	var chance := float(cfg.get("chance_per_customer", 0.22))
+	var chance := float(cfg.get("chance_per_customer", 0.12))
 	if BoomManager.is_active():
 		chance = maxf(chance, BoomManager.request_frequency() * 0.35)
 	if not force and not direct_boom_request and rng.randf() > chance:
@@ -443,6 +443,7 @@ static func maybe_make_order(cust: Dictionary, direct_boom_request: bool = false
 	var offer := make_order_offer(cust, direct_boom_request)
 	if offer.is_empty():
 		return {}
+	InventoryManager.mark_order_requested()
 	return InventoryManager.add_order(String(cust.get("id", "")), String(offer["kind"]),
 		String(offer["target"]), int(offer["qty"]), int(offer["reward_each"]),
 		int(offer["return_in_days"]), cust)

@@ -58,11 +58,12 @@ func _decide() -> void:
 	if interest != "":
 		state = State.NEGOTIATING
 		wants_to_negotiate.emit(customer, interest)
-	elif BoomManager.is_active() and String(customer.get("boom_id", "")) == BoomManager.active_boom_id \
+	elif InventoryManager.can_request_order() and BoomManager.is_active() \
+			and String(customer.get("boom_id", "")) == BoomManager.active_boom_id \
 			and randf() < BoomManager.request_frequency():
 		state = State.NEGOTIATING
 		wants_to_order.emit(customer, true)
-	elif randf() < 0.5:
+	elif InventoryManager.can_request_order() and randf() < 0.5:
 		wants_to_order.emit(customer, false)
 		state = State.LEAVING
 		leaving.emit()

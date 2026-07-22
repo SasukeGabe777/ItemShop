@@ -70,6 +70,14 @@ func _ready() -> void:
 	handbook.open_category("Enemies")
 	await get_tree().create_timer(0.25).timeout
 	_snap("07_enemy_sprite_browser_and_entry.png")
+	var customer_entries: Array[Dictionary] = handbook._entries("Customers")
+	if not customer_entries.is_empty():
+		var customer_id := handbook._customer_relationship_id(customer_entries[0]["data"])
+		GameState.know_customer(customer_id)
+		RelationshipManager.change_relationship(customer_id, 13)
+	handbook.open_category("Customers")
+	await get_tree().create_timer(0.25).timeout
+	_snap("08_customer_sprite_browser_and_bond_entry.png")
 	print("HELP_ORDERS_SHOT_DONE folder=", ProjectSettings.globalize_path(SHOT_DIR))
 	get_tree().quit()
 

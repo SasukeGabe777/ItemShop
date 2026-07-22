@@ -12,7 +12,7 @@ const HELP_TOPICS := {
 	"Bond": "Bond is your long-term relationship with a customer. Fair sales and completed orders raise it; broken promises and insulting deals lower it. Every 10 points raises Bond by one level, up to level 5. A completed order is worth a major +8 points; failing one costs 6 points.",
 	"Customer mood": "The icon above a customer shows today's mood. A heart means good mood, the pale face is neutral, and the angry cloud means bad mood. Mood changes how generous and patient they are during a deal.",
 	"Purse": "Purse is a hint, not an exact wallet total. It compares the customer's spending power with the item being negotiated. A light purse means they may genuinely be unable to reach market price.",
-	"Orders": "Some customers visit specifically to commission one rare item or a plentiful batch. Accept the request, note their return day, and keep the full amount in storage. They return in person: deliver everything for a large bond gain, or admit it is missing for a large loss.",
+	"Orders": "At most one customer can request an order each day. Your order capacity grows with shop level: 4, 6, 8, 10, then 12 orders. When the ledger is full, no new requests appear. Accept a rare item or plentiful batch request, note the return day, and keep the full amount in storage. Deliver it when that customer returns for a large bond gain; admitting it is missing causes a large loss.",
 	"Haggling": "Market value is your anchor. A perfect first offer earns the best relationship reward and merchant experience. Push too far and a customer may leave immediately; different customers tolerate one, two, or three rejected offers.",
 	"Displays & appeal": "Customers browse items placed on display furniture. Matching a customer's interests makes a sale more likely. Better stands add attraction, and the shop's cozy, intense, retro, or modern appeal changes who visits.",
 	"Time & saving": "Opening the shop, traveling, resting, and story activities spend periods. Four periods make a day. The game autosaves as time advances; the Menu also provides three manual save slots.",
@@ -57,7 +57,8 @@ func show_home() -> void:
 	left.add_child(UIKit.header("Contents"))
 	left.add_child(UIKit.button("How to play", show_help))
 	var due := InventoryManager.due_orders().size()
-	left.add_child(UIKit.button("Order ledger (%d active, %d due)" % [InventoryManager.orders.size(), due], show_orders))
+	left.add_child(UIKit.button("Order ledger (%d/%d active, %d due)" % [InventoryManager.orders.size(),
+		InventoryManager.order_capacity(), due], show_orders))
 	left.add_child(UIKit.button("Encyclopedia", show_encyclopedia))
 	right.add_child(UIKit.header("The Shopkeeper's Handbook"))
 	var intro := UIKit.label("Use the left page to review game systems, check accepted commissions, or browse everything recorded in your encyclopedia.", 10)
@@ -151,7 +152,7 @@ func show_encyclopedia() -> void:
 	_clear(right)
 	left.add_child(UIKit.button("‹ Contents", show_home))
 	left.add_child(UIKit.header("Encyclopedia"))
-	for category in ["Items", "Enemies", "Bosses", "Heroes"]:
+	for category in ["Items", "Enemies", "Bosses", "Heroes", "Customers"]:
 		var entries := _entries(category)
 		left.add_child(UIKit.button("%s  (%d)" % [category, entries.size()],
 			func() -> void: open_category(category)))
@@ -160,7 +161,7 @@ func show_encyclopedia() -> void:
 	body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	body.custom_minimum_size.x = 205
 	right.add_child(body)
-	var note := UIKit.label("Items are recorded when handled. Creatures and heroes are catalogued from worlds you can currently reach.", 9, UIKit.COL_DIM)
+	var note := UIKit.label("Items are recorded when handled. Creatures, heroes, and customers are catalogued from worlds you can currently reach.", 9, UIKit.COL_DIM)
 	note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	note.custom_minimum_size.x = 205
 	right.add_child(note)
@@ -237,6 +238,16 @@ func show_entry(category: String, entry: Dictionary) -> void:
 			lines.append("Weapon: %s" % String(data.get("weapon_type", "unknown")).replace("_", " ").capitalize())
 			lines.append("Bond Lv.%d" % RelationshipManager.friendship_level(String(entry["id"])))
 			lines.append(String(data.get("bio", "No biography recorded.")))
+		"Customers":
+			var customer_id := _customer_relationship_id(data)
+			var archetype_id := CustomerGen._identity_archetype(data)
+			var archetype := ContentDatabase.get_archetype(archetype_id)
+			var known := customer_id in GameState.known_customers
+			lines.append("Status: %s" % ("Met" if known else "Not met yet"))
+			lines.append("Customer type: %s" % String(archetype.get("name", archetype_id.capitalize())))
+			lines.append("Bond Lv.%d  (%d points)" % [RelationshipManager.level(customer_id),
+				RelationshipManager.points(customer_id)])
+			lines.append("Bond records fair deals, completed orders, and broken promises with this customer.")
 	var details := UIKit.label("\n".join(lines), 9)
 	details.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	details.custom_minimum_size.x = 205
@@ -268,6 +279,15 @@ func _entries(category: String) -> Array[Dictionary]:
 				var data: Dictionary = ContentDatabase.heroes[id]
 				if String(data.get("world", "")) in accessible:
 					out.append({"id": id, "name": String(data.get("name", id)), "data": data})
+		"Customers":
+			var seen: Dictionary = {}
+			for raw: Variant in ContentDatabase.customer_visual_pool:
+				var data: Dictionary = raw
+				var identity := CustomerGen._entry_identity(data)
+				if String(data.get("world", "")) in accessible and not seen.has(identity):
+					seen[identity] = true
+					out.append({"id": String(data.get("slug", identity)),
+						"name": String(data.get("name", data.get("slug", "Customer"))), "data": data})
 	out.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
 		return String(a["name"]) < String(b["name"]))
 	return out
@@ -278,6 +298,18 @@ func _entry_texture(category: String, entry: Dictionary) -> Texture2D:
 	var data: Dictionary = entry["data"]
 	if category == "Items":
 		return ContentDatabase.item_texture(id)
+	if category == "Customers":
+		var manifest := String(data.get("manifest", ""))
+		if manifest != "" and ResourceLoader.exists(manifest):
+			var customer_frames := SpriteFramesBuilder.from_manifest_path(manifest)
+			if customer_frames != null:
+				var customer_animation := StringName("idle_down")
+				if not customer_frames.has_animation(customer_animation):
+					customer_animation = customer_frames.get_animation_names()[0]
+				return customer_frames.get_frame_texture(customer_animation, 0)
+		var static_path := String(data.get("static", ""))
+		if static_path != "" and ResourceLoader.exists(static_path):
+			return load(static_path)
 	var world := String(data.get("world", "crossroads"))
 	var frames := SpriteFramesBuilder.from_manifest_path(
 		"res://assets/franchises/%s/manifests/%s.json" % [world, id])
@@ -293,6 +325,16 @@ func _entry_texture(category: String, entry: Dictionary) -> Texture2D:
 	]:
 		if ResourceLoader.exists(path): return load(path)
 	return ContentDatabase.entity_texture(id, world, String(data.get("color", "#c0c0c0")), 24)
+
+
+func _customer_relationship_id(entry: Dictionary) -> String:
+	var identity := CustomerGen._entry_identity(entry)
+	for named_id: String in ContentDatabase.named_customers:
+		var named: Dictionary = ContentDatabase.named_customers[named_id]
+		var visual := ContentDatabase.customer_pool_entry_by_name(String(named.get("name", "")))
+		if not visual.is_empty() and CustomerGen._entry_identity(visual) == identity:
+			return named_id
+	return "walkin_%s" % String(entry.get("slug", "customer"))
 
 
 func _add_preview(page: VBoxContainer, texture: Texture2D, caption: String) -> void:

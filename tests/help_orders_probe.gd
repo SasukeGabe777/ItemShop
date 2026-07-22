@@ -15,11 +15,54 @@ func _ready() -> void:
 	RelationshipManager.reset()
 	TimeManager.reset(2)
 	CustomerGen.rng.seed = 73021
+	_check_order_limits()
+	GameState.reset_campaign()
+	InventoryManager.reset()
+	EconomyManager.reset()
+	RelationshipManager.reset()
+	TimeManager.reset(2)
 	await _check_order_lifecycle()
 	await _check_help_and_encyclopedia()
 	if failures.is_empty():
 		print("HELP_ORDERS_PROBE_PASS")
 	get_tree().quit(0 if failures.is_empty() else 1)
+
+
+func _check_order_limits() -> void:
+	var expected := [4, 6, 8, 10, 12]
+	for shop_level in range(1, 6):
+		GameState.shop_level = shop_level
+		check(InventoryManager.order_capacity() == expected[shop_level - 1],
+			"shop level %d order capacity is not %d" % [shop_level, expected[shop_level - 1]])
+	GameState.shop_level = 1
+	var customer := CustomerGen.runtime_named(ContentDatabase.get_named_customer("moogle_c"))
+	for i in range(4):
+		var added := InventoryManager.add_order("capacity_%d" % i, "item", "kh_potion", 1, 50, 2, customer)
+		check(not added.is_empty(), "level 1 rejected order %d before reaching capacity" % (i + 1))
+	check(InventoryManager.add_order("capacity_overflow", "item", "kh_potion", 1, 50, 2,
+		customer).is_empty(), "level 1 accepted more than four orders")
+	check(not InventoryManager.can_request_order(), "full order ledger still permits requests")
+	var full_session := CustomerGen.generate_session_customers()
+	check(full_session.filter(func(c: Dictionary) -> bool: return bool(c.get("order_intent", false))).is_empty(),
+		"full order ledger generated a commission customer")
+	InventoryManager.orders.clear()
+	InventoryManager.last_order_request_day = -1
+	var available_session := CustomerGen.generate_session_customers()
+	check(available_session.filter(func(c: Dictionary) -> bool: return bool(c.get("order_intent", false))).size() <= 1,
+		"more than one commission customer was planned for one day")
+	check(InventoryManager.can_request_order(), "fresh day does not permit an order request")
+	InventoryManager.mark_order_requested()
+	check(not InventoryManager.can_request_order(), "a second order request is allowed on the same day")
+	check(CustomerGen.make_order_offer(customer, false, true).is_empty(),
+		"forced offer bypassed the one-request-per-day gate")
+	var saved_inventory := InventoryManager.to_save()
+	InventoryManager.reset()
+	InventoryManager.from_save(saved_inventory)
+	check(not InventoryManager.can_request_order(), "daily request limit was lost after saving and loading")
+	TimeManager.day += 1
+	check(InventoryManager.can_request_order(), "order requests did not reopen on the next day")
+	check(not CustomerGen.make_order_offer(customer, false, true).is_empty(),
+		"next-day order request could not generate an offer")
 
 
 func _check_order_lifecycle() -> void:
@@ -112,7 +155,7 @@ func _check_help_and_encyclopedia() -> void:
 	panel.show_encyclopedia()
 	await get_tree().process_frame
 	var category_text := _all_text(panel)
-	for category in ["Items", "Enemies", "Bosses", "Heroes"]:
+	for category in ["Items", "Enemies", "Bosses", "Heroes", "Customers"]:
 		check(category in category_text, "encyclopedia category is missing: %s" % category)
 	panel.open_category("Items")
 	await get_tree().process_frame
@@ -123,6 +166,21 @@ func _check_help_and_encyclopedia() -> void:
 		panel.show_entry("Items", entries[0])
 		await get_tree().process_frame
 		check("Market value" in _all_text(panel), "item detail page lacks encyclopedia data")
+	panel.open_category("Customers")
+	await get_tree().process_frame
+	var customer_entries: Array[Dictionary] = panel._entries("Customers")
+	check(not customer_entries.is_empty(), "customer encyclopedia has no accessible entries")
+	if not customer_entries.is_empty():
+		var customer_entry := customer_entries[0]
+		var customer_id := panel._customer_relationship_id(customer_entry["data"])
+		GameState.know_customer(customer_id)
+		RelationshipManager.change_relationship(customer_id, 13)
+		panel.show_entry("Customers", customer_entry)
+		await get_tree().process_frame
+		var customer_text := _all_text(panel)
+		check("Customer type" in customer_text and "Bond Lv." in customer_text,
+			"customer detail page lacks type or bond data")
+		check("Status: Met" in customer_text, "customer detail page does not show known status")
 	panel.queue_free()
 	await get_tree().process_frame
 

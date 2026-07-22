@@ -13,6 +13,7 @@ var collection: Array = []            # item ids in Hero's personal collection
 var orders: Array = []                # accepted requests; customers return on return_day
 var hero_equipment: Dictionary = {}   # hero_id -> {weapon, armor, accessory, charm}
 var _order_seq: int = 0
+var last_order_request_day: int = -1
 
 
 func reset() -> void:
@@ -21,6 +22,7 @@ func reset() -> void:
 	orders.clear()
 	hero_equipment.clear()
 	_order_seq = 0
+	last_order_request_day = -1
 	var start: Dictionary = ContentDatabase.bal("starting_inventory", {})
 	for id: String in start:
 		var live_id := ContentDatabase.live_substitute(id)
@@ -191,10 +193,26 @@ func dominant_appeal() -> String:
 
 # ---------------- Orders ----------------
 
+func order_capacity() -> int:
+	var cfg: Dictionary = ContentDatabase.bal("orders", {})
+	var capacities: Array = cfg.get("capacity_by_shop_level", [4, 6, 8, 10, 12])
+	if capacities.is_empty():
+		return int(cfg.get("max_active", 12))
+	var index := clampi(GameState.shop_level - 1, 0, capacities.size() - 1)
+	return mini(int(capacities[index]), int(cfg.get("max_active", 12)))
+
+
+func can_request_order() -> bool:
+	return orders.size() < order_capacity() and last_order_request_day != TimeManager.day
+
+
+func mark_order_requested() -> void:
+	last_order_request_day = TimeManager.day
+
 func add_order(customer_id: String, kind: String, target: String, qty: int, reward_each: int,
 		return_in_days: int = -1, customer: Dictionary = {}) -> Dictionary:
 	var cfg: Dictionary = ContentDatabase.bal("orders", {})
-	if orders.size() >= int(cfg.get("max_active", 4)):
+	if orders.size() >= order_capacity():
 		return {}
 	var dl: Array = cfg.get("return_days", cfg.get("deadline_days", [1, 3]))
 	var days := return_in_days
@@ -375,7 +393,9 @@ func hero_stats(hero_id: String) -> Dictionary:
 
 
 func to_save() -> Dictionary:
-	return {"storage": storage, "display": display, "collection": collection, "orders": orders, "hero_equipment": hero_equipment, "order_seq": _order_seq}
+	return {"storage": storage, "display": display, "collection": collection,
+		"orders": orders, "hero_equipment": hero_equipment, "order_seq": _order_seq,
+		"last_order_request_day": last_order_request_day}
 
 
 func from_save(d: Dictionary) -> void:
@@ -392,6 +412,7 @@ func from_save(d: Dictionary) -> void:
 			o["customer"] = {}
 	hero_equipment = d.get("hero_equipment", {})
 	_order_seq = int(d.get("order_seq", 0))
+	last_order_request_day = int(d.get("last_order_request_day", -1))
 	_resize_display()
 	inventory_changed.emit()
 	display_changed.emit()

@@ -123,12 +123,19 @@
  "orders": {
   "bond_gain_complete": 8,
   "bond_loss_failed": -6,
-  "chance_per_customer": 0.22,
+  "chance_per_customer": 0.12,
   "deadline_days": [
    1,
    3
   ],
-  "max_active": 4,
+  "max_active": 12,
+  "capacity_by_shop_level": [
+   4,
+   6,
+   8,
+   10,
+   12
+  ],
   "bulk_quantity": [
    4,
    9
