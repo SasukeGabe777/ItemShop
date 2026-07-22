@@ -2,10 +2,563 @@
   "schema": "crossroads.customer_visuals.v2",
   "pool": [
     {
+      "slug": "jus_allen",
+      "name": "Allen Walker",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_allen.png",
+      "manifest": ""
+    },
+    {
+      "slug": "jus_bobobo",
+      "name": "Bobobo",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_bobobo.png",
+      "manifest": ""
+    },
+    {
+      "slug": "jus_byakuya",
+      "name": "Byakuya",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_byakuya.png",
+      "manifest": ""
+    },
+    {
+      "slug": "jus_chopper",
+      "name": "Chopper",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_chopper.png",
+      "manifest": ""
+    },
+    {
+      "slug": "jus_diobrando",
+      "name": "Dio Brando",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_diobrando.png",
+      "manifest": ""
+    },
+    {
+      "slug": "jus_donpatch",
+      "name": "Don Patch",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_donpatch.png",
+      "manifest": ""
+    },
+    {
+      "slug": "jus_eve",
+      "name": "Eve",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_eve.png",
+      "manifest": ""
+    },
+    {
+      "slug": "jus_frieza",
+      "name": "Frieza",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_frieza.png",
+      "manifest": ""
+    },
+    {
+      "slug": "jus_giornogiovanna",
+      "name": "Giorno",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_giornogiovanna.png",
+      "manifest": ""
+    },
+    {
+      "slug": "jus_gon",
+      "name": "Gon",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_gon.png",
+      "manifest": ""
+    },
+    {
+      "slug": "jus_gotenks",
+      "name": "Gotenks",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_gotenks.png",
+      "manifest": ""
+    },
+    {
+      "slug": "jus_hiei",
+      "name": "Hiei",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_hiei.png",
+      "manifest": ""
+    },
+    {
+      "slug": "jus_ichigo",
+      "name": "Ichigo",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_ichigo.png",
+      "manifest": ""
+    },
+    {
+      "slug": "jus_jonathanjoestar",
+      "name": "Jonathan Joestar",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_jonathanjoestar.png",
+      "manifest": ""
+    },
+    {
+      "slug": "jus_josephjoestar",
+      "name": "Joseph Joestar",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_josephjoestar.png",
+      "manifest": ""
+    },
+    {
+      "slug": "jus_josukehigashikata",
+      "name": "Josuke",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_josukehigashikata.png",
+      "manifest": ""
+    },
+    {
+      "slug": "jus_jotarokujo",
+      "name": "Jotaro",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_jotarokujo.png",
+      "manifest": ""
+    },
+    {
+      "slug": "jus_kenshin",
+      "name": "Kenshin",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_kenshin.png",
+      "manifest": ""
+    },
+    {
+      "slug": "jus_killua",
+      "name": "Killua",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_killua.png",
+      "manifest": ""
+    },
+    {
+      "slug": "jus_kon",
+      "name": "Kon",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_kon.png",
+      "manifest": ""
+    },
+    {
+      "slug": "jus_kuwabara",
+      "name": "Kuwabara",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_kuwabara.png",
+      "manifest": ""
+    },
+    {
+      "slug": "jus_l",
+      "name": "L",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_l.png",
+      "manifest": ""
+    },
+    {
+      "slug": "jus_light",
+      "name": "Light",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_light.png",
+      "manifest": ""
+    },
+    {
+      "slug": "jus_luffy",
+      "name": "Luffy",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_luffy.png",
+      "manifest": ""
+    },
+    {
+      "slug": "jus_mello",
+      "name": "Mello",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_mello.png",
+      "manifest": ""
+    },
+    {
+      "slug": "jus_misaamane",
+      "name": "Misa Amane",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_misaamane.png",
+      "manifest": ""
+    },
+    {
+      "slug": "jus_nami",
+      "name": "Nami",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_nami.png",
+      "manifest": ""
+    },
+    {
+      "slug": "jus_nicorobin",
+      "name": "Nico Robin",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_nicorobin.png",
+      "manifest": ""
+    },
+    {
+      "slug": "jus_orihime",
+      "name": "Orihime",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_orihime.png",
+      "manifest": ""
+    },
+    {
+      "slug": "jus_renji",
+      "name": "Renji",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_renji.png",
+      "manifest": ""
+    },
+    {
+      "slug": "jus_rukiakuchiki",
+      "name": "Rukia",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_rukiakuchiki.png",
+      "manifest": ""
+    },
+    {
+      "slug": "jus_sanji",
+      "name": "Sanji",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_sanji.png",
+      "manifest": ""
+    },
+    {
+      "slug": "jus_sasuke",
+      "name": "Sasuke (JUS)",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_sasuke.png",
+      "manifest": ""
+    },
+    {
+      "slug": "jus_setokaiba",
+      "name": "Seto Kaiba",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_setokaiba.png",
+      "manifest": ""
+    },
+    {
+      "slug": "jus_sogeking",
+      "name": "Sogeking",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_sogeking.png",
+      "manifest": ""
+    },
+    {
+      "slug": "jus_yoh",
+      "name": "Yoh",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_yoh.png",
+      "manifest": ""
+    },
+    {
+      "slug": "jus_yugi",
+      "name": "Yugi",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_yugi.png",
+      "manifest": ""
+    },
+    {
+      "slug": "jus_yusuke",
+      "name": "Yusuke",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_yusuke.png",
+      "manifest": ""
+    },
+    {
+      "slug": "jus_zoro",
+      "name": "Zoro",
+      "world": "anime",
+      "static": "res://assets/franchises/anime/processed/customers/jus_zoro.png",
+      "manifest": ""
+    },
+    {
       "slug": "bulma",
       "name": "Bulma",
       "world": "dragon_ball",
       "static": "res://assets/franchises/dragon_ball/processed/customers/bulma.png",
+      "manifest": ""
+    },
+    {
+      "slug": "dragon_ball_traveler_01",
+      "name": "Earthling 01",
+      "world": "dragon_ball",
+      "static": "res://assets/franchises/dragon_ball/processed/customers/dragon_ball_traveler_01.png",
+      "manifest": ""
+    },
+    {
+      "slug": "dragon_ball_traveler_02",
+      "name": "Earthling 02",
+      "world": "dragon_ball",
+      "static": "res://assets/franchises/dragon_ball/processed/customers/dragon_ball_traveler_02.png",
+      "manifest": ""
+    },
+    {
+      "slug": "dragon_ball_traveler_03",
+      "name": "Earthling 03",
+      "world": "dragon_ball",
+      "static": "res://assets/franchises/dragon_ball/processed/customers/dragon_ball_traveler_03.png",
+      "manifest": ""
+    },
+    {
+      "slug": "dragon_ball_traveler_04",
+      "name": "Earthling 04",
+      "world": "dragon_ball",
+      "static": "res://assets/franchises/dragon_ball/processed/customers/dragon_ball_traveler_04.png",
+      "manifest": ""
+    },
+    {
+      "slug": "dragon_ball_traveler_05",
+      "name": "Earthling 05",
+      "world": "dragon_ball",
+      "static": "res://assets/franchises/dragon_ball/processed/customers/dragon_ball_traveler_05.png",
+      "manifest": ""
+    },
+    {
+      "slug": "dragon_ball_traveler_06",
+      "name": "Earthling 06",
+      "world": "dragon_ball",
+      "static": "res://assets/franchises/dragon_ball/processed/customers/dragon_ball_traveler_06.png",
+      "manifest": ""
+    },
+    {
+      "slug": "dragon_ball_traveler_07",
+      "name": "Earthling 07",
+      "world": "dragon_ball",
+      "static": "res://assets/franchises/dragon_ball/processed/customers/dragon_ball_traveler_07.png",
+      "manifest": ""
+    },
+    {
+      "slug": "dragon_ball_traveler_08",
+      "name": "Earthling 08",
+      "world": "dragon_ball",
+      "static": "res://assets/franchises/dragon_ball/processed/customers/dragon_ball_traveler_08.png",
+      "manifest": ""
+    },
+    {
+      "slug": "dragon_ball_traveler_09",
+      "name": "Earthling 09",
+      "world": "dragon_ball",
+      "static": "res://assets/franchises/dragon_ball/processed/customers/dragon_ball_traveler_09.png",
+      "manifest": ""
+    },
+    {
+      "slug": "dragon_ball_traveler_10",
+      "name": "Earthling 10",
+      "world": "dragon_ball",
+      "static": "res://assets/franchises/dragon_ball/processed/customers/dragon_ball_traveler_10.png",
+      "manifest": ""
+    },
+    {
+      "slug": "dragon_ball_traveler_11",
+      "name": "Earthling 11",
+      "world": "dragon_ball",
+      "static": "res://assets/franchises/dragon_ball/processed/customers/dragon_ball_traveler_11.png",
+      "manifest": ""
+    },
+    {
+      "slug": "dragon_ball_traveler_12",
+      "name": "Earthling 12",
+      "world": "dragon_ball",
+      "static": "res://assets/franchises/dragon_ball/processed/customers/dragon_ball_traveler_12.png",
+      "manifest": ""
+    },
+    {
+      "slug": "dragon_ball_traveler_13",
+      "name": "Earthling 13",
+      "world": "dragon_ball",
+      "static": "res://assets/franchises/dragon_ball/processed/customers/dragon_ball_traveler_13.png",
+      "manifest": ""
+    },
+    {
+      "slug": "dragon_ball_traveler_14",
+      "name": "Earthling 14",
+      "world": "dragon_ball",
+      "static": "res://assets/franchises/dragon_ball/processed/customers/dragon_ball_traveler_14.png",
+      "manifest": ""
+    },
+    {
+      "slug": "dragon_ball_traveler_15",
+      "name": "Earthling 15",
+      "world": "dragon_ball",
+      "static": "res://assets/franchises/dragon_ball/processed/customers/dragon_ball_traveler_15.png",
+      "manifest": ""
+    },
+    {
+      "slug": "dragon_ball_traveler_16",
+      "name": "Earthling 16",
+      "world": "dragon_ball",
+      "static": "res://assets/franchises/dragon_ball/processed/customers/dragon_ball_traveler_16.png",
+      "manifest": ""
+    },
+    {
+      "slug": "dragon_ball_traveler_17",
+      "name": "Earthling 17",
+      "world": "dragon_ball",
+      "static": "res://assets/franchises/dragon_ball/processed/customers/dragon_ball_traveler_17.png",
+      "manifest": ""
+    },
+    {
+      "slug": "dragon_ball_traveler_18",
+      "name": "Earthling 18",
+      "world": "dragon_ball",
+      "static": "res://assets/franchises/dragon_ball/processed/customers/dragon_ball_traveler_18.png",
+      "manifest": ""
+    },
+    {
+      "slug": "dragon_ball_traveler_19",
+      "name": "Earthling 19",
+      "world": "dragon_ball",
+      "static": "res://assets/franchises/dragon_ball/processed/customers/dragon_ball_traveler_19.png",
+      "manifest": ""
+    },
+    {
+      "slug": "dragon_ball_traveler_20",
+      "name": "Earthling 20",
+      "world": "dragon_ball",
+      "static": "res://assets/franchises/dragon_ball/processed/customers/dragon_ball_traveler_20.png",
+      "manifest": ""
+    },
+    {
+      "slug": "dragon_ball_traveler_21",
+      "name": "Earthling 21",
+      "world": "dragon_ball",
+      "static": "res://assets/franchises/dragon_ball/processed/customers/dragon_ball_traveler_21.png",
+      "manifest": ""
+    },
+    {
+      "slug": "dragon_ball_traveler_22",
+      "name": "Earthling 22",
+      "world": "dragon_ball",
+      "static": "res://assets/franchises/dragon_ball/processed/customers/dragon_ball_traveler_22.png",
+      "manifest": ""
+    },
+    {
+      "slug": "dragon_ball_traveler_23",
+      "name": "Earthling 23",
+      "world": "dragon_ball",
+      "static": "res://assets/franchises/dragon_ball/processed/customers/dragon_ball_traveler_23.png",
+      "manifest": ""
+    },
+    {
+      "slug": "dragon_ball_traveler_24",
+      "name": "Earthling 24",
+      "world": "dragon_ball",
+      "static": "res://assets/franchises/dragon_ball/processed/customers/dragon_ball_traveler_24.png",
+      "manifest": ""
+    },
+    {
+      "slug": "dragon_ball_traveler_25",
+      "name": "Earthling 25",
+      "world": "dragon_ball",
+      "static": "res://assets/franchises/dragon_ball/processed/customers/dragon_ball_traveler_25.png",
+      "manifest": ""
+    },
+    {
+      "slug": "dragon_ball_traveler_26",
+      "name": "Earthling 26",
+      "world": "dragon_ball",
+      "static": "res://assets/franchises/dragon_ball/processed/customers/dragon_ball_traveler_26.png",
+      "manifest": ""
+    },
+    {
+      "slug": "dragon_ball_traveler_27",
+      "name": "Earthling 27",
+      "world": "dragon_ball",
+      "static": "res://assets/franchises/dragon_ball/processed/customers/dragon_ball_traveler_27.png",
+      "manifest": ""
+    },
+    {
+      "slug": "dragon_ball_traveler_28",
+      "name": "Earthling 28",
+      "world": "dragon_ball",
+      "static": "res://assets/franchises/dragon_ball/processed/customers/dragon_ball_traveler_28.png",
+      "manifest": ""
+    },
+    {
+      "slug": "dragon_ball_traveler_29",
+      "name": "Earthling 29",
+      "world": "dragon_ball",
+      "static": "res://assets/franchises/dragon_ball/processed/customers/dragon_ball_traveler_29.png",
+      "manifest": ""
+    },
+    {
+      "slug": "dragon_ball_traveler_30",
+      "name": "Earthling 30",
+      "world": "dragon_ball",
+      "static": "res://assets/franchises/dragon_ball/processed/customers/dragon_ball_traveler_30.png",
+      "manifest": ""
+    },
+    {
+      "slug": "dragon_ball_traveler_31",
+      "name": "Earthling 31",
+      "world": "dragon_ball",
+      "static": "res://assets/franchises/dragon_ball/processed/customers/dragon_ball_traveler_31.png",
+      "manifest": ""
+    },
+    {
+      "slug": "dragon_ball_traveler_32",
+      "name": "Earthling 32",
+      "world": "dragon_ball",
+      "static": "res://assets/franchises/dragon_ball/processed/customers/dragon_ball_traveler_32.png",
+      "manifest": ""
+    },
+    {
+      "slug": "dragon_ball_traveler_33",
+      "name": "Earthling 33",
+      "world": "dragon_ball",
+      "static": "res://assets/franchises/dragon_ball/processed/customers/dragon_ball_traveler_33.png",
+      "manifest": ""
+    },
+    {
+      "slug": "dragon_ball_traveler_34",
+      "name": "Earthling 34",
+      "world": "dragon_ball",
+      "static": "res://assets/franchises/dragon_ball/processed/customers/dragon_ball_traveler_34.png",
+      "manifest": ""
+    },
+    {
+      "slug": "dragon_ball_traveler_35",
+      "name": "Earthling 35",
+      "world": "dragon_ball",
+      "static": "res://assets/franchises/dragon_ball/processed/customers/dragon_ball_traveler_35.png",
+      "manifest": ""
+    },
+    {
+      "slug": "dragon_ball_traveler_36",
+      "name": "Earthling 36",
+      "world": "dragon_ball",
+      "static": "res://assets/franchises/dragon_ball/processed/customers/dragon_ball_traveler_36.png",
+      "manifest": ""
+    },
+    {
+      "slug": "dragon_ball_traveler_37",
+      "name": "Earthling 37",
+      "world": "dragon_ball",
+      "static": "res://assets/franchises/dragon_ball/processed/customers/dragon_ball_traveler_37.png",
+      "manifest": ""
+    },
+    {
+      "slug": "dragon_ball_traveler_38",
+      "name": "Earthling 38",
+      "world": "dragon_ball",
+      "static": "res://assets/franchises/dragon_ball/processed/customers/dragon_ball_traveler_38.png",
+      "manifest": ""
+    },
+    {
+      "slug": "dragon_ball_traveler_39",
+      "name": "Earthling 39",
+      "world": "dragon_ball",
+      "static": "res://assets/franchises/dragon_ball/processed/customers/dragon_ball_traveler_39.png",
+      "manifest": ""
+    },
+    {
+      "slug": "future_gohan",
+      "name": "Future Gohan",
+      "world": "dragon_ball",
+      "static": "res://assets/franchises/dragon_ball/processed/customers/future_gohan.png",
       "manifest": ""
     },
     {
@@ -16,11 +569,11 @@
       "manifest": "res://assets/franchises/dragon_ball/manifests/pool_future_trunks.json"
     },
     {
-      "slug": "gohan_casual",
-      "name": "Gohan",
+      "slug": "gohan_battle_suit",
+      "name": "Gohan Battle Suit",
       "world": "dragon_ball",
-      "static": "res://assets/franchises/dragon_ball/processed/customers/gohan_casual.png",
-      "manifest": "res://assets/franchises/dragon_ball/manifests/pool_gohan_casual.json"
+      "static": "res://assets/franchises/dragon_ball/processed/customers/gohan_battle_suit.png",
+      "manifest": ""
     },
     {
       "slug": "goku",
@@ -28,13 +581,6 @@
       "world": "dragon_ball",
       "static": "res://assets/franchises/dragon_ball/processed/customers/goku.png",
       "manifest": "res://assets/franchises/dragon_ball/manifests/pool_goku.json"
-    },
-    {
-      "slug": "goku_super_saiyan",
-      "name": "Super Saiyan Goku",
-      "world": "dragon_ball",
-      "static": "res://assets/franchises/dragon_ball/processed/customers/goku_super_saiyan.png",
-      "manifest": "res://assets/franchises/dragon_ball/manifests/pool_goku_super_saiyan.json"
     },
     {
       "slug": "hercule_mr_satan",
@@ -70,13 +616,6 @@
       "world": "dragon_ball",
       "static": "res://assets/franchises/dragon_ball/processed/customers/vegeta.png",
       "manifest": "res://assets/franchises/dragon_ball/manifests/pool_vegeta.json"
-    },
-    {
-      "slug": "vegeta_super_saiyan",
-      "name": "Super Saiyan Vegeta",
-      "world": "dragon_ball",
-      "static": "res://assets/franchises/dragon_ball/processed/customers/vegeta_super_saiyan.png",
-      "manifest": "res://assets/franchises/dragon_ball/manifests/pool_vegeta_super_saiyan.json"
     },
     {
       "slug": "yamcha",
@@ -317,10 +856,24 @@
       "manifest": ""
     },
     {
+      "slug": "aladdin",
+      "name": "Aladdin",
+      "world": "kingdom_hearts",
+      "static": "res://assets/franchises/kingdom_hearts/processed/customers/aladdin.png",
+      "manifest": ""
+    },
+    {
       "slug": "alice",
       "name": "Alice",
       "world": "kingdom_hearts",
       "static": "res://assets/franchises/kingdom_hearts/processed/customers/alice.png",
+      "manifest": ""
+    },
+    {
+      "slug": "ansem",
+      "name": "Ansem",
+      "world": "kingdom_hearts",
+      "static": "res://assets/franchises/kingdom_hearts/processed/customers/ansem.png",
       "manifest": ""
     },
     {
@@ -331,10 +884,73 @@
       "manifest": ""
     },
     {
+      "slug": "axel",
+      "name": "Axel",
+      "world": "kingdom_hearts",
+      "static": "res://assets/franchises/kingdom_hearts/processed/customers/axel.png",
+      "manifest": ""
+    },
+    {
+      "slug": "beast",
+      "name": "Beast",
+      "world": "kingdom_hearts",
+      "static": "res://assets/franchises/kingdom_hearts/processed/customers/beast.png",
+      "manifest": ""
+    },
+    {
+      "slug": "belle",
+      "name": "Belle",
+      "world": "kingdom_hearts",
+      "static": "res://assets/franchises/kingdom_hearts/processed/customers/belle.png",
+      "manifest": ""
+    },
+    {
+      "slug": "captain_hook",
+      "name": "Captain Hook",
+      "world": "kingdom_hearts",
+      "static": "res://assets/franchises/kingdom_hearts/processed/customers/captain_hook.png",
+      "manifest": ""
+    },
+    {
+      "slug": "diz",
+      "name": "Diz",
+      "world": "kingdom_hearts",
+      "static": "res://assets/franchises/kingdom_hearts/processed/customers/diz.png",
+      "manifest": ""
+    },
+    {
       "slug": "donald_duck",
       "name": "Donald",
       "world": "kingdom_hearts",
       "static": "res://assets/franchises/kingdom_hearts/processed/customers/donald_duck.png",
+      "manifest": ""
+    },
+    {
+      "slug": "dr_finkelstein",
+      "name": "Dr Finkelstein",
+      "world": "kingdom_hearts",
+      "static": "res://assets/franchises/kingdom_hearts/processed/customers/dr_finkelstein.png",
+      "manifest": ""
+    },
+    {
+      "slug": "eeyore",
+      "name": "Eeyore",
+      "world": "kingdom_hearts",
+      "static": "res://assets/franchises/kingdom_hearts/processed/customers/eeyore.png",
+      "manifest": ""
+    },
+    {
+      "slug": "flounder",
+      "name": "Flounder",
+      "world": "kingdom_hearts",
+      "static": "res://assets/franchises/kingdom_hearts/processed/customers/flounder.png",
+      "manifest": ""
+    },
+    {
+      "slug": "geppetto",
+      "name": "Geppetto",
+      "world": "kingdom_hearts",
+      "static": "res://assets/franchises/kingdom_hearts/processed/customers/geppetto.png",
       "manifest": ""
     },
     {
@@ -359,10 +975,66 @@
       "manifest": ""
     },
     {
+      "slug": "jack_skellington",
+      "name": "Jack Skellington",
+      "world": "kingdom_hearts",
+      "static": "res://assets/franchises/kingdom_hearts/processed/customers/jack_skellington.png",
+      "manifest": ""
+    },
+    {
+      "slug": "jafar",
+      "name": "Jafar",
+      "world": "kingdom_hearts",
+      "static": "res://assets/franchises/kingdom_hearts/processed/customers/jafar.png",
+      "manifest": ""
+    },
+    {
+      "slug": "jiminy_cricket",
+      "name": "Jiminy Cricket",
+      "world": "kingdom_hearts",
+      "static": "res://assets/franchises/kingdom_hearts/processed/customers/jiminy_cricket.png",
+      "manifest": ""
+    },
+    {
       "slug": "kairi",
       "name": "Kairi",
       "world": "kingdom_hearts",
       "static": "res://assets/franchises/kingdom_hearts/processed/customers/kairi.png",
+      "manifest": ""
+    },
+    {
+      "slug": "larxene",
+      "name": "Larxene",
+      "world": "kingdom_hearts",
+      "static": "res://assets/franchises/kingdom_hearts/processed/customers/larxene.png",
+      "manifest": ""
+    },
+    {
+      "slug": "leon",
+      "name": "Leon",
+      "world": "kingdom_hearts",
+      "static": "res://assets/franchises/kingdom_hearts/processed/customers/leon.png",
+      "manifest": ""
+    },
+    {
+      "slug": "lexaeus",
+      "name": "Lexaeus",
+      "world": "kingdom_hearts",
+      "static": "res://assets/franchises/kingdom_hearts/processed/customers/lexaeus.png",
+      "manifest": ""
+    },
+    {
+      "slug": "maleficent",
+      "name": "Maleficent",
+      "world": "kingdom_hearts",
+      "static": "res://assets/franchises/kingdom_hearts/processed/customers/maleficent.png",
+      "manifest": ""
+    },
+    {
+      "slug": "marluxia",
+      "name": "Marluxia",
+      "world": "kingdom_hearts",
+      "static": "res://assets/franchises/kingdom_hearts/processed/customers/marluxia.png",
       "manifest": ""
     },
     {
@@ -380,10 +1052,87 @@
       "manifest": ""
     },
     {
+      "slug": "namine",
+      "name": "Namine",
+      "world": "kingdom_hearts",
+      "static": "res://assets/franchises/kingdom_hearts/processed/customers/namine.png",
+      "manifest": ""
+    },
+    {
+      "slug": "oogie_boogie",
+      "name": "Oogie Boogie",
+      "world": "kingdom_hearts",
+      "static": "res://assets/franchises/kingdom_hearts/processed/customers/oogie_boogie.png",
+      "manifest": ""
+    },
+    {
+      "slug": "owl",
+      "name": "Owl",
+      "world": "kingdom_hearts",
+      "static": "res://assets/franchises/kingdom_hearts/processed/customers/owl.png",
+      "manifest": ""
+    },
+    {
       "slug": "peter_pan",
       "name": "Peter Pan",
       "world": "kingdom_hearts",
       "static": "res://assets/franchises/kingdom_hearts/processed/customers/peter_pan.png",
+      "manifest": ""
+    },
+    {
+      "slug": "philoctetes_phil",
+      "name": "Philoctetes Phil",
+      "world": "kingdom_hearts",
+      "static": "res://assets/franchises/kingdom_hearts/processed/customers/philoctetes_phil.png",
+      "manifest": ""
+    },
+    {
+      "slug": "piglet",
+      "name": "Piglet",
+      "world": "kingdom_hearts",
+      "static": "res://assets/franchises/kingdom_hearts/processed/customers/piglet.png",
+      "manifest": ""
+    },
+    {
+      "slug": "pinocchio",
+      "name": "Pinocchio",
+      "world": "kingdom_hearts",
+      "static": "res://assets/franchises/kingdom_hearts/processed/customers/pinocchio.png",
+      "manifest": ""
+    },
+    {
+      "slug": "rabbit",
+      "name": "Rabbit",
+      "world": "kingdom_hearts",
+      "static": "res://assets/franchises/kingdom_hearts/processed/customers/rabbit.png",
+      "manifest": ""
+    },
+    {
+      "slug": "riku_replica",
+      "name": "Riku Replica",
+      "world": "kingdom_hearts",
+      "static": "res://assets/franchises/kingdom_hearts/processed/customers/riku_replica.png",
+      "manifest": ""
+    },
+    {
+      "slug": "roo",
+      "name": "Roo",
+      "world": "kingdom_hearts",
+      "static": "res://assets/franchises/kingdom_hearts/processed/customers/roo.png",
+      "manifest": ""
+    },
+    {
+      "slug": "sally",
+      "name": "Sally",
+      "world": "kingdom_hearts",
+      "static": "res://assets/franchises/kingdom_hearts/processed/customers/sally.png",
+      "manifest": ""
+    },
+    {
+      "slug": "sebastian",
+      "name": "Sebastian",
+      "world": "kingdom_hearts",
+      "static": "res://assets/franchises/kingdom_hearts/processed/customers/sebastian.png",
       "manifest": ""
     },
     {
@@ -394,17 +1143,80 @@
       "manifest": ""
     },
     {
-      "slug": "tidus",
-      "name": "Tidus",
+      "slug": "the_cheshire_cat",
+      "name": "The Cheshire Cat",
       "world": "kingdom_hearts",
-      "static": "res://assets/franchises/kingdom_hearts/processed/customers/tidus.png",
+      "static": "res://assets/franchises/kingdom_hearts/processed/customers/the_cheshire_cat.png",
       "manifest": ""
     },
     {
-      "slug": "wakka",
-      "name": "Wakka",
+      "slug": "the_queen_of_hearts",
+      "name": "The Queen Of Hearts",
       "world": "kingdom_hearts",
-      "static": "res://assets/franchises/kingdom_hearts/processed/customers/wakka.png",
+      "static": "res://assets/franchises/kingdom_hearts/processed/customers/the_queen_of_hearts.png",
+      "manifest": ""
+    },
+    {
+      "slug": "the_white_rabbit",
+      "name": "The White Rabbit",
+      "world": "kingdom_hearts",
+      "static": "res://assets/franchises/kingdom_hearts/processed/customers/the_white_rabbit.png",
+      "manifest": ""
+    },
+    {
+      "slug": "tigger",
+      "name": "Tigger",
+      "world": "kingdom_hearts",
+      "static": "res://assets/franchises/kingdom_hearts/processed/customers/tigger.png",
+      "manifest": ""
+    },
+    {
+      "slug": "unknown_organization_xiii",
+      "name": "Unknown Organization Xiii",
+      "world": "kingdom_hearts",
+      "static": "res://assets/franchises/kingdom_hearts/processed/customers/unknown_organization_xiii.png",
+      "manifest": ""
+    },
+    {
+      "slug": "ursula",
+      "name": "Ursula",
+      "world": "kingdom_hearts",
+      "static": "res://assets/franchises/kingdom_hearts/processed/customers/ursula.png",
+      "manifest": ""
+    },
+    {
+      "slug": "vexen",
+      "name": "Vexen",
+      "world": "kingdom_hearts",
+      "static": "res://assets/franchises/kingdom_hearts/processed/customers/vexen.png",
+      "manifest": ""
+    },
+    {
+      "slug": "wendy",
+      "name": "Wendy",
+      "world": "kingdom_hearts",
+      "static": "res://assets/franchises/kingdom_hearts/processed/customers/wendy.png",
+      "manifest": ""
+    },
+    {
+      "slug": "winnie_the_pooh",
+      "name": "Winnie The Pooh",
+      "world": "kingdom_hearts",
+      "static": "res://assets/franchises/kingdom_hearts/processed/customers/winnie_the_pooh.png",
+      "manifest": ""
+    },
+    {
+      "slug": "ankoopa",
+      "name": "Ankoopa",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/ankoopa.png",
+      "manifest": ""
+    },
+    {
+      "slug": "beanbean_guards",
+      "name": "Beanbean Guards",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/beanbean_guards.png",
       "manifest": ""
     },
     {
@@ -412,6 +1224,34 @@
       "name": "Beanbean Resident",
       "world": "mario",
       "static": "res://assets/franchises/mario/processed/customers/beanbean_kingdom_residents.png",
+      "manifest": ""
+    },
+    {
+      "slug": "beanie_gold_beanie",
+      "name": "Beanie Gold Beanie",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/beanie_gold_beanie.png",
+      "manifest": ""
+    },
+    {
+      "slug": "bill_blaster",
+      "name": "Bill Blaster",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/bill_blaster.png",
+      "manifest": ""
+    },
+    {
+      "slug": "birdo",
+      "name": "Birdo",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/birdo.png",
+      "manifest": ""
+    },
+    {
+      "slug": "blablanadon",
+      "name": "Blablanadon",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/blablanadon.png",
       "manifest": ""
     },
     {
@@ -429,6 +1269,13 @@
       "manifest": ""
     },
     {
+      "slug": "boddle_assistant",
+      "name": "Boddle Assistant",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/boddle_assistant.png",
+      "manifest": ""
+    },
+    {
       "slug": "boo",
       "name": "Boo",
       "world": "mario",
@@ -436,17 +1283,73 @@
       "manifest": ""
     },
     {
-      "slug": "bowser_usa",
-      "name": "Bowser",
+      "slug": "boomerang_bro",
+      "name": "Boomerang Bro",
       "world": "mario",
-      "static": "res://assets/franchises/mario/processed/customers/bowser_usa.png",
-      "manifest": "res://assets/franchises/mario/manifests/pool_bowser_usa.json"
+      "static": "res://assets/franchises/mario/processed/customers/boomerang_bro.png",
+      "manifest": ""
+    },
+    {
+      "slug": "border_bros",
+      "name": "Border Bros",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/border_bros.png",
+      "manifest": ""
+    },
+    {
+      "slug": "bowser_jpn",
+      "name": "Bowser Jpn",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/bowser_jpn.png",
+      "manifest": ""
+    },
+    {
+      "slug": "bubbles",
+      "name": "Bubbles",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/bubbles.png",
+      "manifest": ""
     },
     {
       "slug": "cheep_cheep_puffer_cheep",
       "name": "Cheep Cheep",
       "world": "mario",
       "static": "res://assets/franchises/mario/processed/customers/cheep_cheep_puffer_cheep.png",
+      "manifest": ""
+    },
+    {
+      "slug": "chomp_bro",
+      "name": "Chomp Bro",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/chomp_bro.png",
+      "manifest": ""
+    },
+    {
+      "slug": "chuck_guy",
+      "name": "Chuck Guy",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/chuck_guy.png",
+      "manifest": ""
+    },
+    {
+      "slug": "chuckleroot",
+      "name": "Chuckleroot",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/chuckleroot.png",
+      "manifest": ""
+    },
+    {
+      "slug": "clumph",
+      "name": "Clumph",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/clumph.png",
+      "manifest": ""
+    },
+    {
+      "slug": "dr_toad",
+      "name": "Dr Toad",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/dr_toad.png",
       "manifest": ""
     },
     {
@@ -457,6 +1360,62 @@
       "manifest": ""
     },
     {
+      "slug": "eeker",
+      "name": "Eeker",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/eeker.png",
+      "manifest": ""
+    },
+    {
+      "slug": "fava",
+      "name": "Fava",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/fava.png",
+      "manifest": ""
+    },
+    {
+      "slug": "fighter_fly_super_fly",
+      "name": "Fighter Fly Super Fly",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/fighter_fly_super_fly.png",
+      "manifest": ""
+    },
+    {
+      "slug": "fire_god_thunder_god",
+      "name": "Fire God Thunder God",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/fire_god_thunder_god.png",
+      "manifest": ""
+    },
+    {
+      "slug": "fuzz_bush",
+      "name": "Fuzz Bush",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/fuzz_bush.png",
+      "manifest": ""
+    },
+    {
+      "slug": "ghosts",
+      "name": "Ghosts",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/ghosts.png",
+      "manifest": ""
+    },
+    {
+      "slug": "gigi_merri",
+      "name": "Gigi Merri",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/gigi_merri.png",
+      "manifest": ""
+    },
+    {
+      "slug": "glurp",
+      "name": "Glurp",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/glurp.png",
+      "manifest": ""
+    },
+    {
       "slug": "goomba",
       "name": "Goomba",
       "world": "mario",
@@ -464,10 +1423,59 @@
       "manifest": "res://assets/franchises/mario/manifests/pool_goomba.json"
     },
     {
+      "slug": "goomdiver",
+      "name": "Goomdiver",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/goomdiver.png",
+      "manifest": ""
+    },
+    {
+      "slug": "gritty_goomba",
+      "name": "Gritty Goomba",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/gritty_goomba.png",
+      "manifest": ""
+    },
+    {
+      "slug": "gunner_guy",
+      "name": "Gunner Guy",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/gunner_guy.png",
+      "manifest": ""
+    },
+    {
+      "slug": "gwarhar_lagoon_residents",
+      "name": "Gwarhar Lagoon Residents",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/gwarhar_lagoon_residents.png",
+      "manifest": ""
+    },
+    {
       "slug": "hammer_bro",
       "name": "Hammer Bro",
       "world": "mario",
       "static": "res://assets/franchises/mario/processed/customers/hammer_bro.png",
+      "manifest": ""
+    },
+    {
+      "slug": "harhall",
+      "name": "Harhall",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/harhall.png",
+      "manifest": ""
+    },
+    {
+      "slug": "hoohooligans",
+      "name": "Hoohooligans",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/hoohooligans.png",
+      "manifest": ""
+    },
+    {
+      "slug": "ice_snifit",
+      "name": "Ice Snifit",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/ice_snifit.png",
       "manifest": ""
     },
     {
@@ -478,10 +1486,38 @@
       "manifest": "res://assets/franchises/mario/manifests/pool_koopa_troopa.json"
     },
     {
+      "slug": "koopa_troopas",
+      "name": "Koopa Troopas",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/koopa_troopas.png",
+      "manifest": ""
+    },
+    {
       "slug": "lady_lima",
       "name": "Lady Lima",
       "world": "mario",
       "static": "res://assets/franchises/mario/processed/customers/lady_lima.png",
+      "manifest": ""
+    },
+    {
+      "slug": "lakipea",
+      "name": "Lakipea",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/lakipea.png",
+      "manifest": ""
+    },
+    {
+      "slug": "laser_snifit",
+      "name": "Laser Snifit",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/laser_snifit.png",
+      "manifest": ""
+    },
+    {
+      "slug": "limbo_bro",
+      "name": "Limbo Bro",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/limbo_bro.png",
       "manifest": ""
     },
     {
@@ -492,11 +1528,109 @@
       "manifest": "res://assets/franchises/mario/manifests/pool_luigi.json"
     },
     {
+      "slug": "magikoopa",
+      "name": "Magikoopa",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/magikoopa.png",
+      "manifest": ""
+    },
+    {
+      "slug": "malibut",
+      "name": "Malibut",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/malibut.png",
+      "manifest": ""
+    },
+    {
       "slug": "mario",
       "name": "Mario",
       "world": "mario",
       "static": "res://assets/franchises/mario/processed/customers/mario.png",
       "manifest": "res://assets/franchises/mario/manifests/pool_mario.json"
+    },
+    {
+      "slug": "mecha_blooper",
+      "name": "Mecha Blooper",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/mecha_blooper.png",
+      "manifest": ""
+    },
+    {
+      "slug": "mecha_chomp",
+      "name": "Mecha Chomp",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/mecha_chomp.png",
+      "manifest": ""
+    },
+    {
+      "slug": "mecha_koopa",
+      "name": "Mecha Koopa",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/mecha_koopa.png",
+      "manifest": ""
+    },
+    {
+      "slug": "mine_cart_owner",
+      "name": "Mine Cart Owner",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/mine_cart_owner.png",
+      "manifest": ""
+    },
+    {
+      "slug": "oho_jee",
+      "name": "Oho Jee",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/oho_jee.png",
+      "manifest": ""
+    },
+    {
+      "slug": "parabeanie",
+      "name": "Parabeanie",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/parabeanie.png",
+      "manifest": ""
+    },
+    {
+      "slug": "peach_bot",
+      "name": "Peach Bot",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/peach_bot.png",
+      "manifest": ""
+    },
+    {
+      "slug": "pestnut",
+      "name": "Pestnut",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/pestnut.png",
+      "manifest": ""
+    },
+    {
+      "slug": "piper",
+      "name": "Piper",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/piper.png",
+      "manifest": ""
+    },
+    {
+      "slug": "piranha_plant",
+      "name": "Piranha Plant",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/piranha_plant.png",
+      "manifest": ""
+    },
+    {
+      "slug": "presenter",
+      "name": "Presenter",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/presenter.png",
+      "manifest": ""
+    },
+    {
+      "slug": "prince_peasley",
+      "name": "Prince Peasley",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/prince_peasley.png",
+      "manifest": ""
     },
     {
       "slug": "princess_peach",
@@ -506,6 +1640,118 @@
       "manifest": "res://assets/franchises/mario/manifests/pool_princess_peach.json"
     },
     {
+      "slug": "professor_e_gadd",
+      "name": "Professor E Gadd",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/professor_e_gadd.png",
+      "manifest": ""
+    },
+    {
+      "slug": "psycho_kamek",
+      "name": "Psycho Kamek",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/psycho_kamek.png",
+      "manifest": ""
+    },
+    {
+      "slug": "queen_bean",
+      "name": "Queen Bean",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/queen_bean.png",
+      "manifest": ""
+    },
+    {
+      "slug": "rex",
+      "name": "Rex",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/rex.png",
+      "manifest": ""
+    },
+    {
+      "slug": "s_s_chuckola_crew",
+      "name": "S S Chuckola Crew",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/s_s_chuckola_crew.png",
+      "manifest": ""
+    },
+    {
+      "slug": "sharkbone_sand_cheep",
+      "name": "Sharkbone Sand Cheep",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/sharkbone_sand_cheep.png",
+      "manifest": ""
+    },
+    {
+      "slug": "sharpea",
+      "name": "Sharpea",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/sharpea.png",
+      "manifest": ""
+    },
+    {
+      "slug": "sledge_mallet",
+      "name": "Sledge Mallet",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/sledge_mallet.png",
+      "manifest": ""
+    },
+    {
+      "slug": "sniper_bill",
+      "name": "Sniper Bill",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/sniper_bill.png",
+      "manifest": ""
+    },
+    {
+      "slug": "spiky_snifit",
+      "name": "Spiky Snifit",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/spiky_snifit.png",
+      "manifest": ""
+    },
+    {
+      "slug": "spiny",
+      "name": "Spiny",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/spiny.png",
+      "manifest": ""
+    },
+    {
+      "slug": "starkiss",
+      "name": "Starkiss",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/starkiss.png",
+      "manifest": ""
+    },
+    {
+      "slug": "starshade_bros",
+      "name": "Starshade Bros",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/starshade_bros.png",
+      "manifest": ""
+    },
+    {
+      "slug": "sworm",
+      "name": "Sworm",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/sworm.png",
+      "manifest": ""
+    },
+    {
+      "slug": "tanoomba",
+      "name": "Tanoomba",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/tanoomba.png",
+      "manifest": ""
+    },
+    {
+      "slug": "thwomp",
+      "name": "Thwomp",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/thwomp.png",
+      "manifest": ""
+    },
+    {
       "slug": "toad",
       "name": "Toad",
       "world": "mario",
@@ -513,10 +1759,94 @@
       "manifest": "res://assets/franchises/mario/manifests/pool_toad.json"
     },
     {
+      "slug": "toads",
+      "name": "Toads",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/toads.png",
+      "manifest": ""
+    },
+    {
+      "slug": "toadsworth",
+      "name": "Toadsworth",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/toadsworth.png",
+      "manifest": ""
+    },
+    {
+      "slug": "troopea_paratroopea_elite_troopea_scaratroopea",
+      "name": "Troopea Paratroopea Elite Troopea Scaratroopea",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/troopea_paratroopea_elite_troopea_scaratroopea.png",
+      "manifest": ""
+    },
+    {
+      "slug": "viruses",
+      "name": "Viruses",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/viruses.png",
+      "manifest": ""
+    },
+    {
+      "slug": "winkles",
+      "name": "Winkles",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/winkles.png",
+      "manifest": ""
+    },
+    {
+      "slug": "woohoo_hooniversity_researcher",
+      "name": "Woohoo Hooniversity Researcher",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/woohoo_hooniversity_researcher.png",
+      "manifest": ""
+    },
+    {
+      "slug": "yo_bro",
+      "name": "Yo Bro",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/yo_bro.png",
+      "manifest": ""
+    },
+    {
+      "slug": "yoshi",
+      "name": "Yoshi",
+      "world": "mario",
+      "static": "res://assets/franchises/mario/processed/customers/yoshi.png",
+      "manifest": ""
+    },
+    {
+      "slug": "akamaru",
+      "name": "Akamaru",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/akamaru.png",
+      "manifest": ""
+    },
+    {
+      "slug": "asuma",
+      "name": "Asuma",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/asuma.png",
+      "manifest": ""
+    },
+    {
       "slug": "choji",
       "name": "Choji",
       "world": "naruto",
       "static": "res://assets/franchises/naruto/processed/customers/choji.png",
+      "manifest": ""
+    },
+    {
+      "slug": "chunin_examiner",
+      "name": "Chunin Examiner",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/chunin_examiner.png",
+      "manifest": ""
+    },
+    {
+      "slug": "dosu",
+      "name": "Dosu",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/dosu.png",
       "manifest": ""
     },
     {
@@ -541,10 +1871,31 @@
       "manifest": ""
     },
     {
-      "slug": "iruka_asuma_guy",
-      "name": "Iruka Asuma Guy",
+      "slug": "hinata",
+      "name": "Hinata",
       "world": "naruto",
-      "static": "res://assets/franchises/naruto/processed/customers/iruka_asuma_guy.png",
+      "static": "res://assets/franchises/naruto/processed/customers/hinata.png",
+      "manifest": ""
+    },
+    {
+      "slug": "ino",
+      "name": "Ino",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/ino.png",
+      "manifest": ""
+    },
+    {
+      "slug": "iruka",
+      "name": "Iruka",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/iruka.png",
+      "manifest": ""
+    },
+    {
+      "slug": "itachi",
+      "name": "Itachi",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/itachi.png",
       "manifest": ""
     },
     {
@@ -569,6 +1920,181 @@
       "manifest": ""
     },
     {
+      "slug": "kin",
+      "name": "Kin",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/kin.png",
+      "manifest": ""
+    },
+    {
+      "slug": "konohamaru",
+      "name": "Konohamaru",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/konohamaru.png",
+      "manifest": ""
+    },
+    {
+      "slug": "might_guy",
+      "name": "Might Guy",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/might_guy.png",
+      "manifest": ""
+    },
+    {
+      "slug": "mist_ninja",
+      "name": "Mist Ninja",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/mist_ninja.png",
+      "manifest": ""
+    },
+    {
+      "slug": "misumi",
+      "name": "Misumi",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/misumi.png",
+      "manifest": ""
+    },
+    {
+      "slug": "mizuki",
+      "name": "Mizuki",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/mizuki.png",
+      "manifest": ""
+    },
+    {
+      "slug": "naruto_traveler_01",
+      "name": "Shinobi 01",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/naruto_traveler_01.png",
+      "manifest": ""
+    },
+    {
+      "slug": "naruto_traveler_02",
+      "name": "Shinobi 02",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/naruto_traveler_02.png",
+      "manifest": ""
+    },
+    {
+      "slug": "naruto_traveler_03",
+      "name": "Shinobi 03",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/naruto_traveler_03.png",
+      "manifest": ""
+    },
+    {
+      "slug": "naruto_traveler_04",
+      "name": "Shinobi 04",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/naruto_traveler_04.png",
+      "manifest": ""
+    },
+    {
+      "slug": "naruto_traveler_05",
+      "name": "Shinobi 05",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/naruto_traveler_05.png",
+      "manifest": ""
+    },
+    {
+      "slug": "naruto_traveler_06",
+      "name": "Shinobi 06",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/naruto_traveler_06.png",
+      "manifest": ""
+    },
+    {
+      "slug": "naruto_traveler_07",
+      "name": "Shinobi 07",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/naruto_traveler_07.png",
+      "manifest": ""
+    },
+    {
+      "slug": "naruto_traveler_08",
+      "name": "Shinobi 08",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/naruto_traveler_08.png",
+      "manifest": ""
+    },
+    {
+      "slug": "naruto_traveler_09",
+      "name": "Shinobi 09",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/naruto_traveler_09.png",
+      "manifest": ""
+    },
+    {
+      "slug": "naruto_traveler_10",
+      "name": "Shinobi 10",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/naruto_traveler_10.png",
+      "manifest": ""
+    },
+    {
+      "slug": "naruto_traveler_11",
+      "name": "Shinobi 11",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/naruto_traveler_11.png",
+      "manifest": ""
+    },
+    {
+      "slug": "naruto_traveler_12",
+      "name": "Shinobi 12",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/naruto_traveler_12.png",
+      "manifest": ""
+    },
+    {
+      "slug": "naruto_traveler_13",
+      "name": "Shinobi 13",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/naruto_traveler_13.png",
+      "manifest": ""
+    },
+    {
+      "slug": "naruto_traveler_14",
+      "name": "Shinobi 14",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/naruto_traveler_14.png",
+      "manifest": ""
+    },
+    {
+      "slug": "naruto_traveler_15",
+      "name": "Shinobi 15",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/naruto_traveler_15.png",
+      "manifest": ""
+    },
+    {
+      "slug": "naruto_traveler_16",
+      "name": "Shinobi 16",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/naruto_traveler_16.png",
+      "manifest": ""
+    },
+    {
+      "slug": "neji",
+      "name": "Neji",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/neji.png",
+      "manifest": ""
+    },
+    {
+      "slug": "rain_ninja",
+      "name": "Rain Ninja",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/rain_ninja.png",
+      "manifest": ""
+    },
+    {
+      "slug": "rock_lee",
+      "name": "Rock Lee",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/rock_lee.png",
+      "manifest": ""
+    },
+    {
       "slug": "sakura",
       "name": "Sakura",
       "world": "naruto",
@@ -583,6 +2109,27 @@
       "manifest": ""
     },
     {
+      "slug": "shikamaru",
+      "name": "Shikamaru",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/shikamaru.png",
+      "manifest": ""
+    },
+    {
+      "slug": "shino",
+      "name": "Shino",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/shino.png",
+      "manifest": ""
+    },
+    {
+      "slug": "tazuna",
+      "name": "Tazuna",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/tazuna.png",
+      "manifest": ""
+    },
+    {
       "slug": "tenten",
       "name": "Tenten",
       "world": "naruto",
@@ -590,10 +2137,38 @@
       "manifest": ""
     },
     {
+      "slug": "teuchi",
+      "name": "Teuchi",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/teuchi.png",
+      "manifest": ""
+    },
+    {
+      "slug": "third_hokage",
+      "name": "Third Hokage",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/third_hokage.png",
+      "manifest": ""
+    },
+    {
       "slug": "zabuza",
       "name": "Zabuza",
       "world": "naruto",
       "static": "res://assets/franchises/naruto/processed/customers/zabuza.png",
+      "manifest": ""
+    },
+    {
+      "slug": "zaku",
+      "name": "Zaku",
+      "world": "naruto",
+      "static": "res://assets/franchises/naruto/processed/customers/zaku.png",
+      "manifest": ""
+    },
+    {
+      "slug": "abra",
+      "name": "Abra",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/abra.png",
       "manifest": ""
     },
     {
@@ -611,10 +2186,45 @@
       "manifest": ""
     },
     {
+      "slug": "alakazam",
+      "name": "Alakazam",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/alakazam.png",
+      "manifest": ""
+    },
+    {
+      "slug": "arbok",
+      "name": "Arbok",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/arbok.png",
+      "manifest": ""
+    },
+    {
+      "slug": "arcanine",
+      "name": "Arcanine",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/arcanine.png",
+      "manifest": ""
+    },
+    {
+      "slug": "articuno",
+      "name": "Articuno",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/articuno.png",
+      "manifest": ""
+    },
+    {
       "slug": "banette",
       "name": "Banette",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/banette.png",
+      "manifest": ""
+    },
+    {
+      "slug": "beedrill",
+      "name": "Beedrill",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/beedrill.png",
       "manifest": ""
     },
     {
@@ -625,10 +2235,115 @@
       "manifest": ""
     },
     {
+      "slug": "bellsprout",
+      "name": "Bellsprout",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/bellsprout.png",
+      "manifest": ""
+    },
+    {
+      "slug": "blastoise",
+      "name": "Blastoise",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/blastoise.png",
+      "manifest": ""
+    },
+    {
+      "slug": "bulbasaur",
+      "name": "Bulbasaur",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/bulbasaur.png",
+      "manifest": ""
+    },
+    {
+      "slug": "butterfree",
+      "name": "Butterfree",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/butterfree.png",
+      "manifest": ""
+    },
+    {
       "slug": "castform",
       "name": "Castform",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/castform.png",
+      "manifest": ""
+    },
+    {
+      "slug": "caterpie",
+      "name": "Caterpie",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/caterpie.png",
+      "manifest": ""
+    },
+    {
+      "slug": "chansey",
+      "name": "Chansey",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/chansey.png",
+      "manifest": ""
+    },
+    {
+      "slug": "charizard",
+      "name": "Charizard",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/charizard.png",
+      "manifest": ""
+    },
+    {
+      "slug": "charmander",
+      "name": "Charmander",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/charmander.png",
+      "manifest": ""
+    },
+    {
+      "slug": "charmeleon",
+      "name": "Charmeleon",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/charmeleon.png",
+      "manifest": ""
+    },
+    {
+      "slug": "clefable",
+      "name": "Clefable",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/clefable.png",
+      "manifest": ""
+    },
+    {
+      "slug": "clefairy",
+      "name": "Clefairy",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/clefairy.png",
+      "manifest": ""
+    },
+    {
+      "slug": "cloyster",
+      "name": "Cloyster",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/cloyster.png",
+      "manifest": ""
+    },
+    {
+      "slug": "cubone",
+      "name": "Cubone",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/cubone.png",
+      "manifest": ""
+    },
+    {
+      "slug": "dewgong",
+      "name": "Dewgong",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/dewgong.png",
+      "manifest": ""
+    },
+    {
+      "slug": "diglett",
+      "name": "Diglett",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/diglett.png",
       "manifest": ""
     },
     {
@@ -639,6 +2354,27 @@
       "manifest": ""
     },
     {
+      "slug": "dodrio",
+      "name": "Dodrio",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/dodrio.png",
+      "manifest": ""
+    },
+    {
+      "slug": "doduo",
+      "name": "Doduo",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/doduo.png",
+      "manifest": ""
+    },
+    {
+      "slug": "dragonair",
+      "name": "Dragonair",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/dragonair.png",
+      "manifest": ""
+    },
+    {
       "slug": "dragonite",
       "name": "Dragonite",
       "world": "pokemon",
@@ -646,10 +2382,381 @@
       "manifest": ""
     },
     {
+      "slug": "dratini",
+      "name": "Dratini",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/dratini.png",
+      "manifest": ""
+    },
+    {
+      "slug": "drowzee",
+      "name": "Drowzee",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/drowzee.png",
+      "manifest": ""
+    },
+    {
+      "slug": "dugtrio",
+      "name": "Dugtrio",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/dugtrio.png",
+      "manifest": ""
+    },
+    {
+      "slug": "eevee",
+      "name": "Eevee",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/eevee.png",
+      "manifest": ""
+    },
+    {
+      "slug": "ekans",
+      "name": "Ekans",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/ekans.png",
+      "manifest": ""
+    },
+    {
+      "slug": "electabuzz",
+      "name": "Electabuzz",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/electabuzz.png",
+      "manifest": ""
+    },
+    {
+      "slug": "electrode",
+      "name": "Electrode",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/electrode.png",
+      "manifest": ""
+    },
+    {
+      "slug": "exeggcute",
+      "name": "Exeggcute",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/exeggcute.png",
+      "manifest": ""
+    },
+    {
+      "slug": "exeggutor",
+      "name": "Exeggutor",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/exeggutor.png",
+      "manifest": ""
+    },
+    {
+      "slug": "farfetchd",
+      "name": "Farfetch'd",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/farfetchd.png",
+      "manifest": ""
+    },
+    {
+      "slug": "fearow",
+      "name": "Fearow",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/fearow.png",
+      "manifest": ""
+    },
+    {
+      "slug": "flareon",
+      "name": "Flareon",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/flareon.png",
+      "manifest": ""
+    },
+    {
+      "slug": "gastly",
+      "name": "Gastly",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/gastly.png",
+      "manifest": ""
+    },
+    {
+      "slug": "gengar",
+      "name": "Gengar",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/gengar.png",
+      "manifest": ""
+    },
+    {
+      "slug": "geodude",
+      "name": "Geodude",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/geodude.png",
+      "manifest": ""
+    },
+    {
       "slug": "girafarig",
       "name": "Girafarig",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/girafarig.png",
+      "manifest": ""
+    },
+    {
+      "slug": "gloom",
+      "name": "Gloom",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/gloom.png",
+      "manifest": ""
+    },
+    {
+      "slug": "golbat",
+      "name": "Golbat",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/golbat.png",
+      "manifest": ""
+    },
+    {
+      "slug": "goldeen",
+      "name": "Goldeen",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/goldeen.png",
+      "manifest": ""
+    },
+    {
+      "slug": "golduck",
+      "name": "Golduck",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/golduck.png",
+      "manifest": ""
+    },
+    {
+      "slug": "golem",
+      "name": "Golem",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/golem.png",
+      "manifest": ""
+    },
+    {
+      "slug": "graveler",
+      "name": "Graveler",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/graveler.png",
+      "manifest": ""
+    },
+    {
+      "slug": "grimer",
+      "name": "Grimer",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/grimer.png",
+      "manifest": ""
+    },
+    {
+      "slug": "growlithe",
+      "name": "Growlithe",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/growlithe.png",
+      "manifest": ""
+    },
+    {
+      "slug": "gyarados",
+      "name": "Gyarados",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/gyarados.png",
+      "manifest": ""
+    },
+    {
+      "slug": "haunter",
+      "name": "Haunter",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/haunter.png",
+      "manifest": ""
+    },
+    {
+      "slug": "hitmonchan",
+      "name": "Hitmonchan",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/hitmonchan.png",
+      "manifest": ""
+    },
+    {
+      "slug": "hitmonlee",
+      "name": "Hitmonlee",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/hitmonlee.png",
+      "manifest": ""
+    },
+    {
+      "slug": "horsea",
+      "name": "Horsea",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/horsea.png",
+      "manifest": ""
+    },
+    {
+      "slug": "hypno",
+      "name": "Hypno",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/hypno.png",
+      "manifest": ""
+    },
+    {
+      "slug": "ivysaur",
+      "name": "Ivysaur",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/ivysaur.png",
+      "manifest": ""
+    },
+    {
+      "slug": "jigglypuff",
+      "name": "Jigglypuff",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/jigglypuff.png",
+      "manifest": ""
+    },
+    {
+      "slug": "jolteon",
+      "name": "Jolteon",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/jolteon.png",
+      "manifest": ""
+    },
+    {
+      "slug": "jynx",
+      "name": "Jynx",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/jynx.png",
+      "manifest": ""
+    },
+    {
+      "slug": "kabutops",
+      "name": "Kabutops",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/kabutops.png",
+      "manifest": ""
+    },
+    {
+      "slug": "kadabra",
+      "name": "Kadabra",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/kadabra.png",
+      "manifest": ""
+    },
+    {
+      "slug": "kakuna",
+      "name": "Kakuna",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/kakuna.png",
+      "manifest": ""
+    },
+    {
+      "slug": "kangaskhan",
+      "name": "Kangaskhan",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/kangaskhan.png",
+      "manifest": ""
+    },
+    {
+      "slug": "kingler",
+      "name": "Kingler",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/kingler.png",
+      "manifest": ""
+    },
+    {
+      "slug": "koffing",
+      "name": "Koffing",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/koffing.png",
+      "manifest": ""
+    },
+    {
+      "slug": "krabby",
+      "name": "Krabby",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/krabby.png",
+      "manifest": ""
+    },
+    {
+      "slug": "lapras",
+      "name": "Lapras",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/lapras.png",
+      "manifest": ""
+    },
+    {
+      "slug": "lickitung",
+      "name": "Lickitung",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/lickitung.png",
+      "manifest": ""
+    },
+    {
+      "slug": "machamp",
+      "name": "Machamp",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/machamp.png",
+      "manifest": ""
+    },
+    {
+      "slug": "machoke",
+      "name": "Machoke",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/machoke.png",
+      "manifest": ""
+    },
+    {
+      "slug": "machop",
+      "name": "Machop",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/machop.png",
+      "manifest": ""
+    },
+    {
+      "slug": "magikarp",
+      "name": "Magikarp",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/magikarp.png",
+      "manifest": ""
+    },
+    {
+      "slug": "magmar",
+      "name": "Magmar",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/magmar.png",
+      "manifest": ""
+    },
+    {
+      "slug": "magnemite",
+      "name": "Magnemite",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/magnemite.png",
+      "manifest": ""
+    },
+    {
+      "slug": "magneton",
+      "name": "Magneton",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/magneton.png",
+      "manifest": ""
+    },
+    {
+      "slug": "mankey",
+      "name": "Mankey",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/mankey.png",
+      "manifest": ""
+    },
+    {
+      "slug": "marowak",
+      "name": "Marowak",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/marowak.png",
+      "manifest": ""
+    },
+    {
+      "slug": "meowth",
+      "name": "Meowth",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/meowth.png",
+      "manifest": ""
+    },
+    {
+      "slug": "metapod",
+      "name": "Metapod",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/metapod.png",
       "manifest": ""
     },
     {
@@ -667,10 +2774,318 @@
       "manifest": ""
     },
     {
+      "slug": "moltres",
+      "name": "Moltres",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/moltres.png",
+      "manifest": ""
+    },
+    {
+      "slug": "mr_mime",
+      "name": "Mr. Mime",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/mr_mime.png",
+      "manifest": ""
+    },
+    {
+      "slug": "muk",
+      "name": "Muk",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/muk.png",
+      "manifest": ""
+    },
+    {
+      "slug": "nidoking",
+      "name": "Nidoking",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/nidoking.png",
+      "manifest": ""
+    },
+    {
+      "slug": "nidoqueen",
+      "name": "Nidoqueen",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/nidoqueen.png",
+      "manifest": ""
+    },
+    {
+      "slug": "nidoran_f",
+      "name": "Nidoran F",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/nidoran_f.png",
+      "manifest": ""
+    },
+    {
+      "slug": "nidoran_m",
+      "name": "Nidoran M",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/nidoran_m.png",
+      "manifest": ""
+    },
+    {
+      "slug": "nidorina",
+      "name": "Nidorina",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/nidorina.png",
+      "manifest": ""
+    },
+    {
+      "slug": "nidorino",
+      "name": "Nidorino",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/nidorino.png",
+      "manifest": ""
+    },
+    {
+      "slug": "ninetales",
+      "name": "Ninetales",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/ninetales.png",
+      "manifest": ""
+    },
+    {
+      "slug": "oddish",
+      "name": "Oddish",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/oddish.png",
+      "manifest": ""
+    },
+    {
+      "slug": "omanyte",
+      "name": "Omanyte",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/omanyte.png",
+      "manifest": ""
+    },
+    {
+      "slug": "omastar",
+      "name": "Omastar",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/omastar.png",
+      "manifest": ""
+    },
+    {
+      "slug": "onix",
+      "name": "Onix",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/onix.png",
+      "manifest": ""
+    },
+    {
+      "slug": "paras",
+      "name": "Paras",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/paras.png",
+      "manifest": ""
+    },
+    {
+      "slug": "parasect",
+      "name": "Parasect",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/parasect.png",
+      "manifest": ""
+    },
+    {
+      "slug": "persian",
+      "name": "Persian",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/persian.png",
+      "manifest": ""
+    },
+    {
       "slug": "pichu",
       "name": "Pichu",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/pichu.png",
+      "manifest": ""
+    },
+    {
+      "slug": "pidgeot",
+      "name": "Pidgeot",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/pidgeot.png",
+      "manifest": ""
+    },
+    {
+      "slug": "pidgeotto",
+      "name": "Pidgeotto",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/pidgeotto.png",
+      "manifest": ""
+    },
+    {
+      "slug": "pidgey",
+      "name": "Pidgey",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/pidgey.png",
+      "manifest": ""
+    },
+    {
+      "slug": "pikachu",
+      "name": "Pikachu",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/pikachu.png",
+      "manifest": ""
+    },
+    {
+      "slug": "pinsir",
+      "name": "Pinsir",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/pinsir.png",
+      "manifest": ""
+    },
+    {
+      "slug": "poliwag",
+      "name": "Poliwag",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/poliwag.png",
+      "manifest": ""
+    },
+    {
+      "slug": "poliwhirl",
+      "name": "Poliwhirl",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/poliwhirl.png",
+      "manifest": ""
+    },
+    {
+      "slug": "poliwrath",
+      "name": "Poliwrath",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/poliwrath.png",
+      "manifest": ""
+    },
+    {
+      "slug": "ponyta",
+      "name": "Ponyta",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/ponyta.png",
+      "manifest": ""
+    },
+    {
+      "slug": "porygon",
+      "name": "Porygon",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/porygon.png",
+      "manifest": ""
+    },
+    {
+      "slug": "primeape",
+      "name": "Primeape",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/primeape.png",
+      "manifest": ""
+    },
+    {
+      "slug": "psyduck",
+      "name": "Psyduck",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/psyduck.png",
+      "manifest": ""
+    },
+    {
+      "slug": "raichu",
+      "name": "Raichu",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/raichu.png",
+      "manifest": ""
+    },
+    {
+      "slug": "rapidash",
+      "name": "Rapidash",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/rapidash.png",
+      "manifest": ""
+    },
+    {
+      "slug": "raticate",
+      "name": "Raticate",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/raticate.png",
+      "manifest": ""
+    },
+    {
+      "slug": "rattata",
+      "name": "Rattata",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/rattata.png",
+      "manifest": ""
+    },
+    {
+      "slug": "rhydon",
+      "name": "Rhydon",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/rhydon.png",
+      "manifest": ""
+    },
+    {
+      "slug": "rhyhorn",
+      "name": "Rhyhorn",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/rhyhorn.png",
+      "manifest": ""
+    },
+    {
+      "slug": "sandshrew",
+      "name": "Sandshrew",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/sandshrew.png",
+      "manifest": ""
+    },
+    {
+      "slug": "sandslash",
+      "name": "Sandslash",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/sandslash.png",
+      "manifest": ""
+    },
+    {
+      "slug": "scyther",
+      "name": "Scyther",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/scyther.png",
+      "manifest": ""
+    },
+    {
+      "slug": "seadra",
+      "name": "Seadra",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/seadra.png",
+      "manifest": ""
+    },
+    {
+      "slug": "seaking",
+      "name": "Seaking",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/seaking.png",
+      "manifest": ""
+    },
+    {
+      "slug": "seel",
+      "name": "Seel",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/seel.png",
+      "manifest": ""
+    },
+    {
+      "slug": "shellder",
+      "name": "Shellder",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/shellder.png",
+      "manifest": ""
+    },
+    {
+      "slug": "slowbro",
+      "name": "Slowbro",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/slowbro.png",
+      "manifest": ""
+    },
+    {
+      "slug": "slowpoke",
+      "name": "Slowpoke",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/slowpoke.png",
       "manifest": ""
     },
     {
@@ -681,6 +3096,153 @@
       "manifest": ""
     },
     {
+      "slug": "spearow",
+      "name": "Spearow",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/spearow.png",
+      "manifest": ""
+    },
+    {
+      "slug": "squirtle",
+      "name": "Squirtle",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/squirtle.png",
+      "manifest": ""
+    },
+    {
+      "slug": "starmie",
+      "name": "Starmie",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/starmie.png",
+      "manifest": ""
+    },
+    {
+      "slug": "staryu",
+      "name": "Staryu",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/staryu.png",
+      "manifest": ""
+    },
+    {
+      "slug": "tangela",
+      "name": "Tangela",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/tangela.png",
+      "manifest": ""
+    },
+    {
+      "slug": "tauros",
+      "name": "Tauros",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/tauros.png",
+      "manifest": ""
+    },
+    {
+      "slug": "tentacool",
+      "name": "Tentacool",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/tentacool.png",
+      "manifest": ""
+    },
+    {
+      "slug": "tentacruel",
+      "name": "Tentacruel",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/tentacruel.png",
+      "manifest": ""
+    },
+    {
+      "slug": "vaporeon",
+      "name": "Vaporeon",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/vaporeon.png",
+      "manifest": ""
+    },
+    {
+      "slug": "venomoth",
+      "name": "Venomoth",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/venomoth.png",
+      "manifest": ""
+    },
+    {
+      "slug": "venonat",
+      "name": "Venonat",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/venonat.png",
+      "manifest": ""
+    },
+    {
+      "slug": "venusaur",
+      "name": "Venusaur",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/venusaur.png",
+      "manifest": ""
+    },
+    {
+      "slug": "victreebel",
+      "name": "Victreebel",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/victreebel.png",
+      "manifest": ""
+    },
+    {
+      "slug": "vileplume",
+      "name": "Vileplume",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/vileplume.png",
+      "manifest": ""
+    },
+    {
+      "slug": "voltorb",
+      "name": "Voltorb",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/voltorb.png",
+      "manifest": ""
+    },
+    {
+      "slug": "vulpix",
+      "name": "Vulpix",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/vulpix.png",
+      "manifest": ""
+    },
+    {
+      "slug": "wartortle",
+      "name": "Wartortle",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/wartortle.png",
+      "manifest": ""
+    },
+    {
+      "slug": "weedle",
+      "name": "Weedle",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/weedle.png",
+      "manifest": ""
+    },
+    {
+      "slug": "weepinbell",
+      "name": "Weepinbell",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/weepinbell.png",
+      "manifest": ""
+    },
+    {
+      "slug": "weezing",
+      "name": "Weezing",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/weezing.png",
+      "manifest": ""
+    },
+    {
+      "slug": "wigglytuff",
+      "name": "Wigglytuff",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/wigglytuff.png",
+      "manifest": ""
+    },
+    {
       "slug": "zapdos",
       "name": "Zapdos",
       "world": "pokemon",
@@ -688,52 +3250,10 @@
       "manifest": ""
     },
     {
-      "slug": "princess_zelda",
-      "name": "Princess Zelda",
-      "world": "zelda",
-      "static": "res://assets/franchises/zelda/processed/customers/princess_zelda.png",
-      "manifest": ""
-    },
-    {
-      "slug": "king_daltus",
-      "name": "King Daltus",
-      "world": "zelda",
-      "static": "res://assets/franchises/zelda/processed/customers/king_daltus.png",
-      "manifest": ""
-    },
-    {
-      "slug": "royal_guard",
-      "name": "Royal Guard",
-      "world": "zelda",
-      "static": "res://assets/franchises/zelda/processed/customers/royal_guard.png",
-      "manifest": ""
-    },
-    {
-      "slug": "field_guard",
-      "name": "Field Guard",
-      "world": "zelda",
-      "static": "res://assets/franchises/zelda/processed/customers/field_guard.png",
-      "manifest": ""
-    },
-    {
-      "slug": "din",
-      "name": "Din",
-      "world": "zelda",
-      "static": "res://assets/franchises/zelda/processed/customers/din.png",
-      "manifest": ""
-    },
-    {
-      "slug": "nayru",
-      "name": "Nayru",
-      "world": "zelda",
-      "static": "res://assets/franchises/zelda/processed/customers/nayru.png",
-      "manifest": ""
-    },
-    {
-      "slug": "farore",
-      "name": "Farore",
-      "world": "zelda",
-      "static": "res://assets/franchises/zelda/processed/customers/farore.png",
+      "slug": "zubat",
+      "name": "Zubat",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/zubat.png",
       "manifest": ""
     },
     {
@@ -744,10 +3264,24 @@
       "manifest": ""
     },
     {
-      "slug": "kid_boy_gold",
-      "name": "Tam",
+      "slug": "din",
+      "name": "Din",
       "world": "zelda",
-      "static": "res://assets/franchises/zelda/processed/customers/kid_boy_gold.png",
+      "static": "res://assets/franchises/zelda/processed/customers/din.png",
+      "manifest": ""
+    },
+    {
+      "slug": "farore",
+      "name": "Farore",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/farore.png",
+      "manifest": ""
+    },
+    {
+      "slug": "field_guard",
+      "name": "Field Guard",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/field_guard.png",
       "manifest": ""
     },
     {
@@ -758,10 +3292,10 @@
       "manifest": ""
     },
     {
-      "slug": "kid_girl_gold",
-      "name": "Romy",
+      "slug": "kid_boy_gold",
+      "name": "Tam",
       "world": "zelda",
-      "static": "res://assets/franchises/zelda/processed/customers/kid_girl_gold.png",
+      "static": "res://assets/franchises/zelda/processed/customers/kid_boy_gold.png",
       "manifest": ""
     },
     {
@@ -772,376 +3306,305 @@
       "manifest": ""
     },
     {
-      "slug": "third_hokage",
-      "name": "Third Hokage",
-      "world": "naruto",
-      "static": "res://assets/franchises/naruto/processed/customers/third_hokage.png"
+      "slug": "kid_girl_gold",
+      "name": "Romy",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/kid_girl_gold.png",
+      "manifest": ""
     },
     {
-      "slug": "iruka",
-      "name": "Iruka",
-      "world": "naruto",
-      "static": "res://assets/franchises/naruto/processed/customers/iruka.png"
+      "slug": "king_daltus",
+      "name": "King Daltus",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/king_daltus.png",
+      "manifest": ""
     },
     {
-      "slug": "asuma",
-      "name": "Asuma",
-      "world": "naruto",
-      "static": "res://assets/franchises/naruto/processed/customers/asuma.png"
+      "slug": "nayru",
+      "name": "Nayru",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/nayru.png",
+      "manifest": ""
     },
     {
-      "slug": "might_guy",
-      "name": "Might Guy",
-      "world": "naruto",
-      "static": "res://assets/franchises/naruto/processed/customers/might_guy.png"
+      "slug": "princess_zelda",
+      "name": "Princess Zelda",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/princess_zelda.png",
+      "manifest": ""
     },
     {
-      "slug": "misumi",
-      "name": "Misumi",
-      "world": "naruto",
-      "static": "res://assets/franchises/naruto/processed/customers/misumi.png"
+      "slug": "royal_guard",
+      "name": "Royal Guard",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/royal_guard.png",
+      "manifest": ""
     },
     {
-      "slug": "itachi",
-      "name": "Itachi",
-      "world": "naruto",
-      "static": "res://assets/franchises/naruto/processed/customers/itachi.png"
+      "slug": "zelda_traveler_01",
+      "name": "Hyrule Resident 01",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/zelda_traveler_01.png",
+      "manifest": ""
     },
     {
-      "slug": "dosu",
-      "name": "Dosu",
-      "world": "naruto",
-      "static": "res://assets/franchises/naruto/processed/customers/dosu.png"
+      "slug": "zelda_traveler_02",
+      "name": "Hyrule Resident 02",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/zelda_traveler_02.png",
+      "manifest": ""
     },
     {
-      "slug": "kin",
-      "name": "Kin",
-      "world": "naruto",
-      "static": "res://assets/franchises/naruto/processed/customers/kin.png"
+      "slug": "zelda_traveler_03",
+      "name": "Hyrule Resident 03",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/zelda_traveler_03.png",
+      "manifest": ""
     },
     {
-      "slug": "zaku",
-      "name": "Zaku",
-      "world": "naruto",
-      "static": "res://assets/franchises/naruto/processed/customers/zaku.png"
+      "slug": "zelda_traveler_04",
+      "name": "Hyrule Resident 04",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/zelda_traveler_04.png",
+      "manifest": ""
     },
     {
-      "slug": "shikamaru",
-      "name": "Shikamaru",
-      "world": "naruto",
-      "static": "res://assets/franchises/naruto/processed/customers/shikamaru.png"
+      "slug": "zelda_traveler_05",
+      "name": "Hyrule Resident 05",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/zelda_traveler_05.png",
+      "manifest": ""
     },
     {
-      "slug": "ino",
-      "name": "Ino",
-      "world": "naruto",
-      "static": "res://assets/franchises/naruto/processed/customers/ino.png"
+      "slug": "zelda_traveler_06",
+      "name": "Hyrule Resident 06",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/zelda_traveler_06.png",
+      "manifest": ""
     },
     {
-      "slug": "akamaru",
-      "name": "Akamaru",
-      "world": "naruto",
-      "static": "res://assets/franchises/naruto/processed/customers/akamaru.png"
+      "slug": "zelda_traveler_07",
+      "name": "Hyrule Resident 07",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/zelda_traveler_07.png",
+      "manifest": ""
     },
     {
-      "slug": "shino",
-      "name": "Shino",
-      "world": "naruto",
-      "static": "res://assets/franchises/naruto/processed/customers/shino.png"
+      "slug": "zelda_traveler_08",
+      "name": "Hyrule Resident 08",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/zelda_traveler_08.png",
+      "manifest": ""
     },
     {
-      "slug": "hinata",
-      "name": "Hinata",
-      "world": "naruto",
-      "static": "res://assets/franchises/naruto/processed/customers/hinata.png"
+      "slug": "zelda_traveler_09",
+      "name": "Hyrule Resident 09",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/zelda_traveler_09.png",
+      "manifest": ""
     },
     {
-      "slug": "konohamaru",
-      "name": "Konohamaru",
-      "world": "naruto",
-      "static": "res://assets/franchises/naruto/processed/customers/konohamaru.png"
+      "slug": "zelda_traveler_10",
+      "name": "Hyrule Resident 10",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/zelda_traveler_10.png",
+      "manifest": ""
     },
     {
-      "slug": "neji",
-      "name": "Neji",
-      "world": "naruto",
-      "static": "res://assets/franchises/naruto/processed/customers/neji.png"
+      "slug": "zelda_traveler_11",
+      "name": "Hyrule Resident 11",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/zelda_traveler_11.png",
+      "manifest": ""
     },
     {
-      "slug": "rock_lee",
-      "name": "Rock Lee",
-      "world": "naruto",
-      "static": "res://assets/franchises/naruto/processed/customers/rock_lee.png"
+      "slug": "zelda_traveler_12",
+      "name": "Hyrule Resident 12",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/zelda_traveler_12.png",
+      "manifest": ""
     },
     {
-      "slug": "teuchi",
-      "name": "Teuchi",
-      "world": "naruto",
-      "static": "res://assets/franchises/naruto/processed/customers/teuchi.png"
+      "slug": "zelda_traveler_13",
+      "name": "Hyrule Resident 13",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/zelda_traveler_13.png",
+      "manifest": ""
     },
     {
-      "slug": "tazuna",
-      "name": "Tazuna",
-      "world": "naruto",
-      "static": "res://assets/franchises/naruto/processed/customers/tazuna.png"
+      "slug": "zelda_traveler_14",
+      "name": "Hyrule Resident 14",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/zelda_traveler_14.png",
+      "manifest": ""
     },
     {
-      "slug": "mizuki",
-      "name": "Mizuki",
-      "world": "naruto",
-      "static": "res://assets/franchises/naruto/processed/customers/mizuki.png"
+      "slug": "zelda_traveler_15",
+      "name": "Hyrule Resident 15",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/zelda_traveler_15.png",
+      "manifest": ""
     },
     {
-      "slug": "mist_ninja",
-      "name": "Mist Ninja",
-      "world": "naruto",
-      "static": "res://assets/franchises/naruto/processed/customers/mist_ninja.png"
+      "slug": "zelda_traveler_16",
+      "name": "Hyrule Resident 16",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/zelda_traveler_16.png",
+      "manifest": ""
     },
     {
-      "slug": "rain_ninja",
-      "name": "Rain Ninja",
-      "world": "naruto",
-      "static": "res://assets/franchises/naruto/processed/customers/rain_ninja.png"
+      "slug": "zelda_traveler_17",
+      "name": "Hyrule Resident 17",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/zelda_traveler_17.png",
+      "manifest": ""
     },
     {
-      "slug": "chunin_examiner",
-      "name": "Chunin Examiner",
-      "world": "naruto",
-      "static": "res://assets/franchises/naruto/processed/customers/chunin_examiner.png"
+      "slug": "zelda_traveler_18",
+      "name": "Hyrule Resident 18",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/zelda_traveler_18.png",
+      "manifest": ""
     },
     {
-      "slug": "jus_bobobo",
-      "name": "Bobobo",
-      "world": "anime",
-      "static": "res://assets/franchises/anime/processed/customers/jus_bobobo.png"
+      "slug": "zelda_traveler_19",
+      "name": "Hyrule Resident 19",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/zelda_traveler_19.png",
+      "manifest": ""
     },
     {
-      "slug": "jus_byakuya",
-      "name": "Byakuya",
-      "world": "anime",
-      "static": "res://assets/franchises/anime/processed/customers/jus_byakuya.png"
+      "slug": "zelda_traveler_20",
+      "name": "Hyrule Resident 20",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/zelda_traveler_20.png",
+      "manifest": ""
     },
     {
-      "slug": "jus_chopper",
-      "name": "Chopper",
-      "world": "anime",
-      "static": "res://assets/franchises/anime/processed/customers/jus_chopper.png"
+      "slug": "zelda_traveler_21",
+      "name": "Hyrule Resident 21",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/zelda_traveler_21.png",
+      "manifest": ""
     },
     {
-      "slug": "jus_diobrando",
-      "name": "Dio Brando",
-      "world": "anime",
-      "static": "res://assets/franchises/anime/processed/customers/jus_diobrando.png"
+      "slug": "zelda_traveler_22",
+      "name": "Hyrule Resident 22",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/zelda_traveler_22.png",
+      "manifest": ""
     },
     {
-      "slug": "jus_donpatch",
-      "name": "Don Patch",
-      "world": "anime",
-      "static": "res://assets/franchises/anime/processed/customers/jus_donpatch.png"
+      "slug": "zelda_traveler_23",
+      "name": "Hyrule Resident 23",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/zelda_traveler_23.png",
+      "manifest": ""
     },
     {
-      "slug": "jus_eve",
-      "name": "Eve",
-      "world": "anime",
-      "static": "res://assets/franchises/anime/processed/customers/jus_eve.png"
+      "slug": "zelda_traveler_24",
+      "name": "Hyrule Resident 24",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/zelda_traveler_24.png",
+      "manifest": ""
     },
     {
-      "slug": "jus_frieza",
-      "name": "Frieza",
-      "world": "anime",
-      "static": "res://assets/franchises/anime/processed/customers/jus_frieza.png"
+      "slug": "zelda_traveler_25",
+      "name": "Hyrule Resident 25",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/zelda_traveler_25.png",
+      "manifest": ""
     },
     {
-      "slug": "jus_giornogiovanna",
-      "name": "Giorno",
-      "world": "anime",
-      "static": "res://assets/franchises/anime/processed/customers/jus_giornogiovanna.png"
+      "slug": "zelda_traveler_26",
+      "name": "Hyrule Resident 26",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/zelda_traveler_26.png",
+      "manifest": ""
     },
     {
-      "slug": "jus_gon",
-      "name": "Gon",
-      "world": "anime",
-      "static": "res://assets/franchises/anime/processed/customers/jus_gon.png"
+      "slug": "zelda_traveler_27",
+      "name": "Hyrule Resident 27",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/zelda_traveler_27.png",
+      "manifest": ""
     },
     {
-      "slug": "jus_gotenks",
-      "name": "Gotenks",
-      "world": "anime",
-      "static": "res://assets/franchises/anime/processed/customers/jus_gotenks.png"
+      "slug": "zelda_traveler_28",
+      "name": "Hyrule Resident 28",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/zelda_traveler_28.png",
+      "manifest": ""
     },
     {
-      "slug": "jus_hiei",
-      "name": "Hiei",
-      "world": "anime",
-      "static": "res://assets/franchises/anime/processed/customers/jus_hiei.png"
+      "slug": "zelda_traveler_29",
+      "name": "Hyrule Resident 29",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/zelda_traveler_29.png",
+      "manifest": ""
     },
     {
-      "slug": "jus_ichigo",
-      "name": "Ichigo",
-      "world": "anime",
-      "static": "res://assets/franchises/anime/processed/customers/jus_ichigo.png"
+      "slug": "zelda_traveler_30",
+      "name": "Hyrule Resident 30",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/zelda_traveler_30.png",
+      "manifest": ""
     },
     {
-      "slug": "jus_jonathanjoestar",
-      "name": "Jonathan Joestar",
-      "world": "anime",
-      "static": "res://assets/franchises/anime/processed/customers/jus_jonathanjoestar.png"
+      "slug": "zelda_traveler_31",
+      "name": "Hyrule Resident 31",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/zelda_traveler_31.png",
+      "manifest": ""
     },
     {
-      "slug": "jus_josephjoestar",
-      "name": "Joseph Joestar",
-      "world": "anime",
-      "static": "res://assets/franchises/anime/processed/customers/jus_josephjoestar.png"
+      "slug": "zelda_traveler_32",
+      "name": "Hyrule Resident 32",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/zelda_traveler_32.png",
+      "manifest": ""
     },
     {
-      "slug": "jus_josukehigashikata",
-      "name": "Josuke",
-      "world": "anime",
-      "static": "res://assets/franchises/anime/processed/customers/jus_josukehigashikata.png"
+      "slug": "zelda_traveler_33",
+      "name": "Hyrule Resident 33",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/zelda_traveler_33.png",
+      "manifest": ""
     },
     {
-      "slug": "jus_jotarokujo",
-      "name": "Jotaro",
-      "world": "anime",
-      "static": "res://assets/franchises/anime/processed/customers/jus_jotarokujo.png"
+      "slug": "zelda_traveler_34",
+      "name": "Hyrule Resident 34",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/zelda_traveler_34.png",
+      "manifest": ""
     },
     {
-      "slug": "jus_allen",
-      "name": "Allen Walker",
-      "world": "anime",
-      "static": "res://assets/franchises/anime/processed/customers/jus_allen.png"
+      "slug": "zelda_traveler_35",
+      "name": "Hyrule Resident 35",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/zelda_traveler_35.png",
+      "manifest": ""
     },
     {
-      "slug": "jus_kenshin",
-      "name": "Kenshin",
-      "world": "anime",
-      "static": "res://assets/franchises/anime/processed/customers/jus_kenshin.png"
+      "slug": "zelda_traveler_36",
+      "name": "Hyrule Resident 36",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/zelda_traveler_36.png",
+      "manifest": ""
     },
     {
-      "slug": "jus_killua",
-      "name": "Killua",
-      "world": "anime",
-      "static": "res://assets/franchises/anime/processed/customers/jus_killua.png"
+      "slug": "zelda_traveler_37",
+      "name": "Hyrule Resident 37",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/zelda_traveler_37.png",
+      "manifest": ""
     },
     {
-      "slug": "jus_kon",
-      "name": "Kon",
-      "world": "anime",
-      "static": "res://assets/franchises/anime/processed/customers/jus_kon.png"
-    },
-    {
-      "slug": "jus_kuwabara",
-      "name": "Kuwabara",
-      "world": "anime",
-      "static": "res://assets/franchises/anime/processed/customers/jus_kuwabara.png"
-    },
-    {
-      "slug": "jus_l",
-      "name": "L",
-      "world": "anime",
-      "static": "res://assets/franchises/anime/processed/customers/jus_l.png"
-    },
-    {
-      "slug": "jus_light",
-      "name": "Light",
-      "world": "anime",
-      "static": "res://assets/franchises/anime/processed/customers/jus_light.png"
-    },
-    {
-      "slug": "jus_luffy",
-      "name": "Luffy",
-      "world": "anime",
-      "static": "res://assets/franchises/anime/processed/customers/jus_luffy.png"
-    },
-    {
-      "slug": "jus_mello",
-      "name": "Mello",
-      "world": "anime",
-      "static": "res://assets/franchises/anime/processed/customers/jus_mello.png"
-    },
-    {
-      "slug": "jus_misaamane",
-      "name": "Misa Amane",
-      "world": "anime",
-      "static": "res://assets/franchises/anime/processed/customers/jus_misaamane.png"
-    },
-    {
-      "slug": "jus_nami",
-      "name": "Nami",
-      "world": "anime",
-      "static": "res://assets/franchises/anime/processed/customers/jus_nami.png"
-    },
-    {
-      "slug": "jus_nicorobin",
-      "name": "Nico Robin",
-      "world": "anime",
-      "static": "res://assets/franchises/anime/processed/customers/jus_nicorobin.png"
-    },
-    {
-      "slug": "jus_orihime",
-      "name": "Orihime",
-      "world": "anime",
-      "static": "res://assets/franchises/anime/processed/customers/jus_orihime.png"
-    },
-    {
-      "slug": "jus_renji",
-      "name": "Renji",
-      "world": "anime",
-      "static": "res://assets/franchises/anime/processed/customers/jus_renji.png"
-    },
-    {
-      "slug": "jus_rukiakuchiki",
-      "name": "Rukia",
-      "world": "anime",
-      "static": "res://assets/franchises/anime/processed/customers/jus_rukiakuchiki.png"
-    },
-    {
-      "slug": "jus_sanji",
-      "name": "Sanji",
-      "world": "anime",
-      "static": "res://assets/franchises/anime/processed/customers/jus_sanji.png"
-    },
-    {
-      "slug": "jus_sasuke",
-      "name": "Sasuke (JUS)",
-      "world": "anime",
-      "static": "res://assets/franchises/anime/processed/customers/jus_sasuke.png"
-    },
-    {
-      "slug": "jus_setokaiba",
-      "name": "Seto Kaiba",
-      "world": "anime",
-      "static": "res://assets/franchises/anime/processed/customers/jus_setokaiba.png"
-    },
-    {
-      "slug": "jus_sogeking",
-      "name": "Sogeking",
-      "world": "anime",
-      "static": "res://assets/franchises/anime/processed/customers/jus_sogeking.png"
-    },
-    {
-      "slug": "jus_yoh",
-      "name": "Yoh",
-      "world": "anime",
-      "static": "res://assets/franchises/anime/processed/customers/jus_yoh.png"
-    },
-    {
-      "slug": "jus_yugi",
-      "name": "Yugi",
-      "world": "anime",
-      "static": "res://assets/franchises/anime/processed/customers/jus_yugi.png"
-    },
-    {
-      "slug": "jus_yusuke",
-      "name": "Yusuke",
-      "world": "anime",
-      "static": "res://assets/franchises/anime/processed/customers/jus_yusuke.png"
-    },
-    {
-      "slug": "jus_zoro",
-      "name": "Zoro",
-      "world": "anime",
-      "static": "res://assets/franchises/anime/processed/customers/jus_zoro.png"
+      "slug": "zelda_traveler_38",
+      "name": "Hyrule Resident 38",
+      "world": "zelda",
+      "static": "res://assets/franchises/zelda/processed/customers/zelda_traveler_38.png",
+      "manifest": ""
     }
   ]
 }

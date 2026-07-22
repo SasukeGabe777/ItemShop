@@ -1,390 +1,883 @@
 {
- "schema": "crossroads.recipes.v1",
  "recipes": [
   {
-   "id": "r_hi_potion",
-   "inputs": {
-    "ff_potion": 2
-   },
-   "output": "hi_potion",
-   "fee": 40,
-   "unlock_chapter": 3
-  },
-  {
-   "id": "r_kh_elixir",
-   "inputs": {
-    "kh_potion": 2,
-    "kh_ether": 2
-   },
-   "output": "kh_elixir",
-   "fee": 120,
-   "unlock_chapter": 1
-  },
-  {
+   "fee": 280,
    "id": "r_bright_charm",
    "inputs": {
     "bright_shard": 2,
     "keychain": 1
    },
    "output": "paopu_charm",
-   "fee": 150,
    "unlock_chapter": 1
   },
   {
+   "count": 8,
+   "fee": 20,
    "id": "r_ice_cream",
    "inputs": {
-    "frost_shard": 1,
-    "munny_pouch": 1
+    "fresh_milk": 1,
+    "frost_shard": 1
    },
    "output": "sea_salt_ice_cream",
-   "count": 4,
-   "fee": 30,
    "unlock_chapter": 1
   },
   {
-   "id": "r_pow",
+   "fee": 140,
+   "id": "r_kh_elixir",
    "inputs": {
-    "koopa_shell": 2,
-    "gold_coin": 3
+    "kh_ether": 2,
+    "kh_potion": 2
    },
-   "output": "pow_block",
+   "output": "kh_elixir",
+   "unlock_chapter": 1
+  },
+  {
+   "count": 2,
    "fee": 50,
+   "id": "r_lava_cookies",
+   "inputs": {
+    "cheri_berry": 2,
+    "tiny_mushroom": 1
+   },
+   "output": "lava_cookie",
+   "unlock_chapter": 1
+  },
+  {
+   "crossover": true,
+   "fee": 380,
+   "id": "r_paopu_charm",
+   "inputs": {
+    "bright_shard": 1,
+    "paopu_fruit": 1
+   },
+   "output": "paopu_charm",
+   "unlock_chapter": 1
+  },
+  {
+   "fee": 50,
+   "id": "r_sitrus_blend",
+   "inputs": {
+    "oran_berry": 2
+   },
+   "output": "sitrus_berry",
+   "unlock_chapter": 1
+  },
+  {
+   "fee": 20,
+   "id": "r_super_potion",
+   "inputs": {
+    "oran_berry": 1,
+    "pkmn_potion": 1
+   },
+   "output": "super_potion",
+   "unlock_chapter": 1
+  },
+  {
+   "crossover": true,
+   "fee": 90,
+   "id": "r_boomerang",
+   "inputs": {
+    "deku_wood": 2,
+    "shuriken": 1
+   },
+   "output": "zelda_boomerang",
    "unlock_chapter": 2
   },
   {
+   "crossover": true,
+   "fee": 20,
+   "id": "r_ff_tent",
+   "inputs": {
+    "deku_wood": 2,
+    "ff_potion": 1
+   },
+   "output": "ff_tent",
+   "unlock_chapter": 2
+  },
+  {
+   "fee": 260,
+   "id": "r_fire_stone",
+   "inputs": {
+    "red_shard": 1
+   },
+   "output": "fire_stone",
+   "unlock_chapter": 2
+  },
+  {
+   "crossover": true,
+   "fee": 520,
+   "id": "r_flame_charm",
+   "inputs": {
+    "blaze_shard": 1,
+    "fire_flower": 1
+   },
+   "output": "flame_charm",
+   "unlock_chapter": 2
+  },
+  {
+   "fee": 260,
+   "id": "r_leaf_stone",
+   "inputs": {
+    "green_shard": 1
+   },
+   "output": "leaf_stone",
+   "unlock_chapter": 2
+  },
+  {
+   "fee": 80,
+   "id": "r_mix_flower",
+   "inputs": {
+    "ice_flower": 1,
+    "red_pepper": 1
+   },
+   "output": "mix_flower",
+   "unlock_chapter": 2
+  },
+  {
+   "fee": 220,
    "id": "r_one_up",
    "inputs": {
     "super_mushroom": 3
    },
    "output": "one_up_mushroom",
-   "fee": 100,
    "unlock_chapter": 2
   },
   {
+   "fee": 50,
+   "id": "r_pow",
+   "inputs": {
+    "gold_coin": 2,
+    "koopa_shell": 1
+   },
+   "output": "pow_block",
+   "unlock_chapter": 2
+  },
+  {
+   "fee": 140,
    "id": "r_star_meal",
    "inputs": {
-    "super_mushroom": 1,
-    "sea_salt_ice_cream": 1
+    "sea_salt_ice_cream": 1,
+    "super_mushroom": 1
    },
    "output": "questionable_combo_meal",
-   "fee": 40,
    "unlock_chapter": 2
   },
   {
+   "crossover": true,
+   "fee": 1400,
+   "id": "r_star_rod",
+   "inputs": {
+    "mario_hammer": 1,
+    "starman": 1
+   },
+   "output": "star_rod_replica",
+   "unlock_chapter": 2
+  },
+  {
+   "crossover": true,
+   "fee": 40,
+   "id": "r_substitution_log",
+   "inputs": {
+    "deku_wood": 1
+   },
+   "output": "substitution_log",
+   "unlock_chapter": 2
+  },
+  {
+   "fee": 260,
+   "id": "r_thunder_stone",
+   "inputs": {
+    "yellow_shard": 1
+   },
+   "output": "thunder_stone",
+   "unlock_chapter": 2
+  },
+  {
+   "fee": 40,
+   "id": "r_ultra_mushroom",
+   "inputs": {
+    "refreshing_herb": 1,
+    "super_mushroom": 2
+   },
+   "output": "ultra_mushroom",
+   "unlock_chapter": 2
+  },
+  {
+   "fee": 260,
+   "id": "r_water_stone",
+   "inputs": {
+    "blue_shard": 1
+   },
+   "output": "water_stone",
+   "unlock_chapter": 2
+  },
+  {
+   "fee": 10,
+   "id": "r_wooden_shield",
+   "inputs": {
+    "deku_wood": 2
+   },
+   "output": "wooden_shield",
+   "unlock_chapter": 2
+  },
+  {
+   "fee": 180,
+   "id": "r_copy_flower",
+   "inputs": {
+    "fire_flower": 1,
+    "ice_flower": 1
+   },
+   "output": "copy_flower",
+   "unlock_chapter": 3
+  },
+  {
+   "fee": 30,
+   "id": "r_ff_elixir",
+   "inputs": {
+    "ff_ether": 2,
+    "hi_potion": 1
+   },
+   "output": "ff_elixir",
+   "unlock_chapter": 3
+  },
+  {
+   "fee": 60,
+   "id": "r_forehead_protector",
+   "inputs": {
+    "deku_wood": 1,
+    "kunai": 1
+   },
+   "output": "forehead_protector",
+   "unlock_chapter": 3
+  },
+  {
+   "count": 2,
+   "fee": 350,
+   "id": "r_full_restore_brew",
+   "inputs": {
+    "hyper_potion": 1,
+    "pkmn_ether": 1
+   },
+   "output": "full_restore",
+   "unlock_chapter": 3
+  },
+  {
+   "fee": 40,
+   "id": "r_hi_potion",
+   "inputs": {
+    "ff_potion": 2
+   },
+   "output": "hi_potion",
+   "unlock_chapter": 3
+  },
+  {
+   "fee": 150,
+   "id": "r_ichiraku_ticket",
+   "inputs": {
+    "ramen_bowl": 3
+   },
+   "output": "ichiraku_ticket",
+   "unlock_chapter": 3
+  },
+  {
+   "crossover": true,
+   "fee": 310,
+   "id": "r_poison_key",
+   "inputs": {
+    "keychain": 1,
+    "poison_mushroom": 1,
+    "smoke_bomb": 1
+   },
+   "output": "poison_kingdom_key",
+   "unlock_chapter": 3
+  },
+  {
+   "fee": 100,
    "id": "r_remedy",
    "inputs": {
     "ff_potion": 1,
-    "chocobo_feather": 1,
     "green_potion": 1
    },
    "output": "remedy",
-   "fee": 80,
    "unlock_chapter": 3
   },
   {
-   "id": "r_ff_elixir",
+   "crossover": true,
+   "fee": 10,
+   "id": "r_scouter",
    "inputs": {
-    "hi_potion": 1,
-    "ff_ether": 2
+    "capsule": 1,
+    "yellow_shard": 1
    },
-   "output": "ff_elixir",
-   "fee": 200,
+   "output": "scouter",
    "unlock_chapter": 3
   },
   {
-   "id": "r_blue_potion",
+   "fee": 10,
+   "id": "r_star_piece",
    "inputs": {
-    "red_potion": 1,
-    "green_potion": 1
+    "blue_shard": 1,
+    "green_shard": 1,
+    "red_shard": 1,
+    "yellow_shard": 1
    },
-   "output": "blue_potion",
-   "fee": 90,
-   "unlock_chapter": 4
+   "output": "star_piece",
+   "unlock_chapter": 3
   },
   {
-   "id": "r_fairy_bottle",
-   "inputs": {
-    "fairy_charm": 1,
-    "green_potion": 1
-   },
-   "output": "fairy_bottle",
-   "fee": 150,
-   "unlock_chapter": 4
-  },
-  {
-   "id": "r_bomb_bag",
-   "inputs": {
-    "mario_bobomb": 2,
-    "deku_wood": 1
-   },
-   "output": "bomb_bag",
-   "fee": 70,
-   "unlock_chapter": 4
-  },
-  {
-   "id": "r_soldier_pill",
-   "inputs": {
-    "ramen_bowl": 2,
-    "chakra_pill": 1
-   },
-   "output": "soldier_pill",
-   "count": 2,
-   "fee": 60,
-   "unlock_chapter": 5
-  },
-  {
-   "id": "r_explosive_tag",
-   "inputs": {
-    "ninja_scroll": 1,
-    "blaze_shard": 1
-   },
-   "output": "explosive_tag",
-   "count": 3,
-   "fee": 60,
-   "unlock_chapter": 5
-  },
-  {
-   "id": "r_sacred_water",
-   "inputs": {
-    "senzu_bean": 1,
-    "green_potion": 1
-   },
-   "output": "sacred_water",
-   "fee": 180,
-   "unlock_chapter": 6
-  },
-  {
-   "id": "r_ultra_ball",
-   "inputs": {
-    "great_ball": 2,
-    "moon_stone": 1
-   },
-   "output": "ultra_ball",
-   "fee": 200,
-   "unlock_chapter": 7
-  },
-  {
-   "id": "r_full_restore",
-   "inputs": {
-    "pkmn_potion": 2,
-    "remedy": 1
-   },
-   "output": "full_restore",
-   "fee": 220,
-   "unlock_chapter": 7
-  },
-  {
-   "id": "r_flame_charm",
-   "inputs": {
-    "fire_flower": 1,
-    "blaze_shard": 1
-   },
-   "output": "flame_charm",
-   "fee": 200,
-   "unlock_chapter": 2,
-   "crossover": true
-  },
-  {
-   "id": "r_perfect_recovery",
-   "inputs": {
-    "senzu_bean": 1,
-    "full_restore": 1
-   },
-   "output": "perfect_recovery",
-   "fee": 500,
-   "unlock_chapter": 7,
-   "crossover": true
-  },
-  {
-   "id": "r_energy_materia",
-   "inputs": {
-    "materia": 1,
-    "chakra_crystal": 1
-   },
-   "output": "energy_materia",
-   "fee": 450,
-   "unlock_chapter": 5,
-   "crossover": true
-  },
-  {
-   "id": "r_revival_fairy",
-   "inputs": {
-    "fairy_bottle": 1,
-    "phoenix_down": 1
-   },
-   "output": "revival_fairy",
-   "fee": 400,
-   "unlock_chapter": 4,
-   "crossover": true
-  },
-  {
-   "id": "r_storm_pendant",
-   "inputs": {
-    "thunder_stone": 1,
-    "thunder_shard": 1
-   },
-   "output": "storm_pendant",
-   "fee": 420,
-   "unlock_chapter": 7,
-   "crossover": true
-  },
-  {
-   "id": "r_heros_meal",
-   "inputs": {
-    "super_mushroom": 1,
-    "soldier_pill": 1
-   },
-   "output": "heros_meal",
-   "fee": 160,
-   "unlock_chapter": 5,
-   "crossover": true
-  },
-  {
-   "id": "r_pocket_capsule",
-   "inputs": {
-    "poke_ball": 1,
-    "capsule": 1
-   },
-   "output": "pocket_capsule",
-   "fee": 300,
-   "unlock_chapter": 7,
-   "crossover": true
-  },
-  {
-   "id": "r_courage_keyblade",
-   "inputs": {
-    "keychain": 1,
-    "triforce_fragment": 1
-   },
-   "output": "courage_keyblade",
-   "fee": 1500,
-   "unlock_chapter": 4,
-   "crossover": true
-  },
-  {
-   "id": "r_ancient_staff",
-   "inputs": {
-    "power_pole": 1,
-    "deku_wood": 2
-   },
-   "output": "ancient_staff",
-   "fee": 900,
-   "unlock_chapter": 6,
-   "crossover": true
-  },
-  {
-   "id": "r_combo_meal",
-   "inputs": {
-    "ramen_bowl": 1,
-    "sea_salt_ice_cream": 1
-   },
-   "output": "questionable_combo_meal",
-   "fee": 50,
-   "unlock_chapter": 5,
-   "crossover": true
-  },
-  {
-   "id": "r_star_rod",
-   "inputs": {
-    "starman": 1,
-    "mario_hammer": 1
-   },
-   "output": "star_rod_replica",
-   "fee": 800,
-   "unlock_chapter": 2,
-   "crossover": true
-  },
-  {
-   "id": "r_substitute_plush",
-   "inputs": {
-    "deku_wood": 1,
-    "poke_ball": 1,
-    "smoke_bomb": 1
-   },
-   "output": "substitute_plush",
-   "fee": 350,
-   "unlock_chapter": 7,
-   "crossover": true
-  },
-  {
+   "crossover": true,
+   "fee": 980,
    "id": "r_storm_materia",
    "inputs": {
     "materia": 1,
     "thunder_shard": 2
    },
    "output": "energy_materia",
-   "fee": 400,
-   "unlock_chapter": 3,
-   "crossover": true
+   "unlock_chapter": 3
   },
   {
-   "id": "r_lucky_meal",
+   "crossover": true,
+   "fee": 550,
+   "id": "r_wishing_star",
    "inputs": {
-    "lucky_egg": 1,
-    "ramen_bowl": 2
+    "keychain": 1,
+    "starman": 1
    },
-   "output": "heros_meal",
-   "count": 2,
-   "fee": 220,
-   "unlock_chapter": 7,
-   "crossover": true
+   "output": "wishing_star_keyblade",
+   "unlock_chapter": 3
   },
   {
+   "count": 2,
+   "crossover": true,
+   "fee": 130,
+   "id": "r_yoshi_egg",
+   "inputs": {
+    "sitrus_berry": 1,
+    "smash_egg": 1
+   },
+   "output": "yoshi_egg",
+   "unlock_chapter": 3
+  },
+  {
+   "crossover": true,
+   "fee": 160,
+   "id": "r_1up_mushroom",
+   "inputs": {
+    "one_up_mushroom": 1,
+    "super_mushroom": 1
+   },
+   "output": "1up_mushroom",
+   "unlock_chapter": 4
+  },
+  {
+   "crossover": true,
+   "fee": 160,
+   "id": "r_amulet_coin",
+   "inputs": {
+    "gold_coin": 5,
+    "kinstone": 1,
+    "zeni_coin": 1
+   },
+   "output": "amulet_coin",
+   "unlock_chapter": 4
+  },
+  {
+   "crossover": true,
+   "fee": 770,
+   "id": "r_bean_candy",
+   "inputs": {
+    "chuckle_bean": 1,
+    "hee_bean": 1,
+    "hoo_bean": 1,
+    "woo_bean": 1
+   },
+   "output": "rare_candy",
+   "unlock_chapter": 4
+  },
+  {
+   "fee": 60,
+   "id": "r_blue_potion",
+   "inputs": {
+    "green_potion": 1,
+    "red_potion": 1
+   },
+   "output": "blue_potion",
+   "unlock_chapter": 4
+  },
+  {
+   "fee": 30,
+   "id": "r_bomb_bag",
+   "inputs": {
+    "deku_wood": 1,
+    "mario_bobomb": 1
+   },
+   "output": "bomb_bag",
+   "unlock_chapter": 4
+  },
+  {
+   "crossover": true,
+   "fee": 3000,
+   "id": "r_courage_keyblade",
+   "inputs": {
+    "keychain": 1,
+    "triforce_fragment": 1
+   },
+   "output": "courage_keyblade",
+   "unlock_chapter": 4
+  },
+  {
+   "crossover": true,
+   "fee": 190,
+   "id": "r_dk_hammer",
+   "inputs": {
+    "deku_wood": 1,
+    "mario_hammer": 1
+   },
+   "output": "dk_hammer",
+   "unlock_chapter": 4
+  },
+  {
+   "count": 2,
+   "fee": 200,
+   "id": "r_fairy_bottle",
+   "inputs": {
+    "fairy_charm": 1,
+    "green_potion": 1
+   },
+   "output": "fairy_bottle",
+   "unlock_chapter": 4
+  },
+  {
+   "crossover": true,
+   "fee": 470,
+   "id": "r_gust_jar",
+   "inputs": {
+    "capsule": 1,
+    "deku_wood": 1,
+    "gummi_block": 1
+   },
+   "output": "gust_jar",
+   "unlock_chapter": 4
+  },
+  {
+   "crossover": true,
+   "fee": 100,
+   "id": "r_hookshot",
+   "inputs": {
+    "escape_rope": 1,
+    "kh_mythril": 1
+   },
+   "output": "hookshot",
+   "unlock_chapter": 4
+  },
+  {
+   "crossover": true,
+   "fee": 10,
+   "id": "r_lady_luck",
+   "inputs": {
+    "keychain": 1,
+    "lucky_egg": 1,
+    "yellow_shard": 1
+   },
+   "output": "lady_luck_keyblade",
+   "unlock_chapter": 4
+  },
+  {
+   "fee": 350,
+   "id": "r_leftovers",
+   "inputs": {
+    "dino_drumstick": 1,
+    "mega_burger": 1
+   },
+   "output": "leftovers",
+   "unlock_chapter": 4
+  },
+  {
+   "count": 4,
+   "fee": 10,
+   "id": "r_mega_burger",
+   "inputs": {
+    "fresh_milk": 1,
+    "marbled_beef": 1
+   },
+   "output": "mega_burger",
+   "unlock_chapter": 4
+  },
+  {
+   "crossover": true,
+   "fee": 220,
+   "id": "r_pegasus_boots",
+   "inputs": {
+    "cape_feather": 1,
+    "escape_rope": 1
+   },
+   "output": "pegasus_boots",
+   "unlock_chapter": 4
+  },
+  {
+   "crossover": true,
+   "fee": 470,
+   "id": "r_rare_candy",
+   "inputs": {
+    "lava_cookie": 1,
+    "paopu_fruit": 1,
+    "sitrus_berry": 1
+   },
+   "output": "rare_candy",
+   "unlock_chapter": 4
+  },
+  {
+   "crossover": true,
+   "fee": 300,
+   "id": "r_revival_fairy",
+   "inputs": {
+    "fairy_bottle": 1,
+    "phoenix_down": 1
+   },
+   "output": "revival_fairy",
+   "unlock_chapter": 4
+  },
+  {
+   "crossover": true,
+   "fee": 10,
+   "id": "r_ribbon_charm",
+   "inputs": {
+    "ff_ribbon": 1,
+    "keychain": 1
+   },
+   "output": "fairy_harp_keyblade",
+   "unlock_chapter": 4
+  },
+  {
+   "crossover": true,
+   "fee": 390,
+   "id": "r_shell_bell",
+   "inputs": {
+    "green_potion": 1,
+    "red_koopa_shell": 1
+   },
+   "output": "shell_bell",
+   "unlock_chapter": 4
+  },
+  {
+   "crossover": true,
+   "fee": 120,
+   "id": "r_turtle_gi",
+   "inputs": {
+    "training_weights": 1
+   },
+   "output": "turtle_gi",
+   "unlock_chapter": 4
+  },
+  {
+   "fee": 280,
+   "id": "r_weighted_clothing",
+   "inputs": {
+    "training_weights": 1
+   },
+   "output": "weighted_clothing",
+   "unlock_chapter": 4
+  },
+  {
+   "crossover": true,
+   "fee": 250,
+   "id": "r_1up_super",
+   "inputs": {
+    "one_up_mushroom": 1,
+    "ultra_mushroom": 1
+   },
+   "output": "1up_super_mushroom",
+   "unlock_chapter": 5
+  },
+  {
+   "crossover": true,
+   "fee": 10,
+   "id": "r_cane_of_pacci",
+   "inputs": {
+    "deku_wood": 2,
+    "energy_crystal": 1
+   },
+   "output": "cane_of_pacci",
+   "unlock_chapter": 5
+  },
+  {
+   "crossover": true,
+   "fee": 130,
+   "id": "r_combo_meal",
+   "inputs": {
+    "ramen_bowl": 1,
+    "sea_salt_ice_cream": 1
+   },
+   "output": "questionable_combo_meal",
+   "unlock_chapter": 5
+  },
+  {
+   "crossover": true,
+   "fee": 600,
+   "id": "r_crabclaw",
+   "inputs": {
+    "keychain": 1,
+    "red_koopa_shell": 1,
+    "shell_bell": 1
+   },
+   "output": "crabclaw_keyblade",
+   "unlock_chapter": 5
+  },
+  {
+   "count": 8,
+   "fee": 10,
+   "id": "r_dango_batch",
+   "inputs": {
+    "sitrus_berry": 1,
+    "tiny_mushroom": 1
+   },
+   "output": "dango_skewer",
+   "unlock_chapter": 5
+  },
+  {
+   "fee": 50,
+   "id": "r_dragon_radar",
+   "inputs": {
+    "capsule": 1,
+    "scouter": 1
+   },
+   "output": "dragon_radar",
+   "unlock_chapter": 5
+  },
+  {
+   "crossover": true,
+   "fee": 300,
+   "id": "r_energy_materia",
+   "inputs": {
+    "chakra_crystal": 1,
+    "materia": 1
+   },
+   "output": "energy_materia",
+   "unlock_chapter": 5
+  },
+  {
+   "count": 3,
+   "fee": 40,
+   "id": "r_explosive_tag",
+   "inputs": {
+    "blaze_shard": 1,
+    "ninja_scroll": 1
+   },
+   "output": "explosive_tag",
+   "unlock_chapter": 5
+  },
+  {
+   "count": 2,
+   "fee": 70,
+   "id": "r_field_medkit",
+   "inputs": {
+    "ff_potion": 1,
+    "pecha_berry": 1,
+    "refreshing_herb": 1
+   },
+   "output": "field_medkit",
+   "unlock_chapter": 5
+  },
+  {
+   "fee": 330,
+   "id": "r_fuma_forge",
+   "inputs": {
+    "kunai": 2,
+    "shuriken": 2
+   },
+   "output": "fuma_shuriken",
+   "unlock_chapter": 5
+  },
+  {
+   "crossover": true,
+   "fee": 10,
    "id": "r_genji_upgrade",
    "inputs": {
     "kh_mythril": 2,
     "training_weights": 1
    },
    "output": "genji_glove",
-   "fee": 600,
-   "unlock_chapter": 5,
-   "crossover": true
+   "unlock_chapter": 5
   },
   {
-   "id": "r_hero_drink",
+   "crossover": true,
+   "fee": 200,
+   "id": "r_heros_meal",
    "inputs": {
-    "sacred_water": 1,
-    "hero_drink": 1
+    "soldier_pill": 1,
+    "super_mushroom": 1
    },
-   "output": "perfect_recovery",
-   "fee": 550,
-   "unlock_chapter": 6,
-   "crossover": true
+   "output": "heros_meal",
+   "unlock_chapter": 5
   },
   {
+   "crossover": true,
+   "fee": 130,
+   "id": "r_mythril_sword",
+   "inputs": {
+    "kh_mythril": 2,
+    "mario_hammer": 1
+   },
+   "output": "mythril_sword",
+   "unlock_chapter": 5
+  },
+  {
+   "crossover": true,
+   "fee": 670,
+   "id": "r_rocs_cape",
+   "inputs": {
+    "cape_feather": 1,
+    "tanooki_leaf": 1
+   },
+   "output": "rocs_cape",
+   "unlock_chapter": 5
+  },
+  {
+   "fee": 220,
+   "id": "r_senzu_culture",
+   "inputs": {
+    "fresh_milk": 1,
+    "oran_berry": 2,
+    "refreshing_herb": 1
+   },
+   "output": "senzu_bean",
+   "unlock_chapter": 5
+  },
+  {
+   "count": 2,
+   "fee": 10,
+   "id": "r_soldier_pill",
+   "inputs": {
+    "chakra_pill": 1,
+    "ramen_bowl": 2
+   },
+   "output": "soldier_pill",
+   "unlock_chapter": 5
+  },
+  {
+   "fee": 200,
+   "id": "r_summoning_scroll",
+   "inputs": {
+    "ninja_scroll": 2
+   },
+   "output": "summoning_scroll",
+   "unlock_chapter": 5
+  },
+  {
+   "crossover": true,
+   "fee": 10,
+   "id": "r_technical_machine",
+   "inputs": {
+    "materia": 1,
+    "ninja_scroll": 1
+   },
+   "output": "technical_machine",
+   "unlock_chapter": 5
+  },
+  {
+   "crossover": true,
+   "fee": 150,
+   "id": "r_three_wishes",
+   "inputs": {
+    "keychain": 1,
+    "lucky_egg": 1
+   },
+   "output": "three_wishes_keyblade",
+   "unlock_chapter": 5
+  },
+  {
+   "crossover": true,
+   "fee": 1370,
+   "id": "r_ancient_staff",
+   "inputs": {
+    "deku_wood": 2,
+    "power_pole": 1
+   },
+   "output": "ancient_staff",
+   "unlock_chapter": 6
+  },
+  {
+   "crossover": true,
+   "fee": 610,
+   "id": "r_capsule_house",
+   "inputs": {
+    "capsule": 8,
+    "deku_wood": 4
+   },
+   "output": "capsule_house",
+   "unlock_chapter": 6
+  },
+  {
+   "fee": 430,
+   "id": "r_four_sword",
+   "inputs": {
+    "kinstone": 2,
+    "white_sword": 1
+   },
+   "output": "four_sword",
+   "unlock_chapter": 6
+  },
+  {
+   "crossover": true,
+   "fee": 10,
+   "id": "r_gameboy",
+   "inputs": {
+    "capsule": 1,
+    "technical_machine": 1
+   },
+   "output": "gameboy",
+   "unlock_chapter": 6
+  },
+  {
+   "crossover": true,
+   "fee": 570,
    "id": "r_gummi_capsule",
    "inputs": {
-    "gummi_block": 2,
-    "capsule": 1
+    "capsule": 1,
+    "gummi_block": 2
    },
    "output": "pocket_capsule",
-   "fee": 320,
-   "unlock_chapter": 6,
-   "crossover": true
+   "unlock_chapter": 6
   },
   {
-   "id": "r_ribbon_charm",
+   "crossover": true,
+   "fee": 180,
+   "id": "r_hero_drink",
    "inputs": {
-    "ff_ribbon": 1,
-    "fairy_charm": 1
+    "hero_drink": 1,
+    "sacred_water": 1
    },
-   "output": "substitute_plush",
+   "output": "perfect_recovery",
+   "unlock_chapter": 6
+  },
+  {
+   "crossover": true,
+   "fee": 950,
+   "id": "r_hylian_shield",
+   "inputs": {
+    "crystal_shard_ff": 1,
+    "kh_mythril": 2,
+    "wooden_shield": 1
+   },
+   "output": "hylian_shield",
+   "unlock_chapter": 6
+  },
+  {
+   "crossover": true,
+   "fee": 580,
+   "id": "r_olympia",
+   "inputs": {
+    "keychain": 1,
+    "power_wrist": 1,
+    "training_weights": 1
+   },
+   "output": "olympia_keyblade",
+   "unlock_chapter": 6
+  },
+  {
+   "count": 2,
+   "crossover": true,
    "fee": 700,
-   "unlock_chapter": 4,
-   "crossover": true
-  },
-  {
-   "id": "r_warp_whistle",
-   "inputs": {
-    "warp_whistle": 1,
-    "escape_rope": 1
-   },
-   "output": "pocket_capsule",
-   "fee": 280,
-   "unlock_chapter": 7,
-   "crossover": true
-  },
-  {
    "id": "r_royal_feast",
    "inputs": {
     "dino_tail": 1,
@@ -392,194 +885,187 @@
     "sea_salt_ice_cream": 1
    },
    "output": "heros_meal",
-   "count": 3,
-   "fee": 300,
-   "unlock_chapter": 6,
-   "crossover": true
+   "unlock_chapter": 6
   },
   {
+   "fee": 10,
+   "id": "r_sacred_water",
+   "inputs": {
+    "green_potion": 1,
+    "senzu_bean": 1
+   },
+   "output": "sacred_water",
+   "unlock_chapter": 6
+  },
+  {
+   "crossover": true,
+   "fee": 210,
    "id": "r_shard_lantern",
    "inputs": {
-    "bright_shard": 2,
-    "capsule": 1
+    "bright_shard": 1,
+    "deku_wood": 1
    },
-   "output": "storm_pendant",
-   "fee": 380,
-   "unlock_chapter": 6,
-   "crossover": true
+   "output": "zelda_lantern",
+   "unlock_chapter": 6
   },
   {
+   "crossover": true,
+   "fee": 750,
+   "id": "r_buster_sword",
+   "inputs": {
+    "mythril_sword": 1,
+    "training_weights": 1
+   },
+   "output": "buster_sword",
+   "unlock_chapter": 7
+  },
+  {
+   "crossover": true,
+   "fee": 2930,
+   "id": "r_divine_rose",
+   "inputs": {
+    "keychain": 1,
+    "paopu_charm": 1,
+    "red_shard": 1
+   },
+   "output": "divine_rose_keyblade",
+   "unlock_chapter": 7
+  },
+  {
+   "fee": 220,
+   "id": "r_full_restore",
+   "inputs": {
+    "pkmn_potion": 2,
+    "remedy": 1
+   },
+   "output": "full_restore",
+   "unlock_chapter": 7
+  },
+  {
+   "crossover": true,
+   "fee": 280,
    "id": "r_koopa_ball",
    "inputs": {
     "koopa_shell": 1,
+    "poke_ball": 1,
+    "red_shard": 1
+   },
+   "output": "ultra_ball",
+   "unlock_chapter": 7
+  },
+  {
+   "count": 3,
+   "crossover": true,
+   "fee": 10,
+   "id": "r_lucky_meal",
+   "inputs": {
+    "lucky_egg": 1,
+    "ramen_bowl": 2
+   },
+   "output": "heros_meal",
+   "unlock_chapter": 7
+  },
+  {
+   "fee": 3000,
+   "id": "r_master_ball",
+   "inputs": {
+    "star_piece": 1,
+    "technical_machine": 1,
+    "ultra_ball": 1
+   },
+   "output": "master_ball",
+   "unlock_chapter": 7
+  },
+  {
+   "crossover": true,
+   "fee": 2040,
+   "id": "r_master_sword",
+   "inputs": {
+    "bright_shard": 1,
+    "triforce_fragment": 1,
+    "white_sword": 1
+   },
+   "output": "master_sword",
+   "unlock_chapter": 7
+  },
+  {
+   "crossover": true,
+   "fee": 1900,
+   "id": "r_oblivion",
+   "inputs": {
+    "keychain": 1,
+    "lucid_shard": 2,
+    "soul_eater": 1
+   },
+   "output": "oblivion_keyblade",
+   "unlock_chapter": 7
+  },
+  {
+   "crossover": true,
+   "fee": 130,
+   "id": "r_perfect_recovery",
+   "inputs": {
+    "full_restore": 1,
+    "senzu_bean": 1
+   },
+   "output": "perfect_recovery",
+   "unlock_chapter": 7
+  },
+  {
+   "crossover": true,
+   "fee": 670,
+   "id": "r_pocket_capsule",
+   "inputs": {
+    "capsule": 1,
     "poke_ball": 1
    },
    "output": "pocket_capsule",
-   "fee": 260,
-   "unlock_chapter": 7,
-   "crossover": true
+   "unlock_chapter": 7
   },
   {
-   "id": "r_sitrus_blend",
+   "crossover": true,
+   "fee": 710,
+   "id": "r_storm_pendant",
    "inputs": {
-    "oran_berry": 2,
-    "pecha_berry": 1
+    "thunder_shard": 1,
+    "thunder_stone": 1
    },
-   "output": "sitrus_berry",
-   "fee": 60,
-   "unlock_chapter": 1
+   "output": "storm_pendant",
+   "unlock_chapter": 7
   },
   {
-   "id": "r_lava_cookies",
+   "crossover": true,
+   "fee": 670,
+   "id": "r_substitute_plush",
    "inputs": {
-    "cheri_berry": 2,
-    "tiny_mushroom": 1
+    "deku_wood": 1,
+    "poke_ball": 1,
+    "smoke_bomb": 1
    },
-   "output": "lava_cookie",
-   "count": 2,
-   "fee": 40,
-   "unlock_chapter": 1
+   "output": "substitute_plush",
+   "unlock_chapter": 7
   },
   {
-   "id": "r_water_stone",
+   "fee": 10,
+   "id": "r_ultra_ball",
    "inputs": {
-    "blue_shard": 2
-   },
-   "output": "water_stone",
-   "fee": 120,
-   "unlock_chapter": 2
-  },
-  {
-   "id": "r_thunder_stone",
-   "inputs": {
-    "yellow_shard": 2
-   },
-   "output": "thunder_stone",
-   "fee": 120,
-   "unlock_chapter": 2
-  },
-  {
-   "id": "r_leaf_stone",
-   "inputs": {
-    "green_shard": 2
-   },
-   "output": "leaf_stone",
-   "fee": 120,
-   "unlock_chapter": 2
-  },
-  {
-   "id": "r_fire_stone",
-   "inputs": {
-    "red_shard": 2
-   },
-   "output": "fire_stone",
-   "fee": 120,
-   "unlock_chapter": 2
-  },
-  {
-   "id": "r_star_piece",
-   "inputs": {
-    "red_shard": 1,
     "blue_shard": 1,
-    "yellow_shard": 1,
-    "green_shard": 1
+    "great_ball": 1
    },
-   "output": "star_piece",
-   "fee": 250,
-   "unlock_chapter": 3
+   "output": "ultra_ball",
+   "unlock_chapter": 7
   },
   {
-   "id": "r_full_restore_brew",
+   "crossover": true,
+   "fee": 120,
+   "id": "r_warp_whistle",
    "inputs": {
-    "hyper_potion": 1,
-    "pkmn_ether": 1
+    "escape_rope": 1,
+    "warp_whistle": 1
    },
-   "output": "full_restore",
-   "fee": 160,
-   "unlock_chapter": 3
-  },
-  {
-   "id": "r_ultra_mushroom",
-   "inputs": {
-    "super_mushroom": 2,
-    "refreshing_herb": 1
-   },
-   "output": "ultra_mushroom",
-   "fee": 90,
-   "unlock_chapter": 2
-  },
-  {
-   "id": "r_mix_flower",
-   "inputs": {
-    "ice_flower": 1,
-    "red_pepper": 2
-   },
-   "output": "mix_flower",
-   "fee": 110,
-   "unlock_chapter": 2
-  },
-  {
-   "id": "r_mega_burger",
-   "inputs": {
-    "marbled_beef": 1,
-    "fresh_milk": 1
-   },
-   "output": "mega_burger",
-   "count": 2,
-   "fee": 30,
-   "unlock_chapter": 4
-  },
-  {
-   "id": "r_senzu_culture",
-   "inputs": {
-    "oran_berry": 2,
-    "refreshing_herb": 1,
-    "fresh_milk": 1
-   },
-   "output": "senzu_bean",
-   "fee": 320,
-   "unlock_chapter": 5
-  },
-  {
-   "id": "r_leftovers",
-   "inputs": {
-    "mega_burger": 1,
-    "dino_drumstick": 1
-   },
-   "output": "leftovers",
-   "fee": 25,
-   "unlock_chapter": 4
-  },
-  {
-   "id": "r_field_medkit",
-   "inputs": {
-    "refreshing_herb": 1,
-    "pecha_berry": 1
-   },
-   "output": "field_medkit",
-   "fee": 50,
-   "unlock_chapter": 5
-  },
-  {
-   "id": "r_fuma_forge",
-   "inputs": {
-    "shuriken": 2,
-    "kunai": 2
-   },
-   "output": "fuma_shuriken",
-   "fee": 200,
-   "unlock_chapter": 5
-  },
-  {
-   "id": "r_dango_batch",
-   "inputs": {
-    "tiny_mushroom": 1,
-    "sitrus_berry": 1
-   },
-   "output": "dango_skewer",
-   "count": 3,
-   "fee": 20,
-   "unlock_chapter": 5
+   "output": "pocket_capsule",
+   "unlock_chapter": 7
   }
- ]
+ ],
+ "schema": "crossroads.recipes.v1"
 }
