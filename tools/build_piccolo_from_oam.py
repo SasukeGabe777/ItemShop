@@ -53,28 +53,25 @@ ANIMS = [
     ("walk_down", ["wdn_01", "wdn_09", "wdn_17", "wdn_25"], 8, True),
     ("walk_up", ["wup_01", "wup_09", "wup_17", "wup_25"], 8, True),
     ("walk_side", ["wrt_01", "wrt_09", "wrt_17", "wrt_25"], 8, True),
-    # melee: each strike is a 2-pose crackle flicker in the source; play it
-    # as a 4-frame flicker so the hit reads
-    ("attack_1_down", ["mbd_01", "mbd_04", "mbd_01", "mbd_04"], 14, False),
-    ("attack_1_side", ["mbr_01", "mbr_04", "mbr_01", "mbr_04"], 14, False),
-    # up melee is mbu2 (first mbu capture never turned him — see AGENT_GUIDE
-    # pitfall about held direction releasing before the attack input)
-    ("attack_1_up", ["mbu2_01", "mbu2_04", "mbu2_01", "mbu2_04"], 14, False),
-    # attack_2: second combo strike. The game has NO distinct second-hit
-    # sprite facing down (mcd/mcd2 captures = same 3 poses as mbd), so
-    # attack_2_down reuses the mbd crackle with the pose order inverted
-    ("attack_2_down", ["mbd_04", "mbd_01", "mbd_04", "mbd_01"], 14, False),
-    ("attack_2_side", ["mbr_10", "mbr_12", "mbr_10", "mbr_12"], 14, False),
+    # melee: the mad/mar A-tap flip-kick (user-confirmed: this IS Piccolo's
+    # kick). The old mb* "crackle flicker" frames were NOT melee — B-tapped
+    # with SBC preselected they're beam-charge flashes (user flagged the
+    # shipped melee as incorrect) — dropped. attack_2/up fall back to these
+    # via the play_action chain until a live-captured combo replaces them.
+    ("attack_1_down", ["mad_01", "mad_05", "mad_09", "mad_13"], 14, False),
+    ("attack_1_side", ["mar_01", "mar_05", "mar_09", "mar_13"], 14, False),
     # special (SBC): charge shimmer x2, then the two-handed firing thrust
     # (_25/_31 alternate for the hand-glow shimmer; beam pixels are stripped —
     # the engine draws the real beam from the exported sbc_* parts)
     ("special_down", ["kdn_01", "kdn_04", "kdn_01", "kdn_04", "kdn_25", "kdn_31", "kdn_25", "kdn_31"], 10, False),
     ("special_side", ["krt_01", "krt_04", "krt_01", "krt_04", "krt_25", "krt_31", "krt_25", "krt_31"], 10, False),
     ("special_up", ["kup_01", "kup_04", "kup_01", "kup_04", "kup_25", "kup_31", "kup_25", "kup_31"], 10, False),
-    # fly (dodge): the mad A-tap flip — 4-pose acrobatic tumble with cape arc,
-    # same map scale as the walk sprites (flight captures are overworld-scale)
-    ("fly_down", ["mad_01", "mad_05", "mad_09", "mad_13"], 16, False),
-    ("fly_side", ["mar_01", "mar_05", "mar_09", "mar_13"], 16, False),
+    # fly (dodge): the REAL overworld flight sprites (user correction: the
+    # mad/mar A-tap flip is Piccolo's KICK, a melee move, not his flight).
+    # Early f* frames only — later ones carry stray overworld objects.
+    ("fly_down", ["fdn_12", "fdn_13", "fdn_14", "fdn_15"], 16, False),
+    ("fly_up", ["fup_00", "fup_08", "fup_16", "fup_24"], 16, False),
+    ("fly_side", ["frt_12", "frt_13", "frt_15", "frt_16"], 16, False),
 ]
 
 BEAM_SRC = "krt_49"  # full-length right-facing beam
