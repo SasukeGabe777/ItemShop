@@ -221,8 +221,11 @@ func _do_special() -> void:
 			attack_lock = 0.6
 			var beam := Beam.new()
 			beam.setup(_attack_damage(dmg_ratio), facing, sp, CombatHero.LAYER_ENEMY_HURT)
-			# origin at the hands/chest, not the feet pivot (was firing from the knee)
-			beam.global_position = global_position + facing.normalized() * 12.0 + Vector2(0.0, -24.0)
+			# origin at the hands/chest, not the feet pivot (was firing from the knee).
+			# The side firing pose reaches further forward than the up/down poses,
+			# so give horizontal beams more reach or they emerge from the torso.
+			var reach := 18.0 if absf(facing.x) > 0.5 else 12.0
+			beam.global_position = global_position + facing.normalized() * reach + Vector2(0.0, -24.0)
 			get_parent().add_child(beam)
 			FX.shake(2.0)
 

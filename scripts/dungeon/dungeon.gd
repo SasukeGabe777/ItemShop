@@ -594,30 +594,33 @@ func _stamp_props(parent: Node2D, size: Vector2, w: Dictionary, hash_seed: Vecto
 		if not strips.is_empty():
 			# one variant per rect (a run is one kind of wall, not a medley)
 			var tex := strips[hash(hash_seed) % strips.size()]
-			var spr := Sprite2D.new()
-			spr.texture = tex
-			spr.texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
-			spr.region_enabled = true
-			# tile a WHOLE number of tiles, then scale that strip to fit the rect
-			# exactly — no spliced partial at the ends, and no dead gap either
+			var tw := float(tex.get_width())
+			var th := float(tex.get_height())
+			# place DISCRETE whole tiles (no region/repeat) so a run can never
+			# show a spliced partial on any edge. Each tile is uniformly scaled
+			# to its slot, so continuous art (hedge/fence) still abuts seamlessly
+			# while spaced art (rocks) keeps its gaps.
 			if vertical:
-				var th := float(tex.get_height())
-				var draw_w := maxf(size.x, minf(tex.get_width(), size.x + 16.0))
 				var n := maxi(1, int(roundf(size.y / th)))
-				spr.region_rect = Rect2(0, 0, draw_w, n * th)
-				spr.scale = Vector2(1.0, size.y / (n * th))
-				spr.position = Vector2(0, 0)
+				var slot := size.y / n
+				var sc := slot / th
+				for i in n:
+					var s := Sprite2D.new()
+					s.texture = tex
+					s.scale = Vector2(sc, sc)
+					s.position = Vector2(0.0, -size.y / 2.0 + (i + 0.5) * slot)
+					parent.add_child(s)
 			else:
-				# cover the whole rect: shorter textures 2D-tile (hedge/fence
-				# blocks); taller ones keep their crown and overhang above the
-				# rect by up to 32px, bottom-aligned, like real wall art
-				var tw := float(tex.get_width())
-				var draw_h := maxf(size.y, minf(tex.get_height(), size.y + 32.0))
 				var n := maxi(1, int(roundf(size.x / tw)))
-				spr.region_rect = Rect2(0, 0, n * tw, draw_h)
-				spr.scale = Vector2(size.x / (n * tw), 1.0)
-				spr.position = Vector2(0, size.y / 2.0 - draw_h / 2.0)
-			parent.add_child(spr)
+				var slot := size.x / n
+				var sc := slot / tw
+				for i in n:
+					var s := Sprite2D.new()
+					s.texture = tex
+					s.scale = Vector2(sc, sc)
+					# bottom-align (tall wall crowns overhang up); square rocks read centered
+					s.position = Vector2(-size.x / 2.0 + (i + 0.5) * slot, size.y / 2.0 - th * sc / 2.0)
+					parent.add_child(s)
 			return true
 	var textures: Array[Texture2D] = []
 	for p in w.get("obstacle_props", []):
