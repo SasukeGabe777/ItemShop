@@ -486,7 +486,7 @@
    "hp": 85,
    "atk": 18,
    "spd": 110,
-   "behavior": "teleporter",
+   "behavior": "chaser",
    "size": 16,
    "color": "#4888c8",
    "loot": [

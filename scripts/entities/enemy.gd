@@ -69,11 +69,14 @@ func setup(id: String, player: Node2D) -> void:
 	hurtbox.collision_layer = 8
 	hurtbox.collision_mask = 0
 	var hshape := CollisionShape2D.new()
-	var hcircle := CircleShape2D.new()
-	hcircle.radius = maxf(size * 0.55, minf(body_w, body_h) * 0.5)
-	hshape.shape = hcircle
-	# sprite pivot sits at the feet; center the hurtbox on the body
-	hshape.position = Vector2(0, -body_h * 0.45)
+	# match the hurtbox to the visible sprite body: a box across the whole body,
+	# not a small center circle. Wide/tall enemies (e.g. the DBZ dinosaur) were
+	# only hittable near their center — beams and swings passed beside them.
+	var hrect := RectangleShape2D.new()
+	hrect.size = Vector2(body_w, body_h)
+	hshape.shape = hrect
+	# sprite pivot sits at the feet; center the box on the body
+	hshape.position = Vector2(0, -body_h * 0.5)
 	hurtbox.add_child(hshape)
 	hurtbox.hit_received.connect(_on_hit)
 	add_child(hurtbox)

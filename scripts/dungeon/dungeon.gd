@@ -528,7 +528,10 @@ func _wall(r: Rect2, w: Dictionary, obstacle: bool = false) -> void:
 	body.position = r.position + r.size / 2.0
 	var shape := CollisionShape2D.new()
 	var rect := RectangleShape2D.new()
-	rect.size = r.size
+	# interior obstacles draw as spaced rocks/props with transparent gaps; inset
+	# their collision so you collide with the visible cores, not the empty air
+	# between them. Perimeter walls stay full-size.
+	rect.size = r.size * (0.8 if obstacle else 1.0)
 	shape.shape = rect
 	body.add_child(shape)
 	# interior obstacles in worlds with prop art get one UNSCALED keyed object
