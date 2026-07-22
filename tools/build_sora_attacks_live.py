@@ -30,15 +30,26 @@ BLADE_OUT = ROOT / "assets/franchises/kingdom_hearts/processed/strike_raid_blade
 FIRST_CELL = 39   # overwrite the old rip cells; 30-38 keep stance (unused) + roll
 
 # (anim, [(file, mirror)], fps, loop)
+# User playtest feedback round 2: battle sequences read better for the side
+# combo (richer in-betweens); field swings stay for down/up (battles are
+# side-view only); the Strike Raid cast needed distinct phases, not one pose.
 ANIMS = [
-    ("attack_1_side", [("sora_live_001883", 1), ("sora_live_001889", 1), ("sora_live_001894", 1)], 12, False),
-    ("attack_2_side", [("sora_live_002747", 0), ("sora_live_002758", 0), ("sora_live_002762", 0)], 12, False),
-    ("attack_3_side", [("sora_live_002602", 1), ("sora_live_002643", 1), ("sora_live_002689", 1)], 12, False),
+    # arc slash: ready -> overhead -> low extend -> follow-through
+    ("attack_1_side", [("sora_live_004973", 1), ("sora_live_004982", 1),
+                       ("sora_live_004985", 1), ("sora_live_004994", 1)], 12, False),
+    # aerial spin swing
+    ("attack_2_side", [("sora_live_004741", 1), ("sora_live_004747", 1),
+                       ("sora_live_004752", 1), ("sora_live_004756", 1),
+                       ("sora_live_004765", 1)], 12, False),
+    # charge thrust (windup faces the same way; blade glows on extension)
+    ("attack_3_side", [("sora_live_005377", 0), ("sora_live_005381", 0),
+                       ("sora_live_005388", 0), ("sora_live_005391", 0),
+                       ("sora_live_005406", 0)], 12, False),
     ("attack_1_down", [("sora_live_002854", 0), ("sora_live_002860", 0), ("sora_live_002869", 0)], 12, False),
     ("attack_1_up", [("sora_live_002997", 0), ("sora_live_003027", 0), ("sora_live_003030", 0)], 12, False),
-    # Strike Raid cast: the lunging throw held briefly (blade flies as the
-    # engine projectile). Source faces left -> mirrored.
-    ("special", [("throw_live_012380", 1), ("throw_live_012380", 1), ("throw_live_012386", 1)], 10, False),
+    # Strike Raid cast: three distinct throw/recover phases from both runs
+    ("special", [("throw_live_012380", 1), ("throw_live_013474", 1),
+                 ("throw_live_013488", 1)], 8, False),
 ]
 DROP = ["attack_1", "attack_2", "attack_3"]
 BLADE_SRC = "blade_live_012392"  # horizontal spinning keyblade, faces left
@@ -80,6 +91,12 @@ def main() -> None:
     for name, frames, fps, loop in ANIMS:
         anims[name] = {"frames": [cell_of[fm] for fm in frames],
                        "fps": fps, "loop": loop}
+    # each walk capture's first cell (swdn/swup/swrt_00, cells 3/12/21) is a
+    # single-occurrence TURN-TRANSITION frame — user saw Sora face backwards
+    # for one frame mid-walk. Play the true 8-pose cycle only.
+    for wname, turn_cell in [("walk_down", 3), ("walk_up", 12), ("walk_side", 21)]:
+        if wname in anims:
+            anims[wname]["frames"] = [f for f in anims[wname]["frames"] if f != turn_cell]
     doc["grid"]["rows"] = rows
     MANIFEST.write_text(json.dumps(doc, indent=1, ensure_ascii=False) + "\n",
                         encoding="utf-8", newline="\n")

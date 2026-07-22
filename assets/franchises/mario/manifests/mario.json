@@ -75,7 +75,7 @@
    "fps": 10,
    "loop": false
   },
-  "attack_1_side": {
+  "attack_2_down": {
    "frames": [
     30,
     31,
@@ -84,11 +84,20 @@
    "fps": 10,
    "loop": false
   },
-  "attack_2_side": {
+  "attack_1_side": {
    "frames": [
     33,
     34,
-    34
+    35
+   ],
+   "fps": 10,
+   "loop": false
+  },
+  "attack_2_side": {
+   "frames": [
+    36,
+    37,
+    38
    ],
    "fps": 10,
    "loop": false
