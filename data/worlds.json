@@ -429,6 +429,14 @@
     "boss": [
      "res://assets/locations/dbzdungeon/processed/boss_crater.png"
     ]
+   },
+   "barriers": {
+    "h": [
+     "res://assets/locations/dbzdungeon/processed/barrier_rock.png"
+    ],
+    "v": [
+     "res://assets/locations/dbzdungeon/processed/barrier_rock.png"
+    ]
    }
   },
   {

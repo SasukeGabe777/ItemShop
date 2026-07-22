@@ -327,8 +327,8 @@
      "tip": "res://assets/franchises/dragon_ball/processed/kame_tip.png"
     },
     "dodge": {
-     "kind": "vanish",
-     "distance": 95,
+     "kind": "fly",
+     "distance": 60,
      "iframes": 0.4
     },
     "finisher": {
@@ -381,7 +381,7 @@
     },
     "dodge": {
      "kind": "fly",
-     "distance": 90,
+     "distance": 60,
      "iframes": 0.4
     },
     "finisher": {

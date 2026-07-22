@@ -168,10 +168,13 @@ func _do_basic_attack() -> void:
 	set_meta("swings", int(get_meta("swings", 0)) + 1)
 	hitbox.begin_swing(_attack_damage(mult))
 	get_tree().create_timer(0.12).timeout.connect(hitbox.end_swing)
-	var color := Color(String(hero_def.get("color", "#ffffff")))
-	var from := global_position + facing.rotated(-0.7) * 16.0
-	var to := global_position + facing.rotated(0.7) * 16.0
-	FX.attack_trail(get_parent(), from, to, color)
+	# bare-fisted martial artists (Goku/Piccolo) have no weapon to leave an arc,
+	# so the swoosh line just reads as a stray bar — skip it for them
+	if String(hero_def.get("weapon_type", "")) != "martial":
+		var color := Color(String(hero_def.get("color", "#ffffff")))
+		var from := global_position + facing.rotated(-0.7) * 16.0
+		var to := global_position + facing.rotated(0.7) * 16.0
+		FX.attack_trail(get_parent(), from, to, color)
 	_gain_meter(2.0)
 
 
@@ -218,7 +221,8 @@ func _do_special() -> void:
 			attack_lock = 0.6
 			var beam := Beam.new()
 			beam.setup(_attack_damage(dmg_ratio), facing, sp, CombatHero.LAYER_ENEMY_HURT)
-			beam.global_position = global_position + facing.normalized() * 10.0
+			# origin at the hands/chest, not the feet pivot (was firing from the knee)
+			beam.global_position = global_position + facing.normalized() * 12.0 + Vector2(0.0, -24.0)
 			get_parent().add_child(beam)
 			FX.shake(2.0)
 
@@ -248,7 +252,9 @@ func _do_dodge(pressed: bool) -> void:
 	var kind := String(dodge.get("kind", "roll"))
 	if kind == "guard" or not pressed:
 		return
-	movement.dash(facing, float(dodge.get("distance", 70)), 0.16)
+	# fly glides a touch longer than a snap roll so it doesn't cover ground too fast
+	var dash_time := 0.22 if kind == "fly" else 0.16
+	movement.dash(facing, float(dodge.get("distance", 70)), dash_time)
 	health.grant_iframes(float(dodge.get("iframes", 0.35)))
 	# real roll/fly frames when the manifest has them (play_action no-ops otherwise)
 	visual.play_action("fly" if kind == "fly" else "roll", facing)

@@ -11,7 +11,7 @@
   "frame_width": 48,
   "frame_height": 48,
   "columns": 8,
-  "rows": 7
+  "rows": 8
  },
  "animations": {
   "idle_down": {
@@ -172,6 +172,36 @@
    ],
    "fps": 10,
    "loop": false
+  },
+  "fly_down": {
+   "frames": [
+    49,
+    50,
+    51,
+    52
+   ],
+   "fps": 10,
+   "loop": true
+  },
+  "fly_side": {
+   "frames": [
+    53,
+    54,
+    55,
+    56
+   ],
+   "fps": 10,
+   "loop": true
+  },
+  "fly_up": {
+   "frames": [
+    57,
+    58,
+    59,
+    60
+   ],
+   "fps": 10,
+   "loop": true
   }
  }
 }
