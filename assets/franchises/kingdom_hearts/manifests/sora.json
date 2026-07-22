@@ -11,7 +11,7 @@
   "frame_width": 64,
   "frame_height": 64,
   "columns": 8,
-  "rows": 6
+  "rows": 7
  },
  "animations": {
   "idle_down": {
@@ -92,40 +92,58 @@
    "fps": 12,
    "loop": false
   },
-  "attack_1": {
+  "special": {
+   "frames": [
+    54,
+    54,
+    55
+   ],
+   "fps": 10,
+   "loop": false
+  },
+  "attack_1_side": {
    "frames": [
     39,
     40,
     41
    ],
-   "fps": 14,
+   "fps": 12,
    "loop": false
   },
-  "attack_2": {
+  "attack_2_side": {
    "frames": [
     42,
     43,
     44
    ],
-   "fps": 14,
+   "fps": 12,
    "loop": false
   },
-  "attack_3": {
+  "attack_3_side": {
    "frames": [
     45,
     46,
     47
    ],
-   "fps": 14,
+   "fps": 12,
    "loop": false
   },
-  "special": {
+  "attack_1_down": {
    "frames": [
-    30,
-    31,
-    32
+    48,
+    49,
+    50
    ],
-   "fps": 8,
+   "fps": 12,
+   "loop": false
+  },
+  "attack_1_up": {
+   "frames": [
+    51,
+    52,
+    53
+   ],
+   "fps": 12,
    "loop": false
   }
  }

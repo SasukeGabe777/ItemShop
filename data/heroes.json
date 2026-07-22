@@ -25,11 +25,12 @@
      "arc": 100
     },
     "special": {
-     "kind": "burst",
-     "name": "Magic Burst",
+     "kind": "projectile",
+     "name": "Strike Raid",
      "dmg": 22,
-     "radius": 60,
-     "cost": 35
+     "speed": 320,
+     "cost": 35,
+     "sprite": "res://assets/franchises/kingdom_hearts/processed/strike_raid_blade.png"
     },
     "dodge": {
      "kind": "roll",
