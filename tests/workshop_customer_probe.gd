@@ -86,31 +86,82 @@ func _check_customer_pool() -> void:
 	var slugs: Dictionary = {}
 	var names: Dictionary = {}
 	var static_paths: Dictionary = {}
+	var pokemon_entries: Dictionary = {}
 	for entry: Dictionary in ContentDatabase.customer_visual_pool:
 		var world := String(entry.get("world", ""))
 		var slug := String(entry.get("slug", ""))
 		var display_name := String(entry.get("name", ""))
 		var static_path := String(entry.get("static", ""))
+		var scoped_slug := "%s:%s" % [world, slug]
 		counts[world] = int(counts.get(world, 0)) + 1
-		check(slug != "" and not slugs.has(slug), "customer identity is missing or repeated: %s" % slug)
+		check(slug != "" and not slugs.has(scoped_slug), "customer identity is missing or repeated: %s" % scoped_slug)
 		check(display_name != "" and not names.has(display_name),
 			"customer name is missing or assigned to multiple identities: %s" % display_name)
 		check(static_path != "" and not static_paths.has(static_path),
 			"customer sprite is missing or reused: %s" % static_path)
-		slugs[slug] = true
+		slugs[scoped_slug] = true
 		names[display_name] = true
 		static_paths[static_path] = true
 		check(ResourceLoader.exists(static_path), "customer sprite was not imported: %s" % static_path)
 		check(load(static_path) is Texture2D, "customer sprite is not a texture: %s" % static_path)
+		if world == "pokemon":
+			pokemon_entries[slug] = entry
+			var manifest_path := String(entry.get("manifest", ""))
+			check(manifest_path != "" and FileAccess.file_exists(manifest_path),
+				"Pokémon has no animation manifest: %s" % slug)
+			var frames := SpriteFramesBuilder.from_manifest_path(manifest_path)
+			check(frames != null, "Pokémon animation manifest did not build: %s" % slug)
+			if frames != null:
+				for animation in ["walk_up", "walk_down", "walk_left", "walk_right"]:
+					check(frames.has_animation(animation), "%s is missing %s" % [slug, animation])
+					if frames.has_animation(animation):
+						check(frames.get_frame_count(animation) == 2,
+							"%s %s does not use both supplied walk frames" % [slug, animation])
 	var targets := {
 		"dragon_ball": 50, "kingdom_hearts": 50, "mario": 50,
-		"naruto": 50, "pokemon": 150, "zelda": 50,
+		"naruto": 50, "pokemon": 151, "zelda": 50,
 	}
 	for world: String in targets:
 		check(int(counts.get(world, 0)) >= int(targets[world]),
 			"%s customer pool is too small: %d" % [world, counts.get(world, 0)])
 	check(int(counts.get("final_fantasy", 0)) == 33,
 		"Final Fantasy Record Keeper archive was expanded instead of remaining curated")
+	check(int(counts.get("pokemon", 0)) == 151,
+		"Kanto pool should contain each named species exactly once")
+	var expected_names := {
+		"bulbasaur": "Bulbasaur", "charmander": "Charmander", "abra": "Abra",
+		"kabuto": "Kabuto", "dragonite": "Dragonite", "mewtwo": "Mewtwo", "mew": "Mew",
+	}
+	for slug: String in expected_names:
+		check(pokemon_entries.has(slug), "corrected Pokédex entry is missing: %s" % slug)
+		if pokemon_entries.has(slug):
+			check(String(pokemon_entries[slug].get("name", "")) == String(expected_names[slug]),
+				"Pokédex name mismatch for %s" % slug)
+	check(not pokemon_entries.has("aipom"), "legacy non-Kanto static sprite leaked into the Kanto pool")
+	_check_pokemon_runtime_directions(pokemon_entries)
+
+
+func _check_pokemon_runtime_directions(pokemon_entries: Dictionary) -> void:
+	var sample: Dictionary = pokemon_entries.get("bulbasaur", {})
+	check(not sample.is_empty(), "Bulbasaur is unavailable for the runtime animation check")
+	if sample.is_empty():
+		return
+	var visual := CharacterVisual.new()
+	add_child(visual)
+	var manifest_path := String(sample.get("manifest", ""))
+	check(visual.setup_from_manifest(manifest_path), "runtime visual could not load a Pokémon manifest")
+	if visual.use_frames:
+		var directions := {
+			Vector2.UP: "walk_up",
+			Vector2.DOWN: "walk_down",
+			Vector2.LEFT: "walk_left",
+			Vector2.RIGHT: "walk_right",
+		}
+		for direction: Vector2 in directions:
+			visual.face(direction, true)
+			check(String(visual.animated.animation) == String(directions[direction]),
+				"runtime visual did not select %s" % directions[direction])
+	visual.free()
 
 
 func check(condition: bool, message: String) -> void:

@@ -66,12 +66,13 @@ func _check_identities() -> void:
 	var used: Dictionary = {}
 	for cust: Dictionary in session:
 		var slug := String(cust.get("visual_slug", cust.get("id", "")))
+		var identity := CustomerGen._identity_key(cust)
 		check(slug != "", "customer has no stable visual identity")
-		check(not used.has(slug), "visual identity repeated in one session: %s" % slug)
-		used[slug] = true
+		check(not used.has(identity), "visual identity repeated in one session: %s" % identity)
+		used[identity] = true
 		if not bool(cust.get("named", false)):
 			var entry := ContentDatabase.customer_visual_pool.filter(func(e: Dictionary) -> bool:
-				return String(e.get("slug", "")) == slug)
+				return CustomerGen._entry_identity(e) == identity)
 			if not entry.is_empty():
 				check(String(cust.get("archetype", "")) == CustomerGen._identity_archetype(entry[0]),
 					"identity/archetype mapping drifted for %s" % slug)

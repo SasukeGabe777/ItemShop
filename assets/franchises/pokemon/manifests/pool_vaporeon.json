@@ -1,0 +1,78 @@
+{
+  "asset_id": "pool_vaporeon",
+  "sheet": "res://assets/franchises/pokemon/processed/sheets/pool_vaporeon.png",
+  "native_scale": 1,
+  "display_scale": 1,
+  "pivot": [
+    16,
+    30
+  ],
+  "grid": {
+    "frame_width": 32,
+    "frame_height": 32,
+    "columns": 8,
+    "rows": 1
+  },
+  "animations": {
+    "idle_up": {
+      "frames": [
+        0
+      ],
+      "fps": 4,
+      "loop": true
+    },
+    "walk_up": {
+      "frames": [
+        0,
+        1
+      ],
+      "fps": 4,
+      "loop": true
+    },
+    "idle_down": {
+      "frames": [
+        2
+      ],
+      "fps": 4,
+      "loop": true
+    },
+    "walk_down": {
+      "frames": [
+        2,
+        3
+      ],
+      "fps": 4,
+      "loop": true
+    },
+    "idle_left": {
+      "frames": [
+        4
+      ],
+      "fps": 4,
+      "loop": true
+    },
+    "walk_left": {
+      "frames": [
+        4,
+        5
+      ],
+      "fps": 4,
+      "loop": true
+    },
+    "idle_right": {
+      "frames": [
+        6
+      ],
+      "fps": 4,
+      "loop": true
+    },
+    "walk_right": {
+      "frames": [
+        6,
+        7
+      ],
+      "fps": 4,
+      "loop": true
+    }
+  }
+}

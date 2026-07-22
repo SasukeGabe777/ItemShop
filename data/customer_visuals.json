@@ -1900,7 +1900,7 @@
     },
     {
       "slug": "kabuto",
-      "name": "Kabuto",
+      "name": "Kabuto Yakushi",
       "world": "naruto",
       "static": "res://assets/franchises/naruto/processed/customers/kabuto.png",
       "manifest": ""
@@ -2169,1092 +2169,1057 @@
       "name": "Abra",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/abra.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_abra.json"
     },
     {
       "slug": "aerodactyl",
       "name": "Aerodactyl",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/aerodactyl.png",
-      "manifest": ""
-    },
-    {
-      "slug": "aipom",
-      "name": "Aipom",
-      "world": "pokemon",
-      "static": "res://assets/franchises/pokemon/processed/customers/aipom.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_aerodactyl.json"
     },
     {
       "slug": "alakazam",
       "name": "Alakazam",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/alakazam.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_alakazam.json"
     },
     {
       "slug": "arbok",
       "name": "Arbok",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/arbok.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_arbok.json"
     },
     {
       "slug": "arcanine",
       "name": "Arcanine",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/arcanine.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_arcanine.json"
     },
     {
       "slug": "articuno",
       "name": "Articuno",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/articuno.png",
-      "manifest": ""
-    },
-    {
-      "slug": "banette",
-      "name": "Banette",
-      "world": "pokemon",
-      "static": "res://assets/franchises/pokemon/processed/customers/banette.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_articuno.json"
     },
     {
       "slug": "beedrill",
       "name": "Beedrill",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/beedrill.png",
-      "manifest": ""
-    },
-    {
-      "slug": "bellossom",
-      "name": "Bellossom",
-      "world": "pokemon",
-      "static": "res://assets/franchises/pokemon/processed/customers/bellossom.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_beedrill.json"
     },
     {
       "slug": "bellsprout",
       "name": "Bellsprout",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/bellsprout.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_bellsprout.json"
     },
     {
       "slug": "blastoise",
       "name": "Blastoise",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/blastoise.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_blastoise.json"
     },
     {
       "slug": "bulbasaur",
       "name": "Bulbasaur",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/bulbasaur.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_bulbasaur.json"
     },
     {
       "slug": "butterfree",
       "name": "Butterfree",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/butterfree.png",
-      "manifest": ""
-    },
-    {
-      "slug": "castform",
-      "name": "Castform",
-      "world": "pokemon",
-      "static": "res://assets/franchises/pokemon/processed/customers/castform.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_butterfree.json"
     },
     {
       "slug": "caterpie",
       "name": "Caterpie",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/caterpie.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_caterpie.json"
     },
     {
       "slug": "chansey",
       "name": "Chansey",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/chansey.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_chansey.json"
     },
     {
       "slug": "charizard",
       "name": "Charizard",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/charizard.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_charizard.json"
     },
     {
       "slug": "charmander",
       "name": "Charmander",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/charmander.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_charmander.json"
     },
     {
       "slug": "charmeleon",
       "name": "Charmeleon",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/charmeleon.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_charmeleon.json"
     },
     {
       "slug": "clefable",
       "name": "Clefable",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/clefable.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_clefable.json"
     },
     {
       "slug": "clefairy",
       "name": "Clefairy",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/clefairy.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_clefairy.json"
     },
     {
       "slug": "cloyster",
       "name": "Cloyster",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/cloyster.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_cloyster.json"
     },
     {
       "slug": "cubone",
       "name": "Cubone",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/cubone.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_cubone.json"
     },
     {
       "slug": "dewgong",
       "name": "Dewgong",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/dewgong.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_dewgong.json"
     },
     {
       "slug": "diglett",
       "name": "Diglett",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/diglett.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_diglett.json"
     },
     {
       "slug": "ditto",
       "name": "Ditto",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/ditto.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_ditto.json"
     },
     {
       "slug": "dodrio",
       "name": "Dodrio",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/dodrio.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_dodrio.json"
     },
     {
       "slug": "doduo",
       "name": "Doduo",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/doduo.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_doduo.json"
     },
     {
       "slug": "dragonair",
       "name": "Dragonair",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/dragonair.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_dragonair.json"
     },
     {
       "slug": "dragonite",
       "name": "Dragonite",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/dragonite.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_dragonite.json"
     },
     {
       "slug": "dratini",
       "name": "Dratini",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/dratini.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_dratini.json"
     },
     {
       "slug": "drowzee",
       "name": "Drowzee",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/drowzee.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_drowzee.json"
     },
     {
       "slug": "dugtrio",
       "name": "Dugtrio",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/dugtrio.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_dugtrio.json"
     },
     {
       "slug": "eevee",
       "name": "Eevee",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/eevee.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_eevee.json"
     },
     {
       "slug": "ekans",
       "name": "Ekans",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/ekans.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_ekans.json"
     },
     {
       "slug": "electabuzz",
       "name": "Electabuzz",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/electabuzz.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_electabuzz.json"
     },
     {
       "slug": "electrode",
       "name": "Electrode",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/electrode.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_electrode.json"
     },
     {
       "slug": "exeggcute",
       "name": "Exeggcute",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/exeggcute.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_exeggcute.json"
     },
     {
       "slug": "exeggutor",
       "name": "Exeggutor",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/exeggutor.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_exeggutor.json"
     },
     {
       "slug": "farfetchd",
       "name": "Farfetch'd",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/farfetchd.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_farfetchd.json"
     },
     {
       "slug": "fearow",
       "name": "Fearow",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/fearow.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_fearow.json"
     },
     {
       "slug": "flareon",
       "name": "Flareon",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/flareon.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_flareon.json"
     },
     {
       "slug": "gastly",
       "name": "Gastly",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/gastly.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_gastly.json"
     },
     {
       "slug": "gengar",
       "name": "Gengar",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/gengar.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_gengar.json"
     },
     {
       "slug": "geodude",
       "name": "Geodude",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/geodude.png",
-      "manifest": ""
-    },
-    {
-      "slug": "girafarig",
-      "name": "Girafarig",
-      "world": "pokemon",
-      "static": "res://assets/franchises/pokemon/processed/customers/girafarig.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_geodude.json"
     },
     {
       "slug": "gloom",
       "name": "Gloom",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/gloom.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_gloom.json"
     },
     {
       "slug": "golbat",
       "name": "Golbat",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/golbat.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_golbat.json"
     },
     {
       "slug": "goldeen",
       "name": "Goldeen",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/goldeen.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_goldeen.json"
     },
     {
       "slug": "golduck",
       "name": "Golduck",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/golduck.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_golduck.json"
     },
     {
       "slug": "golem",
       "name": "Golem",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/golem.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_golem.json"
     },
     {
       "slug": "graveler",
       "name": "Graveler",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/graveler.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_graveler.json"
     },
     {
       "slug": "grimer",
       "name": "Grimer",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/grimer.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_grimer.json"
     },
     {
       "slug": "growlithe",
       "name": "Growlithe",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/growlithe.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_growlithe.json"
     },
     {
       "slug": "gyarados",
       "name": "Gyarados",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/gyarados.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_gyarados.json"
     },
     {
       "slug": "haunter",
       "name": "Haunter",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/haunter.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_haunter.json"
     },
     {
       "slug": "hitmonchan",
       "name": "Hitmonchan",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/hitmonchan.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_hitmonchan.json"
     },
     {
       "slug": "hitmonlee",
       "name": "Hitmonlee",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/hitmonlee.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_hitmonlee.json"
     },
     {
       "slug": "horsea",
       "name": "Horsea",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/horsea.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_horsea.json"
     },
     {
       "slug": "hypno",
       "name": "Hypno",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/hypno.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_hypno.json"
     },
     {
       "slug": "ivysaur",
       "name": "Ivysaur",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/ivysaur.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_ivysaur.json"
     },
     {
       "slug": "jigglypuff",
       "name": "Jigglypuff",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/jigglypuff.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_jigglypuff.json"
     },
     {
       "slug": "jolteon",
       "name": "Jolteon",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/jolteon.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_jolteon.json"
     },
     {
       "slug": "jynx",
       "name": "Jynx",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/jynx.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_jynx.json"
+    },
+    {
+      "slug": "kabuto",
+      "name": "Kabuto",
+      "world": "pokemon",
+      "static": "res://assets/franchises/pokemon/processed/customers/kabuto.png",
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_kabuto.json"
     },
     {
       "slug": "kabutops",
       "name": "Kabutops",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/kabutops.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_kabutops.json"
     },
     {
       "slug": "kadabra",
       "name": "Kadabra",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/kadabra.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_kadabra.json"
     },
     {
       "slug": "kakuna",
       "name": "Kakuna",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/kakuna.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_kakuna.json"
     },
     {
       "slug": "kangaskhan",
       "name": "Kangaskhan",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/kangaskhan.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_kangaskhan.json"
     },
     {
       "slug": "kingler",
       "name": "Kingler",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/kingler.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_kingler.json"
     },
     {
       "slug": "koffing",
       "name": "Koffing",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/koffing.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_koffing.json"
     },
     {
       "slug": "krabby",
       "name": "Krabby",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/krabby.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_krabby.json"
     },
     {
       "slug": "lapras",
       "name": "Lapras",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/lapras.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_lapras.json"
     },
     {
       "slug": "lickitung",
       "name": "Lickitung",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/lickitung.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_lickitung.json"
     },
     {
       "slug": "machamp",
       "name": "Machamp",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/machamp.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_machamp.json"
     },
     {
       "slug": "machoke",
       "name": "Machoke",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/machoke.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_machoke.json"
     },
     {
       "slug": "machop",
       "name": "Machop",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/machop.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_machop.json"
     },
     {
       "slug": "magikarp",
       "name": "Magikarp",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/magikarp.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_magikarp.json"
     },
     {
       "slug": "magmar",
       "name": "Magmar",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/magmar.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_magmar.json"
     },
     {
       "slug": "magnemite",
       "name": "Magnemite",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/magnemite.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_magnemite.json"
     },
     {
       "slug": "magneton",
       "name": "Magneton",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/magneton.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_magneton.json"
     },
     {
       "slug": "mankey",
       "name": "Mankey",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/mankey.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_mankey.json"
     },
     {
       "slug": "marowak",
       "name": "Marowak",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/marowak.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_marowak.json"
     },
     {
       "slug": "meowth",
       "name": "Meowth",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/meowth.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_meowth.json"
     },
     {
       "slug": "metapod",
       "name": "Metapod",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/metapod.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_metapod.json"
     },
     {
       "slug": "mew",
       "name": "Mew",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/mew.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_mew.json"
     },
     {
       "slug": "mewtwo",
       "name": "Mewtwo",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/mewtwo.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_mewtwo.json"
     },
     {
       "slug": "moltres",
       "name": "Moltres",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/moltres.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_moltres.json"
     },
     {
       "slug": "mr_mime",
       "name": "Mr. Mime",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/mr_mime.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_mr_mime.json"
     },
     {
       "slug": "muk",
       "name": "Muk",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/muk.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_muk.json"
     },
     {
       "slug": "nidoking",
       "name": "Nidoking",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/nidoking.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_nidoking.json"
     },
     {
       "slug": "nidoqueen",
       "name": "Nidoqueen",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/nidoqueen.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_nidoqueen.json"
     },
     {
       "slug": "nidoran_f",
       "name": "Nidoran F",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/nidoran_f.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_nidoran_f.json"
     },
     {
       "slug": "nidoran_m",
       "name": "Nidoran M",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/nidoran_m.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_nidoran_m.json"
     },
     {
       "slug": "nidorina",
       "name": "Nidorina",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/nidorina.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_nidorina.json"
     },
     {
       "slug": "nidorino",
       "name": "Nidorino",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/nidorino.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_nidorino.json"
     },
     {
       "slug": "ninetales",
       "name": "Ninetales",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/ninetales.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_ninetales.json"
     },
     {
       "slug": "oddish",
       "name": "Oddish",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/oddish.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_oddish.json"
     },
     {
       "slug": "omanyte",
       "name": "Omanyte",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/omanyte.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_omanyte.json"
     },
     {
       "slug": "omastar",
       "name": "Omastar",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/omastar.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_omastar.json"
     },
     {
       "slug": "onix",
       "name": "Onix",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/onix.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_onix.json"
     },
     {
       "slug": "paras",
       "name": "Paras",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/paras.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_paras.json"
     },
     {
       "slug": "parasect",
       "name": "Parasect",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/parasect.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_parasect.json"
     },
     {
       "slug": "persian",
       "name": "Persian",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/persian.png",
-      "manifest": ""
-    },
-    {
-      "slug": "pichu",
-      "name": "Pichu",
-      "world": "pokemon",
-      "static": "res://assets/franchises/pokemon/processed/customers/pichu.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_persian.json"
     },
     {
       "slug": "pidgeot",
       "name": "Pidgeot",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/pidgeot.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_pidgeot.json"
     },
     {
       "slug": "pidgeotto",
       "name": "Pidgeotto",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/pidgeotto.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_pidgeotto.json"
     },
     {
       "slug": "pidgey",
       "name": "Pidgey",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/pidgey.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_pidgey.json"
     },
     {
       "slug": "pikachu",
       "name": "Pikachu",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/pikachu.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_pikachu.json"
     },
     {
       "slug": "pinsir",
       "name": "Pinsir",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/pinsir.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_pinsir.json"
     },
     {
       "slug": "poliwag",
       "name": "Poliwag",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/poliwag.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_poliwag.json"
     },
     {
       "slug": "poliwhirl",
       "name": "Poliwhirl",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/poliwhirl.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_poliwhirl.json"
     },
     {
       "slug": "poliwrath",
       "name": "Poliwrath",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/poliwrath.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_poliwrath.json"
     },
     {
       "slug": "ponyta",
       "name": "Ponyta",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/ponyta.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_ponyta.json"
     },
     {
       "slug": "porygon",
       "name": "Porygon",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/porygon.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_porygon.json"
     },
     {
       "slug": "primeape",
       "name": "Primeape",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/primeape.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_primeape.json"
     },
     {
       "slug": "psyduck",
       "name": "Psyduck",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/psyduck.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_psyduck.json"
     },
     {
       "slug": "raichu",
       "name": "Raichu",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/raichu.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_raichu.json"
     },
     {
       "slug": "rapidash",
       "name": "Rapidash",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/rapidash.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_rapidash.json"
     },
     {
       "slug": "raticate",
       "name": "Raticate",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/raticate.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_raticate.json"
     },
     {
       "slug": "rattata",
       "name": "Rattata",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/rattata.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_rattata.json"
     },
     {
       "slug": "rhydon",
       "name": "Rhydon",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/rhydon.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_rhydon.json"
     },
     {
       "slug": "rhyhorn",
       "name": "Rhyhorn",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/rhyhorn.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_rhyhorn.json"
     },
     {
       "slug": "sandshrew",
       "name": "Sandshrew",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/sandshrew.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_sandshrew.json"
     },
     {
       "slug": "sandslash",
       "name": "Sandslash",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/sandslash.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_sandslash.json"
     },
     {
       "slug": "scyther",
       "name": "Scyther",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/scyther.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_scyther.json"
     },
     {
       "slug": "seadra",
       "name": "Seadra",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/seadra.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_seadra.json"
     },
     {
       "slug": "seaking",
       "name": "Seaking",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/seaking.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_seaking.json"
     },
     {
       "slug": "seel",
       "name": "Seel",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/seel.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_seel.json"
     },
     {
       "slug": "shellder",
       "name": "Shellder",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/shellder.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_shellder.json"
     },
     {
       "slug": "slowbro",
       "name": "Slowbro",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/slowbro.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_slowbro.json"
     },
     {
       "slug": "slowpoke",
       "name": "Slowpoke",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/slowpoke.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_slowpoke.json"
     },
     {
       "slug": "snorlax",
       "name": "Snorlax",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/snorlax.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_snorlax.json"
     },
     {
       "slug": "spearow",
       "name": "Spearow",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/spearow.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_spearow.json"
     },
     {
       "slug": "squirtle",
       "name": "Squirtle",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/squirtle.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_squirtle.json"
     },
     {
       "slug": "starmie",
       "name": "Starmie",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/starmie.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_starmie.json"
     },
     {
       "slug": "staryu",
       "name": "Staryu",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/staryu.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_staryu.json"
     },
     {
       "slug": "tangela",
       "name": "Tangela",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/tangela.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_tangela.json"
     },
     {
       "slug": "tauros",
       "name": "Tauros",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/tauros.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_tauros.json"
     },
     {
       "slug": "tentacool",
       "name": "Tentacool",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/tentacool.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_tentacool.json"
     },
     {
       "slug": "tentacruel",
       "name": "Tentacruel",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/tentacruel.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_tentacruel.json"
     },
     {
       "slug": "vaporeon",
       "name": "Vaporeon",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/vaporeon.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_vaporeon.json"
     },
     {
       "slug": "venomoth",
       "name": "Venomoth",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/venomoth.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_venomoth.json"
     },
     {
       "slug": "venonat",
       "name": "Venonat",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/venonat.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_venonat.json"
     },
     {
       "slug": "venusaur",
       "name": "Venusaur",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/venusaur.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_venusaur.json"
     },
     {
       "slug": "victreebel",
       "name": "Victreebel",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/victreebel.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_victreebel.json"
     },
     {
       "slug": "vileplume",
       "name": "Vileplume",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/vileplume.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_vileplume.json"
     },
     {
       "slug": "voltorb",
       "name": "Voltorb",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/voltorb.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_voltorb.json"
     },
     {
       "slug": "vulpix",
       "name": "Vulpix",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/vulpix.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_vulpix.json"
     },
     {
       "slug": "wartortle",
       "name": "Wartortle",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/wartortle.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_wartortle.json"
     },
     {
       "slug": "weedle",
       "name": "Weedle",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/weedle.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_weedle.json"
     },
     {
       "slug": "weepinbell",
       "name": "Weepinbell",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/weepinbell.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_weepinbell.json"
     },
     {
       "slug": "weezing",
       "name": "Weezing",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/weezing.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_weezing.json"
     },
     {
       "slug": "wigglytuff",
       "name": "Wigglytuff",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/wigglytuff.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_wigglytuff.json"
     },
     {
       "slug": "zapdos",
       "name": "Zapdos",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/zapdos.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_zapdos.json"
     },
     {
       "slug": "zubat",
       "name": "Zubat",
       "world": "pokemon",
       "static": "res://assets/franchises/pokemon/processed/customers/zubat.png",
-      "manifest": ""
+      "manifest": "res://assets/franchises/pokemon/manifests/pool_zubat.json"
     },
     {
       "slug": "cucco",

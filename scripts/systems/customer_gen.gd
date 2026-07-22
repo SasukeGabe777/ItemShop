@@ -146,7 +146,7 @@ static func _make_walk_in(used_identities: Dictionary = {}) -> Dictionary:
 	var candidates: Array[Dictionary] = []
 	for raw: Variant in ContentDatabase.customer_visual_pool:
 		var entry: Dictionary = raw
-		if not used_identities.has(String(entry.get("slug", ""))):
+		if not used_identities.has(_entry_identity(entry)):
 			candidates.append(entry)
 	if candidates.is_empty():
 		for raw: Variant in ContentDatabase.customer_visual_pool:
@@ -200,7 +200,12 @@ static func _fallback_walk_in() -> Dictionary:
 
 
 static func _identity_key(cust: Dictionary) -> String:
-	return String(cust.get("visual_slug", cust.get("id", "")))
+	return "%s:%s" % [String(cust.get("world", "")),
+		String(cust.get("visual_slug", cust.get("id", "")))]
+
+
+static func _entry_identity(entry: Dictionary) -> String:
+	return "%s:%s" % [String(entry.get("world", "")), String(entry.get("slug", ""))]
 
 
 static func _apply_visual_identity(runtime: Dictionary, entry: Dictionary) -> void:
@@ -216,11 +221,11 @@ static func _identity_archetype(entry: Dictionary) -> String:
 	var explicit := String(entry.get("archetype", ""))
 	if explicit != "" and ContentDatabase.archetypes.has(explicit):
 		return explicit
-	var slug := String(entry.get("slug", ""))
+	var slug := _entry_identity(entry)
 	for id: String in ContentDatabase.named_customers:
 		var named: Dictionary = ContentDatabase.named_customers[id]
 		var match := ContentDatabase.customer_pool_entry_by_name(String(named.get("name", "")))
-		if String(match.get("slug", "")) == slug:
+		if _entry_identity(match) == slug:
 			return String(named.get("archetype", "adventurer"))
 	var ids: Array = ContentDatabase.archetypes.keys()
 	ids.sort()

@@ -22,7 +22,7 @@ from PIL import Image, ImageDraw
 
 sys.path.insert(0, str(Path(__file__).parent))
 from prep_supplied_assets import _key_sheet, front_score
-from slice_lib import clean_alpha, find_islands, largest_component, load_rgba, resize_rgba
+from slice_lib import clean_alpha, find_islands, keep_components, largest_component, load_rgba, resize_rgba
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -50,7 +50,7 @@ Electrode Exeggcute Exeggutor Cubone Marowak Hitmonlee Hitmonchan Lickitung Koff
 Rhyhorn Rhydon Chansey Tangela Kangaskhan Horsea Seadra Goldeen Seaking Staryu Starmie Mr-Mime
 Scyther Jynx Electabuzz Magmar Pinsir Tauros Magikarp Gyarados Lapras Ditto Eevee Vaporeon
 Jolteon Flareon Porygon Omanyte Omastar Kabuto Kabutops Aerodactyl Snorlax Articuno Zapdos
-Moltres Dratini Dragonair Dragonite Mewtwo
+Moltres Dratini Dragonair Dragonite Mewtwo Mew
 """.split()
 
 WORLD_SOURCES = {
@@ -64,6 +64,8 @@ SUPPLEMENT_TARGETS = {
     "naruto": 50,
     "zelda": 50,
 }
+
+CROSS_WORLD_IDENTITIES = {"aerith", "cid", "frieza", "tidus", "wakka"}
 
 
 def slugify(value: str) -> str:
@@ -162,43 +164,94 @@ def pokemon_blocks(path: Path) -> list[Image.Image]:
     blocks: list[Image.Image] = []
     for y0, y1 in y_ranges:
         for x0, x1 in x_ranges:
-            if len(blocks) >= len(POKEMON_GEN1):
-                return blocks
             blocks.append(image.crop((x0, y0, x1, y1)))
+    # Dragonite, Mewtwo, and Mew continue below the regular 15x10 grid,
+    # immediately before the sheet's credits panel.
+    for x0, x1 in x_ranges[:3]:
+        blocks.append(image.crop((x0, 1290, x1, min(image.height, 1418))))
     return blocks
 
 
-def best_pokemon_frame(block: Image.Image) -> Image.Image | None:
+def pokemon_frames(block: Image.Image) -> list[Image.Image]:
+    """Return the sheet's two-frame up/down/left/right animations.
+
+    HGSS companion cells are 64x128. The left column contains up then down;
+    the right contains left then right, with two walk frames per direction.
+    """
     keyed = _key_sheet(block)
-    candidates: list[tuple[float, Image.Image]] = []
-    for box in find_islands(keyed, min_area=18, merge_gap=0):
-        width, height = box[2] - box[0], box[3] - box[1]
-        if not (4 <= width <= 32 and 5 <= height <= 32):
-            continue
-        frame = clean_alpha(largest_component(keyed.crop(tuple(box))), lo=1, hi=255)
-        score = front_score(frame)
-        if score > 0:
-            candidates.append((score, frame))
-    return fit_customer(max(candidates, key=lambda row: row[0])[1]) if candidates else None
+    coords = [(0, 0), (0, 32), (0, 64), (0, 96),
+              (32, 0), (32, 32), (32, 64), (32, 96)]
+    frames: list[Image.Image] = []
+    for x, y in coords:
+        frame = keyed.crop((x, y, x + 32, y + 32))
+        # Gender markers and grid specks are detached tiny islands. Keep the
+        # complete creature—including legitimately separate bodies such as
+        # Exeggcute—while dropping those annotations.
+        frames.append(keep_components(frame, min_area=12, thresh=1))
+    return frames
+
+
+def write_pokemon_manifest(slug: str, sheet_path: Path) -> None:
+    manifest_path = FRANCHISES / "pokemon/manifests" / f"pool_{slug}.json"
+    manifest_path.parent.mkdir(parents=True, exist_ok=True)
+    manifest = {
+        "asset_id": f"pool_{slug}",
+        "sheet": "res://" + sheet_path.relative_to(ROOT).as_posix(),
+        "native_scale": 1,
+        "display_scale": 1,
+        "pivot": [16, 30],
+        "grid": {"frame_width": 32, "frame_height": 32, "columns": 8, "rows": 1},
+        "animations": {
+            "idle_up": {"frames": [0], "fps": 4, "loop": True},
+            "walk_up": {"frames": [0, 1], "fps": 4, "loop": True},
+            "idle_down": {"frames": [2], "fps": 4, "loop": True},
+            "walk_down": {"frames": [2, 3], "fps": 4, "loop": True},
+            "idle_left": {"frames": [4], "fps": 4, "loop": True},
+            "walk_left": {"frames": [4, 5], "fps": 4, "loop": True},
+            "idle_right": {"frames": [6], "fps": 4, "loop": True},
+            "walk_right": {"frames": [6, 7], "fps": 4, "loop": True},
+        },
+    }
+    manifest_path.write_text(
+        json.dumps(manifest, indent=2, ensure_ascii=False) + "\n",
+        encoding="utf-8",
+        newline="\n",
+    )
 
 
 def extract_pokemon(generated_names: dict[tuple[str, str], str]) -> int:
-    if len(POKEMON_GEN1) != 150:
-        raise SystemExit(f"Expected 150 Gen-I names, got {len(POKEMON_GEN1)}")
+    if len(POKEMON_GEN1) != 151:
+        raise SystemExit(f"Expected 151 Gen-I names, got {len(POKEMON_GEN1)}")
     source = FRANCHISES / "pokemon/raw/customers_updated/sprite_pok_mon_1st_generation_overworld.png"
     output = FRANCHISES / "pokemon/processed/customers"
+    sheets = FRANCHISES / "pokemon/processed/sheets"
     output.mkdir(parents=True, exist_ok=True)
+    sheets.mkdir(parents=True, exist_ok=True)
+    block_names: list[str | None] = list(POKEMON_GEN1)
+    # The Kanto sheet gives Venusaur and Butterfree separate male/female cells.
+    # One visual identity per species means use the first cell and skip the
+    # adjacent alternate instead of shifting every later Pokédex name.
+    block_names.insert(3, None)
+    block_names.insert(13, None)
+    blocks = pokemon_blocks(source)
+    if len(blocks) != len(block_names):
+        raise SystemExit(f"Expected {len(block_names)} Kanto cells, found {len(blocks)}")
     made = 0
-    for name, block in zip(POKEMON_GEN1, pokemon_blocks(source)):
-        slug = slugify(name)
-        frame = best_pokemon_frame(block)
-        if frame is None:
-            print(f"  pokemon/{slug}: no clean updated frame")
+    for name, block in zip(block_names, blocks):
+        if name is None:
             continue
-        frame.save(output / f"{slug}.png")
+        slug = slugify(name)
+        frames = pokemon_frames(block)
+        sheet = Image.new("RGBA", (32 * len(frames), 32), (0, 0, 0, 0))
+        for index, frame in enumerate(frames):
+            sheet.alpha_composite(frame, (index * 32, 0))
+        sheet_path = sheets / f"pool_{slug}.png"
+        sheet.save(sheet_path)
+        frames[2].save(output / f"{slug}.png")
+        write_pokemon_manifest(slug, sheet_path)
         generated_names[("pokemon", slug)] = display_name(slug)
         made += 1
-    print(f"  pokemon: {made} updated Gen-I customers")
+    print(f"  pokemon: {made} named, four-direction Gen-I customers")
     return made
 
 
@@ -299,20 +352,26 @@ def write_pool(generated_names: dict[tuple[str, str], str]) -> None:
         slug = png.stem
         if slug in NON_CUSTOMER_SLUGS:
             continue
+        if world == "pokemon" and slug not in {slugify(name) for name in POKEMON_GEN1}:
+            continue
         frame = load_rgba(png)
         if frame.width < 5 or frame.height < 10:
             continue
         identity = customer_identity(slug)
+        identity_key = identity if identity in CROSS_WORLD_IDENTITIES else f"{world}:{identity}"
         # Costumes, transformations, and franchise crossovers are still the
         # same customer. Keep exactly one stable personality per character.
-        if identity in seen_identities:
+        if identity_key in seen_identities:
             continue
-        seen_identities.add(identity)
+        seen_identities.add(identity_key)
         prior = existing.get((world, slug), {})
         manifest = FRANCHISES / world / "manifests" / f"pool_{slug}.json"
+        name = generated_names.get((world, slug), str(prior.get("name", display_name(slug))))
+        if world == "naruto" and slug == "kabuto":
+            name = "Kabuto Yakushi"
         entries.append({
             "slug": slug,
-            "name": generated_names.get((world, slug), str(prior.get("name", display_name(slug)))),
+            "name": name,
             "world": world,
             "static": "res://" + png.relative_to(ROOT).as_posix(),
             "manifest": "res://" + manifest.relative_to(ROOT).as_posix() if manifest.exists() else "",

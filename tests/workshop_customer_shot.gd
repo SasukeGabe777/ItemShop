@@ -43,6 +43,13 @@ class Probe:
 		get_tree().current_scene.add_child(pokemon)
 		await get_tree().create_timer(0.25).timeout
 		_snap("04_updated_pokemon_customer_samples.png")
+		pokemon.queue_free()
+		await get_tree().process_frame
+
+		var directions := _build_pokemon_directions()
+		get_tree().current_scene.add_child(directions)
+		await get_tree().create_timer(0.25).timeout
+		_snap("05_pokemon_four_direction_animations.png")
 		print("WORKSHOP_CUSTOMER_SHOT_DONE folder=", ProjectSettings.globalize_path(SHOT_DIR))
 		get_tree().quit()
 
@@ -115,7 +122,7 @@ class Probe:
 
 	func _build_pokemon_page() -> CanvasLayer:
 		var entries := _entries_for("pokemon")
-		var parts := _base_panel("Pokémon customers — updated overworld sheet (156 total)")
+		var parts := _base_panel("Kanto Pokémon — National Pokédex names corrected")
 		var layer: CanvasLayer = parts[0]
 		var vb: VBoxContainer = parts[1]
 		var grid := GridContainer.new()
@@ -124,6 +131,42 @@ class Probe:
 		grid.add_theme_constant_override("v_separation", 3)
 		for i in range(mini(50, entries.size())):
 			grid.add_child(_portrait(entries[i], true))
+		vb.add_child(grid)
+		return layer
+
+
+	func _build_pokemon_directions() -> CanvasLayer:
+		var entries := _entries_for("pokemon")
+		var by_slug: Dictionary = {}
+		for entry: Dictionary in entries:
+			by_slug[String(entry.get("slug", ""))] = entry
+		var parts := _base_panel("Every Pokémon uses both walk frames in all four directions")
+		var layer: CanvasLayer = parts[0]
+		var vb: VBoxContainer = parts[1]
+		var grid := GridContainer.new()
+		grid.columns = 5
+		grid.add_theme_constant_override("h_separation", 22)
+		grid.add_theme_constant_override("v_separation", 2)
+		for heading in ["Pokémon", "Up", "Down", "Left", "Right"]:
+			var label := UIKit.label(heading, 8, UIKit.COL_ACCENT)
+			label.custom_minimum_size = Vector2(88, 18)
+			label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			grid.add_child(label)
+		for slug in ["bulbasaur", "charmander", "pikachu", "abra", "gengar", "dragonite", "mewtwo", "mew"]:
+			var entry: Dictionary = by_slug[slug]
+			var name_label := UIKit.label(String(entry.get("name", slug)), 8, Color.WHITE)
+			name_label.custom_minimum_size = Vector2(88, 34)
+			name_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+			grid.add_child(name_label)
+			var frames := SpriteFramesBuilder.from_manifest_path(String(entry.get("manifest", "")))
+			for animation in ["walk_up", "walk_down", "walk_left", "walk_right"]:
+				var texture := TextureRect.new()
+				texture.custom_minimum_size = Vector2(88, 34)
+				texture.texture = frames.get_frame_texture(animation, 0)
+				texture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+				texture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+				texture.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+				grid.add_child(texture)
 		vb.add_child(grid)
 		return layer
 
