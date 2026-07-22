@@ -5,6 +5,7 @@ extends CharacterBody2D
 
 signal negotiate_requested(customer: Dictionary, item_id: String)
 signal order_requested(customer: Dictionary, direct_boom_request: bool)
+signal order_delivery_requested(customer: Dictionary, order_id: int)
 signal boom_disappointed(customer: Dictionary)
 signal left(me: ShopCustomer)
 
@@ -59,7 +60,12 @@ func setup(cust: Dictionary, browse_points: Array[Vector2], exit_pos: Vector2, p
 	brain.wants_to_negotiate.connect(func(c: Dictionary, item: String) -> void:
 		_paused_for_negotiation = true
 		negotiate_requested.emit(c, item))
-	brain.wants_to_order.connect(func(c: Dictionary, direct: bool) -> void: order_requested.emit(c, direct))
+	brain.wants_to_order.connect(func(c: Dictionary, direct: bool) -> void:
+		_paused_for_negotiation = true
+		order_requested.emit(c, direct))
+	brain.wants_order_delivery.connect(func(c: Dictionary, order_id: int) -> void:
+		_paused_for_negotiation = true
+		order_delivery_requested.emit(c, order_id))
 	brain.disappointed.connect(func(c: Dictionary) -> void: boom_disappointed.emit(c))
 	brain.leaving.connect(_start_leaving)
 	add_child(brain)
@@ -129,12 +135,16 @@ func resume_after_negotiation() -> void:
 	brain.finish_negotiation()
 
 
+func resume_after_order() -> void:
+	resume_after_negotiation()
+
+
 func _physics_process(delta: float) -> void:
 	if _paused_for_negotiation:
 		visual.face(Vector2.DOWN, false)
 		return
 	brain.tick(delta)
-	var target := _exit_pos if _leaving else (_waypoints[0] if not _waypoints.is_empty() else position)
+	var target: Vector2 = _exit_pos if _leaving else (_waypoints[0] if not _waypoints.is_empty() else position)
 	var to_target := target - position
 	if to_target.length() < 4.0:
 		if _leaving:

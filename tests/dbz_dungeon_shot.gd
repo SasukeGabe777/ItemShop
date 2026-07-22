@@ -27,6 +27,22 @@ class Probe:
 		await get_tree().create_timer(0.45).timeout
 		Input.action_release("move_down")
 		get_viewport().get_texture().get_image().save_png("user://screenshots/dbz_start.png")
+		# ESC pause menu: opens with a Retreat option, then close it again
+		print("HASACTION=", InputMap.has_action("pause_menu"),
+			" MODAL=", UIKit.modal_open(),
+			" FINISHED=", get_tree().current_scene.get("finished"))
+		Input.action_press("pause_menu")
+		await get_tree().create_timer(0.05).timeout
+		Input.action_release("pause_menu")
+		await get_tree().create_timer(0.3).timeout
+		get_viewport().get_texture().get_image().save_png("user://screenshots/dbz_pause.png")
+		print("PAUSED=", get_tree().paused)
+		get_tree().paused = false
+		for holder: Node in [get_tree().root, get_tree().current_scene]:
+			for l in holder.get_children():
+				if l is CanvasLayer and l.process_mode == Node.PROCESS_MODE_WHEN_PAUSED:
+					l.queue_free()
+		await get_tree().create_timer(0.2).timeout
 		var dun: Node = get_tree().current_scene
 		# combat room: props + enemies + the SBC beam
 		dun._enter_room(1)

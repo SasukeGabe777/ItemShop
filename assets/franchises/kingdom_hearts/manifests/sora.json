@@ -91,9 +91,9 @@
   },
   "special": {
    "frames": [
+    39,
     59,
-    60,
-    61
+    60
    ],
    "fps": 8,
    "loop": false

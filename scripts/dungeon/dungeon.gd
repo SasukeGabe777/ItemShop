@@ -342,7 +342,16 @@ func _on_consumables2_changed(items: Array) -> void:
 		consum_label2.text = _consumable_text(items, "P2: ")
 
 
+var _pause_was_down := false
+
+
 func _process(_delta: float) -> void:
+	# own edge detection: is_action_just_pressed's frame stamp misses
+	# presses injected by probes via Input.action_press
+	var pause_down := Input.is_action_pressed("pause_menu")
+	if pause_down and not _pause_was_down and not finished and not UIKit.modal_open():
+		_open_pause_menu()
+	_pause_was_down = pause_down
 	var total := 0
 	for id: String in DungeonManager.run_loot:
 		total += int(DungeonManager.run_loot[id])
@@ -665,6 +674,27 @@ func _spawn_switch_pad(at: Vector2) -> void:
 			_open_switch_menu())
 	pad.add_child(checker)
 	room_root.add_child(pad)
+
+
+# Escape (or pad Start) pauses the run with a retreat option (polled in
+# _process — synthetic probe input and the rest of the codebase use the
+# Input singleton, which never reaches _unhandled_input). The day cost was
+# already paid at expedition launch (gates panel), so leaving early keeps
+# the loot and the spent time — same as a defeat retreat, minus the stinger.
+func _open_pause_menu() -> void:
+	get_tree().paused = true
+	var parts := UIKit.modal(self, "Paused")
+	var pause_layer: CanvasLayer = parts[0]
+	pause_layer.process_mode = Node.PROCESS_MODE_WHEN_PAUSED
+	var vb: VBoxContainer = parts[1]
+	vb.add_child(UIKit.label("Retreating keeps your loot; the shard stays unreached.", 9, UIKit.COL_DIM))
+	vb.add_child(UIKit.button("Retreat to the Crossroads", func() -> void:
+		get_tree().paused = false
+		pause_layer.queue_free()
+		_finish(false, false)))
+	vb.add_child(UIKit.button("Keep exploring", func() -> void:
+		get_tree().paused = false
+		pause_layer.queue_free()))
 
 
 func _open_switch_menu() -> void:

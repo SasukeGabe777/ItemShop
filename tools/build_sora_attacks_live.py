@@ -47,8 +47,11 @@ ANIMS = [
                        ("sora_live_005406", 0)], 12, False),
     ("attack_1_down", [("sora_live_002854", 0), ("sora_live_002860", 0), ("sora_live_002869", 0)], 12, False),
     ("attack_1_up", [("sora_live_002997", 0), ("sora_live_003027", 0), ("sora_live_003030", 0)], 12, False),
-    # Strike Raid cast: three distinct throw/recover phases from both runs
-    ("special", [("throw_live_012380", 1), ("throw_live_013474", 1),
+    # Strike Raid cast. The game's throw is genuinely ONE held pose (user
+    # confirmed twice) — so sell the throw with a state change instead:
+    # blade-in-hand ready stance -> empty-handed lunge (blade flies as the
+    # engine projectile) -> recover.
+    ("special", [("sora_live_004973", 1), ("throw_live_012380", 1),
                  ("throw_live_013488", 1)], 8, False),
 ]
 DROP = ["attack_1", "attack_2", "attack_3"]

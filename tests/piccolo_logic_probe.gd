@@ -2,13 +2,14 @@ extends Node
 ## Headless logic probe: Piccolo hero def, manifest/SpriteFrames completeness,
 ## and Beam special construction.
 
+# melee = the mad/mar kick since 95162fd (up/attack_2 use play_action
+# fallbacks); fly gained an up variant from the overworld flight capture
 const REQUIRED_ANIMS := [
 	"idle_down", "idle_up", "idle_side",
 	"walk_down", "walk_up", "walk_side",
-	"attack_1_down", "attack_1_side", "attack_1_up",
-	"attack_2_down", "attack_2_side",
+	"attack_1_down", "attack_1_side",
 	"special_down", "special_side", "special_up",
-	"fly_down", "fly_side",
+	"fly_down", "fly_side", "fly_up",
 ]
 
 
