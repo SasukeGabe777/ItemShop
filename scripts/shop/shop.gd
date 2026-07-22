@@ -801,7 +801,8 @@ func _make_pick_row(id: String, slot: int, pick_layer: CanvasLayer, who: int = 1
 		trend_lbl = UIKit.label("▼ %s today" % DayBriefing._pct(mult), 10, UIKit.COL_BAD)
 	trend_lbl.custom_minimum_size = Vector2(78, 0)
 	row.add_child(trend_lbl)
-	var price_lbl := UIKit.label("x%d  ~%dg" % [InventoryManager.count(id), MarketManager.market_value(id)], 9, UIKit.COL_INK)
+	row.add_child(UIKit.gold_icon("small", Vector2(16, 14)))
+	var price_lbl := UIKit.label("x%d  ~%d" % [InventoryManager.count(id), MarketManager.market_value(id)], 9, UIKit.COL_INK)
 	price_lbl.custom_minimum_size = Vector2(72, 0)
 	price_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	price_lbl.tooltip_text = "You own %d; sells for about %dg today" % [InventoryManager.count(id), MarketManager.market_value(id)]
@@ -877,9 +878,13 @@ func _open_furniture_catalog() -> void:
 	busy = true
 	player.frozen = true
 	var prices: Dictionary = ContentDatabase.bal("furniture_prices", {})
-	var parts := UIKit.modal(self, "Furniture catalog — %dg" % EconomyManager.gold)
+	var parts := UIKit.modal(self, "Furniture catalog")
 	var cat_layer: CanvasLayer = parts[0]
 	var vb: VBoxContainer = parts[1]
+	var gold_row := HBoxContainer.new()
+	gold_row.add_child(UIKit.gold_icon("small", Vector2(18, 15)))
+	gold_row.add_child(UIKit.label("Available: %d" % EconomyManager.gold, 10, UIKit.COL_ACCENT))
+	vb.add_child(gold_row)
 	var list_parts := UIKit.scroll_list(Vector2(400, 220))
 	vb.add_child(list_parts[0])
 	var list: VBoxContainer = list_parts[1]
@@ -929,9 +934,11 @@ func _open_furniture_catalog() -> void:
 		var price := int(prices.get(fid, prices.get("default", 400)))
 		var slots := maxi(1, (def.get("display_slots", [[0, -12]]) as Array).size())
 		var row := HBoxContainer.new()
-		var lbl := UIKit.label("%s — %d slot%s — %dg" % [String(def.get("name", fid)), slots, "s" if slots > 1 else "", price], 10)
+		var lbl := UIKit.label("%s — %d slot%s" % [String(def.get("name", fid)), slots, "s" if slots > 1 else ""], 10)
 		lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		row.add_child(lbl)
+		row.add_child(UIKit.gold_icon("small", Vector2(16, 14)))
+		row.add_child(UIKit.label("%d" % price, 10, UIKit.COL_ACCENT))
 		if unlock > GameState.shop_level:
 			lbl.add_theme_color_override("font_color", UIKit.COL_DIM)
 			row.add_child(UIKit.label("Shop Lv.%d" % unlock, 9, UIKit.COL_DIM))
@@ -973,9 +980,13 @@ func _open_decor_catalog() -> void:
 	busy = true
 	player.frozen = true
 	var prices: Dictionary = ContentDatabase.bal("furniture_prices", {})
-	var parts := UIKit.modal(self, "Decorate the shop — %dg" % EconomyManager.gold)
+	var parts := UIKit.modal(self, "Decorate the shop")
 	var decor_layer: CanvasLayer = parts[0]
 	var vb: VBoxContainer = parts[1]
+	var gold_row := HBoxContainer.new()
+	gold_row.add_child(UIKit.gold_icon("small", Vector2(18, 15)))
+	gold_row.add_child(UIKit.label("Available: %d" % EconomyManager.gold, 10, UIKit.COL_ACCENT))
+	vb.add_child(gold_row)
 	var appeal := InventoryManager.shop_appeal()
 	vb.add_child(UIKit.label("Shop appeal — cozy %d | intense %d | retro %d | modern %d (dominant: %s)" % [
 		int(appeal["cozy"]), int(appeal["intense"]), int(appeal["retro"]), int(appeal["modern"]),
@@ -1034,7 +1045,8 @@ func _open_decor_catalog() -> void:
 		var appeal_lbl := UIKit.label(", ".join(bits), 9, UIKit.COL_GOOD)
 		appeal_lbl.custom_minimum_size = Vector2(110, 0)
 		row.add_child(appeal_lbl)
-		var price_lbl := UIKit.label("%dg" % price, 10, UIKit.COL_INK)
+		row.add_child(UIKit.gold_icon("small", Vector2(16, 14)))
+		var price_lbl := UIKit.label("%d" % price, 10, UIKit.COL_INK)
 		price_lbl.custom_minimum_size = Vector2(48, 0)
 		price_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 		row.add_child(price_lbl)
@@ -1114,7 +1126,11 @@ func _open_expand(who: int = 1) -> void:
 	var vb: VBoxContainer = parts[1]
 	var caps: Array = ContentDatabase.bal("shop", {}).get("furniture_caps", [5, 8, 12, 16, 20])
 	var next_idx := clampi(GameState.shop_level, 0, caps.size() - 1)
-	vb.add_child(UIKit.label("Shop level %d -> %d   Cost: %dg" % [GameState.shop_level, GameState.shop_level + 1, cost]))
+	var cost_row := HBoxContainer.new()
+	cost_row.add_child(UIKit.label("Shop level %d -> %d   Cost:" % [GameState.shop_level, GameState.shop_level + 1]))
+	cost_row.add_child(UIKit.gold_icon("small", Vector2(18, 15)))
+	cost_row.add_child(UIKit.label("%d" % cost, 10, UIKit.COL_ACCENT))
+	vb.add_child(cost_row)
 	vb.add_child(UIKit.label("Furniture cap %d -> %d pieces (more stands = more display slots)" % [
 		_furniture_cap(), int(caps[next_idx])], 10))
 	var unlocked: Array[String] = []
@@ -1185,11 +1201,19 @@ func _spawn_customer(cust: Dictionary) -> void:
 
 
 func _speech(over: Node2D, text: String) -> void:
+	var prior := over.get_node_or_null("SpeechBubble")
+	if prior != null:
+		prior.queue_free()
 	var lbl := UIKit.label(text, 8)
+	lbl.name = "SpeechBubble"
 	lbl.custom_minimum_size = Vector2(0, 0)
 	lbl.autowrap_mode = TextServer.AUTOWRAP_WORD
 	lbl.custom_minimum_size.x = minf(180, text.length() * 4.5)
-	lbl.position = Vector2(-50, -52)
+	# Stack dialogue above the reaction icon, both centered on the customer.
+	var speech_y := -52.0
+	if over is ShopCustomer and (over as ShopCustomer).visual != null:
+		speech_y = (over as ShopCustomer).visual.top_y() * (over as ShopCustomer).visual.scale.y - 52.0
+	lbl.position = Vector2(-lbl.custom_minimum_size.x / 2.0, speech_y)
 	lbl.z_index = 65
 	over.add_child(lbl)
 	var tw := lbl.create_tween()
@@ -1298,9 +1322,15 @@ func _on_negotiation_finished(outcome: Dictionary) -> void:
 		_:
 			session_summary["left"] = int(session_summary["left"]) + 1
 	if negotiating != null and is_instance_valid(negotiating):
-		if bool(outcome.get("result", "") in [Negotiation.RESULT_PERFECT, Negotiation.RESULT_ACCEPT]):
-			var qty := maxi(1, int(outcome.get("quantity", 1)))
-			_speech(negotiating, "Thanks!" if qty == 1 else "I'll take all %d!" % qty)
+		var result := String(outcome.get("result", ""))
+		var emote := String(outcome.get("emote", "unhappy" if result == Negotiation.RESULT_LEAVE else "neutral"))
+		negotiating.show_emote(emote, 2.2)
+		var response := String(outcome.get("message", ""))
+		if response != "":
+			_speech(negotiating, response)
+		if result in [Negotiation.RESULT_PERFECT, Negotiation.RESULT_ACCEPT]:
+			var shopkeeper: Node2D = player2 if _nego_player == 2 and player2 != null else player
+			UIKit.gold_popup(shopkeeper, int(outcome.get("price", 0)))
 		negotiating.resume_after_negotiation()
 	negotiating = null
 	hud.refresh()

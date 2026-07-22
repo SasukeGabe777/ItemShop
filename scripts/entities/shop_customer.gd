@@ -17,7 +17,8 @@ var _speed := 70.0
 var _leaving := false
 var _paused_for_negotiation := false
 var _leg_target := Vector2.INF
-var _leg_axis := -1  # 0 = walking out x, 1 = walking out y
+var _leg_axis := -1
+var _active_emote: Sprite2D
 
 
 func setup(cust: Dictionary, browse_points: Array[Vector2], exit_pos: Vector2, preferred_browse_point: Vector2 = Vector2.INF) -> void:
@@ -27,26 +28,22 @@ func setup(cust: Dictionary, browse_points: Array[Vector2], exit_pos: Vector2, p
 	collision_mask = 0
 	visual = CharacterVisual.new()
 	add_child(visual)
-	# named hero customers use their real spritesheet when one is wired up
 	var sprite_id := String(cust.get("hero_ref", ""))
 	if sprite_id == "":
 		sprite_id = String(cust.get("id", "cust"))
 	var manifest := "res://assets/franchises/%s/manifests/%s.json" % [String(cust.get("world", "")), sprite_id]
 	if not visual.setup_from_manifest(manifest):
-		# no real sheet: draw a character from the customer pool. Named
-		# customers get their own character when the pool has them (or a
-		# stable stand-in); walk-ins vary per spawn and take on the pool
-		# character's name — the archetype stays as their title.
-		var named := bool(cust.get("named", false))
 		var entry: Dictionary = {}
-		if named:
-			# named customers only ever use their OWN character's art — a
-			# placeholder beats Princess Peach walking around in Vegeta's body
+		if String(cust.get("visual_slug", "")) != "":
+			entry = {
+				"slug": String(cust.get("visual_slug", "")),
+				"manifest": String(cust.get("visual_manifest", "")),
+				"static": String(cust.get("visual_static", "")),
+			}
+		elif bool(cust.get("named", false)):
 			entry = ContentDatabase.customer_pool_entry_by_name(String(cust.get("name", "")))
 		else:
 			entry = ContentDatabase.customer_pool_entry(String(cust.get("id", "cust")), int(get_instance_id() % 1000))
-			if String(entry.get("name", "")) != "":
-				cust["name"] = String(entry.get("name", ""))
 		var pool_manifest := String(entry.get("manifest", ""))
 		var static_path := String(entry.get("static", ""))
 		if pool_manifest != "" and visual.setup_from_manifest(pool_manifest):
@@ -72,6 +69,43 @@ func setup(cust: Dictionary, browse_points: Array[Vector2], exit_pos: Vector2, p
 		_waypoints.append(browse_points[randi() % browse_points.size()] + Vector2(randf_range(-8, 8), randf_range(10, 18)))
 	if preferred_browse_point != Vector2.INF:
 		_waypoints.append(preferred_browse_point + Vector2(randf_range(-5, 5), randf_range(10, 14)))
+	_show_arrival_emote.call_deferred()
+
+
+func _show_arrival_emote() -> void:
+	if String(data.get("boom_id", "")) != "":
+		show_emote("boom", 1.8)
+	elif String(data.get("archetype", "")) == "wealthy_fan":
+		show_emote("wealthy", 1.8)
+	else:
+		var mood := RelationshipManager.mood(String(data.get("id", "")))
+		show_emote("happy" if mood > 0.2 else ("unhappy" if mood < -0.2 else "neutral"), 1.8)
+
+
+## Brief customer reaction above their head. A new reaction replaces an old
+## one, so arrival mood, negotiation feedback, and departure never overlap.
+func show_emote(kind: String, duration: float = 1.35) -> void:
+	if is_instance_valid(_active_emote):
+		_active_emote.queue_free()
+	var tex := UIKit.emote_texture(kind)
+	if tex == null:
+		return
+	var spr := Sprite2D.new()
+	spr.name = "CustomerEmote_%s" % kind
+	spr.texture = tex
+	spr.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	spr.scale = Vector2(1.5, 1.5)
+	spr.z_index = 30
+	var top := visual.top_y() * visual.scale.y if visual != null else -24.0
+	spr.position = Vector2(0, top - 28.0)
+	add_child(spr)
+	_active_emote = spr
+	var move_tween := spr.create_tween()
+	move_tween.tween_property(spr, "position:y", spr.position.y - 5.0, duration).set_trans(Tween.TRANS_SINE)
+	var fade_tween := spr.create_tween()
+	fade_tween.tween_interval(maxf(0.1, duration - 0.3))
+	fade_tween.tween_property(spr, "modulate:a", 0.0, 0.3)
+	fade_tween.tween_callback(spr.queue_free)
 
 
 ## First frame of whatever this customer looks like, for the negotiation
@@ -113,8 +147,6 @@ func _physics_process(delta: float) -> void:
 				brain.begin_browsing()
 		visual.face(Vector2.UP if not _leaving else Vector2.DOWN, false)
 		return
-	# cardinal-only movement: walk one axis at a time (L-shaped paths) —
-	# diagonal walking looks wrong with most of the 4-direction sheets
 	if target != _leg_target:
 		_leg_target = target
 		_leg_axis = -1

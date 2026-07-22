@@ -50,6 +50,7 @@ func _ready() -> void:
 	row.add_child(day_label)
 	period_label = UIKit.label("", 11, UIKit.COL_ACCENT)
 	row.add_child(period_label)
+	row.add_child(UIKit.gold_icon("small", Vector2(18, 15)))
 	gold_label = UIKit.label("", 11, UIKit.COL_ACCENT)
 	row.add_child(gold_label)
 	# the stakes read large — this is the Fade's countdown
@@ -174,7 +175,7 @@ func refresh() -> void:
 		portrait.tooltip_text = tip
 	for lbl in period_plate_labels:
 		lbl.text = TimeManager.period_name()
-	gold_label.text = "%dg" % EconomyManager.gold
+	gold_label.text = "%d" % EconomyManager.gold
 	if GameState.endless_mode or chap > 7:
 		deadline_label.text = "The Fade looms..." if chap == 8 and not BridgeManager.fade_defeated else ""
 	else:
@@ -271,10 +272,14 @@ func _open_pause() -> void:
 		var summary := SaveManager.slot_summary(slot)
 		var text := "Save to slot %d" % slot
 		if not summary.is_empty():
-			text += "  (day %d, %dg)" % [int(summary["day"]), int(summary["gold"])]
-		vb.add_child(UIKit.button(text, func() -> void:
+			text += "  (day %d, %d)" % [int(summary["day"]), int(summary["gold"])]
+		var save_button := UIKit.button(text, func() -> void:
 			SaveManager.save_to_slot(slot)
-			close.call()))
+			close.call())
+		if not summary.is_empty():
+			save_button.icon = UIKit.gold_texture("small")
+			save_button.icon_max_width = 20
+		vb.add_child(save_button)
 	var auto := SaveManager.autosave_summary()
 	if not auto.is_empty():
 		vb.add_child(UIKit.label("Autosaved: Day %d, %s" % [int(auto["day"]),
@@ -309,9 +314,11 @@ func _open_orders() -> void:
 			"world": target_desc = "goods from %s" % String(ContentDatabase.get_world(String(o["target"])).get("name", o["target"]))
 		var oid := int(o["id"])
 		var row := HBoxContainer.new()
-		var lbl := UIKit.label("%s wants %dx %s by day %d (%dg each)" % [cname, int(o["qty"]), target_desc, int(o["deadline_day"]), int(o["reward_each"])])
+		var lbl := UIKit.label("%s wants %dx %s by day %d — reward" % [cname, int(o["qty"]), target_desc, int(o["deadline_day"])])
 		lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		row.add_child(lbl)
+		row.add_child(UIKit.gold_icon("small", Vector2(16, 14)))
+		row.add_child(UIKit.label("%d each" % int(o["reward_each"]), 9, UIKit.COL_ACCENT))
 		row.add_child(UIKit.button("Deliver", func() -> void:
 			if InventoryManager.try_fulfill_order(oid):
 				order_layer.queue_free()

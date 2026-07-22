@@ -169,13 +169,19 @@ func _show_panel() -> void:
 		if String(_summary.get("boom_name", "")) != "":
 			vb.add_child(UIKit.label("BOOM COMPLETE: %s  |  %d customers arrived" % [
 				String(_summary["boom_name"]), int(_summary.get("customers", 0))], 13, UIKit.COL_ACCENT))
-		vb.add_child(UIKit.label("Sales: %d   Revenue: %dg" % [
-			int(_summary.get("sales", 0)), int(_summary.get("revenue", 0))]))
+		var revenue_row := HBoxContainer.new()
+		revenue_row.add_child(UIKit.label("Sales: %d   Revenue:" % int(_summary.get("sales", 0))))
+		revenue_row.add_child(UIKit.gold_icon("small", Vector2(18, 15)))
+		revenue_row.add_child(UIKit.label("%d" % int(_summary.get("revenue", 0)), 10, UIKit.COL_ACCENT))
+		vb.add_child(revenue_row)
 		if _summary.has("perfect"):
 			vb.add_child(UIKit.label("Perfect deals: %d   Walked away: %d   New orders: %d" % [
 				int(_summary.get("perfect", 0)), int(_summary.get("left", 0)), int(_summary.get("orders", 0))]))
-		vb.add_child(UIKit.label("Gold: %dg   Merchant Lv.%d" % [
+		var total_row := HBoxContainer.new()
+		total_row.add_child(UIKit.gold_icon("small", Vector2(16, 14)))
+		total_row.add_child(UIKit.label("Gold: %d   Merchant Lv.%d" % [
 			EconomyManager.gold, GameState.merchant_level], 9, UIKit.COL_DIM))
+		vb.add_child(total_row)
 		for line in sales_lines(_summary.get("sold", [])):
 			vb.add_child(UIKit.label(line, 9, UIKit.COL_INK))
 		vb.add_child(UIKit.hsep())

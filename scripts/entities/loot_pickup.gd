@@ -16,7 +16,7 @@ func setup_item(id: String) -> void:
 
 func setup_gold(amount: int) -> void:
 	gold_amount = amount
-	_common(PlaceholderFactory.flat_texture(Color(1.0, 0.85, 0.2), 7, 7))
+	_common(UIKit.gold_texture(UIKit.gold_variant(amount)))
 
 
 func _common(tex: Texture2D) -> void:

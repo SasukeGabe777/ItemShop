@@ -27,7 +27,8 @@ func _ready() -> void:
 	var top_row := HBoxContainer.new()
 	top_row.add_theme_constant_override("separation", 6)
 	vb.add_child(top_row)
-	_gold_lbl = UIKit.label("Gold: %dg" % EconomyManager.gold, 10, UIKit.COL_ACCENT)
+	top_row.add_child(UIKit.gold_icon("small", Vector2(18, 15)))
+	_gold_lbl = UIKit.label("Gold: %d" % EconomyManager.gold, 10, UIKit.COL_ACCENT)
 	_gold_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	top_row.add_child(_gold_lbl)
 	for mode in ["hot", "name", "price", "category", "world"]:
@@ -157,7 +158,8 @@ func _make_row(id: String, locked_reason: String = "") -> VBoxContainer:
 		trend_lbl = UIKit.label("▼ %s today" % DayBriefing._pct(mult), 10, UIKit.COL_BAD)
 	trend_lbl.custom_minimum_size = Vector2(78, 0)
 	row.add_child(trend_lbl)
-	var price_lbl := UIKit.label("%dg → ~%dg" % [cost, value], 9, UIKit.COL_INK)
+	row.add_child(UIKit.gold_icon("small", Vector2(16, 14)))
+	var price_lbl := UIKit.label("%d → ~%d" % [cost, value], 9, UIKit.COL_INK)
 	price_lbl.custom_minimum_size = Vector2(88, 0)
 	price_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	price_lbl.tooltip_text = "Buy for %dg, sells for about %dg" % [cost, value]
@@ -167,7 +169,7 @@ func _make_row(id: String, locked_reason: String = "") -> VBoxContainer:
 		if EconomyManager.spend_gold(cost):
 			InventoryManager.add_item(id)
 			AudioManager.play_sfx("acquired", -4.0)
-			_gold_lbl.text = "Gold: %dg" % EconomyManager.gold
+			_gold_lbl.text = "Gold: %d" % EconomyManager.gold
 			_fill())
 	if locked_reason != "":
 		buy_btn.disabled = true

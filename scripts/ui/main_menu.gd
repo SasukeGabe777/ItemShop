@@ -169,8 +169,12 @@ func _on_new_game() -> void:
 		var summary := SaveManager.slot_summary(slot)
 		var text := "Slot %d — empty" % slot
 		if not summary.is_empty():
-			text = "Slot %d — Day %d, %dg (will be overwritten)" % [slot, int(summary["day"]), int(summary["gold"])]
-		vb.add_child(UIKit.button(text, func() -> void: SceneRouter.start_new_campaign(slot)))
+			text = "Slot %d — Day %d, %d (will be overwritten)" % [slot, int(summary["day"]), int(summary["gold"])]
+		var slot_button := UIKit.button(text, func() -> void: SceneRouter.start_new_campaign(slot))
+		if not summary.is_empty():
+			slot_button.icon = UIKit.gold_texture("small")
+			slot_button.icon_max_width = 20
+		vb.add_child(slot_button)
 	vb.add_child(UIKit.button("Cancel", func() -> void: layer.queue_free()))
 
 
@@ -184,19 +188,24 @@ func _on_load() -> void:
 	var auto := SaveManager.autosave_summary()
 	if not auto.is_empty():
 		any = true
-		vb.add_child(UIKit.button("Autosave — Day %d %s, Ch.%d, %dg%s" % [
+		var auto_button := UIKit.button("Autosave — Day %d %s, Ch.%d, %d%s" % [
 			int(auto["day"]), String(auto["period_name"]), int(auto["chapter"]),
 			int(auto["gold"]), " (Endless)" if bool(auto["endless"]) else ""],
-			func() -> void: SceneRouter.continue_autosave()))
+			func() -> void: SceneRouter.continue_autosave())
+		auto_button.icon = UIKit.gold_texture("small")
+		auto_button.icon_max_width = 20
+		vb.add_child(auto_button)
 		vb.add_child(UIKit.hsep())
 	for slot in range(1, 4):
 		var summary := SaveManager.slot_summary(slot)
 		if summary.is_empty():
 			continue
 		any = true
-		var desc := "Slot %d — Day %d %s, Ch.%d, %dg%s" % [slot, int(summary["day"]), String(summary["period_name"]), int(summary["chapter"]), int(summary["gold"]), " (Endless)" if bool(summary["endless"]) else ""]
+		var desc := "Slot %d — Day %d %s, Ch.%d, %d%s" % [slot, int(summary["day"]), String(summary["period_name"]), int(summary["chapter"]), int(summary["gold"]), " (Endless)" if bool(summary["endless"]) else ""]
 		var row := HBoxContainer.new()
 		var b := UIKit.button(desc, func() -> void: SceneRouter.continue_campaign(slot))
+		b.icon = UIKit.gold_texture("small")
+		b.icon_max_width = 20
 		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		row.add_child(b)
 		row.add_child(UIKit.button("X", func() -> void:

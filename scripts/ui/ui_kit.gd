@@ -15,6 +15,11 @@ const COL_BAD := Color("#c65555")
 const PANEL_WIDE := "res://assets/shared/ui/processed/panel_wide.png"
 const BAR_WHITE := "res://assets/shared/ui/processed/bar_white.png"
 const BAR_BLUE := "res://assets/shared/ui/processed/bar_blue.png"
+const GOLD_SMALL := "res://assets/shared/ui/processed/gold_coin_small.png"
+const GOLD_MEDIUM := "res://assets/shared/ui/processed/gold_pile_medium.png"
+const GOLD_LARGE := "res://assets/shared/ui/processed/gold_pile_large.png"
+const BOND_PATTERN := "res://assets/shared/ui/processed/bond_%d.png"
+const EMOTE_PATTERN := "res://assets/shared/ui/processed/emote_%s.png"
 
 static var _light_theme: Theme = null
 static var _open_modals := 0
@@ -179,6 +184,80 @@ static func interaction_prompt() -> Label:
 
 static func header(text: String) -> Label:
 	return label(text, 14, COL_ACCENT)
+
+
+static func gold_texture(variant: String = "small") -> Texture2D:
+	var path := GOLD_SMALL
+	if variant == "medium":
+		path = GOLD_MEDIUM
+	elif variant == "large":
+		path = GOLD_LARGE
+	return load(path) if ResourceLoader.exists(path) else null
+
+
+static func gold_variant(amount: int) -> String:
+	if amount >= 500:
+		return "large"
+	if amount >= 100:
+		return "medium"
+	return "small"
+
+
+static func gold_icon(variant: String = "small", icon_size: Vector2 = Vector2(20, 18)) -> TextureRect:
+	var icon := TextureRect.new()
+	icon.texture = gold_texture(variant)
+	icon.custom_minimum_size = icon_size
+	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	icon.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	return icon
+
+
+static func bond_icon(level: int, icon_size: Vector2 = Vector2(44, 44)) -> TextureRect:
+	var icon := TextureRect.new()
+	var tier := clampi(level, 1, 5)
+	var path := BOND_PATTERN % tier
+	icon.texture = load(path) if ResourceLoader.exists(path) else null
+	icon.custom_minimum_size = icon_size
+	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	icon.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	icon.tooltip_text = "Bond level %d" % tier
+	return icon
+
+
+static func emote_texture(kind: String) -> Texture2D:
+	var path := EMOTE_PATTERN % kind
+	return load(path) if ResourceLoader.exists(path) else null
+
+
+## A coin pile and amount floating above the shopkeeper after a completed sale.
+static func gold_popup(parent: Node2D, amount: int) -> Node2D:
+	var holder := Node2D.new()
+	holder.name = "GoldSalePopup"
+	holder.position = Vector2(0, -54)
+	holder.z_index = 40
+	parent.add_child(holder)
+	var sprite := Sprite2D.new()
+	sprite.texture = gold_texture(gold_variant(amount))
+	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	holder.add_child(sprite)
+	var amount_label := label("+%d" % amount, 11, Color.WHITE)
+	amount_label.add_theme_color_override("font_outline_color", Color("#5b3510"))
+	amount_label.add_theme_constant_override("outline_size", 4)
+	amount_label.position.y = 15
+	holder.add_child(amount_label)
+	(func() -> void:
+		if is_instance_valid(amount_label):
+			amount_label.position.x = -amount_label.size.x / 2.0).call_deferred()
+	var tw := holder.create_tween()
+	tw.tween_property(holder, "position:y", holder.position.y - 18.0, 0.75).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tw.tween_interval(0.45)
+	tw.tween_property(holder, "modulate:a", 0.0, 0.3)
+	tw.tween_callback(holder.queue_free)
+	return holder
 
 
 ## A character's name floating directly above its sprite: white with a dark

@@ -13,8 +13,11 @@ func _ready() -> void:
 	layer = 40
 	var parts := UIKit.modal(self, "Crossroads Workshop")
 	var vb: VBoxContainer = parts[1]
-	gold_lbl = UIKit.label("Gold: %dg" % EconomyManager.gold, 10, UIKit.COL_ACCENT)
-	vb.add_child(gold_lbl)
+	var gold_row := HBoxContainer.new()
+	gold_row.add_child(UIKit.gold_icon("small", Vector2(18, 15)))
+	gold_lbl = UIKit.label("Gold: %d" % EconomyManager.gold, 10, UIKit.COL_ACCENT)
+	gold_row.add_child(gold_lbl)
+	vb.add_child(gold_row)
 	var list_parts := UIKit.scroll_list(Vector2(380, 220))
 	vb.add_child(list_parts[0])
 	list = list_parts[1]
@@ -79,5 +82,5 @@ func _craft(recipe_id: String) -> void:
 	InventoryManager.add_item(String(r["output"]), int(r.get("count", 1)))
 	AudioManager.play_sfx("acquired")
 	GameState.set_flag("crafted_" + recipe_id)
-	gold_lbl.text = "Gold: %dg" % EconomyManager.gold
+	gold_lbl.text = "Gold: %d" % EconomyManager.gold
 	_fill()

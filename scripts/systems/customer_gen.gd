@@ -20,17 +20,25 @@ static func generate_session_customers() -> Array[Dictionary]:
 	if BoomManager.is_active():
 		n = clampi(int(round(n * BoomManager.traffic_multiplier())), 2, ContentDatabase.boom_max_customers_per_session)
 	var out: Array[Dictionary] = []
+	var used_identities: Dictionary = {}
 	for i in range(n):
 		if rng.randf() < BoomManager.named_chance():
-			var named := _pick_named()
+			var named := _pick_named(used_identities)
 			if not named.is_empty():
 				out.append(named)
+				used_identities[_identity_key(named)] = true
 				continue
-		out.append(_make_walk_in())
+		var walk_in := _make_walk_in(used_identities)
+		out.append(walk_in)
+		used_identities[_identity_key(walk_in)] = true
 	# the vertical-slice onboarding customer leads the day but never replaces
 	# the crowd — a failed scripted sale must not starve the shop of business
 	var onboarding_customer := _vertical_slice_customer()
 	if not onboarding_customer.is_empty():
+		var onboarding_key := _identity_key(onboarding_customer)
+		for i in range(out.size() - 1, -1, -1):
+			if _identity_key(out[i]) == onboarding_key:
+				out.remove_at(i)
 		out.insert(0, onboarding_customer)
 	return out
 
@@ -61,12 +69,15 @@ static func _vertical_slice_customer() -> Dictionary:
 	return {}
 
 
-static func _pick_named() -> Dictionary:
+static func _pick_named(used_identities: Dictionary = {}) -> Dictionary:
 	var pool: Array[Dictionary] = []
 	var weights: Array[float] = []
 	var total := 0.0
 	for id: String in ContentDatabase.named_customers:
 		var c: Dictionary = ContentDatabase.named_customers[id]
+		var candidate := runtime_named(c)
+		if used_identities.has(_identity_key(candidate)):
+			continue
 		if int(c.get("chapter", 1)) > TimeManager.chapter:
 			continue
 		var unlock := String(c.get("unlock", ""))
@@ -105,6 +116,11 @@ static func runtime_named(c: Dictionary) -> Dictionary:
 		"quirk": String(c.get("quirk", "")), "line": String(c.get("line", "")),
 		"named": true, "world": String(c.get("world", "")),
 	}
+	var entry := ContentDatabase.customer_pool_entry_by_name(String(c.get("name", "")))
+	if not entry.is_empty():
+		_apply_visual_identity(runtime, entry)
+	elif String(runtime.get("hero_ref", "")) != "":
+		runtime["visual_slug"] = "hero_%s" % String(runtime["hero_ref"])
 	return BoomManager.apply_to_customer(runtime)
 
 
@@ -123,35 +139,94 @@ static func event_match_count(arch: Dictionary) -> int:
 	return count
 
 
-static func _make_walk_in() -> Dictionary:
-	var ids: Array = ContentDatabase.archetypes.keys()
-	# market events pull matching shoppers into town
+static func _make_walk_in(used_identities: Dictionary = {}) -> Dictionary:
+	# The visual identity is selected first, then mapped to one stable archetype.
+	# A Moogle therefore remains the same Moogle merchant every time instead of
+	# appearing later as an unrelated Collector or Bargain Hunter.
+	var candidates: Array[Dictionary] = []
+	for raw: Variant in ContentDatabase.customer_visual_pool:
+		var entry: Dictionary = raw
+		if not used_identities.has(String(entry.get("slug", ""))):
+			candidates.append(entry)
+	if candidates.is_empty():
+		for raw: Variant in ContentDatabase.customer_visual_pool:
+			var entry: Dictionary = raw
+			candidates.append(entry)
+	if candidates.is_empty():
+		return _fallback_walk_in()
 	var weights: Array[int] = []
 	var total := 0
-	for id in ids:
-		var w := int(round((10 + 18 * event_match_count(ContentDatabase.get_archetype(String(id)))) \
-			* BoomManager.customer_weight(String(id))))
+	for entry: Dictionary in candidates:
+		var candidate_arch := _identity_archetype(entry)
+		var w := int(round((10 + 18 * event_match_count(ContentDatabase.get_archetype(candidate_arch))) \
+			* BoomManager.customer_weight(candidate_arch, String(entry.get("world", "")))))
 		w = maxi(1, w)
 		weights.append(w)
 		total += w
-	var arch_id := String(ids[0])
+	var chosen := candidates[0]
 	var pick := rng.randi_range(1, total)
-	for i in range(ids.size()):
+	for i in range(candidates.size()):
 		pick -= weights[i]
 		if pick <= 0:
-			arch_id = String(ids[i])
+			chosen = candidates[i]
 			break
+	var arch_id := _identity_archetype(chosen)
 	var arch: Dictionary = ContentDatabase.get_archetype(arch_id)
 	var brange: Array = arch.get("budget", [100, 500])
 	var chapter_scale := 1.0 + (TimeManager.chapter - 1) * 0.85
 	var runtime := {
-		"id": "walkin_%s" % arch_id, "name": String(arch.get("name", arch_id)),
+		"id": "walkin_%s" % String(chosen.get("slug", arch_id)),
+		"name": String(chosen.get("name", arch.get("name", arch_id))),
 		"archetype": arch_id,
 		"budget": int(rng.randi_range(int(brange[0]), int(brange[1])) * chapter_scale),
 		"hero_ref": "", "color": String(arch.get("color", "#c0c0c0")),
-		"quirk": "", "line": "", "named": false, "world": "",
+		"quirk": "", "line": "", "named": false, "world": String(chosen.get("world", "")),
 	}
+	_apply_visual_identity(runtime, chosen)
 	return BoomManager.apply_to_customer(runtime)
+
+
+static func _fallback_walk_in() -> Dictionary:
+	var ids: Array = ContentDatabase.archetypes.keys()
+	ids.sort()
+	var arch_id := String(ids[0]) if not ids.is_empty() else "adventurer"
+	var arch := ContentDatabase.get_archetype(arch_id)
+	return {
+		"id": "walkin_%s" % arch_id, "name": String(arch.get("name", arch_id)),
+		"archetype": arch_id, "budget": 250, "hero_ref": "",
+		"color": String(arch.get("color", "#c0c0c0")), "quirk": "", "line": "",
+		"named": false, "world": "", "visual_slug": arch_id,
+	}
+
+
+static func _identity_key(cust: Dictionary) -> String:
+	return String(cust.get("visual_slug", cust.get("id", "")))
+
+
+static func _apply_visual_identity(runtime: Dictionary, entry: Dictionary) -> void:
+	runtime["visual_slug"] = String(entry.get("slug", runtime.get("id", "")))
+	runtime["visual_static"] = String(entry.get("static", ""))
+	runtime["visual_manifest"] = String(entry.get("manifest", ""))
+
+
+## Every pool character owns one archetype for the lifetime of the game.
+## Named customers inherit their authored archetype; the rest are distributed
+## deterministically across the available archetypes by their visual slug.
+static func _identity_archetype(entry: Dictionary) -> String:
+	var explicit := String(entry.get("archetype", ""))
+	if explicit != "" and ContentDatabase.archetypes.has(explicit):
+		return explicit
+	var slug := String(entry.get("slug", ""))
+	for id: String in ContentDatabase.named_customers:
+		var named: Dictionary = ContentDatabase.named_customers[id]
+		var match := ContentDatabase.customer_pool_entry_by_name(String(named.get("name", "")))
+		if String(match.get("slug", "")) == slug:
+			return String(named.get("archetype", "adventurer"))
+	var ids: Array = ContentDatabase.archetypes.keys()
+	ids.sort()
+	if ids.is_empty():
+		return "adventurer"
+	return String(ids[absi(slug.hash()) % ids.size()])
 
 
 static func likes_item(cust: Dictionary, item_id: String) -> bool:

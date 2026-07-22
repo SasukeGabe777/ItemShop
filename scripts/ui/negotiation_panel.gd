@@ -61,10 +61,19 @@ func _ready() -> void:
 	var cname := String(customer.get("name", "?"))
 	var arch_name := String(ContentDatabase.get_archetype(String(customer.get("archetype", ""))).get("name", ""))
 	facts.add_child(UIKit.label(cname, 15))
-	var bond_txt := "bond Lv.%d" % RelationshipManager.level(String(customer.get("id", "")))
 	if arch_name != "" and arch_name != cname:
-		bond_txt = "%s  |  %s" % [arch_name, bond_txt]
-	facts.add_child(UIKit.label(bond_txt, 12, UIKit.COL_DIM))
+		facts.add_child(UIKit.label(arch_name, 11, UIKit.COL_DIM))
+	var bond_level := RelationshipManager.level(String(customer.get("id", "")))
+	var bond_row := HBoxContainer.new()
+	bond_row.add_theme_constant_override("separation", 4)
+	var bond_art := UIKit.bond_icon(maxi(1, bond_level), Vector2(38, 38))
+	if bond_level == 0:
+		bond_art.modulate = Color(1, 1, 1, 0.35)
+	bond_row.add_child(bond_art)
+	var bond_label := UIKit.label("Bond: New" if bond_level == 0 else "Bond Lv.%d" % bond_level, 12, UIKit.COL_DIM)
+	bond_label.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	bond_row.add_child(bond_label)
+	facts.add_child(bond_row)
 	var mood := RelationshipManager.mood(String(customer.get("id", "")))
 	var mood_txt := "Neutral"
 	var mood_col := UIKit.COL_DIM
@@ -88,9 +97,14 @@ func _ready() -> void:
 	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	icon.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	item_box.add_child(icon)
-	var value_lbl := UIKit.label("~%dg market" % nego.market_value, 12, UIKit.COL_ACCENT)
+	var value_row := HBoxContainer.new()
+	value_row.alignment = BoxContainer.ALIGNMENT_CENTER
+	value_row.add_theme_constant_override("separation", 2)
+	value_row.add_child(UIKit.gold_icon("small", Vector2(18, 15)))
+	var value_lbl := UIKit.label("~%d market" % nego.market_value, 12, UIKit.COL_ACCENT)
 	value_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	item_box.add_child(value_lbl)
+	value_row.add_child(value_lbl)
+	item_box.add_child(value_row)
 	info.add_child(item_box)
 	vb.add_child(info)
 	vb.add_child(UIKit.hsep())
@@ -149,7 +163,7 @@ func _ready() -> void:
 	vb.add_child(offer_row)
 	var decline := func() -> void:
 		EconomyManager.break_combo()
-		_finish({"result": Negotiation.RESULT_LEAVE, "price": 0, "relationship_delta": 0, "perfect": false})
+		_finish({"result": Negotiation.RESULT_LEAVE, "price": 0, "relationship_delta": 0, "perfect": false, "emote": "neutral", "message": ""})
 	if UIKit.pad_connected():
 		vb.add_child(UIKit.label("Right stick: adjust price by 1g — hold to speed up", 9, UIKit.COL_DIM))
 	var decline_btn := UIKit.button("Decline to sell", decline, 12)
@@ -256,8 +270,6 @@ func _handle(outcome: Dictionary) -> void:
 			_finish(outcome)
 		Negotiation.RESULT_COUNTER, Negotiation.RESULT_FINAL_WARNING:
 			last_counter = int(outcome["price"])
-			if bool(outcome.get("budget_capped", false)):
-				_note("They turn out their pockets — %dg is every coin they're carrying." % last_counter)
 			accept_counter_btn.text = "Accept their %dg" % last_counter
 			accept_counter_btn.visible = true
 			price_spin.value = last_counter

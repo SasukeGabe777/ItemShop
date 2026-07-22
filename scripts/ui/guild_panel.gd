@@ -83,10 +83,25 @@ func _show_hero(hero_id: String) -> void:
 	line.custom_minimum_size = Vector2(230, 0)
 	detail.add_child(line)
 	var lvl := RelationshipManager.friendship_level(hero_id)
-	detail.add_child(UIKit.label("Friendship: Lv.%d (%d pts) %s" % [lvl, RelationshipManager.points(hero_id),
-		"" if RelationshipManager.can_equip_directly(hero_id) else "— equip unlocks at Lv.%d" % int(ContentDatabase.bal("friendship", {}).get("equip_unlock_level", 3))], 9))
-	detail.add_child(UIKit.label("HP %d  ATK %d  DEF %d  SPD %d | hire %dg" % [
-		int(stats["hp"]), int(stats["atk"]), int(stats["def"]), int(stats["spd"]), int(hero.get("hire_cost", 100))], 10, UIKit.COL_ACCENT))
+	var bond_row := HBoxContainer.new()
+	var bond_art := UIKit.bond_icon(maxi(1, lvl), Vector2(48, 48))
+	if lvl == 0:
+		bond_art.modulate = Color(1, 1, 1, 0.35)
+	bond_row.add_child(bond_art)
+	var bond_text := UIKit.label("Friendship: New" if lvl == 0 else "Friendship Lv.%d (%d pts)" % [lvl, RelationshipManager.points(hero_id)], 9)
+	bond_text.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	bond_row.add_child(bond_text)
+	detail.add_child(bond_row)
+	if not RelationshipManager.can_equip_directly(hero_id):
+		detail.add_child(UIKit.label("Direct equip unlocks at Lv.%d" % int(ContentDatabase.bal("friendship", {}).get("equip_unlock_level", 3)), 8, UIKit.COL_DIM))
+	var stats_row := HBoxContainer.new()
+	var stats_label := UIKit.label("HP %d  ATK %d  DEF %d  SPD %d | hire" % [
+		int(stats["hp"]), int(stats["atk"]), int(stats["def"]), int(stats["spd"])], 10, UIKit.COL_ACCENT)
+	stats_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	stats_row.add_child(stats_label)
+	stats_row.add_child(UIKit.gold_icon("small", Vector2(17, 14)))
+	stats_row.add_child(UIKit.label("%d" % int(hero.get("hire_cost", 100)), 10, UIKit.COL_ACCENT))
+	detail.add_child(stats_row)
 	detail.add_child(UIKit.hsep())
 	var eq: Dictionary = InventoryManager.hero_equipment.get(hero_id, {})
 	for slot in ["weapon", "armor", "accessory", "charm"]:
