@@ -80,15 +80,6 @@
    "fps": 14,
    "loop": true
   },
-  "attack_1_side": {
-   "frames": [
-    30,
-    31,
-    32
-   ],
-   "fps": 10,
-   "loop": false
-  },
   "roll_side": {
    "frames": [
     33,
@@ -126,6 +117,15 @@
     47
    ],
    "fps": 14,
+   "loop": false
+  },
+  "special": {
+   "frames": [
+    30,
+    31,
+    32
+   ],
+   "fps": 8,
    "loop": false
   }
  }

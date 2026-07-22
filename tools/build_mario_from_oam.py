@@ -26,6 +26,11 @@ CELL = 48
 COLS = 8
 PIVOT = [24, 40]
 
+# PASS-2 NOTE (see tools/fix_hero_sheets_pass2.py): the leading tags of every
+# group are capture transition junk — back-turned turning frames (mw*_00/01/04,
+# mwrt_08) and arm-raised celebration frames (mwdn_20/22). They stay in the
+# tag lists so existing sheet cell indices keep their meaning, but the CYCLES
+# below only play the verified correct-facing poses.
 WALK_DN = ["mwdn_00", "mwdn_01", "mwdn_04", "mwdn_09", "mwdn_11", "mwdn_14", "mwdn_20", "mwdn_22"]
 WALK_UP = ["mwup_00", "mwup_01", "mwup_04", "mwup_09", "mwup_11", "mwup_14", "mwup_21"]
 WALK_RT = ["mwrt_00", "mwrt_01", "mwrt_04", "mwrt_08", "mwrt_09", "mwrt_11", "mwrt_14", "mwrt_21", "mwrt_24"]

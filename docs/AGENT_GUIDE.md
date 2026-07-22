@@ -341,6 +341,8 @@ Data lives in `data/*.json`, loaded by `ContentDatabase` (see
 | OAM decode finds 0 objects but the ref screenshots show sprites | game uses **8bpp** objects (DBZ LoG II does) — `decode_oam.py` is 4bpp-only; see `decode_oam_dbz.py` (8bpp 1D mapping: tile numbers advance by 2 per 8x8 block, palette bank ignored) |
 | Emulator button does nothing / wrong action despite user instructions | the user's keyboard binding ≠ GBA button of the same name — probe every button scripted (`dbz_button_matrix.lua` pattern) instead of trusting the letter |
 | Captured "up-facing" action actually faces the old direction | releasing a held direction before the action tap loses the turn (DBZ melee-up bug) — hold the direction THROUGH the action input (`capture_piccolo_extra2.lua`), then verify facing on the ref screenshots |
+| Captured walk cycle flickers between facings in-game | the capture's first poses are TURN-TRANSITION frames (and idles can sneak in celebration/fidget poses) — check every pose on the unique_* sheet faces the same way before wiring the cycle (M&L Mario bug, fixed in `fix_hero_sheets_pass2.py`) |
+| Hero balloons/shrinks between walk and attack | sheet mixes sprite sources at different scales (field capture vs battle capture vs old rip) — measure ink body height per source and rescale about the pivot before compositing one sheet (Sora bug, `fix_hero_sheets_pass2.py`) |
 
 ## 9. Checklist: adding or fixing a world
 

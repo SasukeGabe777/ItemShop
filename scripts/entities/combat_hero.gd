@@ -179,6 +179,10 @@ func _do_special() -> void:
 	var sp: Dictionary = combat_def().get("special", {})
 	var cost := float(sp.get("cost", 30))
 	if meter < cost or special_cooldown > 0.0:
+		# always acknowledge the press — a silent no-op reads as "special is
+		# not implemented" when the meter is simply empty
+		if meter < cost:
+			FX.flash(visual.body_node(), Color(0.35, 0.45, 0.9))
 		return
 	meter -= cost
 	meter_changed.emit(meter)
