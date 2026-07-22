@@ -1,108 +1,84 @@
 # Next Tasks
 
-Regenerated 2026-07-20 against HEAD `9f97b5b`. The previous version of this file
-was frozen at the KH-only vertical-slice era and told agents *not* to build other
-worlds — but Mario, Final Fantasy, Zelda, and Naruto were built afterward, plus
-local 2-player, controller support, consumable belts, and autosave. Priorities
+Regenerated **2026-07-22** against HEAD `e56b3e8`. The prior version was frozen at
+`9f97b5b` (2026-07-20) and had gone stale: it still called Dragon Ball a data
+stub and told agents to "skip Goku until the world gets art" — but Goku **and**
+Piccolo shipped as playable heroes with beam specials + a fly dodge, and the DBZ
+dungeon (rooms, props, enemy roster, Perfect Cell boss) is built. Priorities
 below reflect the **actual** current state (see `CURRENT_BUILD.md`).
 
 ## Recently completed
 
-- **Shop Booms (2026-07-20):** 14 announced, data-driven high-traffic shop
-  events; focused merchandise/customer demand; direct requests and disappointed
-  departures; bundle sales; shop-appeal interaction; gate-repair celebrations;
-  save/load; debug/Dev Hub controls; focused and windowed verification. Schema
-  and extension notes are in `docs/BOOMS.md`.
+- **Dragon Ball world (2026-07-21):** Goku + Piccolo playable (OAM-captured from
+  *Legacy of Goku II*), new `beam` special + `fly` dodge engine kinds, painted
+  dungeon, enemy roster + Perfect Cell boss. Full method in `docs/DBZ_HANDOFF.md`.
+- **Shop depth (2026-07-21):** order-capacity scaling, shop handbook/encyclopedia
+  panel, dungeon ESC pause menu with retreat, animated Kanto customers,
+  furniture-attention progression, expanded customer pool.
+- **Export on the work PC (2026-07-22):** installed the 4.7.1-stable export
+  templates so this machine can export/verify locally (was the two-machine
+  bottleneck). Also fixed the stale `test_boot` hero-count assertion.
+- **Doc-honesty pass (2026-07-22):** regenerated this file + `CURRENT_BUILD.md`;
+  re-ran boot/parse/campaign/asset-factory suites (all green). `PLAYTEST_NOTES.md`
+  is still stale and should be refreshed by the next acceptance run.
 
-## Priority 0 — Hero animation polish (active focus)
+## Priority 0 — Human acceptance playtest of the built worlds (active focus)
 
-Animation is the standing pain point across all heroes. The player-reported
-failure modes are **stiff/static motion**, **wrong/jerky motion**, and
-**invisible weapons/effects** — all three are resolved by matching our ripped
-frames to a **reference recording of the real game**, not by re-ripping. Raw
-`.rom` files are a fallback only; GBA/SNES sprites are runtime-assembled
-metasprites, so direct ROM ripping is harder than using the existing sheets.
+No human acceptance run of the expanded build is recorded, and `PLAYTEST_NOTES.md`
+predates every world after Kingdom Hearts. Now that this machine can export:
 
-Method (see also `docs/AGENT_GUIDE.md` §4–5):
+1. Export `export/crossroads.exe` and play on a controller through at least one
+   full chapter loop (shop → expedition → boss → repair) for each **built** world
+   (KH, Mario, FF, Zelda, Naruto, **Dragon Ball**), plus one 2-player session.
+2. Record the largest issue per category (blocker / bug / visual) per world in
+   `PLAYTEST_NOTES.md`, replacing the stale entries.
+3. Fix only blockers this pass; file the rest here.
 
-1. Capture short reference clips (emulator GIF capture, e.g. mGBA *Tools → Record
-   GIF*) of each hero's idle, walk (each direction), attack combo, and
-   special/dodge. A savestate before each action makes this quick.
-2. Rebuild the manifest against the reference: correct frame selection, order,
-   fps, pivot (feet), and per-frame weapon-overlay offsets.
-3. `--import`, then verify **windowed** in-engine (look at every screenshot),
-   then export and commit.
+Give Dragon Ball extra attention — it is the newest and least-played world.
 
-Priority order (highest impact first — verified from manifests):
+## Priority 1 — Decide Pokémon (last stub world)
 
-1. ~~**Link full set**~~ **DONE 2026-07-20** via the OAM reference pipeline
-   (`docs/AGENT_GUIDE.md` §4 "Real-game reference capture"): blink idles,
-   real 10-frame walk cycles all directions, sword visibly in hand for both
-   attacks in every direction. Link is the template for the other heroes.
-2. ~~**Sora + Mario real-game sets**~~ **DONE 2026-07-20/21** from the converted
-   saves (`tools/rom_ref/sps_convert.py`, `tools/merge_hero_sheets.py`): real
-   idles/walks both, Sora's battle Keyblade swing + dodge-roll tumble; old
-   attack rows grafted where battles were unreachable. **Parked:** Sora's
-   Strike Raid special — three capped attempts: fresh-game card economy
-   dead-ends before combat, and the level-55 save hard-freezes on its 13F
-   textbox (see §8 pitfalls in AGENT_GUIDE; next avenues: another BizHawk GBA
-   core, or solving the Key-of-Beginnings door-card prompt on the fresh-game
-   path). Mario battle attacks (jump/hammer) also unreached — needs a short
-   new-game M&L run to the first tutorial battle.
-3. **Idle motion for Naruto, Cloud, Luigi, Pikachu/Goku** (1-frame idles) and
-   **Naruto + Cloud full sets** — no ROMs for their games in `savestates/ROMS`
-   (FF6/PotN2 saves exist but no ROMs), so this is sheet-mining per §4, not
-   capture.
-4. Luigi is rich; touch only if a reference shows a wrong-frame/order problem.
+Pokémon is now the **only** data-only stub: hero/enemy/item/customer data exist,
+but there is no `pikachu` hero manifest and no dungeon art, so chapter 7 has no
+playable expedition. Either:
 
-Skip Goku and Pikachu until their worlds get dungeon art (see Priority 3).
+- **Build it out** following `docs/AGENT_GUIDE.md` §9 and the DBZ recipe just
+  proven (hero manifest, ~12 enemies, boss frames, room backdrops, obstacle
+  props, item icons). The DBZ *Legacy of Goku II* capture pipeline is the
+  template; check `savestates/ROMS` for a usable Pokémon source, else sheet-mine.
+- **Or explicitly defer it** and mark chapter 7 as a known placeholder so the
+  campaign's later chapters aren't silently hollow.
 
-## Priority 1 — Fix verified data/test defects — **ALL DONE 2026-07-20**
+`tests/stub_worlds_probe.tscn` confirmed the stub does not crash — it renders as
+colored placeholders in flat rooms. Playable, but reads as unfinished.
 
-1. ~~KH `boss_rotation`~~ guard_armor + darkside refiled as bosses, ten FF6
-   monsters refiled as enemies (`tools/fix_boss_rosters.py`). Note: runtime
-   accessors fall back across the enemies/bosses dicts, so this was latent
-   taxonomy rot rather than broken rooms; `test_boot` now checks the dicts
-   directly so it can't regrow.
-2. ~~Asset Factory chroma test~~ expected color quantized to 8-bit;
-   `ASSET_FACTORY_TEST_PASS` reachable.
-3. ~~FF roster modeling~~ covered by the refiling in item 1.
-4. ~~Balance pass~~ all 25 `needs_ai_balance` markers resolved
-   (`tools/balance_flagged_items.py`, priced against unflagged neighbors;
-   the revive-mushroom price inversion was the standout). `CAMPAIGN_TEST_PASS`.
-   `test_boot`'s stale exact-9-bosses assertion (red since the FF world
-   landed) is now a floor.
+## Priority 2 — Hero idle-motion polish
 
-## Priority 2 — Verify the current game end-to-end
+Five heroes still have 1-frame idles (no idle motion): **Sora, Mario, Luigi,
+Cloud, Naruto**. Link, Goku, and Piccolo now have multi-frame idles and are the
+template. Highest impact first:
 
-No human acceptance run is recorded for the expanded build. Play the real
-`export\crossroads.exe` on a controller through at least one full chapter loop
-(shop → expedition → boss → repair) per built world, and one 2-player session.
-Record the largest issue per category in `PLAYTEST_NOTES.md`, then fix only
-blockers.
+1. **Naruto + Cloud** — thinnest overall sets (Naruto side-only attacks, Cloud
+   2-frame up/side walks). No ROMs for their games in `savestates/ROMS`, so this
+   is sheet-mining per `docs/AGENT_GUIDE.md` §4, not live capture.
+2. **Sora, Mario, Luigi** idle motion — they have rich walk/attack sets already;
+   only the idle is static.
+3. **Parked (from the 2026-07-20 pass):** Sora's Strike Raid special (fresh-game
+   card economy dead-ends; L55 save hard-freezes on the 13F textbox) and Mario's
+   battle jump/hammer attacks (needs a short new-game M&L run to the first
+   tutorial battle). See `docs/AGENT_GUIDE.md` §8.
 
-## Priority 3 — Decide Dragon Ball & Pokémon
-
-They are data-only stubs (hero/enemy/item/customer data but no dungeon art or
-hero manifest). Either build them out following `docs/AGENT_GUIDE.md` §9 (hero
-manifest, ~12 enemies, boss frames, room backdrops, obstacle props, item icons),
-or explicitly mark them deferred so the campaign's later chapters aren't silently
-broken. **Confirmed 2026-07-20** (`tests/stub_worlds_probe.tscn`): reaching
-chapter 6-7 does NOT crash — layouts generate (7-8 rooms, boss rooms resolve
-great_ape_vegeta / mewtwo), all combat defs exist, but the hero and all five
-enemies per world have no visual manifests, so everything renders as colored
-placeholder shapes in flat untextured rooms. Playable, but reads as unfinished;
-the DBZ LoG2 ROM in savestates/ROMS can feed the capture pipeline for Goku's
-world when it's built out.
-
-## Priority 4 — Locations (optional, low urgency)
+## Priority 3 — Locations (optional, low urgency)
 
 `data/locations.json` is empty and campaign scenes build layouts in code, which
 works. Only invest in the Location Workshop / `LocationLoader` path if authored
-locations become the preferred way to add content. Not blocking anything now.
+locations become the preferred way to add content. Per `AI_PARTNER.md`, write a
+`docs/LOCATION_BRIEF_TEMPLATE.md` brief before generating any location.
 
 ## Maintenance note
 
-Keep this file, `CURRENT_BUILD.md`, and `data/dev_status.json` honest after each
-pass. They drifted a full development era out of date once; regenerate them when
-the truth of a feature's status changes, per `AI_PARTNER.md`.
+Keep this file, `CURRENT_BUILD.md`, `PLAYTEST_NOTES.md`, and
+`data/dev_status.json` honest after each pass. They have drifted a full
+development era out of date **twice** now (frozen at the KH slice, then at
+`9f97b5b`). Regenerate them whenever a feature's status changes, per
+`AI_PARTNER.md`.

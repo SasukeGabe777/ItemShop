@@ -1,144 +1,101 @@
 # Current Build
 
-Last regenerated: **2026-07-20**
+Last regenerated: **2026-07-22**
 
-Audited HEAD: **`9f97b5b` - `Autosave every day portion, and make the autosave loadable`**
+Audited HEAD: **`e56b3e8` - `Update character assets and extraction tools`**
 
 Engine: **Godot 4.7.1-stable** (binary lives in `tools/`, gitignored).
 
-This file records the observed state of the current checkout. It was regenerated
-by inspecting the actual `data/*.json`, scripts, manifests, and git history at
-`9f97b5b` because every prior version of this doc had frozen at the mid-July
-"Kingdom-Hearts-only vertical slice" era (baseline `83865b5`) and understated the
-build by four franchise worlds, local 2-player, controller support, consumable
-belts, and autosave.
+This file records the observed state of the current checkout. Regenerated on
+2026-07-22 by parsing the actual `data/*.json`, manifests, and git history and by
+re-running the headless suites, because the prior version had frozen at
+`9f97b5b` (2026-07-20) and understated the build by a full development era:
+Dragon Ball graduated from data-stub to a fully built world (Goku + Piccolo
+playable, painted dungeon, enemy roster + Perfect Cell boss), plus a shop
+handbook, order-capacity scaling, a dungeon pause/retreat menu, and a large
+recipe/customer expansion — none of which the old doc reflected.
 
 - **Verified (data):** confirmed by directly parsing the data/manifests in this
-  checkout on 2026-07-20.
-- **Verified (test):** a named test token was recorded in commit history. These
-  were **not re-run during this doc regeneration** — treat as "last known good,"
-  not "green right now." Re-run before relying on any of them (commands below).
+  checkout on 2026-07-22.
+- **Verified (test):** re-run headless on 2026-07-22 (result noted inline).
 - **Partial / Stub:** meaningful code or data exists but the full player route is
   incomplete or unproven.
 
-## Content inventory (verified by parsing data/ at 9f97b5b)
+## Content inventory (verified by parsing data/ at e56b3e8)
 
-| Data | Count |
-| --- | --- |
-| Worlds | **8** (`kingdom_hearts, mario, final_fantasy, zelda, naruto, dragon_ball, pokemon, null_archive`) |
-| Playable heroes / NPCs | **8 / 3** |
-| Regular enemies / bosses | **85 / 25** |
-| Items | **225** (incl. 7 world shards; 25 flagged `needs_ai_balance`) |
-| Customer archetypes / named customers | **10 / 28** |
-| Recipes | **55** |
-| Story scenes | **37** |
-| Market events | **14** |
-| Room templates (`data/rooms.json`, shared across worlds) | **32** (4 start / 18 combat / 6 treasure / 4 boss) |
-| Authored locations (`data/locations.json`) | **0** (still empty) |
+| Data | Count | Δ since 9f97b5b |
+| --- | --- | --- |
+| Worlds | **8** (`kingdom_hearts, mario, final_fantasy, zelda, naruto, dragon_ball, pokemon, null_archive`) | — |
+| Playable heroes / NPCs | **9 / 3** | +1 hero (**Piccolo**) |
+| Regular enemies / bosses | **93 / 17** | +8 enemies; bosses 25→17 (FF6 monsters refiled to enemies) |
+| Items | **225** | — |
+| Recipes | **99** | +44 |
+| Customer archetypes / named | **10 / 28** | — |
+| Customer visual pool | **510** | (new count recorded) |
+| Story scenes | **37** | — |
+| Market events | **14** | — |
+| Room templates (`data/rooms.json`) | **32** | — |
+| Authored locations (`data/locations.json`) | **0** (still empty) | — |
 
 ## World-by-world build state (verified by data)
 
 | World (chapter) | Hero | Dungeon art | State |
 | --- | --- | --- | --- |
-| Kingdom Hearts (1) | Sora | obstacle props + shared room templates (no map-crop backdrops) | **Built** — original vertical slice; richest hero animation |
-| Mario (2) | Mario, Luigi | `room_backgrounds` + props | **Built** |
-| Final Fantasy (3) | Cloud | `room_backgrounds` + props | **Built** |
-| Zelda (4) | Link | `room_backgrounds` + props | **Built** (composited sword overlay) |
-| Naruto (5) | Naruto | `room_backgrounds` + props | **Built** — thinnest hero animation set |
-| Dragon Ball (6) | Goku | **none** | **Data stub** — no hero manifest, no dungeon art; not a playable expedition |
+| Kingdom Hearts (1) | Sora | obstacle props + shared room templates | **Built** — original vertical slice |
+| Mario (2) | Mario, Luigi | room backgrounds + props | **Built** |
+| Final Fantasy (3) | Cloud | room backgrounds + props | **Built** |
+| Zelda (4) | Link | room backgrounds + props | **Built** (composited sword overlay) |
+| Naruto (5) | Naruto | room backgrounds + props | **Built** — thinnest hero animation set |
+| Dragon Ball (6) | Goku, Piccolo | room backgrounds + props | **Built (NEW)** — both heroes playable, beam specials + fly dodge, enemy roster + Perfect Cell boss |
 | Pokémon (7) | Pikachu | **none** | **Data stub** — no hero manifest, no dungeon art; not a playable expedition |
 | Null Archive (F) | any | n/a | Endgame stub (The Fade) |
 
-Five of the seven franchise worlds have real ripped art, rosters, item sets,
-customers, and dungeon backdrops. Dragon Ball and Pokémon have
-hero/enemy/item/customer data but no dungeon art and no hero manifest, so they
-have no playable expedition yet.
+**Six of the seven franchise worlds are now built.** Pokémon is the last
+data-only stub: it has hero/enemy/item/customer data but no dungeon art and no
+`pikachu` hero manifest, so it has no playable expedition yet.
 
-## Systems present (19 autoloads; Boom system added 2026-07-20)
+### Dragon Ball detail (built 2026-07-21 on the home PC)
+
+Goku and Piccolo were captured from *DBZ: Legacy of Goku II* via the OAM
+reference pipeline (`docs/DBZ_HANDOFF.md` records the full method). Two new
+engine kinds landed in `scripts/entities/combat_hero.gd`:
+
+- special **`beam`** (`scripts/entities/beam.gd`): muzzle/shaft/tip textures,
+  grow/hold/fade, line damage — used for Kamehameha (Goku) and Special Beam
+  Cannon (Piccolo).
+- dodge **`fly`**: dash + i-frames + flight pose.
+
+DBZ enemy roster (`saibaman`-class, `rr_robot`, `dbz_dinosaur`, `dbz_wolf`,
+`sabertooth_tiger`, `cell_junior`) and **Perfect Cell** boss all have real
+manifests.
+
+## Systems present (19 autoloads)
 
 GameState, ContentDatabase, TimeManager, MarketManager, EconomyManager,
-InventoryManager, RelationshipManager, BridgeManager, **BoomManager**, DungeonManager,
+InventoryManager, RelationshipManager, BridgeManager, BoomManager, DungeonManager,
 StoryEventManager, ShopFurnitureManager, SaveManager, AudioManager, SceneRouter,
-DebugManager, **DevHubManager**, **PadNav**, **MultiplayerState**.
+DebugManager, DevHubManager, PadNav, MultiplayerState.
 
-The last three did not exist in the frozen docs:
+Highlights beyond the KH slice: local 2-player split-screen (`MultiplayerState`),
+controller support (`PadNav`), the Dev Hub overlay (`DevHubManager`), Shop Booms
+(`BoomManager` — 14 announced crowd events), per-player consumable belts,
+autosave every day-portion, obstacle-prop dungeon dressing, day-briefing HUD,
+negotiation overhaul, painted shop interior, and story portraits. Recent
+shop-side additions: **order-capacity scaling**, a **shop handbook /
+encyclopedia** panel, and a **dungeon ESC pause menu with retreat**.
 
-- **Local 2-player split-screen** (`MultiplayerState`): P1 on the root viewport,
-  P2 in a native-resolution `SubViewport`; hard per-device input isolation,
-  per-player menu focus with a painted stand-in selector, co-op shared-midpoint
-  dungeon camera, and a ready-gate where the partner presses A to confirm
-  shop/expedition. Main-menu 2P toggle.
-- **Controller support** (`PadNav`): D-pad movement, full menu focus navigation,
-  right-stick scrolling, trigger zoom.
-- **Live Developer Hub** (`DevHubManager`): F1 development overlay (debug builds).
-- **Shop Booms** (`BoomManager`): announced one-session crowd events with
-  2-4x traffic, fast spawn waves, focused customer/item/world demand, direct
-  requests, disappointed departures, small-item bundle purchases, appeal
-  bonuses, cooldowns, save/load, debug/Dev Hub controls, and automatic
-  world-specific celebrations after gate repair. Fourteen starter definitions
-  use only current categories, tags, archetypes, worlds, and merchandise.
+## Test suite (re-run headless 2026-07-22)
 
-Other work landed since the freeze: per-player **consumable belts** (and every
-offered consumable now has an implemented effect), **autosave every day-portion**
-loadable from Continue, an obstacle-prop pass replacing stretched wall textures,
-day-briefing HUD, negotiation overhaul, painted shop interior, real story
-portraits, and ~100 added items/customers.
+| Suite | Token | Result 2026-07-22 |
+| --- | --- | --- |
+| `test_boot` | `BOOT_TEST_PASS` | **PASS** (after fixing a stale `!= 8 heroes` assertion → floor `< 8`; Piccolo is the 9th hero) |
+| `test_parse_all` | `PARSE_TEST_PASS` | **PASS** |
+| `test_campaign` | `CAMPAIGN_TEST_PASS` | **PASS** (all gates repaired day 26, 1.36M gold spare) |
+| `test_asset_factory` | `ASSET_FACTORY_TEST_PASS` | **PASS** (the old float-vs-8-bit chroma precision bug is fixed — prior docs/PLAYTEST_NOTES still calling this red were stale) |
 
-## Known real gaps and defects (verified this pass — not doc-staleness)
-
-1. **Dragon Ball and Pokémon are not playable expeditions.** No hero manifest
-   (`goku`/`pikachu`), no `room_backgrounds`/`obstacle_props`. Data only.
-2. **KH `boss_rotation` references non-bosses.** The KH rotation is
-   `[corrupted_fat_bandit, guard_armor, darkside]`, but `guard_armor` and
-   `darkside` are defined as **regular enemies**, not in the `bosses` array. Only
-   `corrupted_fat_bandit` is a real boss. Rotation indices 1-2 will not resolve a
-   boss — needs fixing or trimming.
-3. **`data/locations.json` is empty.** `LocationLoader` and the Location Workshop
-   exist, but no authored location is committed, and normal campaign scenes still
-   build their layouts in code.
-4. **Asset Factory chroma test still fails.** `tests/test_asset_factory.gd:156`
-   compares an 8-bit-quantized auto-detected background color against the original
-   float color with `is_equal_approx` — a ~0.0005 quantization delta guarantees
-   failure. It is a **test-precision bug, not a detection-logic bug**, and no
-   commit in `656dad8..9f97b5b` touched either file. `ASSET_FACTORY_TEST_PASS`
-   cannot currently be reached.
-5. **25 items carry `needs_ai_balance`** (19 crossover, 3 KH, 3 Mario), e.g.
-   `lady_luck_keyblade`, the Yoshi eggs, bean items — auto-generated stats/prices
-   awaiting a balance pass. The only zero-price items are the 7 world shards
-   (quest items, expected).
-6. **FF roster modeling oddity:** ~10 Final Fantasy monsters are stored in the
-   `bosses` array rather than `enemies`. Confirm this resolves correctly at
-   runtime for normal (non-boss) encounters.
-
-## Hero animation state (verified by reading manifests)
-
-| Hero | Idle | Walk | Attacks |
-| --- | --- | --- | --- |
-| Sora | 1 frame | 8 fr all dirs | 3× 3-frame combo |
-| Link | 1 frame | 4 fr all dirs | full down/side/up × 2 (sword composited) |
-| Mario / Luigi | 1 frame | 6 fr all dirs | down + side × 2 (no up) |
-| Cloud | 1 frame | 4 fr down, **2 fr up/side** | 2× 2-frame, non-directional |
-| Naruto | 1 frame | **3 fr all dirs** | side-only × 2 |
-| Goku / Pikachu | — | — | **no hero manifest** |
-
-Universal issue: **every hero has a 1-frame idle** (no idle motion). Coverage is
-uneven — Naruto and Cloud are the thinnest of the playable heroes. Reported
-player-facing complaints are "stiff/static," "wrong/jerky motion," and
-"weapon/effect invisible" — all resolvable with per-action reference recordings
-of the real games (see `NEXT_TASKS.md`).
-
-## Test suite (present at 9f97b5b — re-run before relying on these)
-
-Core headless suites: `test_boot` (`BOOT_TEST_PASS`), `test_parse_all`
-(`PARSE_TEST_PASS`), `test_campaign` (`CAMPAIGN_TEST_PASS`, full 35-day economy
-proof + all bosses), `test_kh_vertical_slice` (`KH_VERTICAL_SLICE_PASS`),
-`test_dev_hub` (`DEV_HUB_TEST_PASS`), `test_location_workshop`
-(`LOCATION_WORKSHOP_PASS`), `test_music_override`, `test_asset_factory`
-(**failing**, see gap #4). Plus a large windowed screenshot-probe harness
-(`*_shot.gd`) for the four newer worlds, 2P split-screen, autosave, consumables,
-and the wall/prop overhaul. Python: `pytest` (sprite-downloader tooling).
-
-Re-run examples (Godot binary in `tools/`):
+Not re-run this pass (last known good in history): `test_kh_vertical_slice`,
+`test_dev_hub`, `test_location_workshop`, `test_music_override`, plus the
+windowed `*_shot.gd` screenshot-probe harness. Re-run examples:
 
 ```powershell
 tools\Godot_v4.7.1-stable_win64_console.exe --headless --path . res://tests/test_campaign.tscn
@@ -148,10 +105,48 @@ tools\Godot_v4.7.1-stable_win64_console.exe --headless --path . res://tests/test
 Screenshot probes must run **windowed** (no `--headless`). See
 `docs/AGENT_GUIDE.md` for the full build → import → probe → export loop.
 
+## Hero animation state (verified by reading manifests)
+
+| Hero | Idle (down) | Notes |
+| --- | --- | --- |
+| Goku | **10 fr** | full DBZ set: walks, melee, 3-facing Kamehameha, fly |
+| Piccolo | **10 fr** | full DBZ set: walks, melee, SBC charge/fire, fly flips |
+| Link | **10 fr** (side 10 fr) | blink idles, 10-fr walks, composited sword |
+| Sora | 1 fr | 8-fr walks, Keyblade combo + dodge-roll |
+| Mario / Luigi | 1 fr | 6-fr walks, down+side attacks (no up) |
+| Cloud | 1 fr | thin: 2-fr up/side walks, non-directional attacks |
+| Naruto | 1 fr | thinnest: 3-fr walks, side-only attacks |
+| Pikachu | — | **no hero manifest** (Pokémon world unbuilt) |
+
+The old "**universal** 1-frame idle" claim is no longer true: Link, Goku, and
+Piccolo now have multi-frame idle motion (the DBZ heroes are among the richest
+sets in the game). The remaining 1-frame idles are Sora, Mario, Luigi, Cloud,
+and Naruto — Naruto and Cloud are still the thinnest overall.
+
+## Known real gaps and defects (verified this pass — not doc-staleness)
+
+1. **Pokémon is not a playable expedition.** No `pikachu` hero manifest, no
+   room backgrounds/obstacle props. Data only. It is now the *last* stub world.
+2. **`data/locations.json` is empty.** `LocationLoader` and the Location
+   Workshop exist, but campaign scenes still build layouts in code.
+3. **No human acceptance playtest** of the expanded 6-built-world build is
+   recorded in `PLAYTEST_NOTES.md`. This requires a controller run of the
+   exported exe.
+4. **`PLAYTEST_NOTES.md` is itself stale** — its bug list still flags the
+   Asset Factory chroma test as failing (it passes now) and predates every
+   built world after KH.
+
+## Export capability
+
+**This machine can now export** (set up 2026-07-22). The only thing that had
+been missing was the Godot 4.7.1-stable export templates; they are now installed
+at `%APPDATA%/Godot/export_templates/4.7.1.stable/` (Windows debug + release).
+The `export/` directory (gitignored) must exist before running the release
+export. See the standard command in `CLAUDE.md` / `docs/AGENT_GUIDE.md`.
+
 ## Recommended next work
 
-See `NEXT_TASKS.md`. In short: (1) hero animation polish driven by real-game
-reference recordings, starting with idle motion for all five playable heroes and
-full sets for Naruto/Cloud; (2) fix the KH boss-rotation references and the
-Asset Factory test-precision bug; (3) decide whether Dragon Ball and Pokémon get
-built out or are explicitly deferred.
+See `NEXT_TASKS.md`. In short: (1) record a human acceptance playtest of the
+built worlds and refresh `PLAYTEST_NOTES.md`; (2) decide Pokémon — build it out
+following the DBZ recipe or explicitly defer it; (3) idle-motion polish for the
+five heroes still on 1-frame idles (Naruto/Cloud thinnest).

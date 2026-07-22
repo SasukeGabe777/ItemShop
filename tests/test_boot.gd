@@ -5,8 +5,10 @@ func _ready() -> void:
 	var failures: Array[String] = []
 	if ContentDatabase.items.size() < 100:
 		failures.append("expected >=100 items, got %d" % ContentDatabase.items.size())
-	if ContentDatabase.heroes.size() != 8:
-		failures.append("expected 8 heroes, got %d" % ContentDatabase.heroes.size())
+	# floor, not exact: the roster grows as worlds get playable heroes (Piccolo
+	# was the 9th; asserting equality made this test red the moment he landed)
+	if ContentDatabase.heroes.size() < 8:
+		failures.append("expected >=8 heroes, got %d" % ContentDatabase.heroes.size())
 	if ContentDatabase.worlds.size() != 8:
 		failures.append("expected 8 worlds, got %d" % ContentDatabase.worlds.size())
 	if ContentDatabase.enemies.size() < 30:
