@@ -241,13 +241,21 @@ static func gold_popup(parent: Node2D, amount: int) -> Node2D:
 	holder.z_index = 40
 	parent.add_child(holder)
 	var sprite := Sprite2D.new()
-	sprite.texture = gold_texture(gold_variant(amount))
+	var variant := gold_variant(amount)
+	sprite.texture = gold_texture(variant)
 	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	# World-space popups share the camera zoom with the hero. Cap their logical
+	# size here; the source PNGs stay large enough for crisp menu rendering.
+	var target_max: float = float({"small": 18.0, "medium": 24.0, "large": 30.0}.get(variant, 18.0))
+	if sprite.texture != null:
+		var source_max := maxf(float(sprite.texture.get_width()), float(sprite.texture.get_height()))
+		if source_max > target_max:
+			sprite.scale = Vector2.ONE * (target_max / source_max)
 	holder.add_child(sprite)
 	var amount_label := label("+%d" % amount, 11, Color.WHITE)
 	amount_label.add_theme_color_override("font_outline_color", Color("#5b3510"))
 	amount_label.add_theme_constant_override("outline_size", 4)
-	amount_label.position.y = 15
+	amount_label.position.y = target_max * 0.42
 	holder.add_child(amount_label)
 	(func() -> void:
 		if is_instance_valid(amount_label):

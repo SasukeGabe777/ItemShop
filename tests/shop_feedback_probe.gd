@@ -87,7 +87,18 @@ func _check_bonds_and_gold_drop() -> void:
 	check(not sprites.is_empty(), "gold drop has no sprite")
 	if not sprites.is_empty():
 		check((sprites[0] as Sprite2D).texture == UIKit.gold_texture("large"), "large gold drop did not use the supplied pile")
+		var drop_sprite := sprites[0] as Sprite2D
+		var rendered_max := maxf(drop_sprite.texture.get_width() * drop_sprite.scale.x,
+			drop_sprite.texture.get_height() * drop_sprite.scale.y)
+		check(rendered_max <= 18.1, "gold drop is larger than the item-drop reference: %.1f px" % rendered_max)
 	drop.queue_free()
+	var popup_parent := Node2D.new()
+	add_child(popup_parent)
+	var popup := UIKit.gold_popup(popup_parent, 750)
+	var popup_sprite := popup.get_children().filter(func(child: Node) -> bool: return child is Sprite2D)[0] as Sprite2D
+	var popup_max := maxf(popup_sprite.texture.get_width() * popup_sprite.scale.x,
+		popup_sprite.texture.get_height() * popup_sprite.scale.y)
+	check(popup_max <= 30.1, "sale popup exceeds its world-space cap: %.1f px" % popup_max)
 
 
 func check(condition: bool, message: String) -> void:

@@ -1212,7 +1212,7 @@ func _speech(over: Node2D, text: String) -> void:
 	# Stack dialogue above the reaction icon, both centered on the customer.
 	var speech_y := -52.0
 	if over is ShopCustomer and (over as ShopCustomer).visual != null:
-		speech_y = (over as ShopCustomer).visual.top_y() * (over as ShopCustomer).visual.scale.y - 52.0
+		speech_y = (over as ShopCustomer).visual.top_y() * (over as ShopCustomer).visual.scale.y - 32.0
 	lbl.position = Vector2(-lbl.custom_minimum_size.x / 2.0, speech_y)
 	lbl.z_index = 65
 	over.add_child(lbl)

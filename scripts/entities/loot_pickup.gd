@@ -16,10 +16,14 @@ func setup_item(id: String) -> void:
 
 func setup_gold(amount: int) -> void:
 	gold_amount = amount
-	_common(UIKit.gold_texture(UIKit.gold_variant(amount)))
+	var variant := UIKit.gold_variant(amount)
+	# Item pickups are generally 12–18 px tall. Keep every coin tier in that
+	# same world-space footprint so valuable drops read richer, not enormous.
+	var target_max: float = float({"small": 14.0, "medium": 16.0, "large": 18.0}.get(variant, 14.0))
+	_common(UIKit.gold_texture(variant), target_max)
 
 
-func _common(tex: Texture2D) -> void:
+func _common(tex: Texture2D, target_max_px: float = 0.0) -> void:
 	collision_layer = 0
 	collision_mask = 2
 	var shape := CollisionShape2D.new()
@@ -29,6 +33,11 @@ func _common(tex: Texture2D) -> void:
 	add_child(shape)
 	var sprite := Sprite2D.new()
 	sprite.texture = tex
+	if tex != null and target_max_px > 0.0:
+		var source_max := maxf(float(tex.get_width()), float(tex.get_height()))
+		if source_max > target_max_px:
+			sprite.scale = Vector2.ONE * (target_max_px / source_max)
+	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	add_child(sprite)
 	body_entered.connect(_on_body)
 	var tw := create_tween().set_loops()

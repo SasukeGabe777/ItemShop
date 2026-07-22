@@ -94,10 +94,10 @@ func show_emote(kind: String, duration: float = 1.35) -> void:
 	spr.name = "CustomerEmote_%s" % kind
 	spr.texture = tex
 	spr.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-	spr.scale = Vector2(1.5, 1.5)
+	spr.scale = Vector2.ONE
 	spr.z_index = 30
 	var top := visual.top_y() * visual.scale.y if visual != null else -24.0
-	spr.position = Vector2(0, top - 28.0)
+	spr.position = Vector2(0, top - 14.0)
 	add_child(spr)
 	_active_emote = spr
 	var move_tween := spr.create_tween()
