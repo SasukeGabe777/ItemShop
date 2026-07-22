@@ -23,12 +23,31 @@ and **Piccolo**.
   (A-tap) are 4-pose acrobatic flips — used as the fly-dodge anim (walking
   scale); overworld f* flight sprites unused for now.
 
+### Goku capture attempt (2026-07-21 evening): BLOCKED — needs user knowledge
+Exhaustive scripted probing (tools/rom_ref/dbz_goku_*.lua, screenshots under
+out/dbz_goku/) established:
+- Debug root = MUSIC TEST / SAMPLE TEST / MAP TEST only — no character entry;
+  A always fires the MAP TEST warp whatever row the cursor is on. Boot timing
+  jitters; use the repeated hold-Start `to_debug()` loop from those scripts.
+- Every explorable MAP TEST zone (0-17; 14+ repeats Cell Games Arena) puts
+  PICCOLO on the field. Goku IS alive in the cold-boot SaveRAM (Status screen:
+  Lv40), but nothing scripted opens the SWITCH CHARACTERS screen there.
+- BizHawk quicksave slot 8 is that screen — but frozen from a LATER story
+  point whose roster is Gohan/Piccolo/Vegeta/Trunks/Hercule (no Goku).
+**Unblock:** ask the user how they switch characters in LoG II (what opens
+SWITCH CHARACTERS — an NPC? Capsule Corp? a save point?), or get a battery
+save where Goku is the active field character. Then reuse the Piccolo recipe
+(Kamehameha instead of SBC; probe its beam tiles — SBC was 832/840/848).
+
 ### Next actions
-1. Goku: debug-menu MAP TEST to a pre-Cell map with Goku, redo the Piccolo
-   capture recipe (Kamehameha instead of SBC; reuse `build_piccolo_from_oam.py`
-   pattern + the beam kind with new kame_* part sprites).
-2. Build the dungeon (rooms/enemies/boss/barriers/music), probes + windowed
-   screenshots, export, commit.
+1. Enemy capture for the dungeon roster (saibaman, rr_robot, frieza_soldier,
+   cell_junior, dbz_dinosaur) — in progress via subagent; decode with the new
+   `decode_oam_dbz.py --enemies` mode, build manifests, replace placeholder
+   capsules. Boss note: great_ape_vegeta is a LoG I boss — no art source in
+   savestates/ (LoG II ROM only); needs a boss swap or another source.
+2. Goku (blocked above), then wire his Kamehameha as the `beam` special kind
+   + `fly` dodge per the agreed spec.
+3. Dungeon polish + probes + windowed screenshots, export, commit.
 
 ---
 
