@@ -3,6 +3,35 @@
 Building the Dragon Ball Z: Legacy of Goku II dungeon with playable **Goku**
 and **Piccolo**.
 
+## Session 3 (home PC, 2026-07-21, post power outage): Piccolo SHIPPED
+
+- **Piccolo hero is live**: `tools/build_piccolo_from_oam.py` (re-renders from
+  raw OAM bins — strips beam tiles 832/840/848, HUD, and stray overworld
+  objects via bbox-distance from the hero object) → 8x6 sheet + manifest with
+  16 anims (idles+blink, 4-dir walks, melee incl. recaptured up swing,
+  SBC charge/fire in 3 facings, fly flips). Verified windowed
+  (`tests/piccolo_moves_shot.tscn`) + headless (`tests/piccolo_logic_probe.tscn`).
+- **New engine kinds** in `combat_hero.gd`: special `"beam"` (spawns
+  `scripts/entities/beam.gd` — muzzle/shaft/tip textures from the special def,
+  grow/hold/fade, line damage) and dodge `"fly"` (plays `fly_*` anims).
+  Piccolo added to `data/heroes.json` (SBC beam, fly dodge, hire 1000).
+- **Capture facts**: melee-up needed a recapture with the direction held
+  THROUGH the B-tap (`mbu2`; original `mbu` never turned — pitfall added to
+  AGENT_GUIDE §8). The double-tap combo has NO distinct second-hit sprite
+  (mcd == mbd); attack_2_down reuses the mbd crackle inverted. Firing pose =
+  frames _25+/_31 (two-handed thrust), NOT _24 (still coiled). mad/mar
+  (A-tap) are 4-pose acrobatic flips — used as the fly-dodge anim (walking
+  scale); overworld f* flight sprites unused for now.
+
+### Next actions
+1. Goku: debug-menu MAP TEST to a pre-Cell map with Goku, redo the Piccolo
+   capture recipe (Kamehameha instead of SBC; reuse `build_piccolo_from_oam.py`
+   pattern + the beam kind with new kame_* part sprites).
+2. Build the dungeon (rooms/enemies/boss/barriers/music), probes + windowed
+   screenshots, export, commit.
+
+---
+
 ## Session 2 (home PC, 2026-07-21): Piccolo captured, debug menu unlocked
 
 - **Debug menu works** (`tools/rom_ref/dbz_testmenu.lua`): poke `0x02` to

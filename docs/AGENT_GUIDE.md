@@ -340,6 +340,7 @@ Data lives in `data/*.json`, loaded by `ContentDatabase` (see
 | Boom stays active forever in campaign tests | live `shop.gd` and headless `ShopSim` must each call `BoomManager.complete_shop_session()` exactly once per completed session |
 | OAM decode finds 0 objects but the ref screenshots show sprites | game uses **8bpp** objects (DBZ LoG II does) — `decode_oam.py` is 4bpp-only; see `decode_oam_dbz.py` (8bpp 1D mapping: tile numbers advance by 2 per 8x8 block, palette bank ignored) |
 | Emulator button does nothing / wrong action despite user instructions | the user's keyboard binding ≠ GBA button of the same name — probe every button scripted (`dbz_button_matrix.lua` pattern) instead of trusting the letter |
+| Captured "up-facing" action actually faces the old direction | releasing a held direction before the action tap loses the turn (DBZ melee-up bug) — hold the direction THROUGH the action input (`capture_piccolo_extra2.lua`), then verify facing on the ref screenshots |
 
 ## 9. Checklist: adding or fixing a world
 

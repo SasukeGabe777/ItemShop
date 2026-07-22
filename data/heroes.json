@@ -341,6 +341,55 @@
    "guild_line": "I left my money in my other gi! Chi-Chi has my other gi."
   },
   {
+   "id": "piccolo",
+   "name": "Piccolo",
+   "world": "dragon_ball",
+   "weapon_type": "martial",
+   "color": "#69b54c",
+   "base_stats": {
+    "hp": 130,
+    "atk": 15,
+    "def": 11,
+    "spd": 125
+   },
+   "combat": {
+    "basic": {
+     "hits": 3,
+     "dmg": [
+      10,
+      10,
+      16
+     ],
+     "range": 24,
+     "arc": 90
+    },
+    "special": {
+     "kind": "beam",
+     "name": "Special Beam Cannon",
+     "dmg": 30,
+     "range": 180,
+     "width": 10,
+     "cost": 35,
+     "muzzle": "res://assets/franchises/dragon_ball/processed/sbc_muzzle.png",
+     "shaft": "res://assets/franchises/dragon_ball/processed/sbc_shaft.png",
+     "tip": "res://assets/franchises/dragon_ball/processed/sbc_tip.png"
+    },
+    "dodge": {
+     "kind": "fly",
+     "distance": 90,
+     "iframes": 0.4
+    },
+    "finisher": {
+     "name": "Hellzone Grenade",
+     "dmg": 95,
+     "radius": 100
+    }
+   },
+   "hire_cost": 1000,
+   "bio": "Meditates outside the shop for hours, then buys one (1) glass of water. Secretly guards the register.",
+   "guild_line": "I trained the strongest child in the universe. Your stockroom will be fine."
+  },
+  {
    "id": "pikachu",
    "name": "Pikachu",
    "world": "pokemon",

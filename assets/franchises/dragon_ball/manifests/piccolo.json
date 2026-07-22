@@ -1,0 +1,190 @@
+{
+ "asset_id": "piccolo",
+ "sheet": "res://assets/franchises/dragon_ball/processed/sheets/piccolo.png",
+ "native_scale": 1,
+ "display_scale": 1,
+ "pivot": [
+  24,
+  40
+ ],
+ "grid": {
+  "frame_width": 48,
+  "frame_height": 48,
+  "columns": 8,
+  "rows": 6
+ },
+ "animations": {
+  "idle_down": {
+   "frames": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1
+   ],
+   "fps": 5,
+   "loop": true
+  },
+  "idle_up": {
+   "frames": [
+    2
+   ],
+   "fps": 5,
+   "loop": true
+  },
+  "idle_side": {
+   "frames": [
+    3
+   ],
+   "fps": 5,
+   "loop": true
+  },
+  "walk_down": {
+   "frames": [
+    4,
+    5,
+    6,
+    7
+   ],
+   "fps": 8,
+   "loop": true
+  },
+  "walk_up": {
+   "frames": [
+    8,
+    9,
+    10,
+    11
+   ],
+   "fps": 8,
+   "loop": true
+  },
+  "walk_side": {
+   "frames": [
+    12,
+    13,
+    14,
+    15
+   ],
+   "fps": 8,
+   "loop": true
+  },
+  "attack_1_down": {
+   "frames": [
+    16,
+    17,
+    16,
+    17
+   ],
+   "fps": 14,
+   "loop": false
+  },
+  "attack_1_side": {
+   "frames": [
+    18,
+    19,
+    18,
+    19
+   ],
+   "fps": 14,
+   "loop": false
+  },
+  "attack_1_up": {
+   "frames": [
+    20,
+    21,
+    20,
+    21
+   ],
+   "fps": 14,
+   "loop": false
+  },
+  "attack_2_down": {
+   "frames": [
+    17,
+    16,
+    17,
+    16
+   ],
+   "fps": 14,
+   "loop": false
+  },
+  "attack_2_side": {
+   "frames": [
+    22,
+    23,
+    22,
+    23
+   ],
+   "fps": 14,
+   "loop": false
+  },
+  "special_down": {
+   "frames": [
+    24,
+    25,
+    24,
+    25,
+    26,
+    27,
+    26,
+    27
+   ],
+   "fps": 10,
+   "loop": false
+  },
+  "special_side": {
+   "frames": [
+    28,
+    29,
+    28,
+    29,
+    30,
+    31,
+    30,
+    31
+   ],
+   "fps": 10,
+   "loop": false
+  },
+  "special_up": {
+   "frames": [
+    32,
+    33,
+    32,
+    33,
+    34,
+    35,
+    34,
+    35
+   ],
+   "fps": 10,
+   "loop": false
+  },
+  "fly_down": {
+   "frames": [
+    36,
+    37,
+    38,
+    39
+   ],
+   "fps": 16,
+   "loop": false
+  },
+  "fly_side": {
+   "frames": [
+    40,
+    41,
+    42,
+    43
+   ],
+   "fps": 16,
+   "loop": false
+  }
+ }
+}

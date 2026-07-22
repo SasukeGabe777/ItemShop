@@ -209,6 +209,14 @@ func _do_special() -> void:
 				float(sp.get("fuse", 2.0)), CombatHero.LAYER_ENEMY_HURT)
 			bomb.global_position = global_position + facing.normalized() * 12.0
 			get_parent().add_child(bomb)
+		"beam":
+			# hold the firing pose for the beam's grow+hold duration
+			attack_lock = 0.6
+			var beam := Beam.new()
+			beam.setup(_attack_damage(dmg_ratio), facing, sp, CombatHero.LAYER_ENEMY_HURT)
+			beam.global_position = global_position + facing.normalized() * 10.0
+			get_parent().add_child(beam)
+			FX.shake(2.0)
 
 
 func _spawn_projectile(speed: float, dmg_ratio: float, color: Color) -> void:
@@ -238,8 +246,8 @@ func _do_dodge(pressed: bool) -> void:
 		return
 	movement.dash(facing, float(dodge.get("distance", 70)), 0.16)
 	health.grant_iframes(float(dodge.get("iframes", 0.35)))
-	# real roll frames when the manifest has them (play_action no-ops otherwise)
-	visual.play_action("roll", facing)
+	# real roll/fly frames when the manifest has them (play_action no-ops otherwise)
+	visual.play_action("fly" if kind == "fly" else "roll", facing)
 	if kind == "vanish":
 		visual.modulate.a = 0.25
 		get_tree().create_timer(0.2).timeout.connect(func() -> void:
