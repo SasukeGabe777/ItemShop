@@ -442,6 +442,25 @@
     "v": [
      "res://assets/locations/dbzdungeon/processed/barrier_rock.png"
     ]
+   },
+   "hud": {
+    "hp_style": "bar",
+    "bar_under": "res://assets/locations/dbzdungeon/processed/hud/bar_under.png",
+    "bar_fill": "res://assets/locations/dbzdungeon/processed/hud/bar_fill.png",
+    "bar_margins": [
+     10,
+     3,
+     12,
+     3
+    ],
+    "boss_under": "res://assets/locations/dbzdungeon/processed/hud/boss_under.png",
+    "boss_fill": "res://assets/locations/dbzdungeon/processed/hud/boss_fill.png",
+    "boss_margins": [
+     6,
+     2,
+     6,
+     2
+    ]
    }
   },
   {

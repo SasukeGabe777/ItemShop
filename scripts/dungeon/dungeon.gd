@@ -195,6 +195,28 @@ func _hp_display(min_size: Vector2, fallback_tint: Color) -> Range:
 	return _hud_bar("hp", min_size, fallback_tint)
 
 
+## Per-world boss bar: worlds.json "hud" {"boss_fill", "boss_under"} themes it
+## to the source game (e.g. the DBZ black-framed red bar); else the shared bar.
+func _boss_bar_display(min_size: Vector2, fallback_tint: Color) -> Range:
+	var hud_cfg: Dictionary = ContentDatabase.get_world(world_id).get("hud", {})
+	var fill := _tex_if_exists(String(hud_cfg.get("boss_fill", "")))
+	var under := _tex_if_exists(String(hud_cfg.get("boss_under", "")))
+	if fill != null and under != null:
+		var tb := TextureProgressBar.new()
+		tb.texture_under = under
+		tb.texture_progress = fill
+		tb.nine_patch_stretch = true
+		var m: Array = hud_cfg.get("boss_margins", [4, 2, 4, 2])
+		tb.stretch_margin_left = int(m[0])
+		tb.stretch_margin_top = int(m[1])
+		tb.stretch_margin_right = int(m[2])
+		tb.stretch_margin_bottom = int(m[3])
+		tb.custom_minimum_size = min_size
+		tb.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		return tb
+	return _hud_bar("boss", min_size, fallback_tint)
+
+
 static func _tex_if_exists(path: String) -> Texture2D:
 	return load(path) if path != "" and ResourceLoader.exists(path) else null
 
@@ -306,7 +328,7 @@ func _build_hud() -> void:
 	var hints := "A attack  X special  B dodge  Y item  RB finisher" if UIKit.pad_connected() \
 		else "J attack K special L dodge I item U finisher"
 	row.add_child(UIKit.label(hints, 8, UIKit.COL_DIM))
-	boss_bar = _hud_bar("boss", Vector2(0, 16), Color(0.8, 0.3, 0.5))
+	boss_bar = _boss_bar_display(Vector2(0, 16), Color(0.8, 0.3, 0.5))
 	boss_bar.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	boss_bar.visible = false
 	vb.add_child(boss_bar)
