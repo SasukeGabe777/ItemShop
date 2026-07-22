@@ -73,7 +73,7 @@
    "allowed_categories": [],
    "appeal_modifiers": {},
    "blocks_movement": false,
-   "customer_attention_modifier": 0.0,
+   "customer_attention_modifier": 0.15,
    "display_slots": [
     [
      0.0,
@@ -167,7 +167,7 @@
    "allowed_categories": [],
    "appeal_modifiers": {},
    "blocks_movement": false,
-   "customer_attention_modifier": 0.0,
+   "customer_attention_modifier": 0.25,
    "display_slots": [
     [
      0.0,
@@ -353,7 +353,7 @@
    "allowed_categories": [],
    "appeal_modifiers": {},
    "blocks_movement": false,
-   "customer_attention_modifier": 0.0,
+   "customer_attention_modifier": 0.4,
    "display_slots": [
     [
      0.0,
@@ -665,7 +665,7 @@
    "allowed_categories": [],
    "appeal_modifiers": {},
    "blocks_movement": false,
-   "customer_attention_modifier": 0.0,
+   "customer_attention_modifier": 0.3,
    "display_slots": [
     [
      0.0,
@@ -933,7 +933,7 @@
    "allowed_categories": [],
    "appeal_modifiers": {},
    "blocks_movement": false,
-   "customer_attention_modifier": 0.0,
+   "customer_attention_modifier": 0.25,
    "display_slots": [
     [
      0.0,

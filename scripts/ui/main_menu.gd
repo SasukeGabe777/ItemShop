@@ -173,7 +173,6 @@ func _on_new_game() -> void:
 		var slot_button := UIKit.button(text, func() -> void: SceneRouter.start_new_campaign(slot))
 		if not summary.is_empty():
 			slot_button.icon = UIKit.gold_texture("small")
-			slot_button.icon_max_width = 20
 		vb.add_child(slot_button)
 	vb.add_child(UIKit.button("Cancel", func() -> void: layer.queue_free()))
 
@@ -193,7 +192,6 @@ func _on_load() -> void:
 			int(auto["gold"]), " (Endless)" if bool(auto["endless"]) else ""],
 			func() -> void: SceneRouter.continue_autosave())
 		auto_button.icon = UIKit.gold_texture("small")
-		auto_button.icon_max_width = 20
 		vb.add_child(auto_button)
 		vb.add_child(UIKit.hsep())
 	for slot in range(1, 4):
@@ -205,7 +203,6 @@ func _on_load() -> void:
 		var row := HBoxContainer.new()
 		var b := UIKit.button(desc, func() -> void: SceneRouter.continue_campaign(slot))
 		b.icon = UIKit.gold_texture("small")
-		b.icon_max_width = 20
 		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		row.add_child(b)
 		row.add_child(UIKit.button("X", func() -> void:

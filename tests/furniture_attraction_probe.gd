@@ -8,6 +8,7 @@ var failures: Array[String] = []
 
 func _ready() -> void:
 	_reset_state()
+	_test_attention_progression()
 	_test_attention_targets_exact_slot()
 	_test_catalog_and_slot_markers()
 	if failures.is_empty():
@@ -31,6 +32,30 @@ func _reset_state() -> void:
 func _check(condition: bool, message: String) -> void:
 	if not condition:
 		failures.append(message)
+
+
+func _test_attention_progression() -> void:
+	var expected := {
+		"basic_glass_box": 0.15,
+		"window_counter": 0.25,
+		"premium_item_stand": 0.30,
+		"display_case": 0.25,
+		"glass_display_case": 0.40,
+		"premium_glass_box": 0.50,
+		"luxury_glass_display_case": 1.00,
+	}
+	var earliest_level := 99
+	for furniture_id: String in ContentDatabase.furniture:
+		var def := ContentDatabase.get_furniture(furniture_id)
+		var attention := float(def.get("customer_attention_modifier", 0.0))
+		if attention > 0.0:
+			earliest_level = mini(earliest_level, int(def.get("unlock_level", 1)))
+		if furniture_id in expected:
+			_check(is_equal_approx(attention, float(expected[furniture_id])),
+				"%s attention is %.2f, expected %.2f" % [furniture_id, attention, expected[furniture_id]])
+	_check(earliest_level == 2, "first attraction furniture unlocks at level %d, expected level 2" % earliest_level)
+	_check(is_zero_approx(float(ContentDatabase.get_furniture("basic_item_stand").get("customer_attention_modifier", 0.0))),
+		"level-1 Basic Item Stand should remain the neutral baseline")
 
 
 func _test_attention_targets_exact_slot() -> void:
@@ -75,6 +100,10 @@ func _test_catalog_and_slot_markers() -> void:
 	add_child(shop)
 	shop._open_furniture_catalog()
 	var catalog_text := _all_label_text(shop)
+	_check("+15% customer attention" in catalog_text, "level-2 basic glass bonus missing from catalog description")
+	_check("+25% customer attention" in catalog_text, "level-2 window bonus missing from catalog description")
+	_check("+30% customer attention" in catalog_text, "level-3 premium stand bonus missing from catalog description")
+	_check("+40% customer attention" in catalog_text, "glass display bonus missing from catalog description")
 	_check("+50% customer attention" in catalog_text, "premium furniture bonus missing from catalog description")
 	_check("+100% customer attention" in catalog_text, "luxury furniture bonus missing from catalog description")
 	_close_modal_layers(shop)

@@ -281,7 +281,6 @@ func _open_pause() -> void:
 			close.call())
 		if not summary.is_empty():
 			save_button.icon = UIKit.gold_texture("small")
-			save_button.icon_max_width = 20
 		vb.add_child(save_button)
 	var auto := SaveManager.autosave_summary()
 	if not auto.is_empty():

@@ -12,8 +12,12 @@ class Probe:
 		_reset_state()
 		DirAccess.make_dir_recursive_absolute(SHOT_DIR)
 		SceneRouter.go("shop")
-		await get_tree().create_timer(1.5).timeout
+		await get_tree().create_timer(0.25).timeout
 		var shop = get_tree().current_scene
+		# A connected controller can otherwise open the pause menu while this
+		# unattended visual probe is composing its shots.
+		shop.hud.set_process_unhandled_input(false)
+		await get_tree().create_timer(1.25).timeout
 
 		shop._open_furniture_catalog()
 		await get_tree().create_timer(0.45).timeout
@@ -44,7 +48,9 @@ class Probe:
 	func _reset_state() -> void:
 		GameState.reset_campaign()
 		GameState.tutorials_seen.append("first_shop_vertical_slice")
-		GameState.shop_level = 5
+		# Level 2 proves the first attraction choices are already purchasable;
+		# later tiers remain visible in the same catalog as locked previews.
+		GameState.shop_level = 2
 		TimeManager.reset(1)
 		EconomyManager.reset()
 		EconomyManager.gold = 9999
@@ -68,7 +74,7 @@ class Probe:
 
 
 	func _close_modal_layers(root: Node) -> void:
-		for child in root.get_children():
+		for child in root.find_children("*", "CanvasLayer", true, false):
 			if child is CanvasLayer and (child as CanvasLayer).layer >= 40:
 				child.queue_free()
 

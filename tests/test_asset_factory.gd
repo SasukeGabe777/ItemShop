@@ -45,7 +45,8 @@ func _test_furniture_layout() -> void:
 		_check(int(slots[i]["index"]) == i, "slot indices not sequential")
 	# classic window bonus must survive the furniture refactor unchanged
 	var bonus := ShopFurnitureManager.slot_attention_bonus(0)
-	var expected := float(ContentDatabase.bal("shop", {}).get("window_attention_bonus", 0.25))
+	var expected := float(ContentDatabase.bal("shop", {}).get("window_attention_bonus", 0.25)) \
+		+ float(ContentDatabase.get_furniture("window_counter").get("customer_attention_modifier", 0.0))
 	_check(absf(bonus - expected) < 0.001, "window slot bonus %f != %f" % [bonus, expected])
 	_check(ShopFurnitureManager.slot_attention_bonus(5) < 0.001, "middle slot should have no bonus in default layout")
 
