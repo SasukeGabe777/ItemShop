@@ -169,6 +169,22 @@ island boxes are band-relative — offset them back
 
 ### Real-game reference capture (`tools/rom_ref/` — the quality path for hero anims)
 
+**USER-DRIVEN live capture (best quality, proven on Sora/Mario/Luigi/Piccolo,
+commit e573e3c):** when scripted play can't reach a move (sleights, unlocks,
+switch screens), launch a `*_user_drive*.lua` session: cold boot the user's
+REAL save (regenerate battery saves from `savestates/*.sps|.gsv` via the
+converters first — BizHawk flushes SaveRAM on window close, so agent
+playthroughs CLOBBER user saves), hand the user the controls with ZERO
+scripted input, and record OAM/VRAM/PAL only on OAM-change frames plus a
+`live_view.png` heartbeat the coordinator can watch. Decode afterwards with
+`decode_oam_kh_live.py` / `decode_oam_ml_live.py` patterns (per-character
+palette-bank isolation; M&L leader/follower SWAP palette banks 0/1; battle
+HUD portraits can share the hero's bank — exclude by corner position).
+Projectile-style moves (Strike Raid) hide in frames the body-cluster decoder
+skips: scan for two far-apart same-palette clusters to find throw + flying
+weapon. Never load `*_progress` savestates for the user without screenshot-
+verifying WHICH save they came from (agent states may be fresh playthroughs).
+
 When ripped sheets can't tell you frame order/timing (or lack the weapon), capture
 the real game. BizHawk + ROMs + converted battery saves live in `savestates/`
 (gitignored, never committed). Launch:
