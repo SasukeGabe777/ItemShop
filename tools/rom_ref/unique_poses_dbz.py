@@ -3,16 +3,24 @@
 Same as unique_poses.py (Link) but for the DBZ decode output. Prints the pose
 order string and writes unique_<group>.png contact sheets to pick frames from.
 """
-import glob, os, re
+import argparse, glob, os, re
 from collections import defaultdict
 import numpy as np
 from PIL import Image, ImageDraw
 
 OUT = "tools/rom_ref/out/oam_dbz/decoded"
+PREFIX = "piccolo_"
+
+ap = argparse.ArgumentParser()
+ap.add_argument("--dir", default=OUT, help="decoded dir with <prefix>*.png frames")
+ap.add_argument("--prefix", default=PREFIX, help="filename prefix of decoded frames")
+args = ap.parse_args()
+out_dir = args.dir
+prefix_len = len(args.prefix)
 
 groups = defaultdict(list)
-for fp in sorted(glob.glob(f"{OUT}/piccolo_*.png")):
-    tag = os.path.basename(fp)[8:-4]
+for fp in sorted(glob.glob(f"{out_dir}/{args.prefix}*.png")):
+    tag = os.path.basename(fp)[prefix_len:-4]
     groups[re.sub(r"_\d+$", "", tag)].append((tag, np.array(Image.open(fp))))
 
 for prefix, frames in sorted(groups.items()):
@@ -43,4 +51,4 @@ for prefix, frames in sorted(groups.items()):
         cell.alpha_composite(im, ((mw - im.width) // 2, (mh - im.height) // 2))
         d.text((i * cw + 2, 0), f"{i}:{tag} x{n}", fill=(255, 255, 0))
         sheet.paste(cell.convert("RGB"), (i * cw + 4, lab))
-    sheet.save(f"{OUT}/unique_{prefix}.png")
+    sheet.save(f"{out_dir}/unique_{prefix}.png")

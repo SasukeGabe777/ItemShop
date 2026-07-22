@@ -403,7 +403,33 @@
     "nimbus_token",
     "capsule_house",
     "dragon_ball"
-   ]
+   ],
+   "heroes": [
+    "goku",
+    "piccolo"
+   ],
+   "obstacle_props": [
+    "res://assets/locations/dbzdungeon/processed/prop_pine.png",
+    "res://assets/locations/dbzdungeon/processed/prop_pine_small.png",
+    "res://assets/locations/dbzdungeon/processed/prop_debris.png"
+   ],
+   "room_backgrounds": {
+    "start": [
+     "res://assets/locations/dbzdungeon/processed/start_cabin.png"
+    ],
+    "combat": [
+     "res://assets/locations/dbzdungeon/processed/combat_mesa.png",
+     "res://assets/locations/dbzdungeon/processed/combat_pines.png",
+     "res://assets/locations/dbzdungeon/processed/combat_forest.png",
+     "res://assets/locations/dbzdungeon/processed/combat_falls.png"
+    ],
+    "treasure": [
+     "res://assets/locations/dbzdungeon/processed/treasure_dome.png"
+    ],
+    "boss": [
+     "res://assets/locations/dbzdungeon/processed/boss_crater.png"
+    ]
+   }
   },
   {
    "id": "pokemon",

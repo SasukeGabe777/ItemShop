@@ -146,10 +146,18 @@ def main():
                     help="only decode tags matching this regex")
     ap.add_argument("--cell", type=int, default=CELL)
     ap.add_argument("--feet-y", type=int, default=FEET_Y)
+    ap.add_argument("--oamdir", default=OAMDIR,
+                    help="directory with oam_*/objvram_*/objpal_* dumps")
+    ap.add_argument("--outdir", default=None,
+                    help="decoded output dir (default: <oamdir>/decoded)")
+    ap.add_argument("--prefix", default="piccolo_",
+                    help="filename prefix for decoded per-frame PNGs")
     args = ap.parse_args()
-    os.makedirs(OUT, exist_ok=True)
+    oamdir = args.oamdir
+    outdir = args.outdir or f"{oamdir}/decoded"
+    os.makedirs(outdir, exist_ok=True)
 
-    frames = sorted(glob.glob(f"{OAMDIR}/oam_*.bin"))
+    frames = sorted(glob.glob(f"{oamdir}/oam_*.bin"))
     counts = Counter()
     for fp in frames:
         for o in parse_oam(open(fp, "rb").read()):
@@ -167,12 +175,12 @@ def main():
                 continue
             seen.add(prefix)
             oam = open(fp, "rb").read()
-            vram = open(f"{OAMDIR}/objvram_{tag}.bin", "rb").read()
-            pal = load_palette(f"{OAMDIR}/objpal_{tag}.bin")
+            vram = open(f"{oamdir}/objvram_{tag}.bin", "rb").read()
+            pal = load_palette(f"{oamdir}/objpal_{tag}.bin")
             objs = list(parse_oam(oam))
             live = [o for o in objs if obj_key(o) not in hud]
             Image.fromarray(render(objs, vram, pal), "RGBA").save(
-                f"{OUT}/obj_all_{tag}.png")
+                f"{outdir}/obj_all_{tag}.png")
             print(f"\n== {tag}  ({len(live)} live objs)")
             for o in sorted(live, key=lambda o: (o["pal"], o["tile"])):
                 print(f"  pal={o['pal']:2d} tile={o['tile']:4d} "
@@ -187,8 +195,8 @@ def main():
         if tagre and not tagre.search(tag):
             continue
         oam = open(fp, "rb").read()
-        vram = open(f"{OAMDIR}/objvram_{tag}.bin", "rb").read()
-        pal = load_palette(f"{OAMDIR}/objpal_{tag}.bin")
+        vram = open(f"{oamdir}/objvram_{tag}.bin", "rb").read()
+        pal = load_palette(f"{oamdir}/objpal_{tag}.bin")
         live = [o for o in parse_oam(oam) if obj_key(o) not in hud]
         # sparse scene: everything non-HUD is the hero + their effects
         keep = live
@@ -202,12 +210,12 @@ def main():
         ay = hero["y"] + hero["h"]
         cell = render(keep, vram, pal, args.cell, args.cell,
                       ox=args.cell // 2 - ax, oy=args.feet_y - ay)
-        Image.fromarray(cell, "RGBA").save(f"{OUT}/piccolo_{tag}.png")
+        Image.fromarray(cell, "RGBA").save(f"{outdir}/{args.prefix}{tag}.png")
         groups[re.sub(r"_\d+$", "", tag)].append((tag, cell))
         print("decoded", tag, f"objs={len(keep)}")
 
     for prefix, imgs in sorted(groups.items()):
-        path = f"{OUT}/contact_{prefix}.png"
+        path = f"{outdir}/contact_{prefix}.png"
         contact_sheet(imgs, path)
         print("contact sheet:", path, "frames:", len(imgs))
 
