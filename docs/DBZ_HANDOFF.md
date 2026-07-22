@@ -23,7 +23,21 @@ and **Piccolo**.
   (A-tap) are 4-pose acrobatic flips — used as the fly-dodge anim (walking
   scale); overworld f* flight sprites unused for now.
 
-### Goku capture attempt (2026-07-21 evening): BLOCKED — needs user knowledge
+### Goku SHIPPED (2026-07-21 night)
+Character select solved empirically: the field-character byte is EWRAM
+**0x02038EBC** mirrored at IWRAM **0x03000E90** (poke BOTH every frame; the
+value is roster-relative — on this save 4 = Goku). Found by diffing slot-8
+SWITCH-CHARACTERS savestate selections; the user's published GameShark codes
+were CodeBreaker-encrypted (raw 0x020000B0 is an audio buffer — don't retry).
+`savestates/goku_capture.State` = controllable Goku, pokes active.
+Capture (`capture_goku_moves.lua`, 736f) + decode with the new tile-allowlist
+isolation (`--hero-tiles 656,592,600,608 --hud-fraction 0.15` — East District
+has ambient OBJ critters that defeat proximity clustering). Kamehameha beam =
+tiles 592/600/608 (SBC -240). `build_goku_from_oam.py` → goku sheet/manifest
+(kick + punch melee, 3-facing Kamehameha); heroes.json Goku special is now
+the `beam` kind with kame_* parts; vanish dodge kept (no flight captured).
+
+### Earlier the same evening: the block that led there
 Exhaustive scripted probing (tools/rom_ref/dbz_goku_*.lua, screenshots under
 out/dbz_goku/) established:
 - Debug root = MUSIC TEST / SAMPLE TEST / MAP TEST only — no character entry;

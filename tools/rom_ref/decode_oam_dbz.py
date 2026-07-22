@@ -117,6 +117,36 @@ def bbox_dist(o, x0, y0, x1, y1):
     dy = max(y0 - (o["y"] + o["h"]), o["y"] - y1, 0)
     return max(dx, dy)
 
+def obj_gap(a, b):
+    return bbox_dist(a, b["x"], b["y"], b["x"] + b["w"], b["y"] + b["h"])
+
+BEAM_TILES = {832, 840, 848}
+
+def cluster_objs(objs, radius):
+    """Union-find connected components over objs where bbox gap <= radius.
+    Returns a list of clusters (each a list of objs), in left-to-right order."""
+    n = len(objs)
+    parent = list(range(n))
+    def find(i):
+        while parent[i] != i:
+            parent[i] = parent[parent[i]]
+            i = parent[i]
+        return i
+    def union(i, j):
+        ri, rj = find(i), find(j)
+        if ri != rj:
+            parent[ri] = rj
+    for i in range(n):
+        for j in range(i + 1, n):
+            if obj_gap(objs[i], objs[j]) <= radius:
+                union(i, j)
+    groups = defaultdict(list)
+    for i in range(n):
+        groups[find(i)].append(objs[i])
+    clusters = list(groups.values())
+    clusters.sort(key=lambda c: min(o["x"] for o in c))
+    return clusters
+
 def contact_sheet(imgs, path):
     scale, cols, lab = 3, 10, 14
     mw = max(a.shape[1] for _, a in imgs) * scale
@@ -152,7 +182,46 @@ def main():
                     help="decoded output dir (default: <oamdir>/decoded)")
     ap.add_argument("--prefix", default="piccolo_",
                     help="filename prefix for decoded per-frame PNGs")
+    ap.add_argument("--enemies", action="store_true",
+                    help="isolate non-hero live objects instead of the hero: "
+                         "drops HUD, the hero cluster (nearest-center object "
+                         "+ neighbors within --gather px), and beam tiles "
+                         "(832/840/848), then clusters what remains by bbox "
+                         "adjacency -- one cluster per enemy (may be several "
+                         "OAM objects), anchored at its own bbox bottom-center")
+    ap.add_argument("--gather", type=int, default=GATHER_R,
+                    help="bbox-adjacency radius (px) for hero/enemy clustering")
+    ap.add_argument("--margin", type=int, default=16,
+                    help="--enemies only: padding around each cluster's bbox "
+                         "for the output canvas (enemies vary a lot in size)")
+    ap.add_argument("--filter-hero", action="store_true",
+                    help="hero path only: drop live objects that aren't "
+                         "transitively bbox-adjacent (within --gather) to the "
+                         "hero anchor -- use when the scene has background "
+                         "props rendered as OBJs (signposts/trees/doors) that "
+                         "would otherwise contaminate pose comparisons. Off "
+                         "by default (unfiltered 'everything non-HUD is hero "
+                         "+ fx' matches the original sparse-scene assumption).")
+    ap.add_argument("--hud-fraction", type=float, default=HUD_FRACTION,
+                    help="static-tuple frequency threshold (over the whole "
+                         "corpus) to treat an OAM tuple as HUD. Lower this if "
+                         "a transient UI element (e.g. a zone-name banner "
+                         "that only shows for ~1s after each reload) doesn't "
+                         "reach the default 60%% corpus-wide frequency.")
+    ap.add_argument("--hero-tiles", default=None,
+                    help="hero path only: comma-separated allowlist of base "
+                         "tile numbers to keep (e.g. '656,592,600,608' for "
+                         "Goku body + Kamehameha muzzle/shaft/tip). Use when "
+                         "the scene has ambient wandering NPCs/critters "
+                         "rendered as OBJs that drift close enough to the "
+                         "hero to survive --filter-hero's gather-cluster (a "
+                         "wandering object's offset from the hero keeps "
+                         "changing frame to frame, unlike a real attached "
+                         "part/effect). Overrides --filter-hero when set.")
     args = ap.parse_args()
+    hero_tiles = None
+    if args.hero_tiles:
+        hero_tiles = {int(t) for t in args.hero_tiles.split(",")}
     oamdir = args.oamdir
     outdir = args.outdir or f"{oamdir}/decoded"
     os.makedirs(outdir, exist_ok=True)
@@ -162,7 +231,7 @@ def main():
     for fp in frames:
         for o in parse_oam(open(fp, "rb").read()):
             counts[obj_key(o)] += 1
-    hud = {k for k, n in counts.items() if n > len(frames) * HUD_FRACTION}
+    hud = {k for k, n in counts.items() if n > len(frames) * args.hud_fraction}
     print(f"{len(frames)} frames; {len(hud)} static HUD objects excluded")
 
     if args.probe:
@@ -198,11 +267,59 @@ def main():
         vram = open(f"{oamdir}/objvram_{tag}.bin", "rb").read()
         pal = load_palette(f"{oamdir}/objpal_{tag}.bin")
         live = [o for o in parse_oam(oam) if obj_key(o) not in hud]
-        # sparse scene: everything non-HUD is the hero + their effects
-        keep = live
-        if not keep:
+        if not live:
             print("decoded", tag, "-- no objects, skipped")
             continue
+
+        if args.enemies:
+            # drop beam-cannon effect tiles regardless of position
+            candidates = [o for o in live if o["tile"] not in BEAM_TILES]
+            if not candidates:
+                print("decoded", tag, "-- no non-beam objects, skipped")
+                continue
+            # hero anchor = live object nearest screen center (camera-locked),
+            # then absorb everything within --gather of ANY member of its
+            # cluster (transitive bbox-adjacency), and drop that whole
+            # cluster -- that's Piccolo (may be multiple OAM parts).
+            all_clusters = cluster_objs(candidates, args.gather)
+            hero_anchor = min(candidates,
+                               key=lambda o: (o["x"] + o["w"] / 2 - 120) ** 2
+                                           + (o["y"] + o["h"] / 2 - 80) ** 2)
+            hero_cluster = next(c for c in all_clusters if hero_anchor in c)
+            remaining = [o for o in candidates if o not in hero_cluster]
+            if not remaining:
+                print("decoded", tag, "-- only hero present, skipped")
+                continue
+            enemy_clusters = cluster_objs(remaining, args.gather)
+            for ci, cl in enumerate(enemy_clusters):
+                x0 = min(o["x"] for o in cl); x1 = max(o["x"] + o["w"] for o in cl)
+                y0 = min(o["y"] for o in cl); y1 = max(o["y"] + o["h"] for o in cl)
+                cw = (x1 - x0) + 2 * args.margin
+                ch = (y1 - y0) + 2 * args.margin
+                ax = (x0 + x1) // 2
+                ay = y1
+                cell = render(cl, vram, pal, cw, ch,
+                              ox=cw // 2 - ax, oy=ch - args.margin - ay)
+                suffix = tag if len(enemy_clusters) == 1 else f"{tag}_c{ci}"
+                Image.fromarray(cell, "RGBA").save(f"{outdir}/{args.prefix}{suffix}.png")
+                groups[re.sub(r"_\d+$", "", tag)].append((suffix, cell))
+            print("decoded", tag,
+                  f"enemy_clusters={len(enemy_clusters)} "
+                  f"(hero_objs={len(hero_cluster)} dropped)")
+            continue
+
+        # hero path (default): sparse scene, everything non-HUD is hero + fx
+        keep = live
+        if hero_tiles is not None:
+            keep = [o for o in keep if o["tile"] in hero_tiles]
+            if not keep:
+                print("decoded", tag, "-- no hero-tile objects, skipped")
+                continue
+        elif args.filter_hero:
+            hero_anchor = min(keep, key=lambda o: (o["x"] + o["w"] / 2 - 120) ** 2
+                                                  + (o["y"] + o["h"] / 2 - 80) ** 2)
+            clusters = cluster_objs(keep, args.gather)
+            keep = next(c for c in clusters if hero_anchor in c)
         # anchor on the hero: the object nearest screen center (camera-locked)
         hero = min(keep, key=lambda o: (o["x"] + o["w"] / 2 - 120) ** 2
                                      + (o["y"] + o["h"] / 2 - 80) ** 2)

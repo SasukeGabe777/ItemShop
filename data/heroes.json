@@ -316,11 +316,15 @@
      "arc": 80
     },
     "special": {
-     "kind": "projectile",
-     "name": "Ki Blast",
-     "dmg": 18,
-     "speed": 300,
-     "cost": 20
+     "kind": "beam",
+     "name": "Kamehameha",
+     "dmg": 32,
+     "range": 200,
+     "width": 12,
+     "cost": 35,
+     "muzzle": "res://assets/franchises/dragon_ball/processed/kame_muzzle.png",
+     "shaft": "res://assets/franchises/dragon_ball/processed/kame_shaft.png",
+     "tip": "res://assets/franchises/dragon_ball/processed/kame_tip.png"
     },
     "dodge": {
      "kind": "vanish",
