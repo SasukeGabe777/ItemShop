@@ -635,16 +635,6 @@
    "unlock_chapter": 5
   },
   {
-   "fee": 50,
-   "id": "r_dragon_radar",
-   "inputs": {
-    "capsule": 1,
-    "scouter": 1
-   },
-   "output": "dragon_radar",
-   "unlock_chapter": 5
-  },
-  {
    "crossover": true,
    "fee": 300,
    "id": "r_energy_materia",
@@ -791,20 +781,9 @@
    "id": "r_ancient_staff",
    "inputs": {
     "deku_wood": 2,
-    "power_pole": 1
+    "energy_crystal": 1
    },
    "output": "ancient_staff",
-   "unlock_chapter": 6
-  },
-  {
-   "crossover": true,
-   "fee": 610,
-   "id": "r_capsule_house",
-   "inputs": {
-    "capsule": 8,
-    "deku_wood": 4
-   },
-   "output": "capsule_house",
    "unlock_chapter": 6
   },
   {
@@ -880,7 +859,7 @@
    "fee": 700,
    "id": "r_royal_feast",
    "inputs": {
-    "dino_tail": 1,
+    "dino_drumstick": 1,
     "ramen_bowl": 1,
     "sea_salt_ice_cream": 1
    },
@@ -1065,6 +1044,15 @@
    },
    "output": "pocket_capsule",
    "unlock_chapter": 7
+  },
+  {
+   "id": "r_dragon_ball_set",
+   "output": "dragon_ball_set",
+   "inputs": {
+    "dragon_ball": 7
+   },
+   "fee": 2000,
+   "unlock_chapter": 6
   }
  ],
  "schema": "crossroads.recipes.v1"

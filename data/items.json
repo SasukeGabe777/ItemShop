@@ -1438,28 +1438,6 @@
     "modern": 2.0
    },
    "category": "accessory",
-   "desc": "Beeps near treasure. Warranty void near wishes.",
-   "effect": {
-    "loot_bonus": 1.0
-   },
-   "id": "dragon_radar",
-   "name": "Dragon Radar",
-   "price": 1500.0,
-   "slot": "accessory",
-   "stats": {
-    "spd": 2.0
-   },
-   "tags": [
-    "technology",
-    "rare"
-   ],
-   "world": "dragon_ball"
-  },
-  {
-   "appeal": {
-    "modern": 2.0
-   },
-   "category": "accessory",
    "desc": "Displays power levels. Prone to shattering at dramatic moments.",
    "id": "scouter",
    "name": "Scouter",
@@ -1516,25 +1494,6 @@
   },
   {
    "appeal": {
-    "retro": 2.0
-   },
-   "category": "weapon",
-   "desc": "Extends. A lot.",
-   "id": "power_pole",
-   "name": "Power Pole",
-   "price": 2800.0,
-   "stats": {
-    "atk": 12.0
-   },
-   "tags": [
-    "staff",
-    "legendary"
-   ],
-   "weapon_type": "martial",
-   "world": "dragon_ball"
-  },
-  {
-   "appeal": {
     "intense": 2.0
    },
    "category": "armor",
@@ -1551,23 +1510,6 @@
    "tags": [
     "training",
     "heavy"
-   ],
-   "world": "dragon_ball"
-  },
-  {
-   "appeal": {
-    "cozy": 1.0,
-    "retro": 1.0
-   },
-   "category": "treasure",
-   "desc": "Redeemable for one cloud ride. Pure of heart only.",
-   "id": "nimbus_token",
-   "name": "Flying Nimbus Token",
-   "price": 1800.0,
-   "tags": [
-    "cloud",
-    "rare",
-    "travel"
    ],
    "world": "dragon_ball"
   },
@@ -1593,25 +1535,6 @@
   },
   {
    "appeal": {
-    "intense": 1.0
-   },
-   "category": "food",
-   "desc": "Serves one Saiyan or forty regular people.",
-   "effect": {
-    "heal": 120.0
-   },
-   "id": "dino_tail",
-   "name": "Dino Tail",
-   "price": 350.0,
-   "tags": [
-    "food",
-    "meat",
-    "huge"
-   ],
-   "world": "dragon_ball"
-  },
-  {
-   "appeal": {
     "modern": 1.0
    },
    "category": "material",
@@ -1622,39 +1545,6 @@
    "tags": [
     "crystal",
     "magic",
-    "rare"
-   ],
-   "world": "dragon_ball"
-  },
-  {
-   "appeal": {
-    "modern": 2.0
-   },
-   "category": "material",
-   "desc": "Up to 100x gravity. Floor reinforcement not included.",
-   "id": "gravity_module",
-   "name": "Gravity Module",
-   "price": 2400.0,
-   "tags": [
-    "technology",
-    "training",
-    "rare"
-   ],
-   "world": "dragon_ball"
-  },
-  {
-   "appeal": {
-    "cozy": 1.0,
-    "modern": 2.0
-   },
-   "category": "treasure",
-   "desc": "A full house in your pocket. Real estate agents despise this.",
-   "id": "capsule_house",
-   "name": "Capsule House",
-   "price": 4000.0,
-   "tags": [
-    "technology",
-    "capsule",
     "rare"
    ],
    "world": "dragon_ball"
@@ -3735,6 +3625,326 @@
     "retro": 1.0
    },
    "desc": "Restless in the display case. Checks the window."
+  },
+  {
+   "id": "goku_plushie",
+   "name": "Goku Plushie",
+   "world": "dragon_ball",
+   "category": "treasure",
+   "price": 1600,
+   "appeal": {
+    "cozy": 2.0
+   },
+   "tags": [
+    "plushie",
+    "merch",
+    "goku"
+   ],
+   "desc": "A soft collectible Goku for the discerning shelf."
+  },
+  {
+   "id": "vegeta_plushie",
+   "name": "Vegeta Plushie",
+   "world": "dragon_ball",
+   "category": "treasure",
+   "price": 1500,
+   "appeal": {
+    "cozy": 2.0
+   },
+   "tags": [
+    "plushie",
+    "merch",
+    "vegeta"
+   ],
+   "desc": "A soft collectible Vegeta for the discerning shelf."
+  },
+  {
+   "id": "piccolo_plushie",
+   "name": "Piccolo Plushie",
+   "world": "dragon_ball",
+   "category": "treasure",
+   "price": 1300,
+   "appeal": {
+    "cozy": 2.0
+   },
+   "tags": [
+    "plushie",
+    "merch",
+    "piccolo"
+   ],
+   "desc": "A soft collectible Piccolo for the discerning shelf."
+  },
+  {
+   "id": "cell_plushie",
+   "name": "Cell Plushie",
+   "world": "dragon_ball",
+   "category": "treasure",
+   "price": 1400,
+   "appeal": {
+    "cozy": 2.0
+   },
+   "tags": [
+    "plushie",
+    "merch",
+    "cell"
+   ],
+   "desc": "A soft collectible Cell for the discerning shelf."
+  },
+  {
+   "id": "trunks_plushie",
+   "name": "Trunks Plushie",
+   "world": "dragon_ball",
+   "category": "treasure",
+   "price": 1200,
+   "appeal": {
+    "cozy": 2.0
+   },
+   "tags": [
+    "plushie",
+    "merch",
+    "trunks"
+   ],
+   "desc": "A soft collectible Trunks for the discerning shelf."
+  },
+  {
+   "id": "krillin_plushie",
+   "name": "Krillin Plushie",
+   "world": "dragon_ball",
+   "category": "treasure",
+   "price": 900,
+   "appeal": {
+    "cozy": 2.0
+   },
+   "tags": [
+    "plushie",
+    "merch",
+    "krillin"
+   ],
+   "desc": "A soft collectible Krillin for the discerning shelf."
+  },
+  {
+   "id": "android_18_plushie",
+   "name": "Android 18 Plushie",
+   "world": "dragon_ball",
+   "category": "treasure",
+   "price": 1100,
+   "appeal": {
+    "cozy": 2.0
+   },
+   "tags": [
+    "plushie",
+    "merch",
+    "android"
+   ],
+   "desc": "A soft collectible Android 18 for the discerning shelf."
+  },
+  {
+   "id": "android_17_plushie",
+   "name": "Android 17 Plushie",
+   "world": "dragon_ball",
+   "category": "treasure",
+   "price": 1000,
+   "appeal": {
+    "cozy": 2.0
+   },
+   "tags": [
+    "plushie",
+    "merch",
+    "android"
+   ],
+   "desc": "A soft collectible Android 17 for the discerning shelf."
+  },
+  {
+   "id": "android_19_plushie",
+   "name": "Android 19 Plushie",
+   "world": "dragon_ball",
+   "category": "treasure",
+   "price": 800,
+   "appeal": {
+    "cozy": 2.0
+   },
+   "tags": [
+    "plushie",
+    "merch",
+    "android"
+   ],
+   "desc": "A soft collectible Android 19 for the discerning shelf."
+  },
+  {
+   "id": "tien_plushie",
+   "name": "Tien Plushie",
+   "world": "dragon_ball",
+   "category": "treasure",
+   "price": 850,
+   "appeal": {
+    "cozy": 2.0
+   },
+   "tags": [
+    "plushie",
+    "merch",
+    "tien"
+   ],
+   "desc": "A soft collectible Tien for the discerning shelf."
+  },
+  {
+   "id": "yamcha_plushie",
+   "name": "Yamcha Plushie",
+   "world": "dragon_ball",
+   "category": "treasure",
+   "price": 700,
+   "appeal": {
+    "cozy": 2.0
+   },
+   "tags": [
+    "plushie",
+    "merch",
+    "yamcha"
+   ],
+   "desc": "A soft collectible Yamcha for the discerning shelf."
+  },
+  {
+   "id": "master_roshi_plushie",
+   "name": "Master Roshi Plushie",
+   "world": "dragon_ball",
+   "category": "treasure",
+   "price": 950,
+   "appeal": {
+    "cozy": 2.0
+   },
+   "tags": [
+    "plushie",
+    "merch",
+    "roshi"
+   ],
+   "desc": "A soft collectible Master Roshi for the discerning shelf."
+  },
+  {
+   "id": "hercule_plushie",
+   "name": "Hercule Plushie",
+   "world": "dragon_ball",
+   "category": "treasure",
+   "price": 800,
+   "appeal": {
+    "cozy": 2.0
+   },
+   "tags": [
+    "plushie",
+    "merch",
+    "hercule"
+   ],
+   "desc": "A soft collectible Hercule for the discerning shelf."
+  },
+  {
+   "id": "kami_plushie",
+   "name": "Kami Plushie",
+   "world": "dragon_ball",
+   "category": "treasure",
+   "price": 1000,
+   "appeal": {
+    "cozy": 2.0
+   },
+   "tags": [
+    "plushie",
+    "merch",
+    "kami"
+   ],
+   "desc": "A soft collectible Kami for the discerning shelf."
+  },
+  {
+   "id": "dr_gero_plush",
+   "name": "Dr Gero Plush",
+   "world": "dragon_ball",
+   "category": "treasure",
+   "price": 850,
+   "appeal": {
+    "cozy": 2.0
+   },
+   "tags": [
+    "plushie",
+    "merch",
+    "gero"
+   ],
+   "desc": "A soft collectible Dr Gero Plush for the discerning shelf."
+  },
+  {
+   "id": "king_kami_sculpture",
+   "name": "King Kami Sculpture",
+   "world": "dragon_ball",
+   "category": "treasure",
+   "price": 1800,
+   "appeal": {
+    "cozy": 1.0,
+    "modern": 1.0
+   },
+   "tags": [
+    "sculpture",
+    "merch",
+    "kami"
+   ],
+   "desc": "A carved lookout guardian. Heavier than it looks; twice as serene."
+  },
+  {
+   "id": "capsule_corp_entry_card",
+   "name": "Capsule Corp Entry Card",
+   "world": "dragon_ball",
+   "category": "key",
+   "price": 0.0,
+   "sellable": false,
+   "tags": [
+    "technology",
+    "access"
+   ],
+   "desc": "Swipes you past the Capsule Corp lobby. Dr. Briefs never remembers your name."
+  },
+  {
+   "id": "fishing_bait",
+   "name": "Fishing Bait",
+   "world": "dragon_ball",
+   "category": "material",
+   "price": 120,
+   "appeal": {
+    "retro": 1.0
+   },
+   "tags": [
+    "fishing",
+    "material"
+   ],
+   "desc": "Goku catches dinner-sized fish with this. And occasionally dinner-sized trouble."
+  },
+  {
+   "id": "goku_favorite",
+   "name": "Goku's Favorite",
+   "world": "dragon_ball",
+   "category": "food",
+   "price": 320,
+   "effect": {
+    "heal": 45
+   },
+   "appeal": {
+    "cozy": 2.0
+   },
+   "tags": [
+    "food",
+    "meal"
+   ],
+   "desc": "An entire table's worth of food, plated for one. He'll ask for seconds."
+  },
+  {
+   "id": "dragon_ball_set",
+   "name": "Dragon Ball Set",
+   "world": "dragon_ball",
+   "category": "treasure",
+   "price": 12000,
+   "appeal": {
+    "intense": 2.0,
+    "modern": 1.0
+   },
+   "tags": [
+    "dragon_ball",
+    "legendary",
+    "set"
+   ],
+   "desc": "All seven, gathered. Summon eternal profit — or one (1) wish."
   }
  ],
  "schema": "crossroads.items.v1"

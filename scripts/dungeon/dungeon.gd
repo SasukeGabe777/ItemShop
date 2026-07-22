@@ -576,16 +576,22 @@ func _stamp_props(parent: Node2D, size: Vector2, w: Dictionary, hash_seed: Vecto
 			spr.texture = tex
 			spr.texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
 			spr.region_enabled = true
+			# snap the tiled length to a WHOLE number of tiles so a run never
+			# ends on a spliced/partial tile (round -> nearest, min 1)
 			if vertical:
+				var th := float(tex.get_height())
 				var draw_w := maxf(size.x, minf(tex.get_width(), size.x + 16.0))
-				spr.region_rect = Rect2(0, 0, draw_w, size.y)
+				var vh := maxf(th, roundf(size.y / th) * th)
+				spr.region_rect = Rect2(0, 0, draw_w, vh)
 				spr.position = Vector2(0, 0)
 			else:
 				# cover the whole rect: shorter textures 2D-tile (hedge/fence
 				# blocks); taller ones keep their crown and overhang above the
 				# rect by up to 32px, bottom-aligned, like real wall art
+				var tw := float(tex.get_width())
 				var draw_h := maxf(size.y, minf(tex.get_height(), size.y + 32.0))
-				spr.region_rect = Rect2(0, 0, size.x, draw_h)
+				var hw := maxf(tw, roundf(size.x / tw) * tw)
+				spr.region_rect = Rect2(0, 0, hw, draw_h)
 				spr.position = Vector2(0, size.y / 2.0 - draw_h / 2.0)
 			parent.add_child(spr)
 			return true
