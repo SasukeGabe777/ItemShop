@@ -397,8 +397,8 @@
    ]
   },
   {
-   "id": "saibaman",
-   "name": "Saibaman",
+   "id": "dbz_wolf",
+   "name": "Wilderness Wolf",
    "world": "dragon_ball",
    "hp": 50,
    "atk": 14,
@@ -451,8 +451,8 @@
    ]
   },
   {
-   "id": "frieza_soldier",
-   "name": "Frieza Soldier",
+   "id": "sabertooth_tiger",
+   "name": "Saber-Toothed Tiger",
    "world": "dragon_ball",
    "hp": 60,
    "atk": 15,
@@ -2598,8 +2598,8 @@
    "telegraph": 0.55
   },
   {
-   "id": "great_ape_vegeta",
-   "name": "Great Ape Vegeta",
+   "id": "perfect_cell",
+   "name": "Perfect Cell",
    "world": "dragon_ball",
    "hp": 1500,
    "atk": 32,

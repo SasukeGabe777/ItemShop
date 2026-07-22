@@ -1,0 +1,548 @@
+[
+  {
+    "asset_id": "sprite_alligator",
+    "asset_name": "Alligator",
+    "asset_page_url": "https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/224136/",
+    "contributors": [],
+    "downloaded_at": "2026-07-22T05:18:04.147998+00:00",
+    "format": "PNG (image/png)",
+    "game": "Dragon Ball Z: The Legacy of Goku II",
+    "local_file": "sprite_alligator.png",
+    "platform": "Game Boy Advance",
+    "section": "Enemies & Bosses",
+    "size": "8.45 KB (448x192)",
+    "source_url": "https://www.spriters-resource.com/media/assets/221/224136.png?updated=1776112092",
+    "submitted": "May 10, 2024",
+    "uploaded_by": "TheRedHeadHenry"
+  },
+  {
+    "asset_id": "sprite_android_16",
+    "asset_name": "Android 16",
+    "asset_page_url": "https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/110142/",
+    "contributors": [
+      "SpYn"
+    ],
+    "downloaded_at": "2026-07-22T05:18:07.792381+00:00",
+    "format": "PNG (image/png)",
+    "game": "Dragon Ball Z: The Legacy of Goku II",
+    "local_file": "sprite_android_16.png",
+    "platform": "Game Boy Advance",
+    "section": "Enemies & Bosses",
+    "size": "13.78 KB (672x192)",
+    "source_url": "https://www.spriters-resource.com/media/assets/107/110142.png?updated=1776275461",
+    "submitted": "October 22, 2018",
+    "uploaded_by": "darkbolt99"
+  },
+  {
+    "asset_id": "sprite_android_17",
+    "asset_name": "Android 17",
+    "asset_page_url": "https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/36942/",
+    "contributors": [
+      "Lloyd_Irwing_1",
+      "SpYn"
+    ],
+    "downloaded_at": "2026-07-22T05:18:11.420337+00:00",
+    "format": "PNG (image/png)",
+    "game": "Dragon Ball Z: The Legacy of Goku II",
+    "local_file": "sprite_android_17.png",
+    "platform": "Game Boy Advance",
+    "section": "Enemies & Bosses",
+    "size": "26.38 KB (1280x192)",
+    "source_url": "https://www.spriters-resource.com/media/assets/34/36942.png?updated=1776275340",
+    "submitted": "A long, long time ago",
+    "uploaded_by": ""
+  },
+  {
+    "asset_id": "sprite_android_18",
+    "asset_name": "Android 18",
+    "asset_page_url": "https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/110110/",
+    "contributors": [
+      "SpYn"
+    ],
+    "downloaded_at": "2026-07-22T05:18:18.022727+00:00",
+    "format": "PNG (image/png)",
+    "game": "Dragon Ball Z: The Legacy of Goku II",
+    "local_file": "sprite_android_18.png",
+    "platform": "Game Boy Advance",
+    "section": "Enemies & Bosses",
+    "size": "27.40 KB (1056x192)",
+    "source_url": "https://www.spriters-resource.com/media/assets/107/110110.png?updated=1776275312",
+    "submitted": "October 20, 2018",
+    "uploaded_by": "darkbolt99"
+  },
+  {
+    "asset_id": "sprite_android_19",
+    "asset_name": "Android 19",
+    "asset_page_url": "https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/36989/",
+    "contributors": [
+      "Lloyd_Irwing_1",
+      "SpYn"
+    ],
+    "downloaded_at": "2026-07-22T05:18:21.992302+00:00",
+    "format": "PNG (image/png)",
+    "game": "Dragon Ball Z: The Legacy of Goku II",
+    "local_file": "sprite_android_19.png",
+    "platform": "Game Boy Advance",
+    "section": "Enemies & Bosses",
+    "size": "19.83 KB (928x192)",
+    "source_url": "https://www.spriters-resource.com/media/assets/34/36989.png?updated=1777918719",
+    "submitted": "A long, long time ago",
+    "uploaded_by": ""
+  },
+  {
+    "asset_id": "sprite_android_20_dr_gero",
+    "asset_name": "Android 20 / Dr. Gero",
+    "asset_page_url": "https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/37190/",
+    "contributors": [
+      "Lloyd_Irving_1",
+      "SpYn"
+    ],
+    "downloaded_at": "2026-07-22T05:18:25.640561+00:00",
+    "format": "PNG (image/png)",
+    "game": "Dragon Ball Z: The Legacy of Goku II",
+    "local_file": "sprite_android_20_dr_gero.png",
+    "platform": "Game Boy Advance",
+    "section": "Enemies & Bosses",
+    "size": "43.15 KB (1280x352)",
+    "source_url": "https://www.spriters-resource.com/media/assets/34/37190.png?updated=1776275513",
+    "submitted": "A long, long time ago",
+    "uploaded_by": ""
+  },
+  {
+    "asset_id": "sprite_cell_imperfect",
+    "asset_name": "Cell (Imperfect)",
+    "asset_page_url": "https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/79012/",
+    "contributors": [
+      "SpYn"
+    ],
+    "downloaded_at": "2026-07-22T05:18:29.298349+00:00",
+    "format": "PNG (image/png)",
+    "game": "Dragon Ball Z: The Legacy of Goku II",
+    "local_file": "sprite_cell_imperfect.png",
+    "platform": "Game Boy Advance",
+    "section": "Enemies & Bosses",
+    "size": "82.12 KB (2560x384)",
+    "source_url": "https://www.spriters-resource.com/media/assets/76/79012.png?updated=1776109601",
+    "submitted": "May 16, 2016",
+    "uploaded_by": "zuko_25"
+  },
+  {
+    "asset_id": "sprite_cell_perfect",
+    "asset_name": "Cell (Perfect)",
+    "asset_page_url": "https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/79014/",
+    "contributors": [
+      "SpYn"
+    ],
+    "downloaded_at": "2026-07-22T05:18:32.892156+00:00",
+    "format": "PNG (image/png)",
+    "game": "Dragon Ball Z: The Legacy of Goku II",
+    "local_file": "sprite_cell_perfect.png",
+    "platform": "Game Boy Advance",
+    "section": "Enemies & Bosses",
+    "size": "69.03 KB (2304x384)",
+    "source_url": "https://www.spriters-resource.com/media/assets/76/79014.png?updated=1776104094",
+    "submitted": "May 16, 2016",
+    "uploaded_by": "zuko_25"
+  },
+  {
+    "asset_id": "sprite_cell_semi_perfect",
+    "asset_name": "Cell (Semi-Perfect)",
+    "asset_page_url": "https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/79013/",
+    "contributors": [
+      "SpYn"
+    ],
+    "downloaded_at": "2026-07-22T05:18:36.484207+00:00",
+    "format": "PNG (image/png)",
+    "game": "Dragon Ball Z: The Legacy of Goku II",
+    "local_file": "sprite_cell_semi_perfect.png",
+    "platform": "Game Boy Advance",
+    "section": "Enemies & Bosses",
+    "size": "87.11 KB (2944x384)",
+    "source_url": "https://www.spriters-resource.com/media/assets/76/79013.png?updated=1776110038",
+    "submitted": "May 16, 2016",
+    "uploaded_by": "zuko_25"
+  },
+  {
+    "asset_id": "sprite_cell_jr",
+    "asset_name": "Cell Jr",
+    "asset_page_url": "https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/224075/",
+    "contributors": [
+      "SpYn"
+    ],
+    "downloaded_at": "2026-07-22T05:18:40.105085+00:00",
+    "format": "PNG (image/png)",
+    "game": "Dragon Ball Z: The Legacy of Goku II",
+    "local_file": "sprite_cell_jr.png",
+    "platform": "Game Boy Advance",
+    "section": "Enemies & Bosses",
+    "size": "6.51 KB (320x192)",
+    "source_url": "https://www.spriters-resource.com/media/assets/221/224075.png?updated=1776367883",
+    "submitted": "May 8, 2024",
+    "uploaded_by": "SpYn_"
+  },
+  {
+    "asset_id": "sprite_cooler",
+    "asset_name": "Cooler",
+    "asset_page_url": "https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/110159/",
+    "contributors": [
+      "SpYn"
+    ],
+    "downloaded_at": "2026-07-22T05:18:43.736798+00:00",
+    "format": "PNG (image/png)",
+    "game": "Dragon Ball Z: The Legacy of Goku II",
+    "local_file": "sprite_cooler.png",
+    "platform": "Game Boy Advance",
+    "section": "Enemies & Bosses",
+    "size": "54.32 KB (1856x384)",
+    "source_url": "https://www.spriters-resource.com/media/assets/107/110159.png?updated=1776106375",
+    "submitted": "October 23, 2018",
+    "uploaded_by": "darkbolt99"
+  },
+  {
+    "asset_id": "sprite_destroyer",
+    "asset_name": "Destroyer",
+    "asset_page_url": "https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/543772/",
+    "contributors": [
+      "SpYn"
+    ],
+    "downloaded_at": "2026-07-22T05:18:47.423017+00:00",
+    "format": "PNG (image/png)",
+    "game": "Dragon Ball Z: The Legacy of Goku II",
+    "local_file": "sprite_destroyer.png",
+    "platform": "Game Boy Advance",
+    "section": "Enemies & Bosses",
+    "size": "135.58 KB (1152x1024)",
+    "source_url": "https://www.spriters-resource.com/media/assets/525/543772.png?updated=1776111087",
+    "submitted": "April 13, 2026",
+    "uploaded_by": "SpYn_"
+  },
+  {
+    "asset_id": "sprite_eggbot",
+    "asset_name": "Eggbot",
+    "asset_page_url": "https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/243252/",
+    "contributors": [
+      "SpYn"
+    ],
+    "downloaded_at": "2026-07-22T05:18:51.208174+00:00",
+    "format": "PNG (image/png)",
+    "game": "Dragon Ball Z: The Legacy of Goku II",
+    "local_file": "sprite_eggbot.png",
+    "platform": "Game Boy Advance",
+    "section": "Enemies & Bosses",
+    "size": "52.99 KB (576x672)",
+    "source_url": "https://www.spriters-resource.com/media/assets/240/243252.png?updated=1776105817",
+    "submitted": "November 16, 2024",
+    "uploaded_by": "SpYn_"
+  },
+  {
+    "asset_id": "sprite_frieza",
+    "asset_name": "Frieza",
+    "asset_page_url": "https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/19332/",
+    "contributors": [
+      "SpYn"
+    ],
+    "downloaded_at": "2026-07-22T05:18:54.874558+00:00",
+    "format": "PNG (image/png)",
+    "game": "Dragon Ball Z: The Legacy of Goku II",
+    "local_file": "sprite_frieza.png",
+    "platform": "Game Boy Advance",
+    "section": "Enemies & Bosses",
+    "size": "15.36 KB (800x192)",
+    "source_url": "https://www.spriters-resource.com/media/assets/18/19332.png?updated=1776275667",
+    "submitted": "A long, long time ago",
+    "uploaded_by": "Lemon"
+  },
+  {
+    "asset_id": "sprite_hawk",
+    "asset_name": "Hawk",
+    "asset_page_url": "https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/224137/",
+    "contributors": [],
+    "downloaded_at": "2026-07-22T05:19:01.484342+00:00",
+    "format": "PNG (image/png)",
+    "game": "Dragon Ball Z: The Legacy of Goku II",
+    "local_file": "sprite_hawk.png",
+    "platform": "Game Boy Advance",
+    "section": "Enemies & Bosses",
+    "size": "19.94 KB (448x192)",
+    "source_url": "https://www.spriters-resource.com/media/assets/221/224137.png?updated=1776112141",
+    "submitted": "May 10, 2024",
+    "uploaded_by": "TheRedHeadHenry"
+  },
+  {
+    "asset_id": "sprite_king_cold_and_mecha_frieza",
+    "asset_name": "King Cold and Mecha Frieza",
+    "asset_page_url": "https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/110018/",
+    "contributors": [
+      "SpYn"
+    ],
+    "downloaded_at": "2026-07-22T05:19:05.370143+00:00",
+    "format": "PNG (image/png)",
+    "game": "Dragon Ball Z: The Legacy of Goku II",
+    "local_file": "sprite_king_cold_and_mecha_frieza.png",
+    "platform": "Game Boy Advance",
+    "section": "Enemies & Bosses",
+    "size": "19.65 KB (1344x320)",
+    "source_url": "https://www.spriters-resource.com/media/assets/107/110018.png?updated=1776363852",
+    "submitted": "October 15, 2018",
+    "uploaded_by": "darkbolt99"
+  },
+  {
+    "asset_id": "sprite_kuma_mercenary",
+    "asset_name": "Kuma Mercenary",
+    "asset_page_url": "https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/223982/",
+    "contributors": [],
+    "downloaded_at": "2026-07-22T05:19:09.032944+00:00",
+    "format": "PNG (image/png)",
+    "game": "Dragon Ball Z: The Legacy of Goku II",
+    "local_file": "sprite_kuma_mercenary.png",
+    "platform": "Game Boy Advance",
+    "section": "Enemies & Bosses",
+    "size": "80.84 KB (576x512)",
+    "source_url": "https://www.spriters-resource.com/media/assets/221/223982.png?updated=1776112239",
+    "submitted": "May 7, 2024",
+    "uploaded_by": "TheRedHeadHenry"
+  },
+  {
+    "asset_id": "sprite_ladybug",
+    "asset_name": "Ladybug",
+    "asset_page_url": "https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/224074/",
+    "contributors": [
+      "SpYn"
+    ],
+    "downloaded_at": "2026-07-22T05:19:12.764945+00:00",
+    "format": "PNG (image/png)",
+    "game": "Dragon Ball Z: The Legacy of Goku II",
+    "local_file": "sprite_ladybug.png",
+    "platform": "Game Boy Advance",
+    "section": "Enemies & Bosses",
+    "size": "13.64 KB (304x512)",
+    "source_url": "https://www.spriters-resource.com/media/assets/221/224074.png?updated=1776108834",
+    "submitted": "May 8, 2024",
+    "uploaded_by": "SpYn_"
+  },
+  {
+    "asset_id": "sprite_mercenary_tao_taopaipai",
+    "asset_name": "Mercenary Tao (Taopaipai)",
+    "asset_page_url": "https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/122413/",
+    "contributors": [
+      "SpYn"
+    ],
+    "downloaded_at": "2026-07-22T05:19:16.496365+00:00",
+    "format": "PNG (image/png)",
+    "game": "Dragon Ball Z: The Legacy of Goku II",
+    "local_file": "sprite_mercenary_tao_taopaipai.png",
+    "platform": "Game Boy Advance",
+    "section": "Enemies & Bosses",
+    "size": "12.97 KB (512x192)",
+    "source_url": "https://www.spriters-resource.com/media/assets/119/122413.png?updated=1776367535",
+    "submitted": "October 10, 2019",
+    "uploaded_by": "darkbolt99"
+  },
+  {
+    "asset_id": "sprite_ninja",
+    "asset_name": "Ninja",
+    "asset_page_url": "https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/543779/",
+    "contributors": [
+      "SpYn"
+    ],
+    "downloaded_at": "2026-07-22T05:19:20.106124+00:00",
+    "format": "PNG (image/png)",
+    "game": "Dragon Ball Z: The Legacy of Goku II",
+    "local_file": "sprite_ninja.png",
+    "platform": "Game Boy Advance",
+    "section": "Enemies & Bosses",
+    "size": "32.46 KB (704x352)",
+    "source_url": "https://www.spriters-resource.com/media/assets/525/543779.png?updated=1776111052",
+    "submitted": "April 13, 2026",
+    "uploaded_by": "SpYn_"
+  },
+  {
+    "asset_id": "sprite_pterodactyl",
+    "asset_name": "Pterodactyl",
+    "asset_page_url": "https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/543781/",
+    "contributors": [
+      "SpYn"
+    ],
+    "downloaded_at": "2026-07-22T05:19:23.746544+00:00",
+    "format": "PNG (image/png)",
+    "game": "Dragon Ball Z: The Legacy of Goku II",
+    "local_file": "sprite_pterodactyl.png",
+    "platform": "Game Boy Advance",
+    "section": "Enemies & Bosses",
+    "size": "61.42 KB (896x704)",
+    "source_url": "https://www.spriters-resource.com/media/assets/525/543781.png?updated=1776104488",
+    "submitted": "April 13, 2026",
+    "uploaded_by": "SpYn_"
+  },
+  {
+    "asset_id": "sprite_sabertooth_tiger",
+    "asset_name": "Sabertooth Tiger",
+    "asset_page_url": "https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/223984/",
+    "contributors": [],
+    "downloaded_at": "2026-07-22T05:19:30.331009+00:00",
+    "format": "PNG (image/png)",
+    "game": "Dragon Ball Z: The Legacy of Goku II",
+    "local_file": "sprite_sabertooth_tiger.png",
+    "platform": "Game Boy Advance",
+    "section": "Enemies & Bosses",
+    "size": "40.04 KB (448x352)",
+    "source_url": "https://www.spriters-resource.com/media/assets/221/223984.png?updated=1776112299",
+    "submitted": "May 7, 2024",
+    "uploaded_by": "TheRedHeadHenry"
+  },
+  {
+    "asset_id": "sprite_scorpion",
+    "asset_name": "Scorpion",
+    "asset_page_url": "https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/224138/",
+    "contributors": [],
+    "downloaded_at": "2026-07-22T05:19:34.117715+00:00",
+    "format": "PNG (image/png)",
+    "game": "Dragon Ball Z: The Legacy of Goku II",
+    "local_file": "sprite_scorpion.png",
+    "platform": "Game Boy Advance",
+    "section": "Enemies & Bosses",
+    "size": "50.49 KB (448x512)",
+    "source_url": "https://www.spriters-resource.com/media/assets/221/224138.png?updated=1776112323",
+    "submitted": "May 10, 2024",
+    "uploaded_by": "TheRedHeadHenry"
+  },
+  {
+    "asset_id": "sprite_snake",
+    "asset_name": "Snake",
+    "asset_page_url": "https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/246975/",
+    "contributors": [
+      "SpYn"
+    ],
+    "downloaded_at": "2026-07-22T05:19:37.774609+00:00",
+    "format": "PNG (image/png)",
+    "game": "Dragon Ball Z: The Legacy of Goku II",
+    "local_file": "sprite_snake.png",
+    "platform": "Game Boy Advance",
+    "section": "Enemies & Bosses",
+    "size": "38.81 KB (448x672)",
+    "source_url": "https://www.spriters-resource.com/media/assets/244/246975.png?updated=1776102807",
+    "submitted": "December 26, 2024",
+    "uploaded_by": "Cr3s__"
+  },
+  {
+    "asset_id": "sprite_t_rex",
+    "asset_name": "T-Rex",
+    "asset_page_url": "https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/224139/",
+    "contributors": [],
+    "downloaded_at": "2026-07-22T05:19:41.375340+00:00",
+    "format": "PNG (image/png)",
+    "game": "Dragon Ball Z: The Legacy of Goku II",
+    "local_file": "sprite_t_rex.png",
+    "platform": "Game Boy Advance",
+    "section": "Enemies & Bosses",
+    "size": "82.50 KB (896x1024)",
+    "source_url": "https://www.spriters-resource.com/media/assets/221/224139.png?updated=1776112360",
+    "submitted": "May 10, 2024",
+    "uploaded_by": "TheRedHeadHenry"
+  },
+  {
+    "asset_id": "sprite_tiger_bandit",
+    "asset_name": "Tiger Bandit",
+    "asset_page_url": "https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/543782/",
+    "contributors": [
+      "SpYn"
+    ],
+    "downloaded_at": "2026-07-22T05:19:44.973771+00:00",
+    "format": "PNG (image/png)",
+    "game": "Dragon Ball Z: The Legacy of Goku II",
+    "local_file": "sprite_tiger_bandit.png",
+    "platform": "Game Boy Advance",
+    "section": "Enemies & Bosses",
+    "size": "45.53 KB (704x512)",
+    "source_url": "https://www.spriters-resource.com/media/assets/525/543782.png?updated=1776111020",
+    "submitted": "April 13, 2026",
+    "uploaded_by": "SpYn_"
+  },
+  {
+    "asset_id": "sprite_triceratops",
+    "asset_name": "Triceratops",
+    "asset_page_url": "https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/543783/",
+    "contributors": [
+      "SpYn"
+    ],
+    "downloaded_at": "2026-07-22T05:19:48.586392+00:00",
+    "format": "PNG (image/png)",
+    "game": "Dragon Ball Z: The Legacy of Goku II",
+    "local_file": "sprite_triceratops.png",
+    "platform": "Game Boy Advance",
+    "section": "Enemies & Bosses",
+    "size": "10.71 KB (448x192)",
+    "source_url": "https://www.spriters-resource.com/media/assets/525/543783.png?updated=1776104995",
+    "submitted": "April 13, 2026",
+    "uploaded_by": "SpYn_"
+  },
+  {
+    "asset_id": "sprite_triceratops_king",
+    "asset_name": "Triceratops King",
+    "asset_page_url": "https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/36944/",
+    "contributors": [
+      "Lloyd_Irwing_1",
+      "SpYn"
+    ],
+    "downloaded_at": "2026-07-22T05:19:55.135454+00:00",
+    "format": "PNG (image/png)",
+    "game": "Dragon Ball Z: The Legacy of Goku II",
+    "local_file": "sprite_triceratops_king.png",
+    "platform": "Game Boy Advance",
+    "section": "Enemies & Bosses",
+    "size": "39.17 KB (1152x384)",
+    "source_url": "https://www.spriters-resource.com/media/assets/34/36944.png?updated=1776105278",
+    "submitted": "A long, long time ago",
+    "uploaded_by": ""
+  },
+  {
+    "asset_id": "sprite_warlord_s_henchman",
+    "asset_name": "Warlord's Henchman",
+    "asset_page_url": "https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/543784/",
+    "contributors": [
+      "SpYn"
+    ],
+    "downloaded_at": "2026-07-22T05:19:58.912065+00:00",
+    "format": "PNG (image/png)",
+    "game": "Dragon Ball Z: The Legacy of Goku II",
+    "local_file": "sprite_warlord_s_henchman.png",
+    "platform": "Game Boy Advance",
+    "section": "Enemies & Bosses",
+    "size": "25.49 KB (448x512)",
+    "source_url": "https://www.spriters-resource.com/media/assets/525/543784.png?updated=1776111001",
+    "submitted": "April 13, 2026",
+    "uploaded_by": "SpYn_"
+  },
+  {
+    "asset_id": "sprite_warthog",
+    "asset_name": "Warthog",
+    "asset_page_url": "https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/223985/",
+    "contributors": [],
+    "downloaded_at": "2026-07-22T05:20:05.652737+00:00",
+    "format": "PNG (image/png)",
+    "game": "Dragon Ball Z: The Legacy of Goku II",
+    "local_file": "sprite_warthog.png",
+    "platform": "Game Boy Advance",
+    "section": "Enemies & Bosses",
+    "size": "18.53 KB (448x192)",
+    "source_url": "https://www.spriters-resource.com/media/assets/221/223985.png?updated=1776112404",
+    "submitted": "May 7, 2024",
+    "uploaded_by": "TheRedHeadHenry"
+  },
+  {
+    "asset_id": "sprite_wolf",
+    "asset_name": "Wolf",
+    "asset_page_url": "https://www.spriters-resource.com/game_boy_advance/dbzlog2/asset/223983/",
+    "contributors": [],
+    "downloaded_at": "2026-07-22T05:20:09.260954+00:00",
+    "format": "PNG (image/png)",
+    "game": "Dragon Ball Z: The Legacy of Goku II",
+    "local_file": "sprite_wolf.png",
+    "platform": "Game Boy Advance",
+    "section": "Enemies & Bosses",
+    "size": "52.81 KB (448x512)",
+    "source_url": "https://www.spriters-resource.com/media/assets/221/223983.png?updated=1776112436",
+    "submitted": "May 7, 2024",
+    "uploaded_by": "TheRedHeadHenry"
+  }
+]

@@ -1,0 +1,69 @@
+{
+ "asset_id": "sabertooth_tiger",
+ "sheet": "res://assets/franchises/dragon_ball/processed/sheets/sabertooth_tiger.png",
+ "native_scale": 1,
+ "display_scale": 1,
+ "pivot": [
+  17,
+  33
+ ],
+ "grid": {
+  "frame_width": 35,
+  "frame_height": 35,
+  "columns": 12,
+  "rows": 1
+ },
+ "animations": {
+  "idle_down": {
+   "frames": [
+    0
+   ],
+   "fps": 3,
+   "loop": true
+  },
+  "walk_down": {
+   "frames": [
+    1,
+    2,
+    3,
+    2
+   ],
+   "fps": 6,
+   "loop": true
+  },
+  "idle_side": {
+   "frames": [
+    4
+   ],
+   "fps": 3,
+   "loop": true
+  },
+  "walk_side": {
+   "frames": [
+    5,
+    6,
+    7,
+    6
+   ],
+   "fps": 6,
+   "loop": true
+  },
+  "idle_up": {
+   "frames": [
+    8
+   ],
+   "fps": 3,
+   "loop": true
+  },
+  "walk_up": {
+   "frames": [
+    9,
+    10,
+    11,
+    10
+   ],
+   "fps": 6,
+   "loop": true
+  }
+ }
+}

@@ -372,11 +372,11 @@
    "name": "Dragon Ball Z",
    "location": "The Broken Lookout",
    "hero": "goku",
-   "boss": "great_ape_vegeta",
+   "boss": "perfect_cell",
    "enemies": [
-    "saibaman",
+    "dbz_wolf",
     "rr_robot",
-    "frieza_soldier",
+    "sabertooth_tiger",
     "cell_junior",
     "dbz_dinosaur"
    ],
