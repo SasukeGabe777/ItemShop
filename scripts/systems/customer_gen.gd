@@ -246,10 +246,12 @@ static func likes_item(cust: Dictionary, item_id: String) -> bool:
 	return false
 
 
-## Pick which displayed item this customer wants (weighted by preference and
-## window placement). Returns "" when nothing interests them.
-static func pick_interest(cust: Dictionary) -> String:
-	var best := ""
+## Pick the exact display slot this customer wants to visit. Keeping the slot
+## is important when the same item is stocked on two pieces of furniture: the
+## customer-attention bonus belongs to the stand, not to the item globally.
+## Returns {slot, item_id, score}, or {} when nothing interests them.
+static func pick_interest_slot(cust: Dictionary) -> Dictionary:
+	var best: Dictionary = {}
 	var best_score := 0.0
 	for slot in range(InventoryManager.display.size()):
 		var id := String(InventoryManager.display[slot])
@@ -265,21 +267,29 @@ static func pick_interest(cust: Dictionary) -> String:
 		if likes_item(cust, id):
 			score += 0.8
 		score += BoomManager.item_match_score(id) * 1.4
-		# placement bonus now comes from the furniture the item sits on
-		# (classic window bonus + per-furniture attention modifier)
-		score += ShopFurnitureManager.slot_attention_bonus(slot)
 		# affordable sweet spot
 		if price < int(cust.get("budget", 0)) * 0.9:
 			score += 0.2
+		# Attention is a literal multiplier: +0.5 furniture attention makes
+		# this particular slot score 50% higher, while the classic +0.25
+		# window placement makes it score 25% higher.
+		score *= 1.0 + ShopFurnitureManager.slot_attention_bonus(slot)
 		if score > best_score:
 			best_score = score
-			best = id
+			best = {"slot": slot, "item_id": id, "score": score}
 	# A Boom shopper who finds none of the announced goods will usually ask
 	# for them or leave disappointed instead of quietly buying random stock.
-	if best != "" and BoomManager.is_active() and String(cust.get("boom_id", "")) == BoomManager.active_boom_id \
-			and BoomManager.item_match_score(best) <= 0.0 and rng.randf() > BoomManager.off_theme_purchase_chance():
-		return ""
+	if not best.is_empty() and BoomManager.is_active() and String(cust.get("boom_id", "")) == BoomManager.active_boom_id \
+			and BoomManager.item_match_score(String(best["item_id"])) <= 0.0 and rng.randf() > BoomManager.off_theme_purchase_chance():
+		return {}
 	return best
+
+
+## Compatibility adapter for negotiation and headless simulation callers that
+## only need the item id. Shop movement uses pick_interest_slot() directly.
+static func pick_interest(cust: Dictionary) -> String:
+	var choice := pick_interest_slot(cust)
+	return String(choice.get("item_id", ""))
 
 
 ## Chance the customer places an order instead of (or after) buying.

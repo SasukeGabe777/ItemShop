@@ -21,7 +21,7 @@ var _leg_axis := -1
 var _active_emote: Sprite2D
 
 
-func setup(cust: Dictionary, browse_points: Array[Vector2], exit_pos: Vector2, preferred_browse_point: Vector2 = Vector2.INF) -> void:
+func setup(cust: Dictionary, browse_points: Array[Vector2], exit_pos: Vector2, preferred_browse_point: Vector2 = Vector2.INF, preferred_item_id: String = "") -> void:
 	data = cust
 	_exit_pos = exit_pos
 	collision_layer = 0
@@ -55,7 +55,7 @@ func setup(cust: Dictionary, browse_points: Array[Vector2], exit_pos: Vector2, p
 	if String(cust.get("name", "")) != "":
 		UIKit.floating_name(self, visual, String(cust.get("name", "")))
 	brain = CustomerBrain.new()
-	brain.setup(cust)
+	brain.setup(cust, preferred_item_id)
 	brain.wants_to_negotiate.connect(func(c: Dictionary, item: String) -> void:
 		_paused_for_negotiation = true
 		negotiate_requested.emit(c, item))

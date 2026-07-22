@@ -716,6 +716,59 @@ func _slot_info(slot: int) -> Dictionary:
 	return {}
 
 
+func _highlight_display_slot(slot: int, on: bool = true) -> void:
+	for piece: DisplayFurniture in furniture_nodes:
+		if slot >= piece.slot_base and slot < piece.slot_base + piece.slot_count:
+			piece.set_slot_highlight(slot, on)
+		elif on:
+			piece.clear_slot_highlight()
+
+
+## In-menu diagram of the actual furniture and all of its display spots. The
+## selected gold diamond mirrors the marker left on the stand in the room.
+func _make_slot_preview(info: Dictionary, slot: int) -> Control:
+	var type_id := String(info.get("type", ""))
+	var def := ContentDatabase.get_furniture(type_id)
+	var range_info := ShopFurnitureManager.slot_range_for_uid(int(info.get("furniture_uid", 0)))
+	var local_slot := slot - range_info.x
+	var offsets: Array = def.get("display_slots", [[0, -12]])
+	var center := CenterContainer.new()
+	center.name = "SlotPreview"
+	center.custom_minimum_size = Vector2(0, 88)
+	var canvas := Control.new()
+	canvas.custom_minimum_size = Vector2(210, 84)
+	center.add_child(canvas)
+
+	var furniture_art := Sprite2D.new()
+	var sprite_path := String(def.get("sprite", ""))
+	furniture_art.texture = load(sprite_path) if sprite_path != "" and ResourceLoader.exists(sprite_path) else null
+	furniture_art.position = Vector2(105, 42)
+	furniture_art.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	if furniture_art.texture != null:
+		var texture_size := furniture_art.texture.get_size()
+		var art_scale := minf(110.0 / texture_size.x, 48.0 / texture_size.y)
+		furniture_art.scale = Vector2(art_scale, art_scale)
+	canvas.add_child(furniture_art)
+
+	for i in offsets.size():
+		var offset: Array = offsets[i]
+		var marker := UIKit.label("◆" if i == local_slot else "◇", 16,
+			UIKit.COL_ACCENT if i == local_slot else UIKit.COL_DIM)
+		marker.name = "SelectedSlotMarker" if i == local_slot else "SlotMarker%d" % i
+		marker.position = Vector2(99 + float(offset[0]) * 2.0, 14 + float(offset[1]) * 0.35)
+		marker.add_theme_color_override("font_outline_color", Color("#20243a"))
+		marker.add_theme_constant_override("outline_size", 3)
+		canvas.add_child(marker)
+
+	var caption := UIKit.label("Selected spot %d of %d" % [local_slot + 1, offsets.size()], 9,
+		UIKit.COL_ACCENT if offsets.size() > 1 else UIKit.COL_DIM)
+	caption.position = Vector2(0, 67)
+	caption.size = Vector2(210, 17)
+	caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	canvas.add_child(caption)
+	return center
+
+
 func _open_slot_picker(slot: int, who: int = 1) -> void:
 	if who == 2:
 		busy2 = true
@@ -728,9 +781,12 @@ func _open_slot_picker(slot: int, who: int = 1) -> void:
 	var allowed: Array = info.get("allowed_categories", [])
 	var parts := UIKit.modal(MultiplayerState.menu_parent(who, self), "Display slot %d (%s)" % [slot + 1, type_name])
 	var pick_layer: CanvasLayer = parts[0]
+	_highlight_display_slot(slot)
+	pick_layer.tree_exiting.connect(func() -> void: _highlight_display_slot(slot, false))
 	_claim_menu("slot_%d" % slot, who, pick_layer)
 	var vb: VBoxContainer = parts[1]
 	(vb.get_parent() as PanelContainer).custom_minimum_size = Vector2(460 if MultiplayerState.enabled else 560, 0)
+	vb.add_child(_make_slot_preview(info, slot))
 	var current := String(InventoryManager.display[slot]) if slot < InventoryManager.display.size() else ""
 	if current != "":
 		var cur_row := HBoxContainer.new()
@@ -933,6 +989,8 @@ func _open_furniture_catalog() -> void:
 		var unlock := int(def.get("unlock_level", 1))
 		var price := int(prices.get(fid, prices.get("default", 400)))
 		var slots := maxi(1, (def.get("display_slots", [[0, -12]]) as Array).size())
+		var entry := VBoxContainer.new()
+		entry.add_theme_constant_override("separation", 0)
 		var row := HBoxContainer.new()
 		var lbl := UIKit.label("%s — %d slot%s" % [String(def.get("name", fid)), slots, "s" if slots > 1 else ""], 10)
 		lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -960,7 +1018,20 @@ func _open_furniture_catalog() -> void:
 				_open_furniture_catalog())
 			buy_btn.disabled = at_cap
 			row.add_child(buy_btn)
-		list.add_child(row)
+		entry.add_child(row)
+		var attention := float(def.get("customer_attention_modifier", 0.0))
+		var desc := "Displays %d item%s." % [slots, "s" if slots != 1 else ""]
+		if attention > 0.0:
+			desc += " +%d%% customer attention — draws more shoppers to %s." % [
+				int(round(attention * 100.0)), "these items" if slots > 1 else "this item"]
+		var desc_lbl := UIKit.label(desc, 8, UIKit.COL_GOOD if attention > 0.0 else UIKit.COL_DIM)
+		desc_lbl.tooltip_text = desc
+		var desc_pad := MarginContainer.new()
+		desc_pad.add_theme_constant_override("margin_left", 4)
+		desc_pad.add_theme_constant_override("margin_bottom", 4)
+		desc_pad.add_child(desc_lbl)
+		entry.add_child(desc_pad)
+		list.add_child(entry)
 	var cap_line := UIKit.label("Stands: %d of %d (shop Lv.%d) — expanding the shop raises the cap and unlocks new pieces. Decor is separate." % [
 		ShopFurnitureManager.stand_count(), cap, GameState.shop_level], 9, UIKit.COL_BAD if at_cap else UIKit.COL_DIM)
 	vb.add_child(cap_line)
@@ -1188,7 +1259,7 @@ func _spawn_customer(cust: Dictionary) -> void:
 	var slot_index := int(preferred_slot.get("slot", -1))
 	if slot_index >= 0 and slot_index < browse_points.size():
 		preferred_point = browse_points[slot_index]
-	c.setup(cust, browse_points, ENTRANCE, preferred_point)
+	c.setup(cust, browse_points, ENTRANCE, preferred_point, String(preferred_slot.get("item_id", "")))
 	c.negotiate_requested.connect(_on_negotiate_requested)
 	c.order_requested.connect(_on_order_requested)
 	c.boom_disappointed.connect(_on_boom_disappointed)

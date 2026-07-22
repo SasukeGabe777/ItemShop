@@ -14,10 +14,12 @@ var customer: Dictionary = {}
 var state: State = State.ENTERING
 var browse_time: float = 0.0
 var target_slot: int = -1
+var preferred_interest: String = ""
 
 
-func setup(cust: Dictionary) -> void:
+func setup(cust: Dictionary, p_preferred_interest: String = "") -> void:
 	customer = cust
+	preferred_interest = p_preferred_interest
 	state = State.ENTERING
 	var arch: Dictionary = ContentDatabase.get_archetype(String(cust.get("archetype", "")))
 	browse_time = 1.2 + float(arch.get("patience", 3)) * 0.5
@@ -39,7 +41,11 @@ func begin_browsing() -> void:
 
 
 func _decide() -> void:
-	var interest := CustomerGen.pick_interest(customer)
+	# Negotiate for the item that drew us to this stand. If another customer
+	# bought the last copy while we walked over, choose again from live stock.
+	var interest := preferred_interest
+	if interest == "" or not (interest in InventoryManager.displayed_ids()):
+		interest = CustomerGen.pick_interest(customer)
 	if interest != "":
 		state = State.NEGOTIATING
 		wants_to_negotiate.emit(customer, interest)

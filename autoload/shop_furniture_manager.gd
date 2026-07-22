@@ -128,13 +128,7 @@ func slot_attention_bonus(index: int) -> float:
 ## Convenience adapter for customer AI: returns {slot, item_id} for the item
 ## this customer would inspect, or {} when nothing on display interests them.
 func choose_display_slot_for_customer(cust: Dictionary) -> Dictionary:
-	var item_id := CustomerGen.pick_interest(cust)
-	if item_id == "":
-		return {}
-	for slot: Dictionary in get_all_available_display_slots():
-		if String(slot.get("item_id", "")) == item_id:
-			return {"slot": int(slot["index"]), "item_id": item_id}
-	return {"slot": -1, "item_id": item_id}
+	return CustomerGen.pick_interest_slot(cust)
 
 
 func instance_by_uid(uid: int) -> Dictionary:

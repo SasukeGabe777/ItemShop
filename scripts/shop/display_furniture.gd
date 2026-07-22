@@ -16,6 +16,7 @@ var _item_sprites: Array[Sprite2D] = []
 var _slot_offsets: Array[Vector2] = []
 var _body_sprite: Sprite2D
 var _collision_body: StaticBody2D
+var _slot_highlight: Node2D
 
 
 func setup(instance: Dictionary, def: Dictionary, p_slot_base: int, window_indices: Array[int]) -> void:
@@ -118,6 +119,47 @@ func refresh_items() -> void:
 		if global_slot < InventoryManager.display.size():
 			id = String(InventoryManager.display[global_slot])
 		_item_sprites[i].texture = ContentDatabase.item_texture(id) if id != "" else null
+
+
+## Bright physical marker for the slot whose stocking picker is open. This is
+## especially useful on counters with two or three tightly packed item spots.
+func set_slot_highlight(global_slot: int, on: bool = true) -> void:
+	clear_slot_highlight()
+	var local_slot := global_slot - slot_base
+	if not on or local_slot < 0 or local_slot >= _slot_offsets.size():
+		return
+	var marker := Node2D.new()
+	marker.name = "SlotHighlight"
+	marker.position = _slot_offsets[local_slot]
+	marker.z_index = 40
+	marker.set_meta("global_slot", global_slot)
+	add_child(marker)
+	_slot_highlight = marker
+
+	var fill := Polygon2D.new()
+	fill.polygon = PackedVector2Array([
+		Vector2(0, -7), Vector2(7, 0), Vector2(0, 7), Vector2(-7, 0),
+	])
+	fill.color = Color(1.0, 0.84, 0.18, 0.52)
+	marker.add_child(fill)
+	var outline := Line2D.new()
+	outline.points = PackedVector2Array([
+		Vector2(0, -8), Vector2(8, 0), Vector2(0, 8), Vector2(-8, 0), Vector2(0, -8),
+	])
+	outline.width = 2.0
+	outline.default_color = Color(1.0, 0.96, 0.62)
+	outline.antialiased = false
+	marker.add_child(outline)
+
+	var pulse := marker.create_tween().set_loops()
+	pulse.tween_property(marker, "scale", Vector2(1.22, 1.22), 0.42).set_trans(Tween.TRANS_SINE)
+	pulse.tween_property(marker, "scale", Vector2.ONE, 0.42).set_trans(Tween.TRANS_SINE)
+
+
+func clear_slot_highlight() -> void:
+	if is_instance_valid(_slot_highlight):
+		_slot_highlight.queue_free()
+	_slot_highlight = null
 
 
 func slot_global_positions() -> Array[Vector2]:
