@@ -20,7 +20,7 @@ var encyclopedia: Array = []          # item ids ever handled
 var known_customers: Array = []       # customer ids served at least once
 var decorations: Array = []           # cosmetic decoration ids owned
 var tutorials_seen: Array = []
-var stats: Dictionary = {"sales": 0, "perfect_deals": 0, "orders_done": 0, "expeditions": 0, "bosses_defeated": 0, "days_played": 0}
+var stats: Dictionary = {"sales": 0, "perfect_deals": 0, "orders_done": 0, "orders_failed": 0, "expeditions": 0, "bosses_defeated": 0, "days_played": 0}
 
 
 func _ready() -> void:
@@ -40,7 +40,7 @@ func reset_campaign() -> void:
 	known_customers.clear()
 	decorations.clear()
 	tutorials_seen.clear()
-	stats = {"sales": 0, "perfect_deals": 0, "orders_done": 0, "expeditions": 0, "bosses_defeated": 0, "days_played": 0}
+	stats = {"sales": 0, "perfect_deals": 0, "orders_done": 0, "orders_failed": 0, "expeditions": 0, "bosses_defeated": 0, "days_played": 0}
 
 
 func add_merchant_xp(amount: int) -> void:

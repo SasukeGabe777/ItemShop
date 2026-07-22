@@ -3,6 +3,8 @@ extends CanvasLayer
 ## Persistent top bar: day/period/chapter, gold, deadline progress, market
 ## events, and pending order count. Also hosts the pause menu.
 
+const HELP_ENCYCLOPEDIA_SCRIPT := preload("res://scripts/ui/help_encyclopedia_panel.gd")
+
 var day_label: Label
 var period_label: Label
 var period_pips: Array[TextureRect] = []
@@ -188,7 +190,8 @@ func refresh() -> void:
 			TimeManager.chapter_deadline_day(), BridgeManager.repair_cost(wid), shard]
 		deadline_label.add_theme_color_override("font_color",
 			UIKit.COL_GOOD if BridgeManager.has_shard(wid) and EconomyManager.gold >= BridgeManager.repair_cost(wid) else UIKit.COL_INK)
-	orders_label.text = "Orders: %d" % InventoryManager.orders.size()
+	orders_label.text = "Orders: %d  |  Returning: %d" % [
+		InventoryManager.orders.size(), InventoryManager.due_orders().size()]
 	var events := MarketManager.active_event_names()
 	var market_text := "Market: " + (", ".join(events) if not events.is_empty() else "calm")
 	market_label.text = ("BOOM: %s (%d session%s)  |  " % [BoomManager.display_name(), BoomManager.sessions_left,
@@ -287,9 +290,9 @@ func _open_pause() -> void:
 		vb.add_child(UIKit.label("Autosaved: Day %d, %s" % [int(auto["day"]),
 			String(auto["period_name"])], 9, UIKit.COL_DIM))
 	vb.add_child(UIKit.hsep())
-	vb.add_child(UIKit.button("Orders & encyclopedia", func() -> void:
+	vb.add_child(UIKit.button("Help & Encyclopedia", func() -> void:
 		close.call()
-		_open_orders()))
+		_open_help_encyclopedia()))
 	vb.add_child(UIKit.button("Music: %s" % ("muted" if AudioManager.muted else "on"), func() -> void:
 		AudioManager.set_muted(not AudioManager.muted)
 		close.call()))
@@ -300,33 +303,8 @@ func _open_pause() -> void:
 
 
 func _open_orders() -> void:
-	var parts := UIKit.modal(self, "Active orders")
-	var order_layer: CanvasLayer = parts[0]
-	var vb: VBoxContainer = parts[1]
-	if InventoryManager.orders.is_empty():
-		vb.add_child(UIKit.label("No active orders.", 10, UIKit.COL_DIM))
-	for o: Dictionary in InventoryManager.orders:
-		var cust := String(o["customer_id"])
-		var cname := String(ContentDatabase.get_named_customer(cust).get("name", cust.trim_prefix("walkin_").capitalize()))
-		var target_desc := ""
-		match String(o["kind"]):
-			"item": target_desc = ContentDatabase.item_name(String(o["target"]))
-			"category": target_desc = "any %s" % o["target"]
-			"tag": target_desc = "anything '%s'" % o["target"]
-			"world": target_desc = "goods from %s" % String(ContentDatabase.get_world(String(o["target"])).get("name", o["target"]))
-		var oid := int(o["id"])
-		var row := HBoxContainer.new()
-		var lbl := UIKit.label("%s wants %dx %s by day %d — reward" % [cname, int(o["qty"]), target_desc, int(o["deadline_day"])])
-		lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		row.add_child(lbl)
-		row.add_child(UIKit.gold_icon("small", Vector2(16, 14)))
-		row.add_child(UIKit.label("%d each" % int(o["reward_each"]), 9, UIKit.COL_ACCENT))
-		row.add_child(UIKit.button("Deliver", func() -> void:
-			if InventoryManager.try_fulfill_order(oid):
-				order_layer.queue_free()
-				_open_orders()))
-		vb.add_child(row)
-	vb.add_child(UIKit.hsep())
-	vb.add_child(UIKit.label("Encyclopedia: %d items discovered | Merchant Lv.%d (%d/%d xp) | Perfect combo: %d" % [
-		GameState.encyclopedia.size(), GameState.merchant_level, GameState.merchant_xp, GameState.xp_for_next_level(), EconomyManager.combo], 9, UIKit.COL_DIM))
-	vb.add_child(UIKit.button("Close", func() -> void: order_layer.queue_free()))
+	_open_help_encyclopedia()
+
+
+func _open_help_encyclopedia() -> void:
+	add_child(HELP_ENCYCLOPEDIA_SCRIPT.new())

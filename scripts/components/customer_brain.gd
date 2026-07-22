@@ -5,6 +5,7 @@ extends Node
 
 signal wants_to_negotiate(customer: Dictionary, item_id: String)
 signal wants_to_order(customer: Dictionary, direct_boom_request: bool)
+signal wants_order_delivery(customer: Dictionary, order_id: int)
 signal disappointed(customer: Dictionary)
 signal leaving()
 
@@ -41,6 +42,14 @@ func begin_browsing() -> void:
 
 
 func _decide() -> void:
+	if int(customer.get("order_delivery_id", -1)) >= 0:
+		state = State.NEGOTIATING
+		wants_order_delivery.emit(customer, int(customer["order_delivery_id"]))
+		return
+	if bool(customer.get("order_intent", false)):
+		state = State.NEGOTIATING
+		wants_to_order.emit(customer, false)
+		return
 	# Negotiate for the item that drew us to this stand. If another customer
 	# bought the last copy while we walked over, choose again from live stock.
 	var interest := preferred_interest
@@ -51,9 +60,8 @@ func _decide() -> void:
 		wants_to_negotiate.emit(customer, interest)
 	elif BoomManager.is_active() and String(customer.get("boom_id", "")) == BoomManager.active_boom_id \
 			and randf() < BoomManager.request_frequency():
+		state = State.NEGOTIATING
 		wants_to_order.emit(customer, true)
-		state = State.LEAVING
-		leaving.emit()
 	elif randf() < 0.5:
 		wants_to_order.emit(customer, false)
 		state = State.LEAVING

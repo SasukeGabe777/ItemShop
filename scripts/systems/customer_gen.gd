@@ -3,6 +3,9 @@ class_name CustomerGen
 ## with named franchise characters from connected worlds.
 
 static var rng := RandomNumberGenerator.new()
+static var _identity_archetype_cache: Dictionary = {}
+static var _named_identity_archetypes: Dictionary = {}
+static var _identity_cache_ready := false
 
 
 ## A runtime customer dictionary:
@@ -31,6 +34,31 @@ static func generate_session_customers() -> Array[Dictionary]:
 		var walk_in := _make_walk_in(used_identities)
 		out.append(walk_in)
 		used_identities[_identity_key(walk_in)] = true
+	# Decide up front who came specifically to commission the shop. Those
+	# customers ask even when the displays are full, making orders a visible
+	# part of a selling session instead of a hidden fallback for empty shelves.
+	var order_cfg: Dictionary = ContentDatabase.bal("orders", {})
+	var order_slots := maxi(0, int(order_cfg.get("max_active", 4)) - InventoryManager.orders.size())
+	for cust: Dictionary in out:
+		if order_slots <= 0:
+			break
+		if rng.randf() < float(order_cfg.get("chance_per_customer", 0.22)):
+			cust["order_intent"] = true
+			order_slots -= 1
+	# Accepted orders produce real return visits on (or after) the promised day.
+	# The saved customer snapshot guarantees it is the same visible character.
+	var returning: Array[Dictionary] = []
+	for order: Dictionary in InventoryManager.due_orders():
+		var returner := _returning_order_customer(order)
+		if returner.is_empty():
+			continue
+		var key := _identity_key(returner)
+		for i in range(out.size() - 1, -1, -1):
+			if _identity_key(out[i]) == key:
+				out.remove_at(i)
+		returning.append(returner)
+	for i in range(returning.size() - 1, -1, -1):
+		out.insert(0, returning[i])
 	# the vertical-slice onboarding customer leads the day but never replaces
 	# the crowd — a failed scripted sale must not starve the shop of business
 	var onboarding_customer := _vertical_slice_customer()
@@ -41,6 +69,40 @@ static func generate_session_customers() -> Array[Dictionary]:
 				out.remove_at(i)
 		out.insert(0, onboarding_customer)
 	return out
+
+
+static func _returning_order_customer(order: Dictionary) -> Dictionary:
+	var cust: Dictionary = order.get("customer", {}).duplicate(true)
+	var customer_id := String(order.get("customer_id", ""))
+	if cust.is_empty():
+		var named := ContentDatabase.get_named_customer(customer_id)
+		if not named.is_empty():
+			cust = runtime_named(named)
+		else:
+			var slug := customer_id.trim_prefix("walkin_")
+			var entry: Dictionary = {}
+			for candidate: Dictionary in ContentDatabase.customer_visual_pool:
+				if String(candidate.get("slug", "")) == slug:
+					entry = candidate
+					break
+			if not entry.is_empty():
+				var archetype := _identity_archetype(entry)
+				cust = {
+					"id": customer_id, "name": String(entry.get("name", slug.capitalize())),
+					"archetype": archetype, "budget": 0, "hero_ref": "",
+					"color": String(ContentDatabase.get_archetype(archetype).get("color", "#c0c0c0")),
+					"quirk": "", "line": "", "named": false,
+					"world": String(entry.get("world", "")),
+				}
+				_apply_visual_identity(cust, entry)
+	if cust.is_empty():
+		return {}
+	cust["order_delivery_id"] = int(order.get("id", -1))
+	cust["order_intent"] = false
+	cust["line"] = ""
+	cust.erase("boom_id")
+	cust.erase("purchase_qty")
+	return cust
 
 
 ## Keep the two sales that bookend the first expedition deterministic. This is
@@ -222,16 +284,27 @@ static func _identity_archetype(entry: Dictionary) -> String:
 	if explicit != "" and ContentDatabase.archetypes.has(explicit):
 		return explicit
 	var slug := _entry_identity(entry)
-	for id: String in ContentDatabase.named_customers:
-		var named: Dictionary = ContentDatabase.named_customers[id]
-		var match := ContentDatabase.customer_pool_entry_by_name(String(named.get("name", "")))
-		if _entry_identity(match) == slug:
-			return String(named.get("archetype", "adventurer"))
+	if _identity_archetype_cache.has(slug):
+		return String(_identity_archetype_cache[slug])
+	if not _identity_cache_ready:
+		_named_identity_archetypes.clear()
+		for id: String in ContentDatabase.named_customers:
+			var named: Dictionary = ContentDatabase.named_customers[id]
+			var match := ContentDatabase.customer_pool_entry_by_name(String(named.get("name", "")))
+			if not match.is_empty():
+				_named_identity_archetypes[_entry_identity(match)] = String(named.get("archetype", "adventurer"))
+		_identity_cache_ready = true
+	if _named_identity_archetypes.has(slug):
+		var named_archetype := String(_named_identity_archetypes[slug])
+		_identity_archetype_cache[slug] = named_archetype
+		return named_archetype
 	var ids: Array = ContentDatabase.archetypes.keys()
 	ids.sort()
 	if ids.is_empty():
 		return "adventurer"
-	return String(ids[absi(slug.hash()) % ids.size()])
+	var archetype := String(ids[absi(slug.hash()) % ids.size()])
+	_identity_archetype_cache[slug] = archetype
+	return archetype
 
 
 static func likes_item(cust: Dictionary, item_id: String) -> bool:
@@ -297,69 +370,89 @@ static func pick_interest(cust: Dictionary) -> String:
 	return String(choice.get("item_id", ""))
 
 
-## Chance the customer places an order instead of (or after) buying.
-static func maybe_make_order(cust: Dictionary, direct_boom_request: bool = false) -> Dictionary:
+## Build a concrete commission: either one valuable rarity or a plentiful
+## batch of an everyday item. Category/tag/world demand is resolved to a real
+## item before the player accepts, so every request is unambiguous.
+static func make_order_offer(cust: Dictionary, direct_boom_request: bool = false,
+		force: bool = false) -> Dictionary:
 	var cfg: Dictionary = ContentDatabase.bal("orders", {})
 	var chance := float(cfg.get("chance_per_customer", 0.22))
 	if BoomManager.is_active():
 		chance = maxf(chance, BoomManager.request_frequency() * 0.35)
-	if not direct_boom_request and rng.randf() > chance:
+	if not force and not direct_boom_request and rng.randf() > chance:
 		return {}
 	var arch: Dictionary = ContentDatabase.get_archetype(String(cust.get("archetype", "")))
-	var kind := "category"
-	var target := ""
+	var candidates: Array[String] = MarketManager.wholesale_catalog()
 	var boom_target := BoomManager.preferred_order_target() if direct_boom_request else {}
 	if not boom_target.is_empty():
-		kind = String(boom_target["kind"])
-		target = String(boom_target["target"])
-	else:
-		var roll := rng.randf()
-		if roll < 0.35 and not arch.get("likes_tags", []).is_empty():
-			kind = "tag"
-			var tags: Array = arch.get("likes_tags", [])
-			target = String(tags[rng.randi() % tags.size()])
-		elif roll < 0.6 and String(cust.get("world", "")) != "":
-			kind = "world"
-			target = String(cust.get("world", ""))
-		elif roll < 0.85:
-			kind = "category"
-			var cats: Array = arch.get("likes_categories", [])
-			target = String(cats[rng.randi() % cats.size()]) if not cats.is_empty() else "consumable"
-		else:
-			kind = "item"
-			var goods := MarketManager.wholesale_catalog()
-			if goods.is_empty():
-				return {}
-			target = goods[rng.randi() % goods.size()]
-	if target == "":
+		var kind := String(boom_target.get("kind", ""))
+		var target := String(boom_target.get("target", ""))
+		candidates = candidates.filter(func(item_id: String) -> bool:
+			var item := ContentDatabase.get_item(item_id)
+			match kind:
+				"item": return item_id == target
+				"category": return String(item.get("category", "")) == target
+				"tag": return target in item.get("tags", [])
+				"world": return String(item.get("world", "")) == target
+			return false)
+	if candidates.is_empty():
 		return {}
-	var qty := rng.randi_range(1, maxi(3, int(cust.get("purchase_qty", 1))))
-	var reward_each := _order_reward(kind, target)
-	return InventoryManager.add_order(String(cust.get("id", "")), kind, target, qty, reward_each)
+	var preferred := candidates.filter(func(item_id: String) -> bool:
+		var item := ContentDatabase.get_item(item_id)
+		if String(item.get("world", "")) == String(cust.get("world", "")):
+			return true
+		for category in arch.get("likes_categories", []):
+			if String(item.get("category", "")) == String(category): return true
+		for tag in arch.get("likes_tags", []):
+			if String(tag) in item.get("tags", []): return true
+		return false)
+	if not preferred.is_empty():
+		candidates = preferred
+	var special_pool := candidates.filter(func(item_id: String) -> bool:
+		var item := ContentDatabase.get_item(item_id)
+		return MarketManager.market_value(item_id) >= 500 or "rare" in item.get("tags", []) \
+			or "legendary" in item.get("tags", []))
+	var bulk_pool := candidates.filter(func(item_id: String) -> bool:
+		var item := ContentDatabase.get_item(item_id)
+		return MarketManager.market_value(item_id) <= 350 or String(item.get("category", "")) in ["consumable", "material", "food"])
+	var special := rng.randf() < 0.4
+	if direct_boom_request:
+		special = special and not special_pool.is_empty()
+	var pool: Array = special_pool if special and not special_pool.is_empty() else bulk_pool
+	if pool.is_empty():
+		pool = candidates
+	var target := String(pool[rng.randi() % pool.size()])
+	var order_type := "special" if special and target in special_pool else "bulk"
+	var qty := 1
+	if order_type == "bulk":
+		var bulk_range: Array = cfg.get("bulk_quantity", [4, 9])
+		qty = rng.randi_range(int(bulk_range[0]), int(bulk_range[1]))
+	var return_range: Array = cfg.get("return_days", [1, 4])
+	var return_in := rng.randi_range(int(return_range[0]), int(return_range[1]))
+	if order_type == "special":
+		return_in = maxi(2, return_in)
+	return {
+		"kind": "item", "target": target, "qty": qty,
+		"reward_each": _order_reward(target, order_type),
+		"return_in_days": return_in, "order_type": order_type,
+	}
 
 
-static func _order_reward(kind: String, target: String) -> int:
+## Compatibility path for simulations: create and accept the request at once.
+static func maybe_make_order(cust: Dictionary, direct_boom_request: bool = false) -> Dictionary:
+	var offer := make_order_offer(cust, direct_boom_request)
+	if offer.is_empty():
+		return {}
+	return InventoryManager.add_order(String(cust.get("id", "")), String(offer["kind"]),
+		String(offer["target"]), int(offer["qty"]), int(offer["reward_each"]),
+		int(offer["return_in_days"]), cust)
+
+
+static func _order_reward(target: String, order_type: String) -> int:
 	var cfg: Dictionary = ContentDatabase.bal("orders", {})
-	var markup := float(cfg.get("reward_markup", 1.5))
-	if kind == "item":
-		return int(round(MarketManager.market_value(target) * markup))
-	# estimate from a mid-priced matching item
-	var prices: Array[int] = []
-	for id: String in ContentDatabase.items:
-		var it: Dictionary = ContentDatabase.items[id]
-		if it.get("sellable", true) == false:
-			continue
-		var hit := false
-		match kind:
-			"category": hit = String(it.get("category", "")) == target
-			"tag": hit = target in it.get("tags", [])
-			"world": hit = String(it.get("world", "")) == target
-		if hit:
-			prices.append(int(it.get("price", 0)))
-	if prices.is_empty():
-		return 100
-	prices.sort()
-	return int(round(prices[prices.size() / 2] * markup))
+	var markup := float(cfg.get("reward_markup_special", 1.85) if order_type == "special" \
+		else cfg.get("reward_markup_bulk", 1.45))
+	return maxi(1, int(round(MarketManager.market_value(target) * markup)))
 
 
 ## When a hero buys equipment from the shop, they equip it if it beats their

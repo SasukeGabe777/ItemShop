@@ -10,7 +10,7 @@ signal equipment_changed(hero_id: String)
 var storage: Dictionary = {}          # item_id -> qty
 var display: Array = []               # slot -> item_id or ""
 var collection: Array = []            # item ids in Hero's personal collection
-var orders: Array = []                # {id, customer_id, kind, target, qty, deadline_day, reward_each}
+var orders: Array = []                # accepted requests; customers return on return_day
 var hero_equipment: Dictionary = {}   # hero_id -> {weapon, armor, accessory, charm}
 var _order_seq: int = 0
 
@@ -191,16 +191,23 @@ func dominant_appeal() -> String:
 
 # ---------------- Orders ----------------
 
-func add_order(customer_id: String, kind: String, target: String, qty: int, reward_each: int) -> Dictionary:
+func add_order(customer_id: String, kind: String, target: String, qty: int, reward_each: int,
+		return_in_days: int = -1, customer: Dictionary = {}) -> Dictionary:
 	var cfg: Dictionary = ContentDatabase.bal("orders", {})
 	if orders.size() >= int(cfg.get("max_active", 4)):
 		return {}
-	var dl: Array = cfg.get("deadline_days", [1, 3])
+	var dl: Array = cfg.get("return_days", cfg.get("deadline_days", [1, 3]))
+	var days := return_in_days
+	if days < 1:
+		days = randi_range(int(dl[0]), int(dl[1]))
 	_order_seq += 1
 	var order := {
 		"id": _order_seq, "customer_id": customer_id, "kind": kind, "target": target,
-		"qty": qty, "deadline_day": TimeManager.day + randi_range(int(dl[0]), int(dl[1])),
-		"reward_each": reward_each,
+		"qty": qty, "return_day": TimeManager.day + days,
+		# Retain the old key so existing saves and any older UI remain readable.
+		"deadline_day": TimeManager.day + days, "reward_each": reward_each,
+		"order_type": "special" if qty <= 1 else "bulk",
+		"customer": customer.duplicate(true),
 	}
 	orders.append(order)
 	orders_changed.emit()
@@ -241,21 +248,68 @@ func try_fulfill_order(order_id: int) -> bool:
 		GameState.add_stat("orders_done")
 		var mx: Dictionary = ContentDatabase.bal("merchant_xp", {})
 		GameState.add_merchant_xp(int(mx.get("per_order", 15)))
-		RelationshipManager.change_relationship(String(o["customer_id"]), 2)
+		var cfg: Dictionary = ContentDatabase.bal("orders", {})
+		RelationshipManager.change_relationship(String(o["customer_id"]), int(cfg.get("bond_gain_complete", 8)))
 		orders.remove_at(i)
 		orders_changed.emit()
 		return true
 	return false
 
 
-func expire_orders() -> Array:
-	var expired := orders.filter(func(o: Dictionary) -> bool: return TimeManager.day > int(o["deadline_day"]))
-	if expired.size() > 0:
-		orders = orders.filter(func(o: Dictionary) -> bool: return TimeManager.day <= int(o["deadline_day"]))
-		for o: Dictionary in expired:
-			RelationshipManager.change_relationship(String(o["customer_id"]), -1)
+func fail_order(order_id: int) -> bool:
+	for i in range(orders.size()):
+		var o: Dictionary = orders[i]
+		if int(o.get("id", -1)) != order_id:
+			continue
+		var cfg: Dictionary = ContentDatabase.bal("orders", {})
+		RelationshipManager.change_relationship(String(o.get("customer_id", "")),
+			int(cfg.get("bond_loss_failed", -6)))
+		GameState.add_stat("orders_failed")
+		orders.remove_at(i)
 		orders_changed.emit()
-	return expired
+		return true
+	return false
+
+
+func due_orders(day: int = TimeManager.day) -> Array[Dictionary]:
+	var due: Array[Dictionary] = []
+	for o: Dictionary in orders:
+		var return_day := int(o.get("return_day", o.get("deadline_day", day)))
+		if day >= return_day:
+			due.append(o)
+	return due
+
+
+func order_by_id(order_id: int) -> Dictionary:
+	for o: Dictionary in orders:
+		if int(o.get("id", -1)) == order_id:
+			return o
+	return {}
+
+
+func matching_stock(order: Dictionary) -> int:
+	var total := 0
+	for item_id: String in storage:
+		if order_matches(order, item_id):
+			total += count(item_id)
+	return total
+
+
+func order_target_label(order: Dictionary) -> String:
+	match String(order.get("kind", "item")):
+		"item": return ContentDatabase.item_name(String(order.get("target", "")))
+		"category": return "any %s" % String(order.get("target", "item")).capitalize()
+		"tag": return "anything tagged %s" % String(order.get("target", ""))
+		"world":
+			var world := ContentDatabase.get_world(String(order.get("target", "")))
+			return "goods from %s" % String(world.get("name", order.get("target", "")))
+	return String(order.get("target", "Unknown item"))
+
+
+func expire_orders() -> Array:
+	# Orders no longer disappear silently at dawn. Once their return day is
+	# reached, that customer visits the next shop session and asks in person.
+	return []
 
 
 # ---------------- Collection & equipment ----------------
@@ -329,6 +383,13 @@ func from_save(d: Dictionary) -> void:
 	display = d.get("display", [])
 	collection = d.get("collection", [])
 	orders = d.get("orders", [])
+	for o: Dictionary in orders:
+		if not o.has("return_day"):
+			o["return_day"] = int(o.get("deadline_day", TimeManager.day))
+		if not o.has("deadline_day"):
+			o["deadline_day"] = int(o["return_day"])
+		if not o.has("customer"):
+			o["customer"] = {}
 	hero_equipment = d.get("hero_equipment", {})
 	_order_seq = int(d.get("order_seq", 0))
 	_resize_display()

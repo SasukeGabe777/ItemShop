@@ -121,13 +121,24 @@
   "relationship_markup_per_level": 0.04
  },
  "orders": {
+  "bond_gain_complete": 8,
+  "bond_loss_failed": -6,
   "chance_per_customer": 0.22,
   "deadline_days": [
    1,
    3
   ],
   "max_active": 4,
-  "reward_markup": 1.5
+  "bulk_quantity": [
+   4,
+   9
+  ],
+  "return_days": [
+   1,
+   4
+  ],
+  "reward_markup_bulk": 1.45,
+  "reward_markup_special": 1.85
  },
  "period_names": [
   "Morning",

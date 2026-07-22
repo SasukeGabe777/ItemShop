@@ -2,6 +2,8 @@ extends Node2D
 ## The item shop interior. Hero can walk around, stock display furniture, and
 ## open the shop for a one-period selling session with live customers.
 
+const ORDER_DIALOG_SCRIPT := preload("res://scripts/ui/order_dialog.gd")
+
 var player: TownPlayer
 var player2: TownPlayer = null
 var hud: GameHUD
@@ -25,6 +27,9 @@ var session_boom_id := ""
 var session_boom_name := ""
 var negotiating: ShopCustomer = null
 var nego_queue: Array = []  # [{customer: Dictionary, item: String, node: ShopCustomer}]
+var order_queue: Array = [] # [{customer, node, mode, direct/order_id}]
+var order_dialog_open := false
+var _order_player := 1
 var corner_buttons: Array[Button] = []  # Buy furniture / Decorate / Rearrange
 var _menu_owner: Dictionary = {}  # menu key -> player idx holding it open
 var _rstick_edge := false
@@ -283,6 +288,7 @@ func dev_summon_customer(customer_id: String, at: Vector2 = ENTRANCE) -> ShopCus
 	c.set_meta("dev_content_id", customer_id)
 	c.negotiate_requested.connect(_on_negotiate_requested)
 	c.order_requested.connect(_on_order_requested)
+	c.order_delivery_requested.connect(_on_order_delivery_requested)
 	c.boom_disappointed.connect(_on_boom_disappointed)
 	c.left.connect(func(me: ShopCustomer) -> void: live_customers.erase(me))
 	live_customers.append(c)
@@ -297,6 +303,8 @@ func dev_open_shop() -> void:
 func dev_close_shop() -> void:
 	customers_remaining.clear()
 	nego_queue.clear()
+	order_queue.clear()
+	order_dialog_open = false
 	negotiating = null
 	for c in live_customers.duplicate():
 		if is_instance_valid(c):
@@ -1245,8 +1253,12 @@ func _run_session(delta: float) -> void:
 		spawn_timer = BoomManager.next_spawn_delay()
 		_spawn_customer(customers_remaining.pop_front())
 	if negotiating == null and not nego_queue.is_empty():
-		_open_next_negotiation()
-	if customers_remaining.is_empty() and live_customers.is_empty() and negotiating == null and nego_queue.is_empty():
+		if not order_dialog_open and order_queue.is_empty():
+			_open_next_negotiation()
+	if negotiating == null and not order_dialog_open and not order_queue.is_empty():
+		_open_next_order_dialog()
+	if customers_remaining.is_empty() and live_customers.is_empty() and negotiating == null \
+			and nego_queue.is_empty() and order_queue.is_empty() and not order_dialog_open:
 		_end_session()
 
 
@@ -1262,6 +1274,7 @@ func _spawn_customer(cust: Dictionary) -> void:
 	c.setup(cust, browse_points, ENTRANCE, preferred_point, String(preferred_slot.get("item_id", "")))
 	c.negotiate_requested.connect(_on_negotiate_requested)
 	c.order_requested.connect(_on_order_requested)
+	c.order_delivery_requested.connect(_on_order_delivery_requested)
 	c.boom_disappointed.connect(_on_boom_disappointed)
 	c.left.connect(func(me: ShopCustomer) -> void: live_customers.erase(me))
 	live_customers.append(c)
@@ -1292,16 +1305,112 @@ func _speech(over: Node2D, text: String) -> void:
 
 
 func _on_order_requested(cust: Dictionary, direct_boom_request: bool = false) -> void:
-	var order := CustomerGen.maybe_make_order(cust, direct_boom_request)
-	if not order.is_empty():
-		session_summary["orders"] = int(session_summary["orders"]) + 1
-		if direct_boom_request:
-			var node := _customer_node(cust)
-			if node != null:
-				_speech(node, "Please find me %s!" % BoomManager.order_label(String(order["kind"]), String(order["target"])))
+	order_queue.append({"customer": cust, "node": _customer_node(cust),
+		"mode": "request", "direct": direct_boom_request})
+	_open_next_order_dialog()
+
+
+func _on_order_delivery_requested(cust: Dictionary, order_id: int) -> void:
+	order_queue.append({"customer": cust, "node": _customer_node(cust),
+		"mode": "delivery", "order_id": order_id})
+	_open_next_order_dialog()
+
+
+func _open_next_order_dialog() -> void:
+	if order_dialog_open or negotiating != null or order_queue.is_empty():
+		return
+	var who := 0
+	if not busy and not UIKit.modal_open(get_viewport()):
+		who = 1
+	elif player2 != null and not busy2 and not UIKit.modal_open(MultiplayerState.p2_viewport()):
+		who = 2
+	if who == 0:
+		return
+	var entry: Dictionary = order_queue.pop_front()
+	var node: ShopCustomer = entry.get("node")
+	if node == null or not is_instance_valid(node):
+		_open_next_order_dialog()
+		return
+	var cust: Dictionary = entry["customer"]
+	var dialog := ORDER_DIALOG_SCRIPT.new()
+	dialog.resolved.connect(func(result: String) -> void:
+		_finish_order_dialog(entry, result))
+	order_dialog_open = true
+	_order_player = who
+	if who == 2:
+		busy2 = true
+		player2.frozen = true
+	else:
+		busy = true
+		player.frozen = true
+	var parent := MultiplayerState.menu_parent(who, self)
+	if String(entry.get("mode", "")) == "delivery":
+		var order := InventoryManager.order_by_id(int(entry.get("order_id", -1)))
+		if order.is_empty():
+			_order_dialog_cancelled(entry)
+			return
+		dialog.show_delivery(parent, cust, order, node.portrait_texture())
+	else:
+		var offer := CustomerGen.make_order_offer(cust, bool(entry.get("direct", false)), true)
+		if offer.is_empty():
+			if bool(entry.get("direct", false)):
+				_on_boom_disappointed(cust)
+			_order_dialog_cancelled(entry)
+			return
+		entry["offer"] = offer
+		dialog.show_request(parent, cust, offer, node.portrait_texture())
+
+
+func _finish_order_dialog(entry: Dictionary, result: String) -> void:
+	var cust: Dictionary = entry.get("customer", {})
+	var node: ShopCustomer = entry.get("node")
+	if String(entry.get("mode", "")) == "delivery":
+		var order_id := int(entry.get("order_id", -1))
+		if result == "deliver" and InventoryManager.try_fulfill_order(order_id):
+			if is_instance_valid(node):
+				node.show_emote("happy", 2.2)
+				_speech(node, "Perfect — exactly what I ordered. I won't forget this!")
+		else:
+			InventoryManager.fail_order(order_id)
+			if is_instance_valid(node):
+				node.show_emote("unhappy", 2.2)
+				_speech(node, "You promised it would be ready...")
+	else:
+		if result == "accept":
+			var offer: Dictionary = entry.get("offer", {})
+			var order := InventoryManager.add_order(String(cust.get("id", "")),
+				String(offer.get("kind", "item")), String(offer.get("target", "")),
+				int(offer.get("qty", 1)), int(offer.get("reward_each", 0)),
+				int(offer.get("return_in_days", 1)), cust)
+			if not order.is_empty():
+				session_summary["orders"] = int(session_summary["orders"]) + 1
+				GameState.know_customer(String(cust.get("id", "")))
+				if is_instance_valid(node):
+					node.show_emote("happy", 1.8)
+					_speech(node, "Wonderful. I'll be back on Day %d!" % int(order["return_day"]))
+		else:
+			if is_instance_valid(node):
+				node.show_emote("neutral", 1.5)
+				_speech(node, "I understand. Maybe another time.")
+	_order_dialog_cancelled(entry)
+
+
+func _order_dialog_cancelled(entry: Dictionary) -> void:
+	if _order_player == 2:
+		busy2 = false
+		if player2 != null:
+			player2.frozen = false
+	else:
+		busy = false
+		player.frozen = false
+	var node: ShopCustomer = entry.get("node")
+	if node != null and is_instance_valid(node):
+		node.resume_after_order()
+	order_dialog_open = false
+	if hud != null:
 		hud.refresh()
-	elif direct_boom_request:
-		_on_boom_disappointed(cust)
+	_open_next_order_dialog()
+	_open_next_negotiation()
 
 
 func _on_boom_disappointed(cust: Dictionary) -> void:
@@ -1328,7 +1437,7 @@ func _on_negotiate_requested(cust: Dictionary, item_id: String) -> void:
 
 
 func _open_next_negotiation() -> void:
-	if negotiating != null or nego_queue.is_empty():
+	if negotiating != null or order_dialog_open or nego_queue.is_empty():
 		return
 	# route the haggle to a shopkeeper who isn't in a menu; the customer
 	# waits in line and _run_session retries until someone frees up
