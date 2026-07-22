@@ -1,8 +1,8 @@
 -- Boot check (DBZ: Legacy of Goku II): confirm the converted EEPROM SaveRAM is
 -- recognized. Clears logos, then steps through the title/menu pressing Start/A
 -- while screenshotting, so the continue/file-select reveals whether the save
--- loaded. Paths are for THIS (work) machine, not the home template path.
-local out = "C:/Users/sasuk/OneDrive/Desktop/ItemShop/tools/rom_ref/out/dbz/"
+-- loaded. Paths are for THIS (home) machine.
+local out = "C:/Users/Game Station/Desktop/crossroads/tools/rom_ref/out/dbz/"
 local function wait(n) for i = 1, n do emu.frameadvance() end end
 local function press(btn, hold)
   hold = hold or 30

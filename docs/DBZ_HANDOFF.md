@@ -1,7 +1,44 @@
-# DBZ dungeon — session handoff (resume on the home PC)
+# DBZ dungeon — session handoff
 
 Building the Dragon Ball Z: Legacy of Goku II dungeon with playable **Goku**
-and **Piccolo**. Left off mid-emulator-bring-up; pick up at "Pending" below.
+and **Piccolo**.
+
+## Session 2 (home PC, 2026-07-21): Piccolo captured, debug menu unlocked
+
+- **Debug menu works** (`tools/rom_ref/dbz_testmenu.lua`): poke `0x02` to
+  `0x0202B32D` every frame from boot, hold Start at title → DEBUG menu with
+  MAP TEST (zone/area warps) and all 6 characters. This is the route to Goku
+  (he's pre-Cell-Games only; the user's save can't reach him).
+- **Game mechanics (learned the hard way):** L cycles the selected ki attack
+  (icon top-right HUD), B fires/holds it, A charges ki. The user's keyboard "B"
+  is NOT GBA B in their profile — scripted `joypad.set` tests must probe.
+  Wrong selected attack = red power-up state, not the beam.
+- **User savestates** (BizHawk quicksave slots, gitignored):
+  slot 1 = Piccolo, open area, SBC preselected (hold B fires);
+  slot 7 = mid-beam; slot 8 = character-switch screen; slot 9 = overworld
+  (flying); slot 0 = Northern Wastelands spawn.
+- **Full Piccolo OAM capture done** (`capture_piccolo_moves.lua` → 856 frames
+  in `tools/rom_ref/out/oam_dbz/`, gitignored — recapture by rerunning):
+  4-dir walks (60f), 4-dir idles, 150-frame dense idle, 4-dir SBC, melee
+  combo (B-tap), overworld flight (4-dir + hover).
+- **DBZ LoG II uses 8bpp OAM objects** — `decode_oam.py` (4bpp-only) sees
+  nothing; use `decode_oam_dbz.py` (8bpp, 1D mapping advances tile numbers by
+  2 per 8x8 block). Scene is sparse: hero = tile-896 object near screen
+  center; HUD = 3 static bars. SBC decomposes into muzzle (tile 832) +
+  stretching shaft (840) + traveling tip (848) — ideal for a reusable beam
+  special. Decoded contact sheets: `out/oam_dbz/decoded/contact_*.png`.
+
+### Next actions
+1. Pick poses (`unique_poses.py` pattern) → `tools/build_piccolo_from_oam.py`
+   → sheet + manifest; wire Piccolo hero + `fly` dodge + beam special kind.
+2. Goku: debug-menu MAP TEST to a pre-Cell map with Goku, redo the same
+   capture (Kamehameha instead of SBC).
+3. Build the dungeon (rooms/enemies/boss/barriers/music), probes + windowed
+   screenshots, export, commit.
+
+---
+
+## Session 1 (work PC): emulator bring-up — original handoff below
 
 ## Hero spec (agreed)
 - **Goku** (hero already in `data/heroes.json`): special = **Kamehameha** (beam),
