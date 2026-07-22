@@ -64,12 +64,12 @@ func _ready() -> void:
 	PatchFollower.attach(self, player)
 	hud = GameHUD.new()
 	add_child(hud)
-	prompt = UIKit.label("", 10, UIKit.COL_ACCENT)
+	prompt = UIKit.interaction_prompt()
 	prompt.z_index = 60
 	add_child(prompt)
 	if MultiplayerState.enabled:
 		player2 = MultiplayerState.attach_split(self, player)
-		prompt2 = UIKit.label("", 10, UIKit.COL_ACCENT)
+		prompt2 = UIKit.interaction_prompt()
 		prompt2.z_index = 60
 		add_child(prompt2)
 	_build_corner_buttons()

@@ -5,6 +5,7 @@ const COL_BG := Color("#1c1e30")
 const COL_PANEL := Color("#282b44")
 # Palette tuned to read on BOTH the dark HUD bar and the white ornate panels.
 const COL_ACCENT := Color("#c8922a")
+const COL_PROMPT := Color("#ffffff")
 const COL_TEXT := Color("#e8e8f0")   # sentinel: labels with this color inherit the ambient theme
 const COL_INK := Color("#2c3050")    # dark text used inside light panels
 const COL_DIM := Color("#767d95")
@@ -163,6 +164,16 @@ static func label(text: String, size: int = 10, color: Color = COL_TEXT) -> Labe
 	# COL_TEXT means "ambient": inherit white on dark HUD, ink inside light modals
 	if color != COL_TEXT:
 		l.add_theme_color_override("font_color", color)
+	return l
+
+
+## Bright in-world action text ("[E] Open the shop", "[A] Market", etc.).
+## Kept separate from COL_ACCENT so menu headings and economy highlights retain
+## their gold hierarchy while every keyboard/controller prompt stays legible.
+static func interaction_prompt() -> Label:
+	var l := label("", 10, COL_PROMPT)
+	l.add_theme_color_override("font_outline_color", Color("#20243a"))
+	l.add_theme_constant_override("outline_size", 3)
 	return l
 
 
