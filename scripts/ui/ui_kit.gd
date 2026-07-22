@@ -203,6 +203,10 @@ static func gold_variant(amount: int) -> String:
 	return "small"
 
 
+static func gold_world_size(variant: String) -> float:
+	return float({"small": 14.0, "medium": 16.0, "large": 18.0}.get(variant, 14.0))
+
+
 static func gold_icon(variant: String = "small", icon_size: Vector2 = Vector2(20, 18)) -> TextureRect:
 	var icon := TextureRect.new()
 	icon.texture = gold_texture(variant)
@@ -244,9 +248,9 @@ static func gold_popup(parent: Node2D, amount: int) -> Node2D:
 	var variant := gold_variant(amount)
 	sprite.texture = gold_texture(variant)
 	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-	# World-space popups share the camera zoom with the hero. Cap their logical
-	# size here; the source PNGs stay large enough for crisp menu rendering.
-	var target_max: float = float({"small": 18.0, "medium": 24.0, "large": 30.0}.get(variant, 18.0))
+	# Deal popups use the exact same footprint as gold lying beside ordinary
+	# item drops. The source PNGs stay large for crisp menu rendering.
+	var target_max := gold_world_size(variant)
 	if sprite.texture != null:
 		var source_max := maxf(float(sprite.texture.get_width()), float(sprite.texture.get_height()))
 		if source_max > target_max:

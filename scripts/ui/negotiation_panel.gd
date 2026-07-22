@@ -97,14 +97,9 @@ func _ready() -> void:
 	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	icon.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	item_box.add_child(icon)
-	var value_row := HBoxContainer.new()
-	value_row.alignment = BoxContainer.ALIGNMENT_CENTER
-	value_row.add_theme_constant_override("separation", 2)
-	value_row.add_child(UIKit.gold_icon("small", Vector2(18, 15)))
-	var value_lbl := UIKit.label("~%d market" % nego.market_value, 12, UIKit.COL_ACCENT)
+	var value_lbl := UIKit.label("~%dg market" % nego.market_value, 12, UIKit.COL_ACCENT)
 	value_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	value_row.add_child(value_lbl)
-	item_box.add_child(value_row)
+	item_box.add_child(value_lbl)
 	info.add_child(item_box)
 	vb.add_child(info)
 	vb.add_child(UIKit.hsep())

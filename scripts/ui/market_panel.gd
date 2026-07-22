@@ -158,8 +158,7 @@ func _make_row(id: String, locked_reason: String = "") -> VBoxContainer:
 		trend_lbl = UIKit.label("▼ %s today" % DayBriefing._pct(mult), 10, UIKit.COL_BAD)
 	trend_lbl.custom_minimum_size = Vector2(78, 0)
 	row.add_child(trend_lbl)
-	row.add_child(UIKit.gold_icon("small", Vector2(16, 14)))
-	var price_lbl := UIKit.label("%d → ~%d" % [cost, value], 9, UIKit.COL_INK)
+	var price_lbl := UIKit.label("%dg → ~%dg" % [cost, value], 9, UIKit.COL_INK)
 	price_lbl.custom_minimum_size = Vector2(88, 0)
 	price_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	price_lbl.tooltip_text = "Buy for %dg, sells for about %dg" % [cost, value]

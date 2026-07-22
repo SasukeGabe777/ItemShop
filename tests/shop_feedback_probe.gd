@@ -98,7 +98,7 @@ func _check_bonds_and_gold_drop() -> void:
 	var popup_sprite := popup.get_children().filter(func(child: Node) -> bool: return child is Sprite2D)[0] as Sprite2D
 	var popup_max := maxf(popup_sprite.texture.get_width() * popup_sprite.scale.x,
 		popup_sprite.texture.get_height() * popup_sprite.scale.y)
-	check(popup_max <= 30.1, "sale popup exceeds its world-space cap: %.1f px" % popup_max)
+	check(popup_max <= 18.1, "sale popup exceeds the item-drop cap: %.1f px" % popup_max)
 
 
 func check(condition: bool, message: String) -> void:

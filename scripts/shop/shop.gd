@@ -937,8 +937,7 @@ func _open_furniture_catalog() -> void:
 		var lbl := UIKit.label("%s — %d slot%s" % [String(def.get("name", fid)), slots, "s" if slots > 1 else ""], 10)
 		lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		row.add_child(lbl)
-		row.add_child(UIKit.gold_icon("small", Vector2(16, 14)))
-		row.add_child(UIKit.label("%d" % price, 10, UIKit.COL_ACCENT))
+		row.add_child(UIKit.label("%dg" % price, 10, UIKit.COL_ACCENT))
 		if unlock > GameState.shop_level:
 			lbl.add_theme_color_override("font_color", UIKit.COL_DIM)
 			row.add_child(UIKit.label("Shop Lv.%d" % unlock, 9, UIKit.COL_DIM))
@@ -1045,8 +1044,7 @@ func _open_decor_catalog() -> void:
 		var appeal_lbl := UIKit.label(", ".join(bits), 9, UIKit.COL_GOOD)
 		appeal_lbl.custom_minimum_size = Vector2(110, 0)
 		row.add_child(appeal_lbl)
-		row.add_child(UIKit.gold_icon("small", Vector2(16, 14)))
-		var price_lbl := UIKit.label("%d" % price, 10, UIKit.COL_INK)
+		var price_lbl := UIKit.label("%dg" % price, 10, UIKit.COL_INK)
 		price_lbl.custom_minimum_size = Vector2(48, 0)
 		price_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 		row.add_child(price_lbl)

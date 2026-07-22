@@ -19,7 +19,7 @@ func setup_gold(amount: int) -> void:
 	var variant := UIKit.gold_variant(amount)
 	# Item pickups are generally 12–18 px tall. Keep every coin tier in that
 	# same world-space footprint so valuable drops read richer, not enormous.
-	var target_max: float = float({"small": 14.0, "medium": 16.0, "large": 18.0}.get(variant, 14.0))
+	var target_max := UIKit.gold_world_size(variant)
 	_common(UIKit.gold_texture(variant), target_max)
 
 
