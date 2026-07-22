@@ -60,6 +60,11 @@ def parse_oam(oam):
 def obj_key(o):
     return (o["x"], o["y"], o["w"], o["h"], o["tile"], o["pal"])
 
+def obj_pos_key(o):
+    # position+size only, ignoring tile -- catches HUD elements whose tile
+    # number changes (health/ki bars redrawing) but whose slot never moves.
+    return (o["x"], o["y"], o["w"], o["h"])
+
 def decode_tile_4bpp(vram, tilenum):
     off = (tilenum & 0x3FF) * 32
     data = vram[off:off + 32]
@@ -228,11 +233,18 @@ def main():
 
     frames = sorted(glob.glob(f"{oamdir}/oam_*.bin"))
     counts = Counter()
+    pos_counts = Counter()
     for fp in frames:
         for o in parse_oam(open(fp, "rb").read()):
             counts[obj_key(o)] += 1
+            pos_counts[obj_pos_key(o)] += 1
     hud = {k for k, n in counts.items() if n > len(frames) * args.hud_fraction}
-    print(f"{len(frames)} frames; {len(hud)} static HUD objects excluded")
+    hud_pos = {k for k, n in pos_counts.items() if n > len(frames) * args.hud_fraction}
+    print(f"{len(frames)} frames; {len(hud)} static HUD objects excluded "
+          f"({len(hud_pos)} HUD slot-positions, tile-agnostic)")
+
+    def is_hud(o):
+        return obj_key(o) in hud or obj_pos_key(o) in hud_pos
 
     if args.probe:
         # sample one frame per action group; print live-object table
@@ -247,7 +259,7 @@ def main():
             vram = open(f"{oamdir}/objvram_{tag}.bin", "rb").read()
             pal = load_palette(f"{oamdir}/objpal_{tag}.bin")
             objs = list(parse_oam(oam))
-            live = [o for o in objs if obj_key(o) not in hud]
+            live = [o for o in objs if not is_hud(o)]
             Image.fromarray(render(objs, vram, pal), "RGBA").save(
                 f"{outdir}/obj_all_{tag}.png")
             print(f"\n== {tag}  ({len(live)} live objs)")
@@ -266,7 +278,7 @@ def main():
         oam = open(fp, "rb").read()
         vram = open(f"{oamdir}/objvram_{tag}.bin", "rb").read()
         pal = load_palette(f"{oamdir}/objpal_{tag}.bin")
-        live = [o for o in parse_oam(oam) if obj_key(o) not in hud]
+        live = [o for o in parse_oam(oam) if not is_hud(o)]
         if not live:
             print("decoded", tag, "-- no objects, skipped")
             continue
