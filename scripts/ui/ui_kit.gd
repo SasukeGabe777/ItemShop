@@ -500,6 +500,10 @@ static func modal(parent: Node, title: String) -> Array:
 		var fit := func() -> void: _fit_modal_to_half(layer, p, dim)
 		fit.call_deferred()
 		p.resized.connect(fit)
+		vp.size_changed.connect(fit)
+		layer.tree_exiting.connect(func() -> void:
+			if is_instance_valid(vp) and vp.size_changed.is_connected(fit):
+				vp.size_changed.disconnect(fit))
 	# controller: focus the first button once the caller has filled the modal
 	focus_first_button(vb)
 	return [layer, vb]
@@ -539,14 +543,27 @@ static func _fit_modal_to_half(layer: CanvasLayer, p: PanelContainer, dim: Color
 	if psize.x < 1.0 or psize.y < 1.0:
 		return
 	var normal_scale := minf(half.x * 0.95 / psize.x, half.y * 0.92 / psize.y)
-	# LARGE may use the remaining safe margin, but never clips a menu off its
-	# player's half. Dense menus therefore grow only as far as their contents
-	# permit; lighter menus receive the full preset change.
-	var safe_scale := minf(half.x * 0.995 / psize.x, half.y * 0.98 / psize.y)
-	var requested_scale := normal_scale * _mp_ui_scale_factor()
-	var s := clampf(minf(requested_scale, safe_scale), 0.5, 2.8)
+	var scale_factor := _mp_ui_scale_factor()
+	# LARGE is an accessibility/readability mode, so it may overscan only the
+	# ornate outer border. Its generous built-in content margins keep text and
+	# controls visible while producing a genuinely larger result.
+	var max_fill := Vector2(0.995, 0.98)
+	if scale_factor > 1.0:
+		max_fill = Vector2(1.10, 1.08)
+	var safe_scale := minf(half.x * max_fill.x / psize.x, half.y * max_fill.y / psize.y)
+	var requested_scale := normal_scale * scale_factor
+	# High-DPI/fullscreen P2 viewports need factors above the old 2.8 ceiling
+	# to match P1's root-canvas stretch (4.0 at 2560x1440, for example).
+	# safe_scale is the real resolution-independent upper bound.
+	var s := clampf(minf(requested_scale, safe_scale), 0.5, 8.0)
 	layer.scale = Vector2(s, s)
 	layer.offset = (half - frame * s) * 0.5
+	var horizontal_overscan := maxf(0.0, psize.x * s - half.x)
+	if horizontal_overscan > 0.0:
+		# Clip only against the outside monitor edge. P1 moves left and P2
+		# moves right, so neither enlarged panel can cover the other player's
+		# text across the center divider.
+		layer.offset.x += horizontal_overscan * (0.5 if vp is SubViewport else -0.5)
 	# the darkening backdrop must cover exactly this half at any scale
 	dim.set_anchors_preset(Control.PRESET_TOP_LEFT)
 	dim.position = -layer.offset / s

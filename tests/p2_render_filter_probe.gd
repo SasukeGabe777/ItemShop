@@ -7,7 +7,7 @@ class Probe:
 
 	func _ready() -> void:
 		var scale_passed := true
-		var expected_factors := [0.85, 1.0, 1.15]
+		var expected_factors := [0.85, 1.0, 1.25]
 		var expected_labels := ["SMALL", "NORMAL", "LARGE"]
 		for i in MultiplayerState.UI_SCALE_PRESETS.size():
 			MultiplayerState.set_ui_scale_preset(i)

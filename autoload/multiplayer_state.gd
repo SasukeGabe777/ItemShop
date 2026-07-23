@@ -11,7 +11,7 @@ const P2_DEVICE := 1
 const UI_SCALE_PRESETS := [
 	{"label": "SMALL", "factor": 0.85},
 	{"label": "NORMAL", "factor": 1.0},
-	{"label": "LARGE", "factor": 1.15},
+	{"label": "LARGE", "factor": 1.25},
 ]
 const CLONE_ACTIONS := ["move_left", "move_right", "move_up", "move_down", "interact", "cancel",
 	"attack", "special", "dodge", "use_item", "finisher", "zoom_in", "zoom_out"]

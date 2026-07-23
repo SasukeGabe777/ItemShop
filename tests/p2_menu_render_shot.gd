@@ -34,6 +34,19 @@ class Probe:
 			(p1_parts[0] as CanvasLayer).queue_free()
 			(p2_parts[0] as CanvasLayer).queue_free()
 			await get_tree().process_frame
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+		await get_tree().create_timer(1.0).timeout
+		MultiplayerState.set_ui_scale_preset(2)
+		var full_p1 := UIKit.modal(town, "Player 1 — LARGE FULLSCREEN")
+		var full_p2 := UIKit.modal(p2vp, "Player 2 — LARGE FULLSCREEN")
+		_fill_identical(full_p1[1])
+		_fill_identical(full_p2[1])
+		await get_tree().create_timer(0.8).timeout
+		get_viewport().get_texture().get_image().save_png(
+			SHOT_DIR + "05_large_fullscreen_menus.png")
+		(full_p1[0] as CanvasLayer).queue_free()
+		(full_p2[0] as CanvasLayer).queue_free()
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 		print("P2_MENU_RENDER_SHOT_DONE folder=",
 			ProjectSettings.globalize_path(SHOT_DIR))
 		MultiplayerState.set_ui_scale_preset(1)
