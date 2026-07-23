@@ -842,14 +842,7 @@ func _make_pick_row(id: String, slot: int, pick_layer: CanvasLayer, who: int = 1
 	row.add_theme_constant_override("separation", 6)
 	row.custom_minimum_size = Vector2(0, 26)
 	entry.add_child(row)
-	var icon := TextureRect.new()
-	icon.texture = ContentDatabase.item_texture(id)
-	icon.custom_minimum_size = Vector2(24, 24)
-	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	icon.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-	icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	row.add_child(icon)
+	row.add_child(UIKit.item_icon(id))
 	var name_lbl := UIKit.label(ContentDatabase.item_name(id), 10)
 	name_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	name_lbl.clip_text = true

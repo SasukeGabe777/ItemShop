@@ -232,6 +232,33 @@ static func bond_icon(level: int, icon_size: Vector2 = Vector2(44, 44)) -> Textu
 	return icon
 
 
+## A fixed item-art box shared by every menu. Ignoring the texture's native
+## dimensions is the important part: a 35px keyblade and a 12px ingredient
+## occupy the same row footprint while preserving their own proportions.
+static func item_icon(item_id: String, icon_size: Vector2 = Vector2(24, 24)) -> TextureRect:
+	var icon := TextureRect.new()
+	icon.texture = ContentDatabase.item_texture(item_id)
+	icon.custom_minimum_size = icon_size
+	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	icon.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	icon.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	return icon
+
+
+## Shop-floor item art uses Sprite2D instead of TextureRect, so apply the same
+## fit-to-box rule explicitly. This scales small sources up as well as capping
+## large ones; otherwise the current catalog ranges from 12px to 35px.
+static func fit_item_sprite(sprite: Sprite2D, target_max_px: float = 18.0) -> void:
+	sprite.scale = Vector2.ONE
+	if sprite.texture == null or target_max_px <= 0.0:
+		return
+	var source_max := maxf(float(sprite.texture.get_width()), float(sprite.texture.get_height()))
+	if source_max > 0.0:
+		sprite.scale = Vector2.ONE * (target_max_px / source_max)
+
+
 static func emote_texture(kind: String) -> Texture2D:
 	var path := EMOTE_PATTERN % kind
 	return load(path) if ResourceLoader.exists(path) else null
@@ -366,11 +393,8 @@ static func scroll_list(min_size: Vector2) -> Array:
 
 static func item_row(item_id: String, suffix: String, action_text: String, on_press: Callable) -> HBoxContainer:
 	var row := HBoxContainer.new()
-	var icon := TextureRect.new()
-	icon.texture = ContentDatabase.item_texture(item_id)
-	icon.custom_minimum_size = Vector2(16, 16)
-	icon.stretch_mode = TextureRect.STRETCH_KEEP_CENTERED
-	row.add_child(icon)
+	row.custom_minimum_size.y = 18
+	row.add_child(item_icon(item_id, Vector2(18, 18)))
 	var lbl := label("%s %s" % [ContentDatabase.item_name(item_id), suffix])
 	lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	lbl.tooltip_text = String(ContentDatabase.get_item(item_id).get("desc", ""))

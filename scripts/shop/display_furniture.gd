@@ -118,7 +118,9 @@ func refresh_items() -> void:
 		var id := ""
 		if global_slot < InventoryManager.display.size():
 			id = String(InventoryManager.display[global_slot])
-		_item_sprites[i].texture = ContentDatabase.item_texture(id) if id != "" else null
+		var item_sprite := _item_sprites[i]
+		item_sprite.texture = ContentDatabase.item_texture(id) if id != "" else null
+		UIKit.fit_item_sprite(item_sprite)
 
 
 ## Bright physical marker for the slot whose stocking picker is open. This is

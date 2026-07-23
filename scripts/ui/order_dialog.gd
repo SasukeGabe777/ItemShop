@@ -89,13 +89,7 @@ func _add_item_summary(vb: VBoxContainer, item_id: String, qty: int,
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 8)
 	vb.add_child(row)
-	var icon := TextureRect.new()
-	icon.texture = ContentDatabase.item_texture(item_id)
-	icon.custom_minimum_size = Vector2(52, 52)
-	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	icon.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-	row.add_child(icon)
+	row.add_child(UIKit.item_icon(item_id, Vector2(52, 52)))
 	var details := VBoxContainer.new()
 	details.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.add_child(details)

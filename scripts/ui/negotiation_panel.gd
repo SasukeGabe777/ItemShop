@@ -90,13 +90,7 @@ func _ready() -> void:
 	var item_box := VBoxContainer.new()
 	item_box.add_theme_constant_override("separation", 1)
 	item_box.alignment = BoxContainer.ALIGNMENT_CENTER
-	var icon := TextureRect.new()
-	icon.texture = ContentDatabase.item_texture(item_id)
-	icon.custom_minimum_size = Vector2(44, 44)
-	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	icon.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-	item_box.add_child(icon)
+	item_box.add_child(UIKit.item_icon(item_id, Vector2(44, 44)))
 	var value_lbl := UIKit.label("~%dg market" % nego.market_value, 12, UIKit.COL_ACCENT)
 	value_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	item_box.add_child(value_lbl)

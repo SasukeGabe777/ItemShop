@@ -187,12 +187,13 @@ func open_category(category: String) -> void:
 		for entry: Dictionary in entries:
 			var row := HBoxContainer.new()
 			row.custom_minimum_size = Vector2(150, 40)
-			var portrait := TextureRect.new()
-			portrait.texture = _entry_texture(category, entry)
-			portrait.custom_minimum_size = Vector2(42, 38)
-			portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-			portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-			portrait.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+			var portrait := UIKit.item_icon(String(entry["id"]), Vector2(42, 38)) if category == "Items" else TextureRect.new()
+			if category != "Items":
+				portrait.texture = _entry_texture(category, entry)
+				portrait.custom_minimum_size = Vector2(42, 38)
+				portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+				portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+				portrait.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 			row.add_child(portrait)
 			var button := UIKit.button(String(entry["name"]),
 				func() -> void: show_entry(category, entry), 8)
