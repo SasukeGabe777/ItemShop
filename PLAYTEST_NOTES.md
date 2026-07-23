@@ -53,6 +53,20 @@
   (`combat_hero.gd::dodge_cooldown`) — block + expiry proven headless
   (`tests/dodge_cooldown_probe.tscn`).
 
+### Round 3 (same day): Luigi moonwalk, Naruto spin, Sora rebuild
+
+- **Luigi's side walk played backwards** (cycle authored right-to-left on
+  the sheet) — frame order reversed in `prep_mario_luigi_v2.py`.
+- **Naruto spun on basic movement** — his side anims used frame 3, a
+  turn-transition pose (AGENT_GUIDE §8 pitfall); remapped to the true side
+  frames 4/5.
+- **Sora "completely messed up" except his roll** — full rebuild from the
+  user's `sora_updated.png` (`tools/prep_sora_v2.py`): 8-frame runs in
+  down/up/side, 5-frame keyblade melee in three facings + two combo
+  variants (SW/NW rows), Strike Raid body poses, and a real spinning-blade
+  projectile sprite. The old roll frames were preserved pixel-identical.
+  Verified windowed (`tests/sora_fixes_shot.tscn`).
+
 ---
 
 ## 2026-07-20 - Shop Boom announcement and crowd flow
