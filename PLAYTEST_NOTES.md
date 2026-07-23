@@ -53,6 +53,23 @@
   (`combat_hero.gd::dodge_cooldown`) — block + expiry proven headless
   (`tests/dodge_cooldown_probe.tscn`).
 
+### Round 4 (same day): move_VFX drop wired into combat
+
+- User supplied `assets/shared/effects/move_VFX` (258 effect sets) with
+  exact references. Wired via strip sheets (`tools/build_move_vfx.py`) +
+  a new one-shot `EffectFlipbook` node and animated `Projectile` art:
+  - standard enemy shooters: flame bolt / bubble chain (8-direction rows,
+    order [S,SW,W,NW,N,NE,E,SE] verified with an in-game direction ring)
+    / pulse — stable per-enemy style pick
+  - bosses: star-trail + dart volleys with a converging gather flourish,
+    explosion flipbook on slam, wind swirl on charge dash
+  - standard enemies: melee impact fist on contact, dust poof on
+    lunger/ambusher dashes
+  - Naruto: substitution log + smoke on vanish dodge (0148 pieces),
+    pulsing rasengan ring on Shadow Clone Strike (0240) — both
+    data-driven via dodge/special `vfx_*` fields in heroes.json
+- All effects screenshot-verified in-game (`tests/vfx_probe_shot.tscn`).
+
 ### Round 3 (same day): Luigi moonwalk, Naruto spin, Sora rebuild
 
 - **Luigi's side walk played backwards** (cycle authored right-to-left on

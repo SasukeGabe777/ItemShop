@@ -206,6 +206,21 @@ func _do_special() -> void:
 			_aoe_damage(radius, dmg_ratio * (float(sp.get("count", 1)) if kind == "clones" else 1.0))
 			FX.burst(get_parent(), global_position, color, 18)
 			FX.shake(3.0)
+			# optional flipbook art (move_VFX drop): clones ring the hero with
+			# one effect per clone, burst/spin play one at the body
+			var vfx := String(sp.get("vfx_sheet", ""))
+			if vfx != "":
+				var vh := int(sp.get("vfx_frames", 1))
+				var vf := float(sp.get("vfx_fps", 14))
+				if kind == "clones":
+					var count := int(sp.get("count", 3))
+					for i in range(count):
+						var ang := TAU * float(i) / float(count) + randf() * 0.8
+						EffectFlipbook.spawn(get_parent(), vfx, vh, 1, 0, vf,
+							global_position + Vector2.RIGHT.rotated(ang) * radius * 0.55 + Vector2(0, -10), 1.0)
+				else:
+					EffectFlipbook.spawn(get_parent(), vfx, vh, 1, 0, vf,
+						global_position + Vector2(0, -12), 1.0)
 		"dash":
 			movement.dash(facing, float(sp.get("distance", 90)), 0.16)
 			health.grant_iframes(0.2)
@@ -282,6 +297,12 @@ func _do_dodge(pressed: bool) -> void:
 				visual.modulate.a = 1.0)
 	else:
 		FX.flash(visual.body_node(), Color(0.8, 0.8, 1.0))
+	# optional dodge flipbook at the departure spot (Naruto's substitution
+	# log + smoke from the move_VFX drop)
+	var dvfx := String(dodge.get("vfx_sheet", ""))
+	if dvfx != "":
+		EffectFlipbook.spawn(get_parent(), dvfx, int(dodge.get("vfx_frames", 1)), 1, 0,
+			float(dodge.get("vfx_fps", 12)), global_position + Vector2(0, -6), 1.0)
 
 
 func _use_consumable() -> void:

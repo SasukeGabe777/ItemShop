@@ -184,6 +184,9 @@ func _behavior_direction(delta: float) -> Vector2:
 				_state = "lunge"
 				_state_time = 0.6
 				movement.dash(to_p, dist + 20.0, 0.25)
+				EffectFlipbook.spawn(get_parent(),
+					"res://assets/shared/effects/processed/dash_enemy.png", 12, 1, 0, 20,
+					global_position + Vector2(0, -6), 0.7)
 				return Vector2.ZERO
 			return to_p if dist > 60.0 else Vector2.ZERO
 		"shooter", "skitter_shooter":
@@ -226,6 +229,9 @@ func _behavior_direction(delta: float) -> Vector2:
 				_state = "burst"
 				_state_time = 1.2
 				movement.dash(to_p, dist * 0.8, 0.3)
+				EffectFlipbook.spawn(get_parent(),
+					"res://assets/shared/effects/processed/dash_enemy.png", 12, 1, 0, 20,
+					global_position + Vector2(0, -6), 0.7)
 			elif _state == "burst" and _state_time <= 0.0:
 				_state = "idle"
 			return to_p if _state == "burst" else Vector2.ZERO
@@ -257,8 +263,21 @@ func _touch_damage() -> void:
 	if dist < (hit_radius + 9.0):
 		hitbox.begin_swing({"damage": int(def.get("atk", 5)), "knockback": 160.0, "source": self})
 		get_tree().create_timer(0.1).timeout.connect(hitbox.end_swing)
+		# melee impact flash (move_VFX 0147/000) at the contact point
+		EffectFlipbook.spawn(get_parent(),
+			"res://assets/shared/effects/processed/melee_impact.png", 12, 1, 0, 22,
+			global_position + _to_player().normalized() * (hit_radius * 0.7) + Vector2(0, -8), 0.6)
 		if behavior != "shooter" and behavior != "skitter_shooter":
 			_shots_cooldown = 0.7
+
+
+# standard-shooter projectile styles (move_VFX drop): stable per-enemy pick.
+# rows are direction variants [S,SW,W,NW,N,NE,E,SE]; pulse is non-directional.
+const SHOT_STYLES := [
+	{"sheet": "res://assets/shared/effects/processed/shot_flame.png", "h": 4, "v": 8, "dir": true, "fps": 14},
+	{"sheet": "res://assets/shared/effects/processed/shot_bubble.png", "h": 2, "v": 8, "dir": true, "fps": 8},
+	{"sheet": "res://assets/shared/effects/processed/shot_pulse.png", "h": 11, "v": 1, "dir": false, "fps": 14},
+]
 
 
 func _shoot(direction: Vector2) -> void:
@@ -267,6 +286,9 @@ func _shoot(direction: Vector2) -> void:
 		direction, 150.0, Color(String(def.get("color", "#ffffff"))).lightened(0.3), 16)
 	p.global_position = global_position
 	get_parent().add_child(p)
+	var style: Dictionary = SHOT_STYLES[hash(enemy_id) % SHOT_STYLES.size()]
+	var row := EffectFlipbook.dir8(direction) if bool(style["dir"]) else 0
+	p.set_art(String(style["sheet"]), int(style["h"]), int(style["v"]), row, float(style["fps"]))
 
 
 func _explode() -> void:

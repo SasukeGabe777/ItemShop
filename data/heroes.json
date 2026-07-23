@@ -271,12 +271,18 @@
      "dmg": 12,
      "count": 3,
      "radius": 70,
-     "cost": 30
+     "cost": 30,
+     "vfx_sheet": "res://assets/shared/effects/processed/naruto_rasengan.png",
+     "vfx_frames": 12,
+     "vfx_fps": 16
     },
     "dodge": {
      "kind": "vanish",
      "distance": 60,
-     "iframes": 0.4
+     "iframes": 0.4,
+     "vfx_sheet": "res://assets/shared/effects/processed/naruto_sub.png",
+     "vfx_frames": 6,
+     "vfx_fps": 12
     },
     "finisher": {
      "name": "Rasengan",

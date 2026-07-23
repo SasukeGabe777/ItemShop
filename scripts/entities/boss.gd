@@ -96,23 +96,46 @@ func _execute_attack() -> void:
 			_summon_or_storm()
 
 
+# boss projectile styles (move_VFX drop): stable per-boss pick. Rows are
+# direction variants [S,SW,W,NW,N,NE,E,SE].
+const BOSS_SHOT_STYLES := [
+	{"sheet": "res://assets/shared/effects/processed/shot_star.png", "h": 1, "v": 8, "fps": 1},
+	{"sheet": "res://assets/shared/effects/processed/shot_dart.png", "h": 1, "v": 8, "fps": 1},
+]
+
+
+func _boss_shot(direction: Vector2, speed: float, dmg: int) -> void:
+	var p := Projectile.new()
+	p.setup({"damage": dmg, "knockback": 130.0, "source": self},
+		direction, speed, Color(String(def.get("color", "#ffffff"))).lightened(0.4), 16)
+	p.global_position = global_position
+	get_parent().add_child(p)
+	var style: Dictionary = BOSS_SHOT_STYLES[hash(enemy_id) % BOSS_SHOT_STYLES.size()]
+	p.set_art(String(style["sheet"]), int(style["h"]), int(style["v"]),
+		EffectFlipbook.dir8(direction), float(style["fps"]))
+
+
 func _slam() -> void:
 	FX.shake(float(ContentDatabase.bal("dungeon", {}).get("shake_heavy", 6.0)))
 	FX.burst(get_parent(), global_position, Color(String(def.get("color", "#ffffff"))), 26)
+	# explosion flipbook (move_VFX 0005/001), scaled to boss presence
+	EffectFlipbook.spawn(get_parent(),
+		"res://assets/shared/effects/processed/slam_boom.png", 10, 1, 0, 18,
+		global_position + Vector2(0, -10), maxf(1.0, float(def.get("size", 30)) / 30.0))
 	if _to_player().length() < float(def.get("size", 30)) * 2.2:
 		(target.get_node("HurtboxComponent") as HurtboxComponent).receive(
 			{"damage": int(def.get("atk", 15)), "knockback": 260.0, "source": self}, global_position)
 
 
 func _volley() -> void:
+	# charge-up ring flourish (move_VFX 0055/000) as the ring fires
+	EffectFlipbook.spawn(get_parent(),
+		"res://assets/shared/effects/processed/boss_gather.png", 12, 1, 0, 20,
+		global_position + Vector2(0, -14), 0.8)
 	var count := 6 + _phase * 2
 	for i in range(count):
 		var ang := TAU * float(i) / float(count)
-		var p := Projectile.new()
-		p.setup({"damage": int(def.get("atk", 15)) / 2 + 2, "knockback": 120.0, "source": self},
-			Vector2.RIGHT.rotated(ang), 130.0, Color(String(def.get("color", "#ffffff"))).lightened(0.4), 16)
-		p.global_position = global_position
-		get_parent().add_child(p)
+		_boss_shot(Vector2.RIGHT.rotated(ang), 130.0, int(def.get("atk", 15)) / 2 + 2)
 
 
 func _charge() -> void:
@@ -120,6 +143,10 @@ func _charge() -> void:
 	hitbox.begin_swing({"damage": int(def.get("atk", 15)), "knockback": 240.0, "source": self})
 	get_tree().create_timer(0.4).timeout.connect(hitbox.end_swing)
 	FX.attack_trail(get_parent(), global_position, target.global_position, Color(1, 0.5, 0.4))
+	# dash wind (move_VFX 0013/040) at the launch point
+	EffectFlipbook.spawn(get_parent(),
+		"res://assets/shared/effects/processed/dash_boss.png", 8, 1, 0, 18,
+		global_position + Vector2(0, -12), 1.0)
 
 
 func _summon_or_storm() -> void:
@@ -134,9 +161,5 @@ func _summon_or_storm() -> void:
 	else:
 		# targeted storm: three projectiles aimed at the player
 		for i in range(3):
-			var p := Projectile.new()
 			var spread := (i - 1) * 0.25
-			p.setup({"damage": int(def.get("atk", 15)) / 2 + 3, "knockback": 140.0, "source": self},
-				_to_player().rotated(spread), 190.0, Color(0.8, 0.6, 1.0), 16)
-			p.global_position = global_position
-			get_parent().add_child(p)
+			_boss_shot(_to_player().rotated(spread), 190.0, int(def.get("atk", 15)) / 2 + 3)
