@@ -2633,6 +2633,78 @@
    "telegraph": 0.6
   },
   {
+   "id": "latios",
+   "name": "Latios",
+   "world": "pokemon",
+   "hp": 1200,
+   "atk": 28,
+   "spd": 170,
+   "behavior": "boss_charger",
+   "size": 24,
+   "color": "#4890d8",
+   "loot": [
+    [
+     "world_shard_pkmn",
+     1.0
+    ],
+    [
+     "rare_candy",
+     0.8
+    ],
+    [
+     "ultra_ball",
+     0.6
+    ]
+   ],
+   "gold": [
+    3000,
+    3800
+   ],
+   "attacks": [
+    "zen_headbutt",
+    "dragon_pulse",
+    "giga_impact",
+    "luster_purge"
+   ],
+   "telegraph": 0.55
+  },
+  {
+   "id": "ho_oh",
+   "name": "Ho-Oh",
+   "world": "pokemon",
+   "hp": 1500,
+   "atk": 31,
+   "spd": 120,
+   "behavior": "boss_tank",
+   "size": 34,
+   "color": "#e83820",
+   "loot": [
+    [
+     "world_shard_pkmn",
+     1.0
+    ],
+    [
+     "rare_candy",
+     1.0
+    ],
+    [
+     "lucky_egg",
+     0.6
+    ]
+   ],
+   "gold": [
+    3600,
+    4400
+   ],
+   "attacks": [
+    "sacred_fire",
+    "air_slash",
+    "sky_attack",
+    "whirlwind"
+   ],
+   "telegraph": 0.65
+  },
+  {
    "id": "mewtwo",
    "name": "Mewtwo",
    "world": "pokemon",

@@ -216,6 +216,13 @@ func _do_special() -> void:
 				float(sp.get("fuse", 2.0)), CombatHero.LAYER_ENEMY_HURT)
 			bomb.global_position = global_position + facing.normalized() * 12.0
 			get_parent().add_child(bomb)
+		"nova":
+			# ring bursts around the body center, not the feet pivot
+			var nova := Nova.new()
+			nova.setup(_attack_damage(dmg_ratio), sp)
+			nova.global_position = global_position + Vector2(0.0, -12.0)
+			get_parent().add_child(nova)
+			FX.shake(2.5)
 		"beam":
 			# hold the firing pose for the beam's grow+hold duration
 			attack_lock = 0.6

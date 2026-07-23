@@ -1,0 +1,72 @@
+{
+  "asset_id": "corrupt_rattata",
+  "sheet": "res://assets/franchises/pokemon/processed/sheets/corrupt_rattata.png",
+  "native_scale": 1,
+  "display_scale": 1,
+  "pivot": [
+    15,
+    20
+  ],
+  "grid": {
+    "frame_width": 30,
+    "frame_height": 24,
+    "columns": 8,
+    "rows": 3
+  },
+  "animations": {
+    "idle_down": {
+      "frames": [
+        0,
+        1
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "idle_up": {
+      "frames": [
+        2,
+        3
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "idle_side": {
+      "frames": [
+        4,
+        5
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "walk_down": {
+      "frames": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "fps": 7,
+      "loop": true
+    },
+    "walk_up": {
+      "frames": [
+        10,
+        11,
+        12,
+        13
+      ],
+      "fps": 7,
+      "loop": true
+    },
+    "walk_side": {
+      "frames": [
+        14,
+        15,
+        16,
+        17
+      ],
+      "fps": 7,
+      "loop": true
+    }
+  }
+}

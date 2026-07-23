@@ -519,7 +519,41 @@
     "focus_band",
     "bicycle_voucher",
     "pokedex"
-   ]
+   ],
+   "heroes": [
+    "pikachu",
+    "charmander"
+   ],
+   "boss_rotation": [
+    "latios",
+    "ho_oh",
+    "mewtwo"
+   ],
+   "room_backgrounds": {
+    "start": [
+     "res://assets/locations/pkmndungeon/processed/start_meadow.png"
+    ],
+    "combat": [
+     "res://assets/locations/pkmndungeon/processed/combat_woods.png",
+     "res://assets/locations/pkmndungeon/processed/combat_woods2.png",
+     "res://assets/locations/pkmndungeon/processed/combat_cave.png",
+     "res://assets/locations/pkmndungeon/processed/combat_cave2.png"
+    ],
+    "treasure": [
+     "res://assets/locations/pkmndungeon/processed/treasure_vault.png"
+    ],
+    "boss": [
+     "res://assets/locations/pkmndungeon/processed/boss_summit.png"
+    ]
+   },
+   "barriers": {
+    "h": [
+     "res://assets/locations/pkmndungeon/processed/barrier_block.png"
+    ],
+    "v": [
+     "res://assets/locations/pkmndungeon/processed/barrier_block.png"
+    ]
+   }
   },
   {
    "id": "null_archive",

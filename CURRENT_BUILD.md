@@ -26,8 +26,8 @@ recipe/customer expansion — none of which the old doc reflected.
 | Data | Count | Δ since 9f97b5b |
 | --- | --- | --- |
 | Worlds | **8** (`kingdom_hearts, mario, final_fantasy, zelda, naruto, dragon_ball, pokemon, null_archive`) | — |
-| Playable heroes / NPCs | **9 / 3** | +1 hero (**Piccolo**) |
-| Regular enemies / bosses | **93 / 17** | +8 enemies; bosses 25→17 (FF6 monsters refiled to enemies) |
+| Playable heroes / NPCs | **10 / 3** | +2 heroes (**Piccolo**, **Charmander** 2026-07-22) |
+| Regular enemies / bosses | **93 / 19** | +8 enemies; +2 bosses (**Latios**, **Ho-Oh** 2026-07-22) |
 | Items | **225** | — |
 | Recipes | **99** | +44 |
 | Customer archetypes / named | **10 / 28** | — |
@@ -46,13 +46,27 @@ recipe/customer expansion — none of which the old doc reflected.
 | Final Fantasy (3) | Cloud | room backgrounds + props | **Built** |
 | Zelda (4) | Link | room backgrounds + props | **Built** (composited sword overlay) |
 | Naruto (5) | Naruto | room backgrounds + props | **Built** — thinnest hero animation set |
-| Dragon Ball (6) | Goku, Piccolo | room backgrounds + props | **Built (NEW)** — both heroes playable, beam specials + fly dodge, enemy roster + Perfect Cell boss |
-| Pokémon (7) | Pikachu | **none** | **Data stub** — no hero manifest, no dungeon art; not a playable expedition |
+| Dragon Ball (6) | Goku, Piccolo | room backgrounds + props | **Built** — both heroes playable, beam specials + fly dodge, enemy roster + Perfect Cell boss |
+| Pokémon (7) | Pikachu, Charmander | PMD-composed room backgrounds + barriers | **Built (NEW 2026-07-22)** — both heroes playable with `nova` ring specials (Discharge / Fire Spin), 5-enemy corrupt roster, 3-boss rotation (Latios → Ho-Oh → Mewtwo) |
 | Null Archive (F) | any | n/a | Endgame stub (The Fade) |
 
-**Six of the seven franchise worlds are now built.** Pokémon is the last
-data-only stub: it has hero/enemy/item/customer data but no dungeon art and no
-`pikachu` hero manifest, so it has no playable expedition yet.
+**All seven franchise worlds are now built** (2026-07-22: Pokémon shipped from
+the user's PMD sheet drop — no emulator capture needed). Null Archive remains
+the endgame stub by design.
+
+### Pokémon detail (built 2026-07-22, sheet-mined)
+
+Pikachu + Charmander heroes extracted from PMD Explorers of Sky rips
+(`tools/prep_pokemon_world.py` — direction-row conventions VARY per sheet,
+verified by mirror-similarity; see AGENT_GUIDE §8). New engine special kind
+**`nova`** (`scripts/entities/nova.gd`): self-centered AOE ring played from
+the user's frame-by-frame effect rips (Discharge / Fire Spin). Dungeon rooms
+composed from PMD tileset atlases (`tools/build_pokemon_rooms.py`): Viridian
+meadow/woods, Cerulean crystal-cave, Golden Chamber treasure vault, Temporal
+Tower Summit boss arena, sealed-gold-block barriers. Boss rotation:
+Latios (1200hp) → Ho-Oh (1500hp) → Mewtwo (1800hp), all carrying
+`world_shard_pkmn`. Verified windowed: rooms/enemies/bosses/specials all
+screenshot-checked (`tests/pkmn_verify_shot.gd`), boot/parse/campaign green.
 
 ### Dragon Ball detail (built 2026-07-21 on the home PC)
 
@@ -111,12 +125,13 @@ Screenshot probes must run **windowed** (no `--headless`). See
 | --- | --- | --- |
 | Goku | **10 fr** | full DBZ set: walks, melee, 3-facing Kamehameha, fly |
 | Piccolo | **10 fr** | full DBZ set: walks, melee, SBC charge/fire, fly flips |
+| Pikachu | 1 fr | PMD set: 3-fr walks all dirs, attacks, 3-facing Discharge poses |
+| Charmander | 1 fr | PMD set: 3-fr walks, 4-fr slash attacks, Fire Spin poses |
 | Link | **10 fr** (side 10 fr) | blink idles, 10-fr walks, composited sword |
 | Sora | 1 fr | 8-fr walks, Keyblade combo + dodge-roll |
 | Mario / Luigi | 1 fr | 6-fr walks, down+side attacks (no up) |
 | Cloud | 1 fr | thin: 2-fr up/side walks, non-directional attacks |
 | Naruto | 1 fr | thinnest: 3-fr walks, side-only attacks |
-| Pikachu | — | **no hero manifest** (Pokémon world unbuilt) |
 
 The old "**universal** 1-frame idle" claim is no longer true: Link, Goku, and
 Piccolo now have multi-frame idle motion (the DBZ heroes are among the richest
@@ -125,8 +140,10 @@ and Naruto — Naruto and Cloud are still the thinnest overall.
 
 ## Known real gaps and defects (verified this pass — not doc-staleness)
 
-1. **Pokémon is not a playable expedition.** No `pikachu` hero manifest, no
-   room backgrounds/obstacle props. Data only. It is now the *last* stub world.
+1. **Pokémon has no obstacle props** — interior obstacles fall back to flat
+   lightened polygons (deliberate: PMD wall tiles carry baked fills that read
+   as pasted boxes on composed floors). Also `pokedex` and `fire_stone` items
+   still lack icons, so they never circulate in shops.
 2. **`data/locations.json` is empty.** `LocationLoader` and the Location
    Workshop exist, but campaign scenes still build layouts in code.
 3. **No human acceptance playtest** of the expanded 6-built-world build is
@@ -146,7 +163,7 @@ export. See the standard command in `CLAUDE.md` / `docs/AGENT_GUIDE.md`.
 
 ## Recommended next work
 
-See `NEXT_TASKS.md`. In short: (1) record a human acceptance playtest of the
-built worlds and refresh `PLAYTEST_NOTES.md`; (2) decide Pokémon — build it out
-following the DBZ recipe or explicitly defer it; (3) idle-motion polish for the
-five heroes still on 1-frame idles (Naruto/Cloud thinnest).
+See `NEXT_TASKS.md`. In short: (1) record a human acceptance playtest of all
+seven built worlds and refresh `PLAYTEST_NOTES.md`; (2) Pokémon polish (props,
+two missing item icons, idle motion, music); (3) idle-motion polish for the
+heroes still on 1-frame idles (Naruto/Cloud thinnest).

@@ -1,0 +1,126 @@
+{
+  "asset_id": "pikachu",
+  "sheet": "res://assets/franchises/pokemon/processed/sheets/pikachu.png",
+  "native_scale": 1,
+  "display_scale": 1,
+  "pivot": [
+    24,
+    44
+  ],
+  "grid": {
+    "frame_width": 48,
+    "frame_height": 48,
+    "columns": 8,
+    "rows": 5
+  },
+  "animations": {
+    "idle_down": {
+      "frames": [
+        0
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "idle_up": {
+      "frames": [
+        1
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "idle_side": {
+      "frames": [
+        2
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "walk_down": {
+      "frames": [
+        3,
+        4,
+        5,
+        6
+      ],
+      "fps": 7,
+      "loop": true
+    },
+    "walk_up": {
+      "frames": [
+        7,
+        8,
+        9,
+        10
+      ],
+      "fps": 7,
+      "loop": true
+    },
+    "walk_side": {
+      "frames": [
+        11,
+        12,
+        13,
+        14
+      ],
+      "fps": 7,
+      "loop": true
+    },
+    "attack_1_down": {
+      "frames": [
+        15,
+        16,
+        17
+      ],
+      "fps": 12,
+      "loop": false
+    },
+    "attack_1_up": {
+      "frames": [
+        18,
+        19,
+        20
+      ],
+      "fps": 12,
+      "loop": false
+    },
+    "attack_1_side": {
+      "frames": [
+        21,
+        22,
+        23
+      ],
+      "fps": 12,
+      "loop": false
+    },
+    "special_down": {
+      "frames": [
+        24,
+        25,
+        26,
+        27
+      ],
+      "fps": 10,
+      "loop": false
+    },
+    "special_up": {
+      "frames": [
+        28,
+        29,
+        30,
+        31
+      ],
+      "fps": 10,
+      "loop": false
+    },
+    "special_side": {
+      "frames": [
+        32,
+        33,
+        34,
+        35
+      ],
+      "fps": 10,
+      "loop": false
+    }
+  }
+}

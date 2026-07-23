@@ -1,0 +1,742 @@
+2026-07-22 18:21:04,435 INFO Opening game page: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/
+2026-07-22 18:21:17,844 INFO Game: Pokémon Mystery Dungeon: Explorers of Time / Darkness
+2026-07-22 18:21:17,844 INFO Platform/category: Ds Dsi
+2026-07-22 18:21:17,844 INFO Asset count reported: 344
+2026-07-22 18:21:17,844 INFO Assets selected: 100
+2026-07-22 18:21:17,844 INFO Sections: Pokémon (1st Generation), Pokémon (2nd Generation), Pokémon (3rd Generation), Pokémon (4th Generation), Backgrounds, Dungeons, Attacks, Miscellaneous
+2026-07-22 18:21:17,844 INFO Destination: C:\Users\Game Station\Desktop\crossroads\assets\franchises\pokemon\raw\customers
+2026-07-22 18:21:17,845 INFO Filename pattern: sprite_<asset>
+2026-07-22 18:21:17,847 INFO Dry run only; no assets downloaded.
+2026-07-22 18:22:10,857 INFO Opening game page: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/
+2026-07-22 18:22:16,739 INFO Game: Pokémon Mystery Dungeon: Explorers of Time / Darkness
+2026-07-22 18:22:16,739 INFO Platform/category: Ds Dsi
+2026-07-22 18:22:16,740 INFO Asset count reported: 344
+2026-07-22 18:22:16,740 INFO Assets selected: 239
+2026-07-22 18:22:16,740 INFO Sections: Pokémon (1st Generation), Pokémon (2nd Generation), Pokémon (3rd Generation), Pokémon (4th Generation), Backgrounds, Dungeons, Attacks, Miscellaneous
+2026-07-22 18:22:16,740 INFO Destination: C:\Users\Game Station\Desktop\crossroads\assets\franchises\pokemon\raw\customers
+2026-07-22 18:22:16,740 INFO Filename pattern: sprite_<asset>
+2026-07-22 18:22:16,740 INFO Dry run only; no assets downloaded.
+2026-07-22 18:22:19,301 INFO Opening game page: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/
+2026-07-22 18:22:25,065 INFO Game: Pokémon Mystery Dungeon: Explorers of Time / Darkness
+2026-07-22 18:22:25,065 INFO Platform/category: Ds Dsi
+2026-07-22 18:22:25,066 INFO Asset count reported: 344
+2026-07-22 18:22:25,066 INFO Assets selected: 239
+2026-07-22 18:22:25,066 INFO Sections: Pokémon (1st Generation), Pokémon (2nd Generation), Pokémon (3rd Generation), Pokémon (4th Generation), Backgrounds, Dungeons, Attacks, Miscellaneous
+2026-07-22 18:22:25,066 INFO Destination: C:\Users\Game Station\Desktop\crossroads\assets\franchises\pokemon\raw\customers
+2026-07-22 18:22:25,066 INFO Filename pattern: sprite_<asset>
+2026-07-22 18:22:25,066 INFO Visiting asset 26222: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/26222/
+2026-07-22 18:22:26,683 INFO Trying download control: download attribute
+2026-07-22 18:22:29,177 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:22:29,177 INFO Visiting asset 15915: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/15915/
+2026-07-22 18:22:30,828 INFO Trying download control: download attribute
+2026-07-22 18:22:32,993 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:22:32,993 INFO Visiting asset 26223: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/26223/
+2026-07-22 18:22:34,431 INFO Trying download control: download attribute
+2026-07-22 18:22:36,589 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:22:36,590 INFO Visiting asset 26224: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/26224/
+2026-07-22 18:22:37,991 INFO Trying download control: download attribute
+2026-07-22 18:22:40,169 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:22:40,169 INFO Visiting asset 26225: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/26225/
+2026-07-22 18:22:41,604 INFO Trying download control: download attribute
+2026-07-22 18:22:43,812 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:22:43,812 INFO Visiting asset 26226: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/26226/
+2026-07-22 18:22:45,226 INFO Trying download control: download attribute
+2026-07-22 18:22:47,367 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:22:47,367 INFO Visiting asset 26228: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/26228/
+2026-07-22 18:22:48,764 INFO Trying download control: download attribute
+2026-07-22 18:22:50,940 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:22:50,940 INFO Visiting asset 14804: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/14804/
+2026-07-22 18:22:52,412 INFO Trying download control: download attribute
+2026-07-22 18:22:54,555 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:22:54,556 INFO Visiting asset 22834: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/22834/
+2026-07-22 18:22:55,991 INFO Trying download control: download attribute
+2026-07-22 18:22:58,138 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:22:58,138 INFO Visiting asset 26229: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/26229/
+2026-07-22 18:22:59,633 INFO Trying download control: download attribute
+2026-07-22 18:23:01,806 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:23:01,806 INFO Visiting asset 15901: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/15901/
+2026-07-22 18:23:03,263 INFO Trying download control: download attribute
+2026-07-22 18:23:05,498 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:23:05,498 INFO Visiting asset 26231: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/26231/
+2026-07-22 18:23:07,148 INFO Trying download control: download attribute
+2026-07-22 18:23:09,319 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:23:09,319 INFO Visiting asset 22835: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/22835/
+2026-07-22 18:23:10,772 INFO Trying download control: download attribute
+2026-07-22 18:23:12,941 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:23:12,941 INFO Visiting asset 26232: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/26232/
+2026-07-22 18:23:14,362 INFO Trying download control: download attribute
+2026-07-22 18:23:16,508 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:23:16,508 INFO Visiting asset 5736: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5736/
+2026-07-22 18:23:17,926 INFO Trying download control: download attribute
+2026-07-22 18:23:20,072 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:23:20,072 INFO Visiting asset 26233: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/26233/
+2026-07-22 18:23:21,540 INFO Trying download control: download attribute
+2026-07-22 18:23:23,692 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:23:23,692 INFO Visiting asset 5733: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5733/
+2026-07-22 18:23:25,088 INFO Trying download control: download attribute
+2026-07-22 18:23:27,250 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:23:27,250 INFO Visiting asset 19941: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/19941/
+2026-07-22 18:23:28,719 INFO Trying download control: download attribute
+2026-07-22 18:23:30,872 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:23:30,872 INFO Visiting asset 26234: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/26234/
+2026-07-22 18:23:32,330 INFO Trying download control: download attribute
+2026-07-22 18:23:34,516 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:23:34,516 INFO Visiting asset 21635: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/21635/
+2026-07-22 18:23:36,166 INFO Trying download control: download attribute
+2026-07-22 18:23:38,369 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:23:38,369 INFO Visiting asset 26235: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/26235/
+2026-07-22 18:23:39,781 INFO Trying download control: download attribute
+2026-07-22 18:23:41,922 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:23:41,922 INFO Visiting asset 26236: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/26236/
+2026-07-22 18:23:43,305 INFO Trying download control: download attribute
+2026-07-22 18:23:45,454 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:23:45,454 INFO Visiting asset 26237: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/26237/
+2026-07-22 18:23:46,904 INFO Trying download control: download attribute
+2026-07-22 18:23:49,054 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:23:49,054 INFO Visiting asset 19942: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/19942/
+2026-07-22 18:23:50,422 INFO Trying download control: download attribute
+2026-07-22 18:23:52,575 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:23:52,575 INFO Visiting asset 6043: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/6043/
+2026-07-22 18:23:54,018 INFO Trying download control: download attribute
+2026-07-22 18:23:56,197 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:23:56,197 INFO Visiting asset 26238: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/26238/
+2026-07-22 18:23:57,587 INFO Trying download control: download attribute
+2026-07-22 18:23:59,733 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:23:59,733 INFO Visiting asset 15917: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/15917/
+2026-07-22 18:24:01,176 INFO Trying download control: download attribute
+2026-07-22 18:24:03,325 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:24:03,325 INFO Visiting asset 26239: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/26239/
+2026-07-22 18:24:04,706 INFO Trying download control: download attribute
+2026-07-22 18:24:06,848 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:24:06,849 INFO Visiting asset 5732: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5732/
+2026-07-22 18:24:11,213 INFO Trying download control: download attribute
+2026-07-22 18:24:13,355 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:24:13,355 INFO Visiting asset 19943: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/19943/
+2026-07-22 18:24:14,744 INFO Trying download control: download attribute
+2026-07-22 18:24:16,885 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:24:16,885 INFO Visiting asset 19944: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/19944/
+2026-07-22 18:24:18,318 INFO Trying download control: download attribute
+2026-07-22 18:24:20,487 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:24:20,487 INFO Visiting asset 5735: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5735/
+2026-07-22 18:24:21,985 INFO Trying download control: download attribute
+2026-07-22 18:24:24,192 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:24:24,192 INFO Visiting asset 5729: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5729/
+2026-07-22 18:24:25,628 INFO Trying download control: download attribute
+2026-07-22 18:24:27,772 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:24:27,772 INFO Visiting asset 23262: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/23262/
+2026-07-22 18:24:29,168 INFO Trying download control: download attribute
+2026-07-22 18:24:31,324 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:24:31,324 INFO Visiting asset 5734: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5734/
+2026-07-22 18:24:32,732 INFO Trying download control: download attribute
+2026-07-22 18:24:34,891 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:24:34,891 INFO Visiting asset 26240: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/26240/
+2026-07-22 18:24:36,288 INFO Trying download control: download attribute
+2026-07-22 18:24:38,436 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:24:38,436 INFO Visiting asset 6024: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/6024/
+2026-07-22 18:24:39,927 INFO Trying download control: download attribute
+2026-07-22 18:24:42,085 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:24:42,085 INFO Visiting asset 19945: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/19945/
+2026-07-22 18:24:43,490 INFO Trying download control: download attribute
+2026-07-22 18:24:45,641 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:24:45,641 INFO Visiting asset 26251: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/26251/
+2026-07-22 18:24:47,018 INFO Trying download control: download attribute
+2026-07-22 18:24:49,169 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:24:49,169 INFO Visiting asset 5738: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5738/
+2026-07-22 18:24:53,491 INFO Trying download control: download attribute
+2026-07-22 18:24:55,644 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:24:55,644 INFO Visiting asset 26252: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/26252/
+2026-07-22 18:24:57,126 INFO Trying download control: download attribute
+2026-07-22 18:24:59,292 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:24:59,292 INFO Visiting asset 6052: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/6052/
+2026-07-22 18:25:00,690 INFO Trying download control: download attribute
+2026-07-22 18:25:02,834 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:25:02,834 INFO Visiting asset 26253: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/26253/
+2026-07-22 18:25:04,258 INFO Trying download control: download attribute
+2026-07-22 18:25:06,396 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:25:06,396 INFO Visiting asset 26249: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/26249/
+2026-07-22 18:25:07,848 INFO Trying download control: download attribute
+2026-07-22 18:25:10,023 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:25:10,023 INFO Visiting asset 26262: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/26262/
+2026-07-22 18:25:11,448 INFO Trying download control: download attribute
+2026-07-22 18:25:13,638 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:25:13,638 INFO Visiting asset 26263: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/26263/
+2026-07-22 18:25:15,101 INFO Trying download control: download attribute
+2026-07-22 18:25:17,276 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:25:17,276 INFO Visiting asset 26256: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/26256/
+2026-07-22 18:25:18,760 INFO Trying download control: download attribute
+2026-07-22 18:25:20,905 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:25:20,905 INFO Visiting asset 5737: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5737/
+2026-07-22 18:25:25,327 INFO Trying download control: download attribute
+2026-07-22 18:25:27,475 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:25:27,475 INFO Visiting asset 14981: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/14981/
+2026-07-22 18:25:28,972 INFO Trying download control: download attribute
+2026-07-22 18:25:31,134 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:25:31,134 INFO Visiting asset 26257: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/26257/
+2026-07-22 18:25:32,553 INFO Trying download control: download attribute
+2026-07-22 18:25:34,698 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:25:34,698 INFO Visiting asset 5728: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5728/
+2026-07-22 18:25:36,085 INFO Trying download control: download attribute
+2026-07-22 18:25:38,232 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:25:38,232 INFO Visiting asset 26260: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/26260/
+2026-07-22 18:25:39,670 INFO Trying download control: download attribute
+2026-07-22 18:25:41,839 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:25:41,839 INFO Visiting asset 26258: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/26258/
+2026-07-22 18:25:43,319 INFO Trying download control: download attribute
+2026-07-22 18:25:45,507 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:25:45,507 INFO Visiting asset 14984: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/14984/
+2026-07-22 18:25:46,967 INFO Trying download control: download attribute
+2026-07-22 18:25:49,150 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:25:49,150 INFO Visiting asset 26259: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/26259/
+2026-07-22 18:25:53,502 INFO Trying download control: download attribute
+2026-07-22 18:25:55,645 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:25:55,645 INFO Visiting asset 14985: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/14985/
+2026-07-22 18:25:57,189 INFO Trying download control: download attribute
+2026-07-22 18:25:59,349 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:25:59,349 INFO Visiting asset 15920: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/15920/
+2026-07-22 18:26:00,777 INFO Trying download control: download attribute
+2026-07-22 18:26:02,953 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:26:02,954 INFO Visiting asset 26255: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/26255/
+2026-07-22 18:26:04,362 INFO Trying download control: download attribute
+2026-07-22 18:26:06,512 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:26:06,512 INFO Visiting asset 5730: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5730/
+2026-07-22 18:26:07,971 INFO Trying download control: download attribute
+2026-07-22 18:26:10,137 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:26:10,137 INFO Visiting asset 19947: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/19947/
+2026-07-22 18:26:11,521 INFO Trying download control: download attribute
+2026-07-22 18:26:13,662 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:26:13,662 INFO Visiting asset 14989: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/14989/
+2026-07-22 18:26:15,057 INFO Trying download control: download attribute
+2026-07-22 18:26:17,208 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:26:17,208 INFO Visiting asset 23046: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/23046/
+2026-07-22 18:26:18,779 INFO Trying download control: download attribute
+2026-07-22 18:26:20,945 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:26:20,945 INFO Visiting asset 26250: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/26250/
+2026-07-22 18:26:22,404 INFO Trying download control: download attribute
+2026-07-22 18:26:24,585 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:26:24,586 INFO Visiting asset 15923: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/15923/
+2026-07-22 18:26:26,050 INFO Trying download control: download attribute
+2026-07-22 18:26:28,259 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:26:28,259 INFO Visiting asset 15022: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/15022/
+2026-07-22 18:26:32,669 INFO Trying download control: download attribute
+2026-07-22 18:26:34,819 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:26:34,819 INFO Visiting asset 19948: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/19948/
+2026-07-22 18:26:36,341 INFO Trying download control: download attribute
+2026-07-22 18:26:38,518 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:26:38,519 INFO Visiting asset 26248: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/26248/
+2026-07-22 18:26:39,983 INFO Trying download control: download attribute
+2026-07-22 18:26:42,160 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:26:42,160 INFO Visiting asset 26247: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/26247/
+2026-07-22 18:26:43,552 INFO Trying download control: download attribute
+2026-07-22 18:26:45,700 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:26:45,700 INFO Visiting asset 5731: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5731/
+2026-07-22 18:26:47,107 INFO Trying download control: download attribute
+2026-07-22 18:26:49,246 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:26:49,246 INFO Visiting asset 26246: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/26246/
+2026-07-22 18:26:50,658 INFO Trying download control: download attribute
+2026-07-22 18:26:52,813 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:26:52,813 INFO Visiting asset 21309: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/21309/
+2026-07-22 18:26:54,234 INFO Trying download control: download attribute
+2026-07-22 18:26:56,383 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:26:56,383 INFO Visiting asset 15016: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/15016/
+2026-07-22 18:26:57,851 INFO Trying download control: download attribute
+2026-07-22 18:27:00,022 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:27:00,022 INFO Visiting asset 26245: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/26245/
+2026-07-22 18:27:01,430 INFO Trying download control: download attribute
+2026-07-22 18:27:03,578 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:27:03,578 INFO Visiting asset 19949: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/19949/
+2026-07-22 18:27:05,001 INFO Trying download control: download attribute
+2026-07-22 18:27:07,160 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:27:07,160 INFO Visiting asset 22836: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/22836/
+2026-07-22 18:27:08,656 INFO Trying download control: download attribute
+2026-07-22 18:27:10,811 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:27:10,811 INFO Visiting asset 26243: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/26243/
+2026-07-22 18:27:12,204 INFO Trying download control: download attribute
+2026-07-22 18:27:14,345 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:27:14,345 INFO Visiting asset 26242: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/26242/
+2026-07-22 18:27:18,801 INFO Trying download control: download attribute
+2026-07-22 18:27:20,943 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:27:20,943 INFO Visiting asset 26241: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/26241/
+2026-07-22 18:27:22,517 INFO Trying download control: download attribute
+2026-07-22 18:27:24,670 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:27:24,670 INFO Visiting asset 5740: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5740/
+2026-07-22 18:27:26,177 INFO Trying download control: download attribute
+2026-07-22 18:27:28,349 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:27:28,349 INFO Visiting asset 14794: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/14794/
+2026-07-22 18:27:29,822 INFO Trying download control: download attribute
+2026-07-22 18:27:31,980 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:27:31,980 INFO Visiting asset 6050: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/6050/
+2026-07-22 18:27:33,386 INFO Trying download control: download attribute
+2026-07-22 18:27:35,529 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:27:35,529 INFO Visiting asset 26227: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/26227/
+2026-07-22 18:27:36,945 INFO Trying download control: download attribute
+2026-07-22 18:27:39,096 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:27:39,096 INFO Visiting asset 5758: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5758/
+2026-07-22 18:27:40,455 INFO Trying download control: download attribute
+2026-07-22 18:27:42,592 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:27:42,592 INFO Visiting asset 15899: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/15899/
+2026-07-22 18:27:44,067 INFO Trying download control: download attribute
+2026-07-22 18:27:46,242 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:27:46,242 INFO Visiting asset 14801: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/14801/
+2026-07-22 18:27:47,787 INFO Trying download control: download attribute
+2026-07-22 18:27:49,967 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:27:49,967 INFO Visiting asset 14960: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/14960/
+2026-07-22 18:27:51,384 INFO Trying download control: download attribute
+2026-07-22 18:27:53,529 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:27:53,529 INFO Visiting asset 15900: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/15900/
+2026-07-22 18:27:57,875 INFO Trying download control: download attribute
+2026-07-22 18:28:00,030 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:28:00,030 INFO Visiting asset 5751: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5751/
+2026-07-22 18:28:01,513 INFO Trying download control: download attribute
+2026-07-22 18:28:03,663 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:28:03,663 INFO Visiting asset 26265: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/26265/
+2026-07-22 18:28:05,061 INFO Trying download control: download attribute
+2026-07-22 18:28:07,212 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:28:07,212 INFO Visiting asset 5755: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5755/
+2026-07-22 18:28:08,616 INFO Trying download control: download attribute
+2026-07-22 18:28:10,771 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:28:10,772 INFO Visiting asset 5744: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5744/
+2026-07-22 18:28:12,246 INFO Trying download control: download attribute
+2026-07-22 18:28:14,447 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:28:14,447 INFO Visiting asset 5745: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5745/
+2026-07-22 18:28:15,943 INFO Trying download control: download attribute
+2026-07-22 18:28:18,129 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:28:18,129 INFO Visiting asset 14971: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/14971/
+2026-07-22 18:28:19,562 INFO Trying download control: download attribute
+2026-07-22 18:28:21,751 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:28:21,751 INFO Visiting asset 15916: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/15916/
+2026-07-22 18:28:26,221 INFO Trying download control: download attribute
+2026-07-22 18:28:28,412 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:28:28,412 INFO Visiting asset 14972: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/14972/
+2026-07-22 18:28:29,942 INFO Trying download control: download attribute
+2026-07-22 18:28:32,097 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:28:32,097 INFO Visiting asset 14961: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/14961/
+2026-07-22 18:28:33,491 INFO Trying download control: download attribute
+2026-07-22 18:28:35,648 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:28:35,648 INFO Visiting asset 14973: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/14973/
+2026-07-22 18:28:37,168 INFO Trying download control: download attribute
+2026-07-22 18:28:39,322 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:28:39,322 INFO Visiting asset 14975: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/14975/
+2026-07-22 18:28:40,711 INFO Trying download control: download attribute
+2026-07-22 18:28:42,893 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:28:42,893 INFO Visiting asset 14976: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/14976/
+2026-07-22 18:28:44,358 INFO Trying download control: download attribute
+2026-07-22 18:28:46,513 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:28:46,513 INFO Visiting asset 5757: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5757/
+2026-07-22 18:28:47,986 INFO Trying download control: download attribute
+2026-07-22 18:28:50,172 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:28:50,172 INFO Visiting asset 6054: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/6054/
+2026-07-22 18:28:51,723 INFO Trying download control: download attribute
+2026-07-22 18:28:53,904 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:28:53,904 INFO Visiting asset 26273: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/26273/
+2026-07-22 18:28:55,308 INFO Trying download control: download attribute
+2026-07-22 18:28:57,463 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:28:57,463 INFO Visiting asset 14977: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/14977/
+2026-07-22 18:28:58,873 INFO Trying download control: download attribute
+2026-07-22 18:29:01,029 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:29:01,029 INFO Visiting asset 5743: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5743/
+2026-07-22 18:29:02,487 INFO Trying download control: download attribute
+2026-07-22 18:29:04,660 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:29:04,660 INFO Visiting asset 5742: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5742/
+2026-07-22 18:29:06,064 INFO Trying download control: download attribute
+2026-07-22 18:29:08,202 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:29:08,202 INFO Visiting asset 26274: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/26274/
+2026-07-22 18:29:09,722 INFO Trying download control: download attribute
+2026-07-22 18:29:11,892 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:29:11,892 INFO Visiting asset 14982: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/14982/
+2026-07-22 18:29:16,313 INFO Trying download control: download attribute
+2026-07-22 18:29:18,472 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:29:18,472 INFO Visiting asset 19946: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/19946/
+2026-07-22 18:29:19,949 INFO Trying download control: download attribute
+2026-07-22 18:29:22,107 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:29:22,108 INFO Visiting asset 5746: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5746/
+2026-07-22 18:29:23,572 INFO Trying download control: download attribute
+2026-07-22 18:29:25,773 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:29:25,773 INFO Visiting asset 5754: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5754/
+2026-07-22 18:29:27,229 INFO Trying download control: download attribute
+2026-07-22 18:29:29,381 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:29:29,381 INFO Visiting asset 15922: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/15922/
+2026-07-22 18:29:30,774 INFO Trying download control: download attribute
+2026-07-22 18:29:32,959 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:29:32,959 INFO Visiting asset 22982: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/22982/
+2026-07-22 18:29:34,388 INFO Trying download control: download attribute
+2026-07-22 18:29:36,581 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:29:36,581 INFO Visiting asset 5747: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5747/
+2026-07-22 18:29:38,052 INFO Trying download control: download attribute
+2026-07-22 18:29:40,209 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:29:40,209 INFO Visiting asset 5752: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5752/
+2026-07-22 18:29:41,599 INFO Trying download control: download attribute
+2026-07-22 18:29:43,747 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:29:43,748 INFO Visiting asset 14996: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/14996/
+2026-07-22 18:29:45,162 INFO Trying download control: download attribute
+2026-07-22 18:29:47,476 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:29:47,476 INFO Visiting asset 5753: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5753/
+2026-07-22 18:29:52,472 INFO Trying download control: download attribute
+2026-07-22 18:29:54,661 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:29:54,661 INFO Visiting asset 5748: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5748/
+2026-07-22 18:29:56,172 INFO Trying download control: download attribute
+2026-07-22 18:29:58,342 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:29:58,342 INFO Visiting asset 14998: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/14998/
+2026-07-22 18:30:02,854 INFO Trying download control: download attribute
+2026-07-22 18:30:05,204 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:30:05,204 INFO Visiting asset 15000: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/15000/
+2026-07-22 18:30:06,692 INFO Trying download control: download attribute
+2026-07-22 18:30:08,852 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:30:08,852 INFO Visiting asset 15003: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/15003/
+2026-07-22 18:30:10,349 INFO Trying download control: download attribute
+2026-07-22 18:30:12,532 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:30:12,532 INFO Visiting asset 5756: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5756/
+2026-07-22 18:30:13,953 INFO Trying download control: download attribute
+2026-07-22 18:30:16,117 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:30:16,118 INFO Visiting asset 15004: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/15004/
+2026-07-22 18:30:17,556 INFO Trying download control: download attribute
+2026-07-22 18:30:19,728 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:30:19,728 INFO Visiting asset 5750: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5750/
+2026-07-22 18:30:21,215 INFO Trying download control: download attribute
+2026-07-22 18:30:23,398 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:30:23,398 INFO Visiting asset 5749: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5749/
+2026-07-22 18:30:24,841 INFO Trying download control: download attribute
+2026-07-22 18:30:27,004 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:30:27,004 INFO Visiting asset 15011: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/15011/
+2026-07-22 18:30:28,439 INFO Trying download control: download attribute
+2026-07-22 18:30:30,618 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:30:30,618 INFO Visiting asset 15902: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/15902/
+2026-07-22 18:30:32,155 INFO Trying download control: download attribute
+2026-07-22 18:30:34,384 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:30:34,384 INFO Visiting asset 26244: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/26244/
+2026-07-22 18:30:36,080 INFO Trying download control: download attribute
+2026-07-22 18:30:38,308 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:30:38,308 INFO Visiting asset 15019: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/15019/
+2026-07-22 18:30:39,720 INFO Trying download control: download attribute
+2026-07-22 18:30:41,876 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:30:41,876 INFO Visiting asset 15020: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/15020/
+2026-07-22 18:30:46,408 INFO Trying download control: download attribute
+2026-07-22 18:30:48,571 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:30:48,571 INFO Visiting asset 5741: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5741/
+2026-07-22 18:30:52,916 INFO Trying download control: download attribute
+2026-07-22 18:30:55,134 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:30:55,134 INFO Visiting asset 5775: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5775/
+2026-07-22 18:30:56,661 INFO Trying download control: download attribute
+2026-07-22 18:30:58,807 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:30:58,808 INFO Visiting asset 5771: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5771/
+2026-07-22 18:31:00,212 INFO Trying download control: download attribute
+2026-07-22 18:31:02,369 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:31:02,369 INFO Visiting asset 19939: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/19939/
+2026-07-22 18:31:06,783 INFO Trying download control: download attribute
+2026-07-22 18:31:08,950 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:31:08,950 INFO Visiting asset 5778: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5778/
+2026-07-22 18:31:10,524 INFO Trying download control: download attribute
+2026-07-22 18:31:12,692 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:31:12,692 INFO Visiting asset 14795: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/14795/
+2026-07-22 18:31:14,148 INFO Trying download control: download attribute
+2026-07-22 18:31:16,324 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:31:16,324 INFO Visiting asset 14796: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/14796/
+2026-07-22 18:31:17,808 INFO Trying download control: download attribute
+2026-07-22 18:31:19,963 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:31:19,963 INFO Visiting asset 14798: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/14798/
+2026-07-22 18:31:21,489 INFO Trying download control: download attribute
+2026-07-22 18:31:23,684 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:31:23,684 INFO Visiting asset 6047: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/6047/
+2026-07-22 18:31:28,030 INFO Trying download control: download attribute
+2026-07-22 18:31:30,230 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:31:30,230 INFO Visiting asset 14799: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/14799/
+2026-07-22 18:31:31,910 INFO Trying download control: download attribute
+2026-07-22 18:31:34,102 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:31:34,102 INFO Visiting asset 14800: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/14800/
+2026-07-22 18:31:35,537 INFO Trying download control: download attribute
+2026-07-22 18:31:37,695 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:31:37,695 INFO Visiting asset 5773: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5773/
+2026-07-22 18:31:39,193 INFO Trying download control: download attribute
+2026-07-22 18:31:41,348 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:31:41,348 INFO Visiting asset 14802: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/14802/
+2026-07-22 18:31:42,785 INFO Trying download control: download attribute
+2026-07-22 18:31:44,950 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:31:44,950 INFO Visiting asset 14803: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/14803/
+2026-07-22 18:31:46,385 INFO Trying download control: download attribute
+2026-07-22 18:31:48,560 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:31:48,560 INFO Visiting asset 14806: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/14806/
+2026-07-22 18:31:50,072 INFO Trying download control: download attribute
+2026-07-22 18:31:52,278 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:31:52,278 INFO Visiting asset 26264: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/26264/
+2026-07-22 18:31:53,723 INFO Trying download control: download attribute
+2026-07-22 18:31:55,888 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:31:55,888 INFO Visiting asset 5774: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5774/
+2026-07-22 18:31:57,449 INFO Trying download control: download attribute
+2026-07-22 18:31:59,620 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:31:59,620 INFO Visiting asset 14970: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/14970/
+2026-07-22 18:32:01,061 INFO Trying download control: download attribute
+2026-07-22 18:32:03,236 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:32:03,236 INFO Visiting asset 5772: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5772/
+2026-07-22 18:32:04,652 INFO Trying download control: download attribute
+2026-07-22 18:32:06,818 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:32:06,818 INFO Visiting asset 26266: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/26266/
+2026-07-22 18:32:08,316 INFO Trying download control: download attribute
+2026-07-22 18:32:10,506 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:32:10,506 INFO Visiting asset 14969: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/14969/
+2026-07-22 18:32:12,062 INFO Trying download control: download attribute
+2026-07-22 18:32:14,277 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:32:14,277 INFO Visiting asset 14974: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/14974/
+2026-07-22 18:32:15,693 INFO Trying download control: download attribute
+2026-07-22 18:32:17,850 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:32:17,850 INFO Visiting asset 26267: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/26267/
+2026-07-22 18:32:19,308 INFO Trying download control: download attribute
+2026-07-22 18:32:21,489 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:32:21,489 INFO Visiting asset 26268: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/26268/
+2026-07-22 18:32:23,005 INFO Trying download control: download attribute
+2026-07-22 18:32:25,201 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:32:25,201 INFO Visiting asset 26269: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/26269/
+2026-07-22 18:32:26,920 INFO Trying download control: download attribute
+2026-07-22 18:32:29,146 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:32:29,146 INFO Visiting asset 26270: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/26270/
+2026-07-22 18:32:30,661 INFO Trying download control: download attribute
+2026-07-22 18:32:32,858 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:32:32,858 INFO Visiting asset 22865: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/22865/
+2026-07-22 18:32:34,445 INFO Trying download control: download attribute
+2026-07-22 18:32:36,640 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:32:36,640 INFO Visiting asset 5767: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5767/
+2026-07-22 18:32:38,109 INFO Trying download control: download attribute
+2026-07-22 18:32:40,296 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:32:40,296 INFO Visiting asset 26271: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/26271/
+2026-07-22 18:32:41,742 INFO Trying download control: download attribute
+2026-07-22 18:32:43,906 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:32:43,906 INFO Visiting asset 15918: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/15918/
+2026-07-22 18:32:45,316 INFO Trying download control: download attribute
+2026-07-22 18:32:47,503 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:32:47,503 INFO Visiting asset 26272: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/26272/
+2026-07-22 18:32:48,927 INFO Trying download control: download attribute
+2026-07-22 18:32:51,092 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:32:51,092 INFO Visiting asset 5770: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5770/
+2026-07-22 18:32:52,684 INFO Trying download control: download attribute
+2026-07-22 18:32:54,884 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:32:54,884 INFO Visiting asset 15919: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/15919/
+2026-07-22 18:32:56,336 INFO Trying download control: download attribute
+2026-07-22 18:32:58,555 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:32:58,555 INFO Visiting asset 5764: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5764/
+2026-07-22 18:32:59,958 INFO Trying download control: download attribute
+2026-07-22 18:33:02,105 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:33:02,105 INFO Visiting asset 14979: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/14979/
+2026-07-22 18:33:03,681 INFO Trying download control: download attribute
+2026-07-22 18:33:05,862 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:33:05,862 INFO Visiting asset 5768: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5768/
+2026-07-22 18:33:07,343 INFO Trying download control: download attribute
+2026-07-22 18:33:09,514 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:33:09,514 INFO Visiting asset 14980: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/14980/
+2026-07-22 18:33:10,945 INFO Trying download control: download attribute
+2026-07-22 18:33:13,129 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:33:13,129 INFO Visiting asset 14983: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/14983/
+2026-07-22 18:33:14,542 INFO Trying download control: download attribute
+2026-07-22 18:33:16,690 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:33:16,690 INFO Visiting asset 5765: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5765/
+2026-07-22 18:33:18,088 INFO Trying download control: download attribute
+2026-07-22 18:33:20,250 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:33:20,250 INFO Visiting asset 14987: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/14987/
+2026-07-22 18:33:21,761 INFO Trying download control: download attribute
+2026-07-22 18:33:23,998 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:33:23,998 INFO Visiting asset 15921: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/15921/
+2026-07-22 18:33:25,555 INFO Trying download control: download attribute
+2026-07-22 18:33:27,736 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:33:27,736 INFO Visiting asset 26275: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/26275/
+2026-07-22 18:33:29,160 INFO Trying download control: download attribute
+2026-07-22 18:33:31,363 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:33:31,363 INFO Visiting asset 5777: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5777/
+2026-07-22 18:33:32,881 INFO Trying download control: download attribute
+2026-07-22 18:33:35,086 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:33:35,086 INFO Visiting asset 5769: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5769/
+2026-07-22 18:33:36,479 INFO Trying download control: download attribute
+2026-07-22 18:33:38,644 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:33:38,644 INFO Visiting asset 14990: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/14990/
+2026-07-22 18:33:40,097 INFO Trying download control: download attribute
+2026-07-22 18:33:42,274 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:33:42,274 INFO Visiting asset 14992: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/14992/
+2026-07-22 18:33:43,654 INFO Trying download control: download attribute
+2026-07-22 18:33:45,809 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:33:45,809 INFO Visiting asset 14993: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/14993/
+2026-07-22 18:33:47,251 INFO Trying download control: download attribute
+2026-07-22 18:33:49,427 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:33:49,427 INFO Visiting asset 26276: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/26276/
+2026-07-22 18:33:50,970 INFO Trying download control: download attribute
+2026-07-22 18:33:53,182 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:33:53,182 INFO Visiting asset 26277: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/26277/
+2026-07-22 18:33:54,625 INFO Trying download control: download attribute
+2026-07-22 18:33:56,805 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:33:56,805 INFO Visiting asset 14994: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/14994/
+2026-07-22 18:33:58,457 INFO Trying download control: download attribute
+2026-07-22 18:34:00,635 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:34:00,635 INFO Visiting asset 5776: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5776/
+2026-07-22 18:34:02,076 INFO Trying download control: download attribute
+2026-07-22 18:34:04,281 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:34:04,281 INFO Visiting asset 14999: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/14999/
+2026-07-22 18:34:05,722 INFO Trying download control: download attribute
+2026-07-22 18:34:07,952 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:34:07,952 INFO Visiting asset 15001: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/15001/
+2026-07-22 18:34:09,575 INFO Trying download control: download attribute
+2026-07-22 18:34:11,778 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:34:11,778 INFO Visiting asset 15002: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/15002/
+2026-07-22 18:34:13,449 INFO Trying download control: download attribute
+2026-07-22 18:34:15,763 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:34:15,763 INFO Visiting asset 15006: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/15006/
+2026-07-22 18:34:17,202 INFO Trying download control: download attribute
+2026-07-22 18:34:19,379 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:34:19,379 INFO Visiting asset 15007: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/15007/
+2026-07-22 18:34:20,831 INFO Trying download control: download attribute
+2026-07-22 18:34:23,023 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:34:23,023 INFO Visiting asset 15010: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/15010/
+2026-07-22 18:34:24,887 INFO Trying download control: download attribute
+2026-07-22 18:34:27,040 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:34:27,040 INFO Visiting asset 15012: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/15012/
+2026-07-22 18:34:28,453 INFO Trying download control: download attribute
+2026-07-22 18:34:30,647 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:34:30,647 INFO Visiting asset 15013: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/15013/
+2026-07-22 18:34:32,153 INFO Trying download control: download attribute
+2026-07-22 18:34:34,300 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:34:34,300 INFO Visiting asset 15014: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/15014/
+2026-07-22 18:34:35,804 INFO Trying download control: download attribute
+2026-07-22 18:34:38,020 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:34:38,020 INFO Visiting asset 5763: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5763/
+2026-07-22 18:34:39,640 INFO Trying download control: download attribute
+2026-07-22 18:34:41,875 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:34:41,875 INFO Visiting asset 15924: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/15924/
+2026-07-22 18:34:43,324 INFO Trying download control: download attribute
+2026-07-22 18:34:45,496 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:34:45,496 INFO Visiting asset 27766: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/27766/
+2026-07-22 18:34:47,020 INFO Trying download control: download attribute
+2026-07-22 18:34:49,229 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:34:49,229 INFO Visiting asset 26278: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/26278/
+2026-07-22 18:34:50,719 INFO Trying download control: download attribute
+2026-07-22 18:34:52,961 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:34:52,962 INFO Visiting asset 15017: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/15017/
+2026-07-22 18:34:57,442 INFO Trying download control: download attribute
+2026-07-22 18:34:59,867 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:34:59,867 INFO Visiting asset 15018: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/15018/
+2026-07-22 18:35:02,079 INFO Trying download control: download attribute
+2026-07-22 18:35:04,285 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:35:04,285 INFO Visiting asset 15925: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/15925/
+2026-07-22 18:35:05,830 INFO Trying download control: download attribute
+2026-07-22 18:35:08,081 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:35:08,081 INFO Visiting asset 26279: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/26279/
+2026-07-22 18:35:09,661 INFO Trying download control: download attribute
+2026-07-22 18:35:11,890 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:35:11,890 INFO Visiting asset 5766: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5766/
+2026-07-22 18:35:13,472 INFO Trying download control: download attribute
+2026-07-22 18:35:15,669 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:35:15,669 INFO Visiting asset 5783: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5783/
+2026-07-22 18:35:17,357 INFO Trying download control: download attribute
+2026-07-22 18:35:19,652 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:35:19,652 INFO Visiting asset 5913: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5913/
+2026-07-22 18:35:21,152 INFO Trying download control: download attribute
+2026-07-22 18:35:23,361 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:35:23,361 INFO Visiting asset 5902: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5902/
+2026-07-22 18:35:24,862 INFO Trying download control: download attribute
+2026-07-22 18:35:27,081 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:35:27,081 INFO Visiting asset 5907: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5907/
+2026-07-22 18:35:28,682 INFO Trying download control: download attribute
+2026-07-22 18:35:30,915 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:35:30,915 INFO Visiting asset 5899: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5899/
+2026-07-22 18:35:32,795 INFO Trying download control: download attribute
+2026-07-22 18:35:35,005 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:35:35,005 INFO Visiting asset 5937: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5937/
+2026-07-22 18:35:36,489 INFO Trying download control: download attribute
+2026-07-22 18:35:38,689 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:35:38,689 INFO Visiting asset 5921: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5921/
+2026-07-22 18:35:40,136 INFO Trying download control: download attribute
+2026-07-22 18:35:42,360 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:35:42,360 INFO Visiting asset 5903: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5903/
+2026-07-22 18:35:43,821 INFO Trying download control: download attribute
+2026-07-22 18:35:46,024 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:35:46,024 INFO Visiting asset 5780: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5780/
+2026-07-22 18:35:47,480 INFO Trying download control: download attribute
+2026-07-22 18:35:49,663 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:35:49,663 INFO Visiting asset 14805: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/14805/
+2026-07-22 18:35:51,175 INFO Trying download control: download attribute
+2026-07-22 18:35:53,446 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:35:53,446 INFO Visiting asset 5896: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5896/
+2026-07-22 18:35:55,023 INFO Trying download control: download attribute
+2026-07-22 18:35:57,224 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:35:57,224 INFO Visiting asset 5957: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5957/
+2026-07-22 18:35:58,842 INFO Trying download control: download attribute
+2026-07-22 18:36:01,062 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:36:01,062 INFO Visiting asset 5935: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5935/
+2026-07-22 18:36:02,578 INFO Trying download control: download attribute
+2026-07-22 18:36:04,823 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:36:04,823 INFO Visiting asset 5960: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5960/
+2026-07-22 18:36:06,313 INFO Trying download control: download attribute
+2026-07-22 18:36:08,520 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:36:08,520 INFO Visiting asset 5948: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5948/
+2026-07-22 18:36:09,951 INFO Trying download control: download attribute
+2026-07-22 18:36:12,139 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:36:12,139 INFO Visiting asset 5906: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5906/
+2026-07-22 18:36:13,723 INFO Trying download control: download attribute
+2026-07-22 18:36:15,948 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:36:15,948 INFO Visiting asset 5938: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5938/
+2026-07-22 18:36:17,454 INFO Trying download control: download attribute
+2026-07-22 18:36:19,654 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:36:19,654 INFO Visiting asset 32096: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/32096/
+2026-07-22 18:36:21,221 INFO Trying download control: download attribute
+2026-07-22 18:36:23,446 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:36:23,446 INFO Visiting asset 5956: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5956/
+2026-07-22 18:36:24,960 INFO Trying download control: download attribute
+2026-07-22 18:36:27,145 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:36:27,145 INFO Visiting asset 5908: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5908/
+2026-07-22 18:36:28,652 INFO Trying download control: download attribute
+2026-07-22 18:36:30,920 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:36:30,920 INFO Visiting asset 5951: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5951/
+2026-07-22 18:36:32,581 INFO Trying download control: download attribute
+2026-07-22 18:36:34,789 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:36:34,789 INFO Visiting asset 5930: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5930/
+2026-07-22 18:36:36,220 INFO Trying download control: download attribute
+2026-07-22 18:36:38,406 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:36:38,406 INFO Visiting asset 5892: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5892/
+2026-07-22 18:36:39,942 INFO Trying download control: download attribute
+2026-07-22 18:36:42,159 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:36:42,160 INFO Visiting asset 5901: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5901/
+2026-07-22 18:36:43,686 INFO Trying download control: download attribute
+2026-07-22 18:36:45,870 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:36:45,870 INFO Visiting asset 5950: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5950/
+2026-07-22 18:36:47,290 INFO Trying download control: download attribute
+2026-07-22 18:36:49,442 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:36:49,442 INFO Visiting asset 5959: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5959/
+2026-07-22 18:36:50,882 INFO Trying download control: download attribute
+2026-07-22 18:36:53,097 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:36:53,097 INFO Visiting asset 5781: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5781/
+2026-07-22 18:36:54,561 INFO Trying download control: download attribute
+2026-07-22 18:36:56,740 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:36:56,740 INFO Visiting asset 5949: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5949/
+2026-07-22 18:37:01,176 INFO Trying download control: download attribute
+2026-07-22 18:37:03,329 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:37:03,329 INFO Visiting asset 5954: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5954/
+2026-07-22 18:37:04,845 INFO Trying download control: download attribute
+2026-07-22 18:37:07,117 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:37:07,117 INFO Visiting asset 5927: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5927/
+2026-07-22 18:37:08,612 INFO Trying download control: download attribute
+2026-07-22 18:37:10,833 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:37:10,833 INFO Visiting asset 5946: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5946/
+2026-07-22 18:37:12,327 INFO Trying download control: download attribute
+2026-07-22 18:37:14,485 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:37:14,485 INFO Visiting asset 5904: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5904/
+2026-07-22 18:37:15,890 INFO Trying download control: download attribute
+2026-07-22 18:37:18,040 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:37:18,040 INFO Visiting asset 5898: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5898/
+2026-07-22 18:37:19,479 INFO Trying download control: download attribute
+2026-07-22 18:37:21,649 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:37:21,650 INFO Visiting asset 5893: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5893/
+2026-07-22 18:37:23,234 INFO Trying download control: download attribute
+2026-07-22 18:37:25,452 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:37:25,452 INFO Visiting asset 5932: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5932/
+2026-07-22 18:37:30,069 INFO Trying download control: download attribute
+2026-07-22 18:37:32,240 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:37:32,240 INFO Visiting asset 14997: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/14997/
+2026-07-22 18:37:33,844 INFO Trying download control: download attribute
+2026-07-22 18:37:36,072 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:37:36,072 INFO Visiting asset 5923: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5923/
+2026-07-22 18:37:37,541 INFO Trying download control: download attribute
+2026-07-22 18:37:39,706 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:37:39,706 INFO Visiting asset 5782: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5782/
+2026-07-22 18:37:41,103 INFO Trying download control: download attribute
+2026-07-22 18:37:43,265 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:37:43,265 INFO Visiting asset 5912: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5912/
+2026-07-22 18:37:44,742 INFO Trying download control: download attribute
+2026-07-22 18:37:46,916 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:37:46,916 INFO Visiting asset 5779: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5779/
+2026-07-22 18:37:48,307 INFO Trying download control: download attribute
+2026-07-22 18:37:50,472 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 18:37:50,472 INFO Visiting asset 5947: https://www.spriters-resource.com/ds_dsi/pokemonmysterydungeonexplorersoftimedarkness/asset/5947/
+2026-07-22 18:37:51,927 INFO Trying download control: download attribute

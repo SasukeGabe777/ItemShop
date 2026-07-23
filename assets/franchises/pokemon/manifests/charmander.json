@@ -1,0 +1,124 @@
+{
+  "asset_id": "charmander",
+  "sheet": "res://assets/franchises/pokemon/processed/sheets/charmander.png",
+  "native_scale": 1,
+  "display_scale": 1,
+  "pivot": [
+    24,
+    44
+  ],
+  "grid": {
+    "frame_width": 48,
+    "frame_height": 48,
+    "columns": 8,
+    "rows": 5
+  },
+  "animations": {
+    "idle_down": {
+      "frames": [
+        0
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "idle_up": {
+      "frames": [
+        1
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "idle_side": {
+      "frames": [
+        2
+      ],
+      "fps": 3,
+      "loop": true
+    },
+    "walk_down": {
+      "frames": [
+        3,
+        4,
+        5,
+        6
+      ],
+      "fps": 7,
+      "loop": true
+    },
+    "walk_up": {
+      "frames": [
+        7,
+        8,
+        9,
+        10
+      ],
+      "fps": 7,
+      "loop": true
+    },
+    "walk_side": {
+      "frames": [
+        11,
+        12,
+        13,
+        14
+      ],
+      "fps": 7,
+      "loop": true
+    },
+    "attack_1_down": {
+      "frames": [
+        15,
+        16,
+        17,
+        18
+      ],
+      "fps": 14,
+      "loop": false
+    },
+    "attack_1_up": {
+      "frames": [
+        19,
+        20,
+        21,
+        22
+      ],
+      "fps": 14,
+      "loop": false
+    },
+    "attack_1_side": {
+      "frames": [
+        23,
+        24,
+        25,
+        26
+      ],
+      "fps": 14,
+      "loop": false
+    },
+    "special_down": {
+      "frames": [
+        27,
+        28,
+        29
+      ],
+      "fps": 10,
+      "loop": false
+    },
+    "special_up": {
+      "frames": [
+        30,
+        31
+      ],
+      "fps": 10,
+      "loop": false
+    },
+    "special_side": {
+      "frames": [
+        32,
+        33
+      ],
+      "fps": 10,
+      "loop": false
+    }
+  }
+}

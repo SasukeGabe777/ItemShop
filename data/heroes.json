@@ -418,11 +418,14 @@
      "arc": 90
     },
     "special": {
-     "kind": "projectile",
-     "name": "Thunderbolt",
-     "dmg": 24,
-     "speed": 340,
-     "cost": 30
+     "kind": "nova",
+     "name": "Discharge",
+     "dmg": 26,
+     "radius": 48,
+     "cost": 30,
+     "sheet": "res://assets/franchises/pokemon/processed/pikachu_discharge.png",
+     "frames": 8,
+     "fps": 12
     },
     "dodge": {
      "kind": "roll",
@@ -439,6 +442,55 @@
    "hire_cost": 1500,
    "bio": "The shop's finest negotiator. Vocabulary: one word. Closure rate: 100%.",
    "guild_line": "Pika. (Patch: 'That was a scathing critique of your margins.')"
+  },
+  {
+   "id": "charmander",
+   "name": "Charmander",
+   "world": "pokemon",
+   "weapon_type": "claw",
+   "color": "#f08030",
+   "base_stats": {
+    "hp": 120,
+    "atk": 15,
+    "def": 7,
+    "spd": 130
+   },
+   "combat": {
+    "basic": {
+     "hits": 3,
+     "dmg": [
+      9,
+      9,
+      15
+     ],
+     "range": 20,
+     "arc": 80
+    },
+    "special": {
+     "kind": "nova",
+     "name": "Fire Spin",
+     "dmg": 30,
+     "radius": 52,
+     "cost": 32,
+     "sheet": "res://assets/franchises/pokemon/processed/charmander_firespin.png",
+     "frames": 15,
+     "fps": 14
+    },
+    "dodge": {
+     "kind": "roll",
+     "distance": 85,
+     "iframes": 0.35
+    },
+    "finisher": {
+     "name": "Flamethrower",
+     "dmg": 100,
+     "radius": 105
+    }
+   },
+   "default_equipment": {},
+   "hire_cost": 1500,
+   "bio": "Keeps the shop's forge lit and the tea perpetually over-steeped. The tail flame doubles as a mood ring.",
+   "guild_line": "Char! (Patch: 'Mind the tail near the plushie shelf. We've had incidents.')"
   }
  ],
  "npcs": [

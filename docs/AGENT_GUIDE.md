@@ -359,6 +359,9 @@ Data lives in `data/*.json`, loaded by `ContentDatabase` (see
 | Captured "up-facing" action actually faces the old direction | releasing a held direction before the action tap loses the turn (DBZ melee-up bug) — hold the direction THROUGH the action input (`capture_piccolo_extra2.lua`), then verify facing on the ref screenshots |
 | Captured walk cycle flickers between facings in-game | the capture's first poses are TURN-TRANSITION frames (and idles can sneak in celebration/fidget poses) — check every pose on the unique_* sheet faces the same way before wiring the cycle (M&L Mario bug, fixed in `fix_hero_sheets_pass2.py`) |
 | Hero balloons/shrinks between walk and attack | sheet mixes sprite sources at different scales (field capture vs battle capture vs old rip) — measure ink body height per source and rescale about the pivot before compositing one sheet (Sora bug, `fix_hero_sheets_pass2.py`) |
+| Composed room backgrounds show a faint grid | PMD tileset atlases (SilverDeoxys563) lay 24px tiles at **25px pitch behind LIGHT-CYAN 1px separators** — a chroma pass keyed to the dark teal page color misses them. Detect the separator lines and stitch tiles individually (`tools/build_pokemon_rooms.py`) |
+| PMD sprite plays wrong facing in-game | direction-row order VARIES per sheet and even per SECTION of one sheet (pikachu 8 rows = S,N,W,E,SW,SE,NW,NE paired-mirrors; charmander idle rows ≠ its attack rows). Don't assume — verify with mirror-similarity math or 5-6x zooms per row (`prep_pokemon_world.py` dir_strips) |
+| Probe "special misses parked enemy" intermittently | teleporting the hero beside a stunned enemy lets contact knockback shove the hero during any wait before the cast — a probe artifact, not a combat bug. Cast immediately after positioning, or assert on the nova's spawn distance |
 
 ## 9. Checklist: adding or fixing a world
 

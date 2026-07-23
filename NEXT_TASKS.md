@@ -9,6 +9,14 @@ below reflect the **actual** current state (see `CURRENT_BUILD.md`).
 
 ## Recently completed
 
+- **Pokémon world (2026-07-22):** Pikachu + Charmander playable (sheet-mined
+  from the user's PMD rip drop — no emulator runs), new `nova` AOE special
+  kind (Discharge / Fire Spin from user-provided effect frames), composed PMD
+  dungeon (meadow/woods/crystal-cave/golden-vault/Temporal-Tower boss arena),
+  5-enemy corrupt roster with real art, 3-boss rotation Latios → Ho-Oh →
+  Mewtwo. **All seven franchise worlds are now built.** Screenshot-verified;
+  boot/parse/campaign suites green.
+
 - **Dragon Ball world (2026-07-21):** Goku + Piccolo playable (OAM-captured from
   *Legacy of Goku II*), new `beam` special + `fly` dodge engine kinds, painted
   dungeon, enemy roster + Perfect Cell boss. Full method in `docs/DBZ_HANDOFF.md`.
@@ -28,29 +36,31 @@ No human acceptance run of the expanded build is recorded, and `PLAYTEST_NOTES.m
 predates every world after Kingdom Hearts. Now that this machine can export:
 
 1. Export `export/crossroads.exe` and play on a controller through at least one
-   full chapter loop (shop → expedition → boss → repair) for each **built** world
-   (KH, Mario, FF, Zelda, Naruto, **Dragon Ball**), plus one 2-player session.
+   full chapter loop (shop → expedition → boss → repair) for each built world
+   (KH, Mario, FF, Zelda, Naruto, Dragon Ball, **Pokémon**), plus one 2-player
+   session.
 2. Record the largest issue per category (blocker / bug / visual) per world in
    `PLAYTEST_NOTES.md`, replacing the stale entries.
 3. Fix only blockers this pass; file the rest here.
 
-Give Dragon Ball extra attention — it is the newest and least-played world.
+Give Dragon Ball and Pokémon extra attention — they are the newest worlds.
+Pokémon specifics worth eyeballing: nova special feel (Discharge/Fire Spin
+cost/damage), boss rotation difficulty (Latios first-win at 1200hp), and
+whether the prop-less rooms read too empty.
 
-## Priority 1 — Decide Pokémon (last stub world)
+## Priority 1 — Pokémon polish (world built 2026-07-22)
 
-Pokémon is now the **only** data-only stub: hero/enemy/item/customer data exist,
-but there is no `pikachu` hero manifest and no dungeon art, so chapter 7 has no
-playable expedition. Either:
+Chapter 7 is now playable end-to-end. Remaining polish items:
 
-- **Build it out** following `docs/AGENT_GUIDE.md` §9 and the DBZ recipe just
-  proven (hero manifest, ~12 enemies, boss frames, room backdrops, obstacle
-  props, item icons). The DBZ *Legacy of Goku II* capture pipeline is the
-  template; check `savestates/ROMS` for a usable Pokémon source, else sheet-mine.
-- **Or explicitly defer it** and mark chapter 7 as a known placeholder so the
-  campaign's later chapters aren't silently hollow.
-
-`tests/stub_worlds_probe.tscn` confirmed the stub does not crash — it renders as
-colored placeholders in flat rooms. Playable, but reads as unfinished.
+- **Obstacle props:** rooms use flat-polygon obstacles (PMD wall tiles carry
+  baked fills that read as pasted boxes). If rooms feel empty in playtest,
+  hunt standalone object rips (boulders, berries, crates) to cut per §4.
+- **Item icons:** `pokedex` and `fire_stone` lack icons so they never appear
+  in shops; extract from `raw/items.png`.
+- **Idle motion:** Pikachu/Charmander idles are 1-frame (their PMD idle rows
+  have 2 poses — could become blink-style idles like Link's).
+- **Music:** drop `dungeon_pokemon.mp3` into `assets/music/user_overrides/`
+  if a track is wanted; resolves automatically.
 
 ## Priority 2 — Hero idle-motion polish
 
