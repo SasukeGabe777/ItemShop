@@ -132,7 +132,15 @@
    "obstacle_props": [
     "res://assets/locations/mariodungeon/processed/prop_tree_a.png",
     "res://assets/locations/mariodungeon/processed/prop_tree_b.png"
-   ]
+   ],
+   "barriers": {
+    "h": [
+     "res://assets/locations/mariodungeon/barrierblock.png"
+    ],
+    "v": [
+     "res://assets/locations/mariodungeon/barrierblock.png"
+    ]
+   }
   },
   {
    "id": "final_fantasy",
@@ -204,10 +212,10 @@
    ],
    "barriers": {
     "h": [
-     "res://assets/locations/ffdungeon/processed/barrier_fence.png"
+     "res://assets/locations/ffdungeon/processed/barrier_block.png"
     ],
     "v": [
-     "res://assets/locations/ffdungeon/processed/barrier_ruinwall.png"
+     "res://assets/locations/ffdungeon/processed/barrier_block.png"
     ]
    }
   },
@@ -289,7 +297,10 @@
    ],
    "barriers": {
     "h": [
-     "res://assets/locations/zeldadungeon/processed/barrier_hedge.png"
+     "res://assets/locations/zeldadungeon/processed/barrier_block.png"
+    ],
+    "v": [
+     "res://assets/locations/zeldadungeon/processed/barrier_block.png"
     ]
    }
   },
@@ -364,7 +375,15 @@
     "res://assets/locations/narutodungeon/processed/prop_post.png",
     "res://assets/locations/narutodungeon/processed/prop_rock.png",
     "res://assets/locations/narutodungeon/processed/prop_stump.png"
-   ]
+   ],
+   "barriers": {
+    "h": [
+     "res://assets/locations/narutodungeon/processed/barrier_block.png"
+    ],
+    "v": [
+     "res://assets/locations/narutodungeon/processed/barrier_block.png"
+    ]
+   }
   },
   {
    "id": "dragon_ball",
