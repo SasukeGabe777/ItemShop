@@ -53,6 +53,24 @@
   (`combat_hero.gd::dodge_cooldown`) — block + expiry proven headless
   (`tests/dodge_cooldown_probe.tscn`).
 
+### Round 6 (same day): the REAL walk fix — facing, not cycle order
+
+- "Mario, Luigi, and Naruto all still walking backwards E/W" after two
+  cycle-order attempts. Naruto's 2-frame side walk was the tell: two
+  frames cannot play backwards, so the symptom was FACING — the movement
+  rows face RIGHT natively; my "~" flips made all three face away from
+  travel. Brothers' side anims now unflipped (their melee/special rows DO
+  face left and keep flips — mixed facings in one sheet, like
+  charmander); Naruto's side frames pixel-flipped in the sheet rebuild.
+  Verified with tight face zooms while walking east: all three lead with
+  the nose. Strike Raid confirmed "perfect" by the user.
+- **Naruto back view**: from the user's naruto_kakashi_update.png drop —
+  real back-walk (frames 16-18) + back melee (attack_1_up, 19-21) via
+  tools/add_naruto_back.py. Kakashi column = future hero, NOT wired yet.
+- **Export crash fixed**: packing 121MB of raw move_VFX frames died at
+  76%; `.gdignore` now excludes the raw tree (game only loads the
+  processed strips). Exe 261MB -> 245MB.
+
 ### Round 5 (same day): walk cycles, Strike Raid animation, dungeon music
 
 - **Mario AND Luigi side walks played backwards** (user watched the probe

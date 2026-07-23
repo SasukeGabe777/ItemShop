@@ -4,14 +4,14 @@
  "native_scale": 1,
  "display_scale": 1,
  "pivot": [
-  12,
+  14,
   30
  ],
  "grid": {
-  "frame_width": 25,
-  "frame_height": 31,
+  "frame_width": 28,
+  "frame_height": 34,
   "columns": 8,
-  "rows": 2
+  "rows": 3
  },
  "animations": {
   "idle_down": {
@@ -32,17 +32,17 @@
   },
   "idle_up": {
    "frames": [
-    4
+    17
    ],
    "fps": 3,
    "loop": true
   },
   "walk_up": {
    "frames": [
-    4,
-    5,
-    4,
-    5
+    16,
+    17,
+    18,
+    17
    ],
    "fps": 9,
    "loop": true
@@ -78,6 +78,15 @@
     9,
     10,
     11
+   ],
+   "fps": 12,
+   "loop": false
+  },
+  "attack_1_up": {
+   "frames": [
+    19,
+    20,
+    21
    ],
    "fps": 12,
    "loop": false

@@ -36,6 +36,6 @@ class Probe:
 		DirAccess.make_dir_recursive_absolute("user://screenshots/")
 		await _run("mario", "luigi", "right", "move_right", 8)
 		await _run("mario", "mario", "right", "move_right", 8)
-		await _run("naruto", "naruto", "up", "move_up", 8)
+		await _run("naruto", "naruto", "right", "move_right", 8)
 		print("WC_DONE")
 		get_tree().quit()
