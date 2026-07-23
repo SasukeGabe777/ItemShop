@@ -32,16 +32,17 @@
   },
   "idle_up": {
    "frames": [
-    0
+    4
    ],
    "fps": 3,
    "loop": true
   },
   "walk_up": {
    "frames": [
-    0,
-    1,
-    2
+    4,
+    5,
+    4,
+    5
    ],
    "fps": 9,
    "loop": true

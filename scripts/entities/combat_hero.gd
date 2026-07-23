@@ -264,6 +264,11 @@ func _spawn_projectile(speed: float, dmg_ratio: float, color: Color) -> void:
 	p.setup(_attack_damage(dmg_ratio), facing, speed, color, CombatHero.LAYER_ENEMY_HURT, tex)
 	p.global_position = global_position + facing * 10.0
 	get_parent().add_child(p)
+	# animated projectile art (Strike Raid's spinning keyblade): "sprite"
+	# becomes a horizontal strip when sprite_frames > 1
+	var frames := int(sp.get("sprite_frames", 1))
+	if frames > 1 and tex_path != "":
+		p.set_art(tex_path, frames, 1, 0, float(sp.get("sprite_fps", 16)))
 
 
 func _aoe_damage(radius: float, dmg_ratio: float) -> void:

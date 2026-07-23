@@ -45,10 +45,16 @@ func play_track(track_id: String) -> void:
 	var manifest_tracks: Dictionary = ContentDatabase.music.get("tracks", {})
 	var loop := bool(manifest_tracks.get(track_id, {}).get("loop", true))
 	_set_loop(stream, loop)
+	# optional per-track start offset ("start" seconds in the manifest):
+	# playback AND every loop restart skip the intro (user request for
+	# dungeon_pokemon — first 30s unused)
+	var start := float(manifest_tracks.get(track_id, {}).get("start", 0.0))
+	if start > 0.0 and (stream is AudioStreamMP3 or stream is AudioStreamOggVorbis):
+		stream.set("loop_offset", start)
 	music_player.stream = stream
 	music_player.volume_db = music_volume_db
 	if not muted:
-		music_player.play()
+		music_player.play(start)
 
 
 func play_stinger(track_id: String) -> void:

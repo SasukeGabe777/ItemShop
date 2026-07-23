@@ -53,6 +53,22 @@
   (`combat_hero.gd::dodge_cooldown`) — block + expiry proven headless
   (`tests/dodge_cooldown_probe.tscn`).
 
+### Round 5 (same day): walk cycles, Strike Raid animation, dungeon music
+
+- **Mario AND Luigi side walks played backwards** (user watched the probe
+  run live and caught Mario too): both sheet rows are authored
+  right-to-left — both cycles now reversed. Verified with in-game
+  frame-sequence strips (`tests/walkcycle_capture.tscn`).
+- **Naruto's "spin"** root-caused: his thin rip has NO back-view frames,
+  so up-movement played front frames and flickered against side frames on
+  diagonals. Up now uses the side profile — flicker impossible.
+- **Strike Raid** now throws the full 11-frame spinning keyblade
+  (strike_raid_spin.png; Projectile "sprite" + sprite_frames/sprite_fps
+  in heroes.json) instead of a single static frame.
+- **Pokémon dungeon music**: user's track wired as dungeon_pokemon.mp3
+  with a new per-track "start" offset (30s — intro skipped on play AND on
+  every loop via loop_offset) in AudioManager/music_manifest.
+
 ### Round 4 (same day): move_VFX drop wired into combat
 
 - User supplied `assets/shared/effects/move_VFX` (258 effect sets) with

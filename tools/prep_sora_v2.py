@@ -186,7 +186,18 @@ def stage_build() -> None:
     with open(MANIFEST, "w", encoding="utf-8", newline="\n") as f:
         f.write(json.dumps(manifest, indent=1) + "\n")
     print(f"  roll preserved as frames {indices}")
-    # 4. Strike Raid projectile sprite from the special section
+    # 4. Strike Raid projectile: the full 11-frame spinning-keyblade strip
+    # (playtest round 5: a single static frame read as "not working")
+    spin_cells = [f"r0c{c}" for c in range(5, 16)]
+    boxes2 = [named[c] for c in spin_cells]
+    cw2 = max(b[2] - b[0] for b in boxes2)
+    ch2 = max(b[3] - b[1] for b in boxes2)
+    spin = Image.new("RGBA", (cw2 * len(boxes2), ch2), (0, 0, 0, 0))
+    for n, b in enumerate(boxes2):
+        crop = img.crop(b)
+        spin.alpha_composite(crop, (n * cw2 + (cw2 - crop.width) // 2, (ch2 - crop.height) // 2))
+    spin.save(BLADE.parent / "strike_raid_spin.png")
+    print(f"  spin strip {len(boxes2)}x1 cells of {cw2}x{ch2} -> strike_raid_spin.png")
     if BLADE_CELL:
         blade = img.crop(named[BLADE_CELL])
         blade.save(BLADE)

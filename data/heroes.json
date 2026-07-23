@@ -30,7 +30,9 @@
      "dmg": 22,
      "speed": 320,
      "cost": 35,
-     "sprite": "res://assets/franchises/kingdom_hearts/processed/strike_raid_blade.png"
+     "sprite": "res://assets/franchises/kingdom_hearts/processed/strike_raid_spin.png",
+     "sprite_frames": 11,
+     "sprite_fps": 18
     },
     "dodge": {
      "kind": "roll",

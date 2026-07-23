@@ -93,9 +93,10 @@ def stage_grid() -> None:
 def _char_picks(p: str, melee_down_seq: list, special_down_seq: list) -> dict:
     dodge = ({"roll": [f"mr11c{c}" for c in range(8)]} if p == "m"
              else {"roll_side": [f"lr11c{c}" for c in range(4)]})
-    # playtest: Luigi's side cycle is authored right-to-left on the sheet —
-    # played forward it moonwalks; reverse the frame order (Mario's is fine)
-    side_cols = list(range(8)) if p == "m" else list(range(7, -1, -1))
+    # playtest rounds 3+5: BOTH brothers' side cycles are authored
+    # right-to-left on the sheet (user watched the probe run and confirmed
+    # Mario too) — play them reversed
+    side_cols = list(range(7, -1, -1))
     return {
         "cell": (56, 56),
         "anims": dodge | {
