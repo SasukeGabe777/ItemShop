@@ -113,6 +113,9 @@ func _resolve_texture(def: Dictionary) -> Texture2D:
 
 
 func refresh_items() -> void:
+	# Three-up counters have only 13px between slot centers. Give those a
+	# deliberately tighter cap so neighboring art retains a visible gap.
+	var item_max_px := 11.0 if slot_count >= 3 else 14.0
 	for i in _item_sprites.size():
 		var global_slot := slot_base + i
 		var id := ""
@@ -120,7 +123,7 @@ func refresh_items() -> void:
 			id = String(InventoryManager.display[global_slot])
 		var item_sprite := _item_sprites[i]
 		item_sprite.texture = ContentDatabase.item_texture(id) if id != "" else null
-		UIKit.fit_item_sprite(item_sprite)
+		UIKit.fit_item_sprite(item_sprite, item_max_px)
 
 
 ## Bright physical marker for the slot whose stocking picker is open. This is

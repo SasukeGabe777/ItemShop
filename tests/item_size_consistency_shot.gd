@@ -5,9 +5,9 @@ class Probe:
 	extends Node
 
 	const SHOT_DIR := "user://screenshots/item_size_consistency/"
-	# Slots 2 and 3 are the two stands visible in the opening camera. Put the
-	# catalog's 35px and 12px source extremes there for a direct visual proof.
-	const ITEMS := ["bright_shard", "super_mushroom", "keychain", "deku_nut", "kingdom_key", "kh_potion"]
+	# Mix visually dense round items with airy weapons so both single stands and
+	# the opening counter expose any remaining size or crowding problem.
+	const ITEMS := ["dragon_ball", "great_ball", "fairy_harp_keyblade", "field_medkit", "goku_plushie", "summoning_scroll"]
 
 	func _ready() -> void:
 		await get_tree().create_timer(0.7).timeout
@@ -21,7 +21,7 @@ class Probe:
 		for i in mini(ITEMS.size(), InventoryManager.display.size()):
 			shop.dev_set_display_item(i, ITEMS[i])
 		await get_tree().create_timer(0.35).timeout
-		_snap("01_normalized_shop_displays.png")
+		_snap("01_visual_weight_shop_displays.png")
 
 		shop._open_storage()
 		await get_tree().create_timer(0.45).timeout
@@ -60,6 +60,14 @@ class Probe:
 		BridgeManager.reset()
 		StoryEventManager.reset()
 		ShopFurnitureManager.reset()
+		# Keep both ordinary stands and a real three-slot counter inside the
+		# opening camera so the dense-layout cap receives visual coverage.
+		ShopFurnitureManager.layout = [
+			{"uid": 1, "type": "basic_item_stand", "pos": [190.0, 246.0]},
+			{"uid": 2, "type": "basic_item_stand", "pos": [278.0, 246.0]},
+			{"uid": 3, "type": "green_counter", "pos": [366.0, 246.0]},
+		]
+		InventoryManager.resize_display_slots(ShopFurnitureManager.total_slot_count())
 		for id in ITEMS:
 			InventoryManager.add_item(id, 2)
 

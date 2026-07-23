@@ -1,6 +1,6 @@
 extends Node
-## Headless proof that raw item PNG dimensions cannot leak into menu rows or
-## shop display furniture. The live catalog currently spans 12px to 35px.
+## Headless proof that raw item PNG dimensions cannot leak into menu rows and
+## that shop-floor sprites normalize visual weight without crowding counters.
 
 var failures: Array[String] = []
 
@@ -8,41 +8,15 @@ var failures: Array[String] = []
 func _ready() -> void:
 	GameState.reset_campaign()
 	InventoryManager.reset()
-	var extremes := _source_extremes()
-	_check(not extremes.is_empty(), "live item catalog has no textured items")
-	if not extremes.is_empty():
-		_test_menu_icons(String(extremes["small_id"]), String(extremes["large_id"]))
-		_test_world_sprites(String(extremes["small_id"]), String(extremes["large_id"]))
+	_test_menu_icons("fairy_harp_keyblade", "field_medkit")
+	_test_live_catalog()
+	_test_world_sprites("fairy_harp_keyblade", "field_medkit")
 	if failures.is_empty():
 		print("ITEM_SIZE_CONSISTENCY_PROBE_PASS")
 	else:
 		for message in failures:
 			printerr("ITEM_SIZE_CONSISTENCY_PROBE_FAIL: " + message)
 	get_tree().quit(0 if failures.is_empty() else 1)
-
-
-func _source_extremes() -> Dictionary:
-	var small_id := ""
-	var large_id := ""
-	var small_max := INF
-	var large_max := 0.0
-	for id: String in ContentDatabase.live_items:
-		var texture := ContentDatabase.item_texture(id)
-		if texture == null:
-			continue
-		var source_max := maxf(float(texture.get_width()), float(texture.get_height()))
-		if source_max < small_max:
-			small_max = source_max
-			small_id = id
-		if source_max > large_max:
-			large_max = source_max
-			large_id = id
-	print("ITEM_SOURCE_RANGE small=", small_id, " ", small_max,
-		"px large=", large_id, " ", large_max, "px")
-	return {} if small_id == "" or large_id == "" else {
-		"small_id": small_id, "large_id": large_id,
-		"small_max": small_max, "large_max": large_max,
-	}
 
 
 func _test_menu_icons(small_id: String, large_id: String) -> void:
@@ -59,24 +33,76 @@ func _test_menu_icons(small_id: String, large_id: String) -> void:
 
 
 func _test_world_sprites(small_id: String, large_id: String) -> void:
-	InventoryManager.resize_display_slots(2)
+	InventoryManager.resize_display_slots(3)
 	InventoryManager.display[0] = small_id
 	InventoryManager.display[1] = large_id
+	InventoryManager.display[2] = "great_ball"
 	var furniture := DisplayFurniture.new()
 	add_child(furniture)
 	furniture.setup({"uid": 999, "type": "probe", "pos": [0, 0]}, {
-		"size": [60, 24], "display_slots": [[-12, -12], [12, -12]],
+		"size": [40, 24], "display_slots": [[-13, -12], [0, -12], [13, -12]],
 		"furniture_type": "shelf",
 	}, 0, [])
-	for i in 2:
+	var rendered_areas: Array[float] = []
+	for i in 3:
 		var sprite := furniture.get_node("ItemSprite%d" % i) as Sprite2D
 		_check(sprite != null and sprite.texture != null, "display slot %d has no item art" % i)
 		if sprite != null and sprite.texture != null:
-			var rendered_max := maxf(sprite.texture.get_width() * sprite.scale.x,
-				sprite.texture.get_height() * sprite.scale.y)
-			_check(is_equal_approx(rendered_max, 18.0),
-				"display slot %d renders at %.2fpx instead of 18px" % [i, rendered_max])
+			var visual := _visible_metrics(sprite.texture)
+			var rendered_max: float = float(visual["max_edge"]) * sprite.scale.x
+			var rendered_area: float = float(visual["alpha_area"]) * sprite.scale.x * sprite.scale.y
+			rendered_areas.append(rendered_area)
+			_check(rendered_max <= 11.01,
+				"dense display slot %d exceeds its 11px cap at %.2fpx" % [i, rendered_max])
+	if rendered_areas.size() == 3:
+		var lightest: float = rendered_areas.min()
+		var heaviest: float = rendered_areas.max()
+		_check(heaviest / lightest < 2.0,
+			"normalized visual weight still varies %.2fx" % (heaviest / lightest))
+		print("ITEM_VISUAL_WEIGHT_RANGE light=%.2f heavy=%.2f ratio=%.2f" % [
+			lightest, heaviest, heaviest / lightest])
 	furniture.free()
+
+
+func _test_live_catalog() -> void:
+	var lightest := INF
+	var heaviest := 0.0
+	var checked := 0
+	for id: String in ContentDatabase.live_items:
+		var sprite := Sprite2D.new()
+		sprite.texture = ContentDatabase.item_texture(id)
+		if sprite.texture == null:
+			sprite.free()
+			continue
+		UIKit.fit_item_sprite(sprite)
+		var visual := _visible_metrics(sprite.texture)
+		var rendered_max: float = float(visual["max_edge"]) * sprite.scale.x
+		var rendered_area: float = float(visual["alpha_area"]) * sprite.scale.x * sprite.scale.y
+		_check(rendered_max <= 14.01,
+			"%s exceeds the standard 14px cap at %.2fpx" % [id, rendered_max])
+		lightest = minf(lightest, rendered_area)
+		heaviest = maxf(heaviest, rendered_area)
+		checked += 1
+		sprite.free()
+	_check(checked > 0, "live catalog has no measurable item art")
+	if checked > 0:
+		_check(heaviest / lightest < 2.3,
+			"full-catalog visual weight still varies %.2fx" % (heaviest / lightest))
+		print("ITEM_CATALOG_VISUAL_WEIGHT items=%d light=%.2f heavy=%.2f ratio=%.2f" % [
+			checked, lightest, heaviest, heaviest / lightest])
+
+
+func _visible_metrics(texture: Texture2D) -> Dictionary:
+	var image := texture.get_image()
+	var used := image.get_used_rect()
+	var alpha_area := 0.0
+	for y in range(used.position.y, used.position.y + used.size.y):
+		for x in range(used.position.x, used.position.x + used.size.x):
+			alpha_area += image.get_pixel(x, y).a
+	return {
+		"max_edge": maxf(float(used.size.x), float(used.size.y)),
+		"alpha_area": alpha_area,
+	}
 
 
 func _check(condition: bool, message: String) -> void:

@@ -24,6 +24,7 @@ const EMOTE_PATTERN := "res://assets/shared/ui/processed/emote_%s.png"
 static var _light_theme: Theme = null
 static var _open_modals := 0
 static var _modals_by_viewport: Dictionary = {}  # viewport instance id -> count
+static var _item_visual_metrics: Dictionary = {}
 
 
 ## True while any UIKit.modal() is on screen. Gameplay code that polls raw
@@ -247,16 +248,56 @@ static func item_icon(item_id: String, icon_size: Vector2 = Vector2(24, 24)) -> 
 	return icon
 
 
-## Shop-floor item art uses Sprite2D instead of TextureRect, so apply the same
-## fit-to-box rule explicitly. This scales small sources up as well as capping
-## large ones; otherwise the current catalog ranges from 12px to 35px.
-static func fit_item_sprite(sprite: Sprite2D, target_max_px: float = 18.0) -> void:
+## Shop-floor art needs a tighter rule than menu icon boxes. A longest-edge-only
+## fit makes dense round icons look far heavier than airy weapons, so combine a
+## visible-bounds cap with a bounded alpha-area target. Thin silhouettes may use
+## the full edge allowance, but never grow without limit merely to match area.
+static func fit_item_sprite(sprite: Sprite2D, target_max_px: float = 14.0) -> void:
 	sprite.scale = Vector2.ONE
 	if sprite.texture == null or target_max_px <= 0.0:
 		return
-	var source_max := maxf(float(sprite.texture.get_width()), float(sprite.texture.get_height()))
-	if source_max > 0.0:
-		sprite.scale = Vector2.ONE * (target_max_px / source_max)
+	var metrics := _visual_metrics_for(sprite.texture)
+	var visible_size: Vector2 = metrics.get("visible_size", sprite.texture.get_size())
+	var alpha_area := float(metrics.get("alpha_area", visible_size.x * visible_size.y))
+	var visible_max := maxf(visible_size.x, visible_size.y)
+	if visible_max <= 0.0 or alpha_area <= 0.0:
+		return
+	var edge_scale := target_max_px / visible_max
+	# Forty-five percent of the permitted square keeps solid icons restrained
+	# while allowing recognizable breathing room around narrow silhouettes.
+	var target_alpha_area := target_max_px * target_max_px * 0.45
+	var area_scale := sqrt(target_alpha_area / alpha_area)
+	sprite.scale = Vector2.ONE * minf(edge_scale, area_scale)
+
+
+static func _visual_metrics_for(texture: Texture2D) -> Dictionary:
+	var cache_key := texture.resource_path
+	if cache_key.is_empty():
+		cache_key = "instance:%d" % texture.get_instance_id()
+	if _item_visual_metrics.has(cache_key):
+		return _item_visual_metrics[cache_key]
+	var fallback := {
+		"visible_size": texture.get_size(),
+		"alpha_area": float(texture.get_width() * texture.get_height()),
+	}
+	var image := texture.get_image()
+	if image == null or image.is_empty():
+		_item_visual_metrics[cache_key] = fallback
+		return fallback
+	var used := image.get_used_rect()
+	if used.size.x <= 0 or used.size.y <= 0:
+		_item_visual_metrics[cache_key] = fallback
+		return fallback
+	var alpha_area := 0.0
+	for y in range(used.position.y, used.position.y + used.size.y):
+		for x in range(used.position.x, used.position.x + used.size.x):
+			alpha_area += image.get_pixel(x, y).a
+	var metrics := {
+		"visible_size": Vector2(used.size),
+		"alpha_area": alpha_area,
+	}
+	_item_visual_metrics[cache_key] = metrics
+	return metrics
 
 
 static func emote_texture(kind: String) -> Texture2D:
