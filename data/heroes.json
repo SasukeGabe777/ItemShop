@@ -275,7 +275,7 @@
     },
     "dodge": {
      "kind": "vanish",
-     "distance": 85,
+     "distance": 60,
      "iframes": 0.4
     },
     "finisher": {
@@ -478,7 +478,7 @@
     },
     "dodge": {
      "kind": "roll",
-     "distance": 85,
+     "distance": 60,
      "iframes": 0.35
     },
     "finisher": {

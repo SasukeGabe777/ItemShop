@@ -41,6 +41,18 @@
   direction, fireball special poses per direction. Verified windowed
   (`tests/playtest_fixes_shot.gd`).
 
+### Round 2 (same day): dodge animation drop
+
+- "Pokemon pass went over incredibly." New dodge art wired for five heroes
+  (`tools/add_dodge_anims.py` + prep_mario_luigi_v2): Link 3-direction
+  somersault (18 frames), Mario 8-frame 360° twirl, Luigi 4-frame scramble,
+  Pikachu + Charmander 4-frame dashes. All verified mid-roll in windowed
+  shots (`tests/dodge_anims_shot.tscn`).
+- Naruto's vanish distance lowered 85 -> 60 like the rest.
+- New global **0.3s dodge cooldown** after the dash ends
+  (`combat_hero.gd::dodge_cooldown`) — block + expiry proven headless
+  (`tests/dodge_cooldown_probe.tscn`).
+
 ---
 
 ## 2026-07-20 - Shop Boom announcement and crowd flow

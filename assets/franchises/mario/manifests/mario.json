@@ -11,45 +11,45 @@
     "frame_width": 56,
     "frame_height": 56,
     "columns": 8,
-    "rows": 7
+    "rows": 8
   },
   "animations": {
+    "roll": {
+      "frames": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "fps": 24,
+      "loop": false
+    },
     "idle_down": {
       "frames": [
-        0
+        8
       ],
       "fps": 3,
       "loop": true
     },
     "idle_up": {
       "frames": [
-        1
+        9
       ],
       "fps": 3,
       "loop": true
     },
     "idle_side": {
       "frames": [
-        2
+        10
       ],
       "fps": 3,
       "loop": true
     },
     "walk_down": {
-      "frames": [
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9,
-        10
-      ],
-      "fps": 12,
-      "loop": true
-    },
-    "walk_up": {
       "frames": [
         11,
         12,
@@ -63,7 +63,7 @@
       "fps": 12,
       "loop": true
     },
-    "walk_side": {
+    "walk_up": {
       "frames": [
         19,
         20,
@@ -77,61 +77,75 @@
       "fps": 12,
       "loop": true
     },
-    "attack_1_side": {
+    "walk_side": {
       "frames": [
         27,
         28,
-        29
+        29,
+        30,
+        31,
+        32,
+        33,
+        34
+      ],
+      "fps": 12,
+      "loop": true
+    },
+    "attack_1_side": {
+      "frames": [
+        35,
+        36,
+        37
       ],
       "fps": 14,
       "loop": false
     },
     "attack_1_up": {
       "frames": [
-        30,
-        31,
-        32
+        38,
+        39,
+        40
       ],
       "fps": 14,
       "loop": false
     },
     "attack_1_down": {
       "frames": [
-        33,
-        34,
-        35
+        41,
+        42,
+        43
       ],
       "fps": 14,
       "loop": false
     },
     "special_side": {
       "frames": [
-        36,
-        37,
-        38,
-        39,
-        40
+        44,
+        45,
+        46,
+        47,
+        48
       ],
       "fps": 12,
       "loop": false
     },
     "special_down": {
       "frames": [
-        41,
-        42,
-        43,
-        44
+        49,
+        50,
+        51,
+        52
       ],
       "fps": 12,
       "loop": false
     },
     "special_up": {
       "frames": [
-        45,
-        46,
-        47,
-        48,
-        49
+        53,
+        54,
+        55,
+        56,
+        57
       ],
       "fps": 12,
       "loop": false

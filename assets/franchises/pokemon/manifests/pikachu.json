@@ -11,7 +11,7 @@
     "frame_width": 48,
     "frame_height": 48,
     "columns": 8,
-    "rows": 5
+    "rows": 6
   },
   "animations": {
     "idle_down": {
@@ -120,6 +120,16 @@
         35
       ],
       "fps": 10,
+      "loop": false
+    },
+    "roll_side": {
+      "frames": [
+        40,
+        41,
+        42,
+        43
+      ],
+      "fps": 18,
       "loop": false
     }
   }

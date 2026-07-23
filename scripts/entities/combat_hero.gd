@@ -29,6 +29,7 @@ var combo_index: int = 0
 var combo_reset_at: float = 0.0
 var attack_lock: float = 0.0
 var special_cooldown: float = 0.0
+var dodge_cooldown: float = 0.0
 var guarding: bool = false
 var consumables: Array = []
 var revives_available: int = 0
@@ -105,6 +106,7 @@ func _physics_process(delta: float) -> void:
 		return
 	attack_lock = maxf(0.0, attack_lock - delta)
 	special_cooldown = maxf(0.0, special_cooldown - delta)
+	dodge_cooldown = maxf(0.0, dodge_cooldown - delta)
 	if Time.get_ticks_msec() / 1000.0 > combo_reset_at:
 		combo_index = 0
 	var wish := Vector2.ZERO
@@ -262,8 +264,13 @@ func _do_dodge(pressed: bool) -> void:
 	var kind := String(dodge.get("kind", "roll"))
 	if kind == "guard" or not pressed:
 		return
+	if dodge_cooldown > 0.0:
+		return
 	# fly glides a touch longer than a snap roll so it doesn't cover ground too fast
 	var dash_time := 0.22 if kind == "fly" else 0.16
+	# playtest 2026-07-22 round 2: 0.3s breather after the dash ends, so
+	# dodges can't be chained into permanent i-frame skating
+	dodge_cooldown = dash_time + 0.3
 	movement.dash(facing, float(dodge.get("distance", 70)), dash_time)
 	health.grant_iframes(float(dodge.get("iframes", 0.35)))
 	# real roll/fly frames when the manifest has them (play_action no-ops otherwise)

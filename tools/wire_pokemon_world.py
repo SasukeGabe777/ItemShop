@@ -56,7 +56,7 @@ charmander = {
             "frames": 15,
             "fps": 14,
         },
-        "dodge": {"kind": "roll", "distance": 85, "iframes": 0.35},
+        "dodge": {"kind": "roll", "distance": 60, "iframes": 0.35},
         "finisher": {"name": "Flamethrower", "dmg": 100, "radius": 105},
     },
     "default_equipment": {},

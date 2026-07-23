@@ -87,10 +87,15 @@ def stage_grid() -> None:
 # movement rows r0..r4 = S, SW, W, NW, N (side = flipped W); melee/special
 # side rows face LEFT (flip). r5=melee_side, r6=melee_up, r7=melee_down,
 # r8=special_side, r9=special_down, r10=special_up. "~" prefix = flip.
+# dodge rows (r11, added by the user 2026-07-22 round 2): Mario = 8-frame
+# 360° twirl (direction-agnostic -> plain "roll"); Luigi = 4-frame scramble
+# facing RIGHT -> "roll_side" (up/down fall back through the roll chain)
 def _char_picks(p: str, melee_down_seq: list, special_down_seq: list) -> dict:
+    dodge = ({"roll": [f"mr11c{c}" for c in range(8)]} if p == "m"
+             else {"roll_side": [f"lr11c{c}" for c in range(4)]})
     return {
         "cell": (56, 56),
-        "anims": {
+        "anims": dodge | {
             "idle_down": [f"{p}r0c0"], "idle_up": [f"{p}r4c0"], "idle_side": [f"~{p}r2c0"],
             "walk_down": [f"{p}r0c{c}" for c in range(8)],
             "walk_up": [f"{p}r4c{c}" for c in range(8)],
@@ -104,9 +109,11 @@ def _char_picks(p: str, melee_down_seq: list, special_down_seq: list) -> dict:
         },
         "fps": {"walk_down": 12, "walk_up": 12, "walk_side": 12,
                 "attack_1_down": 14, "attack_1_up": 14, "attack_1_side": 14,
-                "special_down": 12, "special_up": 12, "special_side": 12},
+                "special_down": 12, "special_up": 12, "special_side": 12,
+                "roll": 24, "roll_side": 18},
         "loops": {"attack_1_down": False, "attack_1_up": False, "attack_1_side": False,
-                  "special_down": False, "special_up": False, "special_side": False},
+                  "special_down": False, "special_up": False, "special_side": False,
+                  "roll": False, "roll_side": False},
     }
 
 
