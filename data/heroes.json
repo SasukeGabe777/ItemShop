@@ -34,7 +34,7 @@
     },
     "dodge": {
      "kind": "roll",
-     "distance": 70,
+     "distance": 60,
      "iframes": 0.35
     },
     "finisher": {
@@ -83,7 +83,7 @@
     },
     "dodge": {
      "kind": "roll",
-     "distance": 65,
+     "distance": 60,
      "iframes": 0.3
     },
     "finisher": {
@@ -130,7 +130,7 @@
     },
     "dodge": {
      "kind": "roll",
-     "distance": 65,
+     "distance": 60,
      "iframes": 0.3
     },
     "finisher": {
@@ -225,7 +225,7 @@
     },
     "dodge": {
      "kind": "roll",
-     "distance": 80,
+     "distance": 60,
      "iframes": 0.35
     },
     "finisher": {
@@ -429,7 +429,7 @@
     },
     "dodge": {
      "kind": "roll",
-     "distance": 90,
+     "distance": 60,
      "iframes": 0.35
     },
     "finisher": {

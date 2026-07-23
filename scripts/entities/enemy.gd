@@ -61,6 +61,14 @@ func setup(id: String, player: Node2D) -> void:
 	# real sprite sheets can be much larger than the data `size` tuned for
 	# placeholders — measure the art so hurtboxes match what's on screen
 	var vis := _visual_frame_size()
+	# cap the rendered height (playtest 2026-07-22: boss rips filled a third
+	# of the 640x360 view and read overpixelated). Bosses get a taller cap so
+	# they still loom; rank-and-file art already sits well under its cap.
+	var height_cap := 84.0 if def.has("attacks") else 44.0
+	if vis.y > height_cap:
+		var vscale := height_cap / vis.y
+		visual.scale = Vector2(vscale, vscale)
+		vis *= vscale
 	var body_h := maxf(float(size), vis.y * 0.8)
 	var body_w := maxf(float(size), vis.x * 0.8)
 	hit_radius = maxf(body_w, body_h) * 0.5

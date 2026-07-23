@@ -1,0 +1,336 @@
+2026-07-22 20:19:20,976 INFO Opening game page: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/
+2026-07-22 20:19:27,015 INFO Game: Pokémon FireRed / LeafGreen
+2026-07-22 20:19:27,015 INFO Platform/category: Game Boy Advance
+2026-07-22 20:19:27,015 INFO Asset count reported: 137
+2026-07-22 20:19:27,015 INFO Assets selected: 5
+2026-07-22 20:19:27,016 INFO Sections: Playable Characters, Trainers & Non-Playable Characters, Pokémon, Maps (Towns, Buildings, Etc.), Maps (Caves, Forests, Oceans, Etc.), Tilesets, Battle Effects, Menu Elements, Miscellaneous
+2026-07-22 20:19:27,016 INFO Destination: C:\Users\Game Station\Desktop\crossroads\assets\franchises\pokemon\raw\locations
+2026-07-22 20:19:27,016 INFO Filename pattern: sprite_<asset>
+2026-07-22 20:19:27,017 INFO Visiting asset 164543: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/164543/
+2026-07-22 20:19:31,657 INFO Trying download control: download attribute
+2026-07-22 20:19:34,398 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:19:34,398 INFO Visiting asset 3849: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3849/
+2026-07-22 20:19:35,856 INFO Trying download control: download attribute
+2026-07-22 20:19:38,032 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:19:38,032 INFO Visiting asset 3870: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3870/
+2026-07-22 20:19:39,497 INFO Trying download control: download attribute
+2026-07-22 20:19:41,703 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:19:41,703 INFO Visiting asset 3862: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3862/
+2026-07-22 20:19:43,138 INFO Trying download control: download attribute
+2026-07-22 20:19:45,314 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:19:45,314 INFO Visiting asset 3863: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3863/
+2026-07-22 20:19:46,839 INFO Trying download control: download attribute
+2026-07-22 20:21:13,189 INFO Opening game page: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/
+2026-07-22 20:21:19,186 INFO Game: Pokémon FireRed / LeafGreen
+2026-07-22 20:21:19,186 INFO Platform/category: Game Boy Advance
+2026-07-22 20:21:19,186 INFO Asset count reported: 137
+2026-07-22 20:21:19,186 INFO Assets selected: 0
+2026-07-22 20:21:19,187 INFO Sections: Playable Characters, Trainers & Non-Playable Characters, Pokémon, Maps (Towns, Buildings, Etc.), Maps (Caves, Forests, Oceans, Etc.), Tilesets, Battle Effects, Menu Elements, Miscellaneous
+2026-07-22 20:21:19,187 INFO Destination: C:\Users\Game Station\Desktop\crossroads\assets\franchises\pokemon\raw\locations
+2026-07-22 20:21:19,187 INFO Filename pattern: sprite_<asset>
+2026-07-22 20:21:34,169 INFO Opening game page: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/
+2026-07-22 20:21:40,993 INFO Game: Pokémon FireRed / LeafGreen
+2026-07-22 20:21:40,993 INFO Platform/category: Game Boy Advance
+2026-07-22 20:21:40,993 INFO Asset count reported: 137
+2026-07-22 20:21:40,993 INFO Assets selected: 137
+2026-07-22 20:21:40,993 INFO Sections: Playable Characters, Trainers & Non-Playable Characters, Pokémon, Maps (Towns, Buildings, Etc.), Maps (Caves, Forests, Oceans, Etc.), Tilesets, Battle Effects, Menu Elements, Miscellaneous
+2026-07-22 20:21:40,993 INFO Destination: C:\Users\Game Station\Desktop\crossroads\assets\franchises\pokemon\raw\locations
+2026-07-22 20:21:40,993 INFO Filename pattern: sprite_<asset>
+2026-07-22 20:21:40,993 INFO Dry run only; no assets downloaded.
+2026-07-22 20:22:08,064 INFO Opening game page: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/
+2026-07-22 20:22:14,308 INFO Game: Pokémon FireRed / LeafGreen
+2026-07-22 20:22:14,308 INFO Platform/category: Game Boy Advance
+2026-07-22 20:22:14,308 INFO Asset count reported: 137
+2026-07-22 20:22:14,308 INFO Assets selected: 100
+2026-07-22 20:22:14,308 INFO Sections: Playable Characters, Trainers & Non-Playable Characters, Pokémon, Maps (Towns, Buildings, Etc.), Maps (Caves, Forests, Oceans, Etc.), Tilesets, Battle Effects, Menu Elements, Miscellaneous
+2026-07-22 20:22:14,308 INFO Destination: C:\Users\Game Station\Desktop\crossroads\assets\franchises\pokemon\raw\locations
+2026-07-22 20:22:14,308 INFO Filename pattern: sprite_<asset>
+2026-07-22 20:22:14,309 INFO Visiting asset 3729: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3729/
+2026-07-22 20:22:19,176 INFO Trying download control: download attribute
+2026-07-22 20:22:21,759 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:22:21,759 INFO Visiting asset 3768: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3768/
+2026-07-22 20:22:23,592 INFO Trying download control: download attribute
+2026-07-22 20:22:25,870 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:22:25,870 INFO Visiting asset 23608: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/23608/
+2026-07-22 20:22:27,424 INFO Trying download control: download attribute
+2026-07-22 20:22:29,634 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:22:29,634 INFO Visiting asset 3769: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3769/
+2026-07-22 20:22:31,214 INFO Trying download control: download attribute
+2026-07-22 20:22:33,444 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:22:33,444 INFO Visiting asset 3778: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3778/
+2026-07-22 20:22:35,024 INFO Trying download control: download attribute
+2026-07-22 20:22:37,220 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:22:37,220 INFO Visiting asset 3785: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3785/
+2026-07-22 20:22:38,719 INFO Trying download control: download attribute
+2026-07-22 20:22:40,908 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:22:40,908 INFO Visiting asset 3784: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3784/
+2026-07-22 20:22:42,447 INFO Trying download control: download attribute
+2026-07-22 20:22:44,693 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:22:44,693 INFO Visiting asset 3776: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3776/
+2026-07-22 20:22:46,239 INFO Trying download control: download attribute
+2026-07-22 20:22:48,475 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:22:48,475 INFO Visiting asset 23580: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/23580/
+2026-07-22 20:22:50,075 INFO Trying download control: download attribute
+2026-07-22 20:22:52,283 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:22:52,283 INFO Visiting asset 3773: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3773/
+2026-07-22 20:22:53,780 INFO Trying download control: download attribute
+2026-07-22 20:22:55,979 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:22:55,980 INFO Visiting asset 23891: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/23891/
+2026-07-22 20:22:57,427 INFO Trying download control: download attribute
+2026-07-22 20:22:59,624 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:22:59,624 INFO Visiting asset 3781: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3781/
+2026-07-22 20:23:01,076 INFO Trying download control: download attribute
+2026-07-22 20:23:03,300 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:23:03,300 INFO Visiting asset 3771: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3771/
+2026-07-22 20:23:04,787 INFO Trying download control: download attribute
+2026-07-22 20:23:07,097 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:23:07,098 INFO Visiting asset 3774: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3774/
+2026-07-22 20:23:08,673 INFO Trying download control: download attribute
+2026-07-22 20:23:10,927 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:23:10,927 INFO Visiting asset 3724: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3724/
+2026-07-22 20:23:12,437 INFO Trying download control: download attribute
+2026-07-22 20:23:14,609 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:23:14,609 INFO Visiting asset 23610: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/23610/
+2026-07-22 20:23:16,057 INFO Trying download control: download attribute
+2026-07-22 20:23:18,220 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:23:18,220 INFO Visiting asset 3818: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3818/
+2026-07-22 20:23:19,646 INFO Trying download control: download attribute
+2026-07-22 20:23:21,810 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:23:21,811 INFO Visiting asset 23890: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/23890/
+2026-07-22 20:23:23,366 INFO Trying download control: download attribute
+2026-07-22 20:23:25,540 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:23:25,540 INFO Visiting asset 3734: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3734/
+2026-07-22 20:23:27,095 INFO Trying download control: download attribute
+2026-07-22 20:23:29,300 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:23:29,300 INFO Visiting asset 3733: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3733/
+2026-07-22 20:23:30,789 INFO Trying download control: download attribute
+2026-07-22 20:23:32,972 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:23:32,973 INFO Visiting asset 3843: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3843/
+2026-07-22 20:23:34,381 INFO Trying download control: download attribute
+2026-07-22 20:23:36,546 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:23:36,546 INFO Visiting asset 3775: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3775/
+2026-07-22 20:23:40,953 INFO Trying download control: download attribute
+2026-07-22 20:23:43,144 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:23:43,144 INFO Visiting asset 52422: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/52422/
+2026-07-22 20:23:44,711 INFO Trying download control: download attribute
+2026-07-22 20:23:46,883 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:23:46,883 INFO Visiting asset 3787: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3787/
+2026-07-22 20:23:51,316 INFO Trying download control: download attribute
+2026-07-22 20:23:53,491 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:23:53,491 INFO Visiting asset 3731: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3731/
+2026-07-22 20:23:54,912 INFO Trying download control: download attribute
+2026-07-22 20:23:57,130 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:23:57,130 INFO Visiting asset 3786: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3786/
+2026-07-22 20:23:58,581 INFO Trying download control: download attribute
+2026-07-22 20:24:00,760 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:24:00,760 INFO Visiting asset 3783: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3783/
+2026-07-22 20:24:02,204 INFO Trying download control: download attribute
+2026-07-22 20:24:04,373 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:24:04,373 INFO Visiting asset 3844: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3844/
+2026-07-22 20:24:05,841 INFO Trying download control: download attribute
+2026-07-22 20:24:08,035 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:24:08,035 INFO Visiting asset 3796: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3796/
+2026-07-22 20:24:09,674 INFO Trying download control: download attribute
+2026-07-22 20:24:11,884 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:24:11,884 INFO Visiting asset 3782: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3782/
+2026-07-22 20:24:13,425 INFO Trying download control: download attribute
+2026-07-22 20:24:15,618 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:24:15,618 INFO Visiting asset 23888: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/23888/
+2026-07-22 20:24:17,059 INFO Trying download control: download attribute
+2026-07-22 20:24:19,229 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:24:19,229 INFO Visiting asset 3770: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3770/
+2026-07-22 20:24:20,701 INFO Trying download control: download attribute
+2026-07-22 20:24:22,944 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:24:22,944 INFO Visiting asset 3777: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3777/
+2026-07-22 20:24:24,413 INFO Trying download control: download attribute
+2026-07-22 20:24:26,885 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:24:26,885 INFO Visiting asset 3788: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3788/
+2026-07-22 20:24:28,383 INFO Trying download control: download attribute
+2026-07-22 20:24:30,623 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:24:30,623 INFO Visiting asset 113476: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/113476/
+2026-07-22 20:24:32,287 INFO Trying download control: download attribute
+2026-07-22 20:24:34,915 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:24:34,916 INFO Visiting asset 3790: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3790/
+2026-07-22 20:24:40,172 INFO Trying download control: download attribute
+2026-07-22 20:24:42,578 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:24:42,579 INFO Visiting asset 3803: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3803/
+2026-07-22 20:24:48,328 INFO Trying download control: download attribute
+2026-07-22 20:24:50,740 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:24:50,740 INFO Visiting asset 3805: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3805/
+2026-07-22 20:24:52,473 INFO Trying download control: download attribute
+2026-07-22 20:24:54,864 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:24:54,865 INFO Visiting asset 3807: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3807/
+2026-07-22 20:24:56,747 INFO Trying download control: download attribute
+2026-07-22 20:24:59,223 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:24:59,223 INFO Visiting asset 3779: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3779/
+2026-07-22 20:25:03,905 INFO Trying download control: download attribute
+2026-07-22 20:25:06,286 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:25:06,286 INFO Visiting asset 3716: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3716/
+2026-07-22 20:25:08,012 INFO Trying download control: download attribute
+2026-07-22 20:25:10,267 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:25:10,267 INFO Visiting asset 3780: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3780/
+2026-07-22 20:25:14,800 INFO Trying download control: download attribute
+2026-07-22 20:25:17,089 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:25:17,089 INFO Visiting asset 3808: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3808/
+2026-07-22 20:25:18,719 INFO Trying download control: download attribute
+2026-07-22 20:25:20,899 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:25:20,899 INFO Visiting asset 3809: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3809/
+2026-07-22 20:25:22,934 INFO Trying download control: download attribute
+2026-07-22 20:25:25,219 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:25:25,219 INFO Visiting asset 3812: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3812/
+2026-07-22 20:25:27,136 INFO Trying download control: download attribute
+2026-07-22 20:25:29,599 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:25:29,599 INFO Visiting asset 3793: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3793/
+2026-07-22 20:25:34,579 INFO Trying download control: download attribute
+2026-07-22 20:25:36,881 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:25:36,881 INFO Visiting asset 3813: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3813/
+2026-07-22 20:25:38,982 INFO Trying download control: download attribute
+2026-07-22 20:25:41,231 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:25:41,231 INFO Visiting asset 3726: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3726/
+2026-07-22 20:25:42,743 INFO Trying download control: download attribute
+2026-07-22 20:25:44,940 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:25:44,940 INFO Visiting asset 3814: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3814/
+2026-07-22 20:25:46,498 INFO Trying download control: download attribute
+2026-07-22 20:25:48,699 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:25:48,699 INFO Visiting asset 3722: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3722/
+2026-07-22 20:25:50,227 INFO Trying download control: download attribute
+2026-07-22 20:25:52,483 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:25:52,483 INFO Visiting asset 23724: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/23724/
+2026-07-22 20:25:53,987 INFO Trying download control: download attribute
+2026-07-22 20:25:56,189 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:25:56,189 INFO Visiting asset 3792: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3792/
+2026-07-22 20:25:57,806 INFO Trying download control: download attribute
+2026-07-22 20:26:00,063 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:26:00,063 INFO Visiting asset 3817: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3817/
+2026-07-22 20:26:04,586 INFO Trying download control: download attribute
+2026-07-22 20:26:06,796 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:26:06,796 INFO Visiting asset 3789: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3789/
+2026-07-22 20:26:08,419 INFO Trying download control: download attribute
+2026-07-22 20:26:10,615 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:26:10,616 INFO Visiting asset 3735: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3735/
+2026-07-22 20:26:12,080 INFO Trying download control: download attribute
+2026-07-22 20:26:14,290 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:26:14,290 INFO Visiting asset 3727: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3727/
+2026-07-22 20:26:18,751 INFO Trying download control: download attribute
+2026-07-22 20:26:20,941 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:26:20,941 INFO Visiting asset 3717: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3717/
+2026-07-22 20:26:22,476 INFO Trying download control: download attribute
+2026-07-22 20:26:24,662 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:26:24,662 INFO Visiting asset 3736: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3736/
+2026-07-22 20:26:26,138 INFO Trying download control: download attribute
+2026-07-22 20:26:28,327 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:26:28,328 INFO Visiting asset 3737: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3737/
+2026-07-22 20:26:29,773 INFO Trying download control: download attribute
+2026-07-22 20:26:31,940 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:26:31,940 INFO Visiting asset 3739: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3739/
+2026-07-22 20:26:33,529 INFO Trying download control: download attribute
+2026-07-22 20:26:35,766 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:26:35,766 INFO Visiting asset 3742: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3742/
+2026-07-22 20:26:37,229 INFO Trying download control: download attribute
+2026-07-22 20:26:39,418 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:26:39,418 INFO Visiting asset 3744: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3744/
+2026-07-22 20:26:40,892 INFO Trying download control: download attribute
+2026-07-22 20:26:43,113 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:26:43,113 INFO Visiting asset 3745: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3745/
+2026-07-22 20:26:44,593 INFO Trying download control: download attribute
+2026-07-22 20:26:46,817 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:26:46,817 INFO Visiting asset 3747: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3747/
+2026-07-22 20:26:48,392 INFO Trying download control: download attribute
+2026-07-22 20:26:50,602 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:26:50,602 INFO Visiting asset 3748: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3748/
+2026-07-22 20:26:52,053 INFO Trying download control: download attribute
+2026-07-22 20:26:54,251 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:26:54,251 INFO Visiting asset 3750: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3750/
+2026-07-22 20:26:55,745 INFO Trying download control: download attribute
+2026-07-22 20:26:57,935 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:26:57,935 INFO Visiting asset 3751: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3751/
+2026-07-22 20:26:59,383 INFO Trying download control: download attribute
+2026-07-22 20:27:01,560 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:27:01,561 INFO Visiting asset 3752: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3752/
+2026-07-22 20:27:03,074 INFO Trying download control: download attribute
+2026-07-22 20:27:05,265 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:27:05,266 INFO Visiting asset 3754: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3754/
+2026-07-22 20:27:06,757 INFO Trying download control: download attribute
+2026-07-22 20:27:08,966 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:27:08,966 INFO Visiting asset 3755: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3755/
+2026-07-22 20:27:10,493 INFO Trying download control: download attribute
+2026-07-22 20:27:12,663 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:27:12,663 INFO Visiting asset 3756: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3756/
+2026-07-22 20:27:14,228 INFO Trying download control: download attribute
+2026-07-22 20:27:16,405 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:27:16,405 INFO Visiting asset 3757: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3757/
+2026-07-22 20:27:17,897 INFO Trying download control: download attribute
+2026-07-22 20:27:20,106 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:27:20,106 INFO Visiting asset 3758: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3758/
+2026-07-22 20:27:21,533 INFO Trying download control: download attribute
+2026-07-22 20:27:23,719 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:27:23,719 INFO Visiting asset 3759: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3759/
+2026-07-22 20:27:28,280 INFO Trying download control: download attribute
+2026-07-22 20:27:30,461 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:27:30,461 INFO Visiting asset 3760: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3760/
+2026-07-22 20:27:31,884 INFO Trying download control: download attribute
+2026-07-22 20:27:34,053 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:27:34,053 INFO Visiting asset 3761: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3761/
+2026-07-22 20:27:35,527 INFO Trying download control: download attribute
+2026-07-22 20:27:37,710 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:27:37,710 INFO Visiting asset 3762: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3762/
+2026-07-22 20:27:39,292 INFO Trying download control: download attribute
+2026-07-22 20:27:41,458 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:27:41,458 INFO Visiting asset 3763: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3763/
+2026-07-22 20:27:42,985 INFO Trying download control: download attribute
+2026-07-22 20:27:45,197 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:27:45,197 INFO Visiting asset 3764: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3764/
+2026-07-22 20:27:46,669 INFO Trying download control: download attribute
+2026-07-22 20:27:48,854 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:27:48,854 INFO Visiting asset 3765: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3765/
+2026-07-22 20:27:50,455 INFO Trying download control: download attribute
+2026-07-22 20:27:52,650 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:27:52,650 INFO Visiting asset 3766: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3766/
+2026-07-22 20:27:54,095 INFO Trying download control: download attribute
+2026-07-22 20:27:56,291 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:27:56,291 INFO Visiting asset 3767: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3767/
+2026-07-22 20:27:57,749 INFO Trying download control: download attribute
+2026-07-22 20:27:59,916 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:27:59,916 INFO Visiting asset 23582: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/23582/
+2026-07-22 20:28:01,415 INFO Trying download control: download attribute
+2026-07-22 20:28:03,593 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:28:03,593 INFO Visiting asset 3798: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3798/
+2026-07-22 20:28:05,084 INFO Trying download control: download attribute
+2026-07-22 20:28:07,290 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:28:07,290 INFO Visiting asset 23725: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/23725/
+2026-07-22 20:28:11,767 INFO Trying download control: download attribute
+2026-07-22 20:28:13,976 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:28:13,976 INFO Visiting asset 3842: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3842/
+2026-07-22 20:28:18,401 INFO Trying download control: download attribute
+2026-07-22 20:28:20,618 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:28:20,618 INFO Visiting asset 3718: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3718/
+2026-07-22 20:28:22,076 INFO Trying download control: download attribute
+2026-07-22 20:28:24,262 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:28:24,262 INFO Visiting asset 23581: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/23581/
+2026-07-22 20:28:25,753 INFO Trying download control: download attribute
+2026-07-22 20:28:27,942 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:28:27,942 INFO Visiting asset 3719: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3719/
+2026-07-22 20:28:29,485 INFO Trying download control: download attribute
+2026-07-22 20:28:31,686 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:28:31,686 INFO Visiting asset 3845: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3845/
+2026-07-22 20:28:33,136 INFO Trying download control: download attribute
+2026-07-22 20:28:35,314 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:28:35,314 INFO Visiting asset 3816: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3816/
+2026-07-22 20:28:36,768 INFO Trying download control: download attribute
+2026-07-22 20:28:38,968 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:28:38,969 INFO Visiting asset 3797: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3797/
+2026-07-22 20:28:40,430 INFO Trying download control: download attribute
+2026-07-22 20:28:42,706 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:28:42,706 INFO Visiting asset 3848: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3848/
+2026-07-22 20:28:44,201 INFO Trying download control: download attribute
+2026-07-22 20:28:46,393 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:28:46,393 INFO Visiting asset 3846: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3846/
+2026-07-22 20:28:47,974 INFO Trying download control: download attribute
+2026-07-22 20:28:50,159 DEBUG Waited 2.00 seconds before next request.
+2026-07-22 20:28:50,159 INFO Visiting asset 3847: https://www.spriters-resource.com/game_boy_advance/pokemonfireredleafgreen/asset/3847/
+2026-07-22 20:28:51,640 INFO Trying download control: download attribute
+2026-07-22 20:28:51,887 INFO [96/100] Skipping completed asset 164543
+2026-07-22 20:28:51,887 INFO [97/100] Skipping completed asset 3849
+2026-07-22 20:28:51,887 INFO [98/100] Skipping completed asset 3870
+2026-07-22 20:28:51,887 INFO [99/100] Skipping completed asset 3862
+2026-07-22 20:28:51,887 INFO [100/100] Skipping completed asset 3863

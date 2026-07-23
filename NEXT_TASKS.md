@@ -50,11 +50,12 @@ whether the prop-less rooms read too empty.
 
 ## Priority 1 — Pokémon polish (world built 2026-07-22)
 
-Chapter 7 is now playable end-to-end. Remaining polish items:
+First playtest done 2026-07-22; its fixes shipped same day (Charmander side
+anims, dodge distances, boss size cap, FRLG rooms + props + boulder barrier,
+Mario/Luigi rebuild). Remaining polish items:
 
-- **Obstacle props:** rooms use flat-polygon obstacles (PMD wall tiles carry
-  baked fills that read as pasted boxes). If rooms feel empty in playtest,
-  hunt standalone object rips (boulders, berries, crates) to cut per §4.
+- **Latios balance:** felt too strong at first-win, but tested unequipped —
+  revisit after an equipped run before touching numbers.
 - **Item icons:** `pokedex` and `fire_stone` lack icons so they never appear
   in shops; extract from `raw/items.png`.
 - **Idle motion:** Pikachu/Charmander idles are 1-frame (their PMD idle rows

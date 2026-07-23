@@ -117,19 +117,28 @@ pk["heroes"] = ["pikachu", "charmander"]
 pk["boss_rotation"] = ["latios", "ho_oh", "mewtwo"]
 LOC = "res://assets/locations/pkmndungeon/processed"
 pk["room_backgrounds"] = {
-    "start": [f"{LOC}/start_meadow.png"],
+    "start": [f"{LOC}/start_pallet.png"],
     "combat": [
         f"{LOC}/combat_woods.png",
         f"{LOC}/combat_woods2.png",
         f"{LOC}/combat_cave.png",
         f"{LOC}/combat_cave2.png",
+        f"{LOC}/combat_tower.png",
+        f"{LOC}/combat_hideout.png",
     ],
-    "treasure": [f"{LOC}/treasure_vault.png"],
+    "treasure": [f"{LOC}/treasure_vault.png", f"{LOC}/treasure_casino.png"],
     "boss": [f"{LOC}/boss_summit.png"],
 }
 pk["barriers"] = {
-    "h": [f"{LOC}/barrier_block.png"],
-    "v": [f"{LOC}/barrier_block.png"],
+    "h": [f"{LOC}/barrier_boulder.png"],
+    "v": [f"{LOC}/barrier_boulder.png"],
 }
+pk["obstacle_props"] = [
+    f"{LOC}/prop_pine.png",
+    f"{LOC}/prop_bush.png",
+    f"{LOC}/prop_boulder.png",
+    f"{LOC}/prop_rocks.png",
+    f"{LOC}/prop_grave.png",
+]
 save("worlds.json", worlds)
 print("worlds.json: pokemon heroes + boss_rotation + rooms + barriers wired")

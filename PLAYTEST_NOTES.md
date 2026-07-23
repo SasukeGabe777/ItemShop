@@ -2,6 +2,47 @@
 
 ---
 
+## 2026-07-22 - First human playtest of the Pokémon world (controller)
+
+### Date
+
+2026-07-22
+
+### Build tested
+
+- Commit/build: `80d72c8` (Pokémon world), exported exe on a controller
+- Godot version: 4.7.1-stable
+
+### Player feedback (verbatim findings)
+
+- **Nova specials feel worth it** (Discharge / Fire Spin) — keeping.
+- **Charmander's left/right walk used diagonal sprites** — the PMD sheet row
+  I read as "east" is actually a diagonal. FIXED same day: side anims now
+  flipped from the true W row (`prep_pokemon_world.py`), verified on sheet.
+- **Dodge dash travels too far, across the board** (named: Sora, Mario,
+  Luigi, Link + the Pokémon pair). FIXED: all rolls brought to Goku/Piccolo's
+  reference distance 60 (`tools/tune_dodge_2026_07_22.py`).
+- **All bosses in all dungeons too big / overpixelated.** FIXED: `enemy.gd`
+  now caps rendered boss height at 84px (hurtboxes follow the scale);
+  verified with `tests/boss_lineup_shot.tscn` — all 17 manifested bosses now
+  read 1.5-2x hero height, less magnified so less pixelated.
+- **Pokémon rooms feel empty.** FIXED same day with the user's FRLG location
+  drop: real map-crop rooms added (Pallet Town start, Pokémon Tower +
+  Rocket Hideout combat, Rocket Game Corner treasure), obstacle props cut
+  from the magenta tileset (pine/bush/boulder/rocks/gravestone), and the
+  user's Strength-boulder barrier (`tools/build_pokemon_rooms_frlg.py`).
+  Verified in-game: cave rooms now dressed with boulders.
+- **Latios probably too strong**, but tested with nothing equipped — balance
+  deliberately NOT changed yet per the user's call.
+- **Mario & Luigi animations "completely broken."** FIXED with the user's
+  new labeled sheet (`mario_luigi_new.png`): full rebuild via
+  `tools/prep_mario_luigi_v2.py` — 8-frame walks in all directions
+  (S/SW/W/NW/N rows, side flipped from W), 3-frame hammer melee per
+  direction, fireball special poses per direction. Verified windowed
+  (`tests/playtest_fixes_shot.gd`).
+
+---
+
 ## 2026-07-20 - Shop Boom announcement and crowd flow
 
 ### Date

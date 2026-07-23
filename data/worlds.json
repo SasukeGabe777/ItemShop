@@ -531,16 +531,19 @@
    ],
    "room_backgrounds": {
     "start": [
-     "res://assets/locations/pkmndungeon/processed/start_meadow.png"
+     "res://assets/locations/pkmndungeon/processed/start_pallet.png"
     ],
     "combat": [
      "res://assets/locations/pkmndungeon/processed/combat_woods.png",
      "res://assets/locations/pkmndungeon/processed/combat_woods2.png",
      "res://assets/locations/pkmndungeon/processed/combat_cave.png",
-     "res://assets/locations/pkmndungeon/processed/combat_cave2.png"
+     "res://assets/locations/pkmndungeon/processed/combat_cave2.png",
+     "res://assets/locations/pkmndungeon/processed/combat_tower.png",
+     "res://assets/locations/pkmndungeon/processed/combat_hideout.png"
     ],
     "treasure": [
-     "res://assets/locations/pkmndungeon/processed/treasure_vault.png"
+     "res://assets/locations/pkmndungeon/processed/treasure_vault.png",
+     "res://assets/locations/pkmndungeon/processed/treasure_casino.png"
     ],
     "boss": [
      "res://assets/locations/pkmndungeon/processed/boss_summit.png"
@@ -548,12 +551,19 @@
    },
    "barriers": {
     "h": [
-     "res://assets/locations/pkmndungeon/processed/barrier_block.png"
+     "res://assets/locations/pkmndungeon/processed/barrier_boulder.png"
     ],
     "v": [
-     "res://assets/locations/pkmndungeon/processed/barrier_block.png"
+     "res://assets/locations/pkmndungeon/processed/barrier_boulder.png"
     ]
-   }
+   },
+   "obstacle_props": [
+    "res://assets/locations/pkmndungeon/processed/prop_pine.png",
+    "res://assets/locations/pkmndungeon/processed/prop_bush.png",
+    "res://assets/locations/pkmndungeon/processed/prop_boulder.png",
+    "res://assets/locations/pkmndungeon/processed/prop_rocks.png",
+    "res://assets/locations/pkmndungeon/processed/prop_grave.png"
+   ]
   },
   {
    "id": "null_archive",

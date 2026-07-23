@@ -242,15 +242,17 @@ PICKS: dict[str, dict] = {
         "loops": {"attack_1_down": False, "attack_1_up": False, "attack_1_side": False,
                   "special_down": False, "special_up": False, "special_side": False},
     },
-    # charmander idle/move rows: S, N, W, SW, E (native E at r4);
-    # its ATTACK section rows differ: S, SW, W, NW, N; special: S, SW, W, NW
+    # charmander idle/move rows: S, N, W, SW, + a DIAGONAL at r4 (looked E in
+    # the strip, read as diagonal on the controller — playtest 2026-07-22).
+    # Side = flipped W (r2), matching the attack rows. Attack section rows:
+    # S, SW, W, NW, N; special: S, SW, W, NW
     "charmander": {
         "cell": (48, 48),
         "anims": {
-            "idle_down": ["s1r0c1"], "idle_up": ["s1r1c1"], "idle_side": ["s1r4c1"],
+            "idle_down": ["s1r0c1"], "idle_up": ["s1r1c1"], "idle_side": ["~s1r2c1"],
             "walk_down": ["s1r0c0", "s1r0c1", "s1r0c2", "s1r0c1"],
             "walk_up": ["s1r1c0", "s1r1c1", "s1r1c2", "s1r1c1"],
-            "walk_side": ["s1r4c0", "s1r4c1", "s1r4c2", "s1r4c1"],
+            "walk_side": ["~s1r2c0", "~s1r2c1", "~s1r2c2", "~s1r2c1"],
             "attack_1_down": ["s2r0c0", "s2r0c1", "s2r0c2", "s2r0c3"],
             "attack_1_up": ["s2r4c0", "s2r4c1", "s2r4c2", "s2r4c3"],
             "attack_1_side": ["~s2r2c0", "~s2r2c1", "~s2r2c2", "~s2r2c3"],
