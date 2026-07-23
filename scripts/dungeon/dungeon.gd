@@ -50,6 +50,10 @@ func _ready() -> void:
 		hero2.input_prefix = "p2_"
 		hero2.setup(hero2_id, DungeonManager.pending.get("consumables2", []))
 		hero2.modulate = Color(1.0, 0.9, 0.85)
+		var p2_label := UIKit.floating_name(hero2, hero2.visual, "P2", 4.0, 12, Color("#8fd8ff"))
+		p2_label.name = "PlayerIdentityLabel"
+		var p2_sidekick := PatchFollower.attach_p2(self, hero2)
+		p2_sidekick.name = "P2Sidekick"
 		hero2.defeated.connect(_on_hero_defeated)
 	camera = Camera2D.new()
 	if hero2 != null:
@@ -140,6 +144,9 @@ func _spawn_hero(hero_id: String) -> void:
 	hero = CombatHero.new()
 	add_child(hero)
 	hero.setup(hero_id, consumables)
+	if MultiplayerState.enabled:
+		var p1_label := UIKit.floating_name(hero, hero.visual, "P1", 4.0, 12, Color("#ff9999"))
+		p1_label.name = "PlayerIdentityLabel"
 	if get_node_or_null("PatchSidekick") == null:
 		var patch := PatchFollower.attach(self, hero)
 		patch.name = "PatchSidekick"

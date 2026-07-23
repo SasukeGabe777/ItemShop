@@ -1,8 +1,8 @@
 class_name PatchFollower
 extends Node2D
-## Patch, the World Bridge fragment, tagging along behind the player as a
-## sidekick. Follows at a short distance in town, shop and dungeons using the
-## supplied patch sprite sheet; purely cosmetic (no collision, no input).
+## A purely cosmetic sidekick that follows a player in town, shop and
+## dungeons. Patch is the default; local Player 2 uses the configured blue
+## companion sheet.
 
 const FOLLOW_DISTANCE := 26.0
 const CATCH_UP_DISTANCE := 220.0
@@ -10,6 +10,10 @@ const SPEED := 150.0
 
 var target: Node2D
 var visual: CharacterVisual
+var manifest_path := "res://assets/shared/patch/manifests/patch.json"
+var placeholder_id := "patch"
+var placeholder_color := "#66e0ff"
+var placeholder_size := 14
 var _bob_time := 0.0
 
 
@@ -23,12 +27,26 @@ static func attach(parent: Node, player: Node2D) -> PatchFollower:
 	return f
 
 
+## Player 2's dedicated companion uses the same follower behavior as Patch,
+## configured before entering the tree so _ready loads the right art.
+static func attach_p2(parent: Node, player: Node2D) -> PatchFollower:
+	var f := PatchFollower.new()
+	f.target = player
+	f.manifest_path = "res://assets/shared/effects/p2_sidekick.json"
+	f.placeholder_id = "p2_sidekick"
+	f.placeholder_color = "#8fd8ff"
+	f.placeholder_size = 12
+	f.position = player.position + Vector2(-18, 10)
+	parent.add_child(f)
+	return f
+
+
 func _ready() -> void:
 	visual = CharacterVisual.new()
 	add_child(visual)
-	if not visual.setup_from_manifest("res://assets/shared/patch/manifests/patch.json"):
-		visual.setup_placeholder("patch", "crossroads", "#66e0ff", 14)
-	# Patch floats: lift the body a little and keep the shadow on the ground
+	if not visual.setup_from_manifest(manifest_path):
+		visual.setup_placeholder(placeholder_id, "crossroads", placeholder_color, placeholder_size)
+	# Both companions float: lift the body and keep the shadow on the ground.
 	if visual.shadow != null:
 		visual.shadow.modulate.a = 0.6
 

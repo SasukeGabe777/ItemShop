@@ -346,8 +346,9 @@ static func gold_popup(parent: Node2D, amount: int) -> Node2D:
 ## body's origin. `visual` supplies the sprite top; centering is deferred one
 ## frame because a Label only knows its width after a layout pass. Shared by
 ## shop customers and the lobby crossers so every name looks the same.
-static func floating_name(parent: Node2D, visual: CharacterVisual, text: String, gap: float = 3.0) -> Label:
-	var l := label(text, 8, Color.WHITE)
+static func floating_name(parent: Node2D, visual: CharacterVisual, text: String, gap: float = 3.0,
+		font_size: int = 8, color: Color = Color.WHITE) -> Label:
+	var l := label(text, font_size, color)
 	l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	l.add_theme_color_override("font_outline_color", Color(0.05, 0.05, 0.08, 0.9))
 	l.add_theme_constant_override("outline_size", 4)

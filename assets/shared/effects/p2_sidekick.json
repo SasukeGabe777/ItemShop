@@ -1,0 +1,66 @@
+{
+  "asset_id": "p2_sidekick",
+  "sheet": "res://assets/shared/effects/p2_sidekick.png",
+  "native_scale": 1,
+  "display_scale": 1,
+  "pivot": [
+    8.5,
+    17
+  ],
+  "grid": {
+    "frame_width": 17,
+    "frame_height": 17,
+    "columns": 2,
+    "rows": 1
+  },
+  "animations": {
+    "idle_down": {
+      "rects": [
+        [0, 0, 17, 17],
+        [18, 0, 17, 17]
+      ],
+      "fps": 5,
+      "loop": true
+    },
+    "walk_down": {
+      "rects": [
+        [0, 0, 17, 17],
+        [18, 0, 17, 17]
+      ],
+      "fps": 7,
+      "loop": true
+    },
+    "idle_side": {
+      "rects": [
+        [0, 0, 17, 17],
+        [18, 0, 17, 17]
+      ],
+      "fps": 5,
+      "loop": true
+    },
+    "walk_side": {
+      "rects": [
+        [0, 0, 17, 17],
+        [18, 0, 17, 17]
+      ],
+      "fps": 7,
+      "loop": true
+    },
+    "idle_up": {
+      "rects": [
+        [0, 0, 17, 17],
+        [18, 0, 17, 17]
+      ],
+      "fps": 5,
+      "loop": true
+    },
+    "walk_up": {
+      "rects": [
+        [0, 0, 17, 17],
+        [18, 0, 17, 17]
+      ],
+      "fps": 7,
+      "loop": true
+    }
+  }
+}

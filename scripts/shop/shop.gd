@@ -66,7 +66,8 @@ func _ready() -> void:
 	player.position = Vector2(320, 300)
 	add_child(player)
 	player.add_child(ZoomCamera.new())
-	PatchFollower.attach(self, player)
+	var patch := PatchFollower.attach(self, player)
+	patch.name = "PatchSidekick"
 	hud = GameHUD.new()
 	add_child(hud)
 	prompt = UIKit.interaction_prompt()
@@ -74,6 +75,8 @@ func _ready() -> void:
 	add_child(prompt)
 	if MultiplayerState.enabled:
 		player2 = MultiplayerState.attach_split(self, player)
+		var p2_sidekick := PatchFollower.attach_p2(self, player2)
+		p2_sidekick.name = "P2Sidekick"
 		prompt2 = UIKit.interaction_prompt()
 		prompt2.z_index = 60
 		add_child(prompt2)

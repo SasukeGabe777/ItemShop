@@ -1,6 +1,13 @@
 {
   "releases": [
     {
+      "date": "July 23, 2026",
+      "changes": [
+        "Added clear red P1 and blue P2 identity tags during two-player expeditions.",
+        "Gave Player 2 a dedicated blue floating companion that follows them in town, the shop, and expeditions."
+      ]
+    },
+    {
       "date": "July 22, 2026",
       "changes": [
         "Added the Pokemon world with Pikachu, Charmander, Mystery Dungeon rooms, and a three-boss rotation.",
