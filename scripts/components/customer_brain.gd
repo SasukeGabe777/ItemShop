@@ -41,6 +41,12 @@ func begin_browsing() -> void:
 	state = State.BROWSING
 
 
+func retarget_interest(item_id: String) -> void:
+	preferred_interest = item_id
+	state = State.ENTERING
+	browse_time = maxf(browse_time, 0.8)
+
+
 func _decide() -> void:
 	if int(customer.get("order_delivery_id", -1)) >= 0:
 		state = State.NEGOTIATING

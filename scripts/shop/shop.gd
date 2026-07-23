@@ -348,9 +348,11 @@ func _process(delta: float) -> void:
 		return
 	if player == null:
 		return
-	# the session keeps flowing while at least one shopkeeper is free
-	var all_busy := busy and (player2 == null or busy2)
-	if session_active and not all_busy:
+	# Pause only customer activity while any menu is visible. The world and a
+	# second local player keep processing, but customers cannot stack decisions
+	# behind the panel that is already demanding attention.
+	_sync_customer_activity_pause()
+	if session_active and not _customer_activity_blocked():
 		_run_session(delta)
 	_shop_player_frame(player, prompt, "", busy, 1)
 	if player2 != null:
@@ -359,6 +361,17 @@ func _process(delta: float) -> void:
 			busy2 = false
 			player2.frozen = false
 		_shop_player_frame(player2, prompt2, "p2_", busy2, 2)
+
+
+func _customer_activity_blocked() -> bool:
+	return negotiating != null or order_dialog_open or UIKit.modal_open()
+
+
+func _sync_customer_activity_pause() -> void:
+	var paused := _customer_activity_blocked()
+	for customer: ShopCustomer in live_customers:
+		if is_instance_valid(customer):
+			customer.set_shop_activity_paused(paused)
 
 
 func _shop_player_frame(p: TownPlayer, pr: Label, prefix: String, p_busy: bool, idx: int) -> void:
@@ -1264,7 +1277,8 @@ func _spawn_customer(cust: Dictionary) -> void:
 	var slot_index := int(preferred_slot.get("slot", -1))
 	if slot_index >= 0 and slot_index < browse_points.size():
 		preferred_point = browse_points[slot_index]
-	c.setup(cust, browse_points, ENTRANCE, preferred_point, String(preferred_slot.get("item_id", "")))
+	c.setup(cust, browse_points, ENTRANCE, preferred_point,
+		String(preferred_slot.get("item_id", "")), slot_index)
 	c.negotiate_requested.connect(_on_negotiate_requested)
 	c.order_requested.connect(_on_order_requested)
 	c.order_delivery_requested.connect(_on_order_delivery_requested)
@@ -1336,6 +1350,7 @@ func _open_next_order_dialog() -> void:
 	else:
 		busy = true
 		player.frozen = true
+	_sync_customer_activity_pause()
 	var parent := MultiplayerState.menu_parent(who, self)
 	if String(entry.get("mode", "")) == "delivery":
 		var order := InventoryManager.order_by_id(int(entry.get("order_id", -1)))
@@ -1401,6 +1416,7 @@ func _order_dialog_cancelled(entry: Dictionary) -> void:
 	if node != null and is_instance_valid(node):
 		node.resume_after_order()
 	order_dialog_open = false
+	_sync_customer_activity_pause()
 	if hud != null:
 		hud.refresh()
 	_open_next_order_dialog()
@@ -1470,6 +1486,7 @@ func _open_next_negotiation() -> void:
 		busy = true
 		player.frozen = true
 	MultiplayerState.menu_parent(who, self).add_child(panel)
+	_sync_customer_activity_pause()
 
 
 func _on_negotiation_finished(outcome: Dictionary) -> void:
@@ -1505,6 +1522,7 @@ func _on_negotiation_finished(outcome: Dictionary) -> void:
 			UIKit.gold_popup(shopkeeper, int(outcome.get("price", 0)))
 		negotiating.resume_after_negotiation()
 	negotiating = null
+	_sync_customer_activity_pause()
 	hud.refresh()
 	_open_next_negotiation()
 

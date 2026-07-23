@@ -17,14 +17,25 @@ var _exit_pos: Vector2
 var _speed := 70.0
 var _leaving := false
 var _paused_for_negotiation := false
+var _paused_by_shop_menu := false
 var _leg_target := Vector2.INF
 var _leg_axis := -1
 var _active_emote: Sprite2D
+var _browse_points: Array[Vector2] = []
+var _preferred_browse_point := Vector2.INF
+var _preferred_item_id := ""
+var _preferred_slot_index := -1
 
 
-func setup(cust: Dictionary, browse_points: Array[Vector2], exit_pos: Vector2, preferred_browse_point: Vector2 = Vector2.INF, preferred_item_id: String = "") -> void:
+func setup(cust: Dictionary, browse_points: Array[Vector2], exit_pos: Vector2,
+		preferred_browse_point: Vector2 = Vector2.INF, preferred_item_id: String = "",
+		preferred_slot_index: int = -1) -> void:
 	data = cust
 	_exit_pos = exit_pos
+	_browse_points.assign(browse_points)
+	_preferred_browse_point = preferred_browse_point
+	_preferred_item_id = preferred_item_id
+	_preferred_slot_index = preferred_slot_index
 	collision_layer = 0
 	collision_mask = 0
 	visual = CharacterVisual.new()
@@ -69,12 +80,15 @@ func setup(cust: Dictionary, browse_points: Array[Vector2], exit_pos: Vector2, p
 	brain.disappointed.connect(func(c: Dictionary) -> void: boom_disappointed.emit(c))
 	brain.leaving.connect(_start_leaving)
 	add_child(brain)
-	var count := 1 + randi() % 3
-	var random_stops := count - 1 if preferred_browse_point != Vector2.INF else count
-	for i in range(random_stops):
-		_waypoints.append(browse_points[randi() % browse_points.size()] + Vector2(randf_range(-8, 8), randf_range(10, 18)))
+	# A shopper who selected an item walks directly to that item's exact slot.
+	# Random warm-up stops made them appear to inspect unrelated armor stands.
 	if preferred_browse_point != Vector2.INF:
-		_waypoints.append(preferred_browse_point + Vector2(randf_range(-5, 5), randf_range(10, 14)))
+		_waypoints.append(preferred_browse_point)
+	elif not browse_points.is_empty():
+		var count := 1 + randi() % 3
+		for i in range(count):
+			_waypoints.append(browse_points[randi() % browse_points.size()] + Vector2(
+				randf_range(-8, 8), randf_range(10, 18)))
 	_show_arrival_emote.call_deferred()
 
 
@@ -139,10 +153,19 @@ func resume_after_order() -> void:
 	resume_after_negotiation()
 
 
+func set_shop_activity_paused(paused: bool) -> void:
+	_paused_by_shop_menu = paused
+
+
+func is_shop_activity_paused() -> bool:
+	return _paused_by_shop_menu
+
+
 func _physics_process(delta: float) -> void:
-	if _paused_for_negotiation:
+	if _paused_for_negotiation or _paused_by_shop_menu:
 		visual.face(Vector2.DOWN, false)
 		return
+	_retarget_if_interest_moved()
 	brain.tick(delta)
 	var target: Vector2 = _exit_pos if _leaving else (_waypoints[0] if not _waypoints.is_empty() else position)
 	var to_target := target - position
@@ -170,6 +193,28 @@ func _physics_process(delta: float) -> void:
 	velocity = step * _speed
 	move_and_slide()
 	visual.face(step, true)
+
+
+## If another sale removes this shopper's chosen copy, redirect them to the
+## newly selected slot before their decision timer can request the new item.
+func _retarget_if_interest_moved() -> void:
+	if _leaving or _preferred_item_id == "" or brain.state == CustomerBrain.State.NEGOTIATING:
+		return
+	if _preferred_slot_index >= 0 and _preferred_slot_index < InventoryManager.display.size() \
+			and String(InventoryManager.display[_preferred_slot_index]) == _preferred_item_id:
+		return
+	var choice := ShopFurnitureManager.choose_display_slot_for_customer(data)
+	var new_slot := int(choice.get("slot", -1))
+	if new_slot < 0 or new_slot >= _browse_points.size():
+		return
+	_preferred_slot_index = new_slot
+	_preferred_item_id = String(choice.get("item_id", ""))
+	_preferred_browse_point = _browse_points[new_slot]
+	_waypoints.clear()
+	_waypoints.append(_preferred_browse_point)
+	_leg_target = Vector2.INF
+	_leg_axis = -1
+	brain.retarget_interest(_preferred_item_id)
 
 
 func _start_leaving() -> void:
