@@ -1,0 +1,66 @@
+{
+ "asset_id": "ent_ancient",
+ "sheet": "res://assets/franchises/rotmg/processed/sheets/ent_ancient.png",
+ "native_scale": 1,
+ "display_scale": 1,
+ "pivot": [
+  23,
+  45
+ ],
+ "grid": {
+  "frame_width": 46,
+  "frame_height": 46,
+  "columns": 2,
+  "rows": 1
+ },
+ "animations": {
+  "idle_down": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 3,
+   "loop": true
+  },
+  "walk_down": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 6,
+   "loop": true
+  },
+  "idle_side": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 3,
+   "loop": true
+  },
+  "walk_side": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 6,
+   "loop": true
+  },
+  "idle_up": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 3,
+   "loop": true
+  },
+  "walk_up": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 6,
+   "loop": true
+  }
+ }
+}

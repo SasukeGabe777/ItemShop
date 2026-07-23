@@ -1,0 +1,66 @@
+{
+ "asset_id": "megamoth_larva",
+ "sheet": "res://assets/franchises/rotmg/processed/sheets/megamoth_larva.png",
+ "native_scale": 1,
+ "display_scale": 1,
+ "pivot": [
+  16,
+  12
+ ],
+ "grid": {
+  "frame_width": 32,
+  "frame_height": 13,
+  "columns": 2,
+  "rows": 1
+ },
+ "animations": {
+  "idle_down": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 3,
+   "loop": true
+  },
+  "walk_down": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 6,
+   "loop": true
+  },
+  "idle_side": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 3,
+   "loop": true
+  },
+  "walk_side": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 6,
+   "loop": true
+  },
+  "idle_up": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 3,
+   "loop": true
+  },
+  "walk_up": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 6,
+   "loop": true
+  }
+ }
+}

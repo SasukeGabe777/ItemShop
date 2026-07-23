@@ -3945,6 +3945,546 @@
     "set"
    ],
    "desc": "All seven, gathered. Summon eternal profit — or one (1) wish."
+  },
+  {
+   "appeal": {
+    "cozy": 1.0
+   },
+   "category": "consumable",
+   "desc": "The little red bottle every realm run leans on. Down it, live.",
+   "effect": {
+    "heal": 80.0
+   },
+   "id": "hp_potion",
+   "name": "Health Potion",
+   "price": 60.0,
+   "tags": [
+    "potion",
+    "healing"
+   ],
+   "world": "rotmg"
+  },
+  {
+   "appeal": {
+    "modern": 1.0
+   },
+   "category": "consumable",
+   "desc": "Blue and bracing. Tops off the mana you were about to need.",
+   "effect": {
+    "meter": 60.0
+   },
+   "id": "mp_potion",
+   "name": "Magic Potion",
+   "price": 60.0,
+   "tags": [
+    "potion",
+    "mana"
+   ],
+   "world": "rotmg"
+  },
+  {
+   "appeal": {
+    "intense": 2.0
+   },
+   "category": "consumable",
+   "desc": "The grind in a bottle. A permanent +5 to the faithful; a full heal to the desperate.",
+   "effect": {
+    "heal": 999.0
+   },
+   "id": "life_potion",
+   "name": "Potion of Life",
+   "price": 900.0,
+   "tags": [
+    "potion",
+    "life",
+    "rare"
+   ],
+   "world": "rotmg"
+  },
+  {
+   "appeal": {
+    "intense": 1.0
+   },
+   "category": "consumable",
+   "desc": "Liquid aggression. Your shots hit noticeably harder for a while.",
+   "effect": {
+    "buff_atk": 4.0
+   },
+   "id": "atk_potion",
+   "name": "Potion of Attack",
+   "price": 250.0,
+   "tags": [
+    "potion",
+    "attack"
+   ],
+   "world": "rotmg"
+  },
+  {
+   "appeal": {
+    "intense": 1.0
+   },
+   "category": "consumable",
+   "desc": "Drink to shrug off the bullet hell a little longer.",
+   "effect": {
+    "buff_def": 4.0
+   },
+   "id": "def_potion",
+   "name": "Potion of Defense",
+   "price": 250.0,
+   "tags": [
+    "potion",
+    "defense"
+   ],
+   "world": "rotmg"
+  },
+  {
+   "appeal": {
+    "modern": 1.0
+   },
+   "category": "consumable",
+   "desc": "Kiting fuel. The realm rewards the fleet of foot.",
+   "effect": {
+    "meter": 40.0
+   },
+   "id": "spd_potion",
+   "name": "Potion of Speed",
+   "price": 200.0,
+   "tags": [
+    "potion",
+    "speed"
+   ],
+   "world": "rotmg"
+  },
+  {
+   "appeal": {
+    "modern": 1.0
+   },
+   "category": "consumable",
+   "desc": "Steadier hands, faster fire — loose an extra shot on the house.",
+   "effect": {
+    "ranged_damage": 30.0
+   },
+   "id": "dex_potion",
+   "name": "Potion of Dexterity",
+   "price": 220.0,
+   "tags": [
+    "potion",
+    "dexterity"
+   ],
+   "world": "rotmg"
+  },
+  {
+   "appeal": {
+    "cozy": 1.0
+   },
+   "category": "consumable",
+   "desc": "Knits wounds closed between waves. Modest, reliable.",
+   "effect": {
+    "heal": 50.0
+   },
+   "id": "vit_potion",
+   "name": "Potion of Vitality",
+   "price": 180.0,
+   "tags": [
+    "potion",
+    "vitality"
+   ],
+   "world": "rotmg"
+  },
+  {
+   "appeal": {
+    "modern": 1.0
+   },
+   "category": "consumable",
+   "desc": "Sharpens the mind and hurries your ability back.",
+   "effect": {
+    "meter": 50.0
+   },
+   "id": "wis_potion",
+   "name": "Potion of Wisdom",
+   "price": 200.0,
+   "tags": [
+    "potion",
+    "wisdom"
+   ],
+   "world": "rotmg"
+  },
+  {
+   "appeal": {
+    "retro": 1.0
+   },
+   "category": "weapon",
+   "desc": "A humble starter bow. Fires true; asks little.",
+   "id": "leaf_bow",
+   "name": "Leaf Bow",
+   "price": 300.0,
+   "slot": "weapon",
+   "stats": {
+    "atk": 3.0
+   },
+   "tags": [
+    "weapon",
+    "bow"
+   ],
+   "world": "rotmg"
+  },
+  {
+   "appeal": {
+    "intense": 1.0
+   },
+   "category": "weapon",
+   "desc": "Three reef-bright arrows at once. A realm-runner's workhorse.",
+   "id": "coral_bow",
+   "name": "Coral Bow",
+   "price": 1400.0,
+   "slot": "weapon",
+   "stats": {
+    "atk": 6.0
+   },
+   "tags": [
+    "weapon",
+    "bow"
+   ],
+   "world": "rotmg"
+  },
+  {
+   "appeal": {
+    "intense": 2.0
+   },
+   "category": "weapon",
+   "desc": "One enormous piercing shot. Ghost King's gift, coveted realm-wide.",
+   "id": "doom_bow",
+   "name": "Doom Bow",
+   "price": 3200.0,
+   "slot": "weapon",
+   "stats": {
+    "atk": 9.0
+   },
+   "tags": [
+    "weapon",
+    "bow",
+    "ut"
+   ],
+   "world": "rotmg"
+  },
+  {
+   "appeal": {
+    "intense": 1.0
+   },
+   "category": "weapon",
+   "desc": "Twin bolts of the void. The Cube God's parting insult.",
+   "id": "cosmic_staff",
+   "name": "Staff of the Cosmic Whole",
+   "price": 1800.0,
+   "slot": "weapon",
+   "stats": {
+    "atk": 7.0
+   },
+   "tags": [
+    "weapon",
+    "staff"
+   ],
+   "world": "rotmg"
+  },
+  {
+   "appeal": {
+    "retro": 1.0
+   },
+   "category": "weapon",
+   "desc": "A single piercing lance of light. Long reach, no waste.",
+   "id": "recompense_wand",
+   "name": "Wand of Recompense",
+   "price": 1200.0,
+   "slot": "weapon",
+   "stats": {
+    "atk": 6.0
+   },
+   "tags": [
+    "weapon",
+    "wand"
+   ],
+   "world": "rotmg"
+  },
+  {
+   "appeal": {
+    "intense": 1.0
+   },
+   "category": "weapon",
+   "desc": "Close, fast, relentless. For the shopkeeper who leads with the chin.",
+   "id": "sword_splendor",
+   "name": "Sword of Splendor",
+   "price": 1600.0,
+   "slot": "weapon",
+   "stats": {
+    "atk": 7.0
+   },
+   "tags": [
+    "weapon",
+    "sword"
+   ],
+   "world": "rotmg"
+  },
+  {
+   "appeal": {
+    "intense": 1.0
+   },
+   "category": "weapon",
+   "desc": "Wicked and quick. Rude to the customers, ruder to the horde.",
+   "id": "foul_dagger",
+   "name": "Dagger of Foul Malevolence",
+   "price": 1300.0,
+   "slot": "weapon",
+   "stats": {
+    "atk": 6.0
+   },
+   "tags": [
+    "weapon",
+    "dagger"
+   ],
+   "world": "rotmg"
+  },
+  {
+   "appeal": {
+    "intense": 1.0
+   },
+   "category": "weapon",
+   "desc": "A poison-edged katana that throws a tight double arc.",
+   "id": "doku_katana",
+   "name": "Doku no Ken",
+   "price": 1700.0,
+   "slot": "weapon",
+   "stats": {
+    "atk": 7.0
+   },
+   "tags": [
+    "weapon",
+    "katana"
+   ],
+   "world": "rotmg"
+  },
+  {
+   "appeal": {
+    "retro": 1.0
+   },
+   "category": "armor",
+   "desc": "Supple scaled leather. Light on the shoulders, heavy on survival.",
+   "id": "hydra_armor",
+   "name": "Hydra Skin Armor",
+   "price": 1500.0,
+   "slot": "armor",
+   "stats": {
+    "def": 7.0
+   },
+   "tags": [
+    "armor",
+    "leather"
+   ],
+   "world": "rotmg"
+  },
+  {
+   "appeal": {
+    "intense": 1.0
+   },
+   "category": "armor",
+   "desc": "Columns of plate. Stands where lesser shopkeepers fall.",
+   "id": "acropolis_armor",
+   "name": "Acropolis Armor",
+   "price": 1900.0,
+   "slot": "armor",
+   "stats": {
+    "def": 9.0
+   },
+   "tags": [
+    "armor",
+    "heavy"
+   ],
+   "world": "rotmg"
+  },
+  {
+   "appeal": {
+    "modern": 1.0
+   },
+   "category": "armor",
+   "desc": "Thin cloth, enormous power. Glass-cannon chic.",
+   "id": "sorcerer_robe",
+   "name": "Robe of the Grand Sorcerer",
+   "price": 1600.0,
+   "slot": "armor",
+   "stats": {
+    "def": 4.0,
+    "atk": 2.0
+   },
+   "tags": [
+    "armor",
+    "robe"
+   ],
+   "world": "rotmg"
+  },
+  {
+   "appeal": {
+    "intense": 2.0
+   },
+   "category": "armor",
+   "desc": "The heaviest plate in the realm. Practically a walking wall.",
+   "id": "leviathan_armor",
+   "name": "Leviathan Armor",
+   "price": 2600.0,
+   "slot": "armor",
+   "stats": {
+    "def": 10.0
+   },
+   "tags": [
+    "armor",
+    "heavy",
+    "ut"
+   ],
+   "world": "rotmg"
+  },
+  {
+   "appeal": {
+    "intense": 1.0
+   },
+   "category": "accessory",
+   "desc": "Looses a shocking bolt that paralyzes. Standard-issue for archers.",
+   "id": "golden_quiver",
+   "name": "Quiver of Thunder",
+   "price": 900.0,
+   "slot": "charm",
+   "stats": {
+    "atk": 3.0
+   },
+   "tags": [
+    "ability",
+    "quiver"
+   ],
+   "world": "rotmg"
+  },
+  {
+   "appeal": {
+    "modern": 1.0
+   },
+   "category": "accessory",
+   "desc": "Slip out of sight when the bullets get personal.",
+   "id": "ghostly_cloak",
+   "name": "Cloak of Ghostly Concealment",
+   "price": 900.0,
+   "slot": "charm",
+   "stats": {
+    "spd": 3.0
+   },
+   "tags": [
+    "ability",
+    "cloak"
+   ],
+   "world": "rotmg"
+  },
+  {
+   "appeal": {
+    "intense": 1.0
+   },
+   "category": "accessory",
+   "desc": "Drains the fallen to mend the wielder. The necromancer's staple.",
+   "id": "soul_skull",
+   "name": "Skull of Corrupted Souls",
+   "price": 950.0,
+   "slot": "charm",
+   "stats": {
+    "atk": 3.0
+   },
+   "tags": [
+    "ability",
+    "skull"
+   ],
+   "world": "rotmg"
+  },
+  {
+   "appeal": {
+    "modern": 1.0
+   },
+   "category": "accessory",
+   "desc": "Raw offense on a band. Simple, effective, always in demand.",
+   "id": "attack_ring",
+   "name": "Ring of Unbound Attack",
+   "price": 1100.0,
+   "slot": "accessory",
+   "stats": {
+    "atk": 4.0
+   },
+   "tags": [
+    "ring",
+    "attack"
+   ],
+   "world": "rotmg"
+  },
+  {
+   "appeal": {
+    "modern": 1.0
+   },
+   "category": "accessory",
+   "desc": "A band of solid warding against the worst of the spread.",
+   "id": "defense_ring",
+   "name": "Ring of Unbound Defense",
+   "price": 1100.0,
+   "slot": "accessory",
+   "stats": {
+    "def": 4.0
+   },
+   "tags": [
+    "ring",
+    "defense"
+   ],
+   "world": "rotmg"
+  },
+  {
+   "appeal": {
+    "modern": 1.0
+   },
+   "category": "accessory",
+   "desc": "For the kiter who is never quite where the bullets expect.",
+   "id": "speed_ring",
+   "name": "Ring of Unbound Speed",
+   "price": 1000.0,
+   "slot": "accessory",
+   "stats": {
+    "spd": 3.0
+   },
+   "tags": [
+    "ring",
+    "speed"
+   ],
+   "world": "rotmg"
+  },
+  {
+   "appeal": {
+    "intense": 1.0
+   },
+   "category": "accessory",
+   "desc": "Ten years of vitality poured into one band. +60 to the health bar.",
+   "id": "unbound_health",
+   "name": "Ring of Decades",
+   "price": 1800.0,
+   "slot": "accessory",
+   "stats": {
+    "hp": 60.0
+   },
+   "tags": [
+    "ring",
+    "life",
+    "rare"
+   ],
+   "world": "rotmg"
+  },
+  {
+   "category": "key",
+   "desc": "A splinter of the Realm sky, still humming with Oryx's madness.",
+   "id": "world_shard_rotmg",
+   "name": "World Shard: The Realm",
+   "price": 0.0,
+   "sellable": false,
+   "tags": [
+    "world_shard"
+   ],
+   "world": "rotmg"
   }
  ],
  "schema": "crossroads.items.v1"

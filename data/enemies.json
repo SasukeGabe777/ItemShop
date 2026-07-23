@@ -2377,6 +2377,358 @@
     60,
     120
    ]
+  },
+  {
+   "id": "red_demon",
+   "name": "Red Demon",
+   "world": "rotmg",
+   "hp": 95,
+   "atk": 16,
+   "spd": 72,
+   "behavior": "shooter",
+   "size": 34,
+   "color": "#e03a2a",
+   "loot": [
+    [
+     "hp_potion",
+     0.18
+    ],
+    [
+     "atk_potion",
+     0.05
+    ],
+    [
+     "doom_bow",
+     0.02
+    ]
+   ],
+   "gold": [
+    24,
+    46
+   ],
+   "shot_vfx": "res://assets/shared/effects/processed/shot_bubble.png",
+   "shot_frames": 2,
+   "shot_dirs": 8,
+   "shot_fps": 10
+  },
+  {
+   "id": "crystal_scorpion",
+   "name": "Crystal Scorpion",
+   "world": "rotmg",
+   "hp": 70,
+   "atk": 18,
+   "spd": 98,
+   "behavior": "skitter_shooter",
+   "size": 30,
+   "color": "#4aa0e0",
+   "loot": [
+    [
+     "hp_potion",
+     0.14
+    ],
+    [
+     "def_potion",
+     0.04
+    ]
+   ],
+   "gold": [
+    18,
+    34
+   ],
+   "shot_vfx": "res://assets/shared/effects/processed/shot_bubble.png",
+   "shot_frames": 2,
+   "shot_dirs": 8,
+   "shot_fps": 10
+  },
+  {
+   "id": "crystal_cyclops",
+   "name": "Crystal Cyclops",
+   "world": "rotmg",
+   "hp": 165,
+   "atk": 20,
+   "spd": 54,
+   "behavior": "shooter",
+   "size": 42,
+   "color": "#b060d0",
+   "loot": [
+    [
+     "hp_potion",
+     0.2
+    ],
+    [
+     "life_potion",
+     0.02
+    ],
+    [
+     "acropolis_armor",
+     0.02
+    ]
+   ],
+   "gold": [
+    30,
+    55
+   ],
+   "shot_vfx": "res://assets/shared/effects/processed/shot_bubble.png",
+   "shot_frames": 2,
+   "shot_dirs": 8,
+   "shot_fps": 10
+  },
+  {
+   "id": "crystal_lizard",
+   "name": "Crystal Lizard",
+   "world": "rotmg",
+   "hp": 80,
+   "atk": 14,
+   "spd": 122,
+   "behavior": "skitter_shooter",
+   "size": 30,
+   "color": "#5bbf4c",
+   "loot": [
+    [
+     "hp_potion",
+     0.12
+    ],
+    [
+     "spd_potion",
+     0.04
+    ]
+   ],
+   "gold": [
+    16,
+    30
+   ],
+   "shot_vfx": "res://assets/shared/effects/processed/shot_bubble.png",
+   "shot_frames": 2,
+   "shot_dirs": 8,
+   "shot_fps": 10
+  },
+  {
+   "id": "megamoth_larva",
+   "name": "Megamoth Larva",
+   "world": "rotmg",
+   "hp": 45,
+   "atk": 10,
+   "spd": 42,
+   "behavior": "skitter_shooter",
+   "size": 22,
+   "color": "#4a80e0",
+   "loot": [
+    [
+     "hp_potion",
+     0.1
+    ]
+   ],
+   "gold": [
+    8,
+    18
+   ],
+   "shot_vfx": "res://assets/shared/effects/processed/shot_bubble.png",
+   "shot_frames": 2,
+   "shot_dirs": 8,
+   "shot_fps": 10
+  },
+  {
+   "id": "swoll_fairy",
+   "name": "Swoll Fairy",
+   "world": "rotmg",
+   "hp": 60,
+   "atk": 12,
+   "spd": 92,
+   "behavior": "skitter_shooter",
+   "size": 26,
+   "color": "#f0d040",
+   "loot": [
+    [
+     "hp_potion",
+     0.14
+    ],
+    [
+     "wis_potion",
+     0.04
+    ]
+   ],
+   "gold": [
+    14,
+    28
+   ],
+   "shot_vfx": "res://assets/shared/effects/processed/shot_bubble.png",
+   "shot_frames": 2,
+   "shot_dirs": 8,
+   "shot_fps": 10
+  },
+  {
+   "id": "snake_sentry",
+   "name": "Snake Sentry",
+   "world": "rotmg",
+   "hp": 78,
+   "atk": 15,
+   "spd": 58,
+   "behavior": "shooter",
+   "size": 32,
+   "color": "#d04040",
+   "loot": [
+    [
+     "hp_potion",
+     0.16
+    ],
+    [
+     "dex_potion",
+     0.04
+    ]
+   ],
+   "gold": [
+    18,
+    34
+   ],
+   "shot_vfx": "res://assets/shared/effects/processed/shot_bubble.png",
+   "shot_frames": 2,
+   "shot_dirs": 8,
+   "shot_fps": 10
+  },
+  {
+   "id": "ent_ancient",
+   "name": "Ent Ancient",
+   "world": "rotmg",
+   "hp": 150,
+   "atk": 16,
+   "spd": 46,
+   "behavior": "shooter",
+   "size": 42,
+   "color": "#8a6a3a",
+   "loot": [
+    [
+     "hp_potion",
+     0.18
+    ],
+    [
+     "vit_potion",
+     0.04
+    ],
+    [
+     "leaf_bow",
+     0.03
+    ]
+   ],
+   "gold": [
+    26,
+    48
+   ],
+   "shot_vfx": "res://assets/shared/effects/processed/shot_bubble.png",
+   "shot_frames": 2,
+   "shot_dirs": 8,
+   "shot_fps": 10
+  },
+  {
+   "id": "queen_bee",
+   "name": "Queen Bee",
+   "world": "rotmg",
+   "hp": 85,
+   "atk": 14,
+   "spd": 112,
+   "behavior": "skitter_shooter",
+   "size": 28,
+   "color": "#f0c020",
+   "loot": [
+    [
+     "hp_potion",
+     0.14
+    ],
+    [
+     "spd_potion",
+     0.05
+    ]
+   ],
+   "gold": [
+    16,
+    32
+   ],
+   "shot_vfx": "res://assets/shared/effects/processed/shot_bubble.png",
+   "shot_frames": 2,
+   "shot_dirs": 8,
+   "shot_fps": 10
+  },
+  {
+   "id": "spider_queen",
+   "name": "Spider Queen",
+   "world": "rotmg",
+   "hp": 115,
+   "atk": 15,
+   "spd": 80,
+   "behavior": "shooter",
+   "size": 38,
+   "color": "#6abf6a",
+   "loot": [
+    [
+     "hp_potion",
+     0.18
+    ],
+    [
+     "ghostly_cloak",
+     0.02
+    ]
+   ],
+   "gold": [
+    24,
+    44
+   ],
+   "shot_vfx": "res://assets/shared/effects/processed/shot_bubble.png",
+   "shot_frames": 2,
+   "shot_dirs": 8,
+   "shot_fps": 10
+  },
+  {
+   "id": "corruption_phantom",
+   "name": "Corruption Phantom",
+   "world": "rotmg",
+   "hp": 90,
+   "atk": 17,
+   "spd": 86,
+   "behavior": "skitter_shooter",
+   "size": 34,
+   "color": "#d03060",
+   "loot": [
+    [
+     "hp_potion",
+     0.16
+    ],
+    [
+     "mp_potion",
+     0.12
+    ]
+   ],
+   "gold": [
+    20,
+    40
+   ],
+   "shot_vfx": "res://assets/shared/effects/processed/shot_bubble.png",
+   "shot_frames": 2,
+   "shot_dirs": 8,
+   "shot_fps": 10
+  },
+  {
+   "id": "spoiled_creampuff",
+   "name": "Spoiled Creampuff",
+   "world": "rotmg",
+   "hp": 60,
+   "atk": 10,
+   "spd": 70,
+   "behavior": "shooter",
+   "size": 24,
+   "color": "#f0d8e0",
+   "loot": [
+    [
+     "hp_potion",
+     0.12
+    ]
+   ],
+   "gold": [
+    10,
+    22
+   ],
+   "shot_vfx": "res://assets/shared/effects/processed/shot_bubble.png",
+   "shot_frames": 2,
+   "shot_dirs": 8,
+   "shot_fps": 10
   }
  ],
  "bosses": [
@@ -3055,6 +3407,339 @@
     "static_pulse"
    ],
    "telegraph": 0.7
+  },
+  {
+   "id": "oryx",
+   "name": "Oryx the Mad God",
+   "world": "rotmg",
+   "hp": 2200,
+   "atk": 30,
+   "spd": 72,
+   "behavior": "boss_ranged",
+   "size": 60,
+   "color": "#3a3444",
+   "loot": [
+    [
+     "world_shard_rotmg",
+     1.0
+    ],
+    [
+     "doom_bow",
+     0.5
+    ],
+    [
+     "life_potion",
+     0.25
+    ]
+   ],
+   "gold": [
+    3600,
+    5000
+   ],
+   "attacks": [
+    "ground_pound",
+    "fire_shotgun",
+    "oryx_charge",
+    "summon_minions"
+   ],
+   "telegraph": 0.55,
+   "phases": 3
+  },
+  {
+   "id": "cube_god",
+   "name": "Cube God",
+   "world": "rotmg",
+   "hp": 1600,
+   "atk": 26,
+   "spd": 56,
+   "behavior": "boss_ranged",
+   "size": 52,
+   "color": "#2b6cf0",
+   "loot": [
+    [
+     "world_shard_rotmg",
+     1.0
+    ],
+    [
+     "cosmic_staff",
+     0.5
+    ],
+    [
+     "life_potion",
+     0.25
+    ]
+   ],
+   "gold": [
+    3000,
+    4200
+   ],
+   "attacks": [
+    "cube_slam",
+    "blue_burst",
+    "cube_charge",
+    "spawn_overseers"
+   ],
+   "telegraph": 0.6,
+   "phases": 2
+  },
+  {
+   "id": "rock_dragon",
+   "name": "Rock Dragon",
+   "world": "rotmg",
+   "hp": 1750,
+   "atk": 28,
+   "spd": 66,
+   "behavior": "boss_ranged",
+   "size": 54,
+   "color": "#e0862a",
+   "loot": [
+    [
+     "world_shard_rotmg",
+     1.0
+    ],
+    [
+     "attack_ring",
+     0.5
+    ],
+    [
+     "life_potion",
+     0.25
+    ]
+   ],
+   "gold": [
+    3000,
+    4400
+   ],
+   "attacks": [
+    "tail_slam",
+    "ember_ring",
+    "rock_charge",
+    "summon_sparks"
+   ],
+   "telegraph": 0.6,
+   "phases": 2
+  },
+  {
+   "id": "avatar",
+   "name": "Avatar of the Forgotten King",
+   "world": "rotmg",
+   "hp": 1850,
+   "atk": 28,
+   "spd": 60,
+   "behavior": "boss_ranged",
+   "size": 54,
+   "color": "#c8ccd8",
+   "loot": [
+    [
+     "world_shard_rotmg",
+     1.0
+    ],
+    [
+     "hydra_armor",
+     0.5
+    ],
+    [
+     "life_potion",
+     0.25
+    ]
+   ],
+   "gold": [
+    3400,
+    4800
+   ],
+   "attacks": [
+    "forgotten_slam",
+    "soul_volley",
+    "avatar_dash",
+    "raise_dead"
+   ],
+   "telegraph": 0.6,
+   "phases": 3
+  },
+  {
+   "id": "grand_sphinx",
+   "name": "Grand Sphinx",
+   "world": "rotmg",
+   "hp": 1500,
+   "atk": 25,
+   "spd": 62,
+   "behavior": "boss_ranged",
+   "size": 50,
+   "color": "#e0b840",
+   "loot": [
+    [
+     "world_shard_rotmg",
+     1.0
+    ],
+    [
+     "recompense_wand",
+     0.5
+    ],
+    [
+     "life_potion",
+     0.25
+    ]
+   ],
+   "gold": [
+    2800,
+    4000
+   ],
+   "attacks": [
+    "sand_slam",
+    "spiral_burst",
+    "sphinx_charge",
+    "summon_scarabs"
+   ],
+   "telegraph": 0.6,
+   "phases": 2
+  },
+  {
+   "id": "ghost_ship",
+   "name": "Ghost Ship",
+   "world": "rotmg",
+   "hp": 1600,
+   "atk": 26,
+   "spd": 50,
+   "behavior": "boss_ranged",
+   "size": 56,
+   "color": "#b8a06a",
+   "loot": [
+    [
+     "world_shard_rotmg",
+     1.0
+    ],
+    [
+     "coral_bow",
+     0.5
+    ],
+    [
+     "life_potion",
+     0.25
+    ]
+   ],
+   "gold": [
+    3000,
+    4200
+   ],
+   "attacks": [
+    "broadside_slam",
+    "cannon_volley",
+    "ghost_ram",
+    "spawn_crew"
+   ],
+   "telegraph": 0.6,
+   "phases": 2
+  },
+  {
+   "id": "lord_lost_lands",
+   "name": "Lord of the Lost Lands",
+   "world": "rotmg",
+   "hp": 1900,
+   "atk": 30,
+   "spd": 60,
+   "behavior": "boss_ranged",
+   "size": 56,
+   "color": "#7a4ca0",
+   "loot": [
+    [
+     "world_shard_rotmg",
+     1.0
+    ],
+    [
+     "acropolis_armor",
+     0.5
+    ],
+    [
+     "life_potion",
+     0.25
+    ]
+   ],
+   "gold": [
+    3400,
+    4800
+   ],
+   "attacks": [
+    "quake_slam",
+    "bolt_volley",
+    "lord_charge",
+    "summon_beasts"
+   ],
+   "telegraph": 0.6,
+   "phases": 2
+  },
+  {
+   "id": "oryx_2",
+   "name": "Oryx the Mad God 2",
+   "world": "rotmg",
+   "hp": 2000,
+   "atk": 30,
+   "spd": 76,
+   "behavior": "boss_ranged",
+   "size": 52,
+   "color": "#222028",
+   "loot": [
+    [
+     "world_shard_rotmg",
+     1.0
+    ],
+    [
+     "sword_splendor",
+     0.5
+    ],
+    [
+     "life_potion",
+     0.25
+    ]
+   ],
+   "gold": [
+    3600,
+    5000
+   ],
+   "attacks": [
+    "star_slam",
+    "stasis_volley",
+    "o2_charge",
+    "henchmen"
+   ],
+   "telegraph": 0.55,
+   "phases": 3
+  },
+  {
+   "id": "oryx_3",
+   "name": "Oryx, Exalted",
+   "world": "rotmg",
+   "hp": 2400,
+   "atk": 32,
+   "spd": 72,
+   "behavior": "boss_ranged",
+   "size": 56,
+   "color": "#d24040",
+   "loot": [
+    [
+     "world_shard_rotmg",
+     1.0
+    ],
+    [
+     "foul_dagger",
+     0.5
+    ],
+    [
+     "life_potion",
+     0.25
+    ]
+   ],
+   "gold": [
+    4000,
+    5400
+   ],
+   "attacks": [
+    "exalt_slam",
+    "blade_volley",
+    "o3_dash",
+    "summon_guards"
+   ],
+   "telegraph": 0.5,
+   "phases": 3
   }
  ]
 }

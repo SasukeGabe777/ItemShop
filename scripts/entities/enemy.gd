@@ -286,6 +286,14 @@ func _shoot(direction: Vector2) -> void:
 		direction, 150.0, Color(String(def.get("color", "#ffffff"))).lightened(0.3), 16)
 	p.global_position = global_position
 	get_parent().add_child(p)
+	# optional move_VFX bullet art (ROTMG shooters): a directional shot strip
+	var vfx := String(def.get("shot_vfx", ""))
+	if vfx != "":
+		var dirs := int(def.get("shot_dirs", 1))
+		if dirs > 1:
+			p.set_art_dir(vfx, int(def.get("shot_frames", 1)), dirs, float(def.get("shot_fps", 12)))
+		else:
+			p.set_art(vfx, int(def.get("shot_frames", 1)), 1, 0, float(def.get("shot_fps", 12)))
 	var style: Dictionary = SHOT_STYLES[hash(enemy_id) % SHOT_STYLES.size()]
 	var row := EffectFlipbook.dir8(direction) if bool(style["dir"]) else 0
 	p.set_art(String(style["sheet"]), int(style["h"]), int(style["v"]), row, float(style["fps"]))

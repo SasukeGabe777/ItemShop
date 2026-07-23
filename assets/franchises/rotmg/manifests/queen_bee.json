@@ -1,0 +1,66 @@
+{
+ "asset_id": "queen_bee",
+ "sheet": "res://assets/franchises/rotmg/processed/sheets/queen_bee.png",
+ "native_scale": 1,
+ "display_scale": 1,
+ "pivot": [
+  17,
+  33
+ ],
+ "grid": {
+  "frame_width": 34,
+  "frame_height": 34,
+  "columns": 2,
+  "rows": 1
+ },
+ "animations": {
+  "idle_down": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 3,
+   "loop": true
+  },
+  "walk_down": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 6,
+   "loop": true
+  },
+  "idle_side": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 3,
+   "loop": true
+  },
+  "walk_side": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 6,
+   "loop": true
+  },
+  "idle_up": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 3,
+   "loop": true
+  },
+  "walk_up": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 6,
+   "loop": true
+  }
+ }
+}

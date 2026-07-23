@@ -43,3 +43,10 @@ tools/rom_ref/out/
 # Stale sibling clone accidentally nested here; real repo is this folder
 ItemShop/
 !tools/rom_ref/out/.gdignore
+
+# ROTMG raw: keep PNG sprite provenance, exclude heavy non-sprite editing sources
+# (After Effects projects, QuickTime renders, Photoshop files) from the synced repo
+assets/franchises/rotmg/raw/**/*.mov
+assets/franchises/rotmg/raw/**/*.aep
+assets/franchises/rotmg/raw/**/*.psd
+assets/franchises/rotmg/raw/**/Adobe After Effects Auto-Save/

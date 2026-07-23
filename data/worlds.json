@@ -588,6 +588,109 @@
    "dungeon_desc": "A broken region stitched from pieces of every world â€” and worlds no one remembers.",
    "market_goods": [],
    "final": true
+  },
+  {
+   "id": "rotmg",
+   "chapter": 9,
+   "name": "Realm of the Mad God",
+   "location": "The Realm",
+   "hero": "archer",
+   "boss": "oryx",
+   "boss_rotation": [
+    "oryx",
+    "cube_god",
+    "rock_dragon",
+    "avatar",
+    "grand_sphinx",
+    "ghost_ship",
+    "lord_lost_lands",
+    "oryx_2",
+    "oryx_3"
+   ],
+   "boss_random_after_first": true,
+   "enemies": [
+    "red_demon",
+    "crystal_scorpion",
+    "crystal_cyclops",
+    "crystal_lizard",
+    "megamoth_larva",
+    "swoll_fairy",
+    "snake_sentry",
+    "ent_ancient",
+    "queen_bee",
+    "spider_queen",
+    "corruption_phantom",
+    "spoiled_creampuff"
+   ],
+   "repair_cost": 400000,
+   "world_shard": "world_shard_rotmg",
+   "rooms": 7,
+   "floor_color": "#3c6a34",
+   "wall_color": "#241f30",
+   "accent_color": "#c8a848",
+   "dungeon_desc": "Open godlands under a mad god's gaze: swarming shooters, bullet storms, and Oryx waiting at the end of every run.",
+   "market_goods": [
+    "hp_potion",
+    "mp_potion",
+    "life_potion",
+    "atk_potion",
+    "def_potion",
+    "spd_potion",
+    "dex_potion",
+    "vit_potion",
+    "wis_potion",
+    "leaf_bow",
+    "coral_bow",
+    "doom_bow",
+    "cosmic_staff",
+    "recompense_wand",
+    "sword_splendor",
+    "foul_dagger",
+    "doku_katana",
+    "hydra_armor",
+    "acropolis_armor",
+    "sorcerer_robe",
+    "leviathan_armor",
+    "golden_quiver",
+    "ghostly_cloak",
+    "soul_skull",
+    "attack_ring",
+    "defense_ring",
+    "speed_ring",
+    "unbound_health"
+   ],
+   "heroes": [
+    "archer",
+    "knight",
+    "wizard",
+    "rogue",
+    "necromancer",
+    "ninja"
+   ],
+   "obstacle_props": [
+    "res://assets/locations/rotmgdungeon/processed/prop_tree.png",
+    "res://assets/locations/rotmgdungeon/processed/prop_tree_small.png",
+    "res://assets/locations/rotmgdungeon/processed/prop_bush.png",
+    "res://assets/locations/rotmgdungeon/processed/prop_bush2.png"
+   ],
+   "room_backgrounds": {
+    "start": [
+     "res://assets/locations/rotmgdungeon/processed/start_grass.png"
+    ],
+    "combat": [
+     "res://assets/locations/rotmgdungeon/processed/combat_grass.png",
+     "res://assets/locations/rotmgdungeon/processed/combat_godland.png",
+     "res://assets/locations/rotmgdungeon/processed/combat_desert.png",
+     "res://assets/locations/rotmgdungeon/processed/combat_forest.png"
+    ],
+    "treasure": [
+     "res://assets/locations/rotmgdungeon/processed/treasure_marble.png"
+    ],
+    "boss": [
+     "res://assets/locations/rotmgdungeon/processed/boss_abyss.png",
+     "res://assets/locations/rotmgdungeon/processed/boss_lava.png"
+    ]
+   }
   }
  ]
 }

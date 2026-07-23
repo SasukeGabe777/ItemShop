@@ -8,6 +8,12 @@ var visible_console: bool = false
 var history: Array[String] = []
 const HISTORY_LIMIT := 300
 
+# admin/test mode: tap # three times in a row (within 1.5s) to unlock everything
+var admin_mode: bool = false
+var _hash_taps: int = 0
+var _hash_last: float = 0.0
+const HASH_WINDOW := 1.5
+
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("debug_console"):
@@ -19,6 +25,64 @@ func _unhandled_input(event: InputEvent) -> void:
 		if k.keycode == KEY_ASTERISK or k.keycode == KEY_KP_MULTIPLY or k.unicode == 42:
 			EconomyManager.add_gold(10000)
 			AudioManager.play_sfx("acquired")
+		# secret: # x3 in a row flips on admin/test mode (unlock everything)
+		elif k.keycode == KEY_NUMBERSIGN or k.unicode == 35:
+			var now := Time.get_ticks_msec() / 1000.0
+			_hash_taps = _hash_taps + 1 if now - _hash_last <= HASH_WINDOW else 1
+			_hash_last = now
+			if _hash_taps >= 3:
+				_hash_taps = 0
+				enable_admin_mode()
+
+
+## Flip on admin/test mode: max gold, every item in the bag, every hero met, every
+## dungeon repaired (which also frees all crossover heroes), and the campaign
+## advanced past the last chapter so every world — including the final one — is
+## reachable. Idempotent; safe to trigger again.
+func enable_admin_mode() -> void:
+	admin_mode = true
+	# max gold
+	EconomyManager.add_gold(maxi(0, 9_999_999 - EconomyManager.gold))
+	# every hero greeted + every gate repaired (repaired worlds also unlock their
+	# heroes anywhere, so this covers "all heroes" and "all dungeons" at once)
+	for h: String in ContentDatabase.heroes:
+		GameState.meet_hero(h)
+	for w: String in BridgeManager.gates:
+		BridgeManager.gates[w] = {"shard": true, "paid": true, "repaired": true}
+	# advance to the highest world chapter so chapter-gated worlds all show
+	var max_chapter := 8
+	for wid: String in ContentDatabase.worlds:
+		max_chapter = maxi(max_chapter, int(ContentDatabase.worlds[wid].get("chapter", 0)))
+	TimeManager.begin_chapter(max_chapter)
+	# every sellable item in the bag + logged in the encyclopedia
+	var items := 0
+	for id: String in ContentDatabase.live_items:
+		InventoryManager.add_item(id, 10)
+		GameState.learn_item(id)
+		items += 1
+	AudioManager.play_sfx("acquired")
+	log_line("ADMIN MODE ON: 9,999,999g, %d items x10, %d heroes, all %d dungeons unlocked"
+		% [items, ContentDatabase.heroes.size(), BridgeManager.gates.size()])
+	_show_admin_toast()
+
+
+func _show_admin_toast() -> void:
+	var layer := CanvasLayer.new()
+	layer.layer = 200
+	add_child(layer)
+	var label := Label.new()
+	label.text = "⚙ ADMIN MODE ENABLED\nmax gold · all items · all heroes · all dungeons"
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.set_anchors_preset(Control.PRESET_CENTER)
+	label.add_theme_color_override("font_color", Color(1, 0.9, 0.3))
+	label.add_theme_font_size_override("font_size", 22)
+	label.add_theme_color_override("font_outline_color", Color(0, 0, 0))
+	label.add_theme_constant_override("outline_size", 6)
+	layer.add_child(label)
+	var tw := layer.create_tween()
+	tw.tween_interval(2.2)
+	tw.tween_property(label, "modulate:a", 0.0, 0.6)
+	tw.tween_callback(layer.queue_free)
 
 
 func toggle_console() -> void:
@@ -63,7 +127,9 @@ func _on_command(text: String) -> void:
 func run_command(parts: PackedStringArray) -> void:
 	match parts[0]:
 		"help":
-			log_line("boom ID [WORLD] / boom random / boom clear / gold N / advance N / day / give ITEM [N] / shard WORLD / repair WORLD / unlock_all / scene ID / sim WORLD HERO / save / load")
+			log_line("boom ID [WORLD] / boom random / boom clear / gold N / advance N / day / give ITEM [N] / shard WORLD / repair WORLD / unlock_all / admin / scene ID / sim WORLD HERO / save / load")
+		"admin":
+			enable_admin_mode()
 		"boom":
 			if parts.size() <= 1:
 				log_line("boom = %s (%d sessions)" % [BoomManager.display_name() if BoomManager.is_active() else "none", BoomManager.sessions_left])

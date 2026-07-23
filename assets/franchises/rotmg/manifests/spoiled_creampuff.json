@@ -1,0 +1,66 @@
+{
+ "asset_id": "spoiled_creampuff",
+ "sheet": "res://assets/franchises/rotmg/processed/sheets/spoiled_creampuff.png",
+ "native_scale": 1,
+ "display_scale": 1,
+ "pivot": [
+  15,
+  27
+ ],
+ "grid": {
+  "frame_width": 30,
+  "frame_height": 28,
+  "columns": 2,
+  "rows": 1
+ },
+ "animations": {
+  "idle_down": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 3,
+   "loop": true
+  },
+  "walk_down": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 6,
+   "loop": true
+  },
+  "idle_side": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 3,
+   "loop": true
+  },
+  "walk_side": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 6,
+   "loop": true
+  },
+  "idle_up": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 3,
+   "loop": true
+  },
+  "walk_up": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 6,
+   "loop": true
+  }
+ }
+}

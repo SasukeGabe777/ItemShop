@@ -1,0 +1,66 @@
+{
+ "asset_id": "crystal_lizard",
+ "sheet": "res://assets/franchises/rotmg/processed/sheets/crystal_lizard.png",
+ "native_scale": 1,
+ "display_scale": 1,
+ "pivot": [
+  19,
+  37
+ ],
+ "grid": {
+  "frame_width": 38,
+  "frame_height": 38,
+  "columns": 2,
+  "rows": 1
+ },
+ "animations": {
+  "idle_down": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 3,
+   "loop": true
+  },
+  "walk_down": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 6,
+   "loop": true
+  },
+  "idle_side": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 3,
+   "loop": true
+  },
+  "walk_side": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 6,
+   "loop": true
+  },
+  "idle_up": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 3,
+   "loop": true
+  },
+  "walk_up": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 6,
+   "loop": true
+  }
+ }
+}

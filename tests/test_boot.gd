@@ -9,8 +9,10 @@ func _ready() -> void:
 	# was the 9th; asserting equality made this test red the moment he landed)
 	if ContentDatabase.heroes.size() < 8:
 		failures.append("expected >=8 heroes, got %d" % ContentDatabase.heroes.size())
-	if ContentDatabase.worlds.size() != 8:
-		failures.append("expected 8 worlds, got %d" % ContentDatabase.worlds.size())
+	# floor, not exact: the roster grows as franchises are added (rotmg was the
+	# 9th); asserting equality made this red the moment a new world landed
+	if ContentDatabase.worlds.size() < 9:
+		failures.append("expected >=9 worlds, got %d" % ContentDatabase.worlds.size())
 	if ContentDatabase.enemies.size() < 30:
 		failures.append("expected >=30 enemies, got %d" % ContentDatabase.enemies.size())
 	# floor, not exact: the boss list grows with every world added (it was 9

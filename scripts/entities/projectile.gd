@@ -5,11 +5,17 @@ extends Area2D
 var velocity: Vector2 = Vector2.ZERO
 var packet: Dictionary = {}
 var lifetime: float = 2.0
+# how many hurtboxes the shot can punch through before dying (0 = die on first
+# hit). Used by ROTMG bows/wands and the Doom Bow's piercing sniper shot.
+var pierce: int = 0
+var _hit: Dictionary = {}  # instance ids already struck, so one shot hits each enemy once
 
 
-func setup(damage_packet: Dictionary, direction: Vector2, speed: float, color: Color, target_layer: int, texture: Texture2D = null) -> void:
+func setup(damage_packet: Dictionary, direction: Vector2, speed: float, color: Color, target_layer: int, texture: Texture2D = null, pierce_count: int = 0, life: float = 2.0) -> void:
 	packet = damage_packet
 	velocity = direction.normalized() * speed
+	pierce = pierce_count
+	lifetime = life
 	collision_layer = 0
 	collision_mask = target_layer | 1  # target hurtboxes + walls
 	var shape := CollisionShape2D.new()
@@ -50,6 +56,17 @@ func set_art(sheet: String, hframes: int, vframes: int, row: int, fps: float = 1
 	add_child(_anim_sprite)
 
 
+## Directional move_VFX shot strip: rows are [S, SW, W, NW, N, NE, E, SE]; pick
+## the row from our own travel direction, animate across the columns. Lets one
+## shared sheet serve every firing angle (used by ROTMG heroes + shooter enemies).
+func set_art_dir(sheet: String, hframes: int, dirs: int, fps: float = 12.0) -> void:
+	var a := velocity.angle()
+	if a < 0.0:
+		a += TAU
+	var octant := int(round(a / (PI / 4.0))) % 8
+	set_art(sheet, hframes, dirs, (octant + 6) % 8, fps)
+
+
 func _physics_process(delta: float) -> void:
 	position += velocity * delta
 	lifetime -= delta
@@ -62,9 +79,17 @@ func _physics_process(delta: float) -> void:
 
 func _on_area(area: Area2D) -> void:
 	if area is HurtboxComponent:
+		# a piercing shot must not re-hit the same body while overlapping it
+		var key := area.get_instance_id()
+		if _hit.has(key):
+			return
+		_hit[key] = true
 		(area as HurtboxComponent).receive(packet, global_position)
 		FX.burst(get_parent(), global_position, Color(1, 1, 0.7), 5)
-		queue_free()
+		if pierce <= 0:
+			queue_free()
+		else:
+			pierce -= 1
 
 
 func _on_body(_body: Node) -> void:

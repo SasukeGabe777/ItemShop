@@ -1,0 +1,66 @@
+{
+ "asset_id": "rock_dragon",
+ "sheet": "res://assets/franchises/rotmg/processed/sheets/rock_dragon.png",
+ "native_scale": 1,
+ "display_scale": 1,
+ "pivot": [
+  56,
+  111
+ ],
+ "grid": {
+  "frame_width": 112,
+  "frame_height": 112,
+  "columns": 2,
+  "rows": 1
+ },
+ "animations": {
+  "idle_down": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 2,
+   "loop": true
+  },
+  "walk_down": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 4,
+   "loop": true
+  },
+  "idle_side": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 2,
+   "loop": true
+  },
+  "walk_side": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 4,
+   "loop": true
+  },
+  "idle_up": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 2,
+   "loop": true
+  },
+  "walk_up": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 4,
+   "loop": true
+  }
+ }
+}

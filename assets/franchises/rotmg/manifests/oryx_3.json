@@ -1,0 +1,66 @@
+{
+ "asset_id": "oryx_3",
+ "sheet": "res://assets/franchises/rotmg/processed/sheets/oryx_3.png",
+ "native_scale": 1,
+ "display_scale": 1,
+ "pivot": [
+  50,
+  113
+ ],
+ "grid": {
+  "frame_width": 101,
+  "frame_height": 114,
+  "columns": 2,
+  "rows": 1
+ },
+ "animations": {
+  "idle_down": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 2,
+   "loop": true
+  },
+  "walk_down": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 4,
+   "loop": true
+  },
+  "idle_side": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 2,
+   "loop": true
+  },
+  "walk_side": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 4,
+   "loop": true
+  },
+  "idle_up": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 2,
+   "loop": true
+  },
+  "walk_up": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 4,
+   "loop": true
+  }
+ }
+}

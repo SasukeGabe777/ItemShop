@@ -1,0 +1,66 @@
+{
+ "asset_id": "lord_lost_lands",
+ "sheet": "res://assets/franchises/rotmg/processed/sheets/lord_lost_lands.png",
+ "native_scale": 1,
+ "display_scale": 1,
+ "pivot": [
+  57,
+  113
+ ],
+ "grid": {
+  "frame_width": 114,
+  "frame_height": 114,
+  "columns": 2,
+  "rows": 1
+ },
+ "animations": {
+  "idle_down": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 2,
+   "loop": true
+  },
+  "walk_down": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 4,
+   "loop": true
+  },
+  "idle_side": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 2,
+   "loop": true
+  },
+  "walk_side": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 4,
+   "loop": true
+  },
+  "idle_up": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 2,
+   "loop": true
+  },
+  "walk_up": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 4,
+   "loop": true
+  }
+ }
+}

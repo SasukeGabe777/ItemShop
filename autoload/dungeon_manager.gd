@@ -116,6 +116,14 @@ func boss_for_world(world_id: String) -> String:
 	var rotation: Array = w.get("boss_rotation", [])
 	if rotation.is_empty():
 		return String(w.get("boss", ""))
+	# ROTMG: the first entry (Oryx) is always the debut fight; every later
+	# expedition draws a random boss from the rest of the pool. Gated by a world
+	# flag so the other worlds keep their deterministic win-indexed escalation.
+	if bool(w.get("boss_random_after_first", false)):
+		var wins := int(GameState.stats.get("expedition_wins_%s" % world_id, 0))
+		if wins <= 0 or rotation.size() == 1:
+			return String(rotation[0])
+		return String(rotation[1 + rng.randi() % (rotation.size() - 1)])
 	var wins := int(GameState.stats.get("expedition_wins_%s" % world_id, 0))
 	return String(rotation[mini(wins, rotation.size() - 1)])
 

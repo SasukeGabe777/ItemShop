@@ -1,0 +1,66 @@
+{
+ "asset_id": "crystal_scorpion",
+ "sheet": "res://assets/franchises/rotmg/processed/sheets/crystal_scorpion.png",
+ "native_scale": 1,
+ "display_scale": 1,
+ "pivot": [
+  21,
+  41
+ ],
+ "grid": {
+  "frame_width": 42,
+  "frame_height": 42,
+  "columns": 2,
+  "rows": 1
+ },
+ "animations": {
+  "idle_down": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 3,
+   "loop": true
+  },
+  "walk_down": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 6,
+   "loop": true
+  },
+  "idle_side": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 3,
+   "loop": true
+  },
+  "walk_side": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 6,
+   "loop": true
+  },
+  "idle_up": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 3,
+   "loop": true
+  },
+  "walk_up": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 6,
+   "loop": true
+  }
+ }
+}

@@ -30,6 +30,8 @@ var combo_reset_at: float = 0.0
 var attack_lock: float = 0.0
 var special_cooldown: float = 0.0
 var dodge_cooldown: float = 0.0
+var fire_cooldown: float = 0.0        # ranged (shooter) basic-attack rate limiter
+var _basic_tex: Texture2D = null      # optional per-hero bullet sprite for ranged basics
 var guarding: bool = false
 var consumables: Array = []
 var revives_available: int = 0
@@ -93,6 +95,12 @@ func setup(id: String, consumable_items: Array = []) -> void:
 	atk_shape.shape = atk_circle
 	hitbox.add_child(atk_shape)
 	add_child(hitbox)
+	# shooters can carry a plain static bullet sprite; animated/directional VFX
+	# strips are applied per-shot via set_art instead, so don't cache those here
+	var bullet_path := String(basic.get("sprite", ""))
+	if bullet_path != "" and int(basic.get("sprite_frames", 1)) <= 1 \
+			and int(basic.get("sprite_dirs", 1)) <= 1 and ResourceLoader.exists(bullet_path):
+		_basic_tex = load(bullet_path)
 	hp_changed.emit(health.hp, health.max_hp)
 	consumables_changed.emit(consumables)
 
@@ -107,6 +115,7 @@ func _physics_process(delta: float) -> void:
 	attack_lock = maxf(0.0, attack_lock - delta)
 	special_cooldown = maxf(0.0, special_cooldown - delta)
 	dodge_cooldown = maxf(0.0, dodge_cooldown - delta)
+	fire_cooldown = maxf(0.0, fire_cooldown - delta)
 	if Time.get_ticks_msec() / 1000.0 > combo_reset_at:
 		combo_index = 0
 	var wish := Vector2.ZERO
@@ -129,7 +138,13 @@ func _position_hitbox() -> void:
 
 
 func _read_combat_input() -> void:
-	if Input.is_action_just_pressed(input_prefix + "attack"):
+	# ROTMG shooters auto-fire while the button is held (and keep kiting); every
+	# other world keeps the tap-to-swing melee combo. One elif chain serves both.
+	var basic: Dictionary = combat_def().get("basic", {})
+	var ranged := String(basic.get("kind", "melee")) == "ranged"
+	if ranged and Input.is_action_pressed(input_prefix + "attack") and fire_cooldown <= 0.0:
+		_do_ranged_attack(basic)
+	elif not ranged and Input.is_action_just_pressed(input_prefix + "attack"):
 		_do_basic_attack()
 	elif Input.is_action_just_pressed(input_prefix + "special"):
 		_do_special()
@@ -178,6 +193,63 @@ func _do_basic_attack() -> void:
 		var to := global_position + facing.rotated(0.7) * 16.0
 		FX.attack_trail(get_parent(), from, to, color)
 	_gain_meter(2.0)
+
+
+## ROTMG-style ranged basic. Fires `shots` bullets in a `spread` fan toward the
+## nearest enemy (auto-aim = single-stick kiting), at a `fire_rate` cadence. No
+## attack_lock, so the hero keeps moving and its walk/idle pose is unchanged —
+## just like ROTMG, where the sprite never changes and only bullets appear.
+func _do_ranged_attack(basic: Dictionary) -> void:
+	fire_cooldown = float(basic.get("fire_rate", 0.34))
+	var aim := _aim_direction()
+	set_meta("shots", int(get_meta("shots", 0)) + 1)
+	AudioManager.play_sfx("attack_enemy_1" if int(get_meta("shots", 0)) % 2 == 0 else "attack_enemy_2", -10.0)
+	var shots := maxi(1, int(basic.get("shots", 1)))
+	var spread := deg_to_rad(float(basic.get("spread", 0.0)))
+	var speed := float(basic.get("speed", 300.0))
+	var reach := float(basic.get("range", 240.0))
+	var life := reach / maxf(1.0, speed)
+	var pierce := int(basic.get("pierce", 0))
+	var dmgs: Array = basic.get("dmg", [8])
+	var mult := float(dmgs[0]) / 10.0
+	var color := Color(String(hero_def.get("color", "#ffffff")))
+	# move_VFX strip art for the bullet: directional sheet (sprite_dirs rows) or a
+	# plain animated strip. Reuses the shared shot_* VFX drop.
+	var vfx := String(basic.get("sprite", ""))
+	var vframes := int(basic.get("sprite_frames", 1))
+	var vdirs := int(basic.get("sprite_dirs", 1))
+	var vfps := float(basic.get("sprite_fps", 16))
+	var muzzle := global_position + aim * 12.0 + Vector2(0, -8)
+	for i in range(shots):
+		var offset := 0.0 if shots == 1 else (float(i) / float(shots - 1) - 0.5)
+		var dir := aim.rotated(offset * spread)
+		var p := Projectile.new()
+		p.setup(_attack_damage(mult), dir, speed, color, CombatHero.LAYER_ENEMY_HURT, _basic_tex, pierce, life)
+		p.global_position = muzzle
+		get_parent().add_child(p)
+		if vfx != "" and (vframes > 1 or vdirs > 1):
+			if vdirs > 1:
+				p.set_art_dir(vfx, vframes, vdirs, vfps)
+			else:
+				p.set_art(vfx, vframes, 1, 0, vfps)
+	FX.burst(get_parent(), muzzle, color.lightened(0.3), 3)
+	_gain_meter(1.5)
+
+
+## Nearest living enemy within range → aim there; otherwise fire where we face.
+func _aim_direction() -> Vector2:
+	var best: Node2D = null
+	var best_d := 300.0 * 300.0
+	for node in get_tree().get_nodes_in_group("enemies"):
+		var e := node as Node2D
+		if e != null and is_instance_valid(e):
+			var d := e.global_position.distance_squared_to(global_position)
+			if d < best_d:
+				best_d = d
+				best = e
+	if best != null:
+		return (best.global_position - global_position).normalized()
+	return facing.normalized() if facing != Vector2.ZERO else Vector2.DOWN
 
 
 func _do_special() -> void:

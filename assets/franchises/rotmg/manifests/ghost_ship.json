@@ -1,0 +1,66 @@
+{
+ "asset_id": "ghost_ship",
+ "sheet": "res://assets/franchises/rotmg/processed/sheets/ghost_ship.png",
+ "native_scale": 1,
+ "display_scale": 1,
+ "pivot": [
+  59,
+  117
+ ],
+ "grid": {
+  "frame_width": 118,
+  "frame_height": 118,
+  "columns": 2,
+  "rows": 1
+ },
+ "animations": {
+  "idle_down": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 2,
+   "loop": true
+  },
+  "walk_down": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 4,
+   "loop": true
+  },
+  "idle_side": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 2,
+   "loop": true
+  },
+  "walk_side": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 4,
+   "loop": true
+  },
+  "idle_up": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 2,
+   "loop": true
+  },
+  "walk_up": {
+   "frames": [
+    0,
+    1
+   ],
+   "fps": 4,
+   "loop": true
+  }
+ }
+}

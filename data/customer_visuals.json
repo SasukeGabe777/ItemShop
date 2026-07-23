@@ -3570,6 +3570,139 @@
       "world": "zelda",
       "static": "res://assets/franchises/zelda/processed/customers/zelda_traveler_38.png",
       "manifest": ""
+    },
+    {
+      "slug": "archer",
+      "name": "Archer",
+      "world": "rotmg",
+      "static": "res://assets/franchises/rotmg/processed/customers/archer.png",
+      "manifest": ""
+    },
+    {
+      "slug": "assassin",
+      "name": "Assassin",
+      "world": "rotmg",
+      "static": "res://assets/franchises/rotmg/processed/customers/assassin.png",
+      "manifest": ""
+    },
+    {
+      "slug": "bard",
+      "name": "Bard",
+      "world": "rotmg",
+      "static": "res://assets/franchises/rotmg/processed/customers/bard.png",
+      "manifest": ""
+    },
+    {
+      "slug": "huntress",
+      "name": "Huntress",
+      "world": "rotmg",
+      "static": "res://assets/franchises/rotmg/processed/customers/huntress.png",
+      "manifest": ""
+    },
+    {
+      "slug": "kensei",
+      "name": "Kensei",
+      "world": "rotmg",
+      "static": "res://assets/franchises/rotmg/processed/customers/kensei.png",
+      "manifest": ""
+    },
+    {
+      "slug": "knight",
+      "name": "Knight",
+      "world": "rotmg",
+      "static": "res://assets/franchises/rotmg/processed/customers/knight.png",
+      "manifest": ""
+    },
+    {
+      "slug": "mystic",
+      "name": "Mystic",
+      "world": "rotmg",
+      "static": "res://assets/franchises/rotmg/processed/customers/mystic.png",
+      "manifest": ""
+    },
+    {
+      "slug": "necromancer",
+      "name": "Necromancer",
+      "world": "rotmg",
+      "static": "res://assets/franchises/rotmg/processed/customers/necromancer.png",
+      "manifest": ""
+    },
+    {
+      "slug": "ninja",
+      "name": "Ninja",
+      "world": "rotmg",
+      "static": "res://assets/franchises/rotmg/processed/customers/ninja.png",
+      "manifest": ""
+    },
+    {
+      "slug": "paladin",
+      "name": "Paladin",
+      "world": "rotmg",
+      "static": "res://assets/franchises/rotmg/processed/customers/paladin.png",
+      "manifest": ""
+    },
+    {
+      "slug": "priest",
+      "name": "Priest",
+      "world": "rotmg",
+      "static": "res://assets/franchises/rotmg/processed/customers/priest.png",
+      "manifest": ""
+    },
+    {
+      "slug": "rogue",
+      "name": "Rogue",
+      "world": "rotmg",
+      "static": "res://assets/franchises/rotmg/processed/customers/rogue.png",
+      "manifest": ""
+    },
+    {
+      "slug": "samurai",
+      "name": "Samurai",
+      "world": "rotmg",
+      "static": "res://assets/franchises/rotmg/processed/customers/samurai.png",
+      "manifest": ""
+    },
+    {
+      "slug": "sorcerer",
+      "name": "Sorcerer",
+      "world": "rotmg",
+      "static": "res://assets/franchises/rotmg/processed/customers/sorcerer.png",
+      "manifest": ""
+    },
+    {
+      "slug": "summoner",
+      "name": "Summoner",
+      "world": "rotmg",
+      "static": "res://assets/franchises/rotmg/processed/customers/summoner.png",
+      "manifest": ""
+    },
+    {
+      "slug": "trickster",
+      "name": "Trickster",
+      "world": "rotmg",
+      "static": "res://assets/franchises/rotmg/processed/customers/trickster.png",
+      "manifest": ""
+    },
+    {
+      "slug": "warrior",
+      "name": "Warrior",
+      "world": "rotmg",
+      "static": "res://assets/franchises/rotmg/processed/customers/warrior.png",
+      "manifest": ""
+    },
+    {
+      "slug": "wizard",
+      "name": "Wizard",
+      "world": "rotmg",
+      "static": "res://assets/franchises/rotmg/processed/customers/wizard.png",
+      "manifest": ""
+    },
+    {
+      "slug": "void_huntsman",
+      "name": "Void Huntsman",
+      "world": "rotmg",
+      "static": "res://assets/franchises/rotmg/processed/customers/void_huntsman.png",
+      "manifest": ""
     }
   ]
 }

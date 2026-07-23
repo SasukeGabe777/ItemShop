@@ -499,6 +499,314 @@
    "hire_cost": 1500,
    "bio": "Keeps the shop's forge lit and the tea perpetually over-steeped. The tail flame doubles as a mood ring.",
    "guild_line": "Char! (Patch: 'Mind the tail near the plushie shelf. We've had incidents.')"
+  },
+  {
+   "id": "archer",
+   "name": "Archer",
+   "world": "rotmg",
+   "weapon_type": "bow",
+   "color": "#5bbf4c",
+   "base_stats": {
+    "hp": 110,
+    "atk": 12,
+    "def": 5,
+    "spd": 125
+   },
+   "combat": {
+    "basic": {
+     "kind": "ranged",
+     "shots": 1,
+     "spread": 0,
+     "pierce": 2,
+     "speed": 360,
+     "range": 320,
+     "fire_rate": 0.4,
+     "dmg": [
+      12
+     ],
+     "sprite": "res://assets/shared/effects/processed/shot_flame.png",
+     "sprite_frames": 4,
+     "sprite_dirs": 8,
+     "sprite_fps": 18
+    },
+    "special": {
+     "kind": "projectile",
+     "name": "Piercing Shot",
+     "dmg": 30,
+     "speed": 420,
+     "cost": 30
+    },
+    "dodge": {
+     "kind": "roll",
+     "distance": 74,
+     "iframes": 0.35
+    },
+    "finisher": {
+     "name": "Arrow Storm",
+     "dmg": 90,
+     "radius": 120,
+     "beam": true
+    }
+   },
+   "hire_cost": 150,
+   "bio": "Loosens arrows from the tree line and never, ever haggles up front.",
+   "guild_line": "One quiver, one price. Don't make me count them."
+  },
+  {
+   "id": "knight",
+   "name": "Knight",
+   "world": "rotmg",
+   "weapon_type": "sword",
+   "color": "#c2c6d6",
+   "base_stats": {
+    "hp": 170,
+    "atk": 11,
+    "def": 11,
+    "spd": 110
+   },
+   "combat": {
+    "basic": {
+     "kind": "ranged",
+     "shots": 1,
+     "spread": 0,
+     "pierce": 0,
+     "speed": 330,
+     "range": 150,
+     "fire_rate": 0.22,
+     "dmg": [
+      9
+     ],
+     "sprite": "res://assets/shared/effects/processed/shot_flame.png",
+     "sprite_frames": 4,
+     "sprite_dirs": 8,
+     "sprite_fps": 18
+    },
+    "special": {
+     "kind": "burst",
+     "name": "Shield Bash",
+     "dmg": 22,
+     "radius": 72,
+     "cost": 35
+    },
+    "dodge": {
+     "kind": "roll",
+     "distance": 74,
+     "iframes": 0.35
+    },
+    "finisher": {
+     "name": "Bulwark",
+     "dmg": 80,
+     "radius": 100
+    }
+   },
+   "hire_cost": 400,
+   "bio": "Heavy plate, heavier stubbornness. Stands in the front and takes the hits.",
+   "guild_line": "Behind me. Coin talk later."
+  },
+  {
+   "id": "wizard",
+   "name": "Wizard",
+   "world": "rotmg",
+   "weapon_type": "staff",
+   "color": "#4a80e0",
+   "base_stats": {
+    "hp": 90,
+    "atk": 16,
+    "def": 3,
+    "spd": 120
+   },
+   "combat": {
+    "basic": {
+     "kind": "ranged",
+     "shots": 2,
+     "spread": 14,
+     "pierce": 0,
+     "speed": 320,
+     "range": 280,
+     "fire_rate": 0.3,
+     "dmg": [
+      8
+     ],
+     "sprite": "res://assets/shared/effects/processed/shot_flame.png",
+     "sprite_frames": 4,
+     "sprite_dirs": 8,
+     "sprite_fps": 18
+    },
+    "special": {
+     "kind": "burst",
+     "name": "Spell Bomb",
+     "dmg": 40,
+     "radius": 96,
+     "cost": 40
+    },
+    "dodge": {
+     "kind": "roll",
+     "distance": 74,
+     "iframes": 0.35
+    },
+    "finisher": {
+     "name": "Arcane Nova",
+     "dmg": 95,
+     "radius": 130
+    }
+   },
+   "hire_cost": 500,
+   "bio": "A glass cannon in a pointy hat. Enormous damage, papery constitution.",
+   "guild_line": "I could vaporize your inventory. I'd rather buy it."
+  },
+  {
+   "id": "rogue",
+   "name": "Rogue",
+   "world": "rotmg",
+   "weapon_type": "dagger",
+   "color": "#d0503a",
+   "base_stats": {
+    "hp": 100,
+    "atk": 10,
+    "def": 4,
+    "spd": 142
+   },
+   "combat": {
+    "basic": {
+     "kind": "ranged",
+     "shots": 1,
+     "spread": 0,
+     "pierce": 0,
+     "speed": 340,
+     "range": 180,
+     "fire_rate": 0.18,
+     "dmg": [
+      7
+     ],
+     "sprite": "res://assets/shared/effects/processed/shot_flame.png",
+     "sprite_frames": 4,
+     "sprite_dirs": 8,
+     "sprite_fps": 18
+    },
+    "special": {
+     "kind": "dash",
+     "name": "Cloak Strike",
+     "dmg": 24,
+     "distance": 100,
+     "cost": 30
+    },
+    "dodge": {
+     "kind": "roll",
+     "distance": 74,
+     "iframes": 0.35
+    },
+    "finisher": {
+     "name": "Backstab Flurry",
+     "dmg": 85,
+     "radius": 90
+    }
+   },
+   "hire_cost": 350,
+   "bio": "Cloak on, prices memorized, gone before you finish the sentence.",
+   "guild_line": "You didn't see me take the discount."
+  },
+  {
+   "id": "necromancer",
+   "name": "Necromancer",
+   "world": "rotmg",
+   "weapon_type": "staff",
+   "color": "#9b59b6",
+   "base_stats": {
+    "hp": 95,
+    "atk": 15,
+    "def": 4,
+    "spd": 120
+   },
+   "combat": {
+    "basic": {
+     "kind": "ranged",
+     "shots": 2,
+     "spread": 10,
+     "pierce": 0,
+     "speed": 320,
+     "range": 270,
+     "fire_rate": 0.32,
+     "dmg": [
+      8
+     ],
+     "sprite": "res://assets/shared/effects/processed/shot_flame.png",
+     "sprite_frames": 4,
+     "sprite_dirs": 8,
+     "sprite_fps": 18
+    },
+    "special": {
+     "kind": "burst",
+     "name": "Soul Harvest",
+     "dmg": 34,
+     "radius": 104,
+     "cost": 38
+    },
+    "dodge": {
+     "kind": "roll",
+     "distance": 74,
+     "iframes": 0.35
+    },
+    "finisher": {
+     "name": "Grave Bloom",
+     "dmg": 90,
+     "radius": 120
+    }
+   },
+   "hire_cost": 500,
+   "bio": "Sells you a plushie, harvests the ambient dread. Fair trade.",
+   "guild_line": "The dead don't tip. You, however..."
+  },
+  {
+   "id": "ninja",
+   "name": "Ninja",
+   "world": "rotmg",
+   "weapon_type": "katana",
+   "color": "#5aa0ff",
+   "base_stats": {
+    "hp": 108,
+    "atk": 12,
+    "def": 5,
+    "spd": 136
+   },
+   "combat": {
+    "basic": {
+     "kind": "ranged",
+     "shots": 2,
+     "spread": 8,
+     "pierce": 0,
+     "speed": 340,
+     "range": 200,
+     "fire_rate": 0.24,
+     "dmg": [
+      9
+     ],
+     "sprite": "res://assets/shared/effects/processed/shot_flame.png",
+     "sprite_frames": 4,
+     "sprite_dirs": 8,
+     "sprite_fps": 18
+    },
+    "special": {
+     "kind": "projectile",
+     "name": "Star Toss",
+     "dmg": 26,
+     "speed": 460,
+     "cost": 28
+    },
+    "dodge": {
+     "kind": "roll",
+     "distance": 74,
+     "iframes": 0.35
+    },
+    "finisher": {
+     "name": "Shadow Barrage",
+     "dmg": 88,
+     "radius": 100,
+     "beam": true
+    }
+   },
+   "hire_cost": 450,
+   "bio": "Throws stars, keeps secrets, refuses to explain the katana on a shooter.",
+   "guild_line": "Swift blade. Swifter refund policy."
   }
  ],
  "npcs": [
