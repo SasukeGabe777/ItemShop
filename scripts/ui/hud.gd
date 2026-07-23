@@ -14,6 +14,7 @@ var gold_label: Label
 var deadline_label: Label
 var market_label: Label
 var orders_label: Label
+var admin_label: Label
 
 
 const HUD_BAR := "res://assets/shared/ui/processed/hud_bar.png"
@@ -88,6 +89,9 @@ func _ready() -> void:
 	market_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	market_label.clip_text = true
 	row2.add_child(market_label)
+	admin_label = UIKit.label("ADMIN SPRITE REVIEW", 8, UIKit.COL_BAD)
+	admin_label.visible = GameState.admin_mode
+	row2.add_child(admin_label)
 	# large circular sky portrait + time plate, top right of each player's
 	# screen: one set in single player, a smaller pair per half in 2P so
 	# both halves read identically
@@ -132,6 +136,8 @@ func _ready() -> void:
 	BoomManager.boom_changed.connect(refresh)
 	InventoryManager.orders_changed.connect(refresh)
 	BridgeManager.gate_repaired.connect(func(_w: String) -> void: refresh())
+	GameState.admin_mode_changed.connect(func(enabled: bool) -> void:
+		admin_label.visible = enabled)
 	refresh()
 
 

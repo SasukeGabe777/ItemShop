@@ -4,11 +4,15 @@ extends Node
 
 signal merchant_level_up(new_level: int)
 signal flag_set(flag: String)
+signal admin_mode_changed(enabled: bool)
+signal admin_review_flags_changed()
 
 var campaign_active: bool = false
 var endless_mode: bool = false
 var current_slot: int = 0
 var game_title: String = ""
+var admin_mode: bool = false
+var admin_review_flags: Dictionary = {}
 
 var merchant_level: int = 1
 var merchant_xp: int = 0
@@ -25,6 +29,34 @@ var stats: Dictionary = {"sales": 0, "perfect_deals": 0, "orders_done": 0, "orde
 
 func _ready() -> void:
 	game_title = ProjectSettings.get_setting("application/config/name", "Crossroads")
+	set_process_input(true)
+
+
+## Secret in-game review mode. Checking unicode catches Shift+2 as the actual
+## @ character regardless of the physical number-row key involved.
+func _input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed and not event.echo and event.unicode == 64:
+		if not admin_mode:
+			admin_mode = true
+			admin_mode_changed.emit(true)
+		get_viewport().set_input_as_handled()
+
+
+func set_admin_review_flag(category: String, entry_id: String, flagged: bool) -> void:
+	var key := "%s:%s" % [category, entry_id]
+	if flagged:
+		admin_review_flags[key] = true
+	else:
+		admin_review_flags.erase(key)
+	admin_review_flags_changed.emit()
+
+
+func is_admin_review_flagged(category: String, entry_id: String) -> bool:
+	return bool(admin_review_flags.get("%s:%s" % [category, entry_id], false))
+
+
+func admin_review_flag_count() -> int:
+	return admin_review_flags.size()
 
 
 func reset_campaign() -> void:
