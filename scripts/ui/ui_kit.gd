@@ -510,6 +510,11 @@ static func _mp_split_active() -> bool:
 	return mp != null and bool(mp.get("enabled")) and mp.call("p2_viewport") != null
 
 
+static func _mp_ui_scale_factor() -> float:
+	var mp := (Engine.get_main_loop() as SceneTree).root.get_node_or_null("MultiplayerState")
+	return float(mp.call("ui_scale_factor")) if mp != null else 1.0
+
+
 ## Scale a modal so it fills most of its player's screen half. P2's menus
 ## live inside their SubViewport (physical pixels, the viewport IS the half);
 ## P1's live on the root viewport and are confined to the LEFT half so P2's
@@ -533,7 +538,13 @@ static func _fit_modal_to_half(layer: CanvasLayer, p: PanelContainer, dim: Color
 	var psize := p.get_combined_minimum_size()
 	if psize.x < 1.0 or psize.y < 1.0:
 		return
-	var s := clampf(minf(half.x * 0.95 / psize.x, half.y * 0.92 / psize.y), 0.5, 2.4)
+	var normal_scale := minf(half.x * 0.95 / psize.x, half.y * 0.92 / psize.y)
+	# LARGE may use the remaining safe margin, but never clips a menu off its
+	# player's half. Dense menus therefore grow only as far as their contents
+	# permit; lighter menus receive the full preset change.
+	var safe_scale := minf(half.x * 0.995 / psize.x, half.y * 0.98 / psize.y)
+	var requested_scale := normal_scale * _mp_ui_scale_factor()
+	var s := clampf(minf(requested_scale, safe_scale), 0.5, 2.8)
 	layer.scale = Vector2(s, s)
 	layer.offset = (half - frame * s) * 0.5
 	# the darkening backdrop must cover exactly this half at any scale

@@ -104,6 +104,7 @@ func _build_art_menu() -> void:
 	# 2P split-screen toggle mirrors the Quit button in the opposite corner —
 	# ornate bar styling, or it vanishes into the pale sky art
 	var mp_btn := UIKit.button("2 PLAYERS: %s" % ("ON" if MultiplayerState.enabled else "OFF"), Callable(), 10)
+	var ui_scale_btn := UIKit.button("UI SIZE: %s" % MultiplayerState.ui_scale_label(), Callable(), 10)
 	mp_btn.theme = UIKit.light_theme()
 	mp_btn.anchor_left = 0.005
 	mp_btn.anchor_right = 0.155
@@ -115,8 +116,23 @@ func _build_art_menu() -> void:
 	mp_btn.offset_bottom = 0
 	mp_btn.pressed.connect(func() -> void:
 		MultiplayerState.set_enabled(not MultiplayerState.enabled)
-		mp_btn.text = "2 PLAYERS: %s" % ("ON" if MultiplayerState.enabled else "OFF"))
+		mp_btn.text = "2 PLAYERS: %s" % ("ON" if MultiplayerState.enabled else "OFF")
+		ui_scale_btn.visible = MultiplayerState.enabled)
 	ui_root.add_child(mp_btn)
+	ui_scale_btn.theme = UIKit.light_theme()
+	ui_scale_btn.anchor_left = 0.16
+	ui_scale_btn.anchor_right = 0.31
+	ui_scale_btn.anchor_top = 0.015
+	ui_scale_btn.anchor_bottom = 0.075
+	ui_scale_btn.offset_left = 0
+	ui_scale_btn.offset_right = 0
+	ui_scale_btn.offset_top = 0
+	ui_scale_btn.offset_bottom = 0
+	ui_scale_btn.visible = MultiplayerState.enabled
+	ui_scale_btn.pressed.connect(func() -> void:
+		MultiplayerState.cycle_ui_scale()
+		ui_scale_btn.text = "UI SIZE: %s" % MultiplayerState.ui_scale_label())
+	ui_root.add_child(ui_scale_btn)
 	var quit_btn := UIKit.button("Quit", func() -> void: get_tree().quit(), 9)
 	quit_btn.flat = true
 	quit_btn.anchor_left = 0.94

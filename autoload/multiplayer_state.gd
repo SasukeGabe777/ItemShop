@@ -8,6 +8,11 @@ extends Node
 ## focus, driven by device-1 events re-pushed as device-0 into it.
 
 const P2_DEVICE := 1
+const UI_SCALE_PRESETS := [
+	{"label": "SMALL", "factor": 0.85},
+	{"label": "NORMAL", "factor": 1.0},
+	{"label": "LARGE", "factor": 1.15},
+]
 const CLONE_ACTIONS := ["move_left", "move_right", "move_up", "move_down", "interact", "cancel",
 	"attack", "special", "dodge", "use_item", "finisher", "zoom_in", "zoom_out"]
 const PIN_ACTIONS := [
@@ -18,12 +23,29 @@ const PIN_ACTIONS := [
 ]
 
 var enabled: bool = false
+var ui_scale_preset: int = 1
 var p2_zoom: float = 1.5        # P2's own zoom level (P1 keeps ZoomCamera's)
 var p2_zoom_factor: float = 1.0  # physical-pixel factor of the P2 viewport
 var _rig: CanvasLayer = null
 var _p2_view: SubViewport = null
 var _ready_sets: Dictionary = {}  # action id -> {player_idx: true}
 var pending_confirm: Dictionary = {}  # {key, player, text, on_confirm}
+
+
+func ui_scale_label() -> String:
+	return String(UI_SCALE_PRESETS[ui_scale_preset]["label"])
+
+
+func ui_scale_factor() -> float:
+	return float(UI_SCALE_PRESETS[ui_scale_preset]["factor"])
+
+
+func cycle_ui_scale() -> void:
+	ui_scale_preset = (ui_scale_preset + 1) % UI_SCALE_PRESETS.size()
+
+
+func set_ui_scale_preset(value: int) -> void:
+	ui_scale_preset = clampi(value, 0, UI_SCALE_PRESETS.size() - 1)
 
 
 ## Ask the OTHER player to approve something with a world-side A press

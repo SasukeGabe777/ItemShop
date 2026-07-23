@@ -1,5 +1,5 @@
 extends Node
-## Windowed proof that identical P1/P2 menus render at matching sharpness.
+## Windowed proof of the 2P-only size control and matching P1/P2 menu presets.
 
 const SHOT_DIR := "user://screenshots/p2_menu_render/"
 
@@ -9,20 +9,34 @@ class Probe:
 
 	func _ready() -> void:
 		MultiplayerState.set_enabled(true)
+		MultiplayerState.set_ui_scale_preset(1)
+		get_tree().change_scene_to_file("res://scenes/ui/main_menu.tscn")
+		await get_tree().create_timer(1.2).timeout
+		DirAccess.make_dir_recursive_absolute(SHOT_DIR)
+		get_viewport().get_texture().get_image().save_png(
+			SHOT_DIR + "01_main_menu_ui_size_button.png")
 		SceneRouter.go("town")
 		await get_tree().create_timer(1.2).timeout
 		var town := get_tree().current_scene
 		var p2vp := MultiplayerState.p2_viewport() as SubViewport
-		var p1_parts := UIKit.modal(town, "Player 1 — Render Test")
-		var p2_parts := UIKit.modal(p2vp, "Player 2 — Render Test")
-		_fill_identical(p1_parts[1])
-		_fill_identical(p2_parts[1])
-		await get_tree().create_timer(0.8).timeout
-		DirAccess.make_dir_recursive_absolute(SHOT_DIR)
-		get_viewport().get_texture().get_image().save_png(
-			SHOT_DIR + "01_matching_multiplayer_menus.png")
+		for preset in MultiplayerState.UI_SCALE_PRESETS.size():
+			MultiplayerState.set_ui_scale_preset(preset)
+			var p1_parts := UIKit.modal(
+				town, "Player 1 — %s" % MultiplayerState.ui_scale_label())
+			var p2_parts := UIKit.modal(
+				p2vp, "Player 2 — %s" % MultiplayerState.ui_scale_label())
+			_fill_identical(p1_parts[1])
+			_fill_identical(p2_parts[1])
+			await get_tree().create_timer(0.6).timeout
+			get_viewport().get_texture().get_image().save_png(
+				SHOT_DIR + "%02d_%s_menus.png" % [
+					preset + 2, MultiplayerState.ui_scale_label().to_lower()])
+			(p1_parts[0] as CanvasLayer).queue_free()
+			(p2_parts[0] as CanvasLayer).queue_free()
+			await get_tree().process_frame
 		print("P2_MENU_RENDER_SHOT_DONE folder=",
 			ProjectSettings.globalize_path(SHOT_DIR))
+		MultiplayerState.set_ui_scale_preset(1)
 		MultiplayerState.set_enabled(false)
 		get_tree().quit()
 
