@@ -94,6 +94,12 @@ func attach_split(scene: Node2D, p1: TownPlayer) -> TownPlayer:
 	_svc.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_rig.add_child(_svc)
 	_p2_view = SubViewport.new()
+	# New SubViewports default to linear filtering even though this pixel-art
+	# project renders the root viewport with nearest filtering. Match P1 before
+	# any P2 world or menu controls are created so the two halves stay equally
+	# crisp at the same physical scale.
+	_p2_view.canvas_item_default_texture_filter = \
+		scene.get_viewport().canvas_item_default_texture_filter
 	_p2_view.world_2d = scene.get_viewport().world_2d
 	_p2_view.gui_disable_input = false
 	_p2_view.render_target_update_mode = SubViewport.UPDATE_ALWAYS
