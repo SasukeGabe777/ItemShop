@@ -10,10 +10,15 @@ signal closed()
 var _sort_mode := "hot"
 var _list: VBoxContainer
 var _gold_lbl: Label
+var _sort_button: Button
+var _compact_mp := false
+
+const SORT_MODES := ["hot", "name", "price", "category", "world"]
 
 
 func _ready() -> void:
 	layer = 40
+	_compact_mp = MultiplayerState.enabled and MultiplayerState.ui_scale_factor() > 1.0
 	var parts := UIKit.modal(self, "Crossroads Market — wholesale")
 	var vb: VBoxContainer = parts[1]
 	var ev_row := HBoxContainer.new()
@@ -31,9 +36,15 @@ func _ready() -> void:
 	_gold_lbl = UIKit.label("Gold: %d" % EconomyManager.gold, 10, UIKit.COL_ACCENT)
 	_gold_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	top_row.add_child(_gold_lbl)
-	for mode in ["hot", "name", "price", "category", "world"]:
-		top_row.add_child(UIKit.button("Sort: %s" % mode, _set_sort.bind(mode), 8))
+	if _compact_mp:
+		_sort_button = UIKit.button("Sort: Hot →", _cycle_sort, 8)
+		top_row.add_child(_sort_button)
+	else:
+		for mode in SORT_MODES:
+			top_row.add_child(UIKit.button("Sort: %s" % mode, _set_sort.bind(mode), 8))
 	var list_parts := UIKit.scroll_list(Vector2(500, 230))
+	if _compact_mp:
+		(list_parts[0] as ScrollContainer).custom_minimum_size = Vector2(340, 200)
 	vb.add_child(list_parts[0])
 	_list = list_parts[1]
 	_fill()
@@ -47,8 +58,20 @@ func _set_sort(mode: String) -> void:
 	_fill()
 
 
+func _cycle_sort() -> void:
+	var next := (SORT_MODES.find(_sort_mode) + 1) % SORT_MODES.size()
+	_set_sort(SORT_MODES[next])
+	if _sort_button != null:
+		_sort_button.text = "Sort: %s →" % _sort_mode.capitalize()
+
+
 func _fill() -> void:
 	UIKit.rebuild_list(_list, _fill_rows)
+	# Rebuilt rows are created after the modal's first deferred Large-mode
+	# font pass. Boost the fresh controls immediately so changing sort never
+	# drops descriptions and prices back to their tiny base sizes.
+	if _compact_mp:
+		UIKit._boost_large_modal_fonts(_list)
 
 
 func _fill_rows() -> void:
@@ -140,17 +163,23 @@ func _make_row(id: String, locked_reason: String = "") -> VBoxContainer:
 	name_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	name_lbl.clip_text = true
 	row.add_child(name_lbl)
-	var cat_lbl := UIKit.label(String(it.get("category", "")).capitalize(), 9, UIKit.COL_DIM)
-	cat_lbl.custom_minimum_size = Vector2(64, 0)
-	row.add_child(cat_lbl)
 	var mult := MarketManager.price_multiplier(id)
-	var trend_lbl := UIKit.label("— steady", 9, UIKit.COL_DIM)
+	var trend_text := "— steady"
+	var trend_color := UIKit.COL_DIM
 	if mult >= 1.05:
-		trend_lbl = UIKit.label("▲ %s today" % DayBriefing._pct(mult), 10, UIKit.COL_GOOD)
+		trend_text = "▲ %s today" % DayBriefing._pct(mult)
+		trend_color = UIKit.COL_GOOD
 	elif mult <= 0.95:
-		trend_lbl = UIKit.label("▼ %s today" % DayBriefing._pct(mult), 10, UIKit.COL_BAD)
-	trend_lbl.custom_minimum_size = Vector2(78, 0)
-	row.add_child(trend_lbl)
+		trend_text = "▼ %s today" % DayBriefing._pct(mult)
+		trend_color = UIKit.COL_BAD
+	if not _compact_mp:
+		var cat_lbl := UIKit.label(String(it.get("category", "")).capitalize(), 9, UIKit.COL_DIM)
+		cat_lbl.custom_minimum_size = Vector2(64, 0)
+		row.add_child(cat_lbl)
+		var trend_lbl := UIKit.label(
+			trend_text, 10 if mult >= 1.05 or mult <= 0.95 else 9, trend_color)
+		trend_lbl.custom_minimum_size = Vector2(78, 0)
+		row.add_child(trend_lbl)
 	var price_lbl := UIKit.label("%dg → ~%dg" % [cost, value], 9, UIKit.COL_INK)
 	price_lbl.custom_minimum_size = Vector2(88, 0)
 	price_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
@@ -173,12 +202,18 @@ func _make_row(id: String, locked_reason: String = "") -> VBoxContainer:
 	# blurb + owned count live on the row itself (was tooltip-only)
 	var owned := InventoryManager.count(id)
 	var sub_text := String(it.get("desc", ""))
+	if _compact_mp:
+		sub_text = "%s · %s — %s" % [
+			String(it.get("category", "")).capitalize(), trend_text, sub_text]
 	if owned > 0:
 		sub_text = "Owned: %d — %s" % [owned, sub_text]
 	if locked_reason != "":
 		sub_text = "%s — %s" % [locked_reason, sub_text]
 	var sub := UIKit.label(sub_text, 8, UIKit.COL_DIM)
-	sub.clip_text = true
+	sub.clip_text = not _compact_mp
+	if _compact_mp:
+		sub.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		sub.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var sub_pad := MarginContainer.new()
 	sub_pad.add_theme_constant_override("margin_left", 30)
 	sub_pad.add_theme_constant_override("margin_bottom", 4)

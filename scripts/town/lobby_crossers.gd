@@ -66,9 +66,13 @@ func _process(delta: float) -> void:
 			_spawn()
 		_next = _rng.randf_range(SPAWN_MIN, SPAWN_MAX)
 	for c in _crossers:
-		var node: Node2D = c["node"]
-		if not is_instance_valid(node):
+		# A fade tween can free the node between frames. Check the untyped
+		# reference before assigning it to Node2D; assigning a freed object to
+		# a typed variable itself raises an error before is_instance_valid().
+		var node_ref: Variant = c.get("node")
+		if node_ref == null or not is_instance_valid(node_ref):
 			continue
+		var node := node_ref as Node2D
 		var dir: Vector2 = c["dir"]
 		node.position += dir * SPEED * delta
 		(c["visual"] as CharacterVisual).face(dir, true)

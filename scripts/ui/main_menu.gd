@@ -6,6 +6,7 @@ extends Control
 const ART_PATH := "res://assets/shared/ui/titlescreenupdated.png"
 const BAR_BLUE := "res://assets/shared/ui/processed/bar_blue.png"
 const CURSOR_HAND := "res://assets/shared/ui/processed/cursor_hand.png"
+const PATCH_NOTES_PATH := "res://data/patch_notes.json"
 
 ## Scene-root Controls are not reliably auto-sized, so all UI lives in a
 ## CanvasLayer with a full-rect Control (same pattern as UIKit.modal).
@@ -133,6 +134,17 @@ func _build_art_menu() -> void:
 		MultiplayerState.cycle_ui_scale()
 		ui_scale_btn.text = "UI SIZE: %s" % MultiplayerState.ui_scale_label())
 	ui_root.add_child(ui_scale_btn)
+	var notes_btn := UIKit.button("PATCH NOTES", _on_patch_notes, 9)
+	notes_btn.theme = UIKit.light_theme()
+	notes_btn.anchor_left = 0.78
+	notes_btn.anchor_right = 0.935
+	notes_btn.anchor_top = 0.015
+	notes_btn.anchor_bottom = 0.075
+	notes_btn.offset_left = 0
+	notes_btn.offset_right = 0
+	notes_btn.offset_top = 0
+	notes_btn.offset_bottom = 0
+	ui_root.add_child(notes_btn)
 	var quit_btn := UIKit.button("Quit", func() -> void: get_tree().quit(), 9)
 	quit_btn.flat = true
 	quit_btn.anchor_left = 0.94
@@ -240,12 +252,12 @@ func _on_config() -> void:
 		layer.queue_free()
 		_on_config()))
 	vb.add_child(UIKit.button("Fullscreen: %s" % ("on" if DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN else "off"), func() -> void:
-		var fs := DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN
-		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED if fs else DisplayServer.WINDOW_MODE_FULLSCREEN)
+		MultiplayerState.toggle_fullscreen()
 		layer.queue_free()
 		_on_config()))
 	vb.add_child(UIKit.label("Move WASD/arrows | Interact E | Attack J | Special K", 9, UIKit.COL_DIM))
 	vb.add_child(UIKit.label("Dodge L | Item I | Finisher U | Debug console F3", 9, UIKit.COL_DIM))
+	vb.add_child(UIKit.label("F11 toggles fullscreen anywhere in the game.", 9, UIKit.COL_DIM))
 	vb.add_child(UIKit.button("Close", func() -> void: layer.queue_free()))
 
 
@@ -265,6 +277,50 @@ func _on_extras() -> void:
 	]:
 		vb.add_child(UIKit.label(String(line), 9, UIKit.COL_DIM if line != "" else UIKit.COL_TEXT))
 	vb.add_child(UIKit.button("Close", func() -> void: layer.queue_free()))
+
+
+func _on_patch_notes() -> void:
+	var parts := UIKit.modal(self, "Patch Notes")
+	var layer: CanvasLayer = parts[0]
+	var vb: VBoxContainer = parts[1]
+	var releases := _load_patch_notes()
+	if releases.is_empty():
+		vb.add_child(UIKit.label("Patch notes are unavailable.", 10, UIKit.COL_DIM))
+	else:
+		var intro := UIKit.label("A player-facing history of changes shipped to Crossroads.", 9, UIKit.COL_DIM)
+		intro.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		vb.add_child(intro)
+		var list_parts := UIKit.scroll_list(Vector2(500, 220))
+		var scroll: ScrollContainer = list_parts[0]
+		var list: VBoxContainer = list_parts[1]
+		scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+		for release: Dictionary in releases:
+			var date_label := UIKit.label(String(release.get("date", "")), 12, UIKit.COL_ACCENT)
+			list.add_child(date_label)
+			var changes: Array = release.get("changes", [])
+			for change: Variant in changes:
+				var change_label := UIKit.label("•  %s" % String(change), 9)
+				change_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+				change_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+				list.add_child(change_label)
+			list.add_child(UIKit.spacer_px(5))
+			list.add_child(UIKit.hsep())
+			list.add_child(UIKit.spacer_px(3))
+		vb.add_child(scroll)
+	vb.add_child(UIKit.button("Close", func() -> void: layer.queue_free()))
+
+
+func _load_patch_notes() -> Array:
+	if not FileAccess.file_exists(PATCH_NOTES_PATH):
+		return []
+	var file := FileAccess.open(PATCH_NOTES_PATH, FileAccess.READ)
+	if file == null:
+		return []
+	var parsed: Variant = JSON.parse_string(file.get_as_text())
+	if parsed is not Dictionary:
+		return []
+	var releases: Variant = parsed.get("releases", [])
+	return releases if releases is Array else []
 
 
 ## Fallback when the title art is absent.
@@ -287,4 +343,5 @@ func _build_plain_menu() -> void:
 	vb.add_child(UIKit.button("New game", _on_new_game))
 	vb.add_child(UIKit.button("Load", _on_load))
 	vb.add_child(UIKit.button("Config", _on_config))
+	vb.add_child(UIKit.button("Patch Notes", _on_patch_notes))
 	vb.add_child(UIKit.button("Quit", func() -> void: get_tree().quit()))

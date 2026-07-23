@@ -1,0 +1,88 @@
+{
+  "releases": [
+    {
+      "date": "July 22, 2026",
+      "changes": [
+        "Added the Pokemon world with Pikachu, Charmander, Mystery Dungeon rooms, and a three-boss rotation.",
+        "Balanced item sprite sizes across the market, storage, menus, and shop displays; single-item stands retain a little extra presence.",
+        "Customers now pause their own activity while shop menus are open and walk to the display holding the item they want.",
+        "Added the secret encyclopedia review mode with checklists and Markdown export for sprite audits.",
+        "Standardized Adventurers Guild portraits around each hero's default idle pose and a consistent visual size.",
+        "Improved two-player menu clarity with matched viewport filtering, selectable UI sizes, larger Large-mode text, safe screen bounds, and F11 fullscreen.",
+        "Polished hero movement, dodges, attacks, combat effects, hitboxes, and Dragon Ball presentation across several playtest passes.",
+        "Added franchise-specific barrier art to each expedition world."
+      ]
+    },
+    {
+      "date": "July 21, 2026",
+      "changes": [
+        "Made customer orders visible, expanded order capacity, and added an in-game shop handbook.",
+        "Reworked furniture attention so placement, attraction, and slot selection are easier to understand.",
+        "Expanded and corrected customer sprite pools, including Kanto and Final Fantasy visitors.",
+        "Added playable Goku and Piccolo with captured movement, flight, melee, and beam attacks.",
+        "Rebuilt Sora, Mario, Luigi, and Piccolo animations from live reference captures.",
+        "Brought more life to the Crossroads plaza with moving franchise travelers and readable name tags.",
+        "Added an expedition pause-and-retreat menu and improved Strike Raid's presentation."
+      ]
+    },
+    {
+      "date": "July 20, 2026",
+      "changes": [
+        "Added autosaves at every portion of the day and made them directly loadable.",
+        "Gave both players independent expedition item belts and ensured every offered consumable has a working effect.",
+        "Captured and added Link's authentic Minish Cap walk, idle, sword, and dodge animations.",
+        "Improved world rooms with clamped cameras, safer spawns, cleaner barriers, and world-themed HUD elements.",
+        "Expanded Boom events into clearly announced customer crowds.",
+        "Audited game content so incomplete worlds and placeholder content are represented honestly."
+      ]
+    },
+    {
+      "date": "July 19, 2026",
+      "changes": [
+        "Built the Final Fantasy world with Cloud, a full enemy roster, town rooms, and rotating bosses.",
+        "Built the Hyrule world with Link, sword attacks, bombs, Minish Cap enemies, and animated bosses.",
+        "Built the Hidden Leaf world with Naruto enemies, rooms, and Jump Ultimate customers.",
+        "Replaced stretched obstacle textures with clean individual props throughout expedition worlds.",
+        "Improved split-screen menu scaling and HUD placement."
+      ]
+    },
+    {
+      "date": "July 18, 2026",
+      "changes": [
+        "Added local two-player split-screen with independent movement, menus, zoom, HUDs, and co-op expeditions.",
+        "Added full controller navigation, controller-aware prompts, right-stick scrolling, and trigger zoom.",
+        "Painted and expanded the shop with furniture progression, decor, visible stand-top items, and clearer recipes.",
+        "Added dozens of franchise items and customers while auditing the live catalog for usable sprite art.",
+        "Built the Mushroom Kingdom expedition and substantially expanded the Kingdom Hearts presentation.",
+        "Added Patch as the player's floating sidekick alongside a broad music, voice, and sound-effect pass.",
+        "Improved negotiations, customer buying-power feedback, Boom arrivals, and daily briefings."
+      ]
+    },
+    {
+      "date": "July 17, 2026",
+      "changes": [
+        "Added the illustrated title screen with fullscreen-safe selection bars and ornate menus.",
+        "Reskinned story scenes with a starry backdrop, character portraits, Patch voice clips, and new music.",
+        "Built out the Crossroads plaza with supplied building art and an ornate HUD.",
+        "Added the furniture catalog, transition curtain, Final Fantasy customer pool, and more shop polish.",
+        "Restricted the circulating catalog to items with real sprite art while allowing franchises to mix naturally."
+      ]
+    },
+    {
+      "date": "July 16, 2026",
+      "changes": [
+        "Completed the first playable game loop spanning town, shopkeeping, combat, story, saving, and tests.",
+        "Completed the Kingdom Hearts vertical slice and wired the first large batch of supplied character, world, and item art.",
+        "Added the game-wide ChronoType font, title artwork, music overrides, and repaired audio tracks.",
+        "Added endless-mode rent, economy hardening, export support, and long-run balance verification.",
+        "Added in-game developer and location-workshop tools for faster content building."
+      ]
+    },
+    {
+      "date": "July 15, 2026",
+      "changes": [
+        "Created the Crossroads Godot project foundation, core data packs, autoload systems, and placeholder art."
+      ]
+    }
+  ]
+}

@@ -48,6 +48,16 @@ func set_ui_scale_preset(value: int) -> void:
 	ui_scale_preset = clampi(value, 0, UI_SCALE_PRESETS.size() - 1)
 
 
+func toggle_fullscreen() -> void:
+	var fullscreen := DisplayServer.window_get_mode() in [
+		DisplayServer.WINDOW_MODE_FULLSCREEN,
+		DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN,
+	]
+	DisplayServer.window_set_mode(
+		DisplayServer.WINDOW_MODE_WINDOWED if fullscreen
+		else DisplayServer.WINDOW_MODE_FULLSCREEN)
+
+
 ## Ask the OTHER player to approve something with a world-side A press
 ## (used for expeditions: the gates menu holds one player, the partner
 ## just needs to say yes from wherever they stand).
@@ -379,6 +389,11 @@ func _push_p2_nav(action: String) -> void:
 ## player's events first win back their own selector if the other player's
 ## focus grabs wiped it (one engine focus per window — see _remember_focus).
 func _input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed and not event.echo \
+			and (event.keycode == KEY_F11 or event.physical_keycode == KEY_F11):
+		toggle_fullscreen()
+		get_viewport().set_input_as_handled()
+		return
 	if not enabled:
 		return
 	var is_joy := event is InputEventJoypadButton or event is InputEventJoypadMotion

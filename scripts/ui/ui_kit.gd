@@ -20,6 +20,7 @@ const GOLD_MEDIUM := "res://assets/shared/ui/processed/gold_pile_medium.png"
 const GOLD_LARGE := "res://assets/shared/ui/processed/gold_pile_large.png"
 const BOND_PATTERN := "res://assets/shared/ui/processed/bond_%d.png"
 const EMOTE_PATTERN := "res://assets/shared/ui/processed/emote_%s.png"
+const LARGE_MODAL_FONT_BOOST := 5
 
 static var _light_theme: Theme = null
 static var _open_modals := 0
@@ -539,17 +540,17 @@ static func _fit_modal_to_half(layer: CanvasLayer, p: PanelContainer, dim: Color
 		half = Vector2(frame.x * 0.5, frame.y)
 	else:
 		return
+	_boost_large_modal_fonts(p)
 	var psize := p.get_combined_minimum_size()
 	if psize.x < 1.0 or psize.y < 1.0:
 		return
 	var normal_scale := minf(half.x * 0.95 / psize.x, half.y * 0.92 / psize.y)
 	var scale_factor := _mp_ui_scale_factor()
-	# LARGE is an accessibility/readability mode, so it may overscan only the
-	# ornate outer border. Its generous built-in content margins keep text and
-	# controls visible while producing a genuinely larger result.
-	var max_fill := Vector2(0.995, 0.98)
-	if scale_factor > 1.0:
-		max_fill = Vector2(1.10, 1.08)
+	# Large still requests a full 25% increase, but complex screens such as
+	# the Market may already consume nearly the whole half. Cap every preset
+	# inside the player's actual region; overscanning even the ornate border
+	# also clips titles, sort buttons, and item rows beside that border.
+	var max_fill := Vector2(0.98, 0.96)
 	var safe_scale := minf(half.x * max_fill.x / psize.x, half.y * max_fill.y / psize.y)
 	var requested_scale := normal_scale * scale_factor
 	# High-DPI/fullscreen P2 viewports need factors above the old 2.8 ceiling
@@ -558,16 +559,30 @@ static func _fit_modal_to_half(layer: CanvasLayer, p: PanelContainer, dim: Color
 	var s := clampf(minf(requested_scale, safe_scale), 0.5, 8.0)
 	layer.scale = Vector2(s, s)
 	layer.offset = (half - frame * s) * 0.5
-	var horizontal_overscan := maxf(0.0, psize.x * s - half.x)
-	if horizontal_overscan > 0.0:
-		# Clip only against the outside monitor edge. P1 moves left and P2
-		# moves right, so neither enlarged panel can cover the other player's
-		# text across the center divider.
-		layer.offset.x += horizontal_overscan * (0.5 if vp is SubViewport else -0.5)
 	# the darkening backdrop must cover exactly this half at any scale
 	dim.set_anchors_preset(Control.PRESET_TOP_LEFT)
 	dim.position = -layer.offset / s
 	dim.size = half / s
+
+
+## Large must increase the type itself, not only enlarge the finished panel.
+## Wide menus hit the viewport-safe scale cap, which otherwise makes Large
+## look almost identical to Normal. Mark each Control so resize refits and
+## dynamic list rebuilds never apply the boost twice.
+static func _boost_large_modal_fonts(root: Control) -> void:
+	if _mp_ui_scale_factor() <= 1.0:
+		return
+	var controls: Array[Node] = [root]
+	controls.append_array(root.find_children("*", "Control", true, false))
+	for node: Node in controls:
+		var control := node as Control
+		if control == null or control.get_meta("large_modal_font_boosted", false):
+			continue
+		if control.has_theme_font_size_override("font_size"):
+			var current := control.get_theme_font_size("font_size")
+			control.add_theme_font_size_override(
+				"font_size", current + LARGE_MODAL_FONT_BOOST)
+			control.set_meta("large_modal_font_boosted", true)
 
 
 ## Time-cost confirmation required before any period-consuming activity.
