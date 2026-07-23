@@ -5,10 +5,19 @@ extends CanvasLayer
 
 signal closed()
 
+## These source manifests currently point idle_down at a non-forward pose.
+## Keep the correction local to Guild portraits so gameplay animation data
+## (including dungeon-owned content) remains unchanged.
+const GUILD_IDLE_FRAME_OVERRIDES := {
+	"charmander": 3,
+	"sora": 56,
+}
+
 var vb: VBoxContainer
 var detail: VBoxContainer
 var portrait: TextureRect
 var portrait_name: Label
+var _hero_portrait_cache: Dictionary = {}
 
 
 func _ready() -> void:
@@ -25,9 +34,11 @@ func _ready() -> void:
 	var portrait_box := VBoxContainer.new()
 	portrait_box.custom_minimum_size = Vector2(110, 230)
 	portrait_box.add_theme_constant_override("separation", 4)
+	portrait_box.alignment = BoxContainer.ALIGNMENT_CENTER
 	row.add_child(portrait_box)
 	portrait = TextureRect.new()
-	portrait.custom_minimum_size = Vector2(110, 190)
+	portrait.custom_minimum_size = Vector2(110, 110)
+	portrait.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	portrait.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
@@ -51,19 +62,66 @@ func _ready() -> void:
 		queue_free()))
 
 
-## Biggest available art for a hero: first idle frame of their real sprite
-## sheet when one is wired up, otherwise the processed frame/placeholder.
+## Canonical forward idle, cropped only to its visible pixels. The square
+## portrait box then gives every hero the same longest edge without distorting
+## proportions.
 func _hero_texture(hero_id: String) -> Texture2D:
+	if _hero_portrait_cache.has(hero_id):
+		return _hero_portrait_cache[hero_id]
 	var hero := ContentDatabase.get_hero(hero_id)
 	var world := String(hero.get("world", "crossroads"))
-	var frames := SpriteFramesBuilder.from_manifest_path(
-		"res://assets/franchises/%s/manifests/%s.json" % [world, hero_id])
-	if frames != null:
-		var anim := StringName("idle_down")
-		if not frames.has_animation(anim):
-			anim = frames.get_animation_names()[0]
-		return frames.get_frame_texture(anim, 0)
-	return ContentDatabase.entity_texture(hero_id, world, String(hero.get("color", "#c0c0c0")), 24)
+	var manifest_path := "res://assets/franchises/%s/manifests/%s.json" % [world, hero_id]
+	var frames := SpriteFramesBuilder.from_manifest_path(manifest_path)
+	var texture: Texture2D = null
+	if GUILD_IDLE_FRAME_OVERRIDES.has(hero_id):
+		texture = _crop_visible(_manifest_frame(manifest_path,
+			int(GUILD_IDLE_FRAME_OVERRIDES[hero_id])))
+	elif frames != null and frames.has_animation("idle_down") \
+			and frames.get_frame_count("idle_down") > 0:
+		texture = _crop_visible(frames.get_frame_texture("idle_down", 0))
+	if texture == null:
+		texture = ContentDatabase.entity_texture(hero_id, world,
+			String(hero.get("color", "#c0c0c0")), 24)
+	_hero_portrait_cache[hero_id] = texture
+	return texture
+
+
+func _manifest_frame(manifest_path: String, frame_index: int) -> Texture2D:
+	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(manifest_path))
+	if not parsed is Dictionary:
+		return null
+	var manifest: Dictionary = parsed
+	var grid: Dictionary = manifest.get("grid", {})
+	var frame_width := int(grid.get("frame_width", 0))
+	var frame_height := int(grid.get("frame_height", 0))
+	var columns := int(grid.get("columns", 0))
+	var rows := int(grid.get("rows", 0))
+	if frame_width <= 0 or frame_height <= 0 or columns <= 0 or rows <= 0 \
+			or frame_index < 0 or frame_index >= columns * rows:
+		return null
+	var sheet := load(String(manifest.get("sheet", ""))) as Texture2D
+	if sheet == null:
+		return null
+	var atlas := AtlasTexture.new()
+	atlas.atlas = sheet
+	atlas.region = Rect2(
+		(frame_index % columns) * frame_width,
+		(frame_index / columns) * frame_height,
+		frame_width,
+		frame_height)
+	return atlas
+
+
+func _crop_visible(texture: Texture2D) -> Texture2D:
+	if texture == null:
+		return null
+	var image := texture.get_image()
+	if image == null or image.is_empty():
+		return texture
+	var used := image.get_used_rect()
+	if used.size.x <= 0 or used.size.y <= 0:
+		return texture
+	return ImageTexture.create_from_image(image.get_region(used))
 
 
 func _show_hero(hero_id: String) -> void:

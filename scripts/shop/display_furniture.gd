@@ -114,8 +114,9 @@ func _resolve_texture(def: Dictionary) -> Texture2D:
 
 func refresh_items() -> void:
 	# Three-up counters have only 13px between slot centers. Give those a
-	# deliberately tighter cap so neighboring art retains a visible gap.
-	var item_max_px := 11.0 if slot_count >= 3 else 14.0
+	# deliberately tighter cap so neighboring art retains a visible gap. Two-up
+	# furniture keeps the approved 14px treatment; solitary stands get roomier art.
+	var item_max_px := 16.0 if slot_count == 1 else (14.0 if slot_count == 2 else 11.0)
 	for i in _item_sprites.size():
 		var global_slot := slot_base + i
 		var id := ""

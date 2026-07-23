@@ -10,6 +10,7 @@ func _ready() -> void:
 	InventoryManager.reset()
 	_test_menu_icons("fairy_harp_keyblade", "field_medkit")
 	_test_live_catalog()
+	_test_single_and_two_slot_caps()
 	_test_world_sprites("fairy_harp_keyblade", "field_medkit")
 	if failures.is_empty():
 		print("ITEM_SIZE_CONSISTENCY_PROBE_PASS")
@@ -62,6 +63,35 @@ func _test_world_sprites(small_id: String, large_id: String) -> void:
 		print("ITEM_VISUAL_WEIGHT_RANGE light=%.2f heavy=%.2f ratio=%.2f" % [
 			lightest, heaviest, heaviest / lightest])
 	furniture.free()
+
+
+func _test_single_and_two_slot_caps() -> void:
+	InventoryManager.resize_display_slots(2)
+	InventoryManager.display[0] = "fairy_harp_keyblade"
+	InventoryManager.display[1] = "field_medkit"
+	var single := DisplayFurniture.new()
+	add_child(single)
+	single.setup({"uid": 997, "type": "single_probe", "pos": [0, 0]}, {
+		"size": [40, 24], "display_slots": [[0, -12]], "furniture_type": "shelf",
+	}, 0, [])
+	var single_sprite := single.get_node("ItemSprite0") as Sprite2D
+	var single_metrics := _visible_metrics(single_sprite.texture)
+	var single_edge: float = float(single_metrics["max_edge"]) * single_sprite.scale.x
+	_check(is_equal_approx(single_edge, 16.0),
+		"single-slot stand item renders at %.2fpx instead of 16px" % single_edge)
+	single.free()
+	var double := DisplayFurniture.new()
+	add_child(double)
+	double.setup({"uid": 998, "type": "double_probe", "pos": [0, 0]}, {
+		"size": [40, 24], "display_slots": [[-10, -12], [10, -12]],
+		"furniture_type": "shelf",
+	}, 0, [])
+	var double_sprite := double.get_node("ItemSprite0") as Sprite2D
+	var double_metrics := _visible_metrics(double_sprite.texture)
+	var double_edge: float = float(double_metrics["max_edge"]) * double_sprite.scale.x
+	_check(is_equal_approx(double_edge, 14.0),
+		"two-slot stand changed from its approved 14px cap: %.2fpx" % double_edge)
+	double.free()
 
 
 func _test_live_catalog() -> void:
