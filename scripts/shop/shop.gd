@@ -1329,11 +1329,7 @@ func _on_order_delivery_requested(cust: Dictionary, order_id: int) -> void:
 func _open_next_order_dialog() -> void:
 	if order_dialog_open or negotiating != null or order_queue.is_empty():
 		return
-	var who := 0
-	if not busy and not UIKit.modal_open(get_viewport()):
-		who = 1
-	elif player2 != null and not busy2 and not UIKit.modal_open(MultiplayerState.p2_viewport()):
-		who = 2
+	var who := _available_customer_player()
 	if who == 0:
 		return
 	var entry: Dictionary = order_queue.pop_front()
@@ -1361,6 +1357,7 @@ func _open_next_order_dialog() -> void:
 			_order_dialog_cancelled(entry)
 			return
 		dialog.show_delivery(parent, cust, order, node.portrait_texture())
+		_advance_customer_player()
 	else:
 		var offer := CustomerGen.make_order_offer(cust, bool(entry.get("direct", false)), true)
 		if offer.is_empty():
@@ -1371,6 +1368,7 @@ func _open_next_order_dialog() -> void:
 		entry["offer"] = offer
 		InventoryManager.mark_order_requested()
 		dialog.show_request(parent, cust, offer, node.portrait_texture())
+		_advance_customer_player()
 
 
 func _finish_order_dialog(entry: Dictionary, result: String) -> void:
@@ -1452,13 +1450,10 @@ func _on_negotiate_requested(cust: Dictionary, item_id: String) -> void:
 func _open_next_negotiation() -> void:
 	if negotiating != null or order_dialog_open or nego_queue.is_empty():
 		return
-	# route the haggle to a shopkeeper who isn't in a menu; the customer
-	# waits in line and _run_session retries until someone frees up
-	var who := 0
-	if not busy and not UIKit.modal_open(get_viewport()):
-		who = 1
-	elif player2 != null and not busy2 and not UIKit.modal_open(MultiplayerState.p2_viewport()):
-		who = 2
+	# In co-op, customer conversations use a strict shared round-robin. If the
+	# designated shopkeeper has another menu open, the customer waits rather
+	# than giving the other player two turns in a row.
+	var who := _available_customer_player()
 	if who == 0:
 		return
 	var entry: Dictionary = nego_queue.pop_front()
@@ -1489,7 +1484,22 @@ func _open_next_negotiation() -> void:
 		busy = true
 		player.frozen = true
 	MultiplayerState.menu_parent(who, self).add_child(panel)
+	_advance_customer_player()
 	_sync_customer_activity_pause()
+
+
+func _available_customer_player() -> int:
+	if not MultiplayerState.enabled or player2 == null:
+		return 1 if not busy and not UIKit.modal_open(get_viewport()) else 0
+	var who := MultiplayerState.next_customer_player
+	if who == 1:
+		return 1 if not busy and not UIKit.modal_open(get_viewport()) else 0
+	return 2 if not busy2 and not UIKit.modal_open(MultiplayerState.p2_viewport()) else 0
+
+
+func _advance_customer_player() -> void:
+	MultiplayerState.next_customer_player = 2 if MultiplayerState.enabled and player2 != null \
+		and MultiplayerState.next_customer_player == 1 else 1
 
 
 func _on_negotiation_finished(outcome: Dictionary) -> void:

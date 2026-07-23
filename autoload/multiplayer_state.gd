@@ -26,6 +26,7 @@ var enabled: bool = false
 var ui_scale_preset: int = 1
 var p2_zoom: float = 1.5        # P2's own zoom level (P1 keeps ZoomCamera's)
 var p2_zoom_factor: float = 1.0  # physical-pixel factor of the P2 viewport
+var next_customer_player := 1   # persists across shop scenes while co-op stays on
 var _rig: CanvasLayer = null
 var _p2_view: SubViewport = null
 var _ready_sets: Dictionary = {}  # action id -> {player_idx: true}
@@ -74,6 +75,7 @@ func set_enabled(value: bool) -> void:
 	if enabled == value:
 		return
 	enabled = value
+	next_customer_player = 1
 	_ready_sets.clear()
 	pending_confirm = {}
 	_focus_mem.clear()

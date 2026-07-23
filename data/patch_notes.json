@@ -4,7 +4,8 @@
       "date": "July 23, 2026",
       "changes": [
         "Added clear red P1 and blue P2 identity tags during two-player expeditions.",
-        "Gave Player 2 a dedicated blue floating companion that follows them in town, the shop, and expeditions."
+        "Gave Player 2 a dedicated blue floating companion that follows them in town, the shop, and expeditions.",
+        "Made multiplayer negotiations and customer orders alternate strictly between P1 and P2."
       ]
     },
     {
