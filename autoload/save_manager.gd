@@ -25,8 +25,21 @@ func _on_day_started(_day: int) -> void:
 ## Autosave at every day portion (morning / afternoon / evening / night) so a
 ## bad expedition or sale costs at most one period rather than a whole day.
 func _on_period_advanced(_day: int, _period: int) -> void:
-	if GameState.campaign_active and not _development_autosave_blocked():
+	# Online clients mirror host state and must never write saves over it.
+	if GameState.campaign_active and Net.is_authority() and not _development_autosave_blocked():
 		autosave()
+
+
+## Full-state snapshot as a plain dict (the save-file payload). Public for
+## networking: the host's welcome sync and probes ride the same format.
+## Deep-copied: _collect() returns LIVE manager dicts (fine for immediate
+## JSON serialization, corruption for a held snapshot).
+func snapshot() -> Dictionary:
+	return _collect().duplicate(true)
+
+
+func apply_snapshot(d: Dictionary) -> void:
+	_apply(d.duplicate(true))
 
 
 func _collect() -> Dictionary:
@@ -127,6 +140,8 @@ func _summarize(d: Dictionary) -> Dictionary:
 
 
 func autosave() -> void:
+	if not Net.is_authority():
+		return
 	if _development_autosave_blocked():
 		DevHubManager.log_event("Blocked normal autosave while isolated development state is active", "SAVE")
 		return
@@ -145,6 +160,8 @@ func load_autosave() -> bool:
 
 ## Snapshot taken at the start of every chapter, for deadline-failure restarts.
 func checkpoint_chapter() -> void:
+	if not Net.is_authority():
+		return
 	if _development_autosave_blocked():
 		DevHubManager.log_event("Blocked normal chapter checkpoint while isolated development state is active", "SAVE")
 		return

@@ -18,11 +18,19 @@ var last_town_position: Vector2 = Vector2.ZERO
 
 
 func go(scene_key: String, ctx: Dictionary = {}) -> void:
+	# Online, the party always travels together: only host-driven changes run,
+	# and clients execute them exclusively through Net._net_go.
+	if Net.is_client() and not Net.applying_remote_go:
+		push_warning("[SceneRouter] online clients follow the host (%s ignored)" % scene_key)
+		return
+	if Net.is_host() and not Net.applying_remote_go:
+		Net.broadcast_scene_change(scene_key, ctx)
 	context = ctx
 	var path: String = SCENES.get(scene_key, "")
 	if path == "":
 		push_error("[SceneRouter] unknown scene key %s" % scene_key)
 		return
+	Replica.bump_gen()
 	scene_transition_requested.emit(scene_key, path, context.duplicate(true))
 	AudioManager.play_sfx("loading_screens", -10.0)
 	_drop_curtain()
@@ -55,6 +63,9 @@ func _lift_curtain(layer: CanvasLayer, black: ColorRect) -> void:
 
 
 func start_new_campaign(slot: int) -> void:
+	if Net.is_client():
+		push_error("[SceneRouter] only the host starts campaigns online")
+		return
 	GameState.reset_campaign()
 	GameState.current_slot = slot
 	TimeManager.reset(1)
@@ -82,6 +93,9 @@ func start_new_campaign(slot: int) -> void:
 
 
 func continue_campaign(slot: int) -> bool:
+	if Net.is_client():
+		push_error("[SceneRouter] only the host loads campaigns online")
+		return false
 	if not SaveManager.load_from_slot(slot):
 		return false
 	go("town")
@@ -90,6 +104,9 @@ func continue_campaign(slot: int) -> bool:
 
 ## Resume from the rolling autosave taken at the last day portion.
 func continue_autosave() -> bool:
+	if Net.is_client():
+		push_error("[SceneRouter] only the host loads campaigns online")
+		return false
 	if not SaveManager.load_autosave():
 		return false
 	go("town")

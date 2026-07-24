@@ -72,9 +72,13 @@ func clear_confirm(key: String = "") -> void:
 
 
 func set_enabled(value: bool) -> void:
+	if value and Net.is_online():
+		push_warning("[MultiplayerState] couch co-op is unavailable during online play")
+		return
 	if enabled == value:
 		return
 	enabled = value
+	PartyState.set_couch(enabled)
 	next_customer_player = 1
 	_ready_sets.clear()
 	pending_confirm = {}
