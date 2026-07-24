@@ -9,6 +9,8 @@ var pending: Dictionary = {}     # {world_id, hero_id, consumables: Array, verti
 var run_loot: Dictionary = {}    # item_id -> qty gathered during a live run
 var run_gold: int = 0
 var run_kills: int = 0
+## Host-only online lineup in progress: {world_id, slice, picks: {idx: pick}}.
+var lineup_pending: Dictionary = {}
 var rng := RandomNumberGenerator.new()
 
 
@@ -44,6 +46,26 @@ func plan_expedition(world_id: String, hero_id: String, consumables: Array = [],
 		"consumables": consumables.duplicate(), "vertical_slice": vertical_slice,
 		# co-op: player 2 packs their own items rather than sharing P1's belt
 		"consumables2": consumables2.duplicate(),
+	}
+	run_loot.clear()
+	run_gold = 0
+	run_kills = 0
+
+
+## Online: the whole party's picks in one plan. Legacy keys mirror the first
+## entry so solo/couch code paths (HUD hero label, fallbacks) keep working;
+## layout_seed makes every machine build identical rooms.
+func plan_expedition_party(world_id: String, party: Array, vertical_slice: bool) -> void:
+	var first: Dictionary = party[0] if not party.is_empty() else {}
+	pending = {
+		"world_id": world_id,
+		"hero_id": String(first.get("hero_id", "sora")),
+		"hero2_id": "",
+		"consumables": (first.get("consumables", []) as Array).duplicate(),
+		"consumables2": [],
+		"vertical_slice": vertical_slice,
+		"party": party.duplicate(true),
+		"layout_seed": randi(),
 	}
 	run_loot.clear()
 	run_gold = 0

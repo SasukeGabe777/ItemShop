@@ -11,6 +11,7 @@ var busy: bool = false   # player 1 has a panel / story open
 var busy2: bool = false  # player 2 has a panel open (their half only)
 var _menu_owner: Dictionary = {}  # couch: menu key -> player idx holding it open
 var _net_puppets: Dictionary = {}  # online: player_index -> TownPlayer puppet
+var _lineup_panel: LineupPanel = null
 
 
 func _ready() -> void:
@@ -117,6 +118,33 @@ func _on_net_scene_event(event_name: String, args: Dictionary) -> void:
 			for e in args.get("events", []):
 				events.append(String(e))
 			_after_net_rest(events, args.get("summary", {}))
+		"lineup_open":
+			_open_lineup(String(args.get("world_id", "")), bool(args.get("slice", false)))
+		"lineup_progress":
+			if _lineup_panel != null and is_instance_valid(_lineup_panel):
+				_lineup_panel.set_status("Ready: %d/%d — waiting on the party..."
+					% [int(args.get("count", 0)), int(args.get("needed", 0))])
+		"lineup_failed":
+			if _lineup_panel != null and is_instance_valid(_lineup_panel):
+				_lineup_panel.set_status(String(args.get("reason", "Couldn't depart")))
+		"lineup_cancelled":
+			_close_lineup()
+
+
+func _open_lineup(world_id: String, is_slice: bool) -> void:
+	_close_lineup()
+	# free any open gates panel — its owner drives via the lineup now
+	for key: String in ["gates", "market", "workshop", "guild"]:
+		Net.request("menu.release", {"key": key})
+	_lineup_panel = LineupPanel.new()
+	_lineup_panel.setup(world_id, is_slice)
+	add_child(_lineup_panel)
+
+
+func _close_lineup() -> void:
+	if _lineup_panel != null and is_instance_valid(_lineup_panel):
+		_lineup_panel.queue_free()
+	_lineup_panel = null
 
 
 func _after_net_rest(events: Array[String], summary: Dictionary) -> void:

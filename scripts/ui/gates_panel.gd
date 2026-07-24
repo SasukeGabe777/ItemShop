@@ -83,9 +83,18 @@ func _fill_rows() -> void:
 		if not final and not BridgeManager.is_repaired(world_id) and BridgeManager.has_shard(world_id):
 			var can_pay := EconomyManager.can_afford(BridgeManager.repair_cost(world_id))
 			var pay_btn := UIKit.button("Pay repair", func() -> void:
+				if Net.is_client():
+					Net.request("bridge.pay_repair", {"world_id": world_id},
+						func(ok: bool, _data: Dictionary) -> void:
+							if ok:
+								_fill()
+								closed.emit())
+					return
 				if BridgeManager.pay_repair(world_id):
 					AudioManager.play_stinger("victory_stinger")
 					SaveManager.checkpoint_chapter()
+					if Net.is_host():
+						Net.sync_all()
 					_fill()
 					closed.emit())
 			pay_btn.disabled = not can_pay
@@ -93,26 +102,14 @@ func _fill_rows() -> void:
 		content.add_child(row)
 
 
-func _expedition_dialog(world_id: String) -> void:
-	var parts := UIKit.modal(self, "Expedition: %s" % String(ContentDatabase.get_world(world_id).get("location", world_id)))
-	var dlg_layer: CanvasLayer = parts[0]
-	var dvb: VBoxContainer = parts[1]
+## Hero choice: world hero by default; any met hero for the final dungeon;
+## repaired worlds' heroes are also available anywhere (crossover hiring).
+## Static + deterministic over synced state, so online every machine computes
+## the same list locally.
+static func hero_options_for(world_id: String) -> Array[String]:
 	var w := ContentDatabase.get_world(world_id)
-	dvb.add_child(UIKit.label(String(w.get("dungeon_desc", "")), 9, UIKit.COL_DIM))
-	var slice_cfg: Dictionary = ContentDatabase.bal("kingdom_hearts_vertical_slice", {})
-	var completion_flag := String(slice_cfg.get("completion_flag", ""))
-	var first_vertical_slice := (
-		world_id == String(slice_cfg.get("world_id", ""))
-		and completion_flag != ""
-		and not GameState.has_flag(completion_flag)
-	)
-	if first_vertical_slice:
-		dvb.add_child(UIKit.label("FIRST EXPEDITION: two short rooms, one Shadow, then return with its Lucid Shard.", 9, UIKit.COL_GOOD))
-	var final := bool(w.get("final", false))
-	# hero choice: world hero by default; any met hero for the final dungeon;
-	# repaired worlds' heroes are also available anywhere (crossover hiring)
 	var hero_options: Array[String] = []
-	if final:
+	if bool(w.get("final", false)):
 		for wid in ContentDatabase.world_order:
 			var ww := ContentDatabase.get_world(wid)
 			if not bool(ww.get("final", false)) and BridgeManager.is_repaired(wid):
@@ -127,6 +124,75 @@ func _expedition_dialog(world_id: String) -> void:
 				hero_options.append(String(ww.get("hero", "")))
 	if hero_options.is_empty():
 		hero_options.append(String(ContentDatabase.world_for_chapter(1).get("hero", "sora")))
+	return hero_options
+
+
+static func is_first_vertical_slice(world_id: String) -> bool:
+	var slice_cfg: Dictionary = ContentDatabase.bal("kingdom_hearts_vertical_slice", {})
+	var completion_flag := String(slice_cfg.get("completion_flag", ""))
+	return world_id == String(slice_cfg.get("world_id", "")) \
+		and completion_flag != "" and not GameState.has_flag(completion_flag)
+
+
+## Host-side: hire + pack + launch the whole online party in one validated
+## step. Returns "" on success or a reason to show every lineup dialog.
+static func depart_party(world_id: String, slice: bool, picks: Dictionary) -> String:
+	var party: Array = []
+	var fee := 0
+	var stock_needed: Dictionary = {}
+	for idx: int in picks:
+		var pick: Dictionary = picks[idx]
+		var hid := String(pick.get("hero_id", ""))
+		if ContentDatabase.get_hero(hid).is_empty():
+			return "Someone picked an unknown hero"
+		fee += int(ContentDatabase.get_hero(hid).get("hire_cost", 100))
+		for c in pick.get("consumables", []):
+			stock_needed[String(c)] = int(stock_needed.get(String(c), 0)) + 1
+		party.append({"player_index": idx, "hero_id": hid,
+			"consumables": (pick.get("consumables", []) as Array).duplicate()})
+	if not EconomyManager.can_afford(fee):
+		return "Not enough gold for the hire fees (%dg)" % fee
+	for item_id: String in stock_needed:
+		if InventoryManager.count(item_id) < int(stock_needed[item_id]):
+			return "Not enough %s in stock for every belt" % ContentDatabase.item_name(item_id)
+	party.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
+		return int(a.get("player_index", 0)) < int(b.get("player_index", 0)))
+	EconomyManager.spend_gold(fee)
+	for item_id: String in stock_needed:
+		InventoryManager.remove_item(item_id, int(stock_needed[item_id]))
+	for entry: Dictionary in party:
+		if GameState.meet_hero(String(entry.get("hero_id", ""))):
+			StoryEventManager.fire("hero_met", {"hero": String(entry.get("hero_id", ""))})
+	DungeonManager.plan_expedition_party(world_id, party, slice)
+	AudioManager.play_sfx("enter_expedition")
+	Net.sync_all()
+	var events := TimeManager.advance(TimeManager.activity_cost("dungeon"))
+	if "deadline_failed" in events:
+		SceneRouter.go("story", {"failure": true})
+	elif StoryEventManager.has_pending():
+		SceneRouter.go("story", {"return_to": "dungeon"})
+	else:
+		SceneRouter.go("dungeon")
+	return ""
+
+
+func _expedition_dialog(world_id: String) -> void:
+	var first_vertical_slice := GatesPanel.is_first_vertical_slice(world_id)
+	if Net.is_online():
+		# every player picks their own hero + belt in a dialog on their own
+		# machine; the host launches once everyone is ready
+		Net.request("lineup.begin", {"world_id": world_id, "slice": first_vertical_slice})
+		closed.emit()
+		queue_free()
+		return
+	var parts := UIKit.modal(self, "Expedition: %s" % String(ContentDatabase.get_world(world_id).get("location", world_id)))
+	var dlg_layer: CanvasLayer = parts[0]
+	var dvb: VBoxContainer = parts[1]
+	var w := ContentDatabase.get_world(world_id)
+	dvb.add_child(UIKit.label(String(w.get("dungeon_desc", "")), 9, UIKit.COL_DIM))
+	if first_vertical_slice:
+		dvb.add_child(UIKit.label("FIRST EXPEDITION: two short rooms, one Shadow, then return with its Lucid Shard.", 9, UIKit.COL_GOOD))
+	var hero_options := GatesPanel.hero_options_for(world_id)
 	var hero_pick := OptionButton.new()
 	for hid in hero_options:
 		var stats := InventoryManager.hero_stats(hid)

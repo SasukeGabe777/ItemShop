@@ -108,6 +108,53 @@ static func build() -> Dictionary:
 		return {"ok": true}
 	reg["dungeon.retreat"] = {"run": dungeon_retreat, "syncs": []}
 
+	# ---- expedition lineup: every player picks their own hero + belt --------
+	var lineup_begin := func(_sender: int, args: Dictionary) -> Dictionary:
+		DungeonManager.lineup_pending = {"world_id": String(args.get("world_id", "")),
+			"slice": bool(args.get("slice", false)), "picks": {}}
+		Net.broadcast_scene_event("lineup_open", {
+			"world_id": String(args.get("world_id", "")),
+			"slice": bool(args.get("slice", false))})
+		return {"ok": true}
+	reg["lineup.begin"] = {"run": lineup_begin, "syncs": []}
+
+	var lineup_set := func(sender: int, args: Dictionary) -> Dictionary:
+		var lp: Dictionary = DungeonManager.lineup_pending
+		if lp.is_empty():
+			return {"ok": false}
+		(lp["picks"] as Dictionary)[sender] = {
+			"hero_id": String(args.get("hero_id", "")),
+			"consumables": args.get("consumables", [])}
+		var needed: int = PartyState.connected_indexes().size()
+		if (lp["picks"] as Dictionary).size() >= needed:
+			var err: String = GatesPanel.depart_party(String(lp.get("world_id", "")),
+				bool(lp.get("slice", false)), lp["picks"])
+			if err != "":
+				(lp["picks"] as Dictionary).clear()
+				Net.broadcast_scene_event("lineup_failed", {"reason": err})
+			else:
+				DungeonManager.lineup_pending = {}
+		else:
+			Net.broadcast_scene_event("lineup_progress",
+				{"count": (lp["picks"] as Dictionary).size(), "needed": needed})
+		return {"ok": true}
+	reg["lineup.set"] = {"run": lineup_set, "syncs": []}
+
+	var lineup_cancel := func(_sender: int, _args: Dictionary) -> Dictionary:
+		DungeonManager.lineup_pending = {}
+		Net.broadcast_scene_event("lineup_cancelled", {})
+		return {"ok": true}
+	reg["lineup.cancel"] = {"run": lineup_cancel, "syncs": []}
+
+	var bridge_pay_repair := func(_sender: int, args: Dictionary) -> Dictionary:
+		var ok: bool = BridgeManager.pay_repair(String(args.get("world_id", "")))
+		if ok:
+			AudioManager.play_stinger("victory_stinger")
+			SaveManager.checkpoint_chapter()
+		return {"ok": ok}
+	reg["bridge.pay_repair"] = {"run": bridge_pay_repair,
+		"syncs": ["bridge", "economy", "time", "game_state"]}
+
 	var menu_release := func(sender: int, args: Dictionary) -> Dictionary:
 		var key := String(args.get("key", ""))
 		var claim: Dictionary = Net.menu_claims.get(key, {})

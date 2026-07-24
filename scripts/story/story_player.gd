@@ -18,7 +18,9 @@ var scene_data: Dictionary = {}
 
 func _ready() -> void:
 	var failure := bool(SceneRouter.context.get("failure", false))
-	if failure:
+	# online clients mirror the host's story queue — firing events or routing
+	# out are host-only; a client just reads along and follows the host's exit
+	if failure and Net.is_authority():
 		StoryEventManager.fire("chapter_failed", {})
 	scene_data = StoryEventManager.pop_next()
 	if scene_data.is_empty():
@@ -163,6 +165,12 @@ func _scene_done() -> void:
 
 
 func _route_out() -> void:
+	# online clients don't drive story progression — they've read to the end
+	# and now wait for the host's scene change to carry the party onward
+	if Net.is_client():
+		if continue_hint != null:
+			continue_hint.text = "Waiting for %s..." % PartyState.pname(1)
+		return
 	var dest := String(SceneRouter.context.get("return_to", "town"))
 	if String(scene_data.get("trigger", {}).get("type", "")) == "boss_defeated" and int(scene_data.get("trigger", {}).get("chapter", 0)) == 8:
 		StoryEventManager.fire("ending")
