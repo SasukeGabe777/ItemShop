@@ -76,6 +76,16 @@ static func build() -> Dictionary:
 		return {"ok": true}
 	reg["menu.claim"] = {"run": menu_claim, "syncs": []}
 
+	# Any party member can pull everyone out of an expedition (matches the
+	# couch behavior where either pad can retreat).
+	var dungeon_retreat := func(_sender: int, _args: Dictionary) -> Dictionary:
+		var d: Node = Net.get_tree().get_first_node_in_group("dungeon_runtime")
+		if d == null:
+			return {"ok": false}
+		d._finish(false, false)
+		return {"ok": true}
+	reg["dungeon.retreat"] = {"run": dungeon_retreat, "syncs": []}
+
 	var menu_release := func(sender: int, args: Dictionary) -> Dictionary:
 		var key := String(args.get("key", ""))
 		var claim: Dictionary = Net.menu_claims.get(key, {})

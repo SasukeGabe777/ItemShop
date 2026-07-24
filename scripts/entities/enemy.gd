@@ -328,6 +328,19 @@ func _shoot(direction: Vector2) -> void:
 	var style: Dictionary = SHOT_STYLES[hash(enemy_id) % SHOT_STYLES.size()]
 	var row := EffectFlipbook.dir8(direction) if bool(style["dir"]) else 0
 	p.set_art(String(style["sheet"]), int(style["h"]), int(style["v"]), row, float(style["fps"]))
+	# online: clients get a cosmetic copy (walls-only) — the REAL projectile
+	# lives here on the host and hits hero puppets, which forward the damage
+	if Net.is_host():
+		var eid := Replica.host_register(p, "eproj", {
+			"pos": [p.global_position.x, p.global_position.y],
+			"dir": [direction.normalized().x, direction.normalized().y],
+			"color": Color(String(def.get("color", "#ffffff"))).lightened(0.3).to_html(false),
+			"sheet": String(style["sheet"]), "h": int(style["h"]), "v": int(style["v"]),
+			"row": row, "fps": float(style["fps"]),
+		})
+		p.tree_exiting.connect(func() -> void:
+			if Net.is_host():
+				Replica.host_despawn(eid, "gone", {}))
 
 
 func _explode() -> void:

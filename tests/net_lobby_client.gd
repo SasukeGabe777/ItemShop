@@ -17,7 +17,7 @@ class Worker:
 			waited += 0.1
 		if Net.my_index > 0:
 			Net.request("lobby.set_ready", {"ready": true})
-		await get_tree().create_timer(12.0).timeout
+		await get_tree().create_timer(20.0).timeout
 		get_tree().quit(0)
 
 

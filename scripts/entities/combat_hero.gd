@@ -57,6 +57,56 @@ func take_packet(packet: Dictionary, from_position: Vector2) -> void:
 	hurtbox.receive(packet, from_position)
 
 
+## Owner-side: announce a combat action so other machines can replay its look.
+func _net_action(action: String, extra: Dictionary = {}) -> void:
+	if not Net.is_online() or is_puppet or player_index == 0:
+		return
+	var payload := extra.duplicate()
+	payload["a"] = action
+	payload["f"] = [facing.x, facing.y]
+	Replica.send_player_event("action", payload)
+
+
+## Puppet-side: replay the LOOK of a remote action. Damage never happens here
+## — the owner's machine detected the hits and forwarded them already.
+func puppet_replay(args: Dictionary) -> void:
+	var f: Array = args.get("f", [0, 1])
+	facing = Vector2(float(f[0]), float(f[1]))
+	var color := Color(String(hero_def.get("color", "#ffffff")))
+	match String(args.get("a", "")):
+		"basic":
+			var idx := int(args.get("idx", 0))
+			visual.play_action("attack_%d" % (idx + 1), facing)
+			AudioManager.play_sfx("attack_enemy_1" if idx % 2 == 0 else "attack_enemy_2", -8.0)
+			if String(hero_def.get("weapon_type", "")) != "martial":
+				FX.attack_trail(get_parent(), global_position + facing.rotated(-0.7) * 16.0,
+					global_position + facing.rotated(0.7) * 16.0, color)
+		"ranged":
+			var p := Projectile.new()
+			p.setup({"damage": 0}, facing, float(args.get("speed", 300.0)), color, 0)
+			p.global_position = global_position + facing * 12.0 + Vector2(0, -8)
+			get_parent().add_child(p)
+			FX.burst(get_parent(), p.global_position, color.lightened(0.3), 3)
+		"special":
+			visual.play_action("special", facing)
+			FX.burst(get_parent(), global_position, color, 18)
+		"dodge":
+			var kind := String(combat_def().get("dodge", {}).get("kind", "roll"))
+			visual.play_action("fly" if kind == "fly" else "roll", facing)
+			if kind == "vanish":
+				visual.modulate.a = 0.25
+				get_tree().create_timer(0.2).timeout.connect(func() -> void:
+					if is_instance_valid(visual):
+						visual.modulate.a = 1.0)
+			else:
+				FX.flash(visual.body_node(), Color(0.8, 0.8, 1.0))
+		"item":
+			FX.burst(get_parent(), global_position, Color(0.5, 1.0, 0.6), 8)
+		"finisher":
+			FX.burst(get_parent(), global_position, color, 30)
+			FX.shake(3.0)
+
+
 ## Applies streamed HP to a puppet without re-running damage logic.
 func mirror_health(new_hp: int) -> void:
 	health.hp = clampi(new_hp, 0, health.max_hp)
@@ -219,6 +269,7 @@ func _do_basic_attack() -> void:
 	combo_reset_at = Time.get_ticks_msec() / 1000.0 + 0.9
 	# lock matches the 3-frame swing at 10fps so every animation plays out
 	attack_lock = 0.3 if idx < hits - 1 else 0.42
+	_net_action("basic", {"idx": idx})
 	visual.play_action("attack_%d" % (idx + 1), facing)
 	AudioManager.play_sfx("attack_enemy_1" if idx % 2 == 0 else "attack_enemy_2", -5.0)
 	set_meta("swings", int(get_meta("swings", 0)) + 1)
@@ -241,6 +292,7 @@ func _do_basic_attack() -> void:
 func _do_ranged_attack(basic: Dictionary) -> void:
 	fire_cooldown = float(basic.get("fire_rate", 0.34))
 	var aim := _aim_direction()
+	_net_action("ranged", {"speed": float(basic.get("speed", 300.0))})
 	set_meta("shots", int(get_meta("shots", 0)) + 1)
 	AudioManager.play_sfx("attack_enemy_1" if int(get_meta("shots", 0)) % 2 == 0 else "attack_enemy_2", -10.0)
 	var shots := maxi(1, int(basic.get("shots", 1)))
@@ -304,6 +356,7 @@ func _do_special() -> void:
 	meter_changed.emit(meter)
 	special_cooldown = 0.6
 	attack_lock = 0.3
+	_net_action("special")
 	# real special-move frames when the manifest has them (no-op otherwise)
 	visual.play_action("special", facing)
 	var kind := String(sp.get("kind", "burst"))
@@ -402,6 +455,7 @@ func _do_dodge(pressed: bool) -> void:
 	# playtest 2026-07-22 round 2: 0.3s breather after the dash ends, so
 	# dodges can't be chained into permanent i-frame skating
 	dodge_cooldown = dash_time + 0.3
+	_net_action("dodge")
 	movement.dash(facing, float(dodge.get("distance", 70)), dash_time)
 	health.grant_iframes(float(dodge.get("iframes", 0.35)))
 	# real roll/fly frames when the manifest has them (play_action no-ops otherwise)
@@ -424,6 +478,7 @@ func _do_dodge(pressed: bool) -> void:
 func _use_consumable() -> void:
 	if consumables.is_empty():
 		return
+	_net_action("item")
 	var id := String(consumables.pop_front())
 	var fx: Dictionary = ContentDatabase.get_item(id).get("effect", {})
 	if fx.has("heal"):
@@ -468,6 +523,7 @@ func _do_finisher() -> void:
 		return
 	meter = 0.0
 	meter_changed.emit(meter)
+	_net_action("finisher")
 	var fin: Dictionary = combat_def().get("finisher", {})
 	var color := Color(String(hero_def.get("color", "#ffffff")))
 	attack_lock = 0.5

@@ -213,6 +213,7 @@ func _setup_net_dungeon() -> void:
 	Replica.register_factory("boss", _net_spawn_boss)
 	Replica.register_factory("chest", _net_spawn_chest)
 	Replica.register_factory("loot", _net_spawn_loot)
+	Replica.register_factory("eproj", _net_spawn_eproj)
 	Replica.entity_event.connect(_on_net_entity_event)
 	Replica.entity_despawned.connect(_on_net_entity_despawned)
 	Replica.remote_player_event.connect(_on_net_player_event)
@@ -224,17 +225,24 @@ func _setup_net_dungeon() -> void:
 		var entry := _party_entry(idx)
 		var hid := String(entry.get("hero_id",
 			DungeonManager.pending.get("hero_id", "sora")))
-		var pup := CombatHero.new()
-		add_child(pup)
-		pup.setup(hid, [])
-		pup.make_puppet(idx)
-		pup.modulate = PartyState.tint(idx)
-		var pup_label := UIKit.floating_name(pup, pup.visual, PartyState.pname(idx),
-			4.0, 12, PartyState.color(idx))
-		pup_label.name = "PlayerIdentityLabel"
-		pup.global_position = hero.global_position + Vector2(16 * idx, 0)
-		Replica.register_player_puppet(idx, pup)
-		_net_hero_puppets[idx] = pup
+		_make_hero_puppet(idx, hid, hero.global_position + Vector2(16 * idx, 0))
+
+
+func _make_hero_puppet(idx: int, hid: String, at: Vector2) -> void:
+	var old: Variant = _net_hero_puppets.get(idx)
+	var pup := CombatHero.new()
+	add_child(pup)
+	pup.setup(hid, [])
+	pup.make_puppet(idx)
+	pup.modulate = PartyState.tint(idx)
+	var pup_label := UIKit.floating_name(pup, pup.visual, PartyState.pname(idx),
+		4.0, 12, PartyState.color(idx))
+	pup_label.name = "PlayerIdentityLabel"
+	pup.global_position = at
+	Replica.register_player_puppet(idx, pup)
+	_net_hero_puppets[idx] = pup
+	if old != null and is_instance_valid(old):
+		(old as Node).queue_free()
 
 
 func _net_spawn_enemy(args: Dictionary) -> Node:
@@ -284,6 +292,22 @@ func _net_spawn_loot(args: Dictionary) -> Node:
 	return pickup
 
 
+## Cosmetic enemy bullet: the real one flies on the host; this copy hits
+## nothing (its damage is forwarded through the hero puppet path instead).
+func _net_spawn_eproj(args: Dictionary) -> Node:
+	var p := Projectile.new()
+	var dir := _args_pos(args, "dir")
+	p.setup({"damage": 0}, dir, 150.0, Color(String(args.get("color", "ffffff"))), 0)
+	p.set_physics_process(false)  # the state stream drives it
+	room_root.add_child(p)
+	p.global_position = _args_pos(args)
+	var sheet := String(args.get("sheet", ""))
+	if sheet != "":
+		p.set_art(sheet, int(args.get("h", 1)), int(args.get("v", 1)),
+			int(args.get("row", 0)), float(args.get("fps", 12)))
+	return p
+
+
 static func _args_pos(args: Dictionary, key: String = "pos") -> Vector2:
 	var p: Array = args.get(key, [0, 0])
 	return Vector2(float(p[0]), float(p[1]))
@@ -315,13 +339,21 @@ func _on_net_entity_despawned(_eid: int, reason: String, args: Dictionary) -> vo
 
 
 func _on_net_player_event(idx: int, event_name: String, args: Dictionary) -> void:
-	if event_name != "hp":
-		return
 	var pup: Variant = _net_hero_puppets.get(idx)
-	if pup != null and is_instance_valid(pup):
-		(pup as CombatHero).mirror_health(int(args.get("hp", 0)))
-	if int(args.get("hp", 0)) <= 0:
-		_on_hero_defeated()
+	var puppet: CombatHero = pup if pup != null and is_instance_valid(pup) else null
+	match event_name:
+		"hp":
+			if puppet != null:
+				puppet.mirror_health(int(args.get("hp", 0)))
+			if int(args.get("hp", 0)) <= 0:
+				_on_hero_defeated()
+		"action":
+			if puppet != null:
+				puppet.puppet_replay(args)
+		"hero_change":
+			# setup() only works on a fresh node — rebuild the puppet
+			var at := puppet.global_position if puppet != null else hero.global_position
+			_make_hero_puppet(idx, String(args.get("hero_id", "")), at)
 
 
 func _on_net_scene_event(event_name: String, args: Dictionary) -> void:
@@ -669,9 +701,12 @@ func _enter_room(idx: int) -> void:
 			(pup as Node2D).global_position = _cell_center(
 				_free_cell(pcell + Vector2i(slot, 0), template))
 			slot += 1
+	# hero switch pads are local interactions — every machine builds its own
+	var kind := String(entry["kind"])
+	if not switch_available.is_empty() and kind != "boss":
+		_spawn_switch_pad(_cell_center(_free_cell(Vector2i(1, 1), template)))
 	# chests / enemies / bosses: the host simulates them; clients receive
 	# replicated puppets through their Replica factories instead
-	var kind := String(entry["kind"])
 	if not Net.is_authority():
 		return
 	for ch in template.get("chests", []):
@@ -713,9 +748,6 @@ func _enter_room(idx: int) -> void:
 					"pos": [e.global_position.x, e.global_position.y]})
 		if enemies.is_empty():
 			_on_room_cleared(false)
-	# hero switch pads in final dungeon rooms
-	if not switch_available.is_empty() and kind != "boss":
-		_spawn_switch_pad(_cell_center(_free_cell(Vector2i(1, 1), template)))
 
 
 func _cell_center(c: Vector2i) -> Vector2:
@@ -935,10 +967,15 @@ func _open_pause_menu() -> void:
 	pause_layer.process_mode = Net.pause_layer_mode()
 	var vb: VBoxContainer = parts[1]
 	vb.add_child(UIKit.label("Retreating keeps your loot; the shard stays unreached.", 9, UIKit.COL_DIM))
+	if Net.is_online():
+		vb.add_child(UIKit.label("Retreating pulls the WHOLE party out.", 9, UIKit.COL_DIM))
 	vb.add_child(UIKit.button("Retreat to the Crossroads", func() -> void:
 		Net.request_tree_pause(false)
 		pause_layer.queue_free()
-		_finish(false, false)))
+		if Net.is_client():
+			Net.request("dungeon.retreat")
+		else:
+			_finish(false, false)))
 	vb.add_child(UIKit.button("Keep exploring", func() -> void:
 		Net.request_tree_pause(false)
 		pause_layer.queue_free()))
@@ -958,7 +995,8 @@ func _open_switch_menu() -> void:
 			Net.request_tree_pause(false)
 			switch_layer.queue_free()
 			DungeonManager.pending["hero_id"] = hid
-			_spawn_hero(hid)))
+			_spawn_hero(hid)
+			Replica.send_player_event("hero_change", {"hero_id": hid})))
 	vb.add_child(UIKit.button("Cancel", func() -> void:
 		Net.request_tree_pause(false)
 		switch_layer.queue_free()))
