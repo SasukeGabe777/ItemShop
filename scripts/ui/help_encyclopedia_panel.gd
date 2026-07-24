@@ -155,9 +155,11 @@ func show_encyclopedia() -> void:
 	_clear(right)
 	left.add_child(UIKit.button("‹ Contents", show_home))
 	left.add_child(UIKit.header("ADMIN SPRITE REVIEW" if GameState.admin_mode else "Encyclopedia"))
-	for category in ["Items", "Enemies", "Bosses", "Heroes", "Customers"]:
+	for category in ContentDatabase.encyclopedia_categories():
 		var entries := _entries(category)
-		left.add_child(UIKit.button("%s  (%d)" % [category, entries.size()],
+		var discovered := entries.size() if GameState.admin_mode else _discovered_count(category, entries)
+		left.add_child(UIKit.button("%s  (%d)" % [category, entries.size()] if GameState.admin_mode
+			else "%s  (%d/%d)" % [category, discovered, entries.size()],
 			func() -> void: open_category(category)))
 	right.add_child(UIKit.header("Choose a category"))
 	var body_text := "Open a category to see full sprite previews and names. Select any entry for its complete encyclopedia page."
@@ -167,7 +169,7 @@ func show_encyclopedia() -> void:
 	body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	body.custom_minimum_size.x = 205
 	right.add_child(body)
-	var note := UIKit.label("Items are recorded when handled. Creatures, heroes, and customers are catalogued from worlds you can currently reach.", 9, UIKit.COL_DIM)
+	var note := UIKit.label("Every registered entry appears here. Undiscovered records stay locked until you handle the item, meet the character, or reach its world.", 9, UIKit.COL_DIM)
 	note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	note.custom_minimum_size.x = 205
 	right.add_child(note)
@@ -191,6 +193,12 @@ func open_category(category: String) -> void:
 	grid.add_theme_constant_override("v_separation", 3)
 	(list_parts[1] as VBoxContainer).add_child(grid)
 	var entries := _entries(category)
+	entries.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
+		var a_discovered := _entry_is_discovered(category, a)
+		var b_discovered := _entry_is_discovered(category, b)
+		if a_discovered != b_discovered:
+			return a_discovered
+		return String(a["name"]).nocasecmp_to(String(b["name"])) < 0)
 	if entries.is_empty():
 		grid.columns = 1
 		grid.add_child(UIKit.label("No entries recorded yet.", 9, UIKit.COL_DIM))
@@ -199,6 +207,7 @@ func open_category(category: String) -> void:
 			var row := HBoxContainer.new()
 			row.custom_minimum_size = Vector2(190 if GameState.admin_mode else 150, 40)
 			var entry_id := String(entry["id"])
+			var discovered := _entry_is_discovered(category, entry)
 			if GameState.admin_mode:
 				var review_check := _review_checkbox(category, entry_id, "")
 				review_check.tooltip_text = "Flag %s for sprite correction" % String(entry["name"])
@@ -210,9 +219,14 @@ func open_category(category: String) -> void:
 				portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 				portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 				portrait.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+			if not discovered:
+				portrait.modulate = Color(0.10, 0.11, 0.15, 0.52)
+				portrait.tooltip_text = _locked_reason(category, entry)
 			row.add_child(portrait)
-			var button := UIKit.button(String(entry["name"]),
+			var button := UIKit.button(String(entry["name"]) if discovered else "Undiscovered",
 				func() -> void: show_entry(category, entry), 8)
+			if not discovered:
+				button.tooltip_text = _locked_reason(category, entry)
 			if GameState.admin_mode:
 				button.flat = true
 				button.clip_text = true
@@ -223,15 +237,25 @@ func open_category(category: String) -> void:
 			row.add_child(button)
 			grid.add_child(row)
 	right.add_child(UIKit.header("%s entries" % category))
-	right.add_child(UIKit.label("Select a portrait on the left page.", 9, UIKit.COL_DIM))
+	right.add_child(UIKit.label("%d of %d discovered. Select a portrait on the left page." % [
+		_discovered_count(category, entries), entries.size()], 9, UIKit.COL_DIM))
 	if not entries.is_empty():
 		show_entry(category, entries[0])
 
 
 func show_entry(category: String, entry: Dictionary) -> void:
 	_clear(right)
-	right.add_child(UIKit.header(String(entry["name"])))
-	_add_preview(right, _entry_texture(category, entry), String(entry["name"]))
+	var discovered := _entry_is_discovered(category, entry)
+	var entry_name := String(entry["name"]) if discovered else "Undiscovered"
+	right.add_child(UIKit.header(entry_name))
+	var preview := _add_preview(right, _entry_texture(category, entry), entry_name)
+	if not discovered:
+		preview.modulate = Color(0.10, 0.11, 0.15, 0.52)
+		var locked := UIKit.label(_locked_reason(category, entry), 10, UIKit.COL_DIM)
+		locked.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		locked.custom_minimum_size.x = 205
+		right.add_child(locked)
+		return
 	if GameState.admin_mode:
 		right.add_child(_review_checkbox(category, String(entry["id"]), "Flag this sprite for correction"))
 		_add_admin_export_controls(right)
@@ -264,11 +288,14 @@ func show_entry(category: String, entry: Dictionary) -> void:
 			lines.append("Weapon: %s" % String(data.get("weapon_type", "unknown")).replace("_", " ").capitalize())
 			lines.append("Bond Lv.%d" % RelationshipManager.friendship_level(String(entry["id"])))
 			lines.append(String(data.get("bio", "No biography recorded.")))
+		"NPCs":
+			lines.append(String(data.get("bio", "No biography recorded.")))
 		"Customers":
-			var customer_id := _customer_relationship_id(data)
-			var archetype_id := CustomerGen._identity_archetype(data)
+			var customer_id := _customer_relationship_id(entry)
+			var authored: Dictionary = entry.get("authored_data", data)
+			var archetype_id := String(authored.get("archetype", CustomerGen._identity_archetype(data)))
 			var archetype := ContentDatabase.get_archetype(archetype_id)
-			var known := customer_id in GameState.known_customers
+			var known := _entry_is_discovered(category, entry)
 			lines.append("Status: %s" % ("Met" if known else "Not met yet"))
 			lines.append("Customer type: %s" % String(archetype.get("name", archetype_id.capitalize())))
 			lines.append("Bond Lv.%d  (%d points)" % [RelationshipManager.level(customer_id),
@@ -281,43 +308,56 @@ func show_entry(category: String, entry: Dictionary) -> void:
 
 
 func _entries(category: String) -> Array[Dictionary]:
-	var out: Array[Dictionary] = []
-	var accessible := BridgeManager.accessible_worlds()
+	return ContentDatabase.encyclopedia_catalog(category)
+
+
+func _discovered_count(category: String, entries: Array[Dictionary]) -> int:
+	var count := 0
+	for entry: Dictionary in entries:
+		if _entry_is_discovered(category, entry):
+			count += 1
+	return count
+
+
+func _entry_is_discovered(category: String, entry: Dictionary) -> bool:
+	if GameState.admin_mode:
+		return true
+	var id := String(entry.get("id", ""))
 	match category:
 		"Items":
-			var item_ids: Array = ContentDatabase.live_items if GameState.admin_mode else GameState.encyclopedia
-			for item_id in item_ids:
-				var id := String(item_id)
-				var data := ContentDatabase.get_item(id)
-				if not data.is_empty() and ContentDatabase.is_live_item(id):
-					out.append({"id": id, "name": ContentDatabase.item_name(id), "data": data})
-		"Enemies":
-			for id: String in ContentDatabase.enemies:
-				var data: Dictionary = ContentDatabase.enemies[id]
-				if GameState.admin_mode or String(data.get("world", "")) in accessible:
-					out.append({"id": id, "name": String(data.get("name", id)), "data": data})
-		"Bosses":
-			for id: String in ContentDatabase.bosses:
-				var data: Dictionary = ContentDatabase.bosses[id]
-				if GameState.admin_mode or String(data.get("world", "")) in accessible:
-					out.append({"id": id, "name": String(data.get("name", id)), "data": data})
+			return id in GameState.encyclopedia
 		"Heroes":
-			for id: String in ContentDatabase.heroes:
-				var data: Dictionary = ContentDatabase.heroes[id]
-				if GameState.admin_mode or String(data.get("world", "")) in accessible:
-					out.append({"id": id, "name": String(data.get("name", id)), "data": data})
+			return id in GameState.met_heroes
 		"Customers":
-			var seen: Dictionary = {}
-			for raw: Variant in ContentDatabase.customer_visual_pool:
-				var data: Dictionary = raw
-				var identity := CustomerGen._entry_identity(data)
-				if (GameState.admin_mode or String(data.get("world", "")) in accessible) and not seen.has(identity):
-					seen[identity] = true
-					out.append({"id": String(data.get("slug", identity)),
-						"name": String(data.get("name", data.get("slug", "Customer"))), "data": data})
-	out.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
-		return String(a["name"]) < String(b["name"]))
-	return out
+			for discovery_id: Variant in entry.get("discovery_ids", []):
+				if String(discovery_id) in GameState.known_customers:
+					return true
+			return false
+		"Enemies", "Bosses", "NPCs":
+			return _world_is_reached(String((entry.get("data", {}) as Dictionary).get("world", "")))
+	return true
+
+
+func _world_is_reached(world_id: String) -> bool:
+	if world_id == "" or not ContentDatabase.worlds.has(world_id):
+		return true
+	return world_id in BridgeManager.accessible_worlds()
+
+
+func _locked_reason(category: String, entry: Dictionary) -> String:
+	match category:
+		"Items":
+			return "Handle this item to record its name and details."
+		"Heroes":
+			return "Meet this hero to record their name and biography."
+		"Customers":
+			return "Serve this character to record their name and bond."
+	var data: Dictionary = entry.get("data", {})
+	var world_id := String(data.get("world", ""))
+	var world := ContentDatabase.get_world(world_id)
+	if not world.is_empty():
+		return "Reach %s to record this entry." % String(world.get("name", world_id))
+	return "Encounter this entry to reveal its details."
 
 
 func _review_checkbox(category: String, entry_id: String, text: String) -> CheckBox:
@@ -376,11 +416,11 @@ func _add_admin_export_controls(page: VBoxContainer) -> void:
 func _export_admin_review() -> void:
 	var groups := {"Items": [], "Characters": [], "Enemies": []}
 	var category_groups := {
-		"Items": "Items", "Heroes": "Characters", "Customers": "Characters",
+		"Items": "Items", "Heroes": "Characters", "NPCs": "Characters", "Customers": "Characters",
 		"Enemies": "Enemies", "Bosses": "Enemies",
 	}
 	var category_labels := {
-		"Items": "Item", "Heroes": "Hero", "Customers": "Customer",
+		"Items": "Item", "Heroes": "Hero", "NPCs": "NPC", "Customers": "Customer",
 		"Enemies": "Enemy", "Bosses": "Boss",
 	}
 	for category: String in category_groups:
@@ -442,10 +482,21 @@ func _entry_asset_reference(category: String, entry: Dictionary) -> String:
 		return "res://assets/franchises/%s/processed/items/%s.png" % [world, id]
 	if category == "Customers":
 		var customer_manifest := String(data.get("manifest", ""))
-		return customer_manifest if customer_manifest != "" else String(data.get("static", ""))
+		if customer_manifest != "":
+			return customer_manifest
+		var customer_static := String(data.get("static", ""))
+		if customer_static != "":
+			return customer_static
+		var visual_entity: Dictionary = entry.get("visual_entity", {})
+		if not visual_entity.is_empty():
+			return _entry_asset_reference(String(visual_entity.get("category", "NPCs")),
+				{"id": visual_entity.get("id", ""), "data": visual_entity.get("data", {})})
+		return ""
 	var manifest := "res://assets/franchises/%s/manifests/%s.json" % [world, id]
 	if ResourceLoader.exists(manifest):
 		return manifest
+	if category == "NPCs":
+		return "res://assets/franchises/%s/processed/%s.png" % [world, id]
 	var folder := "bosses" if category == "Bosses" else "enemies"
 	return "res://assets/franchises/%s/processed/%s/%s.png" % [world, folder, id]
 
@@ -467,6 +518,10 @@ func _entry_texture(category: String, entry: Dictionary) -> Texture2D:
 		var static_path := String(data.get("static", ""))
 		if static_path != "" and ResourceLoader.exists(static_path):
 			return load(static_path)
+		var visual_entity: Dictionary = entry.get("visual_entity", {})
+		if not visual_entity.is_empty():
+			return _entry_texture(String(visual_entity.get("category", "NPCs")),
+				{"id": visual_entity.get("id", ""), "data": visual_entity.get("data", {})})
 	var world := String(data.get("world", "crossroads"))
 	var frames := SpriteFramesBuilder.from_manifest_path(
 		"res://assets/franchises/%s/manifests/%s.json" % [world, id])
@@ -485,16 +540,13 @@ func _entry_texture(category: String, entry: Dictionary) -> Texture2D:
 
 
 func _customer_relationship_id(entry: Dictionary) -> String:
-	var identity := CustomerGen._entry_identity(entry)
-	for named_id: String in ContentDatabase.named_customers:
-		var named: Dictionary = ContentDatabase.named_customers[named_id]
-		var visual := ContentDatabase.customer_pool_entry_by_name(String(named.get("name", "")))
-		if not visual.is_empty() and CustomerGen._entry_identity(visual) == identity:
-			return named_id
-	return "walkin_%s" % String(entry.get("slug", "customer"))
+	if entry.has("relationship_id"):
+		return String(entry["relationship_id"])
+	var data: Dictionary = entry.get("data", entry)
+	return "walkin_%s" % String(data.get("slug", "customer"))
 
 
-func _add_preview(page: VBoxContainer, texture: Texture2D, caption: String) -> void:
+func _add_preview(page: VBoxContainer, texture: Texture2D, caption: String) -> TextureRect:
 	var preview := TextureRect.new()
 	preview.texture = texture
 	preview.custom_minimum_size = Vector2(205, 82)
@@ -503,6 +555,7 @@ func _add_preview(page: VBoxContainer, texture: Texture2D, caption: String) -> v
 	preview.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	preview.tooltip_text = caption
 	page.add_child(preview)
+	return preview
 
 
 func _dictionary_text(values: Dictionary) -> String:

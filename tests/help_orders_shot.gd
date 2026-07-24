@@ -67,17 +67,26 @@ func _ready() -> void:
 	handbook.open_category("Items")
 	await get_tree().create_timer(0.25).timeout
 	_snap("06_item_sprite_browser_and_entry.png")
+	for item_entry: Dictionary in handbook._entries("Items"):
+		if String(item_entry.get("id", "")) == "world_shard_rotmg":
+			handbook.show_entry("Items", item_entry)
+			break
+	await get_tree().create_timer(0.25).timeout
+	_snap("07_locked_undiscovered_item.png")
 	handbook.open_category("Enemies")
 	await get_tree().create_timer(0.25).timeout
-	_snap("07_enemy_sprite_browser_and_entry.png")
+	_snap("08_enemy_sprite_browser_and_entry.png")
+	handbook.open_category("NPCs")
+	await get_tree().create_timer(0.25).timeout
+	_snap("09_dynamic_npc_entries.png")
 	var customer_entries: Array[Dictionary] = handbook._entries("Customers")
 	if not customer_entries.is_empty():
-		var customer_id := handbook._customer_relationship_id(customer_entries[0]["data"])
+		var customer_id := handbook._customer_relationship_id(customer_entries[0])
 		GameState.know_customer(customer_id)
 		RelationshipManager.change_relationship(customer_id, 13)
 	handbook.open_category("Customers")
 	await get_tree().create_timer(0.25).timeout
-	_snap("08_customer_sprite_browser_and_bond_entry.png")
+	_snap("10_customer_sprite_browser_and_bond_entry.png")
 	print("HELP_ORDERS_SHOT_DONE folder=", ProjectSettings.globalize_path(SHOT_DIR))
 	get_tree().quit()
 

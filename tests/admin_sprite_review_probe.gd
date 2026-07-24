@@ -19,12 +19,20 @@ func _ready() -> void:
 	panel.show_encyclopedia()
 	var items := panel._entries("Items")
 	var enemies := panel._entries("Enemies")
+	var heroes := panel._entries("Heroes")
+	var npcs := panel._entries("NPCs")
 	var customers := panel._entries("Customers")
-	_check(items.size() == ContentDatabase.live_items.size(),
-		"admin item checklist does not reveal the full live catalog")
+	_check(items.size() == ContentDatabase.items.size(),
+		"admin item checklist is not generated from the complete item data pack")
 	_check(enemies.size() == ContentDatabase.enemies.size(),
 		"admin enemy checklist is still filtered by campaign access")
+	_check(heroes.size() == ContentDatabase.heroes.size(),
+		"admin hero checklist is not generated from the complete hero data pack")
+	_check(npcs.size() == ContentDatabase.npcs.size(),
+		"admin NPC checklist is not generated from the complete NPC data pack")
 	_check(not customers.is_empty(), "admin character checklist has no customer visuals")
+	_check(_has_entry(customers, "sora_c"),
+		"authored customer without pool art is missing from the admin checklist")
 	if items.is_empty() or enemies.is_empty() or customers.is_empty():
 		_finish(panel)
 		return
@@ -65,3 +73,10 @@ func _finish(panel: Node) -> void:
 func _check(condition: bool, message: String) -> void:
 	if not condition:
 		failures.append(message)
+
+
+func _has_entry(entries: Array[Dictionary], entry_id: String) -> bool:
+	for entry: Dictionary in entries:
+		if String(entry.get("id", "")) == entry_id:
+			return true
+	return false

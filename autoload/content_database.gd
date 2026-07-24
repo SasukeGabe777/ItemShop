@@ -32,6 +32,8 @@ var _live_sub_cache: Dictionary = {}
 
 var load_errors: Array[String] = []
 
+const ENCYCLOPEDIA_CATEGORIES := ["Items", "Enemies", "Bosses", "Heroes", "NPCs", "Customers"]
+
 
 func _ready() -> void:
 	reload_all()
@@ -226,6 +228,115 @@ func get_archetype(id: String) -> Dictionary:
 
 func get_named_customer(id: String) -> Dictionary:
 	return named_customers.get(id, {})
+
+
+## Complete, data-driven encyclopedia registry. Discovery and campaign access
+## are deliberately handled by the UI so adding content never requires
+## editing a second hardcoded list here or in the handbook.
+func encyclopedia_categories() -> Array[String]:
+	var out: Array[String] = []
+	out.assign(ENCYCLOPEDIA_CATEGORIES)
+	return out
+
+
+func encyclopedia_catalog(category: String) -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	match category:
+		"Items":
+			for id: String in items:
+				var data: Dictionary = items[id]
+				out.append({"id": id, "name": String(data.get("name", id)), "data": data})
+		"Enemies":
+			for id: String in enemies:
+				var data: Dictionary = enemies[id]
+				out.append({"id": id, "name": String(data.get("name", id)), "data": data})
+		"Bosses":
+			for id: String in bosses:
+				var data: Dictionary = bosses[id]
+				out.append({"id": id, "name": String(data.get("name", id)), "data": data})
+		"Heroes":
+			for id: String in heroes:
+				var data: Dictionary = heroes[id]
+				out.append({"id": id, "name": String(data.get("name", id)), "data": data})
+		"NPCs":
+			for id: String in npcs:
+				var data: Dictionary = npcs[id]
+				out.append({"id": id, "name": String(data.get("name", id)), "data": data})
+		"Customers":
+			out = _encyclopedia_customers()
+	out.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
+		return String(a["name"]).nocasecmp_to(String(b["name"])) < 0)
+	return out
+
+
+func _encyclopedia_customers() -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	var by_visual_identity: Dictionary = {}
+	for raw: Variant in customer_visual_pool:
+		var data: Dictionary = raw
+		var identity := _customer_visual_identity(data)
+		if by_visual_identity.has(identity):
+			continue
+		var slug := String(data.get("slug", "customer"))
+		var entry := {
+			"id": identity,
+			"name": String(data.get("name", slug.capitalize())),
+			"data": data,
+			"relationship_id": "walkin_%s" % slug,
+			"discovery_ids": ["walkin_%s" % slug],
+		}
+		by_visual_identity[identity] = entry
+		out.append(entry)
+
+	# Authored customers and the large visual pool are separate data packs.
+	# Merge matches into one entry, then retain any authored customer that has
+	# no pool art so characters never silently disappear from the encyclopedia.
+	for named_id: String in named_customers:
+		var named: Dictionary = named_customers[named_id]
+		var visual := customer_pool_entry_by_name(String(named.get("name", "")))
+		if not visual.is_empty():
+			var identity := _customer_visual_identity(visual)
+			if by_visual_identity.has(identity):
+				var matched: Dictionary = by_visual_identity[identity]
+				matched["id"] = named_id
+				matched["name"] = String(named.get("name", matched["name"]))
+				matched["relationship_id"] = named_id
+				matched["authored_data"] = named
+				var discovery_ids: Array = matched.get("discovery_ids", [])
+				if named_id not in discovery_ids:
+					discovery_ids.append(named_id)
+				continue
+		var synthetic: Dictionary = named.duplicate(true)
+		synthetic["slug"] = named_id
+		out.append({
+			"id": named_id,
+			"name": String(named.get("name", named_id)),
+			"data": synthetic,
+			"authored_data": named,
+			"relationship_id": named_id,
+			"discovery_ids": [named_id],
+			"visual_entity": _encyclopedia_entity_for_customer(named),
+		})
+	return out
+
+
+func _customer_visual_identity(data: Dictionary) -> String:
+	return "%s:%s" % [String(data.get("world", "")), String(data.get("slug", ""))]
+
+
+func _encyclopedia_entity_for_customer(customer: Dictionary) -> Dictionary:
+	var wanted := _catalog_name_key(String(customer.get("name", "")))
+	for kind in ["Heroes", "NPCs"]:
+		var table: Dictionary = heroes if kind == "Heroes" else npcs
+		for id: String in table:
+			var data: Dictionary = table[id]
+			if _catalog_name_key(String(data.get("name", ""))) == wanted:
+				return {"category": kind, "id": id, "data": data}
+	return {}
+
+
+func _catalog_name_key(value: String) -> String:
+	return value.to_lower().replace(" ", "_").replace(".", "")
 
 
 func get_scene_data(id: String) -> Dictionary:

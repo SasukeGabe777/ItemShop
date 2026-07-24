@@ -139,7 +139,7 @@ func _check_order_lifecycle() -> void:
 
 
 func _check_help_and_encyclopedia() -> void:
-	for item_id in ["kh_potion", "kingdom_key", "lucid_shard", "rupee"]:
+	for item_id in ["kh_potion", "kingdom_key", "lucid_shard", "world_shard_kh", "rupee"]:
 		GameState.learn_item(item_id)
 	var panel := HELP_PANEL_SCRIPT.new()
 	add_child(panel)
@@ -155,24 +155,37 @@ func _check_help_and_encyclopedia() -> void:
 	panel.show_encyclopedia()
 	await get_tree().process_frame
 	var category_text := _all_text(panel)
-	for category in ["Items", "Enemies", "Bosses", "Heroes", "Customers"]:
+	for category in ContentDatabase.encyclopedia_categories():
 		check(category in category_text, "encyclopedia category is missing: %s" % category)
 	panel.open_category("Items")
 	await get_tree().process_frame
 	check("Potion" in _all_text(panel), "item grid does not show recorded names")
 	var entries: Array[Dictionary] = panel._entries("Items")
 	check(not entries.is_empty(), "item encyclopedia has no recorded entries")
-	if not entries.is_empty():
-		panel.show_entry("Items", entries[0])
+	check(entries.size() == ContentDatabase.items.size(),
+		"item encyclopedia is not generated from the complete item data pack")
+	var shard_entry := _entry_by_id(entries, "world_shard_kh")
+	check(not shard_entry.is_empty() and panel._entry_is_discovered("Items", shard_entry),
+		"recorded non-sellable World Shard is hidden from the encyclopedia")
+	var future_entry := _entry_by_id(entries, "world_shard_rotmg")
+	check(not future_entry.is_empty() and not panel._entry_is_discovered("Items", future_entry),
+		"undiscovered future item is absent or incorrectly revealed")
+	if not shard_entry.is_empty():
+		panel.show_entry("Items", shard_entry)
 		await get_tree().process_frame
 		check("Market value" in _all_text(panel), "item detail page lacks encyclopedia data")
+	var npc_entries: Array[Dictionary] = panel._entries("NPCs")
+	check(npc_entries.size() == ContentDatabase.npcs.size(),
+		"NPC encyclopedia is not generated from the NPC data pack")
 	panel.open_category("Customers")
 	await get_tree().process_frame
 	var customer_entries: Array[Dictionary] = panel._entries("Customers")
 	check(not customer_entries.is_empty(), "customer encyclopedia has no accessible entries")
+	check(not _entry_by_id(customer_entries, "sora_c").is_empty(),
+		"authored customer without pool art is missing from the encyclopedia")
 	if not customer_entries.is_empty():
 		var customer_entry := customer_entries[0]
-		var customer_id := panel._customer_relationship_id(customer_entry["data"])
+		var customer_id := panel._customer_relationship_id(customer_entry)
 		GameState.know_customer(customer_id)
 		RelationshipManager.change_relationship(customer_id, 13)
 		panel.show_entry("Customers", customer_entry)
@@ -183,6 +196,13 @@ func _check_help_and_encyclopedia() -> void:
 		check("Status: Met" in customer_text, "customer detail page does not show known status")
 	panel.queue_free()
 	await get_tree().process_frame
+
+
+func _entry_by_id(entries: Array[Dictionary], entry_id: String) -> Dictionary:
+	for entry: Dictionary in entries:
+		if String(entry.get("id", "")) == entry_id:
+			return entry
+	return {}
 
 
 func _all_text(root: Node) -> String:

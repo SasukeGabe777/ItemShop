@@ -571,6 +571,244 @@
   {
    "allowed_categories": [],
    "appeal_modifiers": {
+    "cozy": 2.0,
+    "modern": 1.0
+   },
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "decor": true,
+   "display_slots": [],
+   "flat": false,
+   "furniture_type": "decor",
+   "id": "omori_arched_window",
+   "is_moveable": true,
+   "name": "Arched Window",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    54.0,
+    18.0
+   ],
+   "sprite": "res://assets/shared/furniture/decor/omori_arched_window.png",
+   "unlock_level": 2
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {
+    "cozy": 3.0,
+    "retro": 1.0
+   },
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "decor": true,
+   "display_slots": [],
+   "flat": false,
+   "furniture_type": "decor",
+   "id": "omori_brick_hearth",
+   "is_moveable": true,
+   "name": "Brick Hearth",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    32.0,
+    18.0
+   ],
+   "sprite": "res://assets/shared/furniture/decor/omori_brick_hearth.png",
+   "unlock_level": 2
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {
+    "modern": 2.0
+   },
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "decor": true,
+   "display_slots": [],
+   "flat": false,
+   "furniture_type": "decor",
+   "id": "omori_ceiling_fan",
+   "is_moveable": true,
+   "name": "Ceiling Fan",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    28.0,
+    12.0
+   ],
+   "sprite": "res://assets/shared/furniture/decor/omori_ceiling_fan.png",
+   "unlock_level": 1
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {
+    "intense": 2.0,
+    "retro": 2.0
+   },
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "decor": true,
+   "display_slots": [],
+   "flat": false,
+   "furniture_type": "decor",
+   "id": "omori_haunted_portrait",
+   "is_moveable": true,
+   "name": "Haunted Portrait",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    40.0,
+    14.0
+   ],
+   "sprite": "res://assets/shared/furniture/decor/omori_haunted_portrait.png",
+   "unlock_level": 3
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {
+    "cozy": 2.0,
+    "modern": 1.0
+   },
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "decor": true,
+   "display_slots": [],
+   "flat": false,
+   "furniture_type": "decor",
+   "id": "omori_party_balloons",
+   "is_moveable": true,
+   "name": "Party Balloons",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    12.0,
+    12.0
+   ],
+   "sprite": "res://assets/shared/furniture/decor/omori_party_balloons.png",
+   "unlock_level": 1
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {
+    "cozy": 2.0,
+    "retro": 1.0
+   },
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "decor": true,
+   "display_slots": [],
+   "flat": false,
+   "furniture_type": "decor",
+   "id": "omori_photo_garland",
+   "is_moveable": true,
+   "name": "Photo Garland",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    60.0,
+    12.0
+   ],
+   "sprite": "res://assets/shared/furniture/decor/omori_photo_garland.png",
+   "unlock_level": 1
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {
+    "cozy": 3.0
+   },
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "decor": true,
+   "display_slots": [],
+   "flat": false,
+   "furniture_type": "decor",
+   "id": "omori_rose_sofa",
+   "is_moveable": true,
+   "name": "Rose Sofa",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    60.0,
+    24.0
+   ],
+   "sprite": "res://assets/shared/furniture/decor/omori_rose_sofa.png",
+   "unlock_level": 2
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {
+    "cozy": 1.0,
+    "modern": 1.0
+   },
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "decor": true,
+   "display_slots": [],
+   "flat": false,
+   "furniture_type": "decor",
+   "id": "omori_round_cafe_table",
+   "is_moveable": true,
+   "name": "Round Cafe Table",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    44.0,
+    20.0
+   ],
+   "sprite": "res://assets/shared/furniture/decor/omori_round_cafe_table.png",
+   "unlock_level": 1
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {
+    "intense": 2.0,
+    "retro": 1.0
+   },
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "decor": true,
+   "display_slots": [],
+   "flat": false,
+   "furniture_type": "decor",
+   "id": "omori_stage_curtain",
+   "is_moveable": true,
+   "name": "Stage Curtain",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    50.0,
+    14.0
+   ],
+   "sprite": "res://assets/shared/furniture/decor/omori_stage_curtain.png",
+   "unlock_level": 2
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {
+    "cozy": 2.0,
+    "modern": 1.0
+   },
+   "blocks_movement": false,
+   "customer_attention_modifier": 0.0,
+   "decor": true,
+   "display_slots": [],
+   "flat": false,
+   "furniture_type": "decor",
+   "id": "omori_tall_houseplant",
+   "is_moveable": true,
+   "name": "Tall Houseplant",
+   "price_modifier": 1.0,
+   "scenery": "",
+   "size": [
+    20.0,
+    16.0
+   ],
+   "sprite": "res://assets/shared/furniture/decor/omori_tall_houseplant.png",
+   "unlock_level": 1
+  },
+  {
+   "allowed_categories": [],
+   "appeal_modifiers": {
     "cozy": 2.0
    },
    "blocks_movement": false,
