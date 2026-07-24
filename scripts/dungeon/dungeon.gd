@@ -22,6 +22,10 @@ var hud_vb: VBoxContainer = null
 var switch_available: Array[String] = []
 var door_open: bool = false
 var finished: bool = false
+## Authority-side: this combat room spawned enemies and hasn't cleared yet.
+## Room-clear is polled off the "enemies" group emptying rather than per-enemy
+## signals, so spawn-on-death enemies (splitters) can't leave it uncleared.
+var _room_needs_clear: bool = false
 var shake_amount: float = 0.0
 var vertical_slice_reward_spawned: bool = false
 var vertical_slice_reward_collected: bool = false
@@ -604,6 +608,12 @@ func _process(_delta: float) -> void:
 	for id: String in DungeonManager.run_loot:
 		total += int(DungeonManager.run_loot[id])
 	loot_label.text = "Loot: %d items, %dg | Room %d/%d" % [total, DungeonManager.run_gold, room_index + 1, layout.size()]
+	# authority clears a combat room the moment its enemies are all gone — this
+	# catches the last kill however it happened (incl. splitter children)
+	if _room_needs_clear and not door_open and not finished and Net.is_authority() \
+			and get_tree().get_nodes_in_group("enemies").is_empty():
+		_room_needs_clear = false
+		_on_room_cleared(false)
 	if door_open and Net.is_authority() and _any_hero_past_exit():
 		_next_room()
 
@@ -623,6 +633,7 @@ func _any_hero_past_exit() -> bool:
 func _enter_room(idx: int) -> void:
 	room_index = idx
 	door_open = false
+	_room_needs_clear = false
 	vertical_slice_reward_spawned = false
 	vertical_slice_reward_collected = false
 	for child in room_root.get_children():
@@ -769,6 +780,9 @@ func _enter_room(idx: int) -> void:
 			if Net.is_host():
 				Replica.host_register(e, "enemy", {"id": String(enemies[i]),
 					"pos": [e.global_position.x, e.global_position.y]})
+		# poll for clear off the group emptying (see _process) — robust against
+		# splitters whose spawned children aren't individually wired up
+		_room_needs_clear = not enemies.is_empty()
 		# empty non-boss rooms already opened their door above (all machines)
 
 
@@ -1086,6 +1100,8 @@ func _on_room_cleared(was_boss: bool) -> void:
 		FX.shake(8.0)
 		_finish(true, true)
 		return
+	if door_open:
+		return  # already cleared (poll + a kill signal can both fire)
 	if Net.is_online() and Net.is_authority():
 		Net.broadcast_scene_event("room_cleared", {})  # applies locally too
 		return
