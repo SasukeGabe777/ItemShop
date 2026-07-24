@@ -30,6 +30,14 @@ static func build() -> Dictionary:
 		return {"ok": ok, "msg": "" if ok else "Item no longer available"}
 	reg["inventory.place_display"] = {"run": inventory_place_display, "syncs": ["inventory"]}
 
+	var lobby_set_ready := func(sender: int, args: Dictionary) -> Dictionary:
+		if not PartyState.players.has(sender):
+			return {"ok": false}
+		PartyState.players[sender]["ready"] = bool(args.get("ready", false))
+		Net._broadcast_roster()
+		return {"ok": true}
+	reg["lobby.set_ready"] = {"run": lobby_set_ready, "syncs": []}
+
 	var party_ready_up := func(sender: int, args: Dictionary) -> Dictionary:
 		var all_in: bool = PartyState.ready_up(
 			String(args.get("action_id", "")), sender, int(args.get("needed", -1)))

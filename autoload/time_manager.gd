@@ -7,6 +7,10 @@ signal period_advanced(day: int, period: int)
 signal chapter_started(chapter: int)
 signal chapter_deadline_failed(chapter: int)
 signal campaign_won()
+## Display-only "the clock moved" signal, safe to emit from a network sync.
+## The signals above are progression events with side-effect cascades
+## (autosaves, mood rolls, market days) that only the host may trigger.
+signal clock_changed
 
 var day: int = 1
 var period: int = 0  # 0..3
@@ -65,6 +69,7 @@ func advance(periods: int) -> Array[String]:
 			if "deadline_failed" in events or "campaign_won" in events:
 				break
 		period_advanced.emit(day, period)
+	clock_changed.emit()
 	return events
 
 
@@ -105,3 +110,4 @@ func from_save(d: Dictionary) -> void:
 	day = int(d.get("day", 1))
 	period = int(d.get("period", 0))
 	chapter = int(d.get("chapter", 1))
+	clock_changed.emit()
