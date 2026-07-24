@@ -219,7 +219,7 @@ func send_player_event(event_name: String, args: Dictionary = {}) -> void:
 ## ---- streaming ---------------------------------------------------------------
 
 func _process(delta: float) -> void:
-	if not Net.is_online():
+	if not Net.is_online() or not _peer_connected():
 		return
 	if Net.is_host():
 		_state_accum += delta
@@ -259,6 +259,14 @@ func _send_local_player_state() -> void:
 		_player_state.rpc(gen, _local_index, data)
 	else:
 		_player_state.rpc_id(1, gen, _local_index, data)
+
+
+## Streaming during a reconnect gap (peer swapped, not yet connected) would
+## error on every tick — hold fire until the transport is live.
+func _peer_connected() -> bool:
+	var mp := multiplayer.multiplayer_peer
+	return mp != null \
+		and mp.get_connection_status() == MultiplayerPeer.CONNECTION_CONNECTED
 
 
 ## ---- wire handlers -----------------------------------------------------------

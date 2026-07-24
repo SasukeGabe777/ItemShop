@@ -25,6 +25,14 @@ var _browse_points: Array[Vector2] = []
 var _preferred_browse_point := Vector2.INF
 var _preferred_item_id := ""
 var _preferred_slot_index := -1
+var is_puppet := false  # online client copy: host drives position and moods
+
+
+## Online client copy: the brain (walking, browsing, deciding) runs on the
+## host; the smoother drives position and host events drive emotes/speech.
+func make_puppet() -> void:
+	is_puppet = true
+	set_physics_process(false)
 
 
 func setup(cust: Dictionary, browse_points: Array[Vector2], exit_pos: Vector2,
@@ -105,6 +113,8 @@ func _show_arrival_emote() -> void:
 ## Brief customer reaction above their head. A new reaction replaces an old
 ## one, so arrival mood, negotiation feedback, and departure never overlap.
 func show_emote(kind: String, duration: float = 1.35) -> void:
+	if Net.is_host() and int(get_meta("net_eid", 0)) != 0:
+		Replica.host_event(self, "emote", {"kind": kind, "dur": duration})
 	if is_instance_valid(_active_emote):
 		_active_emote.queue_free()
 	var tex := UIKit.emote_texture(kind)

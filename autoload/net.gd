@@ -627,6 +627,17 @@ func _scene_event(event_name: String, args: Dictionary) -> void:
 	scene_event.emit(event_name, args)
 
 
+## Host -> ONE player's machine (assignments: "your customer to haggle with").
+func send_scene_event_to(idx: int, event_name: String, args: Dictionary = {}) -> void:
+	if not is_host():
+		return
+	var peer := PartyState.peer_for(idx)
+	if peer == 1:
+		scene_event.emit(event_name, args)
+	elif peer > 0:
+		_scene_event.rpc_id(peer, event_name, args)
+
+
 ## ---- pause -----------------------------------------------------------------
 ## The host's pause pauses the whole party; a client's pause menu floats over
 ## a still-running world (their machine pausing would desync them silently).

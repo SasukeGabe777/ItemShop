@@ -39,6 +39,12 @@ var edit_sel: DisplayFurniture = null
 var pad_carrying := false
 var _edit_stick_edge := false
 var _pad_carry_pos := Vector2.ZERO
+# online party state (host arbitrates turns and remote assignments)
+var _net_puppets: Dictionary = {}       # player_index -> TownPlayer puppet
+var _net_busy: Dictionary = {}          # host: player_index -> mid-assignment
+var _net_next_slot := 1                 # host: whose customer turn it is
+var _net_assignments: Dictionary = {}   # host: assignment id -> entry
+var _next_assignment_id := 1
 
 const ENTRANCE := Vector2(320, 400)
 ## Area furniture may occupy: inside the walls, clear of the door strip.
@@ -80,8 +86,210 @@ func _ready() -> void:
 		prompt2 = UIKit.interaction_prompt()
 		prompt2.z_index = 60
 		add_child(prompt2)
+	elif Net.is_online():
+		_setup_net_shop()
 	_build_corner_buttons()
 	call_deferred("_show_first_shop_guide")
+
+
+## ---- online party ----------------------------------------------------------
+
+func _setup_net_shop() -> void:
+	var local_idx := PartyState.local_index()
+	player.modulate = PartyState.tint(local_idx)
+	UIKit.floating_name(player, player.visual, PartyState.pname(local_idx), 3.0, 8,
+		PartyState.color(local_idx))
+	Replica.register_local_player(local_idx, func() -> Array:
+		return [player.global_position.x, player.global_position.y,
+			player.velocity.x, player.velocity.y, 0])
+	Replica.register_factory("customer", _net_spawn_customer)
+	Replica.entity_event.connect(_on_net_entity_event)
+	PartyState.changed.connect(_refresh_net_puppets)
+	Net.state_applied.connect(func(_manager: String) -> void:
+		if hud != null:
+			hud.refresh())
+	Net.scene_event.connect(_on_net_scene_event)
+	_refresh_net_puppets()
+
+
+func _refresh_net_puppets() -> void:
+	if not Net.is_online():
+		return
+	var local_idx := PartyState.local_index()
+	for idx in PartyState.connected_indexes():
+		if idx == local_idx or _net_puppets.has(idx):
+			continue
+		var pup := TownPlayer.new()
+		pup.position = player.position + Vector2(24 * idx, 0)
+		pup.modulate = PartyState.tint(idx)
+		add_child(pup)
+		pup.make_puppet()
+		UIKit.floating_name(pup, pup.visual, PartyState.pname(idx), 3.0, 8,
+			PartyState.color(idx))
+		Replica.register_player_puppet(idx, pup)
+		_net_puppets[idx] = pup
+	for idx: int in _net_puppets.keys():
+		if idx not in PartyState.connected_indexes():
+			var pup: Variant = _net_puppets[idx]
+			_net_puppets.erase(idx)
+			_net_busy.erase(idx)
+			if pup != null and is_instance_valid(pup):
+				(pup as Node).queue_free()
+
+
+func _net_spawn_customer(args: Dictionary) -> Node:
+	var c := ShopCustomer.new()
+	add_child(c)
+	c.position = ENTRANCE
+	var pp: Array = args.get("preferred_point", [])
+	var preferred := Vector2(float(pp[0]), float(pp[1])) if pp.size() == 2 else Vector2.INF
+	c.setup(args.get("data", {}), browse_points, ENTRANCE, preferred,
+		String(args.get("item", "")), int(args.get("slot", -1)))
+	c.make_puppet()
+	return c
+
+
+func _on_net_entity_event(eid: int, event_name: String, args: Dictionary) -> void:
+	var node := Replica.entity(eid)
+	if node == null:
+		return
+	match event_name:
+		"say":
+			_speech(node as Node2D, String(args.get("text", "")))
+		"emote":
+			if node is ShopCustomer:
+				(node as ShopCustomer).show_emote(String(args.get("kind", "neutral")),
+					float(args.get("dur", 1.35)))
+
+
+func _on_net_scene_event(event_name: String, args: Dictionary) -> void:
+	match event_name:
+		"gate_progress":
+			var labels := {"open_shop": "Opening the shop", "leave_shop": "Leaving"}
+			_toast("%s — %d/%d ready" % [String(labels.get(String(args.get("action_id", "")),
+				"Waiting")), int(args.get("count", 0)), int(args.get("needed", 0))])
+		"gate_complete":
+			if not Net.is_host():
+				return
+			match String(args.get("action_id", "")):
+				"open_shop":
+					if not session_active and not InventoryManager.displayed_ids().is_empty():
+						_begin_session()
+						Net.broadcast_scene_event("session_started", {
+							"count": customers_remaining.size(),
+							"boom_id": session_boom_id, "boom_name": session_boom_name})
+				"leave_shop":
+					busy = true
+					SceneRouter.go("town")
+		"session_started":
+			session_active = true
+			session_boom_id = String(args.get("boom_id", ""))
+			session_boom_name = String(args.get("boom_name", ""))
+			if not Net.is_host() and session_boom_id != "":
+				_show_boom_banner(int(args.get("count", 0)))
+		"session_ended":
+			session_active = false
+			var events: Array[String] = []
+			for e in args.get("events", []):
+				events.append(String(e))
+			_present_session_end(events, args.get("summary", {}), args.get("day_sold", []))
+		"nego_assign":
+			_net_open_assigned_negotiation(args)
+		"order_assign":
+			_net_open_assigned_order(args)
+
+
+## The host assigned US a haggling customer: run the minigame locally, ship
+## the outcome back. Side effects are all applied host-side.
+func _net_open_assigned_negotiation(args: Dictionary) -> void:
+	var aid := int(args.get("id", 0))
+	var cust: Dictionary = args.get("customer", {})
+	var node := Replica.entity(int(args.get("eid", 0)))
+	var panel := NegotiationPanel.new()
+	panel.setup(cust, String(args.get("item", "")),
+		(node as ShopCustomer).portrait_texture() if node is ShopCustomer else null)
+	panel.remote = true
+	panel.nego.authoritative = false
+	panel.finished.connect(func(outcome: Dictionary) -> void:
+		busy = false
+		player.frozen = false
+		Net.request("shop.nego_result", {"id": aid, "outcome": outcome}))
+	busy = true
+	player.frozen = true
+	add_child(panel)
+
+
+func _net_open_assigned_order(args: Dictionary) -> void:
+	var aid := int(args.get("id", 0))
+	var cust: Dictionary = args.get("customer", {})
+	var node := Replica.entity(int(args.get("eid", 0)))
+	var portrait: Texture2D = (node as ShopCustomer).portrait_texture() if node is ShopCustomer else null
+	var dialog := ORDER_DIALOG_SCRIPT.new()
+	dialog.resolved.connect(func(result: String) -> void:
+		busy = false
+		player.frozen = false
+		Net.request("shop.order_result", {"id": aid, "result": result}))
+	busy = true
+	player.frozen = true
+	if String(args.get("mode", "")) == "delivery":
+		dialog.show_delivery(self, cust, args.get("order", {}), portrait)
+	else:
+		dialog.show_request(self, cust, args.get("offer", {}), portrait)
+
+
+## Host: an assigned negotiation's outcome came back from its player.
+func _net_nego_result(sender: int, aid: int, outcome: Dictionary) -> void:
+	var entry: Dictionary = _net_assignments.get(aid, {})
+	if entry.is_empty() or int(entry.get("who", 0)) != sender:
+		return
+	_net_assignments.erase(aid)
+	_net_busy[sender] = false
+	Negotiation.apply_remote_outcome(entry.get("customer", {}),
+		String(entry.get("item", "")), outcome)
+	_nego_item = String(entry.get("item", ""))
+	if not session_summary.has("sold"):
+		session_summary["sold"] = []  # negotiations can happen outside sessions
+	match String(outcome.get("result", "")):
+		Negotiation.RESULT_PERFECT, Negotiation.RESULT_ACCEPT:
+			var qty := maxi(1, int(outcome.get("quantity", 1)))
+			session_summary["sales"] = int(session_summary["sales"]) + qty
+			session_summary["revenue"] = int(session_summary["revenue"]) + int(outcome.get("price", 0))
+			var unit_price := int(outcome.get("price", 0)) / qty
+			var remainder := int(outcome.get("price", 0)) - unit_price * qty
+			for i in range(qty):
+				(session_summary["sold"] as Array).append({"item": _nego_item,
+					"price": unit_price + (remainder if i == 0 else 0)})
+			if bool(outcome.get("perfect", false)):
+				session_summary["perfect"] = int(session_summary["perfect"]) + 1
+		_:
+			session_summary["left"] = int(session_summary["left"]) + 1
+	var node: ShopCustomer = entry.get("node")
+	if node != null and is_instance_valid(node):
+		var result := String(outcome.get("result", ""))
+		node.show_emote(String(outcome.get("emote",
+			"unhappy" if result == Negotiation.RESULT_LEAVE else "neutral")), 2.2)
+		if String(outcome.get("message", "")) != "":
+			_speech(node, String(outcome.get("message", "")))
+		if result in [Negotiation.RESULT_PERFECT, Negotiation.RESULT_ACCEPT]:
+			var body: Variant = _net_puppets.get(sender)
+			if body != null and is_instance_valid(body):
+				UIKit.gold_popup(body, int(outcome.get("price", 0)))
+		node.resume_after_negotiation()
+	negotiating = null
+	_sync_customer_activity_pause()
+	hud.refresh()
+	Net.sync_managers(["economy", "inventory", "relationships", "game_state"])
+	_open_next_negotiation()
+
+
+func _net_order_result(sender: int, aid: int, result: String) -> void:
+	var entry: Dictionary = _net_assignments.get(aid, {})
+	if entry.is_empty() or int(entry.get("who", 0)) != sender:
+		return
+	_net_assignments.erase(aid)
+	_net_busy[sender] = false
+	_finish_order_dialog(entry.get("entry", {}), result)
+	Net.sync_managers(["inventory", "game_state", "relationships"])
 
 
 func _build_corner_buttons() -> void:
@@ -355,7 +563,7 @@ func _process(delta: float) -> void:
 	# second local player keep processing, but customers cannot stack decisions
 	# behind the panel that is already demanding attention.
 	_sync_customer_activity_pause()
-	if session_active and not _customer_activity_blocked():
+	if session_active and not _customer_activity_blocked() and Net.is_authority():
 		_run_session(delta)
 	_shop_player_frame(player, prompt, "", busy, 1)
 	if player2 != null:
@@ -389,6 +597,14 @@ func _shop_player_frame(p: TownPlayer, pr: Label, prefix: String, p_busy: bool, 
 				set_meta("exit_toasted", true)
 				_toast("Close up first — customers are browsing!")
 				get_tree().create_timer(2.0).timeout.connect(func() -> void: set_meta("exit_toasted", false))
+		elif Net.is_online():
+			# whole-party door: stand here to vote; the host leaves for everyone
+			p.position.y = EXIT_Y + 2.0
+			if not get_meta("exit_gated", false):
+				set_meta("exit_gated", true)
+				Net.request("party.gate", {"action_id": "leave_shop"})
+				get_tree().create_timer(2.0).timeout.connect(func() -> void:
+					set_meta("exit_gated", false))
 		elif player2 == null:
 			busy = true
 			SceneRouter.go("town")
@@ -462,6 +678,9 @@ func _activate(action: String, who: int = 1) -> void:
 			if InventoryManager.displayed_ids().is_empty():
 				_toast("Stock the display furniture first!")
 				return
+			if Net.is_online():
+				Net.request("party.gate", {"action_id": "open_shop"})
+				return
 			if MultiplayerState.enabled and not MultiplayerState.ready_up("open_shop", who):
 				_toast("Opening the shop — %d/2 ready" % MultiplayerState.ready_count("open_shop"))
 				return
@@ -471,14 +690,20 @@ func _activate(action: String, who: int = 1) -> void:
 				opening_title = "%s BOOM" % BoomManager.display_name()
 			UIKit.confirm_time_cost(self, opening_title, TimeManager.activity_cost("open_shop"), _begin_session)
 		"storage":
+			if Net.is_client():
+				_toast("Only %s can manage storage (for now)." % PartyState.pname(1))
+				return
 			_open_storage(who)
 		"expand":
+			if Net.is_client():
+				_toast("Only %s can expand the shop (for now)." % PartyState.pname(1))
+				return
 			_open_expand(who)
 		"rearrange":
 			if session_active:
 				_toast("Not while customers are browsing!")
 				return
-			if who == 2:
+			if who == 2 or Net.is_client():
 				_toast("Player 1 holds the furniture tools!")
 				return
 			_enter_edit_mode()
@@ -819,7 +1044,10 @@ func _open_slot_picker(slot: int, who: int = 1) -> void:
 		cur_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		cur_row.add_child(cur_lbl)
 		cur_row.add_child(UIKit.button("Take back to storage", func() -> void:
-			InventoryManager.take_display(slot)
+			if Net.is_client():
+				Net.request("inventory.take_display", {"slot": slot})
+			else:
+				InventoryManager.take_display(slot)
 			_close_modal(pick_layer, who), 8))
 		vb.add_child(cur_row)
 	# same sorting bar the market has
@@ -882,7 +1110,10 @@ func _make_pick_row(id: String, slot: int, pick_layer: CanvasLayer, who: int = 1
 	price_lbl.mouse_filter = Control.MOUSE_FILTER_STOP
 	row.add_child(price_lbl)
 	var place_btn := UIKit.button("Place", func() -> void:
-		InventoryManager.place_display(slot, id)
+		if Net.is_client():
+			Net.request("inventory.place_display", {"slot": slot, "item_id": id})
+		else:
+			InventoryManager.place_display(slot, id)
 		_close_modal(pick_layer, who))
 	place_btn.custom_minimum_size = Vector2(50, 0)
 	place_btn.size_flags_vertical = Control.SIZE_SHRINK_CENTER
@@ -1286,13 +1517,25 @@ func _spawn_customer(cust: Dictionary) -> void:
 	c.order_requested.connect(_on_order_requested)
 	c.order_delivery_requested.connect(_on_order_delivery_requested)
 	c.boom_disappointed.connect(_on_boom_disappointed)
-	c.left.connect(func(me: ShopCustomer) -> void: live_customers.erase(me))
+	c.left.connect(func(me: ShopCustomer) -> void:
+		live_customers.erase(me)
+		if Net.is_host():
+			Replica.host_despawn(me, "left", {}))
 	live_customers.append(c)
+	if Net.is_host():
+		var preferred_arr: Array = []
+		if preferred_point != Vector2.INF:
+			preferred_arr = [preferred_point.x, preferred_point.y]
+		Replica.host_register(c, "customer", {"data": cust,
+			"preferred_point": preferred_arr,
+			"item": String(preferred_slot.get("item_id", "")), "slot": slot_index})
 	if bool(cust.get("named", false)) and String(cust.get("line", "")) != "":
 		_speech(c, String(cust["line"]))
 
 
 func _speech(over: Node2D, text: String) -> void:
+	if Net.is_host() and int(over.get_meta("net_eid", 0)) != 0:
+		Replica.host_event(over, "say", {"text": text})
 	var prior := over.get_node_or_null("SpeechBubble")
 	if prior != null:
 		prior.queue_free()
@@ -1338,11 +1581,40 @@ func _open_next_order_dialog() -> void:
 		_open_next_order_dialog()
 		return
 	var cust: Dictionary = entry["customer"]
+	order_dialog_open = true
+	_order_player = who
+	# validate + roll host-side FIRST (offers use the host RNG), whoever hosts
+	# the dialog
+	var order: Dictionary = {}
+	var offer: Dictionary = {}
+	if String(entry.get("mode", "")) == "delivery":
+		order = InventoryManager.order_by_id(int(entry.get("order_id", -1)))
+		if order.is_empty():
+			_order_dialog_cancelled(entry)
+			return
+	else:
+		offer = CustomerGen.make_order_offer(cust, bool(entry.get("direct", false)), true)
+		if offer.is_empty():
+			if bool(entry.get("direct", false)):
+				_on_boom_disappointed(cust)
+			_order_dialog_cancelled(entry)
+			return
+		entry["offer"] = offer
+		InventoryManager.mark_order_requested()
+	if Net.is_online() and who != PartyState.local_index():
+		_net_busy[who] = true
+		var aid := _next_assignment_id
+		_next_assignment_id += 1
+		_net_assignments[aid] = {"kind": "order", "entry": entry, "who": who}
+		Net.send_scene_event_to(who, "order_assign", {"id": aid, "customer": cust,
+			"mode": String(entry.get("mode", "")), "order": order, "offer": offer,
+			"eid": int(node.get_meta("net_eid", 0))})
+		_sync_customer_activity_pause()
+		_advance_customer_player()
+		return
 	var dialog := ORDER_DIALOG_SCRIPT.new()
 	dialog.resolved.connect(func(result: String) -> void:
 		_finish_order_dialog(entry, result))
-	order_dialog_open = true
-	_order_player = who
 	if who == 2:
 		busy2 = true
 		player2.frozen = true
@@ -1352,21 +1624,9 @@ func _open_next_order_dialog() -> void:
 	_sync_customer_activity_pause()
 	var parent := MultiplayerState.menu_parent(who, self)
 	if String(entry.get("mode", "")) == "delivery":
-		var order := InventoryManager.order_by_id(int(entry.get("order_id", -1)))
-		if order.is_empty():
-			_order_dialog_cancelled(entry)
-			return
 		dialog.show_delivery(parent, cust, order, node.portrait_texture())
 		_advance_customer_player()
 	else:
-		var offer := CustomerGen.make_order_offer(cust, bool(entry.get("direct", false)), true)
-		if offer.is_empty():
-			if bool(entry.get("direct", false)):
-				_on_boom_disappointed(cust)
-			_order_dialog_cancelled(entry)
-			return
-		entry["offer"] = offer
-		InventoryManager.mark_order_requested()
 		dialog.show_request(parent, cust, offer, node.portrait_texture())
 		_advance_customer_player()
 
@@ -1473,6 +1733,20 @@ func _open_next_negotiation() -> void:
 	negotiating = node
 	_nego_item = item_id
 	_nego_player = who
+	# online: a remote player's turn — ship them the assignment; the host
+	# keeps `negotiating` set so the line stays serial until their result
+	if Net.is_online() and who != PartyState.local_index():
+		_net_busy[who] = true
+		var aid := _next_assignment_id
+		_next_assignment_id += 1
+		_net_assignments[aid] = {"kind": "nego", "customer": entry["customer"],
+			"item": item_id, "node": node, "who": who}
+		Net.send_scene_event_to(who, "nego_assign", {"id": aid,
+			"customer": entry["customer"], "item": item_id,
+			"eid": int(node.get_meta("net_eid", 0))})
+		_advance_customer_player()
+		_sync_customer_activity_pause()
+		return
 	var panel := NegotiationPanel.new()
 	panel.setup(entry["customer"], item_id, node.portrait_texture())
 	panel.pad_device = 0 if who == 1 else MultiplayerState.P2_DEVICE
@@ -1489,6 +1763,18 @@ func _open_next_negotiation() -> void:
 
 
 func _available_customer_player() -> int:
+	if Net.is_online():
+		# strict shared rotation over connected seats, same as couch: if the
+		# designated shopkeeper is mid-menu the customer waits in line
+		var order := PartyState.connected_indexes()
+		if order.is_empty():
+			return 0
+		if _net_next_slot not in order:
+			_net_next_slot = order[0]
+		var idx := _net_next_slot
+		if idx == PartyState.local_index():
+			return idx if not busy and not UIKit.modal_open(get_viewport()) else 0
+		return idx if not bool(_net_busy.get(idx, false)) else 0
 	if not MultiplayerState.enabled or player2 == null:
 		return 1 if not busy and not UIKit.modal_open(get_viewport()) else 0
 	var who := MultiplayerState.next_customer_player
@@ -1498,6 +1784,13 @@ func _available_customer_player() -> int:
 
 
 func _advance_customer_player() -> void:
+	if Net.is_online():
+		var order := PartyState.connected_indexes()
+		if order.is_empty():
+			return
+		var pos := maxi(0, order.find(_net_next_slot))
+		_net_next_slot = order[(pos + 1) % order.size()]
+		return
 	MultiplayerState.next_customer_player = 2 if MultiplayerState.enabled and player2 != null \
 		and MultiplayerState.next_customer_player == 1 else 1
 
@@ -1537,6 +1830,8 @@ func _on_negotiation_finished(outcome: Dictionary) -> void:
 	negotiating = null
 	_sync_customer_activity_pause()
 	hud.refresh()
+	if Net.is_host():
+		Net.sync_managers(["economy", "inventory", "relationships", "game_state"])
 	_open_next_negotiation()
 
 
@@ -1547,11 +1842,21 @@ func _end_session() -> void:
 	if session_boom_id != "":
 		BoomManager.complete_shop_session()
 	var events := TimeManager.advance(TimeManager.activity_cost("open_shop"))
+	if Net.is_online():
+		# only the host simulates sessions; everyone presents the debrief
+		Net.sync_all()
+		Net.broadcast_scene_event("session_ended", {"events": events,
+			"summary": session_summary.duplicate(true), "day_sold": day_sold})
+		return
+	_present_session_end(events, session_summary, day_sold)
+
+
+func _present_session_end(events: Array[String], summary: Dictionary, day_sold: Array) -> void:
 	if "new_day" in events:
 		# the day rolled over: the full-screen day transition replaces the
 		# little summary modal + Patch popup (it contains both)
 		busy = false
-		var day_summary := session_summary.duplicate(true)
+		var day_summary := summary.duplicate(true)
 		day_summary["sold"] = day_sold
 		var total := 0
 		for e: Dictionary in day_sold:
@@ -1568,7 +1873,7 @@ func _end_session() -> void:
 	# a period passed but the day goes on: same info panel, single sky —
 	# players stay up to date with the Fade after every stretch of the day
 	busy = false
-	DayTransition.show_period(self, session_summary, func() -> void:
+	DayTransition.show_period(self, summary, func() -> void:
 		hud.refresh()
 		if "deadline_failed" in events:
 			SceneRouter.go("story", {"failure": true})

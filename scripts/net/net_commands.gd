@@ -30,6 +30,28 @@ static func build() -> Dictionary:
 		return {"ok": ok, "msg": "" if ok else "Item no longer available"}
 	reg["inventory.place_display"] = {"run": inventory_place_display, "syncs": ["inventory"]}
 
+	var inventory_take_display := func(_sender: int, args: Dictionary) -> Dictionary:
+		InventoryManager.take_display(int(args.get("slot", -1)))
+		return {"ok": true}
+	reg["inventory.take_display"] = {"run": inventory_take_display, "syncs": ["inventory"]}
+
+	# Remote shop assignments report their outcomes back to the host's shop.
+	var shop_nego_result := func(sender: int, args: Dictionary) -> Dictionary:
+		var shop: Node = Net.get_tree().get_first_node_in_group("shop_runtime")
+		if shop == null:
+			return {"ok": false}
+		shop._net_nego_result(sender, int(args.get("id", 0)), args.get("outcome", {}))
+		return {"ok": true}
+	reg["shop.nego_result"] = {"run": shop_nego_result, "syncs": []}
+
+	var shop_order_result := func(sender: int, args: Dictionary) -> Dictionary:
+		var shop: Node = Net.get_tree().get_first_node_in_group("shop_runtime")
+		if shop == null:
+			return {"ok": false}
+		shop._net_order_result(sender, int(args.get("id", 0)), String(args.get("result", "")))
+		return {"ok": true}
+	reg["shop.order_result"] = {"run": shop_order_result, "syncs": []}
+
 	var lobby_set_ready := func(sender: int, args: Dictionary) -> Dictionary:
 		if not PartyState.players.has(sender):
 			return {"ok": false}

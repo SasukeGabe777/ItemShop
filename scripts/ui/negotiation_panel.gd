@@ -23,6 +23,9 @@ var last_counter: int = 0
 const STICK_DEADZONE := 0.45
 const STICK_HOLD_DELAY := 0.35
 var pad_device := 0  # split-screen: which controller haggles here
+## Online client assignment: the minigame plays here, the HOST applies the
+## outcome (sale, gold, relationship) when it arrives.
+var remote := false
 var _stick_hold := 0.0
 var _stick_accum := 0.0
 var _stick_stepped := false
@@ -252,7 +255,10 @@ func _handle(outcome: Dictionary) -> void:
 	_say(cname, String(outcome.get("message", "")))
 	match String(outcome["result"]):
 		Negotiation.RESULT_PERFECT, Negotiation.RESULT_ACCEPT:
-			nego.finalize_sale(outcome)
+			if remote:
+				outcome["quantity"] = nego.quantity  # the host re-applies the sale
+			else:
+				nego.finalize_sale(outcome)
 			AudioManager.play_sfx("itemsale", 2.0)
 			if bool(outcome.get("perfect", false)):
 				AudioManager.play_sfx("achievement_unlocked", 2.0)
@@ -263,7 +269,8 @@ func _handle(outcome: Dictionary) -> void:
 			accept_counter_btn.visible = true
 			price_spin.value = last_counter
 		Negotiation.RESULT_LEAVE:
-			RelationshipManager.change_relationship(String(customer.get("id", "")), int(outcome["relationship_delta"]))
+			if not remote:
+				RelationshipManager.change_relationship(String(customer.get("id", "")), int(outcome["relationship_delta"]))
 			_finish(outcome)
 
 

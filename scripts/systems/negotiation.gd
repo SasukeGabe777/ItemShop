@@ -11,6 +11,10 @@ const RESULT_LEAVE := "leave"
 
 static var rng := RandomNumberGenerator.new()
 
+## False when this negotiation runs on an online client's screen: the minigame
+## plays here but every economy side effect is applied by the host instead.
+var authoritative := true
+
 var customer: Dictionary
 var item_id: String
 var market_value: int
@@ -101,14 +105,16 @@ func propose(price: int) -> Dictionary:
 
 	var over_ratio := float(price) / maxf(1.0, float(cap))
 	if over_ratio >= float(cfg.get("outrage_threshold", 1.65)):
-		EconomyManager.break_combo()
+		if authoritative:
+			EconomyManager.break_combo()
 		return _res(RESULT_LEAVE, 0, -int(cfg.get("relationship_loss_gouge", 2)), false,
 			"That's ridiculous...", false, "unhappy")
 
 	rejected_offers += 1
 	rounds_left = maxi(0, max_rejections - rejected_offers)
 	if rejected_offers >= max_rejections:
-		EconomyManager.break_combo()
+		if authoritative:
+			EconomyManager.break_combo()
 		return _res(RESULT_LEAVE, 0, -int(cfg.get("relationship_loss_reject", 1)), false,
 			"No. That's too much. I'm leaving.", false, "unhappy")
 	if over_ratio >= float(cfg.get("final_warning_threshold", 1.12)) or rounds_left == 1:
@@ -125,6 +131,23 @@ func _res(result: String, price: int, rel_delta: int, perfect: bool, message: St
 		"perfect": perfect, "message": message, "first_offer": was_first,
 		"emote": emote,
 	}
+
+
+## Host-side application of an outcome that was played out on an online
+## client's screen (the client's panel ran with authoritative = false).
+static func apply_remote_outcome(cust: Dictionary, the_item: String, outcome: Dictionary) -> void:
+	match String(outcome.get("result", "")):
+		RESULT_PERFECT, RESULT_ACCEPT:
+			var n := Negotiation.new()
+			n.customer = cust
+			n.item_id = the_item
+			n.quantity = maxi(1, int(outcome.get("quantity", 1)))
+			n.finalize_sale(outcome)
+		RESULT_LEAVE:
+			if int(outcome.get("relationship_delta", 0)) < 0:
+				EconomyManager.break_combo()
+			RelationshipManager.change_relationship(String(cust.get("id", "")),
+				int(outcome.get("relationship_delta", 0)))
 
 
 ## Complete a successful sale: transfers item, gold, relationship, orders.
