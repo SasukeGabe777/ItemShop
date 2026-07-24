@@ -26,6 +26,9 @@ signal parked(reason: String)
 signal roster_changed
 signal state_applied(manager: String)
 signal upnp_result(ok: bool, message: String)
+## Host-broadcast, scene-scoped happenings every machine should present
+## (gate progress toasts, rest/day transitions, session start/end payloads).
+signal scene_event(event_name: String, args: Dictionary)
 
 ## True while a host-pushed sync is being applied locally, so manager signal
 ## handlers can tell remote-driven refreshes from local mutations.
@@ -48,6 +51,9 @@ var _parked := false
 ## Client: inside the auto-reconnect loop (Wi-Fi-extender drops).
 var _reconnecting := false
 var _welcome_seen := false
+
+## Host-arbitrated one-player-per-menu claims: key -> {idx, gen}.
+var menu_claims: Dictionary = {}
 
 var _active := false  # an ENet peer of ours is installed
 var _local_name := ""
@@ -143,6 +149,7 @@ func leave() -> void:
 	my_index = 0
 	_parked = false
 	_reconnecting = false
+	menu_claims.clear()
 	_pending_results.clear()
 	_overlay_hide()
 	PartyState.clear_online()
@@ -605,6 +612,19 @@ func _net_go(scene_key: String, ctx: Dictionary, target_gen: int) -> void:
 	SceneRouter.go(scene_key, ctx)
 	applying_remote_go = false
 	Replica.gen = target_gen
+
+
+## Present a scene-scoped happening on every machine (host included). Rides
+## reliable channel 0, so it stays ordered with syncs and scene changes.
+func broadcast_scene_event(event_name: String, args: Dictionary = {}) -> void:
+	if is_host():
+		_scene_event.rpc(event_name, args)
+	scene_event.emit(event_name, args)
+
+
+@rpc("authority", "call_remote", "reliable")
+func _scene_event(event_name: String, args: Dictionary) -> void:
+	scene_event.emit(event_name, args)
 
 
 ## ---- pause -----------------------------------------------------------------

@@ -9,8 +9,30 @@ var visual: CharacterVisual
 var facing: Vector2 = Vector2.DOWN
 var frozen: bool = false
 var input_prefix: String = ""  # "p2_" for the second local player
+var is_puppet: bool = false    # online: a remote player's body, driven by Replica
 var dev_speed_multiplier: float = 1.0
 var dev_collision_enabled: bool = true
+
+
+## Online remote body: no input, no physics — the PuppetSmoother owns the
+## position and _process animates from its streamed velocity.
+func make_puppet() -> void:
+	is_puppet = true
+	set_physics_process(false)
+	collision_layer = 0
+	collision_mask = 0
+
+
+func _process(_delta: float) -> void:
+	if not is_puppet:
+		return
+	var sm := get_node_or_null("PuppetSmoother") as PuppetSmoother
+	if sm == null or visual == null:
+		return
+	var moving := sm.target_vel.length() > 5.0
+	if moving:
+		facing = sm.target_vel.normalized()
+	visual.face(facing, moving)
 
 
 func _ready() -> void:

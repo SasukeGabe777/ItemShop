@@ -44,4 +44,44 @@ static func build() -> Dictionary:
 		return {"ok": true, "all_ready": all_in}
 	reg["party.ready_up"] = {"run": party_ready_up, "syncs": []}
 
+	# Shared-action gate ("everyone at the door?"). On completion the host
+	# broadcasts gate_complete — the active scene's handler performs the
+	# action host-side (scene change, rest, session start); progress rides a
+	# broadcast toast so the whole party sees who is waiting on whom.
+	var party_gate := func(sender: int, args: Dictionary) -> Dictionary:
+		var action_id := String(args.get("action_id", ""))
+		var complete: bool = PartyState.ready_up(action_id, sender)
+		var count: int = PartyState.ready_count(action_id)
+		var needed: int = PartyState.connected_indexes().size()
+		if complete:
+			PartyState.clear_ready(action_id)
+			Net.broadcast_scene_event("gate_complete", {"action_id": action_id})
+		else:
+			Net.broadcast_scene_event("gate_progress",
+				{"action_id": action_id, "count": count, "needed": needed, "by": sender})
+		return {"ok": true, "complete": complete, "count": count, "needed": needed}
+	reg["party.gate"] = {"run": party_gate, "syncs": []}
+
+	# One player per menu, arbitrated by the host. Claims die with the scene
+	# generation and with their holder's connection.
+	var menu_claim := func(sender: int, args: Dictionary) -> Dictionary:
+		var key := String(args.get("key", ""))
+		var claim: Dictionary = Net.menu_claims.get(key, {})
+		var holder := int(claim.get("idx", 0))
+		var live: bool = holder > 0 and int(claim.get("gen", -1)) == Replica.gen \
+			and holder in PartyState.connected_indexes()
+		if live and holder != sender:
+			return {"ok": false, "holder": holder}
+		Net.menu_claims[key] = {"idx": sender, "gen": Replica.gen}
+		return {"ok": true}
+	reg["menu.claim"] = {"run": menu_claim, "syncs": []}
+
+	var menu_release := func(sender: int, args: Dictionary) -> Dictionary:
+		var key := String(args.get("key", ""))
+		var claim: Dictionary = Net.menu_claims.get(key, {})
+		if int(claim.get("idx", 0)) == sender:
+			Net.menu_claims.erase(key)
+		return {"ok": true}
+	reg["menu.release"] = {"run": menu_release, "syncs": []}
+
 	return reg

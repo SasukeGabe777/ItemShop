@@ -9,7 +9,8 @@ var prompt: Label
 var prompt2: Label = null
 var busy: bool = false   # player 1 has a panel / story open
 var busy2: bool = false  # player 2 has a panel open (their half only)
-var _menu_owner: Dictionary = {}  # menu key -> player idx holding it open
+var _menu_owner: Dictionary = {}  # couch: menu key -> player idx holding it open
+var _net_puppets: Dictionary = {}  # online: player_index -> TownPlayer puppet
 
 
 func _ready() -> void:
@@ -36,10 +37,98 @@ func _ready() -> void:
 		prompt2 = UIKit.interaction_prompt()
 		prompt2.z_index = 60
 		add_child(prompt2)
+	elif Net.is_online():
+		_setup_online()
 	if StoryEventManager.has_pending():
 		_play_story()
 	else:
 		DayBriefing.maybe_show(self)
+
+
+## ---- online party ----------------------------------------------------------
+
+func _setup_online() -> void:
+	var local_idx := PartyState.local_index()
+	player.modulate = PartyState.tint(local_idx)
+	UIKit.floating_name(player, player.visual, PartyState.pname(local_idx), 3.0, 8,
+		PartyState.color(local_idx))
+	Replica.register_local_player(local_idx, func() -> Array:
+		return [player.global_position.x, player.global_position.y,
+			player.velocity.x, player.velocity.y, 0])
+	PartyState.changed.connect(_refresh_net_puppets)
+	Net.state_applied.connect(func(_manager: String) -> void:
+		if hud != null:
+			hud.refresh())
+	Net.scene_event.connect(_on_net_scene_event)
+	_refresh_net_puppets()
+
+
+func _refresh_net_puppets() -> void:
+	if not Net.is_online():
+		return
+	var local_idx := PartyState.local_index()
+	for idx in PartyState.connected_indexes():
+		if idx == local_idx or _net_puppets.has(idx):
+			continue
+		var pup := TownPlayer.new()
+		pup.position = player.position + Vector2(24 * idx, 0)
+		pup.modulate = PartyState.tint(idx)
+		add_child(pup)
+		pup.make_puppet()
+		UIKit.floating_name(pup, pup.visual, PartyState.pname(idx), 3.0, 8,
+			PartyState.color(idx))
+		Replica.register_player_puppet(idx, pup)
+		_net_puppets[idx] = pup
+	for idx: int in _net_puppets.keys():
+		if idx not in PartyState.connected_indexes():
+			var pup: TownPlayer = _net_puppets[idx]
+			_net_puppets.erase(idx)
+			if is_instance_valid(pup):
+				pup.queue_free()
+
+
+func _on_net_scene_event(event_name: String, args: Dictionary) -> void:
+	match event_name:
+		"gate_progress":
+			var labels := {"enter_shop": "Entering the shop", "rest": "Resting"}
+			_toast("%s — %d/%d ready" % [String(labels.get(String(args.get("action_id", "")),
+				"Waiting")), int(args.get("count", 0)), int(args.get("needed", 0))], player)
+		"gate_complete":
+			if not Net.is_host():
+				return
+			match String(args.get("action_id", "")):
+				"enter_shop":
+					SceneRouter.last_town_position = player.position
+					SceneRouter.go("shop")
+				"rest":
+					var day_sold: Array = EconomyManager.day_sales.duplicate(true)
+					var events := TimeManager.advance(TimeManager.activity_cost("rest"))
+					Net.sync_all()
+					var summary := {}
+					if "new_day" in events and not day_sold.is_empty():
+						var total := 0
+						for e: Dictionary in day_sold:
+							total += int(e.get("price", 0))
+						summary = {"sales": day_sold.size(), "revenue": total, "sold": day_sold}
+					Net.broadcast_scene_event("rest_done",
+						{"events": events, "summary": summary})
+		"rest_done":
+			var events: Array[String] = []
+			for e in args.get("events", []):
+				events.append(String(e))
+			_after_net_rest(events, args.get("summary", {}))
+
+
+func _after_net_rest(events: Array[String], summary: Dictionary) -> void:
+	hud.refresh()
+	if "deadline_failed" in events:
+		if Net.is_host():
+			SceneRouter.go("story", {"failure": true})
+		return
+	if "new_day" in events:
+		DayTransition.show_transition(self, TimeManager.day - 1, summary, _resume_new_day)
+		return
+	DayTransition.show_period(self, {}, _resume_new_day)
 
 
 func _build_ground() -> void:
@@ -170,6 +259,11 @@ func _player_frame(p: TownPlayer, pr: Label, prefix: String, p_busy: bool, idx: 
 func _activate(action: String, who: int = 1) -> void:
 	match action:
 		"shop":
+			if Net.is_online():
+				# host performs the change on gate_complete; progress toasts
+				# ride scene events so everyone sees who is waiting
+				Net.request("party.gate", {"action_id": "enter_shop"})
+				return
 			if MultiplayerState.enabled and not MultiplayerState.ready_up("enter_shop", who):
 				_toast("Entering the shop — %d/2 ready" % MultiplayerState.ready_count("enter_shop"),
 					player if who == 1 else player2)
@@ -178,6 +272,24 @@ func _activate(action: String, who: int = 1) -> void:
 			SceneRouter.last_town_position = player.position
 			SceneRouter.go("shop")
 		"market", "workshop", "guild", "gates":
+			if Net.is_online():
+				Net.request("menu.claim", {"key": action},
+					func(ok: bool, data: Dictionary) -> void:
+						if not ok:
+							_toast("The %s is in use by %s!" % [action.capitalize(),
+								PartyState.pname(int(data.get("holder", 0)))], player)
+							return
+						var net_panel: Node
+						match action:
+							"market": net_panel = MarketPanel.new()
+							"workshop": net_panel = WorkshopPanel.new()
+							"guild": net_panel = GuildPanel.new()
+							_: net_panel = GatesPanel.new()
+						net_panel.tree_exiting.connect(func() -> void:
+							Net.request("menu.release", {"key": action}))
+						_open_panel(net_panel, 1, "")
+						net_panel.set_meta("owner_player", PartyState.local_index()))
+				return
 			# one player per menu: two pads in one panel type cross wires
 			if MultiplayerState.enabled and _menu_owner.has(action):
 				_toast("The %s is in use by Player %d!" % [action.capitalize(), int(_menu_owner[action])],
@@ -191,6 +303,9 @@ func _activate(action: String, who: int = 1) -> void:
 				_: panel = GatesPanel.new()
 			_open_panel(panel, who, action)
 		"home":
+			if Net.is_online():
+				Net.request("party.gate", {"action_id": "rest"})
+				return
 			if MultiplayerState.enabled and not MultiplayerState.ready_up("rest", who):
 				_toast("Resting — %d/2 ready" % MultiplayerState.ready_count("rest"),
 					player if who == 1 else player2)
