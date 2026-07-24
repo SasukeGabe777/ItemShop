@@ -60,6 +60,14 @@ static func build() -> Dictionary:
 		return {"ok": true}
 	reg["lobby.set_ready"] = {"run": lobby_set_ready, "syncs": []}
 
+	var lobby_set_avatar := func(sender: int, args: Dictionary) -> Dictionary:
+		if not PartyState.players.has(sender):
+			return {"ok": false}
+		PartyState.players[sender]["avatar"] = String(args.get("avatar", "omori"))
+		Net._broadcast_roster()
+		return {"ok": true}
+	reg["lobby.set_avatar"] = {"run": lobby_set_avatar, "syncs": []}
+
 	var party_ready_up := func(sender: int, args: Dictionary) -> Dictionary:
 		var all_in: bool = PartyState.ready_up(
 			String(args.get("action_id", "")), sender, int(args.get("needed", -1)))

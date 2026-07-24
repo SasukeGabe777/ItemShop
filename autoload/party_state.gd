@@ -20,6 +20,30 @@ const PLAYER_TINTS: Array[Color] = [
 	Color(1.0, 0.96, 0.8), Color(0.94, 0.86, 1.0),
 ]
 
+## Town/shop walking avatars a player can pick in the online lobby. "omori" is
+## the historical faraway hero; the rest are OMORI overworld rips extracted by
+## tools/prep_coop_avatars.py. The DUNGEON hero is a separate lineup choice.
+const AVATARS: Array[Dictionary] = [
+	{"id": "omori",  "name": "Omori",  "manifest": "res://assets/hero/manifests/hero_faraway_overworld.json"},
+	{"id": "sunny",  "name": "Sunny",  "manifest": "res://assets/hero/manifests/coop_sunny.json"},
+	{"id": "aubrey", "name": "Aubrey", "manifest": "res://assets/hero/manifests/coop_aubrey.json"},
+	{"id": "mari",   "name": "Mari",   "manifest": "res://assets/hero/manifests/coop_mari.json"},
+]
+
+
+static func avatar_manifest(avatar_id: String) -> String:
+	for a in AVATARS:
+		if String(a["id"]) == avatar_id:
+			return String(a["manifest"])
+	return String(AVATARS[0]["manifest"])
+
+
+static func avatar_name(avatar_id: String) -> String:
+	for a in AVATARS:
+		if String(a["id"]) == avatar_id:
+			return String(a["name"])
+	return String(AVATARS[0]["name"])
+
 signal changed
 signal player_left(player_index: int)
 
@@ -46,8 +70,15 @@ func make_seat(player_index: int, peer_id: int, player_name: String,
 		"connected": true,
 		"ready": false,
 		"parked": false,
+		# start each seat on a different avatar so the party reads apart
+		"avatar": String(AVATARS[(player_index - 1) % AVATARS.size()]["id"]),
 		"session_token": "",
 	}
+
+
+## The town/shop manifest for a seat's chosen avatar.
+func avatar_of(idx: int) -> String:
+	return avatar_manifest(String(player(idx).get("avatar", "omori")))
 
 
 ## ---- mode switching --------------------------------------------------------

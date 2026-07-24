@@ -10,6 +10,9 @@ var facing: Vector2 = Vector2.DOWN
 var frozen: bool = false
 var input_prefix: String = ""  # "p2_" for the second local player
 var is_puppet: bool = false    # online: a remote player's body, driven by Replica
+## Online: which walking-avatar manifest to render (set before add_child).
+## Empty = the historical faraway hero.
+var manifest_override: String = ""
 var dev_speed_multiplier: float = 1.0
 var dev_collision_enabled: bool = true
 
@@ -49,7 +52,9 @@ func _ready() -> void:
 	add_child(shape)
 	visual = CharacterVisual.new()
 	add_child(visual)
-	if not visual.setup_from_manifest("res://assets/hero/manifests/hero_faraway_overworld.json"):
+	var mp := manifest_override if manifest_override != "" \
+		else "res://assets/hero/manifests/hero_faraway_overworld.json"
+	if not visual.setup_from_manifest(mp):
 		visual.setup_placeholder("hero", "crossroads", "#3858a8", 18)
 	if visual.use_frames:
 		visual.shadow.position = Vector2(0, 2)

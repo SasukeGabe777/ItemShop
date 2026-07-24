@@ -21,6 +21,8 @@ func _ready() -> void:
 	_build_gates()
 	add_child(LobbyCrossers.new())  # ambient travellers crossing the plaza
 	player = TownPlayer.new()
+	if Net.is_online():
+		player.manifest_override = PartyState.avatar_of(PartyState.local_index())
 	player.position = SceneRouter.last_town_position if SceneRouter.last_town_position != Vector2.ZERO else Vector2(320, 240)
 	add_child(player)
 	player.add_child(ZoomCamera.new())
@@ -81,6 +83,7 @@ func _refresh_net_puppets() -> void:
 		if idx == local_idx or _net_puppets.has(idx):
 			continue
 		var pup := TownPlayer.new()
+		pup.manifest_override = PartyState.avatar_of(idx)
 		pup.position = player.position + Vector2(24 * idx, 0)
 		pup.modulate = PartyState.tint(idx)
 		add_child(pup)

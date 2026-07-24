@@ -170,6 +170,7 @@ func _build_lobby_panel() -> void:
 	_host_info.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_lobby_box.add_child(_host_info)
 	_lobby_box.add_child(UIKit.hsep())
+	_lobby_box.add_child(UIKit.button("CHANGE CHARACTER", _on_change_avatar, 10))
 	_ready_btn = UIKit.button("READY UP", _on_ready_pressed, 11)
 	_lobby_box.add_child(_ready_btn)
 	_start_new_btn = UIKit.button("START NEW GAME", _on_start_new, 11)
@@ -217,8 +218,9 @@ func _refresh_roster() -> void:
 				state = "  — connection lost"
 			elif bool(seat.get("ready", false)):
 				state = "  [READY]"
-			row.add_child(UIKit.label("P%d  %s%s%s" % [idx, PartyState.pname(idx), tag, state],
-				10, PartyState.color(idx)))
+			var char_name := PartyState.avatar_name(String(seat.get("avatar", "omori")))
+			row.add_child(UIKit.label("P%d  %s  [%s]%s%s" % [idx, PartyState.pname(idx),
+				char_name, tag, state], 10, PartyState.color(idx)))
 		else:
 			swatch.color = Color(1, 1, 1, 0.12)
 			row.add_child(UIKit.label("P%d  — open seat —" % idx, 10, UIKit.COL_DIM))
@@ -270,6 +272,18 @@ func _is_172_private(a: String) -> bool:
 func _on_ready_pressed() -> void:
 	var mine := bool(PartyState.player(PartyState.local_index()).get("ready", false))
 	Net.request("lobby.set_ready", {"ready": not mine})
+
+
+## Cycle the local player's walking avatar through the roster.
+func _on_change_avatar() -> void:
+	var current := String(PartyState.player(PartyState.local_index()).get("avatar", "omori"))
+	var i := 0
+	for n in range(PartyState.AVATARS.size()):
+		if String(PartyState.AVATARS[n]["id"]) == current:
+			i = n
+			break
+	var next_id := String(PartyState.AVATARS[(i + 1) % PartyState.AVATARS.size()]["id"])
+	Net.request("lobby.set_avatar", {"avatar": next_id})
 
 
 func _on_start_new() -> void:
