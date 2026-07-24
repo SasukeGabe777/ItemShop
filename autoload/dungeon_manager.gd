@@ -20,6 +20,24 @@ func reset() -> void:
 	rng.randomize()
 
 
+## Net sync payload: the expedition plan + live run totals (never the RNG).
+## Host-authoritative; clients mirror it for their HUD and dungeon build.
+func to_net() -> Dictionary:
+	return {
+		"pending": pending.duplicate(true),
+		"run_loot": run_loot.duplicate(true),
+		"run_gold": run_gold,
+		"run_kills": run_kills,
+	}
+
+
+func from_net(d: Dictionary) -> void:
+	pending = (d.get("pending", {}) as Dictionary).duplicate(true)
+	run_loot = (d.get("run_loot", {}) as Dictionary).duplicate(true)
+	run_gold = int(d.get("run_gold", 0))
+	run_kills = int(d.get("run_kills", 0))
+
+
 func plan_expedition(world_id: String, hero_id: String, consumables: Array = [], vertical_slice: bool = false, hero2_id: String = "", consumables2: Array = []) -> void:
 	pending = {
 		"world_id": world_id, "hero_id": hero_id, "hero2_id": hero2_id,

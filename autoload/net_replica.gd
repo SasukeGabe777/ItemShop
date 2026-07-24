@@ -34,6 +34,7 @@ var _state_accum := 0.0
 var _player_accum := 0.0
 var _local_provider: Callable = Callable()  # -> Array state for the local body
 var _local_index := 0
+var _local_body: Node = null
 var _player_puppets: Dictionary = {}  # player_index -> Node (with smoother)
 
 
@@ -51,6 +52,7 @@ func bump_gen() -> void:
 	_factories.clear()
 	_player_puppets.clear()
 	_local_provider = Callable()
+	_local_body = null
 	_local_index = 0
 	_next_eid = 1
 
@@ -72,23 +74,84 @@ func register_factory(kind: String, factory: Callable) -> void:
 
 
 ## The machine that OWNS a player body registers a provider returning its
-## state array [x, y, vx, vy, flags] (or [] to skip a tick).
-func register_local_player(idx: int, provider: Callable) -> void:
+## state array [x, y, vx, vy, flags] (or [] to skip a tick). `body` (when
+## given) receives forwarded damage packets addressed to this player.
+func register_local_player(idx: int, provider: Callable, body: Node = null) -> void:
 	_local_index = idx
 	_local_provider = provider
+	_local_body = body
 
 
 ## Any machine showing a remote player's body registers it here; incoming
-## states drive its smoother.
+## states drive its smoother, and forwarded hits route to its owner.
 func register_player_puppet(idx: int, body: Node) -> void:
 	_ensure_smoother(body)
 	body.set_meta("net_puppet", true)
+	body.set_meta("net_player_index", idx)
 	_player_puppets[idx] = body
+
+
+## ---- damage forwarding -------------------------------------------------------
+## Called by HurtboxComponent when a puppet is hit. Node refs cannot ride the
+## wire, so the packet flattens to plain data; the applying side's HP,
+## guard and iframes evaluate on authoritative state.
+
+func forward_hit(body: Node, packet: Dictionary, from_position: Vector2) -> void:
+	if not Net.is_online():
+		return
+	var clean := {
+		"damage": int(packet.get("damage", 1)),
+		"knockback": float(packet.get("knockback", 120.0)),
+		"source_player": 0,
+	}
+	var src: Variant = packet.get("source")
+	if src is CombatHero and not (src as CombatHero).is_puppet:
+		clean["source_player"] = (src as CombatHero).player_index
+		# meter optimism: the attacker felt the hit land, grant it now
+		(src as CombatHero).on_enemy_hit()
+	var from := [from_position.x, from_position.y]
+	var eid := int(body.get_meta("net_eid", 0))
+	if eid != 0:
+		# puppet of a host entity (enemy/boss/customer) -> apply on the host
+		if Net.is_host():
+			_hit_entity(gen, eid, clean, from)
+		else:
+			_hit_entity.rpc_id(1, gen, eid, clean, from)
+		return
+	var pidx := int(body.get_meta("net_player_index", 0))
+	if pidx != 0:
+		var peer := PartyState.peer_for(pidx)
+		if peer == 1 and Net.is_host():
+			return  # host's own body is never a puppet locally
+		if peer > 0:
+			_hit_player.rpc_id(peer, gen, pidx, clean, from)
+
+
+@rpc("any_peer", "call_remote", "reliable")
+func _hit_entity(g: int, eid: int, packet: Dictionary, from: Array) -> void:
+	if g != gen or not multiplayer.is_server():
+		return
+	var node := entity(eid)
+	if node != null and node.has_method("take_packet"):
+		node.take_packet(packet, Vector2(float(from[0]), float(from[1])))
+
+
+@rpc("any_peer", "call_remote", "reliable")
+func _hit_player(g: int, idx: int, packet: Dictionary, from: Array) -> void:
+	if g != gen or idx != _local_index:
+		return
+	if multiplayer.get_remote_sender_id() != 1:
+		return  # only the host simulates things that can hit us
+	if _local_body != null and is_instance_valid(_local_body) \
+			and _local_body.has_method("take_packet"):
+		_local_body.take_packet(packet, Vector2(float(from[0]), float(from[1])))
 
 
 func entity(eid: int) -> Node:
 	var node: Variant = _entities.get(eid)
-	return node if node is Node and is_instance_valid(node) else null
+	if node == null or not is_instance_valid(node):
+		return null
+	return node as Node
 
 
 ## ---- host API ---------------------------------------------------------------
@@ -173,8 +236,9 @@ func _send_entity_states() -> void:
 	var batch: Array = []
 	for eid: int in _entities.keys():
 		var node: Variant = _entities[eid]
-		if not (node is Node2D) or not is_instance_valid(node):
+		if node == null or not is_instance_valid(node) or not (node is Node2D):
 			_entities.erase(eid)
+			_entity_meta.erase(eid)
 			continue
 		var n2 := node as Node2D
 		var vel := Vector2.ZERO
@@ -208,7 +272,7 @@ func _spawn(g: int, eid: int, kind: String, args: Dictionary) -> void:
 		_pending_spawns.append([g, eid, kind, args])
 		return
 	var node: Variant = factory.call(args)
-	if not (node is Node) or not is_instance_valid(node):
+	if node == null or not is_instance_valid(node) or not (node is Node):
 		return
 	var built := node as Node
 	_entities[eid] = built
@@ -292,7 +356,7 @@ func _apply_player_state(idx: int, data: Array) -> void:
 	if data.size() < 4:
 		return
 	var body: Variant = _player_puppets.get(idx)
-	if not (body is Node) or not is_instance_valid(body):
+	if body == null or not is_instance_valid(body):
 		return
 	var sm := (body as Node).get_node_or_null("PuppetSmoother") as PuppetSmoother
 	if sm != null:

@@ -18,12 +18,43 @@ var hitbox: HitboxComponent
 var loot: LootTableComponent
 
 var stun_time: float = 0.0
+var is_puppet: bool = false      # online client copy: no AI, no rng, no touch
+var last_attacker: int = 0       # online: player_index that hit us last (kill credit)
 var _think_timer: float = 0.0
 var _retarget_timer: float = 0.0
 var _state: String = "idle"
 var _state_time: float = 0.0
 var _shots_cooldown: float = 0.0
 var rng := RandomNumberGenerator.new()
+
+
+## Online client copy: the host simulates; the smoother drives position and
+## host events drive HP/FX. Hurtbox stays monitorable — local hero swings
+## overlap it and forward their packets to the host.
+func make_puppet() -> void:
+	is_puppet = true
+	set_physics_process(false)
+	set_process(true)
+
+
+func _process(_delta: float) -> void:
+	if not is_puppet:
+		return
+	var sm := get_node_or_null("PuppetSmoother") as PuppetSmoother
+	if sm == null or visual == null or health.dead:
+		return
+	var moving := sm.target_vel.length() > 5.0
+	if moving:
+		visual.face(sm.target_vel, true)
+
+
+## Streamed FX/HP mirror for puppets (extracted from the authoritative _on_hit).
+## Position stays with the smoother — only the presentation reacts.
+func play_hurt_fx(dmg: int, _from_position: Vector2, new_hp: int) -> void:
+	health.hp = clampi(new_hp, 0, health.max_hp)
+	FX.flash(visual.body_node(), Color(1, 1, 1))
+	FX.damage_number(get_parent(), global_position, dmg)
+	FX.burst(get_parent(), global_position, Color(1, 0.9, 0.6), 6)
 
 
 func setup(id: String, player: Node2D) -> void:
@@ -319,6 +350,15 @@ func _on_hit(packet: Dictionary, from_position: Vector2) -> void:
 	var src: Variant = packet.get("source")
 	if src is CombatHero:
 		(src as CombatHero).on_enemy_hit()
+		last_attacker = (src as CombatHero).player_index
+	elif packet.has("source_player"):
+		last_attacker = int(packet.get("source_player", 0))
+	if Net.is_host():
+		Replica.host_event(self, "hurt", {
+			"dmg": int(packet.get("damage", 0)),
+			"from": [from_position.x, from_position.y],
+			"hp": health.hp,
+		})
 
 
 func _on_died() -> void:
@@ -330,6 +370,10 @@ func _on_died() -> void:
 			child.setup(enemy_id, target)
 			child.health.setup(int(def.get("hp", 20)) / 3)
 			child.global_position = global_position + Vector2(rng.randf_range(-12, 12), rng.randf_range(-12, 12))
+			if Net.is_host():
+				Replica.host_register(child, "enemy", {"id": enemy_id,
+					"hp": int(def.get("hp", 20)) / 3,
+					"pos": [child.global_position.x, child.global_position.y]})
 	var drops := loot.roll()
 	killed.emit(enemy_id, global_position)
 	# bosses get a bigger release than rank-and-file heartless
@@ -339,9 +383,19 @@ func _on_died() -> void:
 		pickup.setup_item(item_id)
 		pickup.global_position = global_position + Vector2(rng.randf_range(-10, 10), rng.randf_range(-10, 10))
 		get_parent().call_deferred("add_child", pickup)
+		if Net.is_host():
+			Replica.host_register(pickup, "loot", {"item": item_id,
+				"pos": [pickup.global_position.x, pickup.global_position.y]})
 	if int(drops["gold"]) > 0:
 		var gold_pickup := LootPickup.new()
 		gold_pickup.setup_gold(int(drops["gold"]))
 		gold_pickup.global_position = global_position
 		get_parent().call_deferred("add_child", gold_pickup)
+		if Net.is_host():
+			Replica.host_register(gold_pickup, "loot", {"gold": int(drops["gold"]),
+				"pos": [gold_pickup.global_position.x, gold_pickup.global_position.y]})
+	if Net.is_host():
+		Replica.host_despawn(self, "death", {"killer": last_attacker,
+			"at": [global_position.x, global_position.y],
+			"boss": not (def.get("attacks", []) as Array).is_empty()})
 	queue_free()

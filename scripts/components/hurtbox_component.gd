@@ -14,6 +14,13 @@ func _init() -> void:
 
 
 func receive(packet: Dictionary, from_position: Vector2) -> void:
+	# Online: hits are DETECTED wherever the attacker simulates, but damage is
+	# APPLIED where the defender's HP is authoritative. A puppet's hurtbox
+	# forwards the packet to the machine that owns the real body.
+	var body := get_parent()
+	if body != null and body.get_meta("net_puppet", false):
+		Replica.forward_hit(body, packet, from_position)
+		return
 	var health := get_node_or_null(health_path) as HealthComponent
 	if health == null:
 		health = get_parent().get_node_or_null("HealthComponent") as HealthComponent

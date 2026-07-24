@@ -58,6 +58,9 @@ func _on_body(body: Node) -> void:
 
 
 func _collect() -> void:
+	if Net.is_host():
+		Replica.host_despawn(self, "consumed",
+			{"at": [global_position.x, global_position.y]})
 	if item_id != "":
 		DungeonManager.add_run_loot(item_id)
 		var rare := float(ContentDatabase.get_item(item_id).get("price", 0)) >= 400.0

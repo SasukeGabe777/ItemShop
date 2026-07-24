@@ -25,6 +25,7 @@ var finished: bool = false
 var shake_amount: float = 0.0
 var vertical_slice_reward_spawned: bool = false
 var vertical_slice_reward_collected: bool = false
+var _net_hero_puppets: Dictionary = {}  # online: player_index -> CombatHero puppet
 
 const CELL := 32
 
@@ -34,7 +35,11 @@ func _ready() -> void:
 	world_id = String(DungeonManager.pending.get("world_id", "kingdom_hearts"))
 	var w := ContentDatabase.get_world(world_id)
 	AudioManager.play_track("final_dungeon" if bool(w.get("final", false)) else "dungeon_%s" % world_id)
-	layout = DungeonManager.generate_layout(world_id, -1, bool(DungeonManager.pending.get("vertical_slice", false)))
+	# online: the host rolled layout_seed at depart so every machine builds
+	# identical rooms; offline keeps the free -1 roll
+	layout = DungeonManager.generate_layout(world_id,
+		int(DungeonManager.pending.get("layout_seed", -1)),
+		bool(DungeonManager.pending.get("vertical_slice", false)))
 	if bool(w.get("final", false)):
 		for wid in ContentDatabase.world_order:
 			var ww := ContentDatabase.get_world(wid)
@@ -42,7 +47,14 @@ func _ready() -> void:
 				switch_available.append(String(ww.get("hero", "")))
 	room_root = Node2D.new()
 	add_child(room_root)
-	_spawn_hero(String(DungeonManager.pending.get("hero_id", "sora")))
+	var start_hero := String(DungeonManager.pending.get("hero_id", "sora"))
+	if Net.is_online():
+		var mine := _party_entry(PartyState.local_index())
+		if not mine.is_empty():
+			start_hero = String(mine.get("hero_id", start_hero))
+			DungeonManager.pending["consumables"] = \
+				(mine.get("consumables", []) as Array).duplicate()
+	_spawn_hero(start_hero)
 	var hero2_id := String(DungeonManager.pending.get("hero2_id", ""))
 	if MultiplayerState.enabled and hero2_id != "" and not ContentDatabase.get_hero(hero2_id).is_empty():
 		hero2 = CombatHero.new()
@@ -108,6 +120,10 @@ func _ready() -> void:
 		hero2.consumables_changed.connect(_on_consumables2_changed)
 		_on_consumables2_changed(hero2.consumables)
 	_enter_room(0)
+	# online wiring AFTER the first room build: buffered spawn replays must
+	# land in the freshly built room_root, not get freed by it
+	if Net.is_online():
+		_setup_net_dungeon()
 
 
 func dev_select_hero(hero_id: String) -> bool:
@@ -158,12 +174,166 @@ func _spawn_hero(hero_id: String) -> void:
 	if camera != null and camera.get_parent() == null:
 		hero.add_child(camera)
 	hero.defeated.connect(_on_hero_defeated)
+	if Net.is_online():
+		var idx := PartyState.local_index()
+		hero.player_index = idx
+		hero.modulate = PartyState.tint(idx)
+		var name_label := UIKit.floating_name(hero, hero.visual, PartyState.pname(idx),
+			4.0, 12, PartyState.color(idx))
+		name_label.name = "PlayerIdentityLabel"
+		Replica.register_local_player(idx, _local_hero_state, hero)
+		hero.hp_changed.connect(func(hp: int, _max_hp: int) -> void:
+			Replica.send_player_event("hp", {"hp": hp}))
 	if hp_bar != null:
 		hero.hp_changed.connect(_on_hp_changed)
 		hero.meter_changed.connect(_set_meter_display)
 		hero.consumables_changed.connect(_on_consumables_changed)
 		_on_hp_changed(hero.health.hp, hero.health.max_hp)
 		_on_consumables_changed(hero.consumables)
+
+
+## ---- online party ------------------------------------------------------------
+
+func _party_entry(idx: int) -> Dictionary:
+	for entry in DungeonManager.pending.get("party", []):
+		if int((entry as Dictionary).get("player_index", 0)) == idx:
+			return entry
+	return {}
+
+
+func _local_hero_state() -> Array:
+	if hero == null or not is_instance_valid(hero):
+		return []
+	return [hero.global_position.x, hero.global_position.y,
+		hero.velocity.x, hero.velocity.y, 0]
+
+
+func _setup_net_dungeon() -> void:
+	Replica.register_factory("enemy", _net_spawn_enemy)
+	Replica.register_factory("boss", _net_spawn_boss)
+	Replica.register_factory("chest", _net_spawn_chest)
+	Replica.register_factory("loot", _net_spawn_loot)
+	Replica.entity_event.connect(_on_net_entity_event)
+	Replica.entity_despawned.connect(_on_net_entity_despawned)
+	Replica.remote_player_event.connect(_on_net_player_event)
+	Net.scene_event.connect(_on_net_scene_event)
+	var local_idx := PartyState.local_index()
+	for idx in PartyState.connected_indexes():
+		if idx == local_idx:
+			continue
+		var entry := _party_entry(idx)
+		var hid := String(entry.get("hero_id",
+			DungeonManager.pending.get("hero_id", "sora")))
+		var pup := CombatHero.new()
+		add_child(pup)
+		pup.setup(hid, [])
+		pup.make_puppet(idx)
+		pup.modulate = PartyState.tint(idx)
+		var pup_label := UIKit.floating_name(pup, pup.visual, PartyState.pname(idx),
+			4.0, 12, PartyState.color(idx))
+		pup_label.name = "PlayerIdentityLabel"
+		pup.global_position = hero.global_position + Vector2(16 * idx, 0)
+		Replica.register_player_puppet(idx, pup)
+		_net_hero_puppets[idx] = pup
+
+
+func _net_spawn_enemy(args: Dictionary) -> Node:
+	var e := Enemy.new()
+	room_root.add_child(e)
+	e.setup(String(args.get("id", "")), hero)
+	if args.has("hp"):
+		e.health.setup(int(args.get("hp", 20)))
+	e.global_position = _args_pos(args)
+	e.make_puppet()
+	return e
+
+
+func _net_spawn_boss(args: Dictionary) -> Node:
+	var b := Boss.new()
+	room_root.add_child(b)
+	b.setup(String(args.get("id", "")), hero)
+	b.global_position = _args_pos(args)
+	b.make_puppet()
+	boss_bar.visible = true
+	boss_bar.max_value = int(args.get("max_hp", b.health.max_hp))
+	boss_bar.value = boss_bar.max_value
+	return b
+
+
+func _net_spawn_chest(args: Dictionary) -> Node:
+	var chest := Node2D.new()
+	var spr := Sprite2D.new()
+	var chest_tex := Scenery.texture_or_null("chest")
+	spr.texture = chest_tex if chest_tex != null else PlaceholderFactory.furniture_texture("case", 18, 14)
+	chest.add_child(spr)
+	room_root.add_child(chest)
+	chest.global_position = _args_pos(args)
+	return chest
+
+
+func _net_spawn_loot(args: Dictionary) -> Node:
+	var pickup := LootPickup.new()
+	if args.has("gold"):
+		pickup.setup_gold(int(args.get("gold", 0)))
+	else:
+		pickup.setup_item(String(args.get("item", "")))
+	pickup.set_physics_process(false)  # cosmetic: the host banks the loot
+	pickup.monitoring = false
+	room_root.add_child(pickup)
+	pickup.global_position = _args_pos(args)
+	return pickup
+
+
+static func _args_pos(args: Dictionary, key: String = "pos") -> Vector2:
+	var p: Array = args.get(key, [0, 0])
+	return Vector2(float(p[0]), float(p[1]))
+
+
+func _on_net_entity_event(eid: int, event_name: String, args: Dictionary) -> void:
+	match event_name:
+		"hurt":
+			var node := Replica.entity(eid)
+			if node is Enemy:
+				(node as Enemy).play_hurt_fx(int(args.get("dmg", 0)),
+					_args_pos(args, "from"), int(args.get("hp", 0)))
+		"boss_hp":
+			boss_bar.value = int(args.get("hp", 0))
+
+
+func _on_net_entity_despawned(_eid: int, reason: String, args: Dictionary) -> void:
+	match reason:
+		"death":
+			var at := _args_pos(args, "at")
+			FX.enemy_death(room_root, at, 1.6 if bool(args.get("boss", false)) else 1.0)
+			if bool(args.get("boss", false)):
+				boss_bar.visible = false
+			if int(args.get("killer", 0)) == PartyState.local_index() \
+					and hero != null and is_instance_valid(hero):
+				hero.on_enemy_killed()
+		"consumed":
+			FX.burst(room_root, _args_pos(args, "at"), Color(1, 1, 0.8), 5)
+
+
+func _on_net_player_event(idx: int, event_name: String, args: Dictionary) -> void:
+	if event_name != "hp":
+		return
+	var pup: Variant = _net_hero_puppets.get(idx)
+	if pup != null and is_instance_valid(pup):
+		(pup as CombatHero).mirror_health(int(args.get("hp", 0)))
+	if int(args.get("hp", 0)) <= 0:
+		_on_hero_defeated()
+
+
+func _on_net_scene_event(event_name: String, args: Dictionary) -> void:
+	match event_name:
+		"enter_room":
+			_enter_room(int(args.get("idx", 0)))
+		"room_cleared":
+			_apply_room_cleared()
+		"expedition_finished":
+			finished = true
+			_show_finish_modal(bool(args.get("success", false)),
+				bool(args.get("boss", false)), args.get("result", {}))
 
 
 ## Per-world HP display: worlds.json "hud" can theme it to the source game —
@@ -385,9 +555,20 @@ func _process(_delta: float) -> void:
 	for id: String in DungeonManager.run_loot:
 		total += int(DungeonManager.run_loot[id])
 	loot_label.text = "Loot: %d items, %dg | Room %d/%d" % [total, DungeonManager.run_gold, room_index + 1, layout.size()]
-	if door_open and hero != null and (hero.global_position.y < 30.0
-			or (hero2 != null and is_instance_valid(hero2) and hero2.global_position.y < 30.0)):
+	if door_open and Net.is_authority() and _any_hero_past_exit():
 		_next_room()
+
+
+## Any party hero (local, couch partner or online puppet) through the top door.
+func _any_hero_past_exit() -> bool:
+	if hero != null and is_instance_valid(hero) and hero.global_position.y < 30.0:
+		return true
+	if hero2 != null and is_instance_valid(hero2) and hero2.global_position.y < 30.0:
+		return true
+	for pup: Variant in _net_hero_puppets.values():
+		if pup != null and is_instance_valid(pup) and (pup as Node2D).global_position.y < 30.0:
+			return true
+	return false
 
 
 func _enter_room(idx: int) -> void:
@@ -482,11 +663,19 @@ func _enter_room(idx: int) -> void:
 	hero.global_position = _cell_center(pcell)
 	if hero2 != null and is_instance_valid(hero2):
 		hero2.global_position = _cell_center(_free_cell(pcell + Vector2i(1, 0), template)) + Vector2(-10, 0)
-	# chests
+	var slot := 1
+	for pup: Variant in _net_hero_puppets.values():
+		if pup != null and is_instance_valid(pup):
+			(pup as Node2D).global_position = _cell_center(
+				_free_cell(pcell + Vector2i(slot, 0), template))
+			slot += 1
+	# chests / enemies / bosses: the host simulates them; clients receive
+	# replicated puppets through their Replica factories instead
+	var kind := String(entry["kind"])
+	if not Net.is_authority():
+		return
 	for ch in template.get("chests", []):
 		_spawn_chest(_cell_center(_free_cell(Vector2i(int(ch[0]), int(ch[1])), template)))
-	# enemies
-	var kind := String(entry["kind"])
 	var spawn_cells: Array = template.get("spawns", [])
 	var enemies: Array = entry["enemies"]
 	if kind == "boss":
@@ -505,6 +694,12 @@ func _enter_room(idx: int) -> void:
 			DungeonManager.run_kills += 1
 			AudioManager.play_sfx("boss_Defeated", 2.0)
 			_on_room_cleared(true))
+		if Net.is_host():
+			Replica.host_register(boss, "boss", {"id": String(enemies[0]),
+				"pos": [boss.global_position.x, boss.global_position.y],
+				"max_hp": boss.health.max_hp})
+			boss.boss_hp_changed.connect(func(hp: int, _mx: int) -> void:
+				Replica.host_event(boss, "boss_hp", {"hp": hp}))
 	else:
 		for i in range(enemies.size()):
 			var e := Enemy.new()
@@ -512,7 +707,10 @@ func _enter_room(idx: int) -> void:
 			e.setup(String(enemies[i]), hero)
 			var sc: Array = spawn_cells[i % maxi(1, spawn_cells.size())] if not spawn_cells.is_empty() else [10, 3]
 			e.global_position = _cell_center(_free_cell(Vector2i(int(sc[0]), int(sc[1])), template))
-			e.killed.connect(_on_enemy_killed)
+			e.killed.connect(_on_enemy_killed.bind(e))
+			if Net.is_host():
+				Replica.host_register(e, "enemy", {"id": String(enemies[i]),
+					"pos": [e.global_position.x, e.global_position.y]})
 		if enemies.is_empty():
 			_on_room_cleared(false)
 	# hero switch pads in final dungeon rooms
@@ -680,8 +878,14 @@ func _spawn_chest(at: Vector2) -> void:
 		DungeonManager.add_run_loot(prize)
 		DungeonManager.run_gold += 20 + randi() % 60
 		FX.burst(room_root, chest.position, Color(1, 0.9, 0.4), 16)
+		if Net.is_host():
+			Replica.host_despawn(chest, "consumed",
+				{"at": [chest.global_position.x, chest.global_position.y]})
+			Net.sync_managers(["dungeon"])
 		chest.queue_free())
 	room_root.add_child(chest)
+	if Net.is_host():
+		Replica.host_register(chest, "chest", {"pos": [at.x, at.y]})
 
 
 func _spawn_switch_pad(at: Vector2) -> void:
@@ -768,9 +972,16 @@ func _check_room_clear() -> void:
 		_on_room_cleared(false)
 
 
-func _on_enemy_killed(enemy_id: String, at: Vector2) -> void:
+func _on_enemy_killed(enemy_id: String, at: Vector2, mob: Enemy = null) -> void:
 	DungeonManager.run_kills += 1
-	hero.on_enemy_killed()
+	if Net.is_online():
+		# kill credit goes to whoever landed the last hit; other machines get
+		# theirs from the death despawn event
+		if mob != null and mob.last_attacker == PartyState.local_index():
+			hero.on_enemy_killed()
+		Net.sync_managers(["dungeon"])
+	else:
+		hero.on_enemy_killed()
 	var cfg: Dictionary = ContentDatabase.bal("kingdom_hearts_vertical_slice", {})
 	if (
 		bool(DungeonManager.pending.get("vertical_slice", false))
@@ -815,6 +1026,15 @@ func _on_room_cleared(was_boss: bool) -> void:
 		FX.shake(8.0)
 		_finish(true, true)
 		return
+	if Net.is_online() and Net.is_authority():
+		Net.broadcast_scene_event("room_cleared", {})  # applies locally too
+		return
+	_apply_room_cleared()
+
+
+func _apply_room_cleared() -> void:
+	if door_open or finished:
+		return
 	door_open = true
 	var blocker := room_root.get_node_or_null("DoorBlocker")
 	if blocker != null:
@@ -826,7 +1046,10 @@ func _on_room_cleared(was_boss: bool) -> void:
 
 func _next_room() -> void:
 	if room_index + 1 < layout.size():
-		_enter_room(room_index + 1)
+		if Net.is_online() and Net.is_host():
+			Net.broadcast_scene_event("enter_room", {"idx": room_index + 1})
+		else:
+			_enter_room(room_index + 1)
 	else:
 		_finish(true, false)
 
@@ -834,10 +1057,8 @@ func _next_room() -> void:
 func _on_hero_defeated() -> void:
 	if finished:
 		return
-	# co-op: the run only ends when BOTH heroes are down
-	var someone_up := (hero != null and is_instance_valid(hero) and not hero.health.dead) \
-		or (hero2 != null and is_instance_valid(hero2) and not hero2.health.dead)
-	if someone_up:
+	# co-op: the run only ends when EVERY hero is down
+	if _someone_up():
 		var note := UIKit.label("A hero is down! Finish the fight!", 10, UIKit.COL_BAD)
 		note.position = Vector2(ContentDatabase.room_grid.x * CELL / 2.0 - 80, 56)
 		note.z_index = 70
@@ -847,16 +1068,52 @@ func _on_hero_defeated() -> void:
 		tw.tween_property(note, "modulate:a", 0.0, 0.5)
 		tw.tween_callback(note.queue_free)
 		return
+	if Net.is_online() and not Net.is_authority():
+		return  # the host calls the wipe from its mirrored view
 	AudioManager.play_stinger("failure_stinger")
 	_finish(false, false)
 
 
-func _finish(success: bool, boss_defeated: bool) -> void:
-	finished = true
+func _someone_up() -> bool:
+	if hero != null and is_instance_valid(hero) and not hero.health.dead:
+		return true
+	if hero2 != null and is_instance_valid(hero2) and not hero2.health.dead:
+		return true
+	for pup: Variant in _net_hero_puppets.values():
+		if pup != null and is_instance_valid(pup) and not (pup as CombatHero).health.dead:
+			return true
+	return false
+
+
+func _best_hp_left() -> int:
 	var hp_left := hero.health.hp if hero != null else 0
 	if hero2 != null and is_instance_valid(hero2):
 		hp_left = maxi(hp_left, hero2.health.hp)
+	for pup: Variant in _net_hero_puppets.values():
+		if pup != null and is_instance_valid(pup):
+			hp_left = maxi(hp_left, (pup as CombatHero).health.hp)
+	return hp_left
+
+
+func _finish(success: bool, boss_defeated: bool) -> void:
+	if finished:
+		return
+	if Net.is_online():
+		if not Net.is_authority():
+			return  # host computes the result and broadcasts it
+		finished = true
+		var net_result := DungeonManager.finish_expedition(success, boss_defeated, _best_hp_left())
+		Net.sync_all()
+		Net.broadcast_scene_event("expedition_finished",
+			{"success": success, "boss": boss_defeated, "result": net_result})
+		return
+	finished = true
+	var hp_left := _best_hp_left()
 	var result := DungeonManager.finish_expedition(success, boss_defeated, hp_left)
+	_show_finish_modal(success, boss_defeated, result)
+
+
+func _show_finish_modal(success: bool, boss_defeated: bool, result: Dictionary) -> void:
 	var parts := UIKit.modal(self, "Expedition %s" % ("complete!" if success else "failed..."))
 	var end_layer: CanvasLayer = parts[0]
 	var vb: VBoxContainer = parts[1]
@@ -884,9 +1141,13 @@ func _finish(success: bool, boss_defeated: bool) -> void:
 	var status := DayTransition.fade_status()
 	if status != null:
 		vb.add_child(status)
-	vb.add_child(UIKit.button("Return to the Crossroads", func() -> void:
-		end_layer.queue_free()
-		if StoryEventManager.has_pending():
-			SceneRouter.go("story", {"return_to": "town"})
-		else:
-			SceneRouter.go("town")))
+	if Net.is_client():
+		vb.add_child(UIKit.label("Waiting for %s to lead the party home..."
+			% PartyState.pname(1), 10, UIKit.COL_DIM))
+	else:
+		vb.add_child(UIKit.button("Return to the Crossroads", func() -> void:
+			end_layer.queue_free()
+			if StoryEventManager.has_pending():
+				SceneRouter.go("story", {"return_to": "town"})
+			else:
+				SceneRouter.go("town")))

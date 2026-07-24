@@ -36,6 +36,37 @@ var guarding: bool = false
 var consumables: Array = []
 var revives_available: int = 0
 var input_prefix: String = ""  # "p2_" for the second local player
+var is_puppet: bool = false    # online: a remote player's hero, driven by Replica
+var player_index: int = 0      # online seat (0 = offline/couch)
+
+
+## Online remote hero: no input, no physics, no hitting — the smoother owns
+## position, streamed events own HP/anims. Hurtbox stays monitorable so the
+## host's enemies (and this machine's own swings, forwarded) can find it.
+func make_puppet(idx: int) -> void:
+	is_puppet = true
+	player_index = idx
+	hitbox.collision_mask = 0
+	collision_mask = 0
+
+
+## Network damage entry (mirrors Enemy.take_packet): forwarded packets from
+## puppets land here on the OWNING machine and run the full authoritative
+## flow — guard reduction, iframes, FX, death.
+func take_packet(packet: Dictionary, from_position: Vector2) -> void:
+	hurtbox.receive(packet, from_position)
+
+
+## Applies streamed HP to a puppet without re-running damage logic.
+func mirror_health(new_hp: int) -> void:
+	health.hp = clampi(new_hp, 0, health.max_hp)
+	if new_hp > 0 and health.dead:
+		health.dead = false
+		visual.modulate = Color.WHITE
+	elif new_hp <= 0 and not health.dead:
+		health.dead = true
+		visual.modulate = Color(0.5, 0.5, 0.5, 0.6)
+	hp_changed.emit(health.hp, health.max_hp)
 
 
 func setup(id: String, consumable_items: Array = []) -> void:
@@ -110,6 +141,14 @@ func combat_def() -> Dictionary:
 
 
 func _physics_process(delta: float) -> void:
+	if is_puppet:
+		var sm := get_node_or_null("PuppetSmoother") as PuppetSmoother
+		if sm != null and visual != null and not health.dead:
+			var moving := sm.target_vel.length() > 5.0
+			if moving:
+				facing = sm.target_vel.normalized()
+			visual.face(facing, moving)
+		return
 	if health.dead:
 		return
 	attack_lock = maxf(0.0, attack_lock - delta)
@@ -458,6 +497,8 @@ func _gain_meter(amount: float) -> void:
 
 
 func on_enemy_hit() -> void:
+	if is_puppet:
+		return  # the meter belongs to the owning machine
 	set_meta("hits", int(get_meta("hits", 0)) + 1)
 	_gain_meter(float(ContentDatabase.bal("dungeon", {}).get("meter_gain_per_hit", 6)))
 
