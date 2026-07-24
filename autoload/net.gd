@@ -316,7 +316,8 @@ func _seat_or_park(idx: int, peer_id: int, token: String) -> void:
 	else:
 		PartyState.players[idx]["parked"] = false
 		_welcome.rpc_id(peer_id, snapshot_all(), _roster_payload(),
-			current_scene_key(), SceneRouter.context, idx, token)
+			current_scene_key(), SceneRouter.context, idx, token, Replica.gen)
+		Replica.host_replay_to(peer_id)
 	_broadcast_roster()
 
 
@@ -338,7 +339,7 @@ func _evict_expired_seats() -> void:
 
 @rpc("authority", "call_remote", "reliable")
 func _welcome(snapshot: Dictionary, roster: Array, scene_key: String,
-		ctx: Dictionary, your_index: int, token: String) -> void:
+		ctx: Dictionary, your_index: int, token: String, host_gen: int) -> void:
 	my_index = your_index
 	session_token = token
 	_welcome_seen = true
@@ -352,6 +353,7 @@ func _welcome(snapshot: Dictionary, roster: Array, scene_key: String,
 		applying_remote_go = true
 		SceneRouter.go(scene_key, ctx)
 		applying_remote_go = false
+	Replica.gen = host_gen  # align entity generations with the host
 
 
 @rpc("authority", "call_remote", "reliable")
@@ -573,7 +575,9 @@ func broadcast_scene_change(scene_key: String, ctx: Dictionary) -> void:
 	if not is_host():
 		return
 	sync_all()
-	_net_go.rpc(scene_key, ctx)
+	# The host's own SceneRouter.go bumps Replica.gen right after this call;
+	# clients align to that exact value.
+	_net_go.rpc(scene_key, ctx, Replica.gen + 1)
 	if scene_key != "dungeon":
 		_unpark_all(scene_key, ctx)
 
@@ -586,19 +590,21 @@ func _unpark_all(scene_key: String, ctx: Dictionary) -> void:
 		if bool(seat.get("parked", false)) and bool(seat.get("connected", false)):
 			seat["parked"] = false
 			_welcome.rpc_id(int(seat["peer_id"]), snapshot_all(), _roster_payload(),
-				scene_key, ctx, idx, String(seat["session_token"]))
+				scene_key, ctx, idx, String(seat["session_token"]), Replica.gen + 1)
+			Replica.host_replay_to(int(seat["peer_id"]))
 			changed = true
 	if changed:
 		_broadcast_roster()
 
 
 @rpc("authority", "call_remote", "reliable")
-func _net_go(scene_key: String, ctx: Dictionary) -> void:
+func _net_go(scene_key: String, ctx: Dictionary, target_gen: int) -> void:
 	if my_index == 0 or _parked:
 		return  # not seated in the world yet; our _welcome does the moving
 	applying_remote_go = true
 	SceneRouter.go(scene_key, ctx)
 	applying_remote_go = false
+	Replica.gen = target_gen
 
 
 ## ---- pause -----------------------------------------------------------------
