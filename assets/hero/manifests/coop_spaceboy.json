@@ -1,9 +1,9 @@
 {
-  "asset_id": "coop_mari",
-  "character_id": "mari",
+  "asset_id": "coop_spaceboy",
+  "character_id": "spaceboy",
   "source_game": "OMORI",
   "source_site": "The Spriters Resource",
-  "sheet": "res://assets/hero/processed/coop/mari.png",
+  "sheet": "res://assets/hero/processed/coop/spaceboy.png",
   "native_scale": 1,
   "display_scale": 1,
   "grid": {

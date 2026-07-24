@@ -1,9 +1,9 @@
 {
-  "asset_id": "coop_mari",
-  "character_id": "mari",
+  "asset_id": "coop_angel",
+  "character_id": "angel",
   "source_game": "OMORI",
   "source_site": "The Spriters Resource",
-  "sheet": "res://assets/hero/processed/coop/mari.png",
+  "sheet": "res://assets/hero/processed/coop/angel.png",
   "native_scale": 1,
   "display_scale": 1,
   "grid": {

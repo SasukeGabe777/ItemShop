@@ -20,14 +20,22 @@ const PLAYER_TINTS: Array[Color] = [
 	Color(1.0, 0.96, 0.8), Color(0.94, 0.86, 1.0),
 ]
 
-## Town/shop walking avatars a player can pick in the online lobby. "omori" is
-## the historical faraway hero; the rest are OMORI overworld rips extracted by
+## Town/shop walking avatars a player picks in the online lobby character
+## select. All are OMORI overworld rips extracted + re-packed by
 ## tools/prep_coop_avatars.py. The DUNGEON hero is a separate lineup choice.
 const AVATARS: Array[Dictionary] = [
-	{"id": "omori",  "name": "Omori",  "manifest": "res://assets/hero/manifests/hero_faraway_overworld.json"},
-	{"id": "sunny",  "name": "Sunny",  "manifest": "res://assets/hero/manifests/coop_sunny.json"},
-	{"id": "aubrey", "name": "Aubrey", "manifest": "res://assets/hero/manifests/coop_aubrey.json"},
-	{"id": "mari",   "name": "Mari",   "manifest": "res://assets/hero/manifests/coop_mari.json"},
+	{"id": "sunny",      "name": "Sunny",         "manifest": "res://assets/hero/manifests/coop_sunny.json"},
+	{"id": "aubrey",     "name": "Aubrey",        "manifest": "res://assets/hero/manifests/coop_aubrey.json"},
+	{"id": "basil",      "name": "Basil",         "manifest": "res://assets/hero/manifests/coop_basil.json"},
+	{"id": "kel",        "name": "Kel",           "manifest": "res://assets/hero/manifests/coop_kel.json"},
+	{"id": "mari",       "name": "Mari",          "manifest": "res://assets/hero/manifests/coop_mari.json"},
+	{"id": "angel",      "name": "Angel",         "manifest": "res://assets/hero/manifests/coop_angel.json"},
+	{"id": "charlie",    "name": "Charlie",       "manifest": "res://assets/hero/manifests/coop_charlie.json"},
+	{"id": "kim",        "name": "Kim",           "manifest": "res://assets/hero/manifests/coop_kim.json"},
+	{"id": "maverick",   "name": "The Maverick",  "manifest": "res://assets/hero/manifests/coop_maverick.json"},
+	{"id": "spaceboy",   "name": "Capt. Spaceboy","manifest": "res://assets/hero/manifests/coop_spaceboy.json"},
+	{"id": "sweetheart", "name": "Sweetheart",    "manifest": "res://assets/hero/manifests/coop_sweetheart.json"},
+	{"id": "vance",      "name": "Vance",         "manifest": "res://assets/hero/manifests/coop_vance.json"},
 ]
 
 
@@ -43,6 +51,17 @@ static func avatar_name(avatar_id: String) -> String:
 		if String(a["id"]) == avatar_id:
 			return String(a["name"])
 	return String(AVATARS[0]["name"])
+
+
+## An idle-facing-down preview frame for the character-select menu.
+static func avatar_preview(avatar_id: String) -> Texture2D:
+	var path := "res://assets/hero/processed/coop/%s.png" % avatar_id
+	if not ResourceLoader.exists(path):
+		return null
+	var at := AtlasTexture.new()
+	at.atlas = load(path)
+	at.region = Rect2(32, 0, 32, 32)  # row 0 (down), col 1 = idle_down frame
+	return at
 
 signal changed
 signal player_left(player_index: int)

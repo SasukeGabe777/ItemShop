@@ -170,7 +170,7 @@ func _build_lobby_panel() -> void:
 	_host_info.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_lobby_box.add_child(_host_info)
 	_lobby_box.add_child(UIKit.hsep())
-	_lobby_box.add_child(UIKit.button("CHANGE CHARACTER", _on_change_avatar, 10))
+	_lobby_box.add_child(UIKit.button("CHOOSE CHARACTER", _open_character_select, 10))
 	_ready_btn = UIKit.button("READY UP", _on_ready_pressed, 11)
 	_lobby_box.add_child(_ready_btn)
 	_start_new_btn = UIKit.button("START NEW GAME", _on_start_new, 11)
@@ -274,16 +274,49 @@ func _on_ready_pressed() -> void:
 	Net.request("lobby.set_ready", {"ready": not mine})
 
 
-## Cycle the local player's walking avatar through the roster.
-func _on_change_avatar() -> void:
-	var current := String(PartyState.player(PartyState.local_index()).get("avatar", "omori"))
-	var i := 0
-	for n in range(PartyState.AVATARS.size()):
-		if String(PartyState.AVATARS[n]["id"]) == current:
-			i = n
-			break
-	var next_id := String(PartyState.AVATARS[(i + 1) % PartyState.AVATARS.size()]["id"])
-	Net.request("lobby.set_avatar", {"avatar": next_id})
+## Grid of every avatar's sprite in a white menu — click one to play as it.
+func _open_character_select() -> void:
+	var parts := UIKit.modal(self, "Choose your character")
+	var layer: CanvasLayer = parts[0]
+	var vb: VBoxContainer = parts[1]
+	(vb.get_parent() as PanelContainer).custom_minimum_size = Vector2(560, 0)
+	var current := String(PartyState.player(PartyState.local_index()).get("avatar", ""))
+	var grid := GridContainer.new()
+	grid.columns = 4
+	grid.add_theme_constant_override("h_separation", 8)
+	grid.add_theme_constant_override("v_separation", 8)
+	vb.add_child(grid)
+	for entry: Dictionary in PartyState.AVATARS:
+		var aid := String(entry["id"])
+		grid.add_child(_avatar_cell(aid, String(entry["name"]), aid == current, layer))
+	vb.add_child(UIKit.button("Cancel", func() -> void: layer.queue_free()))
+	UIKit.focus_first_button(grid)
+
+
+func _avatar_cell(aid: String, cname: String, selected: bool, layer: CanvasLayer) -> Control:
+	var cell := VBoxContainer.new()
+	cell.add_theme_constant_override("separation", 1)
+	cell.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var btn := Button.new()
+	btn.custom_minimum_size = Vector2(120, 64)
+	btn.icon = PartyState.avatar_preview(aid)
+	btn.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	# cap the sprite size (a 2x preview) instead of letting it fill the button,
+	# so all twelve rows fit inside one screen
+	btn.add_theme_constant_override("icon_max_width", 60)
+	btn.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST  # keep pixel art crisp
+	btn.tooltip_text = cname
+	if selected:
+		btn.add_theme_color_override("icon_normal_color", Color.WHITE)
+		btn.modulate = Color(1.0, 0.95, 0.6)  # highlight the current pick
+	btn.pressed.connect(func() -> void:
+		Net.request("lobby.set_avatar", {"avatar": aid})
+		layer.queue_free())
+	cell.add_child(btn)
+	var name_lbl := UIKit.label(cname, 9, PartyState.color(1) if selected else UIKit.COL_INK)
+	name_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	cell.add_child(name_lbl)
+	return cell
 
 
 func _on_start_new() -> void:

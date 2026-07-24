@@ -45,6 +45,15 @@ class Probe:
 				and String(PartyState.player(2).get("avatar", "")) == "mari", 20.0)
 		_expect(picked, "client avatar pick never reached the host")
 
+		# screenshot the white character-select menu in the lobby scene
+		SceneRouter.go("online_lobby")
+		await get_tree().create_timer(1.0).timeout
+		var lobby := get_tree().current_scene
+		if lobby != null and lobby.has_method("_open_character_select"):
+			lobby._open_character_select()
+			await get_tree().create_timer(0.8).timeout
+			await _save_shot("00_character_select.png")
+
 		SceneRouter.go("town")
 		await get_tree().create_timer(2.0).timeout
 		var town := get_tree().current_scene
