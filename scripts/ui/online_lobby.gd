@@ -279,10 +279,10 @@ func _open_character_select() -> void:
 	var parts := UIKit.modal(self, "Choose your character")
 	var layer: CanvasLayer = parts[0]
 	var vb: VBoxContainer = parts[1]
-	(vb.get_parent() as PanelContainer).custom_minimum_size = Vector2(560, 0)
+	(vb.get_parent() as PanelContainer).custom_minimum_size = Vector2(680, 0)
 	var current := String(PartyState.player(PartyState.local_index()).get("avatar", ""))
 	var grid := GridContainer.new()
-	grid.columns = 4
+	grid.columns = 5
 	grid.add_theme_constant_override("h_separation", 8)
 	grid.add_theme_constant_override("v_separation", 8)
 	vb.add_child(grid)
@@ -298,7 +298,7 @@ func _avatar_cell(aid: String, cname: String, selected: bool, layer: CanvasLayer
 	cell.add_theme_constant_override("separation", 1)
 	cell.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var btn := Button.new()
-	btn.custom_minimum_size = Vector2(120, 64)
+	btn.custom_minimum_size = Vector2(104, 64)
 	btn.icon = PartyState.avatar_preview(aid)
 	btn.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	# cap the sprite size (a 2x preview) instead of letting it fill the button,

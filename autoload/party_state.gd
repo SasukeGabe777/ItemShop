@@ -24,6 +24,7 @@ const PLAYER_TINTS: Array[Color] = [
 ## select. All are OMORI overworld rips extracted + re-packed by
 ## tools/prep_coop_avatars.py. The DUNGEON hero is a separate lineup choice.
 const AVATARS: Array[Dictionary] = [
+	{"id": "omori",      "name": "Omori",         "manifest": "res://assets/hero/manifests/hero_faraway_overworld.json"},
 	{"id": "sunny",      "name": "Sunny",         "manifest": "res://assets/hero/manifests/coop_sunny.json"},
 	{"id": "aubrey",     "name": "Aubrey",        "manifest": "res://assets/hero/manifests/coop_aubrey.json"},
 	{"id": "basil",      "name": "Basil",         "manifest": "res://assets/hero/manifests/coop_basil.json"},
@@ -53,14 +54,29 @@ static func avatar_name(avatar_id: String) -> String:
 	return String(AVATARS[0]["name"])
 
 
-## An idle-facing-down preview frame for the character-select menu.
+## An idle-facing-down preview frame for the character-select menu, read from
+## the avatar's manifest so it works for any sheet layout (the faraway hero's
+## 12-column sheet as well as the re-packed 3-column coop sheets).
 static func avatar_preview(avatar_id: String) -> Texture2D:
-	var path := "res://assets/hero/processed/coop/%s.png" % avatar_id
-	if not ResourceLoader.exists(path):
+	var manifest_path := avatar_manifest(avatar_id)
+	if not FileAccess.file_exists(manifest_path):
 		return null
+	var parsed: Variant = JSON.parse_string(FileAccess.open(manifest_path, FileAccess.READ).get_as_text())
+	if not (parsed is Dictionary):
+		return null
+	var m: Dictionary = parsed
+	var sheet := String(m.get("sheet", ""))
+	if not ResourceLoader.exists(sheet):
+		return null
+	var grid: Dictionary = m.get("grid", {})
+	var fw := int(grid.get("frame_width", 32))
+	var fh := int(grid.get("frame_height", 32))
+	var cols := int(grid.get("columns", 3))
+	var idle: Array = m.get("animations", {}).get("idle_down", {}).get("frames", [1])
+	var idx := int(idle[0]) if not idle.is_empty() else 1
 	var at := AtlasTexture.new()
-	at.atlas = load(path)
-	at.region = Rect2(32, 0, 32, 32)  # row 0 (down), col 1 = idle_down frame
+	at.atlas = load(sheet)
+	at.region = Rect2((idx % cols) * fw, (idx / cols) * fh, fw, fh)
 	return at
 
 signal changed
