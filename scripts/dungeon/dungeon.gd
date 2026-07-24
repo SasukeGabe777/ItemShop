@@ -725,38 +725,38 @@ func _spawn_switch_pad(at: Vector2) -> void:
 # already paid at expedition launch (gates panel), so leaving early keeps
 # the loot and the spent time — same as a defeat retreat, minus the stinger.
 func _open_pause_menu() -> void:
-	get_tree().paused = true
+	Net.request_tree_pause(true)
 	var parts := UIKit.modal(self, "Paused")
 	var pause_layer: CanvasLayer = parts[0]
-	pause_layer.process_mode = Node.PROCESS_MODE_WHEN_PAUSED
+	pause_layer.process_mode = Net.pause_layer_mode()
 	var vb: VBoxContainer = parts[1]
 	vb.add_child(UIKit.label("Retreating keeps your loot; the shard stays unreached.", 9, UIKit.COL_DIM))
 	vb.add_child(UIKit.button("Retreat to the Crossroads", func() -> void:
-		get_tree().paused = false
+		Net.request_tree_pause(false)
 		pause_layer.queue_free()
 		_finish(false, false)))
 	vb.add_child(UIKit.button("Keep exploring", func() -> void:
-		get_tree().paused = false
+		Net.request_tree_pause(false)
 		pause_layer.queue_free()))
 
 
 func _open_switch_menu() -> void:
-	get_tree().paused = true
+	Net.request_tree_pause(true)
 	var parts := UIKit.modal(self, "Switch hero")
 	var switch_layer: CanvasLayer = parts[0]
-	switch_layer.process_mode = Node.PROCESS_MODE_WHEN_PAUSED
+	switch_layer.process_mode = Net.pause_layer_mode()
 	var vb: VBoxContainer = parts[1]
 	for hid in switch_available:
 		if hid == hero.hero_id:
 			continue
 		var stats := InventoryManager.hero_stats(hid)
 		vb.add_child(UIKit.button("%s (HP %d ATK %d)" % [String(ContentDatabase.get_hero(hid).get("name", hid)), int(stats["hp"]), int(stats["atk"])], func() -> void:
-			get_tree().paused = false
+			Net.request_tree_pause(false)
 			switch_layer.queue_free()
 			DungeonManager.pending["hero_id"] = hid
 			_spawn_hero(hid)))
 	vb.add_child(UIKit.button("Cancel", func() -> void:
-		get_tree().paused = false
+		Net.request_tree_pause(false)
 		switch_layer.queue_free()))
 
 

@@ -45,6 +45,7 @@ func make_seat(player_index: int, peer_id: int, player_name: String,
 		"is_local": is_local,
 		"connected": true,
 		"ready": false,
+		"parked": false,
 		"session_token": "",
 	}
 

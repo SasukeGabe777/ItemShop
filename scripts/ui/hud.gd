@@ -276,10 +276,10 @@ func _open_pause() -> void:
 	var parts := UIKit.modal(self, GameState.game_title)
 	var pause_layer: CanvasLayer = parts[0]
 	var vb: VBoxContainer = parts[1]
-	get_tree().paused = true
-	pause_layer.process_mode = Node.PROCESS_MODE_WHEN_PAUSED
+	Net.request_tree_pause(true)
+	pause_layer.process_mode = Net.pause_layer_mode()
 	var close := func() -> void:
-		get_tree().paused = false
+		Net.request_tree_pause(false)
 		pause_layer.queue_free()
 	for slot in range(1, 4):
 		var summary := SaveManager.slot_summary(slot)

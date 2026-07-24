@@ -43,9 +43,16 @@ var version_override := ""
 var upnp_ok := false
 var upnp_message := ""
 
+## Client: parked by the host (mid-dungeon join) — wait for a real welcome.
+var _parked := false
+## Client: inside the auto-reconnect loop (Wi-Fi-extender drops).
+var _reconnecting := false
+var _welcome_seen := false
+
 var _active := false  # an ENet peer of ours is installed
 var _local_name := ""
 var _last_ip := ""
+var _overlay: CanvasLayer = null
 var _commands: Dictionary = {}
 var _managers: Dictionary = {}
 var _next_request_id := 1
@@ -134,7 +141,10 @@ func leave() -> void:
 	_active = false
 	session_token = ""
 	my_index = 0
+	_parked = false
+	_reconnecting = false
 	_pending_results.clear()
+	_overlay_hide()
 	PartyState.clear_online()
 	roster_changed.emit()
 
@@ -189,7 +199,10 @@ func _on_peer_disconnected(peer_id: int) -> void:
 	var idx := PartyState.index_for_peer(peer_id)
 	if idx <= 1:
 		return
+	print("[Net] t=%d peer %d (seat %d) disconnected — seat reserved"
+		% [Time.get_ticks_msec(), peer_id, idx])
 	PartyState.players[idx]["connected"] = false
+	PartyState.players[idx]["disconnect_at"] = Time.get_ticks_msec()
 	_broadcast_roster()
 	PartyState.player_left.emit(idx)
 
@@ -204,17 +217,55 @@ func _on_connected_to_server() -> void:
 
 
 func _on_connection_failed() -> void:
+	if _reconnecting:
+		return  # the reconnect loop owns retries
 	leave()
 	join_failed.emit("Could not reach the host")
 
 
 func _on_server_disconnected() -> void:
-	if my_index == 0:
+	if _reconnecting:
+		return
+	if my_index == 0 or session_token == "":
 		# never seated: treat as a failed join (e.g. kicked after _reject)
 		leave()
 		return
 	connection_lost.emit()
+	_reconnect_loop()
+
+
+## The Wi-Fi-extender lifeline: keep the seat (host reserves it by session
+## token) and quietly re-dial for up to a minute before giving up.
+func _reconnect_loop() -> void:
+	_reconnecting = true
+	for attempt in range(1, 13):
+		if not _reconnecting:
+			return
+		_overlay_show("Connection lost — reconnecting (%d/12)..." % attempt)
+		var peer := ENetMultiplayerPeer.new()
+		if peer.create_client(_last_ip, PORT) == OK:
+			multiplayer.multiplayer_peer = peer
+			_active = true
+			_welcome_seen = false
+			var deadline := 6.0
+			while deadline > 0.0 and _reconnecting:
+				if _welcome_seen or _parked:
+					_reconnecting = false
+					if not _parked:
+						_overlay_hide()
+					reconnected.emit()
+					return
+				await get_tree().create_timer(0.2).timeout
+				deadline -= 0.2
+			if not _reconnecting:
+				return
+			multiplayer.multiplayer_peer = OfflineMultiplayerPeer.new()
+			_active = false
+		await get_tree().create_timer(3.0).timeout
+	_reconnecting = false
 	leave()
+	join_failed.emit("Couldn't reconnect to the host")
+	SceneRouter.go("main_menu")
 
 
 ## ---- handshake -------------------------------------------------------------
@@ -224,11 +275,27 @@ func _hello(info: Dictionary) -> void:
 	if not multiplayer.is_server():
 		return
 	var peer_id := multiplayer.get_remote_sender_id()
+	print("[Net] t=%d hello from peer %d (%s, %s)" % [Time.get_ticks_msec(), peer_id,
+		info.get("name"),
+		"reconnect" if String(info.get("session_token", "")) != "" else "new"])
 	var version := String(info.get("version", ""))
 	if version != _game_version():
 		_reject_and_kick(peer_id,
 			"Version mismatch — host runs %s, you run %s" % [_game_version(), version])
 		return
+	# Reconnect: a returning session token gets its old seat back (new peer_id
+	# — player_index is the stable identity).
+	var token := String(info.get("session_token", ""))
+	if token != "":
+		for idx: int in PartyState.players:
+			var seat: Dictionary = PartyState.players[idx]
+			if String(seat.get("session_token", "")) == token:
+				seat["peer_id"] = peer_id
+				seat["connected"] = true
+				seat.erase("disconnect_at")
+				_seat_or_park(idx, peer_id, token)
+				return
+	_evict_expired_seats()
 	var idx := _lowest_free_index()
 	if idx == 0:
 		_reject_and_kick(peer_id, "The game is full (5 players)")
@@ -237,9 +304,36 @@ func _hello(info: Dictionary) -> void:
 		String(info.get("name", "P%d" % idx)), false)
 	seat["session_token"] = _make_token()
 	PartyState.players[idx] = seat
-	_welcome.rpc_id(peer_id, snapshot_all(), _roster_payload(),
-		current_scene_key(), SceneRouter.context, idx, String(seat["session_token"]))
+	_seat_or_park(idx, peer_id, String(seat["session_token"]))
+
+
+## Deliver either the welcome (snapshot + scene) or, mid-dungeon, a parking
+## notice — the welcome follows with the next town/shop scene change.
+func _seat_or_park(idx: int, peer_id: int, token: String) -> void:
+	if current_scene_key() == "dungeon":
+		PartyState.players[idx]["parked"] = true
+		_park.rpc_id(peer_id, "The party is mid-expedition — you'll join when they return.")
+	else:
+		PartyState.players[idx]["parked"] = false
+		_welcome.rpc_id(peer_id, snapshot_all(), _roster_payload(),
+			current_scene_key(), SceneRouter.context, idx, token)
 	_broadcast_roster()
+
+
+## Seats abandoned for 10+ minutes free up for new players.
+func _evict_expired_seats() -> void:
+	var now := Time.get_ticks_msec()
+	var changed := false
+	for idx: int in PartyState.players.keys():
+		if idx == 1:
+			continue
+		var seat: Dictionary = PartyState.players[idx]
+		if not bool(seat.get("connected", true)) \
+				and now - int(seat.get("disconnect_at", now)) > 600_000:
+			PartyState.players.erase(idx)
+			changed = true
+	if changed:
+		_broadcast_roster()
 
 
 @rpc("authority", "call_remote", "reliable")
@@ -247,6 +341,9 @@ func _welcome(snapshot: Dictionary, roster: Array, scene_key: String,
 		ctx: Dictionary, your_index: int, token: String) -> void:
 	my_index = your_index
 	session_token = token
+	_welcome_seen = true
+	_parked = false
+	_overlay_hide()
 	_apply_snapshot(snapshot)
 	PartyState.set_online_roster(roster, my_index)
 	roster_changed.emit()
@@ -255,6 +352,13 @@ func _welcome(snapshot: Dictionary, roster: Array, scene_key: String,
 		applying_remote_go = true
 		SceneRouter.go(scene_key, ctx)
 		applying_remote_go = false
+
+
+@rpc("authority", "call_remote", "reliable")
+func _park(reason: String) -> void:
+	_parked = true
+	_overlay_show(reason)
+	parked.emit(reason)
 
 
 @rpc("authority", "call_remote", "reliable")
@@ -470,10 +574,69 @@ func broadcast_scene_change(scene_key: String, ctx: Dictionary) -> void:
 		return
 	sync_all()
 	_net_go.rpc(scene_key, ctx)
+	if scene_key != "dungeon":
+		_unpark_all(scene_key, ctx)
+
+
+## Parked joiners get their real welcome the moment the party surfaces.
+func _unpark_all(scene_key: String, ctx: Dictionary) -> void:
+	var changed := false
+	for idx: int in PartyState.players:
+		var seat: Dictionary = PartyState.players[idx]
+		if bool(seat.get("parked", false)) and bool(seat.get("connected", false)):
+			seat["parked"] = false
+			_welcome.rpc_id(int(seat["peer_id"]), snapshot_all(), _roster_payload(),
+				scene_key, ctx, idx, String(seat["session_token"]))
+			changed = true
+	if changed:
+		_broadcast_roster()
 
 
 @rpc("authority", "call_remote", "reliable")
 func _net_go(scene_key: String, ctx: Dictionary) -> void:
+	if my_index == 0 or _parked:
+		return  # not seated in the world yet; our _welcome does the moving
 	applying_remote_go = true
 	SceneRouter.go(scene_key, ctx)
 	applying_remote_go = false
+
+
+## ---- pause -----------------------------------------------------------------
+## The host's pause pauses the whole party; a client's pause menu floats over
+## a still-running world (their machine pausing would desync them silently).
+
+func request_tree_pause(paused: bool) -> void:
+	if is_client():
+		return
+	get_tree().paused = paused
+	if is_host():
+		_set_paused.rpc(paused)
+
+
+## Modal layers built around a tree pause need to keep processing on online
+## clients, whose tree never pauses.
+func pause_layer_mode() -> int:
+	return Node.PROCESS_MODE_ALWAYS if is_client() else Node.PROCESS_MODE_WHEN_PAUSED
+
+
+@rpc("authority", "call_remote", "reliable")
+func _set_paused(paused: bool) -> void:
+	get_tree().paused = paused
+	if paused:
+		_overlay_show("The host paused the game.")
+	else:
+		_overlay_hide()
+
+
+## ---- overlay ---------------------------------------------------------------
+
+func _overlay_show(text: String) -> void:
+	if _overlay == null:
+		_overlay = preload("res://scripts/net/net_overlay.gd").new()
+		add_child(_overlay)
+	_overlay.show_message(text)
+
+
+func _overlay_hide() -> void:
+	if _overlay != null:
+		_overlay.clear()
