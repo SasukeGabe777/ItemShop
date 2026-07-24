@@ -105,6 +105,7 @@ func _setup_net_shop() -> void:
 	Replica.register_factory("customer", _net_spawn_customer)
 	Replica.entity_event.connect(_on_net_entity_event)
 	PartyState.changed.connect(_refresh_net_puppets)
+	PartyState.player_left.connect(_on_net_player_left)
 	Net.state_applied.connect(func(_manager: String) -> void:
 		if hud != null:
 			hud.refresh())
@@ -135,6 +136,29 @@ func _refresh_net_puppets() -> void:
 			_net_busy.erase(idx)
 			if pup != null and is_instance_valid(pup):
 				(pup as Node).queue_free()
+
+
+## A player dropped: free their puppet, and if they held the active customer
+## assignment, hand that customer to the next free shopkeeper.
+func _on_net_player_left(idx: int) -> void:
+	if not Net.is_host():
+		return
+	_net_busy.erase(idx)
+	for aid: int in _net_assignments.keys():
+		var entry: Dictionary = _net_assignments[aid]
+		if int(entry.get("who", 0)) != idx:
+			continue
+		_net_assignments.erase(aid)
+		var node: ShopCustomer = entry.get("node")
+		if node != null and is_instance_valid(node):
+			if String(entry.get("kind", "")) == "nego":
+				nego_queue.push_front({"customer": entry.get("customer", {}),
+					"item": String(entry.get("item", "")), "node": node})
+			else:
+				order_queue.push_front(entry.get("entry", {}))
+		negotiating = null
+		order_dialog_open = false
+	_sync_customer_activity_pause()
 
 
 func _net_spawn_customer(args: Dictionary) -> Node:

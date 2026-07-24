@@ -57,10 +57,19 @@ func _setup_online() -> void:
 		return [player.global_position.x, player.global_position.y,
 			player.velocity.x, player.velocity.y, 0])
 	PartyState.changed.connect(_refresh_net_puppets)
+	PartyState.player_left.connect(_on_net_player_left)
 	Net.state_applied.connect(func(_manager: String) -> void:
 		if hud != null:
 			hud.refresh())
 	Net.scene_event.connect(_on_net_scene_event)
+	_refresh_net_puppets()
+
+
+## A player dropped in town: if they were mid-lineup, the host cancels it for
+## everyone (their picks can't complete the party).
+func _on_net_player_left(idx: int) -> void:
+	if Net.is_host() and not DungeonManager.lineup_pending.is_empty():
+		Net.request("lineup.cancel")
 	_refresh_net_puppets()
 
 

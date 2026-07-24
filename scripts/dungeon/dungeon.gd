@@ -209,6 +209,7 @@ func _local_hero_state() -> Array:
 
 
 func _setup_net_dungeon() -> void:
+	PartyState.player_left.connect(_on_net_player_left)
 	Replica.register_factory("enemy", _net_spawn_enemy)
 	Replica.register_factory("boss", _net_spawn_boss)
 	Replica.register_factory("chest", _net_spawn_chest)
@@ -226,6 +227,18 @@ func _setup_net_dungeon() -> void:
 		var hid := String(entry.get("hero_id",
 			DungeonManager.pending.get("hero_id", "sora")))
 		_make_hero_puppet(idx, hid, hero.global_position + Vector2(16 * idx, 0))
+
+
+## A player dropped mid-run: despawn their hero everywhere, and let their
+## leaving end a run where they were the last one standing.
+func _on_net_player_left(idx: int) -> void:
+	var pup: Variant = _net_hero_puppets.get(idx)
+	if pup != null and is_instance_valid(pup):
+		(pup as Node).queue_free()
+	_net_hero_puppets.erase(idx)
+	if Net.is_host() and not finished and not _someone_up():
+		AudioManager.play_stinger("failure_stinger")
+		_finish(false, false)
 
 
 func _make_hero_puppet(idx: int, hid: String, at: Vector2) -> void:
