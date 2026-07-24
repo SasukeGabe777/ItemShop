@@ -119,11 +119,15 @@ func _ready() -> void:
 		item_row.add_child(consum_label2)
 		hero2.consumables_changed.connect(_on_consumables2_changed)
 		_on_consumables2_changed(hero2.consumables)
-	_enter_room(0)
-	# online wiring AFTER the first room build: buffered spawn replays must
-	# land in the freshly built room_root, not get freed by it
+	# Online wiring must run BEFORE the first room builds: it connects the
+	# scene-event handler and entity factories. Room 0 (an empty start room)
+	# "clears" during _enter_room and broadcasts room_cleared — if the handler
+	# weren't connected yet the host would miss its own event and the door
+	# would never open (the party stuck on room 1). Puppets are positioned by
+	# _enter_room right after.
 	if Net.is_online():
 		_setup_net_dungeon()
+	_enter_room(0)
 
 
 func dev_select_hero(hero_id: String) -> bool:
@@ -718,6 +722,12 @@ func _enter_room(idx: int) -> void:
 	var kind := String(entry["kind"])
 	if not switch_available.is_empty() and kind != "boss":
 		_spawn_switch_pad(_cell_center(_free_cell(Vector2i(1, 1), template)))
+	# Rooms with nothing to fight (start / empty treasure) open their door
+	# immediately, on EVERY machine — the layout is identical everywhere, so
+	# clients don't have to wait on a host event they may have missed while
+	# still loading into the scene.
+	if kind != "boss" and (entry.get("enemies", []) as Array).is_empty():
+		_apply_room_cleared()
 	# chests / enemies / bosses: the host simulates them; clients receive
 	# replicated puppets through their Replica factories instead
 	if not Net.is_authority():
@@ -759,8 +769,7 @@ func _enter_room(idx: int) -> void:
 			if Net.is_host():
 				Replica.host_register(e, "enemy", {"id": String(enemies[i]),
 					"pos": [e.global_position.x, e.global_position.y]})
-		if enemies.is_empty():
-			_on_room_cleared(false)
+		# empty non-boss rooms already opened their door above (all machines)
 
 
 func _cell_center(c: Vector2i) -> Vector2:
