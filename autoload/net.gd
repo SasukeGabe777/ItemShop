@@ -25,6 +25,7 @@ signal reconnected
 signal parked(reason: String)
 signal roster_changed
 signal state_applied(manager: String)
+signal upnp_result(ok: bool, message: String)
 
 ## True while a host-pushed sync is being applied locally, so manager signal
 ## handlers can tell remote-driven refreshes from local mutations.
@@ -38,6 +39,10 @@ var my_index := 0
 ## Testing hook: overrides the version string sent in _hello.
 var version_override := ""
 
+## Last UPnP outcome ("", or the message shown in the lobby info strip).
+var upnp_ok := false
+var upnp_message := ""
+
 var _active := false  # an ENet peer of ours is installed
 var _local_name := ""
 var _last_ip := ""
@@ -45,6 +50,8 @@ var _commands: Dictionary = {}
 var _managers: Dictionary = {}
 var _next_request_id := 1
 var _pending_results: Dictionary = {}  # request_id -> Callable(ok, data)
+var _discovery: Node = null
+var _upnp: Node = null
 
 
 func _ready() -> void:
@@ -54,6 +61,11 @@ func _ready() -> void:
 	multiplayer.connected_to_server.connect(_on_connected_to_server)
 	multiplayer.connection_failed.connect(_on_connection_failed)
 	multiplayer.server_disconnected.connect(_on_server_disconnected)
+	_discovery = preload("res://scripts/net/lan_discovery.gd").new()
+	add_child(_discovery)
+	_upnp = preload("res://scripts/net/upnp_opener.gd").new()
+	add_child(_upnp)
+	_upnp.finished.connect(_on_upnp_finished)
 	_commands = preload("res://scripts/net/net_commands.gd").build()
 	# Net manager names double as sync payload keys. A manager syncs via
 	# to_net()/from_net() when it has them (runtime-only state like the
@@ -88,6 +100,10 @@ func host_game(player_name: String = "") -> Error:
 	_local_name = player_name if player_name != "" else "P1"
 	my_index = 1
 	PartyState.set_online_roster([PartyState.make_seat(1, 1, _local_name, false)], 1)
+	_discovery.start_responder(_lobby_info)
+	upnp_ok = false
+	upnp_message = "Checking whether the router can auto-open a port..."
+	_upnp.open()
 	roster_changed.emit()
 	hosting_started.emit()
 	return OK
@@ -110,6 +126,8 @@ func join_game(ip: String, player_name: String = "") -> Error:
 
 
 func leave() -> void:
+	_discovery.stop()
+	_upnp.close_mapping()
 	if _active and multiplayer.multiplayer_peer != null:
 		multiplayer.multiplayer_peer.close()
 	multiplayer.multiplayer_peer = OfflineMultiplayerPeer.new()
@@ -119,6 +137,28 @@ func leave() -> void:
 	_pending_results.clear()
 	PartyState.clear_online()
 	roster_changed.emit()
+
+
+## What LAN discovery replies with when someone is searching for lobbies.
+func _lobby_info() -> Dictionary:
+	return {
+		"name": _local_name,
+		"version": _game_version(),
+		"players": PartyState.count(),
+		"max": PartyState.MAX_PLAYERS,
+		"port": PORT,
+	}
+
+
+func _on_upnp_finished(ok: bool, _external_ip: String, message: String) -> void:
+	upnp_ok = ok
+	upnp_message = message
+	upnp_result.emit(ok, message)
+
+
+## The lobby scene borrows Net's discovery node to search for LAN games.
+func discovery() -> Node:
+	return _discovery
 
 
 func _game_version() -> String:

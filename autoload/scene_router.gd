@@ -6,6 +6,7 @@ signal scene_transition_requested(scene_key: String, path: String, context: Dict
 
 const SCENES := {
 	"main_menu": "res://scenes/ui/main_menu.tscn",
+	"online_lobby": "res://scenes/ui/online_lobby.tscn",
 	"town": "res://scenes/town/town.tscn",
 	"shop": "res://scenes/shop/shop.tscn",
 	"dungeon": "res://scenes/dungeon/dungeon.tscn",

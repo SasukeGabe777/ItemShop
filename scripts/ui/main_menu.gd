@@ -120,6 +120,17 @@ func _build_art_menu() -> void:
 		mp_btn.text = "2 PLAYERS: %s" % ("ON" if MultiplayerState.enabled else "OFF")
 		ui_scale_btn.visible = MultiplayerState.enabled)
 	ui_root.add_child(mp_btn)
+	var online_btn := UIKit.button("ONLINE CO-OP", _on_online_coop, 10)
+	online_btn.theme = UIKit.light_theme()
+	online_btn.anchor_left = 0.005
+	online_btn.anchor_right = 0.155
+	online_btn.anchor_top = 0.085
+	online_btn.anchor_bottom = 0.145
+	online_btn.offset_left = 0
+	online_btn.offset_right = 0
+	online_btn.offset_top = 0
+	online_btn.offset_bottom = 0
+	ui_root.add_child(online_btn)
 	ui_scale_btn.theme = UIKit.light_theme()
 	ui_scale_btn.anchor_left = 0.16
 	ui_scale_btn.anchor_right = 0.31
@@ -187,6 +198,10 @@ func _point_hand_at(btn: Button) -> void:
 	_hand_tween = hand_cursor.create_tween().set_loops()
 	_hand_tween.tween_property(hand_cursor, "global_position:x", target.x + 4.0, 0.35).set_trans(Tween.TRANS_SINE)
 	_hand_tween.tween_property(hand_cursor, "global_position:x", target.x, 0.35).set_trans(Tween.TRANS_SINE)
+
+
+func _on_online_coop() -> void:
+	SceneRouter.go("online_lobby")
 
 
 func _on_new_game() -> void:
@@ -342,6 +357,7 @@ func _build_plain_menu() -> void:
 	vb.add_child(title)
 	vb.add_child(UIKit.button("New game", _on_new_game))
 	vb.add_child(UIKit.button("Load", _on_load))
+	vb.add_child(UIKit.button("Online co-op", _on_online_coop))
 	vb.add_child(UIKit.button("Config", _on_config))
 	vb.add_child(UIKit.button("Patch Notes", _on_patch_notes))
 	vb.add_child(UIKit.button("Quit", func() -> void: get_tree().quit()))
