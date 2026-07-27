@@ -74,8 +74,11 @@ class Probe:
 		# 1. Parked target: the client swings at it; damage must land HERE.
 		var mob: Enemy = d.dev_spawn_enemy(enemy_id, Vector2(300, 200))
 		mob.set_physics_process(false)
-		Replica.host_register(mob, "enemy",
-			{"id": enemy_id, "pos": [300.0, 200.0]})
+		# Keep the assertion target alive even when the seeded enemy is a
+		# low-HP one-shot; otherwise its freed capture looks like a missed RPC.
+		mob.health.setup(999)
+		var parked_eid := Replica.host_register(mob, "enemy",
+			{"id": enemy_id, "hp": 999, "pos": [300.0, 200.0]})
 		var hp0 := mob.health.hp
 		var hit := await _wait_for(func() -> bool:
 			return is_instance_valid(mob) and mob.health.hp < hp0, 25.0)
@@ -99,7 +102,12 @@ class Probe:
 		d.set("door_open", true)
 		var advanced := await _wait_for(func() -> bool:
 			return int(d.get("room_index")) == 1, 25.0)
-		_expect(advanced, "party never advanced to room 1")
+		var pup_sm := pup.get_node_or_null("PuppetSmoother") as PuppetSmoother \
+			if pup != null and is_instance_valid(pup) else null
+		_expect(advanced, "party never advanced to room 1 (door=%s puppet=%s target=%s)" % [
+			d.get("door_open"),
+			pup.global_position if pup != null and is_instance_valid(pup) else Vector2.INF,
+			pup_sm.target_pos if pup_sm != null else Vector2.INF])
 
 		# 4. Finish flows to everyone.
 		await get_tree().create_timer(1.0).timeout
@@ -124,6 +132,9 @@ class Probe:
 				"layouts diverged:\n  host   %s\n  client %s" % [my_sig, report.get("layout_sig")])
 			_expect(float(report.get("meter_after_hit", 0.0)) > 0.0,
 				"client meter never ticked on hit")
+			_expect(int(report.get("target_eid", 0)) == parked_eid,
+				"client swung at eid %s instead of parked eid %s" % [
+					report.get("target_eid"), parked_eid])
 			_expect(int(report.get("hp_after_touch", -1)) < int(report.get("max_hp", 0)),
 				"client hp untouched by the chaser")
 			_expect(bool(report.get("room1", false)), "client never reached room 1")

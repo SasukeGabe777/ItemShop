@@ -105,10 +105,13 @@ func forward_hit(body: Node, packet: Dictionary, from_position: Vector2) -> void
 		"source_player": 0,
 	}
 	var src: Variant = packet.get("source")
-	if src is CombatHero and not (src as CombatHero).is_puppet:
-		clean["source_player"] = (src as CombatHero).player_index
+	var src_node: Node = null
+	if src != null and is_instance_valid(src):
+		src_node = src as Node
+	if src_node is CombatHero and not (src_node as CombatHero).is_puppet:
+		clean["source_player"] = (src_node as CombatHero).player_index
 		# meter optimism: the attacker felt the hit land, grant it now
-		(src as CombatHero).on_enemy_hit()
+		(src_node as CombatHero).on_enemy_hit()
 	var from := [from_position.x, from_position.y]
 	var eid := int(body.get_meta("net_eid", 0))
 	if eid != 0:

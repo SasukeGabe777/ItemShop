@@ -55,9 +55,25 @@ class Probe:
 		# north exit below the HUD while both heroes and enemies remain visible.
 		Net.broadcast_scene_event("enter_room", {"idx": 1})
 		await get_tree().create_timer(1.0).timeout
-		(d.get("hero") as Node2D).global_position = Vector2(280, 190)
+		var host_hero := d.get("hero") as CombatHero
+		var staged_enemy := (d.call("_live_room_enemies") as Array)[0] as Enemy
+		staged_enemy.set_physics_process(false)
+		host_hero.global_position = Vector2(-500, 900)
+		staged_enemy.global_position = Vector2(1200, -500)
+		await get_tree().physics_frame
+		await get_tree().process_frame
+		_expect(host_hero.global_position.x >= 7.0 \
+			and host_hero.global_position.y <= 377.0,
+			"host hero was not visually contained: %s" % host_hero.global_position)
+		_expect(staged_enemy.global_position.x <= 640.0 - staged_enemy.hit_radius \
+			and staged_enemy.global_position.y >= 16.0 + staged_enemy.hit_radius,
+			"enemy was not visually contained: %s" % staged_enemy.global_position)
+		await _save_shot("01_bounds_clamped.png")
+
+		host_hero.global_position = Vector2(280, 190)
+		staged_enemy.global_position = Vector2(420, 190)
 		await get_tree().create_timer(1.0).timeout
-		await _save_shot("01_dungeon_party.png")
+		await _save_shot("02_dungeon_party.png")
 
 		# Kill the authoritative room population. The resulting persistent
 		# ornate banner is the player's unambiguous "door is open" signal.
@@ -68,7 +84,7 @@ class Probe:
 		var cleared := await _wait_for(func() -> bool: return bool(d.get("door_open")), 10.0)
 		_expect(cleared, "combat room never cleared")
 		await get_tree().create_timer(0.5).timeout
-		await _save_shot("02_room_cleared.png")
+		await _save_shot("03_room_cleared.png")
 
 		Net.leave()
 		if failures.is_empty():

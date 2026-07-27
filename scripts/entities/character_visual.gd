@@ -208,6 +208,36 @@ func body_node() -> CanvasItem:
 	return animated if use_frames else static_sprite
 
 
+## Drawn bounds in this CharacterVisual's local coordinates. Dungeon
+## containment uses the real asymmetric feet-pivoted art extents, not only a
+## CharacterBody collision circle, so wide/tall sprites stay visibly in-room.
+func drawn_bounds() -> Rect2:
+	var bounds := Rect2()
+	var has_bounds := false
+	if use_frames and animated != null and animated.sprite_frames != null:
+		var tex := animated.sprite_frames.get_frame_texture(animated.animation,
+			animated.frame)
+		if tex != null:
+			var size := tex.get_size() * animated.scale.abs()
+			var center := animated.position + animated.offset * animated.scale.abs()
+			bounds = Rect2(center - size * 0.5, size)
+			has_bounds = true
+	elif static_sprite != null and static_sprite.texture != null:
+		var size := static_sprite.texture.get_size() * static_sprite.scale.abs()
+		var center := static_sprite.position \
+			+ static_sprite.offset * static_sprite.scale.abs()
+		bounds = Rect2(center - size * 0.5, size)
+		has_bounds = true
+	if shadow != null and shadow.texture != null:
+		var shadow_size := shadow.texture.get_size() * shadow.scale.abs()
+		var shadow_center := shadow.position + shadow.offset * shadow.scale.abs()
+		var shadow_bounds := Rect2(shadow_center - shadow_size * 0.5,
+			shadow_size)
+		bounds = bounds.merge(shadow_bounds) if has_bounds else shadow_bounds
+		has_bounds = true
+	return bounds if has_bounds else Rect2(-8, -16, 16, 18)
+
+
 ## Approximate top edge of the drawn sprite in this node's local space. It is
 ## negative because sprites extend upward from the feet-aligned origin. Used to
 ## anchor floating labels (name tags, speech) just above the character's head,

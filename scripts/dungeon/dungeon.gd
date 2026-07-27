@@ -37,10 +37,23 @@ var _net_hero_puppets: Dictionary = {}  # online: player_index -> CombatHero pup
 
 const CELL := 32
 const HUD_SAFE_TOP := 72.0
+## The top perimeter pieces occupy y=-16..16. All actors stay on the room
+## side of that inner edge; only heroes inside the open 2-cell north doorway
+## may enter the gap far enough to trigger the next room.
+const TOP_WALL_INNER_Y := 16.0
+const HERO_BOUND_RADIUS := 7.0
+## Below the wall's inner edge, so standing against a closed door cannot
+## auto-advance the instant it opens; the hero must enter the doorway gap.
+const EXIT_TRIGGER_Y := 16.0
 
 
 func _ready() -> void:
 	add_to_group("dungeon_runtime")
+	# Run containment after default-priority actor physics and puppet smoothing.
+	# This is a hard simulation boundary behind the regular wall collisions:
+	# dash/knockback/teleport overshoot and bad replicated positions cannot
+	# leave an actor outside the authored room.
+	process_priority = 100
 	world_id = String(DungeonManager.pending.get("world_id", "kingdom_hearts"))
 	var w := ContentDatabase.get_world(world_id)
 	AudioManager.play_track("final_dungeon" if bool(w.get("final", false)) else "dungeon_%s" % world_id)
@@ -204,6 +217,10 @@ func _party_entry(idx: int) -> Dictionary:
 func _local_hero_state() -> Array:
 	if hero == null or not is_instance_valid(hero):
 		return []
+	# Replica runs independently of this scene's process order. Constrain at
+	# the serialization boundary too, so no overshoot coordinate is ever put
+	# on the wire between movement and the room's end-of-frame safety pass.
+	_constrain_hero(hero)
 	return [hero.global_position.x, hero.global_position.y,
 		hero.velocity.x, hero.velocity.y, 0]
 
@@ -590,6 +607,7 @@ var _pause_was_down := false
 
 
 func _process(_delta: float) -> void:
+	_enforce_room_bounds()
 	# own edge detection: is_action_just_pressed's frame stamp misses
 	# presses injected by probes via Input.action_press
 	var pause_down := Input.is_action_pressed("pause_menu")
@@ -610,14 +628,130 @@ func _process(_delta: float) -> void:
 		_next_room()
 
 
-## Any party hero (local, couch partner or online puppet) through the top door.
+func _physics_process(_delta: float) -> void:
+	_enforce_room_bounds()
+
+
+## Belt-and-suspenders containment behind the collision walls. CharacterBody
+## movement normally stops at the walls, but direct teleports, large dashes,
+## knockback and network smoothing can all place a body beyond a collider.
+func _enforce_room_bounds() -> void:
+	if room_root == null or not is_instance_valid(room_root):
+		return
+	_constrain_hero(hero)
+	_constrain_hero(hero2)
+	for pup: Variant in _net_hero_puppets.values():
+		if pup is CombatHero and is_instance_valid(pup):
+			_constrain_hero(pup as CombatHero)
+	for node: Node in room_root.get_children():
+		if node is Enemy and is_instance_valid(node):
+			_constrain_enemy(node as Enemy)
+
+
+func _constrain_hero(body: CombatHero) -> void:
+	if body == null or not is_instance_valid(body):
+		return
+	var smoother := body.get_node_or_null("PuppetSmoother") as PuppetSmoother
+	var extents := _actor_room_extents(body.visual, HERO_BOUND_RADIUS)
+	if smoother != null:
+		smoother.constrain_target(_bounded_room_position(
+			smoother.target_pos, extents, true))
+	_apply_constrained_position(body, _bounded_room_position(
+		body.global_position, extents, true))
+
+
+func _constrain_enemy(body: Enemy) -> void:
+	if body == null or not is_instance_valid(body):
+		return
+	# hit_radius tracks the rendered body (including large bosses), so enemies
+	# cannot hide their visible/hittable body beyond a room edge.
+	var radius := maxf(4.0, body.hit_radius)
+	var extents := _actor_room_extents(body.visual, radius)
+	var smoother := body.get_node_or_null("PuppetSmoother") as PuppetSmoother
+	if smoother != null:
+		smoother.constrain_target(_bounded_room_position(
+			smoother.target_pos, extents, false))
+	_apply_constrained_position(body, _bounded_room_position(
+		body.global_position, extents, false))
+
+
+func _apply_constrained_position(body: Node2D, bounded: Vector2) -> void:
+	var before := body.global_position
+	if before.is_equal_approx(bounded):
+		return
+	body.global_position = bounded
+	if body is CharacterBody2D:
+		var moving_body := body as CharacterBody2D
+		# Do not preserve velocity into an edge: that causes repeated overshoot
+		# and visible jitter while a dash or knockback is still active.
+		if not is_equal_approx(before.x, bounded.x):
+			moving_body.velocity.x = 0.0
+		if not is_equal_approx(before.y, bounded.y):
+			moving_body.velocity.y = 0.0
+
+
+## left/top/right/bottom drawn extents around the feet-position origin.
+func _actor_room_extents(visual: CharacterVisual, physical_radius: float) -> Vector4:
+	var extents := Vector4(physical_radius, physical_radius,
+		physical_radius, physical_radius)
+	if visual == null or not is_instance_valid(visual):
+		return extents
+	var drawn := visual.drawn_bounds()
+	var scale := visual.scale.abs()
+	extents.x = maxf(extents.x, maxf(0.0, -drawn.position.x * scale.x))
+	extents.y = maxf(extents.y, maxf(0.0, -drawn.position.y * scale.y))
+	extents.z = maxf(extents.z, maxf(0.0, drawn.end.x * scale.x))
+	extents.w = maxf(extents.w, maxf(0.0, drawn.end.y * scale.y))
+	return extents
+
+
+func _bounded_room_position(global_pos: Vector2, extents: Vector4,
+		allow_open_exit: bool) -> Vector2:
+	var room_size := Vector2(ContentDatabase.room_grid) * float(CELL)
+	var local := room_root.to_local(global_pos)
+	var max_extent := minf(room_size.x, room_size.y) * 0.25
+	var left := clampf(extents.x, 1.0, max_extent)
+	var top := clampf(extents.y, 1.0, max_extent)
+	var right := clampf(extents.z, 1.0, max_extent)
+	var bottom := clampf(extents.w, 1.0, max_extent)
+	local.x = clampf(local.x, left, room_size.x - right)
+	local.y = minf(local.y, room_size.y - bottom)
+	var top_limit := TOP_WALL_INNER_Y + top
+	if allow_open_exit and door_open \
+			and _inside_exit_corridor(local.x, HERO_BOUND_RADIUS):
+		# The hero's body remains inside the room rectangle while reaching the
+		# y<16 transition strip; no outside-the-map travel is ever necessary.
+		local.y = maxf(local.y, HERO_BOUND_RADIUS)
+	else:
+		local.y = maxf(local.y, top_limit)
+	return room_root.to_global(local)
+
+
+func _inside_exit_corridor(local_x: float, radius: float) -> bool:
+	var center_x := float(ContentDatabase.room_grid.x * CELL) * 0.5
+	return local_x >= center_x - CELL + radius \
+		and local_x <= center_x + CELL - radius
+
+
+func _hero_past_exit(body: CombatHero) -> bool:
+	if body == null or not is_instance_valid(body) or not door_open:
+		return false
+	var local := room_root.to_local(body.global_position)
+	return local.y < EXIT_TRIGGER_Y \
+		and _inside_exit_corridor(local.x, HERO_BOUND_RADIUS)
+
+
+## Any party hero (local, couch partner or online puppet) through the open,
+## bounded top-door corridor. A stray or malformed y coordinate elsewhere can
+## no longer advance the room.
 func _any_hero_past_exit() -> bool:
-	if hero != null and is_instance_valid(hero) and hero.global_position.y < 30.0:
+	if _hero_past_exit(hero):
 		return true
-	if hero2 != null and is_instance_valid(hero2) and hero2.global_position.y < 30.0:
+	if _hero_past_exit(hero2):
 		return true
 	for pup: Variant in _net_hero_puppets.values():
-		if pup != null and is_instance_valid(pup) and (pup as Node2D).global_position.y < 30.0:
+		if pup is CombatHero and is_instance_valid(pup) \
+				and _hero_past_exit(pup as CombatHero):
 			return true
 	return false
 

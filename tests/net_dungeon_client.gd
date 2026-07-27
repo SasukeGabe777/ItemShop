@@ -13,7 +13,7 @@ class Worker:
 	var report: Dictionary = {
 		"joined": false, "in_dungeon": false, "my_hero": "", "host_puppet_hero": "",
 		"layout_sig": "", "meter_after_hit": 0.0, "hp_after_touch": -1, "max_hp": 0,
-		"room1": false, "finished_seen": false, "error": "",
+		"room1": false, "finished_seen": false, "target_eid": 0, "error": "",
 	}
 
 
@@ -47,6 +47,7 @@ class Worker:
 		if target == null:
 			_finish("test enemy puppet never appeared")
 			return
+		report["target_eid"] = int(target.get_meta("net_eid", 0))
 		var hero: CombatHero = d.get("hero")
 		hero.global_position = Vector2(276, 200)
 		hero.facing = Vector2.RIGHT
@@ -66,7 +67,11 @@ class Worker:
 			return
 
 		# 3. Walk out the top door: the host must advance the whole party.
-		hero.global_position = Vector2(320, 20)
+		# The touch hit above can leave residual knockback that otherwise
+		# carries this scripted teleport sideways before its next state sample.
+		hero.movement.knockback_velocity = Vector2.ZERO
+		hero.velocity = Vector2.ZERO
+		hero.global_position = Vector2(320, 14)
 		var advanced := await _wait_for(func() -> bool:
 			return int(d.get("room_index")) == 1, 20.0)
 		report["room1"] = advanced

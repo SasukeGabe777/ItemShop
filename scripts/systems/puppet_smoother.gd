@@ -23,6 +23,19 @@ func push_state(pos: Vector2, vel: Vector2) -> void:
 		parent.global_position = pos
 
 
+## Scene-owned containment can sanitize both the rendered body and this cached
+## network target. Without the latter, an invalid target received behind a
+## closed door could become traversable later when that door opens.
+func constrain_target(bounded: Vector2) -> void:
+	if not _has_target:
+		return
+	if not is_equal_approx(target_pos.x, bounded.x):
+		target_vel.x = 0.0
+	if not is_equal_approx(target_pos.y, bounded.y):
+		target_vel.y = 0.0
+	target_pos = bounded
+
+
 func _process(delta: float) -> void:
 	if not _has_target:
 		return
