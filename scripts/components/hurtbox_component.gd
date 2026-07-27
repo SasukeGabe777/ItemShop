@@ -29,5 +29,14 @@ func receive(packet: Dictionary, from_position: Vector2) -> void:
 	var dmg := int(packet.get("damage", 1))
 	if guard_reduction > 0.0:
 		dmg = maxi(1, int(round(dmg * (1.0 - guard_reduction))))
-	if health.take_damage(dmg, packet.get("source")):
-		hit_received.emit(packet, from_position)
+	# A projectile can overlap during room teardown after its source enemy was
+	# already freed. Validate before the typed HealthComponent call; testing a
+	# previously-freed object with `is Node` would itself raise an error.
+	var source: Variant = packet.get("source")
+	var source_node: Node = null
+	if source != null and is_instance_valid(source):
+		source_node = source as Node
+	if health.take_damage(dmg, source_node):
+		var safe_packet := packet.duplicate()
+		safe_packet["source"] = source_node
+		hit_received.emit(safe_packet, from_position)

@@ -51,10 +51,24 @@ class Probe:
 		var pupped := await _wait_for(func() -> bool:
 			return (d.get("_net_hero_puppets") as Dictionary).has(2), 15.0)
 		_expect(pupped, "client hero puppet never appeared")
-		# stage the shot: both heroes near mid-room with an enemy closing in
+		# Stage a real combat room: the fixed room camera must show the complete
+		# north exit below the HUD while both heroes and enemies remain visible.
+		Net.broadcast_scene_event("enter_room", {"idx": 1})
+		await get_tree().create_timer(1.0).timeout
 		(d.get("hero") as Node2D).global_position = Vector2(280, 190)
 		await get_tree().create_timer(1.0).timeout
 		await _save_shot("01_dungeon_party.png")
+
+		# Kill the authoritative room population. The resulting persistent
+		# ornate banner is the player's unambiguous "door is open" signal.
+		for node: Node in d.call("_live_room_enemies"):
+			var enemy := node as Enemy
+			enemy.take_packet({"damage": 999999, "knockback": 0.0, "source": d.get("hero")},
+				enemy.global_position)
+		var cleared := await _wait_for(func() -> bool: return bool(d.get("door_open")), 10.0)
+		_expect(cleared, "combat room never cleared")
+		await get_tree().create_timer(0.5).timeout
+		await _save_shot("02_room_cleared.png")
 
 		Net.leave()
 		if failures.is_empty():

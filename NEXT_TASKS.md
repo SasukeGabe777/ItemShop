@@ -25,6 +25,9 @@ environment/repository maintenance, and targeted polish.
 - Re-ran core, campaign, couch, Realm, content, and all 18 online probes.
 - Re-ran and inspected the online lobby/town/dungeon, Realm, and shop-decor
   windowed probes.
+- Fixed ambiguous/stuck online dungeon progression: full-room safe-area camera,
+  prominent room-clear banner, room-scoped enemy accounting, explicit blocker
+  removal, and a three-world remote-client full-run regression.
 - Refreshed `CURRENT_BUILD.md`, this file, `PLAYTEST_NOTES.md`, and
   `data/dev_status.json`.
 

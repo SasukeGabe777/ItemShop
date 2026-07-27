@@ -2,6 +2,47 @@
 
 ---
 
+## 2026-07-26 - Online dungeon visibility and progression fix
+
+### Reported behavior
+
+- In online co-op, a run could appear to stop in a random middle room: the
+  north door stayed closed or felt solid, the room-clear text was difficult to
+  read, and the top HUD hid enough of the room that the actual clear state was
+  ambiguous.
+
+### Root cause and fixes
+
+- Dungeon rooms are 640x384 inside a 640x360 design viewport. The old following
+  camera and overlaid HUD hid the north combat strip, so a surviving enemy could
+  be invisible while correctly keeping the door closed.
+- Replaced the following/zoomed dungeon camera with a safe-area room camera that
+  keeps the complete room below the HUD in solo, couch, and online modes.
+- Replaced the small in-world clear hint with a persistent ornate white banner:
+  `ROOM CLEARED - TOP DOOR OPEN`.
+- Room-clear polling now counts only live enemies tagged to the current room
+  generation, rather than every node in the global `enemies` group.
+- The active door blocker is held explicitly, has collision removed immediately
+  on clear, and then frees; stale room-clear network events include/validate the
+  room index.
+- A freed projectile source encountered during room teardown is now sanitized
+  before the typed damage call.
+
+### Verification
+
+- `NET_DUNGEON_FULL_RUN_PROBE_PASS`: the remote client crossed every door in
+  three complete seeded online expeditions (Kingdom Hearts, Naruto, and Realm),
+  including all bosses.
+- `DUNGEON_AUTOPLAY_PROBE_PASS`: ten seven-room Naruto runs cleared, including
+  splitter-heavy `clone_impostor` rooms.
+- Existing online dungeon, progression, and dungeon-FX probes passed.
+- The windowed two-player dungeon probe captured both the combat state and the
+  cleared state. Both screenshots were opened and inspected: the entire room,
+  north doorway, players, and enemies are visible below the HUD, and the clear
+  banner is prominent without covering the playable doorway.
+
+---
+
 ## 2026-07-26 - Realm and online co-op local acceptance pass
 
 ### Date

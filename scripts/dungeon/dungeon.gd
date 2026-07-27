@@ -21,17 +21,22 @@ var consum_label2: Label = null
 var hud_vb: VBoxContainer = null
 var switch_available: Array[String] = []
 var door_open: bool = false
+var door_blocker: StaticBody2D = null
+var room_clear_banner: Control = null
 var finished: bool = false
 ## Authority-side: this combat room spawned enemies and hasn't cleared yet.
-## Room-clear is polled off the "enemies" group emptying rather than per-enemy
-## signals, so spawn-on-death enemies (splitters) can't leave it uncleared.
+## Room-clear is polled from live Enemy children tagged for the current room,
+## so stale/group-external nodes cannot hold a door shut and spawn-on-death
+## enemies (splitters) still count.
 var _room_needs_clear: bool = false
+var _room_epoch: int = 0
 var shake_amount: float = 0.0
 var vertical_slice_reward_spawned: bool = false
 var vertical_slice_reward_collected: bool = false
 var _net_hero_puppets: Dictionary = {}  # online: player_index -> CombatHero puppet
 
 const CELL := 32
+const HUD_SAFE_TOP := 72.0
 
 
 func _ready() -> void:
@@ -51,6 +56,7 @@ func _ready() -> void:
 				switch_available.append(String(ww.get("hero", "")))
 	room_root = Node2D.new()
 	add_child(room_root)
+	room_root.child_entered_tree.connect(_on_room_child_entered)
 	var start_hero := String(DungeonManager.pending.get("hero_id", "sora"))
 	if Net.is_online():
 		var mine := _party_entry(PartyState.local_index())
@@ -72,24 +78,10 @@ func _ready() -> void:
 		p2_sidekick.name = "P2Sidekick"
 		hero2.defeated.connect(_on_hero_defeated)
 	camera = Camera2D.new()
-	if hero2 != null:
-		# co-op: a free-standing midpoint camera showing the whole room,
-		# zoom-adjustable by Player 1 only
-		camera.set_script(preload("res://scripts/dungeon/coop_camera.gd"))
-		camera.set("hero_a", hero)
-		camera.set("hero_b", hero2)
-		add_child(camera)
-		camera.make_current()
-	else:
-		camera.add_to_group("shake_camera")
-		camera.set_script(preload("res://scripts/dungeon/shake_camera.gd"))
-		# clamp to the room rect: following the hero to a wall used to pan half
-		# the screen into the void beyond the painted background
-		camera.limit_left = 0
-		camera.limit_top = 0
-		camera.limit_right = ContentDatabase.room_grid.x * CELL
-		camera.limit_bottom = ContentDatabase.room_grid.y * CELL
-		hero.add_child(camera)
+	camera.set_script(preload("res://scripts/dungeon/room_camera.gd"))
+	camera.set("safe_top", HUD_SAFE_TOP)
+	add_child(camera)
+	camera.make_current()
 	_build_hud()
 	if hero2 != null and hp_bar != null:
 		hp_bar2 = _hp_display(Vector2(110, 16), Color("#4a9a55"))
@@ -162,7 +154,7 @@ func _spawn_hero(hero_id: String) -> void:
 		old_pos = hero.global_position
 		old_meter = hero.meter
 		consumables = hero.consumables
-		if camera != null:
+		if camera != null and camera.get_parent() == hero:
 			hero.remove_child(camera)
 		hero.queue_free()
 	hero = CombatHero.new()
@@ -180,7 +172,7 @@ func _spawn_hero(hero_id: String) -> void:
 	if old_pos != Vector2.ZERO:
 		hero.global_position = old_pos
 	if camera != null and camera.get_parent() == null:
-		hero.add_child(camera)
+		add_child(camera)
 	hero.defeated.connect(_on_hero_defeated)
 	if Net.is_online():
 		var idx := PartyState.local_index()
@@ -382,7 +374,7 @@ func _on_net_scene_event(event_name: String, args: Dictionary) -> void:
 		"enter_room":
 			_enter_room(int(args.get("idx", 0)))
 		"room_cleared":
-			_apply_room_cleared()
+			_apply_room_cleared(int(args.get("idx", room_index)))
 		"expedition_finished":
 			finished = true
 			_show_finish_modal(bool(args.get("success", false)),
@@ -611,7 +603,7 @@ func _process(_delta: float) -> void:
 	# authority clears a combat room the moment its enemies are all gone — this
 	# catches the last kill however it happened (incl. splitter children)
 	if _room_needs_clear and not door_open and not finished and Net.is_authority() \
-			and get_tree().get_nodes_in_group("enemies").is_empty():
+			and _live_room_enemies().is_empty():
 		_room_needs_clear = false
 		_on_room_cleared(false)
 	if door_open and Net.is_authority() and _any_hero_past_exit():
@@ -631,9 +623,14 @@ func _any_hero_past_exit() -> bool:
 
 
 func _enter_room(idx: int) -> void:
+	_room_epoch += 1
 	room_index = idx
 	door_open = false
+	door_blocker = null
 	_room_needs_clear = false
+	if room_clear_banner != null and is_instance_valid(room_clear_banner):
+		room_clear_banner.queue_free()
+	room_clear_banner = null
 	vertical_slice_reward_spawned = false
 	vertical_slice_reward_collected = false
 	for child in room_root.get_children():
@@ -686,6 +683,7 @@ func _enter_room(idx: int) -> void:
 		bpoly.color = Color(String(w.get("accent_color", "#888888"))).darkened(0.3)
 		blocker.add_child(bpoly)
 	room_root.add_child(blocker)
+	door_blocker = blocker
 	# obstacles
 	for ob in template.get("obstacles", []):
 		var r := Rect2(float(ob[0]) * CELL, float(ob[1]) * CELL, float(ob[2]) * CELL, float(ob[3]) * CELL)
@@ -1040,7 +1038,7 @@ func _open_switch_menu() -> void:
 
 func _check_room_clear() -> void:
 	await get_tree().process_frame
-	if get_tree().get_nodes_in_group("enemies").is_empty():
+	if _live_room_enemies().is_empty():
 		if vertical_slice_reward_spawned and not vertical_slice_reward_collected:
 			return
 		_on_room_cleared(false)
@@ -1103,21 +1101,62 @@ func _on_room_cleared(was_boss: bool) -> void:
 	if door_open:
 		return  # already cleared (poll + a kill signal can both fire)
 	if Net.is_online() and Net.is_authority():
-		Net.broadcast_scene_event("room_cleared", {})  # applies locally too
+		Net.broadcast_scene_event("room_cleared", {"idx": room_index})  # applies locally too
 		return
 	_apply_room_cleared()
 
 
-func _apply_room_cleared() -> void:
+func _apply_room_cleared(expected_room: int = -1) -> void:
+	if expected_room >= 0 and expected_room != room_index:
+		return
 	if door_open or finished:
 		return
 	door_open = true
-	var blocker := room_root.get_node_or_null("DoorBlocker")
-	if blocker != null:
-		blocker.queue_free()
-	var hint := UIKit.label("Room clear! Head through the top door.", 9, UIKit.COL_GOOD)
-	hint.position = Vector2(ContentDatabase.room_grid.x * CELL / 2.0 - 80, 40)
-	room_root.add_child(hint)
+	if door_blocker != null and is_instance_valid(door_blocker):
+		# queue_free alone leaves physics active through the current frame,
+		# which can make an open door feel solid.
+		door_blocker.collision_layer = 0
+		for child: Node in door_blocker.get_children():
+			if child is CollisionShape2D:
+				(child as CollisionShape2D).set_deferred("disabled", true)
+		door_blocker.queue_free()
+	door_blocker = null
+	_show_room_clear_banner()
+
+
+func _show_room_clear_banner() -> void:
+	if room_clear_banner != null and is_instance_valid(room_clear_banner):
+		room_clear_banner.queue_free()
+	var center := CenterContainer.new()
+	center.name = "RoomClearBanner"
+	center.set_anchors_preset(Control.PRESET_TOP_WIDE)
+	center.offset_top = 32.0
+	center.offset_bottom = HUD_SAFE_TOP - 3.0
+	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var plate := UIKit.nameplate("ROOM CLEARED  -  TOP DOOR OPEN", 15)
+	plate.custom_minimum_size = Vector2(390, 32)
+	plate.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	center.add_child(plate)
+	hud_layer.add_child(center)
+	room_clear_banner = center
+
+
+func _on_room_child_entered(node: Node) -> void:
+	if node is Enemy:
+		node.set_meta("dungeon_room_epoch", _room_epoch)
+
+
+func _live_room_enemies() -> Array[Enemy]:
+	var live: Array[Enemy] = []
+	if room_root == null:
+		return live
+	for node: Node in room_root.get_children():
+		if not (node is Enemy) or int(node.get_meta("dungeon_room_epoch", -1)) != _room_epoch:
+			continue
+		var enemy := node as Enemy
+		if enemy.health != null and not enemy.health.dead:
+			live.append(enemy)
+	return live
 
 
 func _next_room() -> void:

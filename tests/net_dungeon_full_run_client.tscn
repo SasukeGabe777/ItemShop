@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource path="res://tests/net_dungeon_full_run_client.gd" type="Script" id="1"]
+
+[node name="NetDungeonFullRunClient" type="Node"]
+script = ExtResource("1")

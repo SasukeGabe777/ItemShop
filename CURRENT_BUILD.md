@@ -105,10 +105,12 @@ Content/system probes passed:
 - `MOREDECOR_FURNITURE_PROBE_PASS` for all ten OMORI decor pieces.
 - Couch identity, alternating customer turns, P2 input, and P2 render filtering.
 
-All **18 current `net_*_probe.tscn` routes passed**, including handshake, state
-sync, scene follow, late join, parking, pause, reconnect, replication, avatars,
-town, shop, lineup, dungeon, dungeon FX, progression, discovery, disconnect,
-and offline regression.
+All **18 baseline `net_*_probe.tscn` routes passed**, including handshake,
+state sync, scene follow, late join, parking, pause, reconnect, replication,
+avatars, town, shop, lineup, dungeon, dungeon FX, progression, discovery,
+disconnect, and offline regression. A nineteenth full-run regression now drives
+the remote client through every room and boss across seeded Kingdom Hearts,
+Naruto, and Realm expeditions.
 
 Windowed probes passed and every fresh screenshot was opened and inspected:
 
