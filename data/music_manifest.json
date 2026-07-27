@@ -69,6 +69,10 @@
       "loop": true,
       "start": 30.0
     },
+    "dungeon_rotmg": {
+      "file": "rotmg_dungeon",
+      "loop": true
+    },
     "boss_battle": {
       "file": "boss_battle",
       "loop": true
