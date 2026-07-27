@@ -34,7 +34,10 @@ func on_new_day() -> void:
 func _roll_event() -> Dictionary:
 	var pool: Array[Dictionary] = []
 	var total := 0
-	for id: String in ContentDatabase.market_events:
+	var event_ids: Array[String] = []
+	event_ids.assign(ContentDatabase.market_events.keys())
+	event_ids.sort()
+	for id: String in event_ids:
 		if active_events.any(func(a: Dictionary) -> bool: return String(a["id"]) == id):
 			continue
 		var ev: Dictionary = ContentDatabase.market_events[id]
@@ -96,6 +99,7 @@ func wholesale_cost(item_id: String) -> int:
 func wholesale_catalog() -> Array[String]:
 	var out: Array[String] = []
 	out.append_array(ContentDatabase.live_items)
+	out.sort()
 	return out
 
 

@@ -1,95 +1,83 @@
 # Next Tasks
 
-Regenerated **2026-07-22** against HEAD `e56b3e8`. The prior version was frozen at
-`9f97b5b` (2026-07-20) and had gone stale: it still called Dragon Ball a data
-stub and told agents to "skip Goku until the world gets art" — but Goku **and**
-Piccolo shipped as playable heroes with beam specials + a fly dodge, and the DBZ
-dungeon (rooms, props, enemy roster, Perfect Cell boss) is built. Priorities
-below reflect the **actual** current state (see `CURRENT_BUILD.md`).
+Regenerated **2026-07-26** against the checkout based on `d619d3d4`.
 
-## Recently completed
+The former task list stopped before Realm and online co-op. Those features are
+now implemented and locally verified. Current priorities are acceptance,
+environment/repository maintenance, and targeted polish.
 
-- **Pokémon world (2026-07-22):** Pikachu + Charmander playable (sheet-mined
-  from the user's PMD rip drop — no emulator runs), new `nova` AOE special
-  kind (Discharge / Fire Spin from user-provided effect frames), composed PMD
-  dungeon (meadow/woods/crystal-cave/golden-vault/Temporal-Tower boss arena),
-  5-enemy corrupt roster with real art, 3-boss rotation Latios → Ho-Oh →
-  Mewtwo. **All seven franchise worlds are now built.** Screenshot-verified;
-  boot/parse/campaign suites green.
+## Completed in the 2026-07-26 pass
 
-- **Dragon Ball world (2026-07-21):** Goku + Piccolo playable (OAM-captured from
-  *Legacy of Goku II*), new `beam` special + `fly` dodge engine kinds, painted
-  dungeon, enemy roster + Perfect Cell boss. Full method in `docs/DBZ_HANDOFF.md`.
-- **Shop depth (2026-07-21):** order-capacity scaling, shop handbook/encyclopedia
-  panel, dungeon ESC pause menu with retreat, animated Kanto customers,
-  furniture-attention progression, expanded customer pool.
-- **Export on the work PC (2026-07-22):** installed the 4.7.1-stable export
-  templates so this machine can export/verify locally (was the two-machine
-  bottleneck). Also fixed the stale `test_boot` hero-count assertion.
-- **Doc-honesty pass (2026-07-22):** regenerated this file + `CURRENT_BUILD.md`;
-  re-ran boot/parse/campaign/asset-factory suites (all green). `PLAYTEST_NOTES.md`
-  is still stale and should be refreshed by the next acceptance run.
+- Reconciled uncommitted asset staging:
+  - promoted the twelve OMORI co-op source sheets into
+    `assets/hero/raw/coop/`;
+  - kept the one used OMORI furniture atlas as tracked provenance;
+  - preserved unused furniture downloads locally but ignored them from Git;
+  - removed accidental OMORI dry-run lines from Pokémon's download log;
+  - tracked the six missing Godot probe UID sidecars.
+- Made `p2_input_probe` assert its behavior and emit a real pass/fail token.
+- Corrected the screenshot client so player two is visible in town/dungeon
+  acceptance shots.
+- Removed cross-process campaign-test flakiness by seeding `Negotiation.rng`,
+  rebuilding day-one market events after seeding, sorting weighted pools, and
+  adding stable ID tie-breakers. Three fresh runs now converge on day 33 with
+  41,396g spare.
+- Re-ran core, campaign, couch, Realm, content, and all 18 online probes.
+- Re-ran and inspected the online lobby/town/dungeon, Realm, and shop-decor
+  windowed probes.
+- Refreshed `CURRENT_BUILD.md`, this file, `PLAYTEST_NOTES.md`, and
+  `data/dev_status.json`.
 
-## Priority 0 — Human acceptance playtest of the built worlds (active focus)
+## Priority 0 — External acceptance
 
-No human acceptance run of the expanded build is recorded, and `PLAYTEST_NOTES.md`
-predates every world after Kingdom Hearts. Now that this machine can export:
+The code-side release candidate is green. The next evidence must come from
+outside the single-machine harness:
 
-1. Export `export/crossroads.exe` and play on a controller through at least one
-   full chapter loop (shop → expedition → boss → repair) for each built world
-   (KH, Mario, FF, Zelda, Naruto, Dragon Ball, **Pokémon**), plus one 2-player
-   session.
-2. Record the largest issue per category (blocker / bug / visual) per world in
-   `PLAYTEST_NOTES.md`, replacing the stale entries.
-3. Fix only blockers this pass; file the rest here.
+1. Run `export/crossroads.exe` on two physical machines, preferably with
+   controllers.
+2. Exercise lobby → character select → town → shop → shared lineup → expedition
+   → return → story.
+3. Test one disconnect/reconnect and one client join while the host is already
+   in town.
+4. Test both LAN discovery and the intended remote-network method.
+5. Record only actual blocker/bug/visual findings in `PLAYTEST_NOTES.md`.
 
-Give Dragon Ball and Pokémon extra attention — they are the newest worlds.
-Pokémon specifics worth eyeballing: nova special feel (Discharge/Fire Spin
-cost/damage), boss rotation difficulty (Latios first-win at 1200hp), and
-whether the prop-less rooms read too empty.
+This machine's router rejected UPnP. For WAN testing, use Tailscale/Hamachi or
+forward UDP 8910 unless the router is reconfigured.
 
-## Priority 1 — Pokémon polish (world built 2026-07-22)
+## Priority 1 — Restore the asset toolchain
 
-First playtest done 2026-07-22; its fixes shipped same day (Charmander side
-anims, dodge distances, boss size cap, FRLG rooms + props + boulder barrier,
-Mario/Luigi rebuild). Remaining polish items:
+`.venv312` and `.venv` both reference a removed Python 3.12 installation.
+Restore Python 3.12, recreate `.venv312`, install the project requirements plus
+Pillow/numpy, then prove:
 
-- **Latios balance:** felt too strong at first-win, but tested unequipped —
-  revisit after an equipped run before touching numbers.
-- **Item icons:** `pokedex` and `fire_stone` lack icons so they never appear
-  in shops; extract from `raw/items.png`.
-- **Idle motion:** Pikachu/Charmander idles are 1-frame (their PMD idle rows
-  have 2 poses — could become blink-style idles like Link's).
-- **Music:** drop `dungeon_pokemon.mp3` into `assets/music/user_overrides/`
-  if a track is wanted; resolves automatically.
+```powershell
+.venv312\Scripts\python.exe tools\prep_coop_avatars.py
+.venv312\Scripts\python.exe tools\prep_moredecor_furniture.py
+```
 
-## Priority 2 — Hero idle-motion polish
+Both reruns should leave the processed PNGs/manifests unchanged.
 
-Five heroes still have 1-frame idles (no idle motion): **Sora, Mario, Luigi,
-Cloud, Naruto**. Link, Goku, and Piccolo now have multi-frame idles and are the
-template. Highest impact first:
+## Priority 2 — Visual/content polish
 
-1. **Naruto + Cloud** — thinnest overall sets (Naruto side-only attacks, Cloud
-   2-frame up/side walks). No ROMs for their games in `savestates/ROMS`, so this
-   is sheet-mining per `docs/AGENT_GUIDE.md` §4, not live capture.
-2. **Sora, Mario, Luigi** idle motion — they have rich walk/attack sets already;
-   only the idle is static.
-3. **Parked (from the 2026-07-20 pass):** Sora's Strike Raid special (fresh-game
-   card economy dead-ends; L55 save hard-freezes on the 13F textbox) and Mario's
-   battle jump/hammer attacks (needs a short new-game M&L run to the first
-   tutorial battle). See `docs/AGENT_GUIDE.md` §8.
+1. **Realm boss-room readability:** brighten or selectively lift the black/navy
+   room art while preserving the Oryx atmosphere.
+2. **Pokémon item icons:** extract Pokédex and Fire Stone icons so both items
+   enter live shop circulation.
+3. **Idle motion:** prioritize Cloud and Naruto, then Sora/Mario/Luigi,
+   Pikachu/Charmander, and the Realm classes.
+4. **Realm controller feel:** after a human run, tune autofire cadence, enemy
+   bullet density, and first-win Oryx balance only from observed feedback.
 
-## Priority 3 — Locations (optional, low urgency)
+## Priority 3 — Optional authored locations
 
-`data/locations.json` is empty and campaign scenes build layouts in code, which
-works. Only invest in the Location Workshop / `LocationLoader` path if authored
-locations become the preferred way to add content. Per `AI_PARTNER.md`, write a
-`docs/LOCATION_BRIEF_TEMPLATE.md` brief before generating any location.
-
-## Maintenance note
-
-Keep this file, `CURRENT_BUILD.md`, `PLAYTEST_NOTES.md`, and
-`data/dev_status.json` honest after each pass. They have drifted a full
-development era out of date **twice** now (frozen at the KH slice, then at
-`9f97b5b`). Regenerate them whenever a feature's status changes, per
+`data/locations.json` is still empty and current code-built scenes work. Invest
+in the Location Workshop/`LocationLoader` path only if authored locations
+become the chosen content workflow. Write a location brief first, per
 `AI_PARTNER.md`.
+
+## Maintenance
+
+Keep `CURRENT_BUILD.md`, `NEXT_TASKS.md`, `PLAYTEST_NOTES.md`, and
+`data/dev_status.json` synchronized whenever a feature changes state. They have
+drifted behind the code three times.

@@ -2,6 +2,84 @@
 
 ---
 
+## 2026-07-26 - Realm and online co-op local acceptance pass
+
+### Date
+
+2026-07-26
+
+### Build tested
+
+- Checkout based on `d619d3d4`, plus the cleanup/QA changes from this pass.
+- Godot 4.7.1-stable, application version 0.2.0.
+- Two local Godot instances for online probes; windowed host plus headless
+  client for screenshot probes.
+- This was an automated/local visual acceptance pass, **not** a human
+  two-machine/controller or WAN playtest.
+
+### Test route
+
+- Ran boot, parse-all, campaign, Asset Factory, Realm admin, all-world dungeon
+  autoplay, DBZ music, OMORI decor, couch identity/input/render filtering, and
+  alternating customer-turn probes.
+- Ran all 18 current online probes: handshake, sync, scene follow, late join,
+  discovery, parking, pause, reconnect, replication, avatars, town, shop,
+  lineup, dungeon, dungeon FX, progression, disconnect, and offline regression.
+- Ran the online lobby, two-player town, co-op dungeon, Realm dungeon, and
+  OMORI furniture probes windowed.
+- Opened and inspected all 17 fresh screenshots from those windowed routes.
+
+### What worked
+
+- Core data/parse/campaign suites passed; three fresh campaign runs each
+  repaired every gate on day 33 with 41,396g spare.
+- All online probes passed with real ENet traffic between two Godot processes.
+- The populated lobby showed host/client seats and ready state correctly.
+- Town showed Gabe and BroTwo as distinct selectable OMORI avatars with readable
+  name labels.
+- Co-op dungeon showed host Sora and client Link in the same room with correct
+  player names.
+- Realm verified Archer movement/facing, held basic autofire, piercing special,
+  enemy projectiles, world music, room layout, and Oryx as the first boss.
+- All ten new OMORI decor pieces rendered cleanly in the shop and purchase
+  catalog.
+- The legacy P2 input probe now has assertions and reports
+  `P2_INPUT_PROBE_PASS`.
+
+### Bugs fixed during the pass
+
+- The town/dungeon screenshot client stayed at its scene-edge spawn, clipping
+  BroTwo and weakening the visual evidence. It now holds its locally
+  authoritative body in-frame during screenshot probes; corrected screenshots
+  show both players clearly.
+- The P2 input probe previously printed only diagnostic text and always exited
+  zero. It now checks input isolation, stick repeat, focus recovery, Close
+  behavior, modal closure, and busy-flag cleanup.
+- The fixed-seed campaign proof varied wildly between fresh processes because
+  `Negotiation.rng` was never seeded and weighted Dictionary pools/sort ties
+  depended on unstable iteration order. RNG setup and selection ordering are
+  now deterministic; three independent runs produced identical results.
+
+### Remaining issues
+
+- The router rejected automatic UPnP mapping. The game surfaces this in the
+  lobby and recommends Tailscale/Hamachi or forwarding UDP 8910. LAN/loopback
+  behavior passed; real WAN behavior remains unproven.
+- Realm's boss room is extremely dark. Oryx, red eyes, the hero, and boss HP bar
+  remain visible, but this is the weakest visual in the Realm set.
+- Both project Python virtual environments point to a removed Python 3.12
+  installation, so the source extraction scripts could not be replayed. The
+  already-generated game assets remain intact and verified in Godot.
+
+### Next action
+
+- Test the exported build on two physical machines/controllers across the
+  intended network path, then record only observed issues. If no blocker
+  appears, restore the Python 3.12 asset environment and address Realm
+  boss-room readability.
+
+---
+
 ## 2026-07-22 - First human playtest of the Pokémon world (controller)
 
 ### Date

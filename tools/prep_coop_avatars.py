@@ -1,4 +1,4 @@
-"""Wire the OMORI overworld avatar rips in assets/hero/p2-5/ into clean, uniform
+"""Wire the OMORI overworld avatar rips in assets/hero/raw/coop/ into clean, uniform
 town/shop walking avatars for online co-op character select.
 
 Each source sheet is a labelled charset: 3 walk-frame columns x 4 rows
@@ -17,7 +17,7 @@ import os
 from PIL import Image
 import numpy as np
 
-RAW = "assets/hero/p2-5"
+RAW = "assets/hero/raw/coop"
 OUT_SHEETS = "assets/hero/processed/coop"
 OUT_MANIFESTS = "assets/hero/manifests"
 

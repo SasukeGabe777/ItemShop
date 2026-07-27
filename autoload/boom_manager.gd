@@ -317,7 +317,10 @@ func _roll_daily_boom(force: bool = false) -> void:
 		return
 	var pool: Array[Dictionary] = []
 	var total := 0
-	for id: String in ContentDatabase.booms:
+	var boom_ids: Array[String] = []
+	boom_ids.assign(ContentDatabase.booms.keys())
+	boom_ids.sort()
+	for id: String in boom_ids:
 		var d: Dictionary = ContentDatabase.booms[id]
 		if bool(d.get("trigger_only", false)) or int(d.get("min_chapter", 1)) > TimeManager.chapter:
 			continue

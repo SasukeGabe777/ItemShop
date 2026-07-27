@@ -11,6 +11,7 @@ extends Node
 
 var failures: Array[String] = []
 var rng := RandomNumberGenerator.new()
+const TEST_SEED := 20260716
 
 
 func fail(msg: String) -> void:
@@ -24,7 +25,7 @@ func check(cond: bool, msg: String) -> void:
 
 
 func _ready() -> void:
-	rng.seed = 20260716
+	rng.seed = TEST_SEED
 	_reset_all()
 	_test_negotiation()
 	_reset_all()
@@ -56,12 +57,18 @@ func _reset_all() -> void:
 	StoryEventManager.reset()
 	# deterministic economy proof: seed the gameplay RNGs (incl. the global one
 	# used for order deadlines)
-	seed(int(rng.seed))
-	MarketManager.rng.seed = rng.seed
-	BoomManager.rng.seed = rng.seed
-	CustomerGen.rng.seed = rng.seed
-	RelationshipManager.rng.seed = rng.seed
-	DungeonManager.rng.seed = rng.seed
+	seed(TEST_SEED)
+	MarketManager.rng.seed = TEST_SEED
+	# MarketManager.reset() intentionally randomizes for live campaigns and
+	# immediately rolls day-one events. Rebuild those events only after seeding
+	# so this proof is stable across fresh Godot processes.
+	MarketManager.active_events.clear()
+	MarketManager.on_new_day()
+	BoomManager.rng.seed = TEST_SEED
+	CustomerGen.rng.seed = TEST_SEED
+	Negotiation.rng.seed = TEST_SEED
+	RelationshipManager.rng.seed = TEST_SEED
+	DungeonManager.rng.seed = TEST_SEED
 
 
 func _test_negotiation() -> void:
@@ -138,7 +145,10 @@ func _equip_best_available(hero_id: String) -> void:
 	var hero := ContentDatabase.get_hero(hero_id)
 	var wt := String(hero.get("weapon_type", ""))
 	var best := {"weapon": ["", -1], "armor": ["", -1], "accessory": ["", -1], "charm": ["", -1]}
-	for id: String in ContentDatabase.items:
+	var item_ids: Array[String] = []
+	item_ids.assign(ContentDatabase.items.keys())
+	item_ids.sort()
+	for id: String in item_ids:
 		var it: Dictionary = ContentDatabase.items[id]
 		var stats: Dictionary = it.get("stats", {})
 		var score := int(stats.get("atk", 0)) * 2 + int(stats.get("def", 0)) * 2 + int(stats.get("spd", 0))
@@ -158,6 +168,7 @@ func _equip_best_available(hero_id: String) -> void:
 
 
 func _test_bosses_defeatable() -> void:
+	rng.seed = TEST_SEED + 1
 	for wid in ContentDatabase.world_order:
 		var w := ContentDatabase.get_world(wid)
 		var hid := String(w.get("hero", ""))
@@ -196,6 +207,7 @@ func _test_failure_restart() -> void:
 ## morning: buy stock; afternoon+evening: run shop; night: expedition when the
 ## shard is missing (every other day), otherwise shop again.
 func _test_full_campaign() -> bool:
+	rng.seed = TEST_SEED + 2
 	var log_days: Array[String] = []
 	while TimeManager.chapter <= 7:
 		var w := ContentDatabase.world_for_chapter(TimeManager.chapter)

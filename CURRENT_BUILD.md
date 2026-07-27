@@ -1,169 +1,158 @@
 # Current Build
 
-Last regenerated: **2026-07-22**
+Last audited: **2026-07-26**
 
-Audited HEAD: **`e56b3e8` - `Update character assets and extraction tools`**
+Audited checkout: **`d619d3d4` plus the 2026-07-26 status/acceptance pass**.
 
-Engine: **Godot 4.7.1-stable** (binary lives in `tools/`, gitignored).
+Engine: **Godot 4.7.1-stable**. Application version: **0.2.0**.
 
-This file records the observed state of the current checkout. Regenerated on
-2026-07-22 by parsing the actual `data/*.json`, manifests, and git history and by
-re-running the headless suites, because the prior version had frozen at
-`9f97b5b` (2026-07-20) and understated the build by a full development era:
-Dragon Ball graduated from data-stub to a fully built world (Goku + Piccolo
-playable, painted dungeon, enemy roster + Perfect Cell boss), plus a shop
-handbook, order-capacity scaling, a dungeon pause/retreat menu, and a large
-recipe/customer expansion — none of which the old doc reflected.
+This is the observed state of the checkout, regenerated from the actual data,
+manifests, project configuration, tests, git history, and fresh windowed
+screenshots. It supersedes the 2026-07-22 snapshot at `e56b3e8`, which predates
+the Realm of the Mad God world and the entire online co-op implementation.
 
-- **Verified (data):** confirmed by directly parsing the data/manifests in this
-  checkout on 2026-07-22.
-- **Verified (test):** re-run headless on 2026-07-22 (result noted inline).
-- **Partial / Stub:** meaningful code or data exists but the full player route is
-  incomplete or unproven.
+## Executive state
 
-## Content inventory (verified by parsing data/ at e56b3e8)
+Crossroads now has **eight built franchise worlds**, a Null Archive endgame
+chapter, local two-player couch play, and host-authoritative online co-op for up
+to five players. The online route covers lobby/character selection, town, shop,
+shared expedition lineup, dungeon, story following, disconnect handling,
+late-join parking, and reconnect into a reserved seat.
 
-| Data | Count | Δ since 9f97b5b |
-| --- | --- | --- |
-| Worlds | **8** (`kingdom_hearts, mario, final_fantasy, zelda, naruto, dragon_ball, pokemon, null_archive`) | — |
-| Playable heroes / NPCs | **10 / 3** | +2 heroes (**Piccolo**, **Charmander** 2026-07-22) |
-| Regular enemies / bosses | **93 / 19** | +8 enemies; +2 bosses (**Latios**, **Ho-Oh** 2026-07-22) |
-| Items | **225** | — |
-| Recipes | **99** | +44 |
-| Customer archetypes / named | **10 / 28** | — |
-| Customer visual pool | **510** | (new count recorded) |
-| Story scenes | **37** | — |
-| Market events | **14** | — |
-| Room templates (`data/rooms.json`) | **32** | — |
-| Authored locations (`data/locations.json`) | **0** (still empty) | — |
+The current release candidate is logic-green and visually smoke-tested. The
+remaining acceptance gap is a real two-machine/WAN controller session; local
+two-instance probes cannot prove an external router path.
 
-## World-by-world build state (verified by data)
+## Content inventory
 
-| World (chapter) | Hero | Dungeon art | State |
-| --- | --- | --- | --- |
-| Kingdom Hearts (1) | Sora | obstacle props + shared room templates | **Built** — original vertical slice |
-| Mario (2) | Mario, Luigi | room backgrounds + props | **Built** |
-| Final Fantasy (3) | Cloud | room backgrounds + props | **Built** |
-| Zelda (4) | Link | room backgrounds + props | **Built** (composited sword overlay) |
-| Naruto (5) | Naruto | room backgrounds + props | **Built** — thinnest hero animation set |
-| Dragon Ball (6) | Goku, Piccolo | room backgrounds + props | **Built** — both heroes playable, beam specials + fly dodge, enemy roster + Perfect Cell boss |
-| Pokémon (7) | Pikachu, Charmander | PMD-composed room backgrounds + barriers | **Built (NEW 2026-07-22)** — both heroes playable with `nova` ring specials (Discharge / Fire Spin), 5-enemy corrupt roster, 3-boss rotation (Latios → Ho-Oh → Mewtwo) |
-| Null Archive (F) | any | n/a | Endgame stub (The Fade) |
+Verified by parsing `data/*.json` on 2026-07-26:
 
-**All seven franchise worlds are now built** (2026-07-22: Pokémon shipped from
-the user's PMD sheet drop — no emulator capture needed). Null Archive remains
-the endgame stub by design.
+| Data | Current count |
+| --- | ---: |
+| World records | **9** |
+| Playable heroes | **16** |
+| NPC records | **3** |
+| Regular enemies | **105** |
+| Bosses | **28** |
+| Items | **268** |
+| Recipes | **98** |
+| Customer archetypes / named customers | **10 / 28** |
+| Customer visual pool | **529** |
+| Story scenes | **37** |
+| Market events / shop booms | **14 / 14** |
+| Room templates | **32** |
+| Authored locations | **0** |
 
-### Pokémon detail (built 2026-07-22, sheet-mined)
+## World state
 
-Pikachu + Charmander heroes extracted from PMD Explorers of Sky rips
-(`tools/prep_pokemon_world.py` — direction-row conventions VARY per sheet,
-verified by mirror-similarity; see AGENT_GUIDE §8). New engine special kind
-**`nova`** (`scripts/entities/nova.gd`): self-centered AOE ring played from
-the user's frame-by-frame effect rips (Discharge / Fire Spin). Dungeon rooms
-composed from PMD tileset atlases (`tools/build_pokemon_rooms.py`): Viridian
-meadow/woods, Cerulean crystal-cave, Golden Chamber treasure vault, Temporal
-Tower Summit boss arena, sealed-gold-block barriers. Boss rotation:
-Latios (1200hp) → Ho-Oh (1500hp) → Mewtwo (1800hp), all carrying
-`world_shard_pkmn`. Verified windowed: rooms/enemies/bosses/specials all
-screenshot-checked (`tests/pkmn_verify_shot.gd`), boot/parse/campaign green.
+| Chapter | World | Playable heroes | State |
+| ---: | --- | --- | --- |
+| 1 | Kingdom Hearts | Sora | Built |
+| 2 | Mario | Mario, Luigi | Built |
+| 3 | Final Fantasy | Cloud | Built |
+| 4 | Zelda | Link | Built |
+| 5 | Naruto | Naruto | Built |
+| 6 | Dragon Ball | Goku, Piccolo | Built |
+| 7 | Pokémon | Pikachu, Charmander | Built |
+| 8 | Null Archive | Any | Endgame chapter/stub by design |
+| 9 | Realm of the Mad God | Archer, Knight, Wizard, Rogue, Necromancer, Ninja | Built |
 
-### Dragon Ball detail (built 2026-07-21 on the home PC)
+Realm is a ranged-combat world with six shooter heroes, twelve regular enemies,
+nine bosses (Oryx is the debut boss), authentic item/customer art, biome rooms,
+enemy projectile swarms, world-specific music, and an admin unlock mode.
 
-Goku and Piccolo were captured from *DBZ: Legacy of Goku II* via the OAM
-reference pipeline (`docs/DBZ_HANDOFF.md` records the full method). Two new
-engine kinds landed in `scripts/entities/combat_hero.gd`:
+## Multiplayer state
 
-- special **`beam`** (`scripts/entities/beam.gd`): muzzle/shaft/tip textures,
-  grow/hold/fade, line damage — used for Kamehameha (Goku) and Special Beam
-  Cannon (Piccolo).
-- dodge **`fly`**: dash + i-frames + flight pose.
+### Couch
 
-DBZ enemy roster (`saibaman`-class, `rr_robot`, `dbz_dinosaur`, `dbz_wolf`,
-`sabertooth_tiger`, `cell_junior`) and **Perfect Cell** boss all have real
-manifests.
+Local two-player split-screen remains supported with separate devices,
+per-player menu focus/input gates, viewport filtering, identities, shared
+expeditions, and alternating shop-customer turns.
 
-## Systems present (19 autoloads)
+### Online
 
-GameState, ContentDatabase, TimeManager, MarketManager, EconomyManager,
-InventoryManager, RelationshipManager, BridgeManager, BoomManager, DungeonManager,
-StoryEventManager, ShopFurnitureManager, SaveManager, AudioManager, SceneRouter,
-DebugManager, DevHubManager, PadNav, MultiplayerState.
+Online is a host-authoritative listen server implemented by `Net`,
+`PartyState`, and `Replica`.
 
-Highlights beyond the KH slice: local 2-player split-screen (`MultiplayerState`),
-controller support (`PadNav`), the Dev Hub overlay (`DevHubManager`), Shop Booms
-(`BoomManager` — 14 announced crowd events), per-player consumable belts,
-autosave every day-portion, obstacle-prop dungeon dressing, day-briefing HUD,
-negotiation overhaul, painted shop interior, and story portraits. Recent
-shop-side additions: **order-capacity scaling**, a **shop handbook /
-encyclopedia** panel, and a **dungeon ESC pause menu with retreat**.
+- Up to five seats, stable `player_index` identity, version handshake.
+- LAN discovery, direct-IP join, and attempted UPnP port mapping.
+- Twelve selectable OMORI town/shop avatars plus the original Omori avatar.
+- Host-owned singleton mutation through the command bus and snapshot sync.
+- Town, shop, dungeon, projectiles, loot, customer, and player replication.
+- Shared lineup/ready gate, party travel, story follow, retreat, switching.
+- Late join is parked during an expedition; dropped seats remain reconnectable
+  for ten minutes.
+- All scenes react to disconnects and clean up abandoned assignments/entities.
 
-## Test suite (re-run headless 2026-07-22)
+See `docs/ARCHITECTURE.md` for the authority and replication model.
 
-| Suite | Token | Result 2026-07-22 |
-| --- | --- | --- |
-| `test_boot` | `BOOT_TEST_PASS` | **PASS** (after fixing a stale `!= 8 heroes` assertion → floor `< 8`; Piccolo is the 9th hero) |
-| `test_parse_all` | `PARSE_TEST_PASS` | **PASS** |
-| `test_campaign` | `CAMPAIGN_TEST_PASS` | **PASS** (all gates repaired day 26, 1.36M gold spare) |
-| `test_asset_factory` | `ASSET_FACTORY_TEST_PASS` | **PASS** (the old float-vs-8-bit chroma precision bug is fixed — prior docs/PLAYTEST_NOTES still calling this red were stale) |
+## Verification on 2026-07-26
 
-Not re-run this pass (last known good in history): `test_kh_vertical_slice`,
-`test_dev_hub`, `test_location_workshop`, `test_music_override`, plus the
-windowed `*_shot.gd` screenshot-probe harness. Re-run examples:
+Core suites:
 
-```powershell
-tools\Godot_v4.7.1-stable_win64_console.exe --headless --path . res://tests/test_campaign.tscn
-tools\Godot_v4.7.1-stable_win64_console.exe --headless --path . res://tests/test_boot.tscn
-```
+| Suite | Result |
+| --- | --- |
+| Boot/data integrity | `BOOT_TEST_PASS` |
+| Full script/scene parse | `PARSE_TEST_PASS` |
+| 35-day campaign simulation | `CAMPAIGN_TEST_PASS` — all gates repaired day 33, 41,396g spare |
+| Asset Factory | `ASSET_FACTORY_TEST_PASS` |
 
-Screenshot probes must run **windowed** (no `--headless`). See
-`docs/AGENT_GUIDE.md` for the full build → import → probe → export loop.
+Content/system probes passed:
 
-## Hero animation state (verified by reading manifests)
+- `DUNGEON_AUTOPLAY_PROBE_PASS` across all worlds.
+- `ADMIN_CHECK_PASS` for Realm/admin state.
+- `DBZ_MUSIC_PROBE_PASS`.
+- `MOREDECOR_FURNITURE_PROBE_PASS` for all ten OMORI decor pieces.
+- Couch identity, alternating customer turns, P2 input, and P2 render filtering.
 
-| Hero | Idle (down) | Notes |
-| --- | --- | --- |
-| Goku | **10 fr** | full DBZ set: walks, melee, 3-facing Kamehameha, fly |
-| Piccolo | **10 fr** | full DBZ set: walks, melee, SBC charge/fire, fly flips |
-| Pikachu | 1 fr | PMD set: 3-fr walks all dirs, attacks, 3-facing Discharge poses |
-| Charmander | 1 fr | PMD set: 3-fr walks, 4-fr slash attacks, Fire Spin poses |
-| Link | **10 fr** (side 10 fr) | blink idles, 10-fr walks, composited sword |
-| Sora | 1 fr | 8-fr walks, Keyblade combo + dodge-roll |
-| Mario / Luigi | 1 fr | 6-fr walks, down+side attacks (no up) |
-| Cloud | 1 fr | thin: 2-fr up/side walks, non-directional attacks |
-| Naruto | 1 fr | thinnest: 3-fr walks, side-only attacks |
+All **18 current `net_*_probe.tscn` routes passed**, including handshake, state
+sync, scene follow, late join, parking, pause, reconnect, replication, avatars,
+town, shop, lineup, dungeon, dungeon FX, progression, discovery, disconnect,
+and offline regression.
 
-The old "**universal** 1-frame idle" claim is no longer true: Link, Goku, and
-Piccolo now have multi-frame idle motion (the DBZ heroes are among the richest
-sets in the game). The remaining 1-frame idles are Sora, Mario, Luigi, Cloud,
-and Naruto — Naruto and Cloud are still the thinnest overall.
+Windowed probes passed and every fresh screenshot was opened and inspected:
 
-## Known real gaps and defects (verified this pass — not doc-staleness)
+- Main menu and online lobby: alone and with a ready client.
+- Two-player town with both bodies and names visible.
+- Co-op dungeon with Sora and Link visible in the same room.
+- Realm start, combat, facing, autofire, special, and Oryx boss room.
+- OMORI wall/floor decor and the top/bottom of the purchase catalog.
 
-1. **Pokémon has no obstacle props** — interior obstacles fall back to flat
-   lightened polygons (deliberate: PMD wall tiles carry baked fills that read
-   as pasted boxes on composed floors). Also `pokedex` and `fire_stone` items
-   still lack icons, so they never circulate in shops.
-2. **`data/locations.json` is empty.** `LocationLoader` and the Location
-   Workshop exist, but campaign scenes still build layouts in code.
-3. **No human acceptance playtest** of the expanded 6-built-world build is
-   recorded in `PLAYTEST_NOTES.md`. This requires a controller run of the
-   exported exe.
-4. **`PLAYTEST_NOTES.md` is itself stale** — its bug list still flags the
-   Asset Factory chroma test as failing (it passes now) and predates every
-   built world after KH.
+The screenshot client was corrected during this pass to hold its authoritative
+body on-screen, so the town/dungeon evidence no longer clips player two at the
+spawn edge.
 
-## Export capability
+## Hero animation snapshot
 
-**This machine can now export** (set up 2026-07-22). The only thing that had
-been missing was the Godot 4.7.1-stable export templates; they are now installed
-at `%APPDATA%/Godot/export_templates/4.7.1.stable/` (Windows debug + release).
-The `export/` directory (gitignored) must exist before running the release
-export. See the standard command in `CLAUDE.md` / `docs/AGENT_GUIDE.md`.
+Multi-frame down idles: Link, Goku, Piccolo.
 
-## Recommended next work
+One-frame down idles: Sora, Mario, Luigi, Cloud, Naruto, Pikachu, Charmander,
+and all six Realm heroes. Walk sets are present for every hero; Cloud and Naruto
+remain the thinnest of the older melee heroes.
 
-See `NEXT_TASKS.md`. In short: (1) record a human acceptance playtest of all
-seven built worlds and refresh `PLAYTEST_NOTES.md`; (2) Pokémon polish (props,
-two missing item icons, idle motion, music); (3) idle-motion polish for the
-heroes still on 1-frame idles (Naruto/Cloud thinnest).
+## Known gaps and non-blocking issues
+
+1. **Real WAN acceptance remains external.** Local host/client instances pass,
+   but this router rejected automatic UPnP mapping. The lobby reports the
+   failure and recommends Tailscale/Hamachi or forwarding UDP 8910.
+2. **No second-physical-machine/controller acceptance is recorded** for online
+   co-op or Realm. Automated instances and windowed screenshots are green.
+3. **Realm boss rooms are very dark.** Oryx and the red boss HP bar remain
+   visible, but the black/navy floor is the weakest visual in the inspected
+   Realm set.
+4. **Python asset environment is broken on this machine.** Both project virtual
+   environments point to a removed Python 3.12 installation. Generated assets
+   are intact, but extraction scripts cannot be replayed until Python 3.12 and
+   the Pillow/numpy environment are restored.
+5. **`data/locations.json` remains empty.** Campaign scenes still construct
+   their layouts in code.
+6. **Pokédex and Fire Stone still lack item icons**, so they do not circulate
+   through the live shop inventory.
+7. Several heroes still use one-frame idles; this is polish, not a progression
+   blocker.
+
+## Export
+
+The standard release artifact is `export/crossroads.exe`. Every changed pass
+must reimport assets as needed, run the relevant logic/windowed probes, export
+the Windows release, and commit. See `CLAUDE.md` and `docs/AGENT_GUIDE.md`.

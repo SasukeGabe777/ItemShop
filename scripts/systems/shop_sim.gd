@@ -66,7 +66,9 @@ static func auto_buy_stock(budget_ratio: float = 0.5) -> int:
 		return 0
 	# prefer items with high sale value relative to wholesale cost
 	catalog.sort_custom(func(a: String, b: String) -> bool:
-		return MarketManager.market_value(a) - MarketManager.wholesale_cost(a) > MarketManager.market_value(b) - MarketManager.wholesale_cost(b))
+		var profit_a := MarketManager.market_value(a) - MarketManager.wholesale_cost(a)
+		var profit_b := MarketManager.market_value(b) - MarketManager.wholesale_cost(b)
+		return a < b if profit_a == profit_b else profit_a > profit_b)
 	var spent := 0
 	var idx := 0
 	while budget > 0 and idx < catalog.size():

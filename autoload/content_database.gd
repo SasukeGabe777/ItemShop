@@ -192,7 +192,7 @@ func get_world(id: String) -> Dictionary:
 
 
 func world_for_chapter(chapter: int) -> Dictionary:
-	for id: String in worlds:
+	for id: String in world_order:
 		if int(worlds[id].get("chapter", 0)) == chapter:
 			return worlds[id]
 	return {}
@@ -384,7 +384,10 @@ func get_location(id: String) -> Dictionary:
 
 func room_templates_by_kind(kind: String) -> Array[Dictionary]:
 	var out: Array[Dictionary] = []
-	for id: String in rooms:
+	var room_ids: Array[String] = []
+	room_ids.assign(rooms.keys())
+	room_ids.sort()
+	for id: String in room_ids:
 		if String(rooms[id].get("kind", "")) == kind:
 			out.append(rooms[id])
 	return out
@@ -420,6 +423,7 @@ func _build_live_items() -> void:
 			continue
 		if ResourceLoader.exists("res://assets/franchises/%s/processed/items/%s.png" % [String(it.get("world", "crossroads")), id]):
 			live_items.append(id)
+	live_items.sort()
 
 
 func is_live_item(id: String) -> bool:

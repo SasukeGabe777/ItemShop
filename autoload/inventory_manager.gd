@@ -120,13 +120,25 @@ func sorted_ids(mode: String = "name") -> Array[String]:
 		ids.append(id)
 	match mode:
 		"price":
-			ids.sort_custom(func(a: String, b: String) -> bool: return ContentDatabase.item_price(a) > ContentDatabase.item_price(b))
+			ids.sort_custom(func(a: String, b: String) -> bool:
+				var price_a := ContentDatabase.item_price(a)
+				var price_b := ContentDatabase.item_price(b)
+				return a < b if price_a == price_b else price_a > price_b)
 		"category":
-			ids.sort_custom(func(a: String, b: String) -> bool: return String(ContentDatabase.get_item(a).get("category", "")) < String(ContentDatabase.get_item(b).get("category", "")))
+			ids.sort_custom(func(a: String, b: String) -> bool:
+				var category_a := String(ContentDatabase.get_item(a).get("category", ""))
+				var category_b := String(ContentDatabase.get_item(b).get("category", ""))
+				return a < b if category_a == category_b else category_a < category_b)
 		"world":
-			ids.sort_custom(func(a: String, b: String) -> bool: return String(ContentDatabase.get_item(a).get("world", "")) < String(ContentDatabase.get_item(b).get("world", "")))
+			ids.sort_custom(func(a: String, b: String) -> bool:
+				var world_a := String(ContentDatabase.get_item(a).get("world", ""))
+				var world_b := String(ContentDatabase.get_item(b).get("world", ""))
+				return a < b if world_a == world_b else world_a < world_b)
 		_:
-			ids.sort_custom(func(a: String, b: String) -> bool: return ContentDatabase.item_name(a) < ContentDatabase.item_name(b))
+			ids.sort_custom(func(a: String, b: String) -> bool:
+				var name_a := ContentDatabase.item_name(a)
+				var name_b := ContentDatabase.item_name(b)
+				return a < b if name_a == name_b else name_a < name_b)
 	return ids
 
 

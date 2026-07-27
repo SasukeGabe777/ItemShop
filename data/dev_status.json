@@ -1,28 +1,43 @@
 {
   "schema": "crossroads.dev_status.v1",
-  "vertical_slice_goal": "Polish hero animation across the five built worlds (idle motion, thin sets, weapon overlays) using real-game reference recordings.",
+  "last_audited": "2026-07-26",
+  "audited_base_head": "d619d3d4",
+  "release_version": "0.2.0",
+  "vertical_slice_goal": "Prove the complete eight-world campaign and five-player online co-op route on real controllers and a second physical machine.",
+  "content_counts": {
+    "worlds": 9,
+    "playable_heroes": 16,
+    "npcs": 3,
+    "regular_enemies": 105,
+    "bosses": 28,
+    "items": 268,
+    "recipes": 98,
+    "customer_visuals": 529
+  },
   "working_systems": [
-    "Five built franchise worlds: Kingdom Hearts, Mario, Final Fantasy, Zelda, Naruto (heroes, rosters, items, customers, dungeon art)",
-    "Local 2-player split-screen with per-device input isolation and co-op dungeons",
-    "Controller support: D-pad movement, menu focus navigation, stick scroll, trigger zoom",
-    "Per-player consumable belts; every offered consumable has an implemented effect",
-    "Autosave every day-portion, loadable from the Continue menu",
-    "Core save/load, negotiation, inventory, economy, campaign, and combat logic",
-    "Data-driven content database (225 items, 85 enemies, 25 bosses, 8 heroes) with placeholder fallbacks",
-    "Development-only F1 Live Developer Hub core workflows"
+    "Eight built franchise worlds plus the Null Archive endgame chapter",
+    "Sixteen playable heroes, including six ranged Realm of the Mad God classes",
+    "Local two-player split-screen with per-device input isolation and shared expeditions",
+    "Host-authoritative online co-op for up to five players across lobby, town, shop, dungeon, lineup, and story",
+    "LAN discovery, direct-IP join, reconnectable seats, late-join parking, and disconnect cleanup",
+    "Controller support, per-player consumable belts, autosave, negotiation, inventory, economy, crafting, campaign, and combat",
+    "Data-driven content database and Live Developer Hub/admin workflows",
+    "All core suites, all-world dungeon autoplay, couch regressions, and all 18 current online probes passing on 2026-07-26",
+    "Windowed online lobby/town/dungeon, Realm, and shop-decor screenshots inspected on 2026-07-26"
   ],
   "incomplete_systems": [
-    "Hero animation: every hero has a 1-frame idle; Naruto and Cloud sets are thin; Link weapon overlay needs verification",
-    "Dragon Ball and Pokemon are data-only stubs (no hero manifest, no dungeon art) and are not playable expeditions",
-    "KH boss_rotation references guard_armor and darkside, which are enemies, not bosses",
-    "Asset Factory chroma-key test fails on an 8-bit vs float precision comparison",
-    "25 items still flagged needs_ai_balance",
-    "data/locations.json is empty; campaign scenes still build layouts in code",
-    "No recorded human acceptance run of the expanded multi-world build"
+    "Real two-machine/controller and WAN acceptance has not been recorded",
+    "This router rejects automatic UPnP mapping; remote play needs a tunnel or UDP 8910 forwarding",
+    "Python 3.12 was removed from this machine, leaving both project virtual environments unusable for asset extraction",
+    "Realm boss-room art is very dark and needs a readability polish pass",
+    "Pokedex and Fire Stone lack item icons and do not enter live shop circulation",
+    "Cloud, Naruto, and several other heroes still have one-frame idle animation",
+    "data/locations.json is empty; campaign scenes continue to build layouts in code"
   ],
   "next_tasks": [
-    "Record real-game reference clips and rebuild hero manifests: idle motion for all five playable heroes first",
-    "Fill Naruto and Cloud animation sets; verify Link's composited sword overlay",
-    "Fix the KH boss_rotation references and the Asset Factory test-precision bug"
+    "Run the exported build on two physical machines/controllers through lobby, town, shop, expedition, return, story, and reconnect",
+    "Restore Python 3.12 and recreate the Pillow/numpy asset environment, then replay the co-op avatar and OMORI furniture extraction scripts",
+    "Improve Realm boss-room readability and add the two missing Pokemon item icons",
+    "Continue hero idle-motion polish, prioritizing Cloud and Naruto"
   ]
 }

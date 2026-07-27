@@ -4,6 +4,8 @@ extends Node
 ## reports the P2 viewport's focus owner after each step.
 class Probe:
 	extends Node
+	var failures: Array[String] = []
+
 	func _ready() -> void:
 		await get_tree().create_timer(0.8).timeout
 		GameState.reset_campaign()
@@ -31,12 +33,15 @@ class Probe:
 		await get_tree().process_frame
 		_pad(12, false)
 		await get_tree().process_frame
-		print("P2 focus after dpad-down: ", _desc(vp.gui_get_focus_owner()))
+		var slot_focus := vp.gui_get_focus_owner()
+		print("P2 focus after dpad-down: ", _desc(slot_focus))
+		_check(slot_focus != null, "P2 dpad did not acquire slot-picker focus")
 		_pad(12, true)
 		await get_tree().process_frame
 		_pad(12, false)
 		await get_tree().process_frame
 		print("P2 focus after dpad-down x2: ", _desc(vp.gui_get_focus_owner()))
+		var focus_before_intruder := vp.gui_get_focus_owner()
 		# an UNTAGGED event (what container-forwarding of P1's pad looks like)
 		# must be swallowed by the gate and move nothing
 		var intruder := InputEventJoypadButton.new()
@@ -45,13 +50,17 @@ class Probe:
 		intruder.pressed = true
 		vp.push_input(intruder)
 		await get_tree().process_frame
-		print("P2 focus after P1-style intruder (must be unchanged): ", _desc(vp.gui_get_focus_owner()))
+		var focus_after_intruder := vp.gui_get_focus_owner()
+		print("P2 focus after P1-style intruder (must be unchanged): ", _desc(focus_after_intruder))
+		_check(focus_after_intruder == focus_before_intruder, "P1 input leaked into the P2 viewport")
 		print("busy2 before A: ", shop.busy2)
+		_check(shop.busy2, "P2 was not marked busy while its slot picker was open")
 		_pad(0, true)  # A press on focused button
 		await get_tree().process_frame
 		_pad(0, false)
 		await get_tree().create_timer(0.3).timeout
 		print("busy2 after A on focused: ", shop.busy2, "  focus: ", _desc(vp.gui_get_focus_owner()))
+		_check(not shop.busy2, "P2 stayed busy after confirming its slot picker")
 		# ---- the market-stuck repro: stick nav, focus recovery, B-to-close
 		DayBriefing.last_shown_day = TimeManager.day
 		SceneRouter.go("town")
@@ -73,9 +82,11 @@ class Probe:
 		await get_tree().create_timer(0.2).timeout
 		var f1: Control = vp.gui_get_focus_owner()
 		print("P2 focus after stick-down (must differ): ", _desc(f1), "  moved=", f1 != f0)
+		_check(f1 != null and f1 != f0, "P2 stick did not advance market focus")
 		await get_tree().create_timer(0.6).timeout
 		var f2: Control = vp.gui_get_focus_owner()
 		print("P2 focus after stick HELD (repeat, must differ again): ", _desc(f2), "  moved=", f2 != f1)
+		_check(f2 != null and f2 != f1, "P2 held-stick repeat did not advance market focus")
 		_stick(1, 0.0)
 		await get_tree().process_frame
 		# lost focus + A must recover onto the menu instead of soft-locking
@@ -86,20 +97,31 @@ class Probe:
 		await get_tree().process_frame
 		_pad(0, false)
 		await get_tree().process_frame
-		print("P2 focus recovered by A after loss: ", _desc(vp.gui_get_focus_owner()))
+		var recovered_focus := vp.gui_get_focus_owner()
+		print("P2 focus recovered by A after loss: ", _desc(recovered_focus))
+		_check(recovered_focus != null, "P2 A press did not recover lost menu focus")
 		# B jumps to the Close button, then A closes the market
 		_pad(1, true)
 		await get_tree().process_frame
 		_pad(1, false)
 		await get_tree().process_frame
-		print("P2 focus after B (must be Close): ", _desc(vp.gui_get_focus_owner()))
+		var close_focus := vp.gui_get_focus_owner()
+		print("P2 focus after B (must be Close): ", _desc(close_focus))
+		_check(close_focus is Button and (close_focus as Button).text == "Close",
+			"P2 B press did not focus the Close button")
 		_pad(0, true)
 		await get_tree().process_frame
 		_pad(0, false)
 		await get_tree().create_timer(0.3).timeout
 		print("P2 market closed: modal_open=", UIKit.modal_open(vp), "  busy2=", town.busy2)
-		print("P2_INPUT_PROBE_DONE")
-		get_tree().quit()
+		_check(not UIKit.modal_open(vp), "P2 market modal stayed open after confirming Close")
+		_check(not town.busy2, "P2 stayed busy after closing the market")
+		if failures.is_empty():
+			print("P2_INPUT_PROBE_PASS")
+		else:
+			for message in failures:
+				printerr("P2_INPUT_PROBE_FAIL: ", message)
+		get_tree().quit(0 if failures.is_empty() else 1)
 
 	func _stick(axis: int, value: float) -> void:
 		var ev := InputEventJoypadMotion.new()
@@ -119,6 +141,10 @@ class Probe:
 		if c == null:
 			return "<null>"
 		return "%s '%s'" % [c.get_class(), (c as Button).text if c is Button else ""]
+
+	func _check(condition: bool, message: String) -> void:
+		if not condition:
+			failures.append(message)
 
 func _ready() -> void:
 	get_tree().root.add_child.call_deferred(Probe.new())

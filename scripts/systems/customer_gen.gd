@@ -133,7 +133,10 @@ static func _pick_named(used_identities: Dictionary = {}) -> Dictionary:
 	var pool: Array[Dictionary] = []
 	var weights: Array[float] = []
 	var total := 0.0
-	for id: String in ContentDatabase.named_customers:
+	var customer_ids: Array[String] = []
+	customer_ids.assign(ContentDatabase.named_customers.keys())
+	customer_ids.sort()
+	for id: String in customer_ids:
 		var c: Dictionary = ContentDatabase.named_customers[id]
 		var candidate := runtime_named(c)
 		if used_identities.has(_identity_key(candidate)):
