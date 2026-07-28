@@ -111,8 +111,27 @@ func _boss_shot(direction: Vector2, speed: float, dmg: int) -> void:
 	p.global_position = global_position
 	get_parent().add_child(p)
 	var style: Dictionary = BOSS_SHOT_STYLES[hash(enemy_id) % BOSS_SHOT_STYLES.size()]
+	var row := EffectFlipbook.dir8(direction)
 	p.set_art(String(style["sheet"]), int(style["h"]), int(style["v"]),
-		EffectFlipbook.dir8(direction), float(style["fps"]))
+		row, float(style["fps"]))
+	# Boss shots previously existed only on the host. Register the same
+	# cosmetic projectile path used by ordinary shooters for every client.
+	if Net.is_host():
+		var eid := Replica.host_register(p, "eproj", {
+			"pos": [p.global_position.x, p.global_position.y],
+			"dir": [direction.normalized().x, direction.normalized().y],
+			"color": Color(String(def.get("color", "#ffffff"))
+				).lightened(0.4).to_html(false),
+			"sheet": String(style["sheet"]),
+			"h": int(style["h"]),
+			"v": int(style["v"]),
+			"row": row,
+			"fps": float(style["fps"]),
+			"boss": true,
+		})
+		p.tree_exiting.connect(func() -> void:
+			if Net.is_host():
+				Replica.host_despawn(eid, "gone", {}))
 
 
 func _slam() -> void:
@@ -158,6 +177,12 @@ func _summon_or_storm() -> void:
 			get_parent().add_child(minion)
 			minion.setup(String(minions[rng.randi() % minions.size()]), target)
 			minion.global_position = global_position + Vector2(rng.randf_range(-40, 40), rng.randf_range(-40, 40))
+			if Net.is_host():
+				Replica.host_register(minion, "enemy", {
+					"id": minion.enemy_id,
+					"pos": [minion.global_position.x, minion.global_position.y],
+					"boss_summon": true,
+				})
 	else:
 		# targeted storm: three projectiles aimed at the player
 		for i in range(3):

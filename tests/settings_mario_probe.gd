@@ -54,15 +54,24 @@ func _check_mixer() -> void:
 
 func _check_partner_avatars() -> void:
 	var fairy := "res://assets/shared/effects/p2_sidekick.json"
+	var target := Node2D.new()
+	add_child(target)
 	for seat in range(2, 6):
-		_expect(PartyState.world_avatar_of(seat) == fairy,
-			"P%d does not use the online partner sprite" % seat)
-	_expect(PartyState.world_tint(2) == Color.WHITE,
+		_expect(PartyState.avatar_of(seat) != fairy,
+			"P%d fairy incorrectly replaced the selected character" % seat)
+		var follower := PatchFollower.attach_party(self, target, seat)
+		_expect(follower.manifest_path == fairy and follower.target == target,
+			"P%d does not have the fairy as a separate sidekick" % seat)
+		_expect(follower.modulate == PartyState.sidekick_tint(seat),
+			"P%d sidekick tint was not applied" % seat)
+		follower.queue_free()
+	_expect(PartyState.sidekick_tint(2) == Color.WHITE,
 		"P2 should retain the original fairy colors")
 	var unique := {}
 	for seat in range(3, 6):
-		unique[PartyState.world_tint(seat)] = true
+		unique[PartyState.sidekick_tint(seat)] = true
 	_expect(unique.size() == 3, "P3-P5 partner color offsets are not distinct")
+	target.queue_free()
 
 
 func _check_boss_rotation() -> void:

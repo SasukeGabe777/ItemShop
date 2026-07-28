@@ -41,6 +41,18 @@ static func attach_p2(parent: Node, player: Node2D) -> PatchFollower:
 	return f
 
 
+## Consistent online presentation on every machine: P1 keeps Patch, while
+## seats 2-5 keep their selected character and get a fairy companion.
+static func attach_party(parent: Node, player: Node2D,
+		player_index: int) -> PatchFollower:
+	var follower := attach(parent, player) if player_index == 1 \
+		else attach_p2(parent, player)
+	if player_index >= 2:
+		follower.modulate = PartyState.sidekick_tint(player_index)
+	follower.name = "Player%dSidekick" % player_index
+	return follower
+
+
 func _ready() -> void:
 	visual = CharacterVisual.new()
 	add_child(visual)

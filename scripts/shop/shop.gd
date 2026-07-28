@@ -41,6 +41,7 @@ var _edit_stick_edge := false
 var _pad_carry_pos := Vector2.ZERO
 # online party state (host arbitrates turns and remote assignments)
 var _net_puppets: Dictionary = {}       # player_index -> TownPlayer puppet
+var _net_sidekicks: Dictionary = {}     # player_index -> PatchFollower
 var _net_busy: Dictionary = {}          # host: player_index -> mid-assignment
 var _net_next_slot := 1                 # host: whose customer turn it is
 var _net_assignments: Dictionary = {}   # host: assignment id -> entry
@@ -70,12 +71,13 @@ func _ready() -> void:
 	_build_furniture()
 	player = TownPlayer.new()
 	if Net.is_online():
-		player.manifest_override = PartyState.world_avatar_of(
-			PartyState.local_index())
+		player.manifest_override = PartyState.avatar_of(PartyState.local_index())
 	player.position = Vector2(320, 300)
 	add_child(player)
 	player.add_child(ZoomCamera.new())
-	if not Net.is_online() or PartyState.local_index() == 1:
+	if Net.is_online():
+		_attach_net_sidekick(PartyState.local_index(), player)
+	else:
 		var patch := PatchFollower.attach(self, player)
 		patch.name = "PatchSidekick"
 	hud = GameHUD.new()
@@ -100,7 +102,7 @@ func _ready() -> void:
 
 func _setup_net_shop() -> void:
 	var local_idx := PartyState.local_index()
-	player.modulate = PartyState.world_tint(local_idx)
+	player.modulate = PartyState.tint(local_idx)
 	UIKit.floating_name(player, player.visual, PartyState.pname(local_idx), 3.0, 8,
 		PartyState.color(local_idx))
 	Replica.register_local_player(local_idx, func() -> Array:
@@ -136,11 +138,12 @@ func _refresh_net_puppets() -> void:
 		if idx == local_idx or _net_puppets.has(idx):
 			continue
 		var pup := TownPlayer.new()
-		pup.manifest_override = PartyState.world_avatar_of(idx)
+		pup.manifest_override = PartyState.avatar_of(idx)
 		pup.position = player.position + Vector2(24 * idx, 0)
-		pup.modulate = PartyState.world_tint(idx)
+		pup.modulate = PartyState.tint(idx)
 		add_child(pup)
 		pup.make_puppet()
+		_attach_net_sidekick(idx, pup)
 		UIKit.floating_name(pup, pup.visual, PartyState.pname(idx), 3.0, 8,
 			PartyState.color(idx))
 		Replica.register_player_puppet(idx, pup)
@@ -152,6 +155,18 @@ func _refresh_net_puppets() -> void:
 			_net_busy.erase(idx)
 			if pup != null and is_instance_valid(pup):
 				(pup as Node).queue_free()
+			var sidekick: Variant = _net_sidekicks.get(idx)
+			_net_sidekicks.erase(idx)
+			if sidekick != null and is_instance_valid(sidekick):
+				(sidekick as Node).queue_free()
+
+
+func _attach_net_sidekick(idx: int, target: Node2D) -> void:
+	var existing: Variant = _net_sidekicks.get(idx)
+	if existing != null and is_instance_valid(existing):
+		(existing as PatchFollower).target = target
+		return
+	_net_sidekicks[idx] = PatchFollower.attach_party(self, target, idx)
 
 
 ## A player dropped: free their puppet, and if they held the active customer
@@ -1112,10 +1127,9 @@ func _open_slot_picker(slot: int, who: int = 1) -> void:
 		cur_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		cur_row.add_child(cur_lbl)
 		cur_row.add_child(UIKit.button("Take back to storage", func() -> void:
-			if Net.is_client():
-				Net.request("inventory.take_display", {"slot": slot})
-			else:
-				InventoryManager.take_display(slot)
+			# Always use the command bus: on the host it mutates locally and
+			# immediately broadcasts inventory state to Players 2-5.
+			Net.request("inventory.take_display", {"slot": slot})
 			_close_modal(pick_layer, who), 8))
 		vb.add_child(cur_row)
 	# same sorting bar the market has
@@ -1178,10 +1192,9 @@ func _make_pick_row(id: String, slot: int, pick_layer: CanvasLayer, who: int = 1
 	price_lbl.mouse_filter = Control.MOUSE_FILTER_STOP
 	row.add_child(price_lbl)
 	var place_btn := UIKit.button("Place", func() -> void:
-		if Net.is_client():
-			Net.request("inventory.place_display", {"slot": slot, "item_id": id})
-		else:
-			InventoryManager.place_display(slot, id)
+		# Host-side direct placement did not broadcast until the next scene
+		# snapshot. The command bus handles offline, host, and client uniformly.
+		Net.request("inventory.place_display", {"slot": slot, "item_id": id})
 		_close_modal(pick_layer, who))
 	place_btn.custom_minimum_size = Vector2(50, 0)
 	place_btn.size_flags_vertical = Control.SIZE_SHRINK_CENTER

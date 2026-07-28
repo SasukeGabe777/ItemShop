@@ -2,6 +2,49 @@
 
 ---
 
+## 2026-07-28 - Online sidekicks, live stocking, bosses, and projectiles
+
+### Reported behavior
+
+- Players 2-5 appeared as the fairy instead of retaining their selected
+  character with the fairy following as a sidekick.
+- Items placed by Player 1 remained invisible to other players until they left
+  and re-entered the shop.
+- Enemies created by a boss's summon-minions attack and boss projectiles
+  remained invisible to Players 2-5, although remote hero special attacks were
+  now visible.
+
+### Root cause and fixes
+
+- The prior pass applied the fairy manifest to each remote player body. Online
+  bodies now use their selected avatar again; independent follower nodes attach
+  Patch to P1 and colored fairy companions to P2-P5 in town, shop, and dungeons.
+- Host stocking used `InventoryManager` directly, bypassing the command bus and
+  its immediate state broadcast. All stocking/take-back actions now use the
+  same synchronized command on offline, host, and client machines.
+- Clients now construct the deterministic room boss presentation immediately;
+  the reliable authoritative spawn adopts that node for entity identity, HP,
+  movement, damage forwarding, and despawn.
+- Boss shots now use the replicated cosmetic projectile path, and enemies
+  summoned by bosses are registered as normal replicated enemies.
+
+### Verification
+
+- `PARSE_TEST_PASS`, `SETTINGS_MARIO_PROBE_PASS`, `NET_TOWN_PROBE_PASS`,
+  `NET_SHOP_PROBE_PASS`, `NET_DUNGEON_FX_PROBE_PASS`,
+  `MULTIPLAYER_IDENTITY_PROBE_PASS`, and
+  `DUNGEON_AUTOPLAY_PROBE_PASS` across ten complete runs.
+- The shop probe has P1 place a Kingdom Key while P2 remains inside and checks
+  the live P2 furniture sprite.
+- The dungeon probe forces a boss-room transition and summon-minions attack,
+  requires the client fallback boss to adopt a network entity id, and requires
+  the summoned enemy plus both boss and ordinary enemy projectiles.
+- Fresh windowed client screenshots were opened and inspected. They visibly
+  show the selected character with a separate fairy, P1's Kingdom Key on the
+  stand, and the client boss room with the boss projectile on screen.
+
+---
+
 ## 2026-07-27 - Mixer, co-op visibility, safe spawns, and Mario bosses
 
 ### Reported behavior

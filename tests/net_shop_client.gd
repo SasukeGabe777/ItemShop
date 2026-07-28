@@ -8,6 +8,7 @@ class Worker:
 	extends Node
 
 	const OUT_PATH := "user://net_shop_client.json"
+	const SHOT_PATH := "user://screenshots/net_fixes/client_live_stock.png"
 
 	var report: Dictionary = {
 		"joined": false, "in_shop": false, "customer_seen": false,
@@ -32,23 +33,31 @@ class Worker:
 		if not in_shop:
 			_finish("never followed into the shop")
 			return
+		# Separate the local body from P1 so the windowed proof clearly shows
+		# the selected character and its fairy as two independent sprites.
+		(get_tree().current_scene.get("player") as TownPlayer).global_position = \
+			Vector2(390, 300)
 
-		# Stock a second stand through the host, then verify the authoritative
-		# state refresh also redraws this client's furniture sprite.
-		Net.request("inventory.place_display", {"slot": 1, "item_id": "kh_ether"})
+		# P1 stocks a second stand while we remain inside. Verify the incoming
+		# authoritative state redraws furniture without a scene reload.
 		report["remote_display_visible"] = await _wait_for(func() -> bool:
-			if InventoryManager.display.size() <= 1 \
-					or String(InventoryManager.display[1]) != "kh_ether":
+			if InventoryManager.display.size() <= 2 \
+					or String(InventoryManager.display[2]) != "kingdom_key":
 				return false
 			var shop := get_tree().current_scene
 			for piece in shop.get("furniture_nodes"):
 				var furniture := piece as DisplayFurniture
-				if furniture.slot_base <= 1 \
-						and 1 < furniture.slot_base + furniture.slot_count:
+				if furniture.slot_base <= 2 \
+						and 2 < furniture.slot_base + furniture.slot_count:
 					var sprite := furniture.get_node_or_null(
-						"ItemSprite%d" % (1 - furniture.slot_base)) as Sprite2D
+						"ItemSprite%d" % (2 - furniture.slot_base)) as Sprite2D
 					return sprite != null and sprite.texture != null
 			return false, 10.0)
+		if DisplayServer.get_name() != "headless":
+			DirAccess.make_dir_recursive_absolute(
+				"user://screenshots/net_fixes/")
+			await get_tree().create_timer(0.3).timeout
+			get_viewport().get_texture().get_image().save_png(SHOT_PATH)
 
 		# The host injects a replicated customer, then assigns it to us.
 		report["customer_seen"] = await _wait_for(func() -> bool:

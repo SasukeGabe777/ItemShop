@@ -8,10 +8,12 @@ class Worker:
 	extends Node
 
 	const OUT_PATH := "user://net_dungeon_fx_client.json"
+	const SHOT_PATH := "user://screenshots/net_fixes/client_boss_projectile.png"
 
 	var report: Dictionary = {
 		"joined": false, "eproj_seen": false, "finished_after_retreat": false,
-		"boss_seen": false, "boss_visible": false,
+		"boss_seen": false, "boss_visible": false, "boss_replicated": false,
+		"boss_projectile_seen": false, "boss_minion_seen": false,
 		"error": "",
 	}
 	var _kinds_seen: Dictionary = {}
@@ -22,10 +24,12 @@ class Worker:
 		Replica.entity_spawned.connect(func(_eid: int, kind: String, node: Node) -> void:
 			_kinds_seen[kind] = true
 			if kind == "boss":
-				report["boss_seen"] = true
-				var visual: Variant = node.get("visual")
-				report["boss_visible"] = node.is_visible_in_tree() \
-					and visual != null and (visual as CanvasItem).visible)
+				report["boss_replicated"] = int(node.get_meta("net_eid", 0)) > 0
+			elif kind == "eproj" and bool(
+					node.get_meta("boss_projectile", false)):
+				report["boss_projectile_seen"] = true
+			elif kind == "enemy" and bool(node.get_meta("boss_summon", false)):
+				report["boss_minion_seen"] = true)
 		Net.join_game("127.0.0.1", "FxBro")
 		var joined := await _wait_for(func() -> bool: return Net.my_index > 0, 10.0)
 		if not joined:
@@ -40,7 +44,22 @@ class Worker:
 			_finish("never followed into the dungeon")
 			return
 		var d := get_tree().current_scene
-		await get_tree().create_timer(1.0).timeout
+		report["boss_seen"] = await _wait_for(func() -> bool:
+			return not get_tree().get_nodes_in_group("boss").is_empty(), 10.0)
+		if report["boss_seen"]:
+			var boss := get_tree().get_nodes_in_group("boss")[0] as Boss
+			var body := boss.visual.body_node()
+			report["boss_visible"] = boss.is_visible_in_tree() \
+				and body != null and body.visible
+		report["boss_projectile_seen"] = await _wait_for(func() -> bool:
+			return bool(report["boss_projectile_seen"]), 10.0)
+		report["boss_minion_seen"] = await _wait_for(func() -> bool:
+			return bool(report["boss_minion_seen"]), 10.0)
+		if DisplayServer.get_name() != "headless":
+			DirAccess.make_dir_recursive_absolute(
+				"user://screenshots/net_fixes/")
+			await get_tree().create_timer(0.15).timeout
+			get_viewport().get_texture().get_image().save_png(SHOT_PATH)
 
 		# Park in the shooter's range; its bullets must replicate here.
 		var hero: CombatHero = d.get("hero")

@@ -44,8 +44,11 @@ class Probe:
 
 		var exe := OS.get_executable_path()
 		var proj := ProjectSettings.globalize_path("res://")
-		var pid := OS.create_process(exe,
-			["--headless", "--path", proj, "res://tests/net_dungeon_fx_client.tscn"])
+		var client_args := [
+			"--path", proj, "res://tests/net_dungeon_fx_client.tscn"]
+		if "--windowed-client" not in OS.get_cmdline_user_args():
+			client_args.push_front("--headless")
+		var pid := OS.create_process(exe, client_args)
 		_expect(pid > 0, "could not spawn client instance")
 		var seated := await _wait_for(func() -> bool:
 			return PartyState.players.has(2) and bool(PartyState.player(2).get("connected", false)), 20.0)
@@ -68,6 +71,12 @@ class Probe:
 		await get_tree().create_timer(1.0).timeout
 		for node in get_tree().get_nodes_in_group("enemies"):
 			(node as Node).set_physics_process(false)
+		var live_bosses := get_tree().get_nodes_in_group("boss")
+		_expect(not live_bosses.is_empty(), "host boss was not built")
+		if not live_bosses.is_empty():
+			var boss := live_bosses[0] as Boss
+			boss._boss_shot(Vector2.RIGHT, 130.0, 5)
+			boss._summon_or_storm()
 		(d.get("hero") as Node2D).global_position = Vector2(80, 60)
 
 		# A shooter parked near where the client will stand.
@@ -109,10 +118,16 @@ class Probe:
 			_expect(String(report.get("error", "x")) == "", "client error: %s" % report.get("error"))
 			_expect(bool(report.get("eproj_seen", false)),
 				"client never saw a replicated enemy projectile")
+			_expect(bool(report.get("boss_projectile_seen", false)),
+				"client never saw a replicated boss projectile")
 			_expect(bool(report.get("boss_seen", false)),
 				"client never saw the replicated boss")
 			_expect(bool(report.get("boss_visible", false)),
 				"client boss puppet was not visibly rendered")
+			_expect(bool(report.get("boss_replicated", false)),
+				"client fallback boss never adopted its network entity id")
+			_expect(bool(report.get("boss_minion_seen", false)),
+				"client never saw an enemy spawned by the boss summon attack")
 			_expect(bool(report.get("finished_after_retreat", false)),
 				"client did not see the finish after retreating")
 

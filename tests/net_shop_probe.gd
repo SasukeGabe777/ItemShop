@@ -34,6 +34,7 @@ class Probe:
 		DayBriefing.last_shown_day = TimeManager.day
 		InventoryManager.add_item("kh_potion", 3)
 		InventoryManager.add_item("kh_ether", 1)
+		InventoryManager.add_item("kingdom_key", 1)
 		InventoryManager.display[0] = "kh_potion"
 
 		_expect(Net.host_game("HostGabe") == OK, "host_game failed")
@@ -43,9 +44,11 @@ class Probe:
 		var exe := OS.get_executable_path()
 		var proj := ProjectSettings.globalize_path("res://")
 		var client_log := ProjectSettings.globalize_path("user://net_shop_client_log.txt")
+		var render_arg := "" if "--windowed-client" \
+			in OS.get_cmdline_user_args() else "--headless "
 		var pid := OS.create_process("cmd.exe", ["/c",
-			"\"%s\" --headless --path \"%s\" res://tests/net_shop_client.tscn > \"%s\" 2>&1"
-			% [exe, proj, client_log]])
+			"\"%s\" %s--path \"%s\" res://tests/net_shop_client.tscn > \"%s\" 2>&1"
+			% [exe, render_arg, proj, client_log]])
 		_expect(pid > 0, "could not spawn client instance")
 		var seated := await _wait_for(func() -> bool:
 			return PartyState.players.has(2) and bool(PartyState.player(2).get("connected", false)), 20.0)
@@ -56,9 +59,13 @@ class Probe:
 		var shop := get_tree().current_scene
 		_expect(shop != null and shop.scene_file_path.ends_with("shop.tscn"),
 			"host did not reach the shop")
+		# P1 stocks while P2 is already inside. This must redraw immediately,
+		# without relying on a leave/re-enter snapshot.
+		Net.request("inventory.place_display",
+			{"slot": 2, "item_id": "kingdom_key"})
 		var remotely_stocked := await _wait_for(func() -> bool:
-			return InventoryManager.display.size() > 1 \
-				and String(InventoryManager.display[1]) == "kh_ether", 10.0)
+			return InventoryManager.display.size() > 2 \
+				and String(InventoryManager.display[2]) == "kingdom_key", 10.0)
 		_expect(remotely_stocked,
 			"client stocking request never reached the shared display")
 
@@ -123,7 +130,7 @@ class Probe:
 			_expect(bool(report.get("customer_seen", false)), "client never saw the customer puppet")
 			_expect(bool(report.get("panel_seen", false)), "client never got the panel")
 			_expect(bool(report.get("remote_display_visible", false)),
-				"client did not render the item it stocked through the host")
+				"client did not render P1's live stand placement")
 			_expect(int(report.get("gold_after", -1)) == EconomyManager.gold,
 				"client gold diverged: %s vs %d" % [report.get("gold_after"), EconomyManager.gold])
 

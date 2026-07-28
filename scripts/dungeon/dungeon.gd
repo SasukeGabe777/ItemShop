@@ -37,6 +37,8 @@ var _room_needs_clear: bool = false
 var _room_epoch: int = 0
 var shake_amount: float = 0.0
 var _net_hero_puppets: Dictionary = {}  # online: player_index -> CombatHero puppet
+var _net_sidekicks: Dictionary = {}  # online: player_index -> PatchFollower
+var _net_room_boss: Boss = null  # client fallback adopted by Replica spawn
 
 const CELL := 32
 const HUD_SAFE_TOP := 72.0
@@ -180,7 +182,9 @@ func _spawn_hero(hero_id: String) -> void:
 	if MultiplayerState.enabled:
 		var p1_label := UIKit.floating_name(hero, hero.visual, "P1", 4.0, 12, Color("#ff9999"))
 		p1_label.name = "PlayerIdentityLabel"
-	if get_node_or_null("PatchSidekick") == null:
+	if Net.is_online():
+		_attach_net_sidekick(PartyState.local_index(), hero)
+	elif get_node_or_null("PatchSidekick") == null:
 		var patch := PatchFollower.attach(self, hero)
 		patch.name = "PatchSidekick"
 	else:
@@ -257,6 +261,10 @@ func _on_net_player_left(idx: int) -> void:
 	if pup != null and is_instance_valid(pup):
 		(pup as Node).queue_free()
 	_net_hero_puppets.erase(idx)
+	var sidekick: Variant = _net_sidekicks.get(idx)
+	_net_sidekicks.erase(idx)
+	if sidekick != null and is_instance_valid(sidekick):
+		(sidekick as Node).queue_free()
 	if Net.is_host() and not finished and not _someone_up():
 		AudioManager.play_stinger("failure_stinger")
 		_finish(false, false)
@@ -275,8 +283,17 @@ func _make_hero_puppet(idx: int, hid: String, at: Vector2) -> void:
 	pup.global_position = at
 	Replica.register_player_puppet(idx, pup)
 	_net_hero_puppets[idx] = pup
+	_attach_net_sidekick(idx, pup)
 	if old != null and is_instance_valid(old):
 		(old as Node).queue_free()
+
+
+func _attach_net_sidekick(idx: int, target: Node2D) -> void:
+	var existing: Variant = _net_sidekicks.get(idx)
+	if existing != null and is_instance_valid(existing):
+		(existing as PatchFollower).target = target
+		return
+	_net_sidekicks[idx] = PatchFollower.attach_party(self, target, idx)
 
 
 func _net_spawn_enemy(args: Dictionary) -> Node:
@@ -286,19 +303,39 @@ func _net_spawn_enemy(args: Dictionary) -> Node:
 	if args.has("hp"):
 		e.health.setup(int(args.get("hp", 20)))
 	e.global_position = _args_pos(args)
+	if bool(args.get("boss_summon", false)):
+		e.set_meta("boss_summon", true)
 	e.make_puppet()
 	return e
 
 
 func _net_spawn_boss(args: Dictionary) -> Node:
-	var b := Boss.new()
-	room_root.add_child(b)
-	b.setup(String(args.get("id", "")), hero)
+	var boss_id := String(args.get("id", ""))
+	var b: Boss = _net_room_boss
+	if b == null or not is_instance_valid(b) or b.is_queued_for_deletion() \
+			or b.enemy_id != boss_id:
+		b = _build_client_boss(boss_id, _args_pos(args))
+	_net_room_boss = b
 	b.global_position = _args_pos(args)
 	b.make_puppet()
 	boss_bar.visible = true
 	boss_bar.max_value = int(args.get("max_hp", b.health.max_hp))
 	boss_bar.value = boss_bar.max_value
+	return b
+
+
+## Clients build the deterministic room boss immediately, then the reliable
+## Replica spawn adopts this same node and assigns its network entity id.
+## Presentation can therefore never disappear behind an RPC/room-build race.
+func _build_client_boss(boss_id: String, at: Vector2) -> Boss:
+	var b := Boss.new()
+	room_root.add_child(b)
+	b.setup(boss_id, hero)
+	b.global_position = at
+	b.make_puppet()
+	boss_bar.visible = true
+	boss_bar.max_value = b.health.max_hp
+	boss_bar.value = b.health.max_hp
 	return b
 
 
@@ -339,6 +376,7 @@ func _net_spawn_eproj(args: Dictionary) -> Node:
 	if sheet != "":
 		p.set_art(sheet, int(args.get("h", 1)), int(args.get("v", 1)),
 			int(args.get("row", 0)), float(args.get("fps", 12)))
+	p.set_meta("boss_projectile", bool(args.get("boss", false)))
 	return p
 
 
@@ -781,6 +819,7 @@ func _enter_room(idx: int) -> void:
 	room_clear_banner = null
 	for child in room_root.get_children():
 		child.queue_free()
+	_net_room_boss = null
 	var entry: Dictionary = layout[idx]
 	var template: Dictionary = entry["template"]
 	var w := ContentDatabase.get_world(world_id)
@@ -888,6 +927,8 @@ func _enter_room(idx: int) -> void:
 			slot += 1
 	# hero switch pads are local interactions — every machine builds its own
 	var kind := String(entry["kind"])
+	var spawn_cells: Array = template.get("spawns", [])
+	var enemies: Array = entry["enemies"]
 	if not switch_available.is_empty() and kind != "boss":
 		_spawn_switch_pad(_cell_center(_free_cell(Vector2i(1, 1), template)))
 	# Rooms with nothing to fight (start / empty treasure) open their door
@@ -896,14 +937,21 @@ func _enter_room(idx: int) -> void:
 	# still loading into the scene.
 	if kind != "boss" and (entry.get("enemies", []) as Array).is_empty():
 		_apply_room_cleared()
+	# The room layout is deterministic and already synchronized. Build the
+	# boss presentation immediately on clients; the authoritative entity spawn
+	# adopts it moments later for HP, position, hits, and despawn events.
+	if kind == "boss" and Net.is_client() and not enemies.is_empty():
+		var client_bs: Array = spawn_cells[0] \
+			if not spawn_cells.is_empty() else [10, 3]
+		_net_room_boss = _build_client_boss(String(enemies[0]),
+			_cell_center(_free_cell(Vector2i(
+				int(client_bs[0]), int(client_bs[1])), template)))
 	# chests / enemies / bosses: the host simulates them; clients receive
 	# replicated puppets through their Replica factories instead
 	if not Net.is_authority():
 		return
 	for chest_cell in _expanded_chest_cells(template):
 		_spawn_chest(_cell_center(chest_cell))
-	var spawn_cells: Array = template.get("spawns", [])
-	var enemies: Array = entry["enemies"]
 	if kind == "boss":
 		# boss rooms keep the dungeon's own track — the sudden music switch
 		# felt jarring mid-delve

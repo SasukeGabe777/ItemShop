@@ -17,9 +17,9 @@ class Probe:
 		if notes_button == null:
 			failures.append("PATCH NOTES button missing from title screen")
 		var releases: Array = menu.call("_load_patch_notes")
-		if releases.size() != 12:
-			failures.append("expected 12 dated releases, got %d" % releases.size())
-		elif String(releases[0].get("date", "")) != "July 27, 2026" \
+		if releases.size() != 13:
+			failures.append("expected 13 dated releases, got %d" % releases.size())
+		elif String(releases[0].get("date", "")) != "July 28, 2026" \
 				or String(releases[-1].get("date", "")) != "July 15, 2026":
 			failures.append("release dates are missing or not newest-first")
 		var windowed := DisplayServer.get_name() != "headless"
@@ -35,6 +35,8 @@ class Probe:
 			failures.append("expected one patch-notes scroll view, got %d" % scrolls.size())
 		var all_text := _collect_label_text(menu)
 		for expected in [
+			"July 28, 2026", "selected character sprite", "separate sidekick",
+			"live stand stocking", "boss presentation", "boss-fired projectiles",
 			"July 27, 2026", "barrier collisions", "ten-second room-clear",
 			"Expedition Booms", "customer orders", "Kingdom Hearts test",
 			"negotiation portrait", "volume controls", "special attacks",

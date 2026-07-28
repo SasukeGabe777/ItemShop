@@ -1,6 +1,15 @@
 {
   "releases": [
     {
+      "date": "July 28, 2026",
+      "changes": [
+        "Restored every online player's selected character sprite and attached the fairy as a separate sidekick for Players 2–5, with distinct color accents for Players 3–5.",
+        "Made Player 1's live stand stocking broadcast immediately so Players 2–5 see newly placed items without leaving and re-entering the shop.",
+        "Made clients build the current room's boss presentation deterministically and then attach the authoritative network replica, preventing boss sprites from disappearing during room transitions.",
+        "Added online replication for boss-fired projectiles and boss-summoned enemies."
+      ]
+    },
+    {
       "date": "July 27, 2026",
       "changes": [
         "Matched dungeon barrier collisions to each block's visible sprite instead of the larger room-grid rectangle.",
@@ -10,8 +19,8 @@
         "Retired the two-room Kingdom Hearts test expedition; the first visit now uses the complete dungeon and ends with its boss.",
         "Added a live online co-op negotiation portrait beneath the day cycle so partners can watch offers and counters while continuing to move.",
         "Added persistent Master, Music, and Sound Effects volume controls plus direct access to UI sizing from both in-game pause menus.",
-        "Made online boss enemies, partner special attacks, and display items stocked by another player reliably visible to the whole party.",
-        "Gave online Players 2–5 the floating partner sprite in the Crossroads and shop, with distinct color accents for Players 3–5.",
+        "Added online presentation for partner special attacks and expanded synchronization coverage for boss enemies and display items.",
+        "Gave online Players 2–5 a floating fairy sidekick in the Crossroads, shop, and expeditions, with distinct color accents for Players 3–5.",
         "Reserved safe player arrival cells in every expedition room so barrier blocks can never overlap a solo, couch, or online spawn.",
         "Corrected Mario and Luigi's sideways attack facing and expanded Mushroom Kingdom expeditions to Bowser, Queen Bean, and King Boo."
       ]

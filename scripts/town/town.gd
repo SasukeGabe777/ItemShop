@@ -11,6 +11,7 @@ var busy: bool = false   # player 1 has a panel / story open
 var busy2: bool = false  # player 2 has a panel open (their half only)
 var _menu_owner: Dictionary = {}  # couch: menu key -> player idx holding it open
 var _net_puppets: Dictionary = {}  # online: player_index -> TownPlayer puppet
+var _net_sidekicks: Dictionary = {}  # online: player_index -> PatchFollower
 var _lineup_panel: LineupPanel = null
 
 
@@ -22,12 +23,13 @@ func _ready() -> void:
 	add_child(LobbyCrossers.new())  # ambient travellers crossing the plaza
 	player = TownPlayer.new()
 	if Net.is_online():
-		player.manifest_override = PartyState.world_avatar_of(
-			PartyState.local_index())
+		player.manifest_override = PartyState.avatar_of(PartyState.local_index())
 	player.position = SceneRouter.last_town_position if SceneRouter.last_town_position != Vector2.ZERO else Vector2(320, 240)
 	add_child(player)
 	player.add_child(ZoomCamera.new())
-	if not Net.is_online() or PartyState.local_index() == 1:
+	if Net.is_online():
+		_attach_net_sidekick(PartyState.local_index(), player)
+	else:
 		var patch := PatchFollower.attach(self, player)
 		patch.name = "PatchSidekick"
 	hud = GameHUD.new()
@@ -54,7 +56,7 @@ func _ready() -> void:
 
 func _setup_online() -> void:
 	var local_idx := PartyState.local_index()
-	player.modulate = PartyState.world_tint(local_idx)
+	player.modulate = PartyState.tint(local_idx)
 	UIKit.floating_name(player, player.visual, PartyState.pname(local_idx), 3.0, 8,
 		PartyState.color(local_idx))
 	Replica.register_local_player(local_idx, func() -> Array:
@@ -85,11 +87,12 @@ func _refresh_net_puppets() -> void:
 		if idx == local_idx or _net_puppets.has(idx):
 			continue
 		var pup := TownPlayer.new()
-		pup.manifest_override = PartyState.world_avatar_of(idx)
+		pup.manifest_override = PartyState.avatar_of(idx)
 		pup.position = player.position + Vector2(24 * idx, 0)
-		pup.modulate = PartyState.world_tint(idx)
+		pup.modulate = PartyState.tint(idx)
 		add_child(pup)
 		pup.make_puppet()
+		_attach_net_sidekick(idx, pup)
 		UIKit.floating_name(pup, pup.visual, PartyState.pname(idx), 3.0, 8,
 			PartyState.color(idx))
 		Replica.register_player_puppet(idx, pup)
@@ -100,6 +103,18 @@ func _refresh_net_puppets() -> void:
 			_net_puppets.erase(idx)
 			if is_instance_valid(pup):
 				pup.queue_free()
+			var sidekick: Variant = _net_sidekicks.get(idx)
+			_net_sidekicks.erase(idx)
+			if sidekick != null and is_instance_valid(sidekick):
+				(sidekick as Node).queue_free()
+
+
+func _attach_net_sidekick(idx: int, target: Node2D) -> void:
+	var existing: Variant = _net_sidekicks.get(idx)
+	if existing != null and is_instance_valid(existing):
+		(existing as PatchFollower).target = target
+		return
+	_net_sidekicks[idx] = PatchFollower.attach_party(self, target, idx)
 
 
 func _on_net_scene_event(event_name: String, args: Dictionary) -> void:
