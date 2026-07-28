@@ -89,6 +89,22 @@ class Probe:
 			"valid centered exit was rejected")
 		dungeon.set("door_open", false)
 
+		# Clearing a room starts a full ten-second fallback. With every hero
+		# standing away from the door it must hold before the deadline, then
+		# advance the entire room through the normal transition path.
+		hero.global_position = Vector2(320, 192)
+		var cleared_room := int(dungeon.get("room_index"))
+		dungeon.call("_apply_room_cleared", cleared_room)
+		_expect(is_equal_approx(
+			float(dungeon.get("_room_clear_auto_advance_left")), 10.0),
+			"room clear did not start the 10-second auto-advance timer")
+		dungeon.call("_process", 9.5)
+		_expect(int(dungeon.get("room_index")) == cleared_room,
+			"room auto-advanced before ten seconds")
+		dungeon.call("_process", 0.6)
+		_expect(int(dungeon.get("room_index")) == cleared_room + 1,
+			"room did not auto-advance after ten seconds")
+
 		_finish()
 
 

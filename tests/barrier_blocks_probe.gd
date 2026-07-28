@@ -43,14 +43,36 @@ func _check_world(dungeon: Node, world_id: String) -> void:
 		"%s barrier is %dx%d, expected cleaned %dx%d" % [world_id,
 			texture.get_width(), texture.get_height(), expected_size.x, expected_size.y])
 	for size in [Vector2(96, 32), Vector2(32, 96)]:
-		var holder := Node2D.new()
+		var holder := StaticBody2D.new()
 		add_child(holder)
-		var stamped: bool = dungeon.call("_stamp_props", holder, size, world, Vector2(17, 29))
+		var stamped: bool = dungeon.call(
+			"_stamp_props", holder, size, world, Vector2(17, 29), true)
 		_check(stamped, "%s failed to stamp a %s run" % [world_id, size])
 		var sprites := holder.get_children().filter(func(child: Node) -> bool: return child is Sprite2D)
+		var shapes := holder.get_children().filter(func(child: Node) -> bool:
+			return child is CollisionShape2D)
 		_check(not sprites.is_empty(), "%s stamped no sprites for %s" % [world_id, size])
+		_check(shapes.size() == sprites.size(),
+			"%s stamped %d sprites but %d fitted colliders for %s" % [
+				world_id, sprites.size(), shapes.size(), size])
 		for sprite: Sprite2D in sprites:
 			_check(sprite.texture == texture, "%s stamped an unexpected barrier texture" % world_id)
+		for i in range(mini(sprites.size(), shapes.size())):
+			var sprite := sprites[i] as Sprite2D
+			var shape := shapes[i] as CollisionShape2D
+			var rect := shape.shape as RectangleShape2D
+			var used := texture.get_image().get_used_rect()
+			var expected_collision_size := Vector2(used.size) * sprite.scale.abs()
+			var expected_center := sprite.position + (
+				Vector2(used.position) + Vector2(used.size) * 0.5
+				- texture.get_size() * 0.5) * sprite.scale
+			_check(rect != null and rect.size.is_equal_approx(expected_collision_size),
+				"%s collider %d size %s does not match visible %s" % [
+					world_id, i, rect.size if rect != null else Vector2.ZERO,
+					expected_collision_size])
+			_check(shape.position.is_equal_approx(expected_center),
+				"%s collider %d center %s does not match visible %s" % [
+					world_id, i, shape.position, expected_center])
 		holder.free()
 
 

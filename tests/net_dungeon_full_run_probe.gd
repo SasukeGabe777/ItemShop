@@ -57,6 +57,10 @@ class Probe:
 			var client_runs: Array = report.get("runs", [])
 			_expect(client_runs.size() == RUN_CONFIGS.size(),
 				"client recorded %d/%d runs" % [client_runs.size(), RUN_CONFIGS.size()])
+			if not client_runs.is_empty():
+				_expect(bool((client_runs[0] as Dictionary).get(
+					"auto_fallback", false)),
+					"client did not follow the host's timed room advance")
 			for i in range(mini(client_runs.size(), host_runs.size())):
 				var client_run: Dictionary = client_runs[i]
 				var host_run: Dictionary = host_runs[i]

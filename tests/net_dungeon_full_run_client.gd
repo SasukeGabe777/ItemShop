@@ -1,6 +1,8 @@
 extends Node
 ## Client half of the full-run dungeon regression. The client, not the host,
-## crosses every open north door so remote body streaming drives progression.
+## crosses open north doors so remote body streaming drives progression. In
+## run 0's start room it deliberately stays put and proves the host's
+## ten-second room-clear fallback advances the whole online party.
 
 
 class Worker:
@@ -32,17 +34,21 @@ class Worker:
 			var started := Time.get_ticks_msec()
 			var last_room := -1
 			var room_seen_at := started
+			var auto_fallback_observed := false
 			while is_instance_valid(dungeon) and not bool(dungeon.get("finished")):
 				var room := int(dungeon.get("room_index"))
 				if rooms.is_empty() or rooms.back() != room:
 					rooms.append(room)
 				if room != last_room:
+					if run_idx == 0 and last_room == 0 and room == 1:
+						auto_fallback_observed = true
 					last_room = room
 					room_seen_at = Time.get_ticks_msec()
 				# Briefly dwell so both peers can sample the cleared state and
 				# blocker removal before this remote body advances the party.
 				if bool(dungeon.get("door_open")) \
-						and Time.get_ticks_msec() - room_seen_at >= 600:
+						and Time.get_ticks_msec() - room_seen_at >= 600 \
+						and not (run_idx == 0 and room == 0):
 					var hero: CombatHero = dungeon.get("hero")
 					if hero != null and is_instance_valid(hero):
 						hero.global_position = Vector2(320, 14)
@@ -57,6 +63,7 @@ class Worker:
 			report["runs"].append({
 				"rooms": rooms,
 				"finished": is_instance_valid(dungeon) and bool(dungeon.get("finished")),
+				"auto_fallback": auto_fallback_observed,
 			})
 			if timed_out:
 				_finish("run %d timed out in rooms %s" % [run_idx, rooms])

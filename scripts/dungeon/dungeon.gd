@@ -24,6 +24,11 @@ var door_open: bool = false
 var door_blocker: StaticBody2D = null
 var room_clear_banner: Control = null
 var finished: bool = false
+## Authority countdown after a non-boss room opens. Walking through the door
+## still advances immediately; this fallback prevents a party from becoming
+## trapped by collision, replication, or an unreachable doorway.
+var _room_clear_auto_advance_left: float = -1.0
+var _room_transition_pending: bool = false
 ## Authority-side: this combat room spawned enemies and hasn't cleared yet.
 ## Room-clear is polled from live Enemy children tagged for the current room,
 ## so stale/group-external nodes cannot hold a door shut and spawn-on-death
@@ -37,6 +42,7 @@ var _net_hero_puppets: Dictionary = {}  # online: player_index -> CombatHero pup
 
 const CELL := 32
 const HUD_SAFE_TOP := 72.0
+const ROOM_CLEAR_AUTO_ADVANCE_SECONDS := 10.0
 ## The top perimeter pieces occupy y=-16..16. All actors stay on the room
 ## side of that inner edge; only heroes inside the open 2-cell north doorway
 ## may enter the gap far enough to trigger the next room.
@@ -606,7 +612,7 @@ func _on_consumables2_changed(items: Array) -> void:
 var _pause_was_down := false
 
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	_enforce_room_bounds()
 	# own edge detection: is_action_just_pressed's frame stamp misses
 	# presses injected by probes via Input.action_press
@@ -624,8 +630,11 @@ func _process(_delta: float) -> void:
 			and _live_room_enemies().is_empty():
 		_room_needs_clear = false
 		_on_room_cleared(false)
-	if door_open and Net.is_authority() and _any_hero_past_exit():
-		_next_room()
+	if door_open and Net.is_authority() and not _room_transition_pending:
+		_room_clear_auto_advance_left = maxf(
+			0.0, _room_clear_auto_advance_left - delta)
+		if _any_hero_past_exit() or _room_clear_auto_advance_left <= 0.0:
+			_next_room()
 
 
 func _physics_process(_delta: float) -> void:
@@ -761,6 +770,8 @@ func _enter_room(idx: int) -> void:
 	room_index = idx
 	door_open = false
 	door_blocker = null
+	_room_clear_auto_advance_left = -1.0
+	_room_transition_pending = false
 	_room_needs_clear = false
 	if room_clear_banner != null and is_instance_valid(room_clear_banner):
 		room_clear_banner.queue_free()
@@ -805,13 +816,18 @@ func _enter_room(idx: int) -> void:
 	var blocker := StaticBody2D.new()
 	blocker.name = "DoorBlocker"
 	blocker.collision_layer = 1
-	var bshape := CollisionShape2D.new()
 	var brect := RectangleShape2D.new()
 	brect.size = Vector2(CELL * 2, 32)
-	bshape.shape = brect
-	blocker.add_child(bshape)
 	blocker.position = Vector2(grid.x * CELL / 2.0, 0)
-	if not _stamp_props(blocker, brect.size, w):
+	var blocker_stamped := _stamp_props(
+		blocker, brect.size, w, Vector2.ZERO, true)
+	# Barrier art adds one alpha-bounds collider per rendered block. Worlds
+	# without barrier strips keep the broad fallback blocker.
+	if not _has_collision_shape(blocker):
+		var bshape := CollisionShape2D.new()
+		bshape.shape = brect
+		blocker.add_child(bshape)
+	if not blocker_stamped:
 		var bpoly := Polygon2D.new()
 		bpoly.polygon = PackedVector2Array([Vector2(-CELL, -16), Vector2(CELL, -16), Vector2(CELL, 16), Vector2(-CELL, 16)])
 		bpoly.color = Color(String(w.get("accent_color", "#888888"))).darkened(0.3)
@@ -953,20 +969,22 @@ func _wall(r: Rect2, w: Dictionary, obstacle: bool = false) -> void:
 	var body := StaticBody2D.new()
 	body.collision_layer = 1
 	body.position = r.position + r.size / 2.0
-	var shape := CollisionShape2D.new()
-	var rect := RectangleShape2D.new()
-	# interior obstacles draw as spaced rocks/props with transparent gaps; inset
-	# their collision so you collide with the visible cores, not the empty air
-	# between them. Perimeter walls stay full-size.
-	rect.size = r.size * (0.8 if obstacle else 1.0)
-	shape.shape = rect
-	body.add_child(shape)
 	# interior obstacles in worlds with prop art get one UNSCALED keyed object
 	# per 32px cell (variant + jitter from a stable cell hash) so they read as
 	# placed objects on the painted rooms; stretching a map-crop tile over the
 	# rect smeared it and dragged its baked-in ground along ("messy walls"
 	# feedback). Perimeter walls are never textured — flat wall_color only.
-	if not (obstacle and _stamp_props(body, r.size, w, r.position)):
+	var stamped := obstacle and _stamp_props(
+		body, r.size, w, r.position, true)
+	# Barrier strips create precise per-sprite colliders. Scattered prop and
+	# flat-fill fallbacks retain the inset/full aggregate rectangle.
+	if not _has_collision_shape(body):
+		var shape := CollisionShape2D.new()
+		var rect := RectangleShape2D.new()
+		rect.size = r.size * (0.8 if obstacle else 1.0)
+		shape.shape = rect
+		body.add_child(shape)
+	if not stamped:
 		var poly := Polygon2D.new()
 		var h := r.size / 2.0
 		poly.polygon = PackedVector2Array([-h, Vector2(h.x, -h.y), h, Vector2(-h.x, h.y)])
@@ -986,7 +1004,9 @@ func _wall(r: Rect2, w: Dictionary, obstacle: bool = false) -> void:
 ## - `obstacle_props` fallback: scattered objects (variant + jitter from a
 ##   stable cell hash, bottom-aligned).
 ## Returns false when the world has neither so callers fall back to flat fill.
-func _stamp_props(parent: Node2D, size: Vector2, w: Dictionary, hash_seed: Vector2 = Vector2.ZERO) -> bool:
+func _stamp_props(parent: Node2D, size: Vector2, w: Dictionary,
+		hash_seed: Vector2 = Vector2.ZERO,
+		add_barrier_collision: bool = false) -> bool:
 	var barriers: Dictionary = w.get("barriers", {})
 	if not barriers.is_empty():
 		var vertical := size.y > size.x and not (barriers.get("v", []) as Array).is_empty()
@@ -1015,6 +1035,8 @@ func _stamp_props(parent: Node2D, size: Vector2, w: Dictionary, hash_seed: Vecto
 					s.scale = Vector2(sc, sc)
 					s.position = Vector2(0.0, -size.y / 2.0 + (i + 0.5) * slot)
 					parent.add_child(s)
+					if add_barrier_collision and parent is CollisionObject2D:
+						_add_barrier_collision(parent as CollisionObject2D, s)
 			else:
 				var n := maxi(1, int(roundf(size.x / tw)))
 				var slot := size.x / n
@@ -1026,6 +1048,8 @@ func _stamp_props(parent: Node2D, size: Vector2, w: Dictionary, hash_seed: Vecto
 					# bottom-align (tall wall crowns overhang up); square rocks read centered
 					s.position = Vector2(-size.x / 2.0 + (i + 0.5) * slot, size.y / 2.0 - th * sc / 2.0)
 					parent.add_child(s)
+					if add_barrier_collision and parent is CollisionObject2D:
+						_add_barrier_collision(parent as CollisionObject2D, s)
 			return true
 	var textures: Array[Texture2D] = []
 	for p in w.get("obstacle_props", []):
@@ -1052,6 +1076,38 @@ func _stamp_props(parent: Node2D, size: Vector2, w: Dictionary, hash_seed: Vecto
 				-size.y / 2.0 + (gy + 1) * chh - tex.get_height() / 2.0)
 			parent.add_child(spr)
 	return true
+
+
+## Add a rectangle matching the sprite's non-transparent pixel bounds. Barrier
+## textures are clean keyed cutouts, so this removes the invisible collision
+## radius caused by using the full authored obstacle-grid rectangle.
+func _add_barrier_collision(parent: CollisionObject2D, sprite: Sprite2D) -> void:
+	var texture := sprite.texture
+	if texture == null:
+		return
+	var used := Rect2i(Vector2i.ZERO, Vector2i(texture.get_size()))
+	var image := texture.get_image()
+	if image != null:
+		var alpha_bounds := image.get_used_rect()
+		if alpha_bounds.size != Vector2i.ZERO:
+			used = alpha_bounds
+	var sprite_scale := sprite.scale.abs()
+	var rect := RectangleShape2D.new()
+	rect.size = Vector2(used.size) * sprite_scale
+	var shape := CollisionShape2D.new()
+	shape.name = "BarrierCollision"
+	shape.shape = rect
+	var texture_center := texture.get_size() * 0.5
+	var used_center := Vector2(used.position) + Vector2(used.size) * 0.5
+	shape.position = sprite.position + (used_center - texture_center) * sprite.scale
+	parent.add_child(shape)
+
+
+func _has_collision_shape(parent: Node) -> bool:
+	for child: Node in parent.get_children():
+		if child is CollisionShape2D:
+			return true
+	return false
 
 
 func _spawn_chest(at: Vector2) -> void:
@@ -1246,6 +1302,7 @@ func _apply_room_cleared(expected_room: int = -1) -> void:
 	if door_open or finished:
 		return
 	door_open = true
+	_room_clear_auto_advance_left = ROOM_CLEAR_AUTO_ADVANCE_SECONDS
 	if door_blocker != null and is_instance_valid(door_blocker):
 		# queue_free alone leaves physics active through the current frame,
 		# which can make an open door feel solid.
@@ -1294,6 +1351,9 @@ func _live_room_enemies() -> Array[Enemy]:
 
 
 func _next_room() -> void:
+	if _room_transition_pending:
+		return
+	_room_transition_pending = true
 	if room_index + 1 < layout.size():
 		if Net.is_online() and Net.is_host():
 			Net.broadcast_scene_event("enter_room", {"idx": room_index + 1})
