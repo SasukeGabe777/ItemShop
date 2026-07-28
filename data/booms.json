@@ -1,7 +1,26 @@
 {
   "schema": "crossroads.booms.v1",
   "daily_roll_chance": 0.14,
+  "expedition_daily_roll_chance": 0.22,
   "max_customers_per_session": 28,
+  "expedition_booms": [
+    {
+      "id": "loot_frenzy",
+      "name": "Loot Frenzy",
+      "announcement": "4x Drop Rate in {world_name} today!",
+      "effect": "drop_rate",
+      "multiplier": 4.0,
+      "weight": 10
+    },
+    {
+      "id": "treasure_surge",
+      "name": "Treasure Surge",
+      "announcement": "Double Chest Spawn Rate in {world_name} today!",
+      "effect": "chest_spawn",
+      "multiplier": 2.0,
+      "weight": 10
+    }
+  ],
   "booms": [
     {
       "id": "kids_adventure_day",

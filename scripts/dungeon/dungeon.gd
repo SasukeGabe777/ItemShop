@@ -36,8 +36,6 @@ var _room_transition_pending: bool = false
 var _room_needs_clear: bool = false
 var _room_epoch: int = 0
 var shake_amount: float = 0.0
-var vertical_slice_reward_spawned: bool = false
-var vertical_slice_reward_collected: bool = false
 var _net_hero_puppets: Dictionary = {}  # online: player_index -> CombatHero puppet
 
 const CELL := 32
@@ -573,6 +571,11 @@ func _build_hud() -> void:
 	var hints := "A attack  X special  B dodge  Y item  RB finisher" if UIKit.pad_connected() \
 		else "J attack K special L dodge I item U finisher"
 	row.add_child(UIKit.label(hints, 8, UIKit.COL_DIM))
+	var boom_label := DungeonManager.pending_expedition_boom_label()
+	if boom_label != "":
+		var boom_banner := UIKit.label(boom_label, 10, UIKit.COL_GOOD)
+		boom_banner.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		vb.add_child(boom_banner)
 	boss_bar = _boss_bar_display(Vector2(0, 16), Color(0.8, 0.3, 0.5))
 	boss_bar.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	boss_bar.visible = false
@@ -776,8 +779,6 @@ func _enter_room(idx: int) -> void:
 	if room_clear_banner != null and is_instance_valid(room_clear_banner):
 		room_clear_banner.queue_free()
 	room_clear_banner = null
-	vertical_slice_reward_spawned = false
-	vertical_slice_reward_collected = false
 	for child in room_root.get_children():
 		child.queue_free()
 	var entry: Dictionary = layout[idx]
@@ -891,8 +892,8 @@ func _enter_room(idx: int) -> void:
 	# replicated puppets through their Replica factories instead
 	if not Net.is_authority():
 		return
-	for ch in template.get("chests", []):
-		_spawn_chest(_cell_center(_free_cell(Vector2i(int(ch[0]), int(ch[1])), template)))
+	for chest_cell in _expanded_chest_cells(template):
+		_spawn_chest(_cell_center(chest_cell))
 	var spawn_cells: Array = template.get("spawns", [])
 	var enemies: Array = entry["enemies"]
 	if kind == "boss":
@@ -963,6 +964,31 @@ func _free_cell(pref: Vector2i, template: Dictionary) -> Vector2i:
 				if not blocked.call(c):
 					return c
 	return pref
+
+
+## Treasure Surge duplicates every authored chest into a nearby free cell.
+## The host alone spawns and rewards them; clients receive the normal replicas.
+func _expanded_chest_cells(template: Dictionary) -> Array[Vector2i]:
+	var out: Array[Vector2i] = []
+	var multiplier := maxi(1, int(round(
+		DungeonManager.pending_expedition_multiplier("chest_spawn"))))
+	var offsets: Array[Vector2i] = [
+		Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1),
+		Vector2i(1, 1), Vector2i(-1, 1), Vector2i(1, -1), Vector2i(-1, -1),
+	]
+	for authored in template.get("chests", []):
+		var base := _free_cell(
+			Vector2i(int(authored[0]), int(authored[1])), template)
+		if base not in out:
+			out.append(base)
+		for copy_index in range(1, multiplier):
+			for offset_index in range(offsets.size()):
+				var offset := offsets[(copy_index - 1 + offset_index) % offsets.size()]
+				var candidate := _free_cell(base + offset, template)
+				if candidate not in out:
+					out.append(candidate)
+					break
+	return out
 
 
 func _wall(r: Rect2, w: Dictionary, obstacle: bool = false) -> void:
@@ -1229,12 +1255,11 @@ func _open_switch_menu() -> void:
 func _check_room_clear() -> void:
 	await get_tree().process_frame
 	if _live_room_enemies().is_empty():
-		if vertical_slice_reward_spawned and not vertical_slice_reward_collected:
-			return
 		_on_room_cleared(false)
 
 
-func _on_enemy_killed(enemy_id: String, at: Vector2, mob: Enemy = null) -> void:
+func _on_enemy_killed(_enemy_id: String, _at: Vector2,
+		mob: Enemy = null) -> void:
 	DungeonManager.run_kills += 1
 	if Net.is_online():
 		# kill credit goes to whoever landed the last hit; other machines get
@@ -1244,39 +1269,6 @@ func _on_enemy_killed(enemy_id: String, at: Vector2, mob: Enemy = null) -> void:
 		Net.sync_managers(["dungeon"])
 	else:
 		hero.on_enemy_killed()
-	var cfg: Dictionary = ContentDatabase.bal("kingdom_hearts_vertical_slice", {})
-	if (
-		bool(DungeonManager.pending.get("vertical_slice", false))
-		and enemy_id == String(cfg.get("enemy_id", ""))
-		and not vertical_slice_reward_spawned
-	):
-		_spawn_vertical_slice_reward(String(cfg.get("reward_item_id", "")), at)
-	_check_room_clear()
-
-
-func _spawn_vertical_slice_reward(item_id: String, at: Vector2) -> void:
-	if ContentDatabase.get_item(item_id).is_empty():
-		push_warning("[Dungeon] vertical-slice reward item is missing")
-		return
-	vertical_slice_reward_spawned = true
-	call_deferred("_add_vertical_slice_reward", item_id, at)
-
-
-func _add_vertical_slice_reward(item_id: String, at: Vector2) -> void:
-	if finished or room_root == null:
-		return
-	var pickup := LootPickup.new()
-	room_root.add_child(pickup)
-	pickup.setup_item(item_id)
-	pickup.global_position = at
-	pickup.collected.connect(_on_vertical_slice_reward_collected, CONNECT_ONE_SHOT)
-	var hint := UIKit.label("%s - walk over it to collect" % ContentDatabase.item_name(item_id).to_upper(), 9, UIKit.COL_GOOD)
-	hint.position = Vector2(-76, -38)
-	pickup.add_child(hint)
-
-
-func _on_vertical_slice_reward_collected(_item_id: String, _gold_amount: int) -> void:
-	vertical_slice_reward_collected = true
 	_check_room_clear()
 
 

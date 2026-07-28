@@ -11,6 +11,7 @@ class Probe:
 	const REPORT_PATH := "user://net_shop_client.json"
 
 	var failures: Array[String] = []
+	var watch_updates: Array[Dictionary] = []
 
 
 	func _ready() -> void:
@@ -35,6 +36,9 @@ class Probe:
 		InventoryManager.display[0] = "kh_potion"
 
 		_expect(Net.host_game("HostGabe") == OK, "host_game failed")
+		Net.scene_event.connect(func(event_name: String, args: Dictionary) -> void:
+			if event_name == "nego_watch_update":
+				watch_updates.append(args.duplicate(true)))
 		var exe := OS.get_executable_path()
 		var proj := ProjectSettings.globalize_path("res://")
 		var client_log := ProjectSettings.globalize_path("user://net_shop_client_log.txt")
@@ -71,6 +75,19 @@ class Probe:
 		_expect(bool((shop.get("_net_busy") as Dictionary).get(2, false)),
 			"seat 2 not flagged busy during assignment")
 		_expect(int(shop.get("_net_next_slot")) == 1, "round-robin cursor did not advance")
+		var watch_seen := await _wait_for(func() -> bool:
+			return not watch_updates.is_empty(), 8.0)
+		_expect(watch_seen, "spectator negotiation feed never reached the host")
+		if watch_seen:
+			_expect(int(watch_updates[-1].get("who", 0)) == 2,
+				"spectator feed names the wrong negotiator")
+			_expect(String(watch_updates[-1].get("item_id", "")) == "kh_potion",
+				"spectator feed names the wrong item")
+		_expect(shop.hud.negotiation_watch != null \
+			and shop.hud.negotiation_watch.visible,
+			"host HUD never opened the negotiation picture-in-picture")
+		_expect(not shop.player.frozen and not bool(shop.get("busy")),
+			"spectating a partner's negotiation blocked host movement")
 
 		# The client accepts at 40g -> host applies the sale.
 		var gold_before := EconomyManager.gold
@@ -84,6 +101,8 @@ class Probe:
 		_expect(shop.get("negotiating") == null, "line never freed after the result")
 		_expect(not bool((shop.get("_net_busy") as Dictionary).get(2, true)),
 			"seat 2 still flagged busy")
+		_expect(not shop.hud.negotiation_watch.visible,
+			"spectator picture-in-picture stayed open after the deal")
 
 		var reported := await _wait_for(func() -> bool:
 			return FileAccess.file_exists(REPORT_PATH), 25.0)

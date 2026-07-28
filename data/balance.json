@@ -95,14 +95,7 @@
  },
  "kingdom_hearts_vertical_slice": {
   "active_flag": "kh_vertical_slice_started",
-  "combat_room_id": "combat_arena_open",
-  "completion_flag": "kh_vertical_slice_complete",
   "customer_id": "moogle_c",
-  "enemy_id": "shadow_heartless",
-  "hero_id": "sora",
-  "reward_item_id": "lucid_shard",
-  "reward_sale_flag": "kh_vertical_slice_reward_sold",
-  "start_room_id": "start_plaza",
   "starter_sale_flag": "kh_starter_item_sold",
   "world_id": "kingdom_hearts"
  },

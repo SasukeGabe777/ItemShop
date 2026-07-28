@@ -43,6 +43,13 @@ func _fill_rows() -> void:
 		strip.add_child(plank)
 	content.add_child(strip)
 	content.add_child(UIKit.hsep())
+	if BoomManager.is_expedition_active():
+		var boom_notice := UIKit.label(
+			"EXPEDITION BOOM: %s" % BoomManager.expedition_announcement(),
+			11, UIKit.COL_GOOD)
+		boom_notice.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		content.add_child(boom_notice)
+		content.add_child(UIKit.hsep())
 	for world_id in ContentDatabase.world_order:
 		var w := ContentDatabase.get_world(world_id)
 		var final := bool(w.get("final", false))
@@ -75,6 +82,8 @@ func _fill_rows() -> void:
 		lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		row.add_child(lbl)
 		var accessible := world_id in BridgeManager.accessible_worlds()
+		if BoomManager.is_expedition_active(world_id):
+			lbl.add_theme_color_override("font_color", UIKit.COL_GOOD)
 		if accessible:
 			var exp_btn := UIKit.button("★ Expedition" if mastered else "Expedition", func() -> void: _expedition_dialog(world_id))
 			if mastered:
@@ -127,13 +136,6 @@ static func hero_options_for(world_id: String) -> Array[String]:
 	return hero_options
 
 
-static func is_first_vertical_slice(world_id: String) -> bool:
-	var slice_cfg: Dictionary = ContentDatabase.bal("kingdom_hearts_vertical_slice", {})
-	var completion_flag := String(slice_cfg.get("completion_flag", ""))
-	return world_id == String(slice_cfg.get("world_id", "")) \
-		and completion_flag != "" and not GameState.has_flag(completion_flag)
-
-
 ## Host-side: hire + pack + launch the whole online party in one validated
 ## step. Returns "" on success or a reason to show every lineup dialog.
 static func depart_party(world_id: String, slice: bool, picks: Dictionary) -> String:
@@ -177,11 +179,10 @@ static func depart_party(world_id: String, slice: bool, picks: Dictionary) -> St
 
 
 func _expedition_dialog(world_id: String) -> void:
-	var first_vertical_slice := GatesPanel.is_first_vertical_slice(world_id)
 	if Net.is_online():
 		# every player picks their own hero + belt in a dialog on their own
 		# machine; the host launches once everyone is ready
-		Net.request("lineup.begin", {"world_id": world_id, "slice": first_vertical_slice})
+		Net.request("lineup.begin", {"world_id": world_id})
 		closed.emit()
 		queue_free()
 		return
@@ -190,8 +191,12 @@ func _expedition_dialog(world_id: String) -> void:
 	var dvb: VBoxContainer = parts[1]
 	var w := ContentDatabase.get_world(world_id)
 	dvb.add_child(UIKit.label(String(w.get("dungeon_desc", "")), 9, UIKit.COL_DIM))
-	if first_vertical_slice:
-		dvb.add_child(UIKit.label("FIRST EXPEDITION: two short rooms, one Shadow, then return with its Lucid Shard.", 9, UIKit.COL_GOOD))
+	if BoomManager.is_expedition_active(world_id):
+		var boom_copy := UIKit.label(
+			"EXPEDITION BOOM: %s" % BoomManager.expedition_announcement(),
+			11, UIKit.COL_GOOD)
+		boom_copy.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		dvb.add_child(boom_copy)
 	var hero_options := GatesPanel.hero_options_for(world_id)
 	var hero_pick := OptionButton.new()
 	for hid in hero_options:
@@ -268,8 +273,7 @@ func _expedition_dialog(world_id: String) -> void:
 	var go_row := HBoxContainer.new()
 	go_row.alignment = BoxContainer.ALIGNMENT_CENTER
 	go_row.add_theme_constant_override("separation", 12)
-	var depart_label := "Depart: Short Traverse Town Run (2 periods)" if first_vertical_slice else "Depart (2 periods)"
-	go_row.add_child(UIKit.button(depart_label, func() -> void:
+	go_row.add_child(UIKit.button("Depart (2 periods)", func() -> void:
 		var hid := hero_options[hero_pick.selected]
 		var hid2 := ""
 		var fee := int(ContentDatabase.get_hero(hid).get("hire_cost", 100))
@@ -291,7 +295,8 @@ func _expedition_dialog(world_id: String) -> void:
 					StoryEventManager.fire("hero_met", {"hero": hid})
 				if hid2 != "" and GameState.meet_hero(hid2):
 					StoryEventManager.fire("hero_met", {"hero": hid2})
-				DungeonManager.plan_expedition(world_id, hid, chosen, first_vertical_slice, hid2, chosen2)
+				DungeonManager.plan_expedition(
+					world_id, hid, chosen, false, hid2, chosen2)
 				AudioManager.play_sfx("enter_expedition")
 				var events := TimeManager.advance(TimeManager.activity_cost("dungeon"))
 				if "deadline_failed" in events:

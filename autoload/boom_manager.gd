@@ -10,7 +10,11 @@ var sessions_left := 0
 var announcement_pending := false
 var eligible_after_day: Dictionary = {}  # boom id -> first day it may roll again
 var queued_world_celebrations: Array[String] = []
+var active_expedition_boom_id := ""
+var expedition_world_id := ""
+var expedition_announcement_pending := false
 var rng := RandomNumberGenerator.new()
+var expedition_rng := RandomNumberGenerator.new()
 
 
 func _ready() -> void:
@@ -25,7 +29,11 @@ func reset() -> void:
 	announcement_pending = false
 	eligible_after_day.clear()
 	queued_world_celebrations.clear()
+	active_expedition_boom_id = ""
+	expedition_world_id = ""
+	expedition_announcement_pending = false
 	rng.randomize()
+	expedition_rng.randomize()
 	boom_changed.emit()
 
 
@@ -57,6 +65,91 @@ func mark_announced() -> void:
 	if announcement_pending:
 		announcement_pending = false
 		boom_changed.emit()
+
+
+func is_expedition_active(world_id: String = "") -> bool:
+	if active_expedition_boom_id == "" \
+			or not ContentDatabase.expedition_booms.has(active_expedition_boom_id):
+		return false
+	return world_id == "" or world_id == expedition_world_id
+
+
+func expedition_definition() -> Dictionary:
+	return ContentDatabase.expedition_booms.get(active_expedition_boom_id, {})
+
+
+func expedition_display_name() -> String:
+	var definition := expedition_definition()
+	return String(definition.get("name", active_expedition_boom_id)) \
+		if not definition.is_empty() else ""
+
+
+func expedition_announcement() -> String:
+	var text := String(expedition_definition().get("announcement", ""))
+	return text.replace("{world_name}", expedition_world_name())
+
+
+func expedition_world_name() -> String:
+	return String(ContentDatabase.get_world(expedition_world_id).get(
+		"name", expedition_world_id.capitalize()))
+
+
+func expedition_summary_lines() -> Array[String]:
+	var out: Array[String] = []
+	if not is_expedition_active():
+		return out
+	var definition := expedition_definition()
+	match String(definition.get("effect", "")):
+		"drop_rate":
+			out.append("Enemy item drop chance: x%.0f" % float(
+				definition.get("multiplier", 1.0)))
+		"chest_spawn":
+			out.append("Treasure chests per room: x%.0f" % float(
+				definition.get("multiplier", 1.0)))
+	out.append("Applies only to today's %s expeditions." % expedition_world_name())
+	return out
+
+
+func mark_expedition_announced() -> void:
+	if expedition_announcement_pending:
+		expedition_announcement_pending = false
+		boom_changed.emit()
+
+
+func force_expedition_boom(boom_id: String, world_id: String) -> bool:
+	if not ContentDatabase.expedition_booms.has(boom_id) \
+			or world_id not in BridgeManager.accessible_worlds():
+		return false
+	active_expedition_boom_id = boom_id
+	expedition_world_id = world_id
+	expedition_announcement_pending = true
+	boom_changed.emit()
+	return true
+
+
+func clear_expedition_boom(emit_change: bool = true) -> void:
+	active_expedition_boom_id = ""
+	expedition_world_id = ""
+	expedition_announcement_pending = false
+	if emit_change:
+		boom_changed.emit()
+
+
+## Immutable context copied into a run plan. The host can then keep applying
+## the same Boom throughout a live/network expedition even if manager state is
+## synchronized or the calendar advances during the scene.
+func expedition_context_for_world(world_id: String) -> Dictionary:
+	if not is_expedition_active(world_id):
+		return {}
+	var definition := expedition_definition()
+	return {
+		"id": active_expedition_boom_id,
+		"name": expedition_display_name(),
+		"world_id": expedition_world_id,
+		"world_name": expedition_world_name(),
+		"effect": String(definition.get("effect", "")),
+		"multiplier": float(definition.get("multiplier", 1.0)),
+	}
 
 
 func force_boom(boom_id: String, world_id: String = "") -> bool:
@@ -273,6 +366,9 @@ func to_save() -> Dictionary:
 		"announcement_pending": announcement_pending,
 		"eligible_after_day": eligible_after_day,
 		"queued_world_celebrations": queued_world_celebrations,
+		"active_expedition_boom_id": active_expedition_boom_id,
+		"expedition_world_id": expedition_world_id,
+		"expedition_announcement_pending": expedition_announcement_pending,
 	}
 
 
@@ -285,22 +381,68 @@ func from_save(data: Dictionary) -> void:
 	queued_world_celebrations.clear()
 	for world in data.get("queued_world_celebrations", []):
 		queued_world_celebrations.append(String(world))
+	active_expedition_boom_id = String(
+		data.get("active_expedition_boom_id", ""))
+	expedition_world_id = String(data.get("expedition_world_id", ""))
+	expedition_announcement_pending = bool(
+		data.get("expedition_announcement_pending", false))
 	if not ContentDatabase.booms.has(active_boom_id):
 		active_boom_id = ""
 		active_world_id = ""
 		sessions_left = 0
 		announcement_pending = false
+	if not ContentDatabase.expedition_booms.has(active_expedition_boom_id) \
+			or expedition_world_id not in BridgeManager.accessible_worlds():
+		clear_expedition_boom(false)
 	boom_changed.emit()
 
 
 func _on_day_started(_day: int) -> void:
+	clear_expedition_boom(false)
+	_roll_daily_expedition_boom()
 	if is_active():
+		boom_changed.emit()
 		return
 	if not queued_world_celebrations.is_empty():
 		var world := String(queued_world_celebrations.pop_front())
 		force_boom("new_world_celebration", world)
 		return
 	_roll_daily_boom()
+
+
+func _roll_daily_expedition_boom(force: bool = false) -> void:
+	if not force and expedition_rng.randf() \
+			> ContentDatabase.expedition_boom_daily_roll_chance:
+		boom_changed.emit()
+		return
+	var worlds := BridgeManager.accessible_worlds()
+	if worlds.is_empty():
+		boom_changed.emit()
+		return
+	worlds.sort()
+	var definitions: Array[Dictionary] = []
+	var total_weight := 0
+	var ids: Array[String] = []
+	ids.assign(ContentDatabase.expedition_booms.keys())
+	ids.sort()
+	for id in ids:
+		var definition: Dictionary = ContentDatabase.expedition_booms[id]
+		var weight := int(definition.get("weight", 0))
+		if weight <= 0:
+			continue
+		definitions.append(definition)
+		total_weight += weight
+	if definitions.is_empty() or total_weight <= 0:
+		boom_changed.emit()
+		return
+	var pick := expedition_rng.randi_range(1, total_weight)
+	for definition in definitions:
+		pick -= int(definition.get("weight", 0))
+		if pick <= 0:
+			var world_id := String(
+				worlds[expedition_rng.randi() % worlds.size()])
+			force_expedition_boom(String(definition["id"]), world_id)
+			return
 
 
 func _on_gate_repaired(world_id: String) -> void:
@@ -370,7 +512,7 @@ func _latest_repaired_world() -> String:
 
 
 func _has_live_match(kind: String, target: String) -> bool:
-	for id in ContentDatabase.live_items:
+	for id in MarketManager.accessible_wholesale_catalog():
 		var item := ContentDatabase.get_item(id)
 		match kind:
 			"category":

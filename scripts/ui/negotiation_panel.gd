@@ -6,6 +6,7 @@ extends CanvasLayer
 ## offer/counter so the player always knows where the haggle stands.
 
 signal finished(outcome: Dictionary)
+signal spectator_state_changed(state: Dictionary)
 
 var nego: Negotiation
 var customer: Dictionary
@@ -29,6 +30,8 @@ var remote := false
 var _stick_hold := 0.0
 var _stick_accum := 0.0
 var _stick_stepped := false
+var _spectator_dirty := false
+var _spectator_elapsed := 0.0
 
 
 func setup(cust: Dictionary, target_item: String, portrait: Texture2D = null) -> void:
@@ -173,9 +176,17 @@ func _ready() -> void:
 		c.focus_neighbor_bottom = c.get_path_to(decline_btn)
 	accept_counter_btn.focus_neighbor_bottom = accept_counter_btn.get_path_to(offer_btn)
 	decline_btn.focus_neighbor_top = decline_btn.get_path_to(offer_btn)
+	price_spin.value_changed.connect(func(_value: float) -> void:
+		_spectator_dirty = true)
+	_emit_spectator_state("Choosing an opening price")
 
 
 func _process(delta: float) -> void:
+	_spectator_elapsed += delta
+	if _spectator_dirty and _spectator_elapsed >= 0.2:
+		_spectator_dirty = false
+		_spectator_elapsed = 0.0
+		_emit_spectator_state("Considering %dg" % int(price_spin.value))
 	if price_spin == null or not UIKit.pad_connected():
 		return
 	var v := Input.get_joy_axis(pad_device, JOY_AXIS_RIGHT_Y)
@@ -242,11 +253,13 @@ func _propose() -> void:
 	your_offer_lbl.text = "Your last offer: %dg" % int(price_spin.value)
 	your_offer_lbl.add_theme_color_override("font_color", UIKit.COL_INK)
 	var outcome := nego.propose(int(price_spin.value))
+	outcome["player_offer"] = int(price_spin.value)
 	_handle(outcome)
 
 
 func _accept_counter() -> void:
 	var outcome := nego.propose(last_counter)
+	outcome["player_offer"] = last_counter
 	_handle(outcome)
 
 
@@ -255,6 +268,9 @@ func _handle(outcome: Dictionary) -> void:
 	_say(cname, String(outcome.get("message", "")))
 	match String(outcome["result"]):
 		Negotiation.RESULT_PERFECT, Negotiation.RESULT_ACCEPT:
+			_emit_spectator_state(
+				"Deal agreed at %dg" % int(outcome.get("price", 0)),
+				int(outcome.get("player_offer", outcome.get("price", 0))), 0)
 			if remote:
 				outcome["quantity"] = nego.quantity  # the host re-applies the sale
 			else:
@@ -265,10 +281,17 @@ func _handle(outcome: Dictionary) -> void:
 			_finish(outcome)
 		Negotiation.RESULT_COUNTER, Negotiation.RESULT_FINAL_WARNING:
 			last_counter = int(outcome["price"])
+			_emit_spectator_state(
+				"%s  Customer counters %dg" % [
+					String(outcome.get("message", "")), last_counter],
+				int(outcome.get("player_offer", 0)), last_counter)
 			accept_counter_btn.text = "Accept their %dg" % last_counter
 			accept_counter_btn.visible = true
 			price_spin.value = last_counter
 		Negotiation.RESULT_LEAVE:
+			_emit_spectator_state(
+				String(outcome.get("message", "Customer walked away")),
+				int(outcome.get("player_offer", 0)), 0)
 			if not remote:
 				RelationshipManager.change_relationship(String(customer.get("id", "")), int(outcome["relationship_delta"]))
 			_finish(outcome)
@@ -278,3 +301,24 @@ func _finish(outcome: Dictionary) -> void:
 	AudioManager.play_track("item_shop")
 	finished.emit(outcome)
 	queue_free()
+
+
+func _emit_spectator_state(status: String, player_offer: int = 0,
+		customer_counter: int = 0) -> void:
+	spectator_state_changed.emit({
+		"customer": {
+			"id": String(customer.get("id", "")),
+			"name": String(customer.get("name", "Customer")),
+			"world": String(customer.get("world", "")),
+			"color": String(customer.get("color", "#c0c0c0")),
+			"visual_manifest": String(customer.get("visual_manifest", "")),
+			"visual_static": String(customer.get("visual_static", "")),
+		},
+		"item_id": item_id,
+		"quantity": nego.quantity,
+		"market_value": nego.market_value,
+		"selected_price": int(price_spin.value) if price_spin != null else 0,
+		"player_offer": player_offer,
+		"customer_counter": customer_counter,
+		"status": status,
+	})

@@ -4,7 +4,11 @@
       "date": "July 27, 2026",
       "changes": [
         "Matched dungeon barrier collisions to each block's visible sprite instead of the larger room-grid rectangle.",
-        "Added a ten-second room-clear fallback that automatically moves solo and co-op parties into the next room if nobody can reach the open door."
+        "Added a ten-second room-clear fallback that automatically moves solo and co-op parties into the next room if nobody can reach the open door.",
+        "Added daily Expedition Booms for unlocked worlds, including four-times enemy drop rates and doubled treasure-chest spawns.",
+        "Restricted customer orders to merchandise the player can currently access instead of items sealed behind later chapters.",
+        "Retired the two-room Kingdom Hearts test expedition; the first visit now uses the complete dungeon and ends with its boss.",
+        "Added a live online co-op negotiation portrait beneath the day cycle so partners can watch offers and counters while continuing to move."
       ]
     },
     {

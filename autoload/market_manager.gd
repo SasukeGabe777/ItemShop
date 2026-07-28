@@ -103,6 +103,50 @@ func wholesale_catalog() -> Array[String]:
 	return out
 
 
+## Goods a player can actually buy in the current chapter. Customer orders
+## draw only from this pool, so nobody requests future-world merchandise.
+func accessible_wholesale_catalog() -> Array[String]:
+	var out: Array[String] = []
+	for id in wholesale_catalog():
+		if is_item_accessible(id):
+			out.append(id)
+	return out
+
+
+func is_item_accessible(item_id: String) -> bool:
+	return item_locked_reason(item_id) == ""
+
+
+func item_locked_reason(item_id: String) -> String:
+	var item := ContentDatabase.get_item(item_id)
+	if item.is_empty():
+		return "unavailable"
+	var world := ContentDatabase.get_world(String(item.get("world", "")))
+	var world_chapter := int(world.get(
+		"chapter", 99 if bool(world.get("final", false)) else 1))
+	if world_chapter > TimeManager.chapter:
+		return "world sealed until Ch.%d" % world_chapter
+	var price := ContentDatabase.item_price(item_id)
+	if float(price) > price_cap(TimeManager.chapter):
+		return "customers can't afford this until Ch.%d" % chapter_for_price(price)
+	return ""
+
+
+## Customer budgets scale ~0.85x per chapter (see CustomerGen); the cap keeps
+## market stock and order requests inside what those purses can actually pay.
+func price_cap(chapter: int) -> float:
+	var cfg: Dictionary = ContentDatabase.bal("market_unlock", {})
+	return float(cfg.get("base_cap", 800.0)) * (
+		1.0 + float(cfg.get("per_chapter_scale", 0.85)) * (chapter - 1))
+
+
+func chapter_for_price(price: int) -> int:
+	for chapter in range(1, 9):
+		if float(price) <= price_cap(chapter):
+			return chapter
+	return 8
+
+
 ## Combined key -> multiplier map from all active events, e.g.
 ## {"tag:healing": 1.6, "cat:weapon": 1.5}. Drives the day briefing,
 ## market-row trend colors and walk-in customer bias.

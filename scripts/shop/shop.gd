@@ -152,6 +152,8 @@ func _on_net_player_left(idx: int) -> void:
 		if int(entry.get("who", 0)) != idx:
 			continue
 		_net_assignments.erase(aid)
+		if String(entry.get("kind", "")) == "nego":
+			Net.broadcast_scene_event("nego_watch_end", {"who": idx})
 		var node: ShopCustomer = entry.get("node")
 		if node != null and is_instance_valid(node):
 			if String(entry.get("kind", "")) == "nego":
@@ -237,6 +239,8 @@ func _net_open_assigned_negotiation(args: Dictionary) -> void:
 		(node as ShopCustomer).portrait_texture() if node is ShopCustomer else null)
 	panel.remote = true
 	panel.nego.authoritative = false
+	panel.spectator_state_changed.connect(func(state: Dictionary) -> void:
+		Net.request("shop.nego_watch", {"id": aid, "state": state}))
 	panel.finished.connect(func(outcome: Dictionary) -> void:
 		busy = false
 		player.frozen = false
@@ -244,6 +248,29 @@ func _net_open_assigned_negotiation(args: Dictionary) -> void:
 	busy = true
 	player.frozen = true
 	add_child(panel)
+
+
+## Host validates that only the player holding this negotiation assignment can
+## publish its read-only spectator feed.
+func _net_nego_watch_update(sender: int, aid: int, state: Dictionary) -> bool:
+	var entry: Dictionary = _net_assignments.get(aid, {})
+	if entry.is_empty() or String(entry.get("kind", "")) != "nego" \
+			or int(entry.get("who", 0)) != sender:
+		return false
+	_broadcast_negotiation_watch(sender, state, entry.get("node"))
+	return true
+
+
+func _broadcast_negotiation_watch(who: int, state: Dictionary,
+		customer_node: ShopCustomer = null) -> void:
+	if not Net.is_host():
+		return
+	var payload := state.duplicate(true)
+	payload["who"] = who
+	payload["player_name"] = PartyState.pname(who)
+	if customer_node != null and is_instance_valid(customer_node):
+		payload["eid"] = int(customer_node.get_meta("net_eid", 0))
+	Net.broadcast_scene_event("nego_watch_update", payload)
 
 
 func _net_open_assigned_order(args: Dictionary) -> void:
@@ -271,6 +298,7 @@ func _net_nego_result(sender: int, aid: int, outcome: Dictionary) -> void:
 		return
 	_net_assignments.erase(aid)
 	_net_busy[sender] = false
+	Net.broadcast_scene_event("nego_watch_end", {"who": sender})
 	Negotiation.apply_remote_outcome(entry.get("customer", {}),
 		String(entry.get("item", "")), outcome)
 	_nego_item = String(entry.get("item", ""))
@@ -1777,6 +1805,10 @@ func _open_next_negotiation() -> void:
 	var panel := NegotiationPanel.new()
 	panel.setup(entry["customer"], item_id, node.portrait_texture())
 	panel.pad_device = 0 if who == 1 else MultiplayerState.P2_DEVICE
+	if Net.is_online():
+		panel.spectator_state_changed.connect(
+			func(state: Dictionary) -> void:
+				_broadcast_negotiation_watch(who, state, node))
 	panel.finished.connect(_on_negotiation_finished)
 	if who == 2:
 		busy2 = true
@@ -1823,6 +1855,8 @@ func _advance_customer_player() -> void:
 
 
 func _on_negotiation_finished(outcome: Dictionary) -> void:
+	if Net.is_online() and Net.is_host():
+		Net.broadcast_scene_event("nego_watch_end", {"who": _nego_player})
 	if _nego_player == 2:
 		busy2 = false
 		if player2 != null:

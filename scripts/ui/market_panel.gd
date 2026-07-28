@@ -120,29 +120,7 @@ func _fill_rows() -> void:
 ## world must be reachable (chapter), and its price must sit inside what this
 ## chapter's customers can realistically pay — no Peach's Dress on Day 1.
 func _locked_reason(id: String) -> String:
-	var it := ContentDatabase.get_item(id)
-	var w := ContentDatabase.get_world(String(it.get("world", "")))
-	var world_ch := int(w.get("chapter", 99 if bool(w.get("final", false)) else 1))
-	if world_ch > TimeManager.chapter:
-		return "world sealed until Ch.%d" % world_ch
-	var price := ContentDatabase.item_price(id)
-	if float(price) > _price_cap(TimeManager.chapter):
-		return "customers can't afford this until Ch.%d" % _chapter_for_price(price)
-	return ""
-
-
-## Customer budgets scale ~0.85x per chapter (see CustomerGen); the cap keeps
-## market stock inside what those purses can actually pay.
-static func _price_cap(chapter: int) -> float:
-	var cfg: Dictionary = ContentDatabase.bal("market_unlock", {})
-	return float(cfg.get("base_cap", 800.0)) * (1.0 + float(cfg.get("per_chapter_scale", 0.85)) * (chapter - 1))
-
-
-static func _chapter_for_price(price: int) -> int:
-	for ch in range(1, 9):
-		if float(price) <= _price_cap(ch):
-			return ch
-	return 8
+	return MarketManager.item_locked_reason(id)
 
 
 func _make_row(id: String, locked_reason: String = "") -> VBoxContainer:

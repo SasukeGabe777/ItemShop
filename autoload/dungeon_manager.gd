@@ -40,12 +40,15 @@ func from_net(d: Dictionary) -> void:
 	run_kills = int(d.get("run_kills", 0))
 
 
-func plan_expedition(world_id: String, hero_id: String, consumables: Array = [], vertical_slice: bool = false, hero2_id: String = "", consumables2: Array = []) -> void:
+func plan_expedition(world_id: String, hero_id: String, consumables: Array = [],
+		_vertical_slice: bool = false, hero2_id: String = "",
+		consumables2: Array = []) -> void:
 	pending = {
 		"world_id": world_id, "hero_id": hero_id, "hero2_id": hero2_id,
-		"consumables": consumables.duplicate(), "vertical_slice": vertical_slice,
+		"consumables": consumables.duplicate(), "vertical_slice": false,
 		# co-op: player 2 packs their own items rather than sharing P1's belt
 		"consumables2": consumables2.duplicate(),
+		"expedition_boom": BoomManager.expedition_context_for_world(world_id),
 	}
 	run_loot.clear()
 	run_gold = 0
@@ -55,7 +58,8 @@ func plan_expedition(world_id: String, hero_id: String, consumables: Array = [],
 ## Online: the whole party's picks in one plan. Legacy keys mirror the first
 ## entry so solo/couch code paths (HUD hero label, fallbacks) keep working;
 ## layout_seed makes every machine build identical rooms.
-func plan_expedition_party(world_id: String, party: Array, vertical_slice: bool) -> void:
+func plan_expedition_party(world_id: String, party: Array,
+		_vertical_slice: bool = false) -> void:
 	var first: Dictionary = party[0] if not party.is_empty() else {}
 	pending = {
 		"world_id": world_id,
@@ -63,9 +67,10 @@ func plan_expedition_party(world_id: String, party: Array, vertical_slice: bool)
 		"hero2_id": "",
 		"consumables": (first.get("consumables", []) as Array).duplicate(),
 		"consumables2": [],
-		"vertical_slice": vertical_slice,
+		"vertical_slice": false,
 		"party": party.duplicate(true),
 		"layout_seed": randi(),
+		"expedition_boom": BoomManager.expedition_context_for_world(world_id),
 	}
 	run_loot.clear()
 	run_gold = 0
@@ -73,11 +78,8 @@ func plan_expedition_party(world_id: String, party: Array, vertical_slice: bool)
 
 
 ## Generate the run's room sequence from handcrafted templates.
-func generate_layout(world_id: String, seed_value: int = -1, vertical_slice: bool = false) -> Array[Dictionary]:
-	if vertical_slice:
-		var slice_layout := _vertical_slice_layout(world_id)
-		if not slice_layout.is_empty():
-			return slice_layout
+func generate_layout(world_id: String, seed_value: int = -1,
+		_vertical_slice: bool = false) -> Array[Dictionary]:
 	var w := ContentDatabase.get_world(world_id)
 	var room_count := int(w.get("rooms", 5))
 	var lrng := RandomNumberGenerator.new()
@@ -111,24 +113,6 @@ func generate_layout(world_id: String, seed_value: int = -1, vertical_slice: boo
 			layout.append(_room_entry(combats[lrng.randi() % combats.size()], world_id, lrng, i + 1, run_pool))
 	layout.append(_room_entry(boss_rooms[lrng.randi() % boss_rooms.size()], world_id, lrng, room_count - 1, run_pool))
 	return layout
-
-
-## The first playable expedition is a deliberately small, data-selected preset.
-## It still uses the regular room schema and live dungeon scene.
-func _vertical_slice_layout(world_id: String) -> Array[Dictionary]:
-	var cfg: Dictionary = ContentDatabase.bal("kingdom_hearts_vertical_slice", {})
-	if world_id != String(cfg.get("world_id", "")):
-		return []
-	var start: Dictionary = ContentDatabase.rooms.get(String(cfg.get("start_room_id", "")), {})
-	var combat: Dictionary = ContentDatabase.rooms.get(String(cfg.get("combat_room_id", "")), {})
-	var enemy_id := String(cfg.get("enemy_id", ""))
-	if start.is_empty() or combat.is_empty() or ContentDatabase.get_enemy(enemy_id).is_empty():
-		push_warning("[DungeonManager] vertical-slice content is incomplete; using the normal layout")
-		return []
-	return [
-		{"template": start, "kind": "start", "enemies": [], "depth": 0},
-		{"template": combat, "kind": "combat", "enemies": [enemy_id], "depth": 1},
-	]
 
 
 func _room_entry(template: Dictionary, world_id: String, lrng: RandomNumberGenerator, depth: int, pool_override: Array = []) -> Dictionary:
@@ -178,12 +162,30 @@ func add_run_loot(item_id: String, qty: int = 1) -> void:
 func roll_loot(enemy_id: String, bonus: float = 0.0) -> Array[String]:
 	var e := ContentDatabase.get_enemy(enemy_id)
 	var out: Array[String] = []
+	var boom_multiplier := pending_expedition_multiplier("drop_rate")
 	for entry in e.get("loot", []):
-		var chance := float(entry[1]) * (1.0 + bonus)
+		var chance := float(entry[1]) * (1.0 + bonus) * boom_multiplier
 		if rng.randf() < chance:
 			# loot tables may name retired filler items; drop the live stand-in
 			out.append(ContentDatabase.live_substitute(String(entry[0])))
 	return out
+
+
+func pending_expedition_multiplier(effect: String) -> float:
+	var context: Dictionary = pending.get("expedition_boom", {})
+	if String(context.get("effect", "")) != effect:
+		return 1.0
+	return maxf(1.0, float(context.get("multiplier", 1.0)))
+
+
+func pending_expedition_boom_label() -> String:
+	var context: Dictionary = pending.get("expedition_boom", {})
+	if context.is_empty():
+		return ""
+	var multiplier := float(context.get("multiplier", 1.0))
+	var effect := String(context.get("effect", ""))
+	var effect_label := "drops" if effect == "drop_rate" else "chests"
+	return "EXPEDITION BOOM: x%.0f %s" % [multiplier, effect_label]
 
 
 func roll_gold(enemy_id: String) -> int:
@@ -195,7 +197,6 @@ func roll_gold(enemy_id: String) -> int:
 ## Apply a finished run's spoils and notify.
 func finish_expedition(success: bool, boss_defeated: bool, hp_left: int) -> Dictionary:
 	var world_id := String(pending.get("world_id", ""))
-	var vertical_slice := bool(pending.get("vertical_slice", false))
 	for id: String in run_loot:
 		InventoryManager.add_item(id, int(run_loot[id]))
 	EconomyManager.add_gold(run_gold)
@@ -203,11 +204,6 @@ func finish_expedition(success: bool, boss_defeated: bool, hp_left: int) -> Dict
 	if boss_defeated:
 		# drives the boss rotation and the gates panel's mastery star
 		GameState.add_stat("expedition_wins_%s" % world_id)
-	if success and vertical_slice:
-		var slice_cfg: Dictionary = ContentDatabase.bal("kingdom_hearts_vertical_slice", {})
-		var completion_flag := String(slice_cfg.get("completion_flag", ""))
-		if completion_flag != "":
-			GameState.set_flag(completion_flag)
 	if boss_defeated:
 		if world_id == "null_archive":
 			BridgeManager.defeat_fade()
@@ -219,7 +215,7 @@ func finish_expedition(success: bool, boss_defeated: bool, hp_left: int) -> Dict
 				StoryEventManager.fire("boss_defeated", {"chapter": int(ContentDatabase.get_world(world_id).get("chapter", 0))})
 	var result := {
 		"success": success, "boss_defeated": boss_defeated, "world_id": world_id,
-		"vertical_slice": vertical_slice,
+		"vertical_slice": false,
 		"loot": run_loot.duplicate(), "gold": run_gold, "hp_left": hp_left,
 		"kills": run_kills,
 	}
@@ -246,6 +242,14 @@ func simulate_expedition(world_id: String, hero_id: String, seed_value: int = 1,
 	var gold := 0
 	var heals: Array = consumables.duplicate()
 	var layout := generate_layout(world_id, seed_value)
+	var boom_context := BoomManager.expedition_context_for_world(world_id)
+	var drop_multiplier := 1.0
+	var chest_multiplier := 1
+	if String(boom_context.get("effect", "")) == "drop_rate":
+		drop_multiplier = maxf(1.0, float(boom_context.get("multiplier", 1.0)))
+	elif String(boom_context.get("effect", "")) == "chest_spawn":
+		chest_multiplier = maxi(1, int(round(float(
+			boom_context.get("multiplier", 1.0)))))
 	var boss_defeated := false
 	for room in layout:
 		var is_boss_room := String(room["kind"]) == "boss"
@@ -277,7 +281,7 @@ func simulate_expedition(world_id: String, hero_id: String, seed_value: int = 1,
 				return {"success": false, "boss_defeated": boss_defeated, "loot": loot, "gold": gold, "hp_left": 0}
 			gold += int(round(srng.randi_range(int(e.get("gold", [0, 0])[0]), int(e.get("gold", [0, 0])[1])) * MarketManager.prosperity()))
 			for entry in e.get("loot", []):
-				if srng.randf() < float(entry[1]):
+				if srng.randf() < float(entry[1]) * drop_multiplier:
 					var lid := ContentDatabase.live_substitute(String(entry[0]))
 					loot[lid] = int(loot.get(lid, 0)) + 1
 			if String(room["kind"]) == "boss":
@@ -285,7 +289,9 @@ func simulate_expedition(world_id: String, hero_id: String, seed_value: int = 1,
 		if String(room["kind"]) == "treasure":
 			var w := ContentDatabase.get_world(world_id)
 			var goods: Array = w.get("market_goods", [])
-			if not goods.is_empty():
+			for chest_index in range(chest_multiplier):
+				if goods.is_empty():
+					break
 				var prize := ContentDatabase.live_substitute(String(goods[srng.randi() % goods.size()]))
 				loot[prize] = int(loot.get(prize, 0)) + 1
 	return {"success": true, "boss_defeated": boss_defeated, "loot": loot, "gold": gold, "hp_left": hp}

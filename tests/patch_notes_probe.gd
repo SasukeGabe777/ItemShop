@@ -36,6 +36,8 @@ class Probe:
 		var all_text := _collect_label_text(menu)
 		for expected in [
 			"July 27, 2026", "barrier collisions", "ten-second room-clear",
+			"Expedition Booms", "customer orders", "Kingdom Hearts test",
+			"negotiation portrait",
 			"online co-op", "Realm of the Mad God", "July 15, 2026",
 			"project foundation",
 		]:

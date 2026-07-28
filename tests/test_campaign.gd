@@ -65,6 +65,7 @@ func _reset_all() -> void:
 	MarketManager.active_events.clear()
 	MarketManager.on_new_day()
 	BoomManager.rng.seed = TEST_SEED
+	BoomManager.expedition_rng.seed = TEST_SEED
 	CustomerGen.rng.seed = TEST_SEED
 	Negotiation.rng.seed = TEST_SEED
 	RelationshipManager.rng.seed = TEST_SEED

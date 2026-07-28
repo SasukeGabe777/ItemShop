@@ -44,6 +44,15 @@ static func build() -> Dictionary:
 		return {"ok": true}
 	reg["shop.nego_result"] = {"run": shop_nego_result, "syncs": []}
 
+	var shop_nego_watch := func(sender: int, args: Dictionary) -> Dictionary:
+		var shop: Node = Net.get_tree().get_first_node_in_group("shop_runtime")
+		if shop == null:
+			return {"ok": false}
+		var ok: bool = shop._net_nego_watch_update(
+			sender, int(args.get("id", 0)), args.get("state", {}))
+		return {"ok": ok}
+	reg["shop.nego_watch"] = {"run": shop_nego_watch, "syncs": []}
+
 	var shop_order_result := func(sender: int, args: Dictionary) -> Dictionary:
 		var shop: Node = Net.get_tree().get_first_node_in_group("shop_runtime")
 		if shop == null:
@@ -119,10 +128,10 @@ static func build() -> Dictionary:
 	# ---- expedition lineup: every player picks their own hero + belt --------
 	var lineup_begin := func(_sender: int, args: Dictionary) -> Dictionary:
 		DungeonManager.lineup_pending = {"world_id": String(args.get("world_id", "")),
-			"slice": bool(args.get("slice", false)), "picks": {}}
+			"slice": false, "picks": {}}
 		Net.broadcast_scene_event("lineup_open", {
 			"world_id": String(args.get("world_id", "")),
-			"slice": bool(args.get("slice", false))})
+			"slice": false})
 		return {"ok": true}
 	reg["lineup.begin"] = {"run": lineup_begin, "syncs": []}
 

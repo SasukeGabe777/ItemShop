@@ -5,14 +5,12 @@ extends CanvasLayer
 ## The host launches once everyone is ready (GatesPanel.depart_party).
 
 var world_id: String
-var slice: bool
 var _chosen: Array = []
 var _status: Label
 
 
-func setup(world: String, is_slice: bool) -> void:
+func setup(world: String, _is_slice: bool = false) -> void:
 	world_id = world
-	slice = is_slice
 
 
 func _ready() -> void:
@@ -22,8 +20,6 @@ func _ready() -> void:
 	var dvb: VBoxContainer = parts[1]
 	var w := ContentDatabase.get_world(world_id)
 	dvb.add_child(UIKit.label(String(w.get("dungeon_desc", "")), 9, UIKit.COL_DIM))
-	if slice:
-		dvb.add_child(UIKit.label("FIRST EXPEDITION: two short rooms, one Shadow, then return with its Lucid Shard.", 9, UIKit.COL_GOOD))
 
 	var hero_options := GatesPanel.hero_options_for(world_id)
 	var hero_pick := OptionButton.new()

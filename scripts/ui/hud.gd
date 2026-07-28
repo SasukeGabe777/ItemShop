@@ -15,6 +15,13 @@ var deadline_label: Label
 var market_label: Label
 var orders_label: Label
 var admin_label: Label
+var negotiation_watch: PanelContainer
+var negotiation_watch_title: Label
+var negotiation_watch_portrait: TextureRect
+var negotiation_watch_item: TextureRect
+var negotiation_watch_customer: Label
+var negotiation_watch_values: Label
+var negotiation_watch_status: Label
 
 
 const HUD_BAR := "res://assets/shared/ui/processed/hud_bar.png"
@@ -126,6 +133,9 @@ func _ready() -> void:
 		plate.offset_top = 54 + psize
 		plate.offset_bottom = 76 + psize
 		add_child(plate)
+	if Net.is_online():
+		_build_negotiation_watch()
+		Net.scene_event.connect(_on_net_scene_event)
 	EconomyManager.gold_changed.connect(func(_g: int) -> void: refresh())
 	set_process(true)
 	TimeManager.period_advanced.connect(func(_d: int, _p: int) -> void:
@@ -139,6 +149,120 @@ func _ready() -> void:
 	GameState.admin_mode_changed.connect(func(enabled: bool) -> void:
 		admin_label.visible = enabled)
 	refresh()
+
+
+## Read-only online negotiation picture-in-picture. It is an ordinary
+## mouse-ignoring HUD panel, never a modal, so spectators keep moving and
+## interacting with the shop while another player haggles.
+func _build_negotiation_watch() -> void:
+	negotiation_watch = UIKit.ornate_panel()
+	var compact_style: StyleBox = negotiation_watch.get_theme_stylebox(
+		"panel").duplicate()
+	compact_style.content_margin_left = 16
+	compact_style.content_margin_right = 16
+	compact_style.content_margin_top = 12
+	compact_style.content_margin_bottom = 12
+	negotiation_watch.add_theme_stylebox_override("panel", compact_style)
+	negotiation_watch.name = "NegotiationWatch"
+	negotiation_watch.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+	negotiation_watch.offset_left = -210
+	negotiation_watch.offset_right = -10
+	negotiation_watch.offset_top = 166
+	negotiation_watch.offset_bottom = 258
+	negotiation_watch.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(negotiation_watch)
+	var vb := VBoxContainer.new()
+	vb.add_theme_constant_override("separation", 2)
+	vb.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	negotiation_watch.add_child(vb)
+	negotiation_watch_title = UIKit.label(
+		"CO-OP NEGOTIATION", 9, UIKit.COL_ACCENT)
+	negotiation_watch_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	vb.add_child(negotiation_watch_title)
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 5)
+	vb.add_child(row)
+	negotiation_watch_portrait = TextureRect.new()
+	negotiation_watch_portrait.custom_minimum_size = Vector2(34, 34)
+	negotiation_watch_portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	negotiation_watch_portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	negotiation_watch_portrait.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	row.add_child(negotiation_watch_portrait)
+	negotiation_watch_item = TextureRect.new()
+	negotiation_watch_item.custom_minimum_size = Vector2(26, 26)
+	negotiation_watch_item.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	negotiation_watch_item.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	negotiation_watch_item.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	row.add_child(negotiation_watch_item)
+	var facts := VBoxContainer.new()
+	facts.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_child(facts)
+	negotiation_watch_customer = UIKit.label("", 8, UIKit.COL_INK)
+	negotiation_watch_customer.clip_text = true
+	facts.add_child(negotiation_watch_customer)
+	negotiation_watch_values = UIKit.label("", 7, UIKit.COL_DIM)
+	facts.add_child(negotiation_watch_values)
+	negotiation_watch_status = UIKit.label("", 7, UIKit.COL_INK)
+	negotiation_watch_status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	negotiation_watch_status.custom_minimum_size.x = 182
+	vb.add_child(negotiation_watch_status)
+	negotiation_watch.visible = false
+
+
+func _on_net_scene_event(event_name: String, args: Dictionary) -> void:
+	if negotiation_watch == null:
+		return
+	match event_name:
+		"nego_watch_update":
+			_show_negotiation_watch(args)
+		"nego_watch_end":
+			negotiation_watch.visible = false
+
+
+func _show_negotiation_watch(state: Dictionary) -> void:
+	var who := int(state.get("who", 0))
+	if who == PartyState.local_index():
+		negotiation_watch.visible = false
+		return
+	var customer: Dictionary = state.get("customer", {})
+	negotiation_watch_title.text = "%s IS NEGOTIATING" % String(
+		state.get("player_name", "A partner")).to_upper()
+	var item_id := String(state.get("item_id", ""))
+	var quantity := maxi(1, int(state.get("quantity", 1)))
+	negotiation_watch_customer.text = "%s wants %s%s" % [
+		String(customer.get("name", "Customer")),
+		"%dx " % quantity if quantity > 1 else "",
+		ContentDatabase.item_name(item_id)]
+	var selected := int(state.get("selected_price", 0))
+	var counter := int(state.get("customer_counter", 0))
+	negotiation_watch_values.text = "~%dg value  |  %s" % [
+		int(state.get("market_value", 0)),
+		"counter %dg" % counter if counter > 0 else "selecting %dg" % selected]
+	negotiation_watch_status.text = String(
+		state.get("status", "Choosing an offer..."))
+	negotiation_watch_item.texture = ContentDatabase.item_texture(item_id)
+	var entity := Replica.entity(int(state.get("eid", 0)))
+	if entity is ShopCustomer:
+		negotiation_watch_portrait.texture = (entity as ShopCustomer).portrait_texture()
+	else:
+		var portrait_texture: Texture2D = null
+		var static_path := String(customer.get("visual_static", ""))
+		if static_path != "" and ResourceLoader.exists(static_path):
+			portrait_texture = load(static_path)
+		elif String(customer.get("visual_manifest", "")) != "":
+			var frames := SpriteFramesBuilder.from_manifest_path(
+				String(customer.get("visual_manifest", "")))
+			if frames != null and frames.has_animation("idle_down") \
+					and frames.get_frame_count("idle_down") > 0:
+				portrait_texture = frames.get_frame_texture(
+					"idle_down", 0)
+		if portrait_texture == null:
+			portrait_texture = ContentDatabase.entity_texture(
+				String(customer.get("id", "customer")),
+				String(customer.get("world", "")),
+				String(customer.get("color", "#c0c0c0")), 20)
+		negotiation_watch_portrait.texture = portrait_texture
+	negotiation_watch.visible = true
 
 
 ## The HUD draws above P2's SubViewport, so the corner portrait would sit on

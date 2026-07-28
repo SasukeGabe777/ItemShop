@@ -57,7 +57,7 @@ static func generate_session_customers() -> Array[Dictionary]:
 		returning.append(returner)
 	for i in range(returning.size() - 1, -1, -1):
 		out.insert(0, returning[i])
-	# the vertical-slice onboarding customer leads the day but never replaces
+	# the first-shop onboarding customer leads the day but never replaces
 	# the crowd — a failed scripted sale must not starve the shop of business
 	var onboarding_customer := _vertical_slice_customer()
 	if not onboarding_customer.is_empty():
@@ -103,8 +103,8 @@ static func _returning_order_customer(order: Dictionary) -> Dictionary:
 	return cust
 
 
-## Keep the two sales that bookend the first expedition deterministic. This is
-## data-selected and still uses the normal customer, browsing and negotiation AI.
+## Keep the first sale deterministic. The old two-room test expedition and its
+## scripted return sale were retired; every expedition now uses a full layout.
 static func _vertical_slice_customer() -> Dictionary:
 	var cfg: Dictionary = ContentDatabase.bal("kingdom_hearts_vertical_slice", {})
 	var active_flag := String(cfg.get("active_flag", ""))
@@ -116,15 +116,6 @@ static func _vertical_slice_customer() -> Dictionary:
 		return {}
 	var starter_flag := String(cfg.get("starter_sale_flag", ""))
 	if starter_flag != "" and not GameState.has_flag(starter_flag):
-		return runtime_named(src)
-	var completion_flag := String(cfg.get("completion_flag", ""))
-	var reward_sale_flag := String(cfg.get("reward_sale_flag", ""))
-	var reward_item_id := String(cfg.get("reward_item_id", ""))
-	if (
-		completion_flag != "" and GameState.has_flag(completion_flag)
-		and reward_sale_flag != "" and not GameState.has_flag(reward_sale_flag)
-		and reward_item_id in InventoryManager.displayed_ids()
-	):
 		return runtime_named(src)
 	return {}
 
@@ -385,7 +376,7 @@ static func make_order_offer(cust: Dictionary, direct_boom_request: bool = false
 	if not force and not direct_boom_request and rng.randf() > chance:
 		return {}
 	var arch: Dictionary = ContentDatabase.get_archetype(String(cust.get("archetype", "")))
-	var candidates: Array[String] = MarketManager.wholesale_catalog()
+	var candidates: Array[String] = MarketManager.accessible_wholesale_catalog()
 	var boom_target := BoomManager.preferred_order_target() if direct_boom_request else {}
 	if not boom_target.is_empty():
 		var kind := String(boom_target.get("kind", ""))

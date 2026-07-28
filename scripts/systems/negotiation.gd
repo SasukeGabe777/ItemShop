@@ -163,15 +163,10 @@ func finalize_sale(outcome: Dictionary) -> void:
 	GameState.know_customer(cid)
 	var slice_cfg: Dictionary = ContentDatabase.bal("kingdom_hearts_vertical_slice", {})
 	var active_flag := String(slice_cfg.get("active_flag", ""))
-	var completion_flag := String(slice_cfg.get("completion_flag", ""))
-	if active_flag != "" and GameState.has_flag(active_flag) and completion_flag != "" and not GameState.has_flag(completion_flag):
+	if active_flag != "" and GameState.has_flag(active_flag):
 		var starter_flag := String(slice_cfg.get("starter_sale_flag", ""))
-		if starter_flag != "":
+		if starter_flag != "" and not GameState.has_flag(starter_flag):
 			GameState.set_flag(starter_flag)
-	elif active_flag != "" and GameState.has_flag(active_flag) and item_id == String(slice_cfg.get("reward_item_id", "")):
-		var reward_sale_flag := String(slice_cfg.get("reward_sale_flag", ""))
-		if reward_sale_flag != "":
-			GameState.set_flag(reward_sale_flag)
 	var hero_ref := String(customer.get("hero_ref", ""))
 	if hero_ref != "":
 		CustomerGen.try_hero_autoequip(hero_ref, item_id)
