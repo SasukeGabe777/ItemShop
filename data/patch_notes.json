@@ -1,8 +1,36 @@
 {
   "releases": [
     {
+      "date": "July 27, 2026",
+      "changes": [
+        "Matched dungeon barrier collisions to each block's visible sprite instead of the larger room-grid rectangle.",
+        "Added a ten-second room-clear fallback that automatically moves solo and co-op parties into the next room if nobody can reach the open door."
+      ]
+    },
+    {
+      "date": "July 26, 2026",
+      "changes": [
+        "Made online dungeon progression reliable with room-scoped enemy tracking, immediate blocker removal, and stale-event protection.",
+        "Kept complete dungeon rooms visible below the HUD and added a prominent room-cleared banner.",
+        "Contained heroes and enemies inside room boundaries while preserving travel through the centered open doorway.",
+        "Added Realm of the Mad God dungeon music and completed a broad local acceptance pass for Realm and online co-op."
+      ]
+    },
+    {
+      "date": "July 24, 2026",
+      "changes": [
+        "Fixed empty starting rooms sometimes leaving online parties trapped behind a closed door.",
+        "Fixed rooms with splitting enemies sometimes failing to register as cleared after the final enemy was defeated."
+      ]
+    },
+    {
       "date": "July 23, 2026",
       "changes": [
+        "Added host-authoritative online co-op for up to five players across the lobby, town, shop, expeditions, story scenes, disconnects, and reconnects.",
+        "Added the Realm of the Mad God world with six playable classes, ranged combat, enemy projectiles, biome rooms, nine bosses, and an admin unlock mode.",
+        "Added twelve selectable OMORI online avatars while preserving the original Omori hero.",
+        "Made the encyclopedia content-driven and added ten new OMORI shop decorations.",
+        "Added Dragon Ball dungeon music.",
         "Added clear red P1 and blue P2 identity tags during two-player expeditions.",
         "Gave Player 2 a dedicated blue floating companion that follows them in town, the shop, and expeditions.",
         "Made multiplayer negotiations and customer orders alternate strictly between P1 and P2."

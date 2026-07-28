@@ -1,5 +1,5 @@
 extends Node2D
-## Windowed launcher for the five supplied world-specific barrier blocks.
+## Windowed launcher for every supplied world-specific barrier block.
 
 
 func _ready() -> void:

@@ -1,8 +1,8 @@
 # Current Build
 
-Last audited: **2026-07-26**
+Last audited: **2026-07-27**
 
-Audited checkout: **`d619d3d4` plus the 2026-07-26 status/acceptance pass**.
+Audited checkout: **`0b2e6925` plus the 2026-07-27 patch-note synchronization**.
 
 Engine: **Godot 4.7.1-stable**. Application version: **0.2.0**.
 
@@ -22,6 +22,11 @@ late-join parking, and reconnect into a reserved seat.
 The current release candidate is logic-green and visually smoke-tested. The
 remaining acceptance gap is a real two-machine/WAN controller session; local
 two-instance probes cannot prove an external router path.
+
+Dungeon progression now has two independent softlock defenses: supplied
+barrier art uses per-sprite collision fitted to its visible pixels, and every
+cleared non-boss room advances the authoritative solo/co-op party automatically
+after ten seconds if no hero reaches the open doorway.
 
 ## Content inventory
 
@@ -86,7 +91,7 @@ Online is a host-authoritative listen server implemented by `Net`,
 
 See `docs/ARCHITECTURE.md` for the authority and replication model.
 
-## Verification on 2026-07-26
+## Verification through 2026-07-27
 
 Core suites:
 
@@ -100,6 +105,9 @@ Core suites:
 Content/system probes passed:
 
 - `DUNGEON_AUTOPLAY_PROBE_PASS` across all worlds.
+- `BARRIER_BLOCKS_PROBE_PASS` for fitted horizontal/vertical collision across
+  every supplied world barrier.
+- `DUNGEON_BOUNDS_PROBE_PASS`, including the ten-second cleared-room fallback.
 - `ADMIN_CHECK_PASS` for Realm/admin state.
 - `DBZ_MUSIC_PROBE_PASS`.
 - `MOREDECOR_FURNITURE_PROBE_PASS` for all ten OMORI decor pieces.
@@ -108,9 +116,10 @@ Content/system probes passed:
 All **18 baseline `net_*_probe.tscn` routes passed**, including handshake,
 state sync, scene follow, late join, parking, pause, reconnect, replication,
 avatars, town, shop, lineup, dungeon, dungeon FX, progression, discovery,
-disconnect, and offline regression. A nineteenth full-run regression now drives
-the remote client through every room and boss across seeded Kingdom Hearts,
-Naruto, and Realm expeditions.
+disconnect, and offline regression. A nineteenth full-run regression drives the
+remote client through every room and boss across seeded Kingdom Hearts, Naruto,
+and Realm expeditions. Its first client now deliberately remains away from the
+open door and confirms the host's timed room advance reaches both machines.
 
 Windowed probes passed and every fresh screenshot was opened and inspected:
 
@@ -119,6 +128,8 @@ Windowed probes passed and every fresh screenshot was opened and inspected:
 - Co-op dungeon with Sora and Link visible in the same room.
 - Realm start, combat, facing, autofire, special, and Oryx boss room.
 - OMORI wall/floor decor and the top/bottom of the purchase catalog.
+- Mario, Final Fantasy, Zelda, Naruto, Dragon Ball, and Pokemon barrier runs
+  with collision debugging visible; every fitted collider was inspected.
 
 The screenshot client was corrected during this pass to hold its authoritative
 body on-screen, so the town/dungeon evidence no longer clips player two at the

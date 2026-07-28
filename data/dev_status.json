@@ -1,7 +1,7 @@
 {
   "schema": "crossroads.dev_status.v1",
-  "last_audited": "2026-07-26",
-  "audited_base_head": "d619d3d4",
+  "last_audited": "2026-07-27",
+  "audited_base_head": "0b2e6925",
   "release_version": "0.2.0",
   "vertical_slice_goal": "Prove the complete eight-world campaign and five-player online co-op route on real controllers and a second physical machine.",
   "content_counts": {
@@ -22,8 +22,9 @@
     "LAN discovery, direct-IP join, reconnectable seats, late-join parking, and disconnect cleanup",
     "Controller support, per-player consumable belts, autosave, negotiation, inventory, economy, crafting, campaign, and combat",
     "Data-driven content database and Live Developer Hub/admin workflows",
-    "All core suites, all-world dungeon autoplay, couch regressions, and all 18 current online probes passing on 2026-07-26",
-    "Windowed online lobby/town/dungeon, Realm, and shop-decor screenshots inspected on 2026-07-26"
+    "Dungeon barrier collision fitted to visible sprite pixels, with a ten-second cleared-room auto-advance fallback for solo and co-op parties",
+    "All core suites, all-world dungeon autoplay, couch regressions, and all 19 online probes passing through 2026-07-27",
+    "Windowed online lobby/town/dungeon, Realm, shop-decor, and six-world barrier collision screenshots inspected through 2026-07-27"
   ],
   "incomplete_systems": [
     "Real two-machine/controller and WAN acceptance has not been recorded",

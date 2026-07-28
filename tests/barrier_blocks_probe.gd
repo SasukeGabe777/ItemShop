@@ -8,6 +8,7 @@ const EXPECTED := {
 	"zelda": ["res://assets/locations/zeldadungeon/processed/barrier_block.png", Vector2i(16, 17)],
 	"naruto": ["res://assets/locations/narutodungeon/processed/barrier_block.png", Vector2i(26, 26)],
 	"dragon_ball": ["res://assets/locations/dbzdungeon/processed/barrier_rock.png", Vector2i(28, 28)],
+	"pokemon": ["res://assets/locations/pkmndungeon/processed/barrier_boulder.png", Vector2i(32, 32)],
 }
 
 var failures: Array[String] = []

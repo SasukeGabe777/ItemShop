@@ -1,6 +1,6 @@
 # Next Tasks
 
-Regenerated **2026-07-26** against the checkout based on `d619d3d4`.
+Regenerated **2026-07-27** against the checkout at `0b2e6925`.
 
 The former task list stopped before Realm and online co-op. Those features are
 now implemented and locally verified. Current priorities are acceptance,
@@ -28,8 +28,16 @@ environment/repository maintenance, and targeted polish.
 - Fixed ambiguous/stuck online dungeon progression: full-room safe-area camera,
   prominent room-clear banner, room-scoped enemy accounting, explicit blocker
   removal, and a three-world remote-client full-run regression.
+- Kept dungeon actors inside their authored room bounds while accepting only a
+  centered crossing through an open north doorway.
+- Fitted every supplied dungeon barrier collider to the rendered block's
+  non-transparent pixels instead of the oversized obstacle-grid rectangle.
+- Added a ten-second authority fallback that moves solo, couch, and online
+  parties onward after a room clears; the online full-run client now proves the
+  timed transition while standing still.
 - Refreshed `CURRENT_BUILD.md`, this file, `PLAYTEST_NOTES.md`, and
-  `data/dev_status.json`.
+  `data/dev_status.json`, and brought the in-game patch history current through
+  July 27.
 
 ## Priority 0 — External acceptance
 

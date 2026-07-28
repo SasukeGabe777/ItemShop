@@ -9,6 +9,7 @@ const RUNS := [
 	["zelda", "link"],
 	["naruto", "naruto"],
 	["dragon_ball", "goku"],
+	["pokemon", "pikachu"],
 ]
 
 var run_idx := -1

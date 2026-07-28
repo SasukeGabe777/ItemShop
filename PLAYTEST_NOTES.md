@@ -2,6 +2,55 @@
 
 ---
 
+## 2026-07-27 - Dungeon barrier collision and timed clear fallback
+
+### Reported behavior
+
+- Barrier blocks could stop a hero well beyond the visible sprite, sometimes
+  making the route to the next dungeon room impossible.
+- A second independent fallback was requested so a cleared room could never
+  become a permanent progression softlock.
+
+### Build tested
+
+- Commit/build: `0b2e6925`
+- Godot version: 4.7.1-stable
+- Platform: Windows; headless solo/online regression probes and 1280x720
+  windowed collision-debug screenshots
+
+### Root cause and fixes
+
+- Authored obstacles used one aggregate collider based on the full room-grid
+  rectangle even though narrow barrier sprites occupied much less of that
+  space.
+- Barrier runs now create one rectangle per rendered block from the texture's
+  non-transparent pixel bounds. Flat and scattered-prop fallback walls retain
+  their existing aggregate collision.
+- Clearing a non-boss room starts an authority-owned ten-second countdown.
+  Walking through the open door still advances immediately; when the countdown
+  expires, the existing synchronized room event moves the solo, couch, or
+  online party to the next room.
+- A transition-pending guard prevents duplicate online room events.
+
+### Verification
+
+- `BARRIER_BLOCKS_PROBE_PASS` checked horizontal and vertical fitted collision
+  for Mario, Final Fantasy, Zelda, Naruto, Dragon Ball, and Pokemon barriers.
+- `DUNGEON_BOUNDS_PROBE_PASS` proved the room holds for the first 9.5 seconds
+  and advances after the ten-second deadline with the hero away from the door.
+- `DUNGEON_AUTOPLAY_PROBE_PASS` completed ten randomized seven-room Naruto
+  expeditions.
+- `NET_DUNGEON_FULL_RUN_PROBE_PASS` completed three seeded online expeditions;
+  the client deliberately stayed still in the first cleared room and followed
+  the host's timed transition.
+- The windowed barrier tour ran with visible collision debugging. All supplied
+  world barrier screenshots were opened and inspected; the cyan collision
+  rectangles hug the rendered blocks, including the narrow Final Fantasy and
+  Zelda art.
+- The release was exported to `export/crossroads.exe`.
+
+---
+
 ## 2026-07-26 - Online dungeon visibility and progression fix
 
 ### Reported behavior

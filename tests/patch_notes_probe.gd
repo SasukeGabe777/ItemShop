@@ -17,9 +17,9 @@ class Probe:
 		if notes_button == null:
 			failures.append("PATCH NOTES button missing from title screen")
 		var releases: Array = menu.call("_load_patch_notes")
-		if releases.size() != 8:
-			failures.append("expected 8 dated releases, got %d" % releases.size())
-		elif String(releases[0].get("date", "")) != "July 22, 2026" \
+		if releases.size() != 12:
+			failures.append("expected 12 dated releases, got %d" % releases.size())
+		elif String(releases[0].get("date", "")) != "July 27, 2026" \
 				or String(releases[-1].get("date", "")) != "July 15, 2026":
 			failures.append("release dates are missing or not newest-first")
 		var windowed := DisplayServer.get_name() != "headless"
@@ -34,7 +34,11 @@ class Probe:
 		if scrolls.size() != 1:
 			failures.append("expected one patch-notes scroll view, got %d" % scrolls.size())
 		var all_text := _collect_label_text(menu)
-		for expected in ["July 22, 2026", "Pokemon world", "July 15, 2026", "project foundation"]:
+		for expected in [
+			"July 27, 2026", "barrier collisions", "ten-second room-clear",
+			"online co-op", "Realm of the Mad God", "July 15, 2026",
+			"project foundation",
+		]:
 			if expected.to_lower() not in all_text.to_lower():
 				failures.append("missing visible patch-note text: %s" % expected)
 		if windowed:
