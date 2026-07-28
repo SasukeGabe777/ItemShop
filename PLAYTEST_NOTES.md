@@ -2,6 +2,47 @@
 
 ---
 
+## 2026-07-27 - Mixer, co-op visibility, safe spawns, and Mario bosses
+
+### Reported behavior
+
+- The game needed persistent Master, Music, and Sound Effects controls, with UI
+  sizing reachable from the in-game Escape menus.
+- Online partners could miss bosses, remote special effects, and items stocked
+  on display stands by another player.
+- Online Players 2-5 needed the familiar floating partner appearance, while
+  barrier/player-spawn overlap and reversed Mario/Luigi action art could glitch
+  or misrepresent dungeon play.
+- Mushroom Kingdom expeditions repeated Bowser instead of rotating three bosses.
+
+### Root cause and fixes
+
+- Added persistent Master/Music/SFX audio buses and an ornate Audio & Display
+  submenu to both world and expedition pause menus.
+- Display sprites now refresh after authoritative inventory syncs. Remote
+  specials rebuild damage-free cosmetic effects, and a room-complete,
+  idempotent entity replay closes the boss-spawn transition race.
+- Online world seats 2-5 use the partner manifest; seats 3-5 receive distinct
+  subtle color offsets.
+- Every solo, couch, and online room arrival now reserves a unique walkable cell
+  outside a one-cell obstacle/barrier moat.
+- Mario/Luigi side action mirroring now follows their left-facing source art.
+  Mario's wins rotate through Bowser, Queen Bean, and crowned King Boo.
+
+### Verification
+
+- `BOOT_TEST_PASS`, `PARSE_TEST_PASS`, `BARRIER_BLOCKS_PROBE_PASS`,
+  `DUNGEON_BOUNDS_PROBE_PASS`, and `DUNGEON_AUTOPLAY_PROBE_PASS`.
+- `NET_TOWN_PROBE_PASS`, `NET_SHOP_PROBE_PASS`, and
+  `NET_DUNGEON_FX_PROBE_PASS` verified real host/client partner, stocking, boss,
+  and remote-special presentation.
+- `SETTINGS_MARIO_PROBE_PASS` verified persistence, action facing, partner
+  mappings, the three-boss rotation, and the ornate mixer. Its fresh windowed
+  mixer and Mario-roster screenshots were opened and inspected.
+- The in-game July 27 patch notes include every feature in this pass.
+
+---
+
 ## 2026-07-27 - Dungeon barrier collision and timed clear fallback
 
 ### Reported behavior

@@ -33,6 +33,7 @@ class Probe:
 		ShopFurnitureManager.reset()
 		DayBriefing.last_shown_day = TimeManager.day
 		InventoryManager.add_item("kh_potion", 3)
+		InventoryManager.add_item("kh_ether", 1)
 		InventoryManager.display[0] = "kh_potion"
 
 		_expect(Net.host_game("HostGabe") == OK, "host_game failed")
@@ -55,6 +56,11 @@ class Probe:
 		var shop := get_tree().current_scene
 		_expect(shop != null and shop.scene_file_path.ends_with("shop.tscn"),
 			"host did not reach the shop")
+		var remotely_stocked := await _wait_for(func() -> bool:
+			return InventoryManager.display.size() > 1 \
+				and String(InventoryManager.display[1]) == "kh_ether", 10.0)
+		_expect(remotely_stocked,
+			"client stocking request never reached the shared display")
 
 		# Inject a replicated customer and force the round-robin onto seat 2.
 		await get_tree().create_timer(2.0).timeout  # let the client land first
@@ -116,6 +122,8 @@ class Probe:
 			_expect(String(report.get("error", "x")) == "", "client error: %s" % report.get("error"))
 			_expect(bool(report.get("customer_seen", false)), "client never saw the customer puppet")
 			_expect(bool(report.get("panel_seen", false)), "client never got the panel")
+			_expect(bool(report.get("remote_display_visible", false)),
+				"client did not render the item it stocked through the host")
 			_expect(int(report.get("gold_after", -1)) == EconomyManager.gold,
 				"client gold diverged: %s vs %d" % [report.get("gold_after"), EconomyManager.gold])
 

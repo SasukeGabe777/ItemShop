@@ -82,6 +82,11 @@
    "location": "Mushroom Kingdom",
    "hero": "mario",
    "boss": "bowser",
+   "boss_rotation": [
+    "bowser",
+    "queen_bean",
+    "king_boo"
+   ],
    "enemies": [
     "goomba",
     "koopa_troopa",

@@ -37,7 +37,8 @@ class Probe:
 		for expected in [
 			"July 27, 2026", "barrier collisions", "ten-second room-clear",
 			"Expedition Booms", "customer orders", "Kingdom Hearts test",
-			"negotiation portrait",
+			"negotiation portrait", "volume controls", "special attacks",
+			"Players 2–5", "safe player arrival", "Queen Bean", "King Boo",
 			"online co-op", "Realm of the Mad God", "July 15, 2026",
 			"project foundation",
 		]:

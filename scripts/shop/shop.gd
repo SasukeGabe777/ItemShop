@@ -70,12 +70,14 @@ func _ready() -> void:
 	_build_furniture()
 	player = TownPlayer.new()
 	if Net.is_online():
-		player.manifest_override = PartyState.avatar_of(PartyState.local_index())
+		player.manifest_override = PartyState.world_avatar_of(
+			PartyState.local_index())
 	player.position = Vector2(320, 300)
 	add_child(player)
 	player.add_child(ZoomCamera.new())
-	var patch := PatchFollower.attach(self, player)
-	patch.name = "PatchSidekick"
+	if not Net.is_online() or PartyState.local_index() == 1:
+		var patch := PatchFollower.attach(self, player)
+		patch.name = "PatchSidekick"
 	hud = GameHUD.new()
 	add_child(hud)
 	prompt = UIKit.interaction_prompt()
@@ -98,7 +100,7 @@ func _ready() -> void:
 
 func _setup_net_shop() -> void:
 	var local_idx := PartyState.local_index()
-	player.modulate = PartyState.tint(local_idx)
+	player.modulate = PartyState.world_tint(local_idx)
 	UIKit.floating_name(player, player.visual, PartyState.pname(local_idx), 3.0, 8,
 		PartyState.color(local_idx))
 	Replica.register_local_player(local_idx, func() -> Array:
@@ -108,11 +110,22 @@ func _setup_net_shop() -> void:
 	Replica.entity_event.connect(_on_net_entity_event)
 	PartyState.changed.connect(_refresh_net_puppets)
 	PartyState.player_left.connect(_on_net_player_left)
-	Net.state_applied.connect(func(_manager: String) -> void:
-		if hud != null:
-			hud.refresh())
+	Net.state_applied.connect(_on_net_state_applied)
 	Net.scene_event.connect(_on_net_scene_event)
 	_refresh_net_puppets()
+
+
+func _on_net_state_applied(manager_name: String) -> void:
+	if hud != null:
+		hud.refresh()
+	# InventoryManager emits display_changed during normal sync, but an
+	# incoming state can land while this scene is still wiring its signals.
+	# Refresh explicitly after every inventory/snapshot application so items
+	# stocked by another online player always appear on every stand.
+	if manager_name == "inventory" or manager_name == "*":
+		_refresh_display_sprites.call_deferred()
+	if manager_name == "furniture":
+		dev_rebuild_furniture.call_deferred()
 
 
 func _refresh_net_puppets() -> void:
@@ -123,9 +136,9 @@ func _refresh_net_puppets() -> void:
 		if idx == local_idx or _net_puppets.has(idx):
 			continue
 		var pup := TownPlayer.new()
-		pup.manifest_override = PartyState.avatar_of(idx)
+		pup.manifest_override = PartyState.world_avatar_of(idx)
 		pup.position = player.position + Vector2(24 * idx, 0)
-		pup.modulate = PartyState.tint(idx)
+		pup.modulate = PartyState.world_tint(idx)
 		add_child(pup)
 		pup.make_puppet()
 		UIKit.floating_name(pup, pup.visual, PartyState.pname(idx), 3.0, 8,

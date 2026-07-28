@@ -11,6 +11,7 @@ class Probe:
 
 	var failures: Array[String] = []
 	var _actions_from_2 := 0
+	var _specials_from_2 := 0
 
 
 	func _ready() -> void:
@@ -35,6 +36,11 @@ class Probe:
 			func(idx: int, event_name: String, _args: Dictionary) -> void:
 				if idx == 2 and event_name == "action":
 					_actions_from_2 += 1)
+		Replica.remote_player_event.connect(
+			func(idx: int, event_name: String, args: Dictionary) -> void:
+				if idx == 2 and event_name == "action" \
+						and String(args.get("a", "")) == "special":
+					_specials_from_2 += 1)
 
 		var exe := OS.get_executable_path()
 		var proj := ProjectSettings.globalize_path("res://")
@@ -49,13 +55,17 @@ class Probe:
 		DungeonManager.pending["layout_seed"] = 424242
 		DungeonManager.pending["party"] = [
 			{"player_index": 1, "hero_id": "sora", "consumables": []},
-			{"player_index": 2, "hero_id": "link", "consumables": []},
+			{"player_index": 2, "hero_id": "sora", "consumables": []},
 		]
 		SceneRouter.go("dungeon")
 		await get_tree().create_timer(2.5).timeout
 		var d := get_tree().current_scene
 		_expect(d != null and d.scene_file_path.ends_with("dungeon.tscn"),
 			"host did not reach the dungeon")
+		# Exercise the room-transition race directly: the boss and its replay
+		# must survive on the client after both machines rebuild room_root.
+		Net.broadcast_scene_event("enter_room", {"idx": d.get("layout").size() - 1})
+		await get_tree().create_timer(1.0).timeout
 		for node in get_tree().get_nodes_in_group("enemies"):
 			(node as Node).set_physics_process(false)
 		(d.get("hero") as Node2D).global_position = Vector2(80, 60)
@@ -74,6 +84,16 @@ class Probe:
 		# The client swings 3 times, then retreats the party.
 		var acted := await _wait_for(func() -> bool: return _actions_from_2 >= 2, 40.0)
 		_expect(acted, "client action events never arrived (%d)" % _actions_from_2)
+		var special_fx := await _wait_for(func() -> bool:
+			if _specials_from_2 < 1:
+				return false
+			for child in d.find_children("*", "", true, false):
+				if child is Projectile \
+						and int((child as Projectile).packet.get("damage", -1)) == 0:
+					return true
+			return false, 10.0)
+		_expect(special_fx,
+			"remote special arrived but its cosmetic projectile was not visible")
 		var done := await _wait_for(func() -> bool: return bool(d.get("finished")), 30.0)
 		_expect(done, "client retreat never ended the run")
 
@@ -89,6 +109,10 @@ class Probe:
 			_expect(String(report.get("error", "x")) == "", "client error: %s" % report.get("error"))
 			_expect(bool(report.get("eproj_seen", false)),
 				"client never saw a replicated enemy projectile")
+			_expect(bool(report.get("boss_seen", false)),
+				"client never saw the replicated boss")
+			_expect(bool(report.get("boss_visible", false)),
+				"client boss puppet was not visibly rendered")
 			_expect(bool(report.get("finished_after_retreat", false)),
 				"client did not see the finish after retreating")
 

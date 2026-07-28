@@ -19,6 +19,7 @@ func _ready() -> void:
 	var dungeon = dungeon_script.new()
 	for world_id: String in EXPECTED:
 		_check_world(dungeon, world_id)
+	_check_player_spawn_reservations(dungeon)
 	dungeon.free()
 	if failures.is_empty():
 		print("BARRIER_BLOCKS_PROBE_PASS")
@@ -75,6 +76,30 @@ func _check_world(dungeon: Node, world_id: String) -> void:
 				"%s collider %d center %s does not match visible %s" % [
 					world_id, i, shape.position, expected_center])
 		holder.free()
+
+
+func _check_player_spawn_reservations(dungeon: Node) -> void:
+	var template := {
+		"obstacles": [
+			[8, 5, 3, 2],
+			[2, 2, 1, 1],
+		],
+	}
+	var reserved: Array[Vector2i] = []
+	for seat in range(5):
+		var cell: Vector2i = dungeon.call(
+			"_free_player_cell", Vector2i(9 + seat, 6), template, reserved)
+		_check(not reserved.has(cell),
+			"seat %d reused reserved player cell %s" % [seat + 1, cell])
+		for obstacle in template["obstacles"]:
+			var moat := Rect2i(
+				int(obstacle[0]) - 1, int(obstacle[1]) - 1,
+				int(obstacle[2]) + 2, int(obstacle[3]) + 2)
+			_check(not moat.has_point(cell),
+				"seat %d spawn %s overlaps a barrier safety moat %s" % [
+					seat + 1, cell, moat])
+		reserved.append(cell)
+	_check(reserved.size() == 5, "expected five distinct safe online spawns")
 
 
 func _check(condition: bool, message: String) -> void:

@@ -8,6 +8,7 @@ extends Node
 enum Mode { SINGLE, COUCH, ONLINE }
 
 const MAX_PLAYERS := 5
+const ONLINE_PARTNER_MANIFEST := "res://assets/shared/effects/p2_sidekick.json"
 ## P1/P2 keep their historical label colors; P3-P5 extend the family.
 const PLAYER_COLORS: Array[Color] = [
 	Color("ff9999"), Color("8fd8ff"), Color("a8f0a0"),
@@ -114,6 +115,24 @@ func make_seat(player_index: int, peer_id: int, player_name: String,
 ## The town/shop manifest for a seat's chosen avatar.
 func avatar_of(idx: int) -> String:
 	return avatar_manifest(String(player(idx).get("avatar", "omori")))
+
+
+## Online seats 2-5 use the familiar local-co-op fairy in the town and shop.
+## Dungeon lineup heroes remain their actual selected heroes.
+func world_avatar_of(idx: int) -> String:
+	return ONLINE_PARTNER_MANIFEST if idx >= 2 else avatar_of(idx)
+
+
+func world_tint(idx: int) -> Color:
+	match idx:
+		3:
+			return Color(0.82, 1.0, 0.88)
+		4:
+			return Color(1.0, 0.92, 0.74)
+		5:
+			return Color(0.92, 0.8, 1.0)
+		_:
+			return Color.WHITE
 
 
 ## ---- mode switching --------------------------------------------------------

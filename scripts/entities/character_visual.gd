@@ -12,6 +12,8 @@ var use_frames: bool = false
 var _action_playing: bool = false
 var _action_seq: int = 0
 var _base_offset: Vector2 = Vector2.ZERO
+var _side_flips_for_left := true
+var _action_side_flips_for_left := true
 
 
 func setup_from_manifest(manifest_path: String) -> bool:
@@ -41,6 +43,9 @@ func setup_from_manifest(manifest_path: String) -> bool:
 			var pv: Array = m.get("pivot", [cell.x / 2.0, cell.y - 4.0])
 			pivot = Vector2(float(pv[0]), float(pv[1]))
 			shadow_w = int(cell.x * 0.45)
+			_side_flips_for_left = bool(m.get("side_flips_for_left", true))
+			_action_side_flips_for_left = bool(m.get(
+				"action_side_flips_for_left", _side_flips_for_left))
 	animated.offset = Vector2(cell.x / 2.0 - pivot.x, cell.y / 2.0 - pivot.y)
 	_base_offset = animated.offset
 	_add_shadow(maxi(10, shadow_w))
@@ -115,12 +120,14 @@ func face(direction: Vector2, moving: bool) -> void:
 			else:
 				var sfx := _dir_suffix(direction)
 				anim = "%s_%s" % ["walk" if moving else "idle", sfx]
-				animated.flip_h = direction.x < 0.0
+				animated.flip_h = direction.x < 0.0 \
+					if _side_flips_for_left else direction.x > 0.0
 		elif direction != Vector2.ZERO:
 			var sfx2 := _dir_suffix(direction)
 			anim = "%s_%s" % ["walk" if moving else "idle", sfx2]
 			if sfx2.ends_with("side"):
-				animated.flip_h = direction.x < 0.0
+				animated.flip_h = direction.x < 0.0 \
+					if _side_flips_for_left else direction.x > 0.0
 		else:
 			anim = animated.animation
 			if moving == false and String(anim).begins_with("walk"):
@@ -163,7 +170,11 @@ func play_action(action: String, direction: Vector2) -> void:
 	_action_playing = true
 	_action_seq += 1
 	var my_seq := _action_seq
-	animated.flip_h = direction.x < 0.0
+	if sfx == "side":
+		animated.flip_h = direction.x < 0.0 \
+			if _action_side_flips_for_left else direction.x > 0.0
+	else:
+		animated.flip_h = false
 	# stop() first: replaying the SAME animation would otherwise resume on
 	# its last frame and finish instantly (the "one-frame attack" bug)
 	animated.stop()

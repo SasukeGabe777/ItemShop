@@ -89,7 +89,7 @@ func puppet_replay(args: Dictionary) -> void:
 			FX.burst(get_parent(), p.global_position, color.lightened(0.3), 3)
 		"special":
 			visual.play_action("special", facing)
-			FX.burst(get_parent(), global_position, color, 18)
+			_puppet_special_fx()
 		"dodge":
 			var kind := String(combat_def().get("dodge", {}).get("kind", "roll"))
 			visual.play_action("fly" if kind == "fly" else "roll", facing)
@@ -105,6 +105,68 @@ func puppet_replay(args: Dictionary) -> void:
 		"finisher":
 			FX.burst(get_parent(), global_position, color, 30)
 			FX.shake(3.0)
+
+
+## Rebuild the full LOOK of a remote hero's data-driven special. These
+## cosmetic copies never carry a collision layer or damage packet; combat
+## remains authoritative on the owning player's machine.
+func _puppet_special_fx() -> void:
+	var sp: Dictionary = combat_def().get("special", {})
+	var kind := String(sp.get("kind", "burst"))
+	var color := Color(String(hero_def.get("color", "#ffffff")))
+	match kind:
+		"projectile":
+			var projectile := Projectile.new()
+			var tex: Texture2D = null
+			var tex_path := String(sp.get("sprite", ""))
+			if tex_path != "" and ResourceLoader.exists(tex_path):
+				tex = load(tex_path)
+			projectile.setup({"damage": 0}, facing,
+				float(sp.get("speed", 280)), color, 0, tex)
+			projectile.global_position = global_position + facing * 10.0
+			get_parent().add_child(projectile)
+			var frames := int(sp.get("sprite_frames", 1))
+			if frames > 1 and tex_path != "":
+				projectile.set_art(tex_path, frames, 1, 0,
+					float(sp.get("sprite_fps", 16)))
+		"burst", "spin", "clones":
+			FX.burst(get_parent(), global_position, color, 18)
+			var radius := float(sp.get("radius", 60))
+			var vfx := String(sp.get("vfx_sheet", ""))
+			if vfx != "":
+				var vframes := int(sp.get("vfx_frames", 1))
+				var vfps := float(sp.get("vfx_fps", 14))
+				if kind == "clones":
+					var count := int(sp.get("count", 3))
+					for i in range(count):
+						var angle := TAU * float(i) / float(count)
+						EffectFlipbook.spawn(get_parent(), vfx, vframes, 1, 0,
+							vfps, global_position + Vector2.RIGHT.rotated(
+								angle) * radius * 0.55 + Vector2(0, -10), 1.0)
+				else:
+					EffectFlipbook.spawn(get_parent(), vfx, vframes, 1, 0,
+						vfps, global_position + Vector2(0, -12), 1.0)
+		"dash":
+			FX.attack_trail(get_parent(), global_position,
+				global_position + facing * 40.0, color)
+		"bomb":
+			var bomb := Bomb.new()
+			bomb.setup({"damage": 0}, float(sp.get("radius", 60)),
+				float(sp.get("fuse", 2.0)), 0, true)
+			bomb.global_position = global_position + facing.normalized() * 12.0
+			get_parent().add_child(bomb)
+		"nova":
+			var nova := Nova.new()
+			nova.setup({"damage": 0}, sp, true)
+			nova.global_position = global_position + Vector2(0.0, -12.0)
+			get_parent().add_child(nova)
+		"beam":
+			var beam := Beam.new()
+			beam.setup({"damage": 0}, facing, sp, 0, true)
+			var reach := 18.0 if absf(facing.x) > 0.5 else 12.0
+			beam.global_position = global_position \
+				+ facing.normalized() * reach + Vector2(0.0, -24.0)
+			get_parent().add_child(beam)
 
 
 ## Applies streamed HP to a puppet without re-running damage logic.

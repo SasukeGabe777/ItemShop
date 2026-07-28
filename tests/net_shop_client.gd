@@ -11,7 +11,8 @@ class Worker:
 
 	var report: Dictionary = {
 		"joined": false, "in_shop": false, "customer_seen": false,
-		"panel_seen": false, "gold_after": -1, "display0_after": "x", "error": "",
+		"panel_seen": false, "remote_display_visible": false,
+		"gold_after": -1, "display0_after": "x", "error": "",
 	}
 
 
@@ -31,6 +32,23 @@ class Worker:
 		if not in_shop:
 			_finish("never followed into the shop")
 			return
+
+		# Stock a second stand through the host, then verify the authoritative
+		# state refresh also redraws this client's furniture sprite.
+		Net.request("inventory.place_display", {"slot": 1, "item_id": "kh_ether"})
+		report["remote_display_visible"] = await _wait_for(func() -> bool:
+			if InventoryManager.display.size() <= 1 \
+					or String(InventoryManager.display[1]) != "kh_ether":
+				return false
+			var shop := get_tree().current_scene
+			for piece in shop.get("furniture_nodes"):
+				var furniture := piece as DisplayFurniture
+				if furniture.slot_base <= 1 \
+						and 1 < furniture.slot_base + furniture.slot_count:
+					var sprite := furniture.get_node_or_null(
+						"ItemSprite%d" % (1 - furniture.slot_base)) as Sprite2D
+					return sprite != null and sprite.texture != null
+			return false, 10.0)
 
 		# The host injects a replicated customer, then assigns it to us.
 		report["customer_seen"] = await _wait_for(func() -> bool:

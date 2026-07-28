@@ -12,10 +12,13 @@ var _frames: int = 1
 var _fps: float = 12.0
 var _age: float = 0.0
 var _hit: Array[Node] = []
+var cosmetic := false
 
 
-func setup(damage_packet: Dictionary, sp: Dictionary) -> void:
+func setup(damage_packet: Dictionary, sp: Dictionary,
+		cosmetic_only: bool = false) -> void:
 	packet = damage_packet
+	cosmetic = cosmetic_only
 	radius = float(sp.get("radius", 44))
 	_fps = float(sp.get("fps", 12))
 	_sprite = Sprite2D.new()
@@ -36,6 +39,8 @@ func _physics_process(delta: float) -> void:
 		queue_free()
 		return
 	_sprite.frame = f
+	if cosmetic:
+		return
 	for node in get_tree().get_nodes_in_group("enemies"):
 		var enemy := node as Node2D
 		if enemy == null or not is_instance_valid(enemy) or enemy in _hit:

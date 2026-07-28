@@ -391,7 +391,9 @@ func _flash_period_banner() -> void:
 ## Start/Back (the "menu" action) opens the pause menu on a pad — the Menu
 ## button is no longer reachable via stray A presses.
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("menu") and not UIKit.modal_open() and not get_tree().paused:
+	if (event.is_action_pressed("menu") \
+			or event.is_action_pressed("pause_menu")) \
+			and not UIKit.modal_open() and not get_tree().paused:
 		get_viewport().set_input_as_handled()
 		_open_pause()
 
@@ -424,9 +426,9 @@ func _open_pause() -> void:
 	vb.add_child(UIKit.button("Help & Encyclopedia", func() -> void:
 		close.call()
 		_open_help_encyclopedia()))
-	vb.add_child(UIKit.button("Music: %s" % ("muted" if AudioManager.muted else "on"), func() -> void:
-		AudioManager.set_muted(not AudioManager.muted)
-		close.call()))
+	vb.add_child(UIKit.button("Audio & display settings", func() -> void:
+		pause_layer.queue_free()
+		GameSettingsControls.open(self, _open_pause)))
 	vb.add_child(UIKit.button("Quit to main menu", func() -> void:
 		close.call()
 		SceneRouter.go("main_menu")))

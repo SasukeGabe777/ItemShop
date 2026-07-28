@@ -11,6 +11,7 @@ class Worker:
 
 	var report: Dictionary = {
 		"joined": false, "eproj_seen": false, "finished_after_retreat": false,
+		"boss_seen": false, "boss_visible": false,
 		"error": "",
 	}
 	var _kinds_seen: Dictionary = {}
@@ -18,8 +19,13 @@ class Worker:
 
 	func _ready() -> void:
 		await get_tree().create_timer(0.4).timeout
-		Replica.entity_spawned.connect(func(_eid: int, kind: String, _node: Node) -> void:
-			_kinds_seen[kind] = true)
+		Replica.entity_spawned.connect(func(_eid: int, kind: String, node: Node) -> void:
+			_kinds_seen[kind] = true
+			if kind == "boss":
+				report["boss_seen"] = true
+				var visual: Variant = node.get("visual")
+				report["boss_visible"] = node.is_visible_in_tree() \
+					and visual != null and (visual as CanvasItem).visible)
 		Net.join_game("127.0.0.1", "FxBro")
 		var joined := await _wait_for(func() -> bool: return Net.my_index > 0, 10.0)
 		if not joined:
@@ -47,6 +53,10 @@ class Worker:
 			hero.facing = Vector2.LEFT
 			hero._do_basic_attack()
 			await get_tree().create_timer(0.5).timeout
+		hero.meter = 999.0
+		hero.facing = Vector2.RIGHT
+		hero._do_special()
+		await get_tree().create_timer(0.5).timeout
 
 		# Retreat must end the run for everyone.
 		Net.request("dungeon.retreat")

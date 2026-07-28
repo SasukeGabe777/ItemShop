@@ -22,12 +22,14 @@ func _ready() -> void:
 	add_child(LobbyCrossers.new())  # ambient travellers crossing the plaza
 	player = TownPlayer.new()
 	if Net.is_online():
-		player.manifest_override = PartyState.avatar_of(PartyState.local_index())
+		player.manifest_override = PartyState.world_avatar_of(
+			PartyState.local_index())
 	player.position = SceneRouter.last_town_position if SceneRouter.last_town_position != Vector2.ZERO else Vector2(320, 240)
 	add_child(player)
 	player.add_child(ZoomCamera.new())
-	var patch := PatchFollower.attach(self, player)
-	patch.name = "PatchSidekick"
+	if not Net.is_online() or PartyState.local_index() == 1:
+		var patch := PatchFollower.attach(self, player)
+		patch.name = "PatchSidekick"
 	hud = GameHUD.new()
 	add_child(hud)
 	prompt = UIKit.interaction_prompt()
@@ -52,7 +54,7 @@ func _ready() -> void:
 
 func _setup_online() -> void:
 	var local_idx := PartyState.local_index()
-	player.modulate = PartyState.tint(local_idx)
+	player.modulate = PartyState.world_tint(local_idx)
 	UIKit.floating_name(player, player.visual, PartyState.pname(local_idx), 3.0, 8,
 		PartyState.color(local_idx))
 	Replica.register_local_player(local_idx, func() -> Array:
@@ -83,9 +85,9 @@ func _refresh_net_puppets() -> void:
 		if idx == local_idx or _net_puppets.has(idx):
 			continue
 		var pup := TownPlayer.new()
-		pup.manifest_override = PartyState.avatar_of(idx)
+		pup.manifest_override = PartyState.world_avatar_of(idx)
 		pup.position = player.position + Vector2(24 * idx, 0)
-		pup.modulate = PartyState.tint(idx)
+		pup.modulate = PartyState.world_tint(idx)
 		add_child(pup)
 		pup.make_puppet()
 		UIKit.floating_name(pup, pup.visual, PartyState.pname(idx), 3.0, 8,

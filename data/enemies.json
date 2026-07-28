@@ -3153,6 +3153,80 @@
    ]
   },
   {
+   "id": "queen_bean",
+   "name": "Queen Bean",
+   "world": "mario",
+   "hp": 720,
+   "atk": 20,
+   "spd": 70,
+   "behavior": "boss_tank",
+   "size": 40,
+   "visual_scale": 1.25,
+   "color": "#68d838",
+   "telegraph": 0.6,
+   "attacks": [
+    "bean_slam",
+    "royal_volley",
+    "arm_charge",
+    "bean_guard"
+   ],
+   "loot": [
+    [
+     "world_shard_mario",
+     1.0
+    ],
+    [
+     "royal_crown",
+     0.7
+    ],
+    [
+     "hee_bean",
+     1.0
+    ]
+   ],
+   "gold": [
+    260,
+    420
+   ]
+  },
+  {
+   "id": "king_boo",
+   "name": "King Boo",
+   "world": "mario",
+   "hp": 920,
+   "atk": 23,
+   "spd": 105,
+   "behavior": "boss_psychic",
+   "size": 38,
+   "visual_scale": 2.0,
+   "color": "#e8e0ff",
+   "telegraph": 0.5,
+   "attacks": [
+    "haunt_slam",
+    "spirit_volley",
+    "vanish_charge",
+    "boo_storm"
+   ],
+   "loot": [
+    [
+     "world_shard_mario",
+     1.0
+    ],
+    [
+     "starman",
+     0.8
+    ],
+    [
+     "one_up_mushroom",
+     1.0
+    ]
+   ],
+   "gold": [
+    360,
+    560
+   ]
+  },
+  {
    "id": "big_green_chuchu",
    "name": "Big Green ChuChu",
    "world": "zelda",

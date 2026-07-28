@@ -50,6 +50,12 @@ class Probe:
 				and (town.get("_net_puppets") as Dictionary).has(2), 25.0)
 		_expect(pupped, "client puppet never appeared in host town")
 		if pupped:
+			var p2: TownPlayer = (town.get("_net_puppets") as Dictionary).get(2)
+			_expect(p2.manifest_override
+				== "res://assets/shared/effects/p2_sidekick.json",
+				"online P2 town puppet did not use the partner sprite")
+			_expect(p2.modulate == Color.WHITE,
+				"online P2 partner sprite should keep its original colors")
 			var tracked := await _wait_for(func() -> bool:
 				var pup: Node2D = (town.get("_net_puppets") as Dictionary).get(2)
 				return is_instance_valid(pup) \
@@ -75,6 +81,8 @@ class Probe:
 			_expect(String(report.get("error", "x")) == "", "client error: %s" % report.get("error"))
 			_expect(bool(report.get("town_seen", false)), "client never saw town")
 			_expect(bool(report.get("host_puppet_seen", false)), "client never saw host puppet")
+			_expect(bool(report.get("local_partner_sprite", false)),
+				"client P2 body did not use the partner sprite")
 			_expect(String(report.get("final_scene", "")).ends_with("shop.tscn"),
 				"client landed in %s" % report.get("final_scene"))
 

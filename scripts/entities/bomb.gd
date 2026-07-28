@@ -11,12 +11,15 @@ var radius: float = 60.0
 var fuse: float = 2.0
 var _armed := true
 var _sprite: Sprite2D
+var cosmetic := false
 
 
-func setup(damage_packet: Dictionary, blast_radius: float, fuse_time: float, target_layer: int) -> void:
+func setup(damage_packet: Dictionary, blast_radius: float, fuse_time: float,
+		target_layer: int, cosmetic_only: bool = false) -> void:
 	packet = damage_packet
 	radius = blast_radius
 	fuse = fuse_time
+	cosmetic = cosmetic_only
 	collision_layer = 0
 	collision_mask = target_layer
 	var shape := CollisionShape2D.new()
@@ -63,11 +66,13 @@ func explode() -> void:
 	_armed = false
 	_sprite.visible = false
 	set_deferred("monitoring", false)
-	for node in get_tree().get_nodes_in_group("enemies"):
-		var enemy := node as Node2D
-		if enemy != null and is_instance_valid(enemy) and enemy.global_position.distance_to(global_position) <= radius:
-			if enemy.has_method("take_packet"):
-				enemy.take_packet(packet, global_position)
+	if not cosmetic:
+		for node in get_tree().get_nodes_in_group("enemies"):
+			var enemy := node as Node2D
+			if enemy != null and is_instance_valid(enemy) \
+					and enemy.global_position.distance_to(global_position) <= radius:
+				if enemy.has_method("take_packet"):
+					enemy.take_packet(packet, global_position)
 	AudioManager.play_sfx("attack_enemy_2", -2.0)
 	FX.shake(5.0)
 	var frames := SpriteFramesBuilder.from_manifest_path(EXPLOSION_MANIFEST)

@@ -17,11 +17,14 @@ var _hit: Array[Node] = []
 var _shaft: Sprite2D
 var _tip: Sprite2D
 var _shaft_h: float = 8.0
+var cosmetic := false
 
 
-func setup(damage_packet: Dictionary, direction: Vector2, sp: Dictionary, layer: int) -> void:
+func setup(damage_packet: Dictionary, direction: Vector2, sp: Dictionary,
+		layer: int, cosmetic_only: bool = false) -> void:
 	packet = damage_packet
 	target_layer = layer
+	cosmetic = cosmetic_only
 	beam_range = float(sp.get("range", 180))
 	half_width = float(sp.get("width", 10)) * 0.5
 	rotation = direction.angle()
@@ -66,6 +69,8 @@ func _physics_process(delta: float) -> void:
 
 
 func _damage_line(l: float) -> void:
+	if cosmetic:
+		return
 	var dir := Vector2.RIGHT.rotated(global_rotation)
 	for node in get_tree().get_nodes_in_group("enemies"):
 		var enemy := node as Node2D

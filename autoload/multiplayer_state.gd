@@ -8,6 +8,7 @@ extends Node
 ## focus, driven by device-1 events re-pushed as device-0 into it.
 
 const P2_DEVICE := 1
+const SETTINGS_PATH := "user://settings.cfg"
 const UI_SCALE_PRESETS := [
 	{"label": "SMALL", "factor": 0.85},
 	{"label": "NORMAL", "factor": 1.0},
@@ -33,6 +34,13 @@ var _ready_sets: Dictionary = {}  # action id -> {player_idx: true}
 var pending_confirm: Dictionary = {}  # {key, player, text, on_confirm}
 
 
+func _ready() -> void:
+	var cfg := ConfigFile.new()
+	if cfg.load(SETTINGS_PATH) == OK:
+		set_ui_scale_preset(int(cfg.get_value(
+			"display", "ui_scale_preset", ui_scale_preset)), false)
+
+
 func ui_scale_label() -> String:
 	return String(UI_SCALE_PRESETS[ui_scale_preset]["label"])
 
@@ -42,11 +50,19 @@ func ui_scale_factor() -> float:
 
 
 func cycle_ui_scale() -> void:
-	ui_scale_preset = (ui_scale_preset + 1) % UI_SCALE_PRESETS.size()
+	set_ui_scale_preset((ui_scale_preset + 1) % UI_SCALE_PRESETS.size())
 
 
-func set_ui_scale_preset(value: int) -> void:
+func set_ui_scale_preset(value: int, save: bool = true) -> void:
 	ui_scale_preset = clampi(value, 0, UI_SCALE_PRESETS.size() - 1)
+	if save:
+		var cfg := ConfigFile.new()
+		cfg.load(SETTINGS_PATH)
+		cfg.set_value("display", "ui_scale_preset", ui_scale_preset)
+		var err := cfg.save(SETTINGS_PATH)
+		if err != OK:
+			push_warning("[MultiplayerState] couldn't save UI size: %s"
+				% error_string(err))
 
 
 func toggle_fullscreen() -> void:

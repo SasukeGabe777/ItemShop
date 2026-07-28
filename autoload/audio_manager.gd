@@ -4,25 +4,38 @@ extends Node
 ## replaces the default track. OGG, WAV and MP3 supported. Also plays one-shot
 ## SFX and character voice blips from the manifest's sound_effects dir.
 
+signal mixer_changed
+
+const SETTINGS_PATH := "user://settings.cfg"
+const MUSIC_BUS := "Music"
+const SFX_BUS := "SFX"
+
 var music_player: AudioStreamPlayer
 var stinger_player: AudioStreamPlayer
 var sfx_player: AudioStreamPlayer
 var current_track: String = ""
 var music_volume_db: float = -8.0
+var master_level: float = 1.0
+var music_level: float = 0.8
+var sfx_level: float = 0.8
 var muted: bool = false
 var _last_voice: Dictionary = {}  # speaker -> last file index, avoids repeats
 
 
 func _ready() -> void:
+	_ensure_bus(MUSIC_BUS)
+	_ensure_bus(SFX_BUS)
+	_load_mixer()
 	music_player = AudioStreamPlayer.new()
-	music_player.bus = "Master"
+	music_player.bus = MUSIC_BUS
 	add_child(music_player)
 	stinger_player = AudioStreamPlayer.new()
-	stinger_player.bus = "Master"
+	stinger_player.bus = MUSIC_BUS
 	add_child(stinger_player)
 	sfx_player = AudioStreamPlayer.new()
-	sfx_player.bus = "Master"
+	sfx_player.bus = SFX_BUS
 	add_child(sfx_player)
+	_apply_mixer()
 	DirAccess.make_dir_recursive_absolute("user://music_overrides/")
 	_connect_global_sfx.call_deferred()
 
@@ -110,6 +123,74 @@ func set_muted(value: bool) -> void:
 		var t := current_track
 		current_track = ""
 		play_track(t)
+	mixer_changed.emit()
+
+
+func set_master_level(value: float) -> void:
+	master_level = clampf(value, 0.0, 1.0)
+	_apply_mixer()
+	_save_mixer()
+
+
+func set_music_level(value: float) -> void:
+	music_level = clampf(value, 0.0, 1.0)
+	_apply_mixer()
+	_save_mixer()
+
+
+func set_sfx_level(value: float) -> void:
+	sfx_level = clampf(value, 0.0, 1.0)
+	_apply_mixer()
+	_save_mixer()
+
+
+func _ensure_bus(bus_name: String) -> void:
+	if AudioServer.get_bus_index(bus_name) >= 0:
+		return
+	AudioServer.add_bus()
+	var idx := AudioServer.bus_count - 1
+	AudioServer.set_bus_name(idx, bus_name)
+	AudioServer.set_bus_send(idx, "Master")
+
+
+func _apply_mixer() -> void:
+	_set_bus_level("Master", master_level)
+	_set_bus_level(MUSIC_BUS, music_level)
+	_set_bus_level(SFX_BUS, sfx_level)
+	mixer_changed.emit()
+
+
+func _set_bus_level(bus_name: String, level: float) -> void:
+	var idx := AudioServer.get_bus_index(bus_name)
+	if idx < 0:
+		return
+	var clamped := clampf(level, 0.0, 1.0)
+	AudioServer.set_bus_mute(idx, clamped <= 0.001)
+	AudioServer.set_bus_volume_db(
+		idx, linear_to_db(maxf(clamped, 0.001)))
+
+
+func _load_mixer() -> void:
+	var cfg := ConfigFile.new()
+	if cfg.load(SETTINGS_PATH) != OK:
+		return
+	master_level = clampf(float(
+		cfg.get_value("audio", "master", master_level)), 0.0, 1.0)
+	music_level = clampf(float(
+		cfg.get_value("audio", "music", music_level)), 0.0, 1.0)
+	sfx_level = clampf(float(
+		cfg.get_value("audio", "sfx", sfx_level)), 0.0, 1.0)
+
+
+func _save_mixer() -> void:
+	var cfg := ConfigFile.new()
+	cfg.load(SETTINGS_PATH)
+	cfg.set_value("audio", "master", master_level)
+	cfg.set_value("audio", "music", music_level)
+	cfg.set_value("audio", "sfx", sfx_level)
+	var err := cfg.save(SETTINGS_PATH)
+	if err != OK:
+		push_warning("[AudioManager] couldn't save mixer settings: %s" % error_string(err))
 
 
 func _set_loop(stream: AudioStream, loop: bool) -> void:

@@ -3,6 +3,7 @@
   "sheet": "res://assets/franchises/mario/processed/sheets/mario.png",
   "native_scale": 1,
   "display_scale": 1,
+  "action_side_flips_for_left": false,
   "pivot": [
     28,
     52

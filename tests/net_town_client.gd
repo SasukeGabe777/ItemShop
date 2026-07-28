@@ -11,7 +11,8 @@ class Worker:
 
 	var report: Dictionary = {
 		"joined": false, "town_seen": false, "host_puppet_seen": false,
-		"gate_first_count": 0, "final_scene": "", "error": "",
+		"local_partner_sprite": false, "gate_first_count": 0,
+		"final_scene": "", "error": "",
 	}
 
 
@@ -33,6 +34,9 @@ class Worker:
 			return
 
 		var town := get_tree().current_scene
+		report["local_partner_sprite"] = \
+			(town.get("player") as TownPlayer).manifest_override \
+			== "res://assets/shared/effects/p2_sidekick.json"
 		var pupped := await _wait_for(func() -> bool:
 			return (town.get("_net_puppets") as Dictionary).has(1), 10.0)
 		report["host_puppet_seen"] = pupped

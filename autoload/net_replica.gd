@@ -185,6 +185,16 @@ func host_replay_to(peer_id: int) -> void:
 			meta.get("args", {}))
 
 
+## A one-frame replay after a room has finished building closes the narrow
+## scene-transition race where a client can clear a just-arrived boss spawn.
+## _spawn is idempotent, so peers that already built it simply ignore this.
+func host_replay_living() -> void:
+	if not Net.is_host():
+		return
+	for peer_id: int in multiplayer.get_peers():
+		host_replay_to(peer_id)
+
+
 func host_despawn(node_or_eid: Variant, reason: String, args: Dictionary = {}) -> void:
 	if not Net.is_host():
 		return
@@ -278,6 +288,11 @@ func _peer_connected() -> bool:
 func _spawn(g: int, eid: int, kind: String, args: Dictionary) -> void:
 	if g != gen:
 		return
+	var existing: Variant = _entities.get(eid)
+	if existing != null and is_instance_valid(existing) \
+			and not (existing as Node).is_queued_for_deletion():
+		return
+	_entities.erase(eid)
 	var factory: Callable = _factories.get(kind, Callable())
 	if not factory.is_valid():
 		_pending_spawns.append([g, eid, kind, args])

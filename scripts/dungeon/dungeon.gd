@@ -868,15 +868,23 @@ func _enter_room(idx: int) -> void:
 	# player spawn (nudged off obstacle cells — templates and defaults could
 	# drop heroes on top of a hedge/crate, standing "in" the collider)
 	var ps: Array = template.get("player_spawn", [10, 6])
-	var pcell := _free_cell(Vector2i(int(ps[0]), int(ps[1])), template)
+	var reserved_player_cells: Array[Vector2i] = []
+	var pcell := _free_player_cell(
+		Vector2i(int(ps[0]), int(ps[1])), template, reserved_player_cells)
+	reserved_player_cells.append(pcell)
 	hero.global_position = _cell_center(pcell)
 	if hero2 != null and is_instance_valid(hero2):
-		hero2.global_position = _cell_center(_free_cell(pcell + Vector2i(1, 0), template)) + Vector2(-10, 0)
+		var p2cell := _free_player_cell(
+			pcell + Vector2i(1, 0), template, reserved_player_cells)
+		reserved_player_cells.append(p2cell)
+		hero2.global_position = _cell_center(p2cell)
 	var slot := 1
 	for pup: Variant in _net_hero_puppets.values():
 		if pup != null and is_instance_valid(pup):
-			(pup as Node2D).global_position = _cell_center(
-				_free_cell(pcell + Vector2i(slot, 0), template))
+			var puppet_cell := _free_player_cell(
+				pcell + Vector2i(slot, 0), template, reserved_player_cells)
+			reserved_player_cells.append(puppet_cell)
+			(pup as Node2D).global_position = _cell_center(puppet_cell)
 			slot += 1
 	# hero switch pads are local interactions — every machine builds its own
 	var kind := String(entry["kind"])
@@ -933,6 +941,8 @@ func _enter_room(idx: int) -> void:
 		# splitters whose spawned children aren't individually wired up
 		_room_needs_clear = not enemies.is_empty()
 		# empty non-boss rooms already opened their door above (all machines)
+	if Net.is_host():
+		Replica.call_deferred("host_replay_living")
 
 
 func _cell_center(c: Vector2i) -> Vector2:
@@ -964,6 +974,43 @@ func _free_cell(pref: Vector2i, template: Dictionary) -> Vector2i:
 				if not blocked.call(c):
 					return c
 	return pref
+
+
+## Player-only spawn resolver. Barrier sprites are bottom-aligned and may
+## overhang the top of their authored obstacle cells, so reserve one full
+## cell around every barrier rectangle and keep party seats separated.
+func _free_player_cell(pref: Vector2i, template: Dictionary,
+		reserved: Array[Vector2i] = []) -> Vector2i:
+	var grid := ContentDatabase.room_grid
+	var obstacles: Array = template.get("obstacles", [])
+	var blocked := func(cell: Vector2i) -> bool:
+		if cell.x < 1 or cell.y < 1 \
+				or cell.x > grid.x - 2 or cell.y > grid.y - 2:
+			return true
+		if cell in reserved:
+			return true
+		for obstacle in obstacles:
+			var left := int(obstacle[0]) - 1
+			var top := int(obstacle[1]) - 1
+			var right := int(obstacle[0]) + int(obstacle[2])
+			var bottom := int(obstacle[1]) + int(obstacle[3])
+			if cell.x >= left and cell.x <= right \
+					and cell.y >= top and cell.y <= bottom:
+				return true
+		return false
+	if not blocked.call(pref):
+		return pref
+	for radius in range(1, maxi(grid.x, grid.y)):
+		for dy in range(-radius, radius + 1):
+			for dx in range(-radius, radius + 1):
+				if maxi(absi(dx), absi(dy)) != radius:
+					continue
+				var candidate := pref + Vector2i(dx, dy)
+				if not blocked.call(candidate):
+					return candidate
+	# If a malformed room leaves no moat cell, fall back to the ordinary
+	# obstacle-aware resolver instead of ever placing someone out of bounds.
+	return _free_cell(pref, template)
 
 
 ## Treasure Surge duplicates every authored chest into a nearby free cell.
@@ -1219,6 +1266,9 @@ func _open_pause_menu() -> void:
 	vb.add_child(UIKit.label("Retreating keeps your loot; the shard stays unreached.", 9, UIKit.COL_DIM))
 	if Net.is_online():
 		vb.add_child(UIKit.label("Retreating pulls the WHOLE party out.", 9, UIKit.COL_DIM))
+	vb.add_child(UIKit.button("Audio & display settings", func() -> void:
+		pause_layer.queue_free()
+		GameSettingsControls.open(self, _open_pause_menu)))
 	vb.add_child(UIKit.button("Retreat to the Crossroads", func() -> void:
 		Net.request_tree_pause(false)
 		pause_layer.queue_free()
