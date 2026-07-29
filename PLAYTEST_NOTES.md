@@ -2,6 +2,65 @@
 
 ---
 
+## 2026-07-28 - Core loop catalog, economy, Admin, and relationship hardening
+
+### Reported behavior
+
+- Chapter unlocks, merchandise, Booms, trends, and orders often disagreed about
+  which items belonged to a world or were actually obtainable.
+- Chapter 3 could unlock Final Fantasy without useful Final Fantasy stock;
+  healing trends could omit Elixirs, and clearly themed Keyblades remained
+  classified as generic crossover items.
+- Unsold junk had no exit, frequently refreshed menus jumped to the top, and
+  Hot sorting was inconsistent.
+- Customer Bond gains, mood, purse strength, and dungeon consumable effects
+  were too opaque to feel dependable.
+- Admin mode needed enough control and structured item flagging to let a full
+  campaign playtest produce a correction pack without manually describing
+  every data record.
+
+### Root cause and fixes
+
+- Items now own explicit acquisition sources (`market`, `crafting`,
+  `expedition_chest`, or `expedition_boss`), unlock chapters, semantic tags,
+  world identities, and optional cross-world affinities. The market, orders,
+  events, Booms, and expedition rewards all query those same runtime methods.
+- Corrected obvious Kingdom Hearts/Mario origin errors and added `healing`,
+  `revive`, and `food` semantics. Event minimum chapters and match rules were
+  rebuilt against real obtainable stock. Chapter 3 now opens with six live
+  Final Fantasy items, four affordable immediately.
+- Kingdom Key, Soul Eater, and Oblivion are expedition-boss relics; rare Mario
+  items such as 1UP Mushrooms are expedition-chest rewards. Darkside carries
+  the rare Kingdom Hearts relic pool.
+- The Market buys owned storage back for 35 percent of current value. Market
+  scrolling persists across transactions, and storage/display menus now share
+  the Hot sort.
+- Admin mode now controls chapter/time/gold, world repairs, Shop Booms, and
+  trends. Any item can be flagged by issue type with a note and captured
+  campaign context, then exported as JSON and Markdown.
+- Bond readouts show exact point progress and transaction deltas. Purse shows
+  its strength relative to market value. Familiar named customers unlock
+  relationship-aware dialogue, including a short-purse friendship line for
+  Goofy.
+- Used items create readable combat callouts. The dungeon HUD continuously
+  lists loaded revives and timed invincibility/attack/defense buffs; a consumed
+  1UP explicitly announces when it revives the hero.
+
+### Verification
+
+- Deterministic repository audit: 268 items, 216 live sprites, zero gameplay
+  errors. Four warnings remain for authored market entries whose sprite files
+  do not exist; runtime excludes those entries safely.
+- `CORE_LOOP_HARDENING_PROBE_PASS`,
+  `ADMIN_SPRITE_REVIEW_PROBE_PASS`, `HELP_ORDERS_PROBE_PASS`, and
+  `SHOP_FEEDBACK_PROBE_PASS`.
+- The GDScript probe verifies Chapter 3 Final Fantasy stock, all event match
+  pools, world-Boom membership, order accessibility, sellback accounting,
+  expedition-only relic rewards, 1UP revival, visible status, and
+  relationship-specific dialogue.
+
+---
+
 ## 2026-07-28 - Online sidekicks, live stocking, bosses, and projectiles
 
 ### Reported behavior

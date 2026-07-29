@@ -132,6 +132,97 @@ func item_price(id: String) -> int:
 	return int(get_item(id).get("price", 0))
 
 
+## Sprite storage is independent from gameplay origin. A few corrected legacy
+## items still use art under assets/franchises/crossover while correctly
+## participating in their source world's Booms, progression, and customers.
+func item_asset_world(id: String) -> String:
+	var item := get_item(id)
+	return String(item.get("asset_world", item.get("world", "crossroads")))
+
+
+func item_world_ids(id: String) -> Array[String]:
+	var item := get_item(id)
+	var out: Array[String] = []
+	var primary := String(item.get("world", ""))
+	if primary != "" and primary != "crossover":
+		out.append(primary)
+	for raw: Variant in item.get("world_affinities", []):
+		var world_id := String(raw)
+		if world_id != "" and world_id not in out:
+			out.append(world_id)
+	return out
+
+
+func item_matches_world(id: String, world_id: String) -> bool:
+	return world_id != "" and world_id in item_world_ids(id)
+
+
+func item_sources(id: String) -> Array[String]:
+	var out: Array[String] = []
+	for raw: Variant in get_item(id).get("acquisition", ["market"]):
+		var source := String(raw)
+		if source != "" and source not in out:
+			out.append(source)
+	return out
+
+
+func item_unlock_chapter(id: String) -> int:
+	var item := get_item(id)
+	var explicit := int(item.get("unlock_chapter", 1))
+	var world_chapters: Array[int] = []
+	for world_id: String in item_world_ids(id):
+		var world := get_world(world_id)
+		if not world.is_empty():
+			world_chapters.append(int(world.get("chapter", 1)))
+	if world_chapters.is_empty():
+		return explicit
+	var first_world: int = world_chapters.min()
+	return maxi(explicit, first_world)
+
+
+func is_item_unlocked(id: String, chapter: int = TimeManager.chapter) -> bool:
+	return id in live_items and item_unlock_chapter(id) <= chapter \
+		and not item_sources(id).is_empty()
+
+
+func unlocked_live_items(chapter: int = TimeManager.chapter) -> Array[String]:
+	var out: Array[String] = []
+	for id: String in live_items:
+		if is_item_unlocked(id, chapter):
+			out.append(id)
+	out.sort()
+	return out
+
+
+func item_has_source(id: String, source: String) -> bool:
+	return source in item_sources(id)
+
+
+func live_items_for_source(source: String, world_id: String = "") -> Array[String]:
+	var out: Array[String] = []
+	for id: String in live_items:
+		if not item_has_source(id, source):
+			continue
+		if world_id != "" and not item_matches_world(id, world_id):
+			continue
+		out.append(id)
+	out.sort()
+	return out
+
+
+func expedition_chest_pool(world_id: String) -> Array[String]:
+	var out: Array[String] = []
+	for raw: Variant in get_world(world_id).get("market_goods", []):
+		var item_id := String(raw)
+		if item_id in live_items and item_id not in out:
+			out.append(item_id)
+	for item_id: String in live_items_for_source("expedition_chest", world_id):
+		if item_id not in out:
+			out.append(item_id)
+	out.sort()
+	return out
+
+
 ## Effect keys CombatHero._use_consumable actually acts on. Items whose only
 ## effects are outside this list (poke balls' `capture`, escape ropes'
 ## `escape`, rare candy's `level_up`) would burn an item slot and do nothing,
@@ -427,7 +518,8 @@ func _build_live_items() -> void:
 		var it: Dictionary = items[id]
 		if it.get("sellable", true) == false:
 			continue
-		if ResourceLoader.exists("res://assets/franchises/%s/processed/items/%s.png" % [String(it.get("world", "crossroads")), id]):
+		if ResourceLoader.exists("res://assets/franchises/%s/processed/items/%s.png" % [
+				item_asset_world(id), id]):
 			live_items.append(id)
 	live_items.sort()
 
@@ -465,7 +557,7 @@ func live_substitute(id: String) -> String:
 
 func item_texture(item_id: String) -> Texture2D:
 	var it := get_item(item_id)
-	var world_id := String(it.get("world", "crossroads"))
+	var world_id := item_asset_world(item_id)
 	var p := "res://assets/franchises/%s/processed/items/%s.png" % [world_id, item_id]
 	if ResourceLoader.exists(p):
 		return load(p)

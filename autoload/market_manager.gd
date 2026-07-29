@@ -31,6 +31,16 @@ func on_new_day() -> void:
 		events_changed.emit()
 
 
+func force_event(event_id: String, days: int = 2) -> bool:
+	if not ContentDatabase.market_events.has(event_id):
+		return false
+	active_events = active_events.filter(func(entry: Dictionary) -> bool:
+		return String(entry.get("id", "")) != event_id)
+	active_events.append({"id": event_id, "days_left": maxi(1, days)})
+	events_changed.emit()
+	return true
+
+
 func _roll_event() -> Dictionary:
 	var pool: Array[Dictionary] = []
 	var total := 0
@@ -41,6 +51,8 @@ func _roll_event() -> Dictionary:
 		if active_events.any(func(a: Dictionary) -> bool: return String(a["id"]) == id):
 			continue
 		var ev: Dictionary = ContentDatabase.market_events[id]
+		if int(ev.get("min_chapter", 1)) > TimeManager.chapter:
+			continue
 		total += int(ev.get("weight", 5))
 		pool.append(ev)
 	if pool.is_empty():
@@ -97,10 +109,7 @@ func wholesale_cost(item_id: String) -> int:
 ## Wholesale goods: the full live catalog (every sellable item with real
 ## icon art), available from day 1 — no franchise/chapter boundary.
 func wholesale_catalog() -> Array[String]:
-	var out: Array[String] = []
-	out.append_array(ContentDatabase.live_items)
-	out.sort()
-	return out
+	return ContentDatabase.live_items_for_source("market")
 
 
 ## Goods a player can actually buy in the current chapter. Customer orders
@@ -117,10 +126,23 @@ func is_item_accessible(item_id: String) -> bool:
 	return item_locked_reason(item_id) == ""
 
 
+func is_item_obtainable_now(item_id: String) -> bool:
+	if not ContentDatabase.is_item_unlocked(item_id):
+		return false
+	var sources := ContentDatabase.item_sources(item_id)
+	if sources.is_empty():
+		return false
+	if sources.size() == 1 and sources[0] == "market":
+		return is_item_accessible(item_id)
+	return true
+
+
 func item_locked_reason(item_id: String) -> String:
 	var item := ContentDatabase.get_item(item_id)
 	if item.is_empty():
 		return "unavailable"
+	if not ContentDatabase.item_has_source(item_id, "market"):
+		return "expedition or workshop exclusive"
 	var world := ContentDatabase.get_world(String(item.get("world", "")))
 	var world_chapter := int(world.get(
 		"chapter", 99 if bool(world.get("final", false)) else 1))
@@ -145,6 +167,47 @@ func chapter_for_price(price: int) -> int:
 		if float(price) <= price_cap(chapter):
 			return chapter
 	return 8
+
+
+func sellback_value(item_id: String) -> int:
+	var ratio := float(ContentDatabase.bal("shop", {}).get(
+		"market_sellback_ratio", 0.35))
+	return maxi(1, int(round(market_value(item_id) * ratio)))
+
+
+func sell_back(item_id: String, qty: int = 1) -> bool:
+	if qty <= 0 or not ContentDatabase.items.has(item_id):
+		return false
+	if not InventoryManager.remove_item(item_id, qty):
+		return false
+	EconomyManager.add_gold(sellback_value(item_id) * qty)
+	return true
+
+
+## Exact items affected by an event in the current chapter. Pricing, briefing,
+## Hot sorting, and Admin audits all share this matcher.
+func event_affected_items(event_id: String, accessible_only: bool = true) -> Array[String]:
+	var event: Dictionary = ContentDatabase.market_events.get(event_id, {})
+	var out: Array[String] = []
+	var pool := ContentDatabase.unlocked_live_items() \
+		if accessible_only else ContentDatabase.live_items
+	for item_id: String in pool:
+		if accessible_only and not is_item_obtainable_now(item_id):
+			continue
+		var item := ContentDatabase.get_item(item_id)
+		var tags: Array = item.get("tags", [])
+		var category := String(item.get("category", ""))
+		for key: String in event.get("mults", {}):
+			if key.begins_with("tag:") and key.trim_prefix("tag:") in tags:
+				out.append(item_id)
+				break
+			if key.begins_with("cat:") and key.trim_prefix("cat:") == category:
+				out.append(item_id)
+				break
+	out.sort_custom(func(a: String, b: String) -> bool:
+		return ContentDatabase.item_name(a).nocasecmp_to(
+			ContentDatabase.item_name(b)) < 0)
+	return out
 
 
 ## Combined key -> multiplier map from all active events, e.g.

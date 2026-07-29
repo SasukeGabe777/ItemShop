@@ -969,18 +969,6 @@
   },
   {
    "crossover": true,
-   "fee": 1900,
-   "id": "r_oblivion",
-   "inputs": {
-    "keychain": 1,
-    "lucid_shard": 2,
-    "soul_eater": 1
-   },
-   "output": "oblivion_keyblade",
-   "unlock_chapter": 7
-  },
-  {
-   "crossover": true,
    "fee": 130,
    "id": "r_perfect_recovery",
    "inputs": {

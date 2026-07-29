@@ -90,6 +90,29 @@ static func damage_number(parent: Node2D, at: Vector2, amount: int, color: Color
 	tw.tween_callback(lbl.queue_free)
 
 
+## A readable action/result callout used for item effects and other combat
+## state that particles alone cannot communicate.
+static func status_popup(parent: Node2D, at: Vector2, text: String,
+		color: Color = Color(0.7, 1.0, 0.75)) -> void:
+	if parent == null or text == "":
+		return
+	var lbl := Label.new()
+	lbl.text = text
+	lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	lbl.position = at + Vector2(-70, -38)
+	lbl.custom_minimum_size = Vector2(140, 0)
+	lbl.z_index = 55
+	lbl.add_theme_color_override("font_color", color)
+	lbl.add_theme_font_size_override("font_size", 9)
+	lbl.add_theme_color_override("font_outline_color", Color(0, 0, 0))
+	lbl.add_theme_constant_override("outline_size", 3)
+	parent.add_child(lbl)
+	var tw := lbl.create_tween()
+	tw.tween_property(lbl, "position", lbl.position + Vector2(0, -18), 0.8)
+	tw.parallel().tween_property(lbl, "modulate:a", 0.0, 0.8).set_delay(0.25)
+	tw.tween_callback(lbl.queue_free)
+
+
 static func attack_trail(parent: Node2D, from: Vector2, to: Vector2, color: Color) -> void:
 	var line := Line2D.new()
 	line.points = [from, to]

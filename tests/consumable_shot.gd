@@ -82,8 +82,8 @@ func _ready() -> void:
 	print("HEAL super_potion (was a no-op): %d -> %d" % [b3, hero3.health.hp])
 
 	# --- co-op: player 2 gets their own belt --------------------------------
-	MultiplayerState.enabled = true
-	DungeonManager.plan_expedition("kingdom_hearts", "sora", ["hi_potion"], false,
+	MultiplayerState.set_enabled(true)
+	DungeonManager.plan_expedition("kingdom_hearts", "sora", ["1up_mushroom"], false,
 		"donald" if not ContentDatabase.get_hero("donald").is_empty() else "sora", ["ff_potion", "oran_berry"])
 	print("PLAN p1 belt: ", DungeonManager.pending.get("consumables"))
 	print("PLAN p2 belt: ", DungeonManager.pending.get("consumables2"))

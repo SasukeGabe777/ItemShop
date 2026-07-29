@@ -9,6 +9,7 @@ func _ready() -> void:
 	GameState.reset_campaign()
 	GameState.admin_mode = false
 	GameState.admin_review_flags.clear()
+	GameState.admin_item_flags.clear()
 	var event := InputEventKey.new()
 	event.pressed = true
 	event.unicode = 64
@@ -56,6 +57,45 @@ func _ready() -> void:
 		_check("`%s`" % String(item["id"]) in markdown, "flagged item missing from export")
 		_check("`%s`" % String(enemy["id"]) in markdown, "flagged enemy missing from export")
 		_check("`%s`" % String(customer["id"]) in markdown, "flagged customer missing from export")
+	var item_id := String(item["id"])
+	GameState.set_admin_item_issue(item_id, "wrong_world", true)
+	GameState.set_admin_item_note(item_id, "Expected world correction from playtest.")
+	_check(GameState.is_admin_item_issue_flagged(item_id, "wrong_world"),
+		"structured item issue was not stored")
+	_check(FileAccess.file_exists(GameState.ADMIN_ITEM_FLAGS_PATH),
+		"persistent item-audit draft was not created")
+	panel._export_item_audit_pack()
+	_check(FileAccess.file_exists(HelpEncyclopediaPanel.ADMIN_ITEM_EXPORT_JSON),
+		"item audit JSON pack was not created")
+	_check(FileAccess.file_exists(HelpEncyclopediaPanel.ADMIN_ITEM_EXPORT_MD),
+		"item audit Markdown pack was not created")
+	if FileAccess.file_exists(HelpEncyclopediaPanel.ADMIN_ITEM_EXPORT_JSON):
+		var audit: Variant = JSON.parse_string(FileAccess.get_file_as_string(
+			HelpEncyclopediaPanel.ADMIN_ITEM_EXPORT_JSON))
+		_check(audit is Dictionary, "item audit JSON is invalid")
+		if audit is Dictionary:
+			var flags: Dictionary = (audit as Dictionary).get("flags", {})
+			_check(flags.has(item_id), "flagged item missing from audit pack")
+			_check("current_data" in (flags.get(item_id, {}) as Dictionary),
+				"audit pack omitted current source data")
+	panel._show_admin_campaign()
+	_check(panel.right.get_child_count() > 0,
+		"Admin Control Center campaign page is empty")
+	var mario_was_open := BridgeManager.is_repaired("mario")
+	panel._show_admin_worlds()
+	var mario_button := _button_starting_with(panel.right, "Mario")
+	_check(mario_button != null, "Admin world controls omitted Mario")
+	if mario_button != null:
+		mario_button.pressed.emit()
+		_check(BridgeManager.is_repaired("mario") != mario_was_open,
+			"Admin Mario toggle changed the wrong captured world")
+	panel._show_admin_booms()
+	var boom_button := _button_starting_with(panel.right, "Kids' Adventure Day")
+	_check(boom_button != null, "Admin Boom controls omitted authored Booms")
+	if boom_button != null:
+		boom_button.pressed.emit()
+		_check(BoomManager.active_boom_id == "kids_adventure_day",
+			"Admin Boom button activated the wrong captured Boom")
 	print("ADMIN_SPRITE_REVIEW_EXPORT=", export_path)
 	_finish(panel)
 
@@ -80,3 +120,11 @@ func _has_entry(entries: Array[Dictionary], entry_id: String) -> bool:
 		if String(entry.get("id", "")) == entry_id:
 			return true
 	return false
+
+
+func _button_starting_with(root: Node, prefix: String) -> Button:
+	for node in root.find_children("*", "Button", true, false):
+		var button := node as Button
+		if button.text.begins_with(prefix):
+			return button
+	return null

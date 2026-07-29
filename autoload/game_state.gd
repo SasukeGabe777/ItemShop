@@ -6,6 +6,7 @@ signal merchant_level_up(new_level: int)
 signal flag_set(flag: String)
 signal admin_mode_changed(enabled: bool)
 signal admin_review_flags_changed()
+signal admin_item_flags_changed()
 
 var campaign_active: bool = false
 var endless_mode: bool = false
@@ -13,6 +14,9 @@ var current_slot: int = 0
 var game_title: String = ""
 var admin_mode: bool = false
 var admin_review_flags: Dictionary = {}
+var admin_item_flags: Dictionary = {}  # item id -> {issues: [], note: "", context: {}}
+
+const ADMIN_ITEM_FLAGS_PATH := "user://exports/item_audit_draft.json"
 
 var merchant_level: int = 1
 var merchant_xp: int = 0
@@ -29,6 +33,7 @@ var stats: Dictionary = {"sales": 0, "perfect_deals": 0, "orders_done": 0, "orde
 
 func _ready() -> void:
 	game_title = ProjectSettings.get_setting("application/config/name", "Crossroads")
+	_load_admin_item_flags()
 	set_process_input(true)
 
 
@@ -37,8 +42,7 @@ func _ready() -> void:
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo and event.unicode == 64:
 		if not admin_mode:
-			admin_mode = true
-			admin_mode_changed.emit(true)
+			DebugManager.enable_admin_mode()
 		get_viewport().set_input_as_handled()
 
 
@@ -57,6 +61,97 @@ func is_admin_review_flagged(category: String, entry_id: String) -> bool:
 
 func admin_review_flag_count() -> int:
 	return admin_review_flags.size()
+
+
+func set_admin_item_issue(item_id: String, issue: String, flagged: bool) -> void:
+	if item_id == "" or issue == "":
+		return
+	var entry: Dictionary = admin_item_flags.get(item_id, {
+		"issues": [], "note": "", "context": {}})
+	var issues: Array = entry.get("issues", [])
+	if flagged and issue not in issues:
+		issues.append(issue)
+	elif not flagged:
+		issues.erase(issue)
+	entry["issues"] = issues
+	entry["context"] = _admin_item_context(item_id)
+	if issues.is_empty() and String(entry.get("note", "")).strip_edges() == "":
+		admin_item_flags.erase(item_id)
+	else:
+		admin_item_flags[item_id] = entry
+	_save_admin_item_flags()
+	admin_item_flags_changed.emit()
+
+
+func set_admin_item_note(item_id: String, note: String) -> void:
+	if item_id == "":
+		return
+	var entry: Dictionary = admin_item_flags.get(item_id, {
+		"issues": [], "note": "", "context": {}})
+	entry["note"] = note.strip_edges()
+	entry["context"] = _admin_item_context(item_id)
+	if (entry.get("issues", []) as Array).is_empty() \
+			and String(entry["note"]) == "":
+		admin_item_flags.erase(item_id)
+	else:
+		admin_item_flags[item_id] = entry
+	_save_admin_item_flags()
+	admin_item_flags_changed.emit()
+
+
+func admin_item_flag(item_id: String) -> Dictionary:
+	return (admin_item_flags.get(item_id, {}) as Dictionary).duplicate(true)
+
+
+func is_admin_item_issue_flagged(item_id: String, issue: String) -> bool:
+	return issue in (admin_item_flags.get(item_id, {}) as Dictionary).get(
+		"issues", [])
+
+
+func admin_item_flag_count() -> int:
+	return admin_item_flags.size()
+
+
+func clear_admin_item_flag(item_id: String) -> void:
+	admin_item_flags.erase(item_id)
+	_save_admin_item_flags()
+	admin_item_flags_changed.emit()
+
+
+func _admin_item_context(item_id: String) -> Dictionary:
+	var item := ContentDatabase.get_item(item_id)
+	return {
+		"captured": Time.get_datetime_string_from_system(),
+		"day": TimeManager.day,
+		"chapter": TimeManager.chapter,
+		"active_boom": BoomManager.active_boom_id,
+		"boom_world": BoomManager.active_world_id,
+		"market_events": MarketManager.active_event_names(),
+		"accessible_worlds": BridgeManager.accessible_worlds(),
+		"owned": InventoryManager.count(item_id),
+		"market_locked_reason": MarketManager.item_locked_reason(item_id),
+		"item_data": item.duplicate(true),
+	}
+
+
+func _save_admin_item_flags() -> void:
+	var absolute_dir := ProjectSettings.globalize_path("user://exports")
+	DirAccess.make_dir_recursive_absolute(absolute_dir)
+	var file := FileAccess.open(ADMIN_ITEM_FLAGS_PATH, FileAccess.WRITE)
+	if file != null:
+		file.store_string(JSON.stringify({
+			"schema": "crossroads.item_audit.v1",
+			"flags": admin_item_flags,
+		}, "\t"))
+
+
+func _load_admin_item_flags() -> void:
+	if not FileAccess.file_exists(ADMIN_ITEM_FLAGS_PATH):
+		return
+	var parsed: Variant = JSON.parse_string(
+		FileAccess.get_file_as_string(ADMIN_ITEM_FLAGS_PATH))
+	if parsed is Dictionary:
+		admin_item_flags = (parsed as Dictionary).get("flags", {})
 
 
 func reset_campaign() -> void:

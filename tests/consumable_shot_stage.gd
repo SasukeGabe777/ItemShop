@@ -15,6 +15,8 @@ func _ready() -> void:
 	var h1: CombatHero = d.get("hero")
 	var h2: CombatHero = d.get("hero2")
 	print("RUN p1 carries: ", h1.consumables)
+	h1._use_consumable()
+	print("RUN p1 active status: ", h1.active_status_text())
 	if h2 == null:
 		print("RUN FAIL: hero2 is null (co-op did not spawn)")
 	else:
@@ -23,10 +25,13 @@ func _ready() -> void:
 		var before := h2.health.hp
 		h2._use_consumable()
 		print("RUN p2 heal: %d -> %d, belt now %s" % [before, h2.health.hp, h2.consumables])
+	await get_tree().create_timer(0.15).timeout
 	var lbl: Label = d.get("consum_label")
 	var lbl2: Label = d.get("consum_label2")
+	var active: Label = d.get("active_status_label")
 	print("HUD p1 label: ", lbl.text if lbl != null else "<none>")
 	print("HUD p2 label: ", lbl2.text if lbl2 != null else "<none>")
+	print("HUD active status: ", active.text if active != null else "<none>")
 	get_viewport().get_texture().get_image().save_png("user://screenshots/consum_hud.png")
 	print("CONSUM_SHOT_DONE")
 	get_tree().quit()

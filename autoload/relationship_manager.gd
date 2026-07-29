@@ -2,6 +2,7 @@ extends Node
 ## RelationshipManager: customer relationships, hero friendship levels and moods.
 
 signal relationship_changed(customer_id: String, level: int)
+signal relationship_points_changed(customer_id: String, points: int, delta: int)
 
 var relationships: Dictionary = {}  # id -> points (customers & heroes share the scale)
 var moods: Dictionary = {}          # id -> today's mood offset (-1.0 .. 1.0)
@@ -39,6 +40,19 @@ func change_relationship(id: String, delta: int) -> void:
 		return
 	relationships[id] = points(id) + delta
 	relationship_changed.emit(id, level(id))
+	relationship_points_changed.emit(id, points(id), delta)
+
+
+func progress_text(id: String) -> String:
+	var fr: Dictionary = ContentDatabase.bal("friendship", {})
+	var per := int(fr.get("points_per_level", 10))
+	var current := points(id)
+	var current_level := level(id)
+	var max_level := int(fr.get("max_level", 10))
+	if current_level >= max_level:
+		return "Lv.%d MAX (%d pts)" % [current_level, current]
+	return "Lv.%d · %d/%d pts" % [
+		current_level, current - current_level * per, per]
 
 
 func mood(id: String) -> float:

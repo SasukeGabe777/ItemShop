@@ -75,7 +75,8 @@ func _shell(title: String, customer: Dictionary, portrait_texture: Texture2D) ->
 	if bond == 0:
 		art.modulate = Color(1, 1, 1, 0.35)
 	bond_row.add_child(art)
-	bond_row.add_child(UIKit.label("Bond: New" if bond == 0 else "Bond Lv.%d" % bond, 10))
+	bond_row.add_child(UIKit.label("Bond: %s" %
+		RelationshipManager.progress_text(String(customer.get("id", ""))), 10))
 	identity.add_child(bond_row)
 	return parts
 

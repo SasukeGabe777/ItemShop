@@ -76,7 +76,10 @@ func _ready() -> void:
 	if bond_level == 0:
 		bond_art.modulate = Color(1, 1, 1, 0.35)
 	bond_row.add_child(bond_art)
-	var bond_label := UIKit.label("Bond: New" if bond_level == 0 else "Bond Lv.%d" % bond_level, 12, UIKit.COL_DIM)
+	var bond_points := RelationshipManager.points(String(customer.get("id", "")))
+	var bond_label := UIKit.label("Bond: %s" % RelationshipManager.progress_text(
+		String(customer.get("id", ""))), 12,
+		UIKit.COL_DIM if bond_points == 0 else UIKit.COL_GOOD)
 	bond_label.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	bond_row.add_child(bond_label)
 	facts.add_child(bond_row)
@@ -110,8 +113,9 @@ func _ready() -> void:
 	vb.add_child(chat_scroll)
 	chat = chat_parts[1]
 	chat.add_theme_constant_override("separation", 4)
-	if String(customer.get("line", "")) != "":
-		_say(cname, String(customer["line"]))
+	var opening := CustomerGen.conversation_opener(customer, item_id)
+	if opening != "":
+		_say(cname, opening)
 	_say(cname, "How much for %s?" % item_label)
 	var afford := float(nego.budget) / maxf(1.0, float(nego.market_value))
 	if afford < 0.7:
@@ -243,7 +247,8 @@ func _purse_label() -> Label:
 		col = UIKit.COL_ACCENT
 	elif afford < 1.3:
 		txt = "can afford market price"
-	var lbl := UIKit.label("Purse %s  %s" % [pips, txt], 12, col)
+	var percent := int(round(afford * 100.0))
+	var lbl := UIKit.label("Purse %s  %s (~%d%%)" % [pips, txt, percent], 12, col)
 	lbl.tooltip_text = "How much coin they carry compared to this item's market value (~%dg).\nA short purse means lowball offers — it's all they can pay." % nego.market_value
 	lbl.mouse_filter = Control.MOUSE_FILTER_STOP
 	return lbl

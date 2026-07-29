@@ -24,6 +24,25 @@ static func build() -> Dictionary:
 		return {"ok": ok, "msg": "" if ok else "Not enough gold"}
 	reg["economy.spend_gold"] = {"run": economy_spend_gold, "syncs": ["economy"]}
 
+	var market_buy := func(_sender: int, args: Dictionary) -> Dictionary:
+		var item_id := String(args.get("item_id", ""))
+		if not MarketManager.is_item_accessible(item_id):
+			return {"ok": false, "msg": MarketManager.item_locked_reason(item_id)}
+		var cost := MarketManager.wholesale_cost(item_id)
+		if not EconomyManager.spend_gold(cost):
+			return {"ok": false, "msg": "Not enough gold"}
+		InventoryManager.add_item(item_id)
+		return {"ok": true, "cost": cost}
+	reg["market.buy"] = {"run": market_buy, "syncs": ["economy", "inventory"]}
+
+	var market_sell := func(_sender: int, args: Dictionary) -> Dictionary:
+		var item_id := String(args.get("item_id", ""))
+		var value := MarketManager.sellback_value(item_id)
+		var ok := MarketManager.sell_back(item_id)
+		return {"ok": ok, "value": value,
+			"msg": "" if ok else "Item no longer in storage"}
+	reg["market.sell"] = {"run": market_sell, "syncs": ["economy", "inventory"]}
+
 	var inventory_place_display := func(_sender: int, args: Dictionary) -> Dictionary:
 		var ok: bool = InventoryManager.place_display(
 			int(args.get("slot", -1)), String(args.get("item_id", "")))

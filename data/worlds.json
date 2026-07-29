@@ -58,7 +58,8 @@
     "frost_shard",
     "thunder_shard",
     "gummi_block",
-    "keychain"
+    "keychain",
+    "bright_shard"
    ],
    "room_props": [
     "lamp_lit",
@@ -112,7 +113,18 @@
     "one_up_mushroom",
     "starman",
     "warp_whistle",
-    "royal_crown"
+    "royal_crown",
+    "tanooki_leaf",
+    "power_wrist",
+    "chuckle_bean",
+    "hoo_bean",
+    "woo_bean",
+    "poison_mushroom",
+    "refreshing_herb",
+    "red_pepper",
+    "green_pepper",
+    "blue_pepper",
+    "smash_egg"
    ],
    "heroes": [
     "mario",
@@ -271,7 +283,10 @@
     "white_sword",
     "hylian_shield",
     "heart_container",
-    "kinstone"
+    "kinstone",
+    "fairy_charm",
+    "mole_mitts",
+    "big_key"
    ],
    "boss_rotation": [
     "big_green_chuchu",
@@ -353,7 +368,8 @@
     "chakra_crystal",
     "sharingan_fragment",
     "training_weights",
-    "sannin_token"
+    "sannin_token",
+    "gama_wallet"
    ],
    "boss_rotation": [
     "zabuza",
@@ -431,7 +447,19 @@
     "goku_favorite",
     "capsule",
     "energy_crystal",
-    "dragon_ball_set"
+    "dragon_ball_set",
+    "hearty_ramen",
+    "fresh_milk",
+    "chilled_soda",
+    "giant_river_fish",
+    "zeni_coin",
+    "android_17_plushie",
+    "android_19_plushie",
+    "tien_plushie",
+    "yamcha_plushie",
+    "hercule_plushie",
+    "dr_gero_plush",
+    "fishing_bait"
    ],
    "heroes": [
     "goku",
@@ -490,7 +518,7 @@
   {
    "id": "pokemon",
    "chapter": 7,
-   "name": "PokÃ©mon",
+   "name": "Pokémon",
    "location": "Viridian Path & Cerulean Depths",
    "hero": "pikachu",
    "boss": "mewtwo",
@@ -523,7 +551,21 @@
     "lucky_egg",
     "focus_band",
     "bicycle_voucher",
-    "pokedex"
+    "pokedex",
+    "hyper_potion",
+    "pkmn_ether",
+    "tiny_mushroom",
+    "pecha_berry",
+    "cheri_berry",
+    "oran_berry",
+    "red_shard",
+    "blue_shard",
+    "yellow_shard",
+    "green_shard",
+    "twisted_spoon",
+    "black_glasses",
+    "soda_pop",
+    "lemonade"
    ],
    "heroes": [
     "pikachu",

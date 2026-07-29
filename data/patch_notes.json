@@ -6,7 +6,16 @@
         "Restored every online player's selected character sprite and attached the fairy as a separate sidekick for Players 2–5, with distinct color accents for Players 3–5.",
         "Made Player 1's live stand stocking broadcast immediately so Players 2–5 see newly placed items without leaving and re-entering the shop.",
         "Made clients build the current room's boss presentation deterministically and then attach the authoritative network replica, preventing boss sprites from disappearing during room transitions.",
-        "Added online replication for boss-fired projectiles and boss-summoned enemies."
+        "Added online replication for boss-fired projectiles and boss-summoned enemies.",
+        "Rebuilt merchandise progression around explicit market, workshop, expedition-chest, and expedition-boss sources so shops, orders, Booms, trends, and rewards all use the same availability rules.",
+        "Corrected world and semantic tags across the catalog, including Kingdom Hearts Keyblades, Mario relics, healing items, food, and crossover crafting affinities.",
+        "Guaranteed useful opening stock for each merchandise chapter, including immediately affordable Final Fantasy goods when Chapter 3 begins.",
+        "Made daily briefings and Boom summaries name the exact currently obtainable items they affect, and prevented events from appearing before matching stock exists.",
+        "Added rare expedition-only relics: Kingdom Key, Soul Eater, and Oblivion can drop from Kingdom Hearts bosses, while rare Mushroom Kingdom items can appear in expedition chests.",
+        "Added a 35-percent market sellback option, Hot sorting across stock menus, and preserved list position while buying or selling.",
+        "Expanded secret Admin mode with campaign, world, Boom, trend, and item-data controls plus persistent issue flags and shareable JSON/Markdown audit packs.",
+        "Made consumable effects visible with action callouts and an active-status HUD for revives, invincibility, attack buffs, and defense buffs; 1UP activation now clearly announces the revive.",
+        "Made customer Bond display exact point progress and show every sale/order change, clarified purse strength as a percentage of market value, and added relationship-aware returning-customer dialogue."
       ]
     },
     {

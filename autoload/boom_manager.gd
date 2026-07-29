@@ -268,9 +268,26 @@ func item_match_score(item_id: String) -> float:
 	for tag in d.get("preferred_tags", []):
 		if String(tag) in item.get("tags", []):
 			score += 0.75
-	if String(item.get("world", "")) in effective_preferred_worlds():
-		score += 1.5
+	for world_id: String in effective_preferred_worlds():
+		if ContentDatabase.item_matches_world(item_id, world_id):
+			score += 1.5
+			break
 	return score
+
+
+func affected_items(accessible_only: bool = true) -> Array[String]:
+	var pool := ContentDatabase.unlocked_live_items() \
+		if accessible_only else ContentDatabase.live_items
+	var out: Array[String] = []
+	for item_id: String in pool:
+		if accessible_only and not MarketManager.is_item_obtainable_now(item_id):
+			continue
+		if item_match_score(item_id) > 0.0:
+			out.append(item_id)
+	out.sort_custom(func(a: String, b: String) -> bool:
+		return ContentDatabase.item_name(a).nocasecmp_to(
+			ContentDatabase.item_name(b)) < 0)
+	return out
 
 
 func apply_to_customer(customer: Dictionary) -> Dictionary:
@@ -349,6 +366,16 @@ func summary_lines() -> Array[String]:
 		wants.append(String(ContentDatabase.get_world(world).get("name", world.capitalize())) + " goods")
 	if not wants.is_empty():
 		out.append("Strong demand: " + ", ".join(wants.slice(0, mini(8, wants.size()))))
+	var matched := affected_items()
+	if matched.is_empty():
+		out.append("Affected stock: none currently obtainable")
+	else:
+		var names: Array[String] = []
+		for item_id: String in matched.slice(0, mini(6, matched.size())):
+			names.append(ContentDatabase.item_name(item_id))
+		var remaining := matched.size() - names.size()
+		out.append("Affected stock: %s%s" % [", ".join(names),
+			" (+%d more)" % remaining if remaining > 0 else ""])
 	var attrs: Array = d.get("preferred_shop_attributes", [])
 	if not attrs.is_empty():
 		var labels: Array[String] = []
@@ -520,5 +547,5 @@ func _has_live_match(kind: String, target: String) -> bool:
 			"tag":
 				if target in item.get("tags", []): return true
 			"world":
-				if String(item.get("world", "")) == target: return true
+				if ContentDatabase.item_matches_world(id, target): return true
 	return false

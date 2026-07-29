@@ -1150,7 +1150,7 @@ func _open_slot_picker(slot: int, who: int = 1) -> void:
 				continue
 			list.add_child(_make_pick_row(id, slot, pick_layer, who))
 	var refill := func() -> void: UIKit.rebuild_list(list, fill_rows)
-	for mode in ["name", "price", "category", "world"]:
+	for mode in ["hot", "name", "price", "category", "world"]:
 		sort_row.add_child(UIKit.button("Sort: %s" % mode, func() -> void:
 			sort_mode["v"] = mode
 			refill.call(), 8))
@@ -1492,9 +1492,9 @@ func _open_storage(who: int = 1) -> void:
 			var it := ContentDatabase.get_item(id)
 			list.add_child(UIKit.item_row(id, "x%d  ~%dg  [%s/%s]" % [InventoryManager.count(id), MarketManager.market_value(id),
 				String(it.get("world", "?")), String(it.get("category", "?"))], "", Callable()))
-	for mode in ["name", "price", "category", "world"]:
+	for mode in ["hot", "name", "price", "category", "world"]:
 		sort_row.add_child(UIKit.button("Sort: %s" % mode, func() -> void: fill.call(mode)))
-	fill.call("name")
+	fill.call("hot")
 	var appeal := InventoryManager.shop_appeal()
 	vb.add_child(UIKit.label("Shop appeal — cozy %d | intense %d | retro %d | modern %d (dominant: %s)" % [
 		int(appeal["cozy"]), int(appeal["intense"]), int(appeal["retro"]), int(appeal["modern"]), InventoryManager.dominant_appeal()], 9, UIKit.COL_DIM))
@@ -1720,12 +1720,14 @@ func _finish_order_dialog(entry: Dictionary, result: String) -> void:
 		if result == "deliver" and InventoryManager.try_fulfill_order(order_id):
 			if is_instance_valid(node):
 				node.show_emote("happy", 2.2)
-				_speech(node, "Perfect — exactly what I ordered. I won't forget this!")
+				_speech(node, "Perfect — exactly what I ordered. I won't forget this!\nBond +8 — %s" %
+					RelationshipManager.progress_text(String(cust.get("id", ""))))
 		else:
 			InventoryManager.fail_order(order_id)
 			if is_instance_valid(node):
 				node.show_emote("unhappy", 2.2)
-				_speech(node, "You promised it would be ready...")
+				_speech(node, "You promised it would be ready...\nBond -6 — %s" %
+					RelationshipManager.progress_text(String(cust.get("id", ""))))
 	else:
 		if result == "accept":
 			var offer: Dictionary = entry.get("offer", {})
@@ -1908,6 +1910,11 @@ func _on_negotiation_finished(outcome: Dictionary) -> void:
 		var emote := String(outcome.get("emote", "unhappy" if result == Negotiation.RESULT_LEAVE else "neutral"))
 		negotiating.show_emote(emote, 2.2)
 		var response := String(outcome.get("message", ""))
+		var bond_delta := int(outcome.get("relationship_delta", 0))
+		if bond_delta != 0:
+			response += "\nBond %s%d — %s" % [
+				"+" if bond_delta > 0 else "", bond_delta,
+				RelationshipManager.progress_text(String(negotiating.data.get("id", "")))]
 		if response != "":
 			_speech(negotiating, response)
 		if result in [Negotiation.RESULT_PERFECT, Negotiation.RESULT_ACCEPT]:

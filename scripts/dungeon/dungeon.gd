@@ -18,6 +18,7 @@ var boss_bar: Range
 var loot_label: Label
 var consum_label: Label
 var consum_label2: Label = null
+var active_status_label: Label = null
 var hud_vb: VBoxContainer = null
 var switch_available: Array[String] = []
 var door_open: bool = false
@@ -609,6 +610,9 @@ func _build_hud() -> void:
 	var hints := "A attack  X special  B dodge  Y item  RB finisher" if UIKit.pad_connected() \
 		else "J attack K special L dodge I item U finisher"
 	row.add_child(UIKit.label(hints, 8, UIKit.COL_DIM))
+	active_status_label = UIKit.label("", 8, UIKit.COL_GOOD)
+	active_status_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	vb.add_child(active_status_label)
 	var boom_label := DungeonManager.pending_expedition_boom_label()
 	if boom_label != "":
 		var boom_banner := UIKit.label(boom_label, 10, UIKit.COL_GOOD)
@@ -665,6 +669,17 @@ func _process(delta: float) -> void:
 	for id: String in DungeonManager.run_loot:
 		total += int(DungeonManager.run_loot[id])
 	loot_label.text = "Loot: %d items, %dg | Room %d/%d" % [total, DungeonManager.run_gold, room_index + 1, layout.size()]
+	if active_status_label != null and hero != null:
+		var status_parts: Array[String] = []
+		var p1_status := hero.active_status_text()
+		if p1_status != "":
+			status_parts.append(p1_status)
+		if hero2 != null:
+			var p2_status := hero2.active_status_text()
+			if p2_status != "":
+				status_parts.append("P2: " + p2_status)
+		active_status_label.text = "Active: " + " | ".join(status_parts) \
+			if not status_parts.is_empty() else ""
 	# authority clears a combat room the moment its enemies are all gone — this
 	# catches the last kill however it happened (incl. splitter children)
 	if _room_needs_clear and not door_open and not finished and Net.is_authority() \
@@ -1248,7 +1263,7 @@ func _spawn_chest(at: Vector2) -> void:
 	chest.body_entered.connect(func(body: Node) -> void:
 		if not (body is CombatHero):
 			return
-		var goods: Array = ContentDatabase.get_world(world_id).get("market_goods", [])
+		var goods: Array[String] = ContentDatabase.expedition_chest_pool(world_id)
 		var pool: Array = goods if not goods.is_empty() else ContentDatabase.live_items
 		var prize := ContentDatabase.live_substitute(String(pool[randi() % pool.size()]))
 		AudioManager.play_sfx("chest_unlock")

@@ -115,6 +115,20 @@ static func show_report(parent: Node) -> CanvasLayer:
 			vb.add_child(UIKit.label("▲ Selling high: %s" % ", ".join(highs), 12, UIKit.COL_GOOD))
 		if not lows.is_empty():
 			vb.add_child(UIKit.label("▼ Selling low: %s" % ", ".join(lows), 12, UIKit.COL_BAD))
+		var affected_ids := MarketManager.event_affected_items(String(ev["id"]))
+		var affected_names: Array[String] = []
+		for item_id: String in affected_ids.slice(0, mini(6, affected_ids.size())):
+			affected_names.append(ContentDatabase.item_name(item_id))
+		if affected_names.is_empty():
+			vb.add_child(UIKit.label(
+				"Affected obtainable items: none — report this in Admin Audit.",
+				10, UIKit.COL_BAD))
+		else:
+			var remaining := affected_ids.size() - affected_names.size()
+			vb.add_child(UIKit.label("Affected now: %s%s" % [
+				", ".join(affected_names),
+				" (+%d more)" % remaining if remaining > 0 else ""],
+				10, UIKit.COL_ACCENT))
 		var drawn := _drawn_archetypes(mults)
 		if not drawn.is_empty():
 			vb.add_child(UIKit.label("Drawn to your shop: %s" % ", ".join(drawn), 11, UIKit.COL_INK))

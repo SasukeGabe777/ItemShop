@@ -33,3 +33,26 @@ func is_stunned() -> bool:
 
 func is_invincible() -> bool:
 	return effects.has("invincible")
+
+
+func time_left(effect_name: String) -> float:
+	return float(effects.get(effect_name, {}).get("time_left", 0.0))
+
+
+## Short, continuously accurate HUD readout. Keeping this on the component
+## means gameplay and presentation cannot disagree about which buffs are live.
+func summary_parts() -> Array[String]:
+	var parts: Array[String] = []
+	if effects.has("invincible"):
+		parts.append("Invincible %.1fs" % time_left("invincible"))
+	if effects.has("buff_atk"):
+		parts.append("ATK +%s %.1fs" % [
+			str(float(effects["buff_atk"].get("value", 0.0))),
+			time_left("buff_atk")])
+	if effects.has("buff_def"):
+		parts.append("DEF +%s %.1fs" % [
+			str(float(effects["buff_def"].get("value", 0.0))),
+			time_left("buff_def")])
+	if effects.has("stun"):
+		parts.append("Stunned %.1fs" % time_left("stun"))
+	return parts

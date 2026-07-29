@@ -41,6 +41,9 @@ func _unhandled_input(event: InputEvent) -> void:
 ## reachable. Idempotent; safe to trigger again.
 func enable_admin_mode() -> void:
 	admin_mode = true
+	if not GameState.admin_mode:
+		GameState.admin_mode = true
+		GameState.admin_mode_changed.emit(true)
 	# max gold
 	EconomyManager.add_gold(maxi(0, 9_999_999 - EconomyManager.gold))
 	# every hero greeted + every gate repaired (repaired worlds also unlock their

@@ -552,7 +552,9 @@ func _use_consumable() -> void:
 	if fx.has("buff_def"):
 		status.apply_effect("buff_def", float(fx["buff_def"]), 20.0)
 	if fx.has("invincible"):
-		health.grant_iframes(float(fx["invincible"]))
+		var invincible_time := float(fx["invincible"])
+		health.grant_iframes(invincible_time)
+		status.apply_effect("invincible", 1.0, invincible_time)
 	if fx.has("aoe_damage"):
 		_aoe_damage(90.0, float(fx["aoe_damage"]) / 10.0)
 		FX.shake(5.0)
@@ -577,6 +579,10 @@ func _use_consumable() -> void:
 	hp_changed.emit(health.hp, health.max_hp)
 	consumables_changed.emit(consumables)
 	FX.burst(get_parent(), global_position, Color(0.5, 1.0, 0.6), 8)
+	var effect_text := ContentDatabase.item_effect_summary(id)
+	FX.status_popup(get_parent(), global_position,
+		"Used %s%s" % [ContentDatabase.item_name(id),
+			": " + effect_text if effect_text != "" else ""])
 
 
 func _do_finisher() -> void:
@@ -658,8 +664,17 @@ func _on_died() -> void:
 		var ratio := float(ContentDatabase.bal("dungeon", {}).get("revive_heal_ratio", 0.5))
 		health.revive(ratio)
 		FX.burst(get_parent(), global_position, Color(1, 0.95, 0.5), 24)
+		FX.status_popup(get_parent(), global_position, "1UP activated — revived!",
+			Color(1.0, 0.95, 0.45))
 		hp_changed.emit(health.hp, health.max_hp)
 		return
 	AudioManager.play_sfx("player_death")
 	visual.modulate = Color(0.5, 0.5, 0.5, 0.6)
 	defeated.emit()
+
+
+func active_status_text() -> String:
+	var parts := status.summary_parts()
+	if revives_available > 0:
+		parts.push_front("Revive x%d" % revives_available)
+	return " | ".join(parts)

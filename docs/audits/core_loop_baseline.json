@@ -1,0 +1,1264 @@
+{
+  "generated": "deterministic from repository data",
+  "summary": {
+    "items": 268,
+    "live_items": 216,
+    "worlds": 9,
+    "errors": 0,
+    "warnings": 4
+  },
+  "chapters": [
+    {
+      "chapter": 1,
+      "price_cap": 800.0,
+      "accessible_count": 8,
+      "market_count": 4,
+      "new_count": 8,
+      "new_items": [
+        "bright_shard",
+        "keychain",
+        "kh_elixir",
+        "kh_ether",
+        "kh_potion",
+        "kingdom_key",
+        "oblivion_keyblade",
+        "soul_eater"
+      ],
+      "worlds": [
+        "kingdom_hearts"
+      ]
+    },
+    {
+      "chapter": 2,
+      "price_cap": 1480.0,
+      "accessible_count": 35,
+      "market_count": 21,
+      "new_count": 27,
+      "new_items": [
+        "aqua_yoshi_egg",
+        "blue_pepper",
+        "blue_yoshi_egg",
+        "chuckle_bean",
+        "fire_flower",
+        "green_pepper",
+        "hee_bean",
+        "hoo_bean",
+        "ice_flower",
+        "koopa_shell",
+        "mario_hammer",
+        "mix_flower",
+        "one_up_mushroom",
+        "orange_yoshi_egg",
+        "peach_s_dress",
+        "pink_yoshi_egg",
+        "poison_mushroom",
+        "power_wrist",
+        "red_koopa_shell",
+        "red_pepper",
+        "red_yoshi_egg",
+        "refreshing_herb",
+        "smash_egg",
+        "starman",
+        "super_mushroom",
+        "ultra_mushroom",
+        "woo_bean"
+      ],
+      "worlds": [
+        "mario"
+      ]
+    },
+    {
+      "chapter": 3,
+      "price_cap": 2160.0,
+      "accessible_count": 42,
+      "market_count": 25,
+      "new_count": 7,
+      "new_items": [
+        "copy_flower",
+        "crystal_shard_ff",
+        "ff_potion",
+        "hi_potion",
+        "poison_kingdom_key",
+        "wishing_star_keyblade",
+        "yoshi_egg"
+      ],
+      "worlds": [
+        "final_fantasy"
+      ]
+    },
+    {
+      "chapter": 4,
+      "price_cap": 2840.0,
+      "accessible_count": 73,
+      "market_count": 48,
+      "new_count": 31,
+      "new_items": [
+        "1up_mushroom",
+        "big_key",
+        "blue_potion",
+        "bomb_bag",
+        "courage_keyblade",
+        "deku_nut",
+        "dk_hammer",
+        "element_earth",
+        "element_fire",
+        "element_water",
+        "element_wind",
+        "fairy_bottle",
+        "fairy_charm",
+        "fairy_harp_keyblade",
+        "ff_ribbon",
+        "green_potion",
+        "gust_jar",
+        "heart_container",
+        "kinstone",
+        "lady_luck_keyblade",
+        "mole_mitts",
+        "pegasus_boots",
+        "red_potion",
+        "remote_bomb",
+        "rupee",
+        "small_key",
+        "triforce_fragment",
+        "wake_up_mushroom",
+        "white_sword",
+        "wooden_shield",
+        "zelda_boomerang"
+      ],
+      "worlds": [
+        "zelda"
+      ]
+    },
+    {
+      "chapter": 5,
+      "price_cap": 3520.0,
+      "accessible_count": 102,
+      "market_count": 64,
+      "new_count": 29,
+      "new_items": [
+        "1up_super_mushroom",
+        "cane_of_pacci",
+        "chakra_crystal",
+        "chakra_pill",
+        "crabclaw_keyblade",
+        "dango_skewer",
+        "explosive_tag",
+        "field_medkit",
+        "forehead_protector",
+        "fuma_shuriken",
+        "gama_wallet",
+        "genji_glove",
+        "ichiraku_ticket",
+        "kunai",
+        "makibishi_spikes",
+        "mythril_sword",
+        "ninja_scroll",
+        "ramen_bowl",
+        "rocs_cape",
+        "ryo_pouch",
+        "sannin_token",
+        "sharingan_fragment",
+        "shuriken",
+        "smoke_bomb",
+        "soldier_pill",
+        "substitution_log",
+        "summoning_scroll",
+        "three_wishes_keyblade",
+        "training_weights"
+      ],
+      "worlds": [
+        "naruto"
+      ]
+    },
+    {
+      "chapter": 6,
+      "price_cap": 4200.0,
+      "accessible_count": 143,
+      "market_count": 95,
+      "new_count": 41,
+      "new_items": [
+        "ancient_idol",
+        "android_17_plushie",
+        "android_18_plushie",
+        "android_19_plushie",
+        "capsule",
+        "cell_plushie",
+        "chilled_soda",
+        "dino_drumstick",
+        "dr_gero_plush",
+        "dragon_ball",
+        "energy_crystal",
+        "fishing_bait",
+        "four_sword",
+        "fresh_milk",
+        "gameboy",
+        "giant_river_fish",
+        "goku_favorite",
+        "goku_plushie",
+        "hearty_ramen",
+        "hercule_plushie",
+        "hylian_shield",
+        "kami_plushie",
+        "king_kami_sculpture",
+        "krillin_plushie",
+        "marbled_beef",
+        "master_roshi_plushie",
+        "mega_burger",
+        "olympia_keyblade",
+        "piccolo_plushie",
+        "sacred_water",
+        "saiyan_armor",
+        "scouter",
+        "senzu_bean",
+        "tien_plushie",
+        "trunks_plushie",
+        "turtle_gi",
+        "vegeta_plushie",
+        "weighted_clothing",
+        "yamcha_plushie",
+        "zelda_lantern",
+        "zeni_coin"
+      ],
+      "worlds": [
+        "dragon_ball"
+      ]
+    },
+    {
+      "chapter": 7,
+      "price_cap": 4880.0,
+      "accessible_count": 187,
+      "market_count": 122,
+      "new_count": 44,
+      "new_items": [
+        "amulet_coin",
+        "bicycle_voucher",
+        "big_mushroom",
+        "black_glasses",
+        "blue_orb",
+        "blue_shard",
+        "cheri_berry",
+        "divine_rose_keyblade",
+        "escape_rope",
+        "focus_band",
+        "full_restore",
+        "great_ball",
+        "green_shard",
+        "hyper_potion",
+        "lava_cookie",
+        "leaf_stone",
+        "leftovers",
+        "lemonade",
+        "lucky_egg",
+        "master_ball",
+        "master_sword",
+        "moon_stone",
+        "nugget",
+        "oran_berry",
+        "pecha_berry",
+        "pkmn_ether",
+        "pkmn_potion",
+        "poke_ball",
+        "rare_candy",
+        "red_orb",
+        "red_shard",
+        "root_fossil",
+        "shell_bell",
+        "sitrus_berry",
+        "soda_pop",
+        "star_piece",
+        "super_potion",
+        "technical_machine",
+        "thunder_stone",
+        "tiny_mushroom",
+        "twisted_spoon",
+        "ultra_ball",
+        "water_stone",
+        "yellow_shard"
+      ],
+      "worlds": [
+        "pokemon"
+      ]
+    },
+    {
+      "chapter": 8,
+      "price_cap": 5560.0,
+      "accessible_count": 187,
+      "market_count": 122,
+      "new_count": 0,
+      "new_items": [],
+      "worlds": [
+        "null_archive"
+      ]
+    },
+    {
+      "chapter": 9,
+      "price_cap": 6240.0,
+      "accessible_count": 215,
+      "market_count": 150,
+      "new_count": 28,
+      "new_items": [
+        "acropolis_armor",
+        "atk_potion",
+        "attack_ring",
+        "coral_bow",
+        "cosmic_staff",
+        "def_potion",
+        "defense_ring",
+        "dex_potion",
+        "doku_katana",
+        "doom_bow",
+        "foul_dagger",
+        "ghostly_cloak",
+        "golden_quiver",
+        "hp_potion",
+        "hydra_armor",
+        "leaf_bow",
+        "leviathan_armor",
+        "life_potion",
+        "mp_potion",
+        "recompense_wand",
+        "sorcerer_robe",
+        "soul_skull",
+        "spd_potion",
+        "speed_ring",
+        "sword_splendor",
+        "unbound_health",
+        "vit_potion",
+        "wis_potion"
+      ],
+      "worlds": [
+        "rotmg"
+      ]
+    }
+  ],
+  "worlds": [
+    {
+      "world_id": "kingdom_hearts",
+      "name": "Kingdom Hearts",
+      "chapter": 1,
+      "authored_market_goods": 10,
+      "live_market_goods": 4,
+      "affordable_at_unlock": 4,
+      "affordable_items": [
+        "bright_shard",
+        "keychain",
+        "kh_ether",
+        "kh_potion"
+      ],
+      "inaccessible_by_price": [],
+      "missing_item_ids": [],
+      "loot_only_live_items": [
+        "kingdom_key",
+        "oblivion_keyblade",
+        "soul_eater"
+      ]
+    },
+    {
+      "world_id": "mario",
+      "name": "Mario",
+      "chapter": 2,
+      "authored_market_goods": 23,
+      "live_market_goods": 17,
+      "affordable_at_unlock": 17,
+      "affordable_items": [
+        "blue_pepper",
+        "chuckle_bean",
+        "fire_flower",
+        "green_pepper",
+        "hoo_bean",
+        "ice_flower",
+        "koopa_shell",
+        "mario_hammer",
+        "one_up_mushroom",
+        "poison_mushroom",
+        "power_wrist",
+        "red_pepper",
+        "refreshing_herb",
+        "smash_egg",
+        "starman",
+        "super_mushroom",
+        "woo_bean"
+      ],
+      "inaccessible_by_price": [],
+      "missing_item_ids": [],
+      "loot_only_live_items": [
+        "hee_bean"
+      ]
+    },
+    {
+      "world_id": "final_fantasy",
+      "name": "Final Fantasy",
+      "chapter": 3,
+      "authored_market_goods": 13,
+      "live_market_goods": 6,
+      "affordable_at_unlock": 4,
+      "affordable_items": [
+        "crystal_shard_ff",
+        "ff_potion",
+        "genji_glove",
+        "hi_potion"
+      ],
+      "inaccessible_by_price": [
+        "ff_ribbon",
+        "mythril_sword"
+      ],
+      "missing_item_ids": [],
+      "loot_only_live_items": []
+    },
+    {
+      "world_id": "zelda",
+      "name": "The Legend of Zelda",
+      "chapter": 4,
+      "authored_market_goods": 22,
+      "live_market_goods": 22,
+      "affordable_at_unlock": 21,
+      "affordable_items": [
+        "big_key",
+        "blue_potion",
+        "bomb_bag",
+        "deku_nut",
+        "fairy_bottle",
+        "fairy_charm",
+        "green_potion",
+        "gust_jar",
+        "heart_container",
+        "kinstone",
+        "mole_mitts",
+        "pegasus_boots",
+        "red_potion",
+        "remote_bomb",
+        "rocs_cape",
+        "rupee",
+        "wake_up_mushroom",
+        "white_sword",
+        "wooden_shield",
+        "zelda_boomerang",
+        "zelda_lantern"
+      ],
+      "inaccessible_by_price": [
+        "hylian_shield"
+      ],
+      "missing_item_ids": [],
+      "loot_only_live_items": [
+        "element_earth",
+        "element_fire",
+        "element_water",
+        "element_wind",
+        "small_key"
+      ]
+    },
+    {
+      "world_id": "naruto",
+      "name": "Naruto",
+      "chapter": 5,
+      "authored_market_goods": 15,
+      "live_market_goods": 15,
+      "affordable_at_unlock": 15,
+      "affordable_items": [
+        "chakra_crystal",
+        "chakra_pill",
+        "explosive_tag",
+        "forehead_protector",
+        "gama_wallet",
+        "kunai",
+        "ninja_scroll",
+        "ramen_bowl",
+        "sannin_token",
+        "sharingan_fragment",
+        "shuriken",
+        "smoke_bomb",
+        "soldier_pill",
+        "summoning_scroll",
+        "training_weights"
+      ],
+      "inaccessible_by_price": [],
+      "missing_item_ids": [],
+      "loot_only_live_items": [
+        "dango_skewer",
+        "field_medkit",
+        "makibishi_spikes",
+        "ryo_pouch"
+      ]
+    },
+    {
+      "world_id": "dragon_ball",
+      "name": "Dragon Ball Z",
+      "chapter": 6,
+      "authored_market_goods": 32,
+      "live_market_goods": 32,
+      "affordable_at_unlock": 31,
+      "affordable_items": [
+        "android_17_plushie",
+        "android_18_plushie",
+        "android_19_plushie",
+        "capsule",
+        "cell_plushie",
+        "chilled_soda",
+        "dr_gero_plush",
+        "energy_crystal",
+        "fishing_bait",
+        "fresh_milk",
+        "giant_river_fish",
+        "goku_favorite",
+        "goku_plushie",
+        "hearty_ramen",
+        "hercule_plushie",
+        "kami_plushie",
+        "king_kami_sculpture",
+        "krillin_plushie",
+        "master_roshi_plushie",
+        "piccolo_plushie",
+        "sacred_water",
+        "saiyan_armor",
+        "scouter",
+        "senzu_bean",
+        "tien_plushie",
+        "trunks_plushie",
+        "turtle_gi",
+        "vegeta_plushie",
+        "weighted_clothing",
+        "yamcha_plushie",
+        "zeni_coin"
+      ],
+      "inaccessible_by_price": [
+        "dragon_ball_set"
+      ],
+      "missing_item_ids": [],
+      "loot_only_live_items": [
+        "dino_drumstick",
+        "dragon_ball"
+      ]
+    },
+    {
+      "world_id": "pokemon",
+      "name": "Pokémon",
+      "chapter": 7,
+      "authored_market_goods": 29,
+      "live_market_goods": 27,
+      "affordable_at_unlock": 27,
+      "affordable_items": [
+        "bicycle_voucher",
+        "black_glasses",
+        "blue_shard",
+        "cheri_berry",
+        "escape_rope",
+        "focus_band",
+        "full_restore",
+        "great_ball",
+        "green_shard",
+        "hyper_potion",
+        "lemonade",
+        "lucky_egg",
+        "moon_stone",
+        "oran_berry",
+        "pecha_berry",
+        "pkmn_ether",
+        "pkmn_potion",
+        "poke_ball",
+        "rare_candy",
+        "red_shard",
+        "soda_pop",
+        "thunder_stone",
+        "tiny_mushroom",
+        "twisted_spoon",
+        "ultra_ball",
+        "water_stone",
+        "yellow_shard"
+      ],
+      "inaccessible_by_price": [],
+      "missing_item_ids": [],
+      "loot_only_live_items": [
+        "master_ball"
+      ]
+    },
+    {
+      "world_id": "null_archive",
+      "name": "The Null Archive",
+      "chapter": 8,
+      "authored_market_goods": 0,
+      "live_market_goods": 0,
+      "affordable_at_unlock": 0,
+      "affordable_items": [],
+      "inaccessible_by_price": [],
+      "missing_item_ids": [],
+      "loot_only_live_items": []
+    },
+    {
+      "world_id": "rotmg",
+      "name": "Realm of the Mad God",
+      "chapter": 9,
+      "authored_market_goods": 28,
+      "live_market_goods": 28,
+      "affordable_at_unlock": 28,
+      "affordable_items": [
+        "acropolis_armor",
+        "atk_potion",
+        "attack_ring",
+        "coral_bow",
+        "cosmic_staff",
+        "def_potion",
+        "defense_ring",
+        "dex_potion",
+        "doku_katana",
+        "doom_bow",
+        "foul_dagger",
+        "ghostly_cloak",
+        "golden_quiver",
+        "hp_potion",
+        "hydra_armor",
+        "leaf_bow",
+        "leviathan_armor",
+        "life_potion",
+        "mp_potion",
+        "recompense_wand",
+        "sorcerer_robe",
+        "soul_skull",
+        "spd_potion",
+        "speed_ring",
+        "sword_splendor",
+        "unbound_health",
+        "vit_potion",
+        "wis_potion"
+      ],
+      "inaccessible_by_price": [],
+      "missing_item_ids": [],
+      "loot_only_live_items": []
+    }
+  ],
+  "market_events": [
+    {
+      "id": "healing_shortage",
+      "min_chapter": 2,
+      "suggested_min_chapter": 2,
+      "matches": {
+        "tag:healing": [
+          "kh_elixir",
+          "kh_potion",
+          "one_up_mushroom",
+          "refreshing_herb",
+          "super_mushroom",
+          "ultra_mushroom"
+        ],
+        "tag:revive": [
+          "one_up_mushroom"
+        ]
+      }
+    },
+    {
+      "id": "weapon_boom",
+      "min_chapter": 2,
+      "suggested_min_chapter": 1,
+      "matches": {
+        "cat:weapon": [
+          "keychain",
+          "kingdom_key",
+          "mario_hammer",
+          "oblivion_keyblade",
+          "soul_eater"
+        ]
+      }
+    },
+    {
+      "id": "food_festival",
+      "min_chapter": 2,
+      "suggested_min_chapter": 2,
+      "matches": {
+        "cat:food": [
+          "blue_pepper",
+          "green_pepper",
+          "poison_mushroom",
+          "red_pepper"
+        ]
+      }
+    },
+    {
+      "id": "collector_convention",
+      "min_chapter": 2,
+      "suggested_min_chapter": 2,
+      "matches": {
+        "tag:rare": [
+          "aqua_yoshi_egg",
+          "blue_yoshi_egg",
+          "kh_elixir",
+          "mix_flower",
+          "oblivion_keyblade",
+          "one_up_mushroom",
+          "orange_yoshi_egg",
+          "peach_s_dress",
+          "pink_yoshi_egg",
+          "red_koopa_shell",
+          "red_yoshi_egg",
+          "starman",
+          "ultra_mushroom"
+        ],
+        "tag:legendary": [
+          "kingdom_key"
+        ],
+        "cat:treasure": [
+          "aqua_yoshi_egg",
+          "blue_yoshi_egg",
+          "orange_yoshi_egg",
+          "peach_s_dress",
+          "pink_yoshi_egg",
+          "red_yoshi_egg"
+        ]
+      }
+    },
+    {
+      "id": "mushroom_oversupply",
+      "min_chapter": 2,
+      "suggested_min_chapter": 2,
+      "matches": {
+        "tag:mushroom": [
+          "one_up_mushroom",
+          "poison_mushroom",
+          "super_mushroom",
+          "ultra_mushroom"
+        ],
+        "tag:plant": [
+          "chuckle_bean",
+          "fire_flower",
+          "hee_bean",
+          "hoo_bean",
+          "ice_flower",
+          "mix_flower",
+          "refreshing_herb",
+          "woo_bean"
+        ]
+      }
+    },
+    {
+      "id": "materia_shortage",
+      "min_chapter": 1,
+      "suggested_min_chapter": 1,
+      "matches": {
+        "tag:magic": [
+          "kh_elixir",
+          "kh_ether"
+        ]
+      }
+    },
+    {
+      "id": "ninja_tool_demand",
+      "min_chapter": 5,
+      "suggested_min_chapter": 5,
+      "matches": {
+        "tag:ninja": [
+          "explosive_tag",
+          "forehead_protector",
+          "fuma_shuriken",
+          "kunai",
+          "makibishi_spikes",
+          "shuriken",
+          "smoke_bomb",
+          "substitution_log"
+        ],
+        "tag:throwing": [
+          "fuma_shuriken",
+          "kunai",
+          "shuriken",
+          "zelda_boomerang"
+        ]
+      }
+    },
+    {
+      "id": "capsule_craze",
+      "min_chapter": 6,
+      "suggested_min_chapter": 6,
+      "matches": {
+        "tag:technology": [
+          "capsule",
+          "gameboy",
+          "scouter"
+        ],
+        "tag:capsule": [
+          "capsule"
+        ]
+      }
+    },
+    {
+      "id": "evolution_rush",
+      "min_chapter": 7,
+      "suggested_min_chapter": 7,
+      "matches": {
+        "tag:stone": [
+          "blue_shard",
+          "green_shard",
+          "leaf_stone",
+          "moon_stone",
+          "red_shard",
+          "root_fossil",
+          "star_piece",
+          "thunder_stone",
+          "water_stone",
+          "yellow_shard"
+        ],
+        "tag:evolution": [
+          "leaf_stone",
+          "moon_stone",
+          "thunder_stone",
+          "water_stone"
+        ]
+      }
+    },
+    {
+      "id": "shard_glut",
+      "min_chapter": 1,
+      "suggested_min_chapter": 1,
+      "matches": {
+        "tag:shard": [
+          "bright_shard"
+        ]
+      }
+    },
+    {
+      "id": "explosive_regulations",
+      "min_chapter": 4,
+      "suggested_min_chapter": 4,
+      "matches": {
+        "tag:explosive": [
+          "bomb_bag"
+        ]
+      }
+    },
+    {
+      "id": "sweet_tooth_epidemic",
+      "min_chapter": 6,
+      "suggested_min_chapter": 6,
+      "matches": {
+        "tag:sweet": [
+          "chilled_soda",
+          "dango_skewer"
+        ],
+        "tag:cold": [
+          "chilled_soda"
+        ]
+      }
+    },
+    {
+      "id": "bottle_deposit",
+      "min_chapter": 1,
+      "suggested_min_chapter": 1,
+      "matches": {
+        "tag:bottle": [
+          "kh_ether",
+          "kh_potion"
+        ]
+      }
+    },
+    {
+      "id": "quiet_day",
+      "min_chapter": 1,
+      "suggested_min_chapter": 1,
+      "matches": {}
+    }
+  ],
+  "shop_booms": [
+    {
+      "id": "kids_adventure_day",
+      "min_chapter": 1,
+      "matches": {
+        "global": [
+          "kh_elixir",
+          "kh_ether",
+          "kh_potion"
+        ]
+      }
+    },
+    {
+      "id": "heroes_preparing_for_battle",
+      "min_chapter": 1,
+      "matches": {
+        "global": [
+          "keychain",
+          "kh_elixir",
+          "kh_ether",
+          "kh_potion",
+          "kingdom_key",
+          "oblivion_keyblade",
+          "soul_eater"
+        ]
+      }
+    },
+    {
+      "id": "world_bridge_tourism",
+      "min_chapter": 2,
+      "matches": {
+        "kingdom_hearts": [
+          "bright_shard",
+          "keychain",
+          "kh_elixir",
+          "kh_ether",
+          "kh_potion",
+          "kingdom_key",
+          "oblivion_keyblade",
+          "soul_eater"
+        ],
+        "mario": [
+          "aqua_yoshi_egg",
+          "blue_pepper",
+          "blue_yoshi_egg",
+          "chuckle_bean",
+          "fire_flower",
+          "green_pepper",
+          "hee_bean",
+          "hoo_bean",
+          "ice_flower",
+          "koopa_shell",
+          "mario_hammer",
+          "mix_flower",
+          "one_up_mushroom",
+          "orange_yoshi_egg",
+          "peach_s_dress",
+          "pink_yoshi_egg",
+          "poison_mushroom",
+          "power_wrist",
+          "red_koopa_shell",
+          "red_pepper",
+          "red_yoshi_egg",
+          "refreshing_herb",
+          "smash_egg",
+          "starman",
+          "super_mushroom",
+          "ultra_mushroom",
+          "woo_bean"
+        ]
+      }
+    },
+    {
+      "id": "crossroads_food_festival",
+      "min_chapter": 1,
+      "matches": {
+        "global": [
+          "kh_elixir",
+          "kh_ether",
+          "kh_potion"
+        ]
+      }
+    },
+    {
+      "id": "healing_shortage",
+      "min_chapter": 1,
+      "matches": {
+        "global": [
+          "kh_elixir",
+          "kh_ether",
+          "kh_potion"
+        ]
+      }
+    },
+    {
+      "id": "cosplay_convention",
+      "min_chapter": 2,
+      "matches": {
+        "global": [
+          "aqua_yoshi_egg",
+          "blue_yoshi_egg",
+          "keychain",
+          "kingdom_key",
+          "mario_hammer",
+          "oblivion_keyblade",
+          "orange_yoshi_egg",
+          "peach_s_dress",
+          "pink_yoshi_egg",
+          "power_wrist",
+          "red_yoshi_egg",
+          "soul_eater"
+        ]
+      }
+    },
+    {
+      "id": "retro_game_night",
+      "min_chapter": 2,
+      "matches": {
+        "global": [
+          "aqua_yoshi_egg",
+          "blue_pepper",
+          "blue_yoshi_egg",
+          "bright_shard",
+          "chuckle_bean",
+          "green_pepper",
+          "hee_bean",
+          "hoo_bean",
+          "keychain",
+          "kh_elixir",
+          "kingdom_key",
+          "koopa_shell",
+          "mario_hammer",
+          "mix_flower",
+          "oblivion_keyblade",
+          "one_up_mushroom",
+          "orange_yoshi_egg",
+          "peach_s_dress",
+          "pink_yoshi_egg",
+          "poison_mushroom",
+          "red_koopa_shell",
+          "red_pepper",
+          "red_yoshi_egg",
+          "soul_eater",
+          "starman",
+          "super_mushroom",
+          "ultra_mushroom",
+          "woo_bean"
+        ]
+      }
+    },
+    {
+      "id": "intense_hero_expo",
+      "min_chapter": 2,
+      "matches": {
+        "global": [
+          "aqua_yoshi_egg",
+          "blue_yoshi_egg",
+          "keychain",
+          "kh_elixir",
+          "kingdom_key",
+          "mario_hammer",
+          "mix_flower",
+          "oblivion_keyblade",
+          "one_up_mushroom",
+          "orange_yoshi_egg",
+          "peach_s_dress",
+          "pink_yoshi_egg",
+          "power_wrist",
+          "red_koopa_shell",
+          "red_yoshi_egg",
+          "soul_eater",
+          "starman",
+          "ultra_mushroom"
+        ]
+      }
+    },
+    {
+      "id": "cozy_family_day",
+      "min_chapter": 1,
+      "matches": {
+        "global": [
+          "kh_elixir",
+          "kh_ether",
+          "kh_potion"
+        ]
+      }
+    },
+    {
+      "id": "modern_technology_showcase",
+      "min_chapter": 3,
+      "matches": {
+        "global": [
+          "aqua_yoshi_egg",
+          "blue_yoshi_egg",
+          "bright_shard",
+          "chuckle_bean",
+          "copy_flower",
+          "crystal_shard_ff",
+          "ff_potion",
+          "fire_flower",
+          "hee_bean",
+          "hi_potion",
+          "hoo_bean",
+          "ice_flower",
+          "kh_elixir",
+          "kh_ether",
+          "kh_potion",
+          "koopa_shell",
+          "mix_flower",
+          "one_up_mushroom",
+          "orange_yoshi_egg",
+          "peach_s_dress",
+          "pink_yoshi_egg",
+          "power_wrist",
+          "red_koopa_shell",
+          "red_yoshi_egg",
+          "refreshing_herb",
+          "smash_egg",
+          "starman",
+          "super_mushroom",
+          "ultra_mushroom",
+          "woo_bean",
+          "yoshi_egg"
+        ]
+      }
+    },
+    {
+      "id": "villain_appreciation_day",
+      "min_chapter": 3,
+      "matches": {
+        "global": [
+          "aqua_yoshi_egg",
+          "blue_yoshi_egg",
+          "bright_shard",
+          "chuckle_bean",
+          "copy_flower",
+          "crystal_shard_ff",
+          "hee_bean",
+          "hoo_bean",
+          "keychain",
+          "kh_elixir",
+          "kh_ether",
+          "kingdom_key",
+          "koopa_shell",
+          "mario_hammer",
+          "mix_flower",
+          "oblivion_keyblade",
+          "one_up_mushroom",
+          "orange_yoshi_egg",
+          "peach_s_dress",
+          "pink_yoshi_egg",
+          "poison_kingdom_key",
+          "power_wrist",
+          "red_koopa_shell",
+          "red_yoshi_egg",
+          "soul_eater",
+          "starman",
+          "ultra_mushroom",
+          "wishing_star_keyblade",
+          "woo_bean",
+          "yoshi_egg"
+        ]
+      }
+    },
+    {
+      "id": "collector_investment_boom",
+      "min_chapter": 3,
+      "matches": {
+        "global": [
+          "aqua_yoshi_egg",
+          "blue_yoshi_egg",
+          "bright_shard",
+          "chuckle_bean",
+          "copy_flower",
+          "crystal_shard_ff",
+          "hee_bean",
+          "hoo_bean",
+          "keychain",
+          "kh_elixir",
+          "kingdom_key",
+          "koopa_shell",
+          "mario_hammer",
+          "mix_flower",
+          "oblivion_keyblade",
+          "one_up_mushroom",
+          "orange_yoshi_egg",
+          "peach_s_dress",
+          "pink_yoshi_egg",
+          "poison_kingdom_key",
+          "power_wrist",
+          "red_koopa_shell",
+          "red_yoshi_egg",
+          "soul_eater",
+          "starman",
+          "ultra_mushroom",
+          "wishing_star_keyblade",
+          "woo_bean",
+          "yoshi_egg"
+        ]
+      }
+    },
+    {
+      "id": "tournament_weekend",
+      "min_chapter": 2,
+      "matches": {
+        "global": [
+          "aqua_yoshi_egg",
+          "blue_pepper",
+          "blue_yoshi_egg",
+          "fire_flower",
+          "green_pepper",
+          "ice_flower",
+          "keychain",
+          "kh_elixir",
+          "kh_ether",
+          "kh_potion",
+          "kingdom_key",
+          "mario_hammer",
+          "mix_flower",
+          "oblivion_keyblade",
+          "one_up_mushroom",
+          "orange_yoshi_egg",
+          "peach_s_dress",
+          "pink_yoshi_egg",
+          "poison_mushroom",
+          "power_wrist",
+          "red_pepper",
+          "red_yoshi_egg",
+          "refreshing_herb",
+          "smash_egg",
+          "soul_eater",
+          "starman",
+          "super_mushroom",
+          "ultra_mushroom"
+        ]
+      }
+    },
+    {
+      "id": "new_world_celebration",
+      "min_chapter": 1,
+      "matches": {
+        "global": []
+      }
+    }
+  ],
+  "issues": [
+    {
+      "code": "market_goods_missing_art",
+      "severity": "warning",
+      "message": "kingdom_hearts has market goods without live item art",
+      "context": {
+        "world_id": "kingdom_hearts",
+        "items": [
+          "blaze_shard",
+          "frost_shard",
+          "gummi_block",
+          "lucid_shard",
+          "sea_salt_ice_cream",
+          "thunder_shard"
+        ]
+      }
+    },
+    {
+      "code": "market_goods_missing_art",
+      "severity": "warning",
+      "message": "mario has market goods without live item art",
+      "context": {
+        "world_id": "mario",
+        "items": [
+          "cape_feather",
+          "gold_coin",
+          "pow_block",
+          "royal_crown",
+          "tanooki_leaf",
+          "warp_whistle"
+        ]
+      }
+    },
+    {
+      "code": "market_goods_missing_art",
+      "severity": "warning",
+      "message": "final_fantasy has market goods without live item art",
+      "context": {
+        "world_id": "final_fantasy",
+        "items": [
+          "chocobo_feather",
+          "ff_ether",
+          "ff_tent",
+          "hero_drink",
+          "materia",
+          "phoenix_down",
+          "remedy"
+        ]
+      }
+    },
+    {
+      "code": "market_goods_missing_art",
+      "severity": "warning",
+      "message": "pokemon has market goods without live item art",
+      "context": {
+        "world_id": "pokemon",
+        "items": [
+          "fire_stone",
+          "pokedex"
+        ]
+      }
+    }
+  ]
+}

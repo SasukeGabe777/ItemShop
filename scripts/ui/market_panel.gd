@@ -12,6 +12,7 @@ var _list: VBoxContainer
 var _gold_lbl: Label
 var _sort_button: Button
 var _compact_mp := false
+var _scroll: ScrollContainer
 
 const SORT_MODES := ["hot", "name", "price", "category", "world"]
 
@@ -43,10 +44,16 @@ func _ready() -> void:
 		for mode in SORT_MODES:
 			top_row.add_child(UIKit.button("Sort: %s" % mode, _set_sort.bind(mode), 8))
 	var list_parts := UIKit.scroll_list(Vector2(500, 230))
+	_scroll = list_parts[0] as ScrollContainer
 	if _compact_mp:
 		(list_parts[0] as ScrollContainer).custom_minimum_size = Vector2(340, 200)
 	vb.add_child(list_parts[0])
 	_list = list_parts[1]
+	Net.state_applied.connect(func(manager_name: String) -> void:
+		if manager_name in ["economy", "inventory", "market", "*"] \
+				and is_instance_valid(_list):
+			_gold_lbl.text = "Gold: %d" % EconomyManager.gold
+			_fill.call_deferred())
 	_fill()
 	vb.add_child(UIKit.button("Close", func() -> void:
 		closed.emit()
@@ -66,12 +73,22 @@ func _cycle_sort() -> void:
 
 
 func _fill() -> void:
+	var old_scroll := _scroll.scroll_vertical if _scroll != null else 0
 	UIKit.rebuild_list(_list, _fill_rows)
 	# Rebuilt rows are created after the modal's first deferred Large-mode
 	# font pass. Boost the fresh controls immediately so changing sort never
 	# drops descriptions and prices back to their tiny base sizes.
 	if _compact_mp:
 		UIKit._boost_large_modal_fonts(_list)
+	if _scroll != null:
+		_restore_scroll.call_deferred(old_scroll)
+
+
+func _restore_scroll(value: int) -> void:
+	await get_tree().process_frame
+	if _scroll != null and is_instance_valid(_scroll):
+		_scroll.scroll_vertical = mini(value,
+			int(_scroll.get_v_scroll_bar().max_value))
 
 
 func _fill_rows() -> void:
@@ -165,11 +182,12 @@ func _make_row(id: String, locked_reason: String = "") -> VBoxContainer:
 	price_lbl.mouse_filter = Control.MOUSE_FILTER_STOP
 	row.add_child(price_lbl)
 	var buy_btn := UIKit.button("Buy", func() -> void:
-		if EconomyManager.spend_gold(cost):
-			InventoryManager.add_item(id)
-			AudioManager.play_sfx("acquired", -4.0)
-			_gold_lbl.text = "Gold: %d" % EconomyManager.gold
-			_fill())
+		Net.request("market.buy", {"item_id": id},
+			func(ok: bool, _result: Dictionary) -> void:
+				if ok:
+					AudioManager.play_sfx("acquired", -4.0)
+					_gold_lbl.text = "Gold: %d" % EconomyManager.gold
+					_fill.call_deferred()))
 	if locked_reason != "":
 		buy_btn.disabled = true
 		buy_btn.text = "—"
@@ -177,8 +195,20 @@ func _make_row(id: String, locked_reason: String = "") -> VBoxContainer:
 	buy_btn.custom_minimum_size = Vector2(46, 0)
 	buy_btn.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	row.add_child(buy_btn)
-	# blurb + owned count live on the row itself (was tooltip-only)
 	var owned := InventoryManager.count(id)
+	var sell_btn := UIKit.button("Sell\n%dg" % MarketManager.sellback_value(id),
+		func() -> void:
+			Net.request("market.sell", {"item_id": id},
+				func(ok: bool, _result: Dictionary) -> void:
+					if ok:
+						AudioManager.play_sfx("itemsale", -4.0)
+						_gold_lbl.text = "Gold: %d" % EconomyManager.gold
+						_fill.call_deferred()), 8)
+	sell_btn.disabled = owned <= 0
+	sell_btn.tooltip_text = "Sell one from storage back to the market at 35% of today's value."
+	sell_btn.custom_minimum_size = Vector2(48, 0)
+	row.add_child(sell_btn)
+	# blurb + owned count live on the row itself (was tooltip-only)
 	var sub_text := String(it.get("desc", ""))
 	if _compact_mp:
 		sub_text = "%s · %s — %s" % [

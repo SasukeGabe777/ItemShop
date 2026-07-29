@@ -113,12 +113,20 @@ func total_items() -> int:
 	return t
 
 
-## Sorted item id list. mode: "name", "price", "category", "world".
+## Sorted item id list. mode: "hot", "name", "price", "category", "world".
 func sorted_ids(mode: String = "name") -> Array[String]:
 	var ids: Array[String] = []
 	for id: String in storage:
 		ids.append(id)
 	match mode:
+		"hot":
+			ids.sort_custom(func(a: String, b: String) -> bool:
+				var mult_a := MarketManager.price_multiplier(a)
+				var mult_b := MarketManager.price_multiplier(b)
+				if absf(mult_a - mult_b) > 0.001:
+					return mult_a > mult_b
+				return ContentDatabase.item_name(a).nocasecmp_to(
+					ContentDatabase.item_name(b)) < 0)
 		"price":
 			ids.sort_custom(func(a: String, b: String) -> bool:
 				var price_a := ContentDatabase.item_price(a)
@@ -254,7 +262,8 @@ func order_matches(order: Dictionary, item_id: String) -> bool:
 		"tag":
 			return String(order["target"]) in it.get("tags", [])
 		"world":
-			return String(it.get("world", "")) == String(order["target"])
+			return ContentDatabase.item_matches_world(
+				item_id, String(order["target"]))
 	return false
 
 

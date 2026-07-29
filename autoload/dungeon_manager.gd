@@ -287,8 +287,7 @@ func simulate_expedition(world_id: String, hero_id: String, seed_value: int = 1,
 			if String(room["kind"]) == "boss":
 				boss_defeated = true
 		if String(room["kind"]) == "treasure":
-			var w := ContentDatabase.get_world(world_id)
-			var goods: Array = w.get("market_goods", [])
+			var goods: Array[String] = ContentDatabase.expedition_chest_pool(world_id)
 			for chest_index in range(chest_multiplier):
 				if goods.is_empty():
 					break

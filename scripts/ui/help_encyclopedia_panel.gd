@@ -9,11 +9,25 @@ var right: VBoxContainer
 var _modal_layer: CanvasLayer
 
 const ADMIN_EXPORT_PATH := "user://exports/sprite_review.md"
+const ADMIN_ITEM_EXPORT_JSON := "user://exports/item_audit_pack.json"
+const ADMIN_ITEM_EXPORT_MD := "user://exports/item_audit_pack.md"
+const ITEM_AUDIT_ISSUES := {
+	"wrong_world": "Wrong origin / world",
+	"wrong_category": "Wrong category / tags",
+	"wrong_unlock": "Wrong unlock chapter",
+	"wrong_source": "Wrong acquisition source",
+	"wrong_boom": "Wrong Boom match",
+	"wrong_trend": "Wrong trend match",
+	"wrong_value": "Wrong value / balance",
+	"wrong_effect": "Wrong / missing effect",
+	"wrong_sprite": "Wrong / missing sprite",
+	"other": "Other data issue",
+}
 
 const HELP_TOPICS := {
 	"Bond": "Bond is your long-term relationship with a customer. Fair sales and completed orders raise it; broken promises and insulting deals lower it. Every 10 points raises Bond by one level, up to level 5. A completed order is worth a major +8 points; failing one costs 6 points.",
 	"Customer mood": "The icon above a customer shows today's mood. A heart means good mood, the pale face is neutral, and the angry cloud means bad mood. Mood changes how generous and patient they are during a deal.",
-	"Purse": "Purse is a hint, not an exact wallet total. It compares the customer's spending power with the item being negotiated. A light purse means they may genuinely be unable to reach market price.",
+	"Purse": "Purse compares the customer's maximum spending power with this item's current market value. The percentage makes that limit predictable: below 100% means they genuinely cannot reach full market price. Mood and personality change patience, not their coin limit.",
 	"Orders": "At most one customer can request an order each day. Your order capacity grows with shop level: 4, 6, 8, 10, then 12 orders. When the ledger is full, no new requests appear. Accept a rare item or plentiful batch request, note the return day, and keep the full amount in storage. Deliver it when that customer returns for a large bond gain; admitting it is missing causes a large loss.",
 	"Haggling": "Market value is your anchor. A perfect first offer earns the best relationship reward and merchant experience. Push too far and a customer may leave immediately; different customers tolerate one, two, or three rejected offers.",
 	"Displays & appeal": "Customers browse items placed on display furniture. Matching a customer's interests makes a sale more likely. Better stands add attraction, and the shop's cozy, intense, retro, or modern appeal changes who visits.",
@@ -63,6 +77,8 @@ func show_home() -> void:
 	left.add_child(UIKit.button("Order ledger (%d/%d active, %d due)" % [InventoryManager.orders.size(),
 		InventoryManager.order_capacity(), due], show_orders))
 	left.add_child(UIKit.button("Sprite Review" if GameState.admin_mode else "Encyclopedia", show_encyclopedia))
+	if GameState.admin_mode:
+		left.add_child(UIKit.button("Admin Control Center", show_admin_tools))
 	right.add_child(UIKit.header("The Shopkeeper's Handbook"))
 	var intro := UIKit.label("Use the left page to review game systems, check accepted commissions, or browse everything recorded in your encyclopedia.", 10)
 	intro.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -74,6 +90,117 @@ func show_home() -> void:
 	right.add_child(UIKit.label("Perfect deals: %d\nOrders completed: %d\nOrders failed: %d" % [
 		int(GameState.stats.get("perfect_deals", 0)), int(GameState.stats.get("orders_done", 0)),
 		int(GameState.stats.get("orders_failed", 0))], 9, UIKit.COL_DIM))
+
+
+func show_admin_tools() -> void:
+	_clear(left)
+	_clear(right)
+	left.add_child(UIKit.button("‹ Contents", show_home))
+	left.add_child(UIKit.header("ADMIN TOOLS"))
+	left.add_child(UIKit.button("Campaign state", _show_admin_campaign))
+	left.add_child(UIKit.button("World access", _show_admin_worlds))
+	left.add_child(UIKit.button("Force Shop Boom", _show_admin_booms))
+	left.add_child(UIKit.button("Force Market Trend", _show_admin_trends))
+	left.add_child(UIKit.button("Audit item data", open_category.bind("Items")))
+	_show_admin_campaign()
+
+
+func _show_admin_campaign() -> void:
+	_clear(right)
+	right.add_child(UIKit.header("Campaign state"))
+	right.add_child(UIKit.label(
+		"Day %d · Chapter %d · %dg\nMerchant Lv.%d · Shop Lv.%d" % [
+			TimeManager.day, TimeManager.chapter, EconomyManager.gold,
+			GameState.merchant_level, GameState.shop_level], 10, UIKit.COL_ACCENT))
+	var chapter_row := HBoxContainer.new()
+	chapter_row.add_child(UIKit.button("Chapter −", func() -> void:
+		TimeManager.begin_chapter(maxi(1, TimeManager.chapter - 1))
+		_show_admin_campaign(), 8))
+	chapter_row.add_child(UIKit.button("Chapter +", func() -> void:
+		TimeManager.begin_chapter(TimeManager.chapter + 1)
+		_show_admin_campaign(), 8))
+	right.add_child(chapter_row)
+	var day_row := HBoxContainer.new()
+	day_row.add_child(UIKit.button("Advance period", func() -> void:
+		TimeManager.advance(1)
+		_show_admin_campaign(), 8))
+	day_row.add_child(UIKit.button("+10,000g", func() -> void:
+		EconomyManager.add_gold(10000)
+		_show_admin_campaign(), 8))
+	right.add_child(day_row)
+	right.add_child(UIKit.label(
+		"Changes apply immediately to the current test campaign.", 8, UIKit.COL_DIM))
+
+
+func _show_admin_worlds() -> void:
+	_clear(right)
+	right.add_child(UIKit.header("World access"))
+	var list_parts := UIKit.scroll_list(Vector2(205, 178))
+	right.add_child(list_parts[0])
+	var list := list_parts[1] as VBoxContainer
+	for world_id: String in ContentDatabase.world_order:
+		var world := ContentDatabase.get_world(world_id)
+		if bool(world.get("final", false)):
+			continue
+		var repaired := BridgeManager.is_repaired(world_id)
+		list.add_child(UIKit.button("%s  [%s]" % [
+			String(world.get("name", world_id)),
+			"OPEN" if repaired else "SEALED"], func() -> void:
+				BridgeManager.gates[world_id] = {
+					"shard": not repaired,
+					"paid": not repaired,
+					"repaired": not repaired,
+				}
+				if not repaired:
+					BridgeManager.gate_repaired.emit(world_id)
+				_show_admin_worlds(), 8))
+
+
+func _show_admin_booms() -> void:
+	_clear(right)
+	right.add_child(UIKit.header("Force Shop Boom"))
+	var list_parts := UIKit.scroll_list(Vector2(205, 178))
+	right.add_child(list_parts[0])
+	var list := list_parts[1] as VBoxContainer
+	list.add_child(UIKit.button("Clear active Boom", func() -> void:
+		BoomManager.clear_active()
+		_show_admin_booms(), 8))
+	var ids: Array[String] = []
+	ids.assign(ContentDatabase.booms.keys())
+	ids.sort()
+	for boom_id: String in ids:
+		var definition: Dictionary = ContentDatabase.booms[boom_id]
+		list.add_child(UIKit.button(String(definition.get("name", boom_id)),
+			func() -> void:
+				var world_id := ""
+				if String(definition.get("dynamic_world", "")) != "":
+					var worlds := BridgeManager.accessible_worlds()
+					if not worlds.is_empty():
+						world_id = String(worlds[-1])
+				BoomManager.force_boom(boom_id, world_id)
+				_show_admin_booms(), 8))
+	if BoomManager.is_active():
+		right.add_child(UIKit.label("Active: %s" % BoomManager.display_name(),
+			8, UIKit.COL_GOOD))
+
+
+func _show_admin_trends() -> void:
+	_clear(right)
+	right.add_child(UIKit.header("Force Market Trend"))
+	var list_parts := UIKit.scroll_list(Vector2(205, 178))
+	right.add_child(list_parts[0])
+	var list := list_parts[1] as VBoxContainer
+	var ids: Array[String] = []
+	ids.assign(ContentDatabase.market_events.keys())
+	ids.sort()
+	for event_id: String in ids:
+		var event: Dictionary = ContentDatabase.market_events[event_id]
+		list.add_child(UIKit.button(String(event.get("name", event_id)),
+			func() -> void:
+				MarketManager.force_event(event_id, 3)
+				_show_admin_trends(), 8))
+	right.add_child(UIKit.label("Active: %s" % ", ".join(
+		MarketManager.active_event_names()), 8, UIKit.COL_GOOD))
 
 
 func show_help() -> void:
@@ -258,6 +385,9 @@ func show_entry(category: String, entry: Dictionary) -> void:
 		return
 	if GameState.admin_mode:
 		right.add_child(_review_checkbox(category, String(entry["id"]), "Flag this sprite for correction"))
+		if category == "Items":
+			right.add_child(UIKit.button("Audit item data...",
+				_show_item_audit.bind(entry), 8))
 		_add_admin_export_controls(right)
 	var data: Dictionary = entry["data"]
 	var world := ContentDatabase.get_world(String(data.get("world", "")))
@@ -266,6 +396,18 @@ func show_entry(category: String, entry: Dictionary) -> void:
 		"Items":
 			lines.append("Category: %s" % String(data.get("category", "item")).capitalize())
 			lines.append("Market value: %dg" % MarketManager.market_value(String(entry["id"])))
+			lines.append("Sources: %s" % ", ".join(
+				ContentDatabase.item_sources(String(entry["id"]))))
+			var item_worlds := ContentDatabase.item_world_ids(String(entry["id"]))
+			if item_worlds.size() > 1:
+				lines.append("World affinities: %s" % ", ".join(item_worlds))
+			var boom_score := BoomManager.item_match_score(String(entry["id"]))
+			if BoomManager.is_active():
+				lines.append("Current Boom: %s" % (
+					"affected" if boom_score > 0.0 else "not affected"))
+			var trend := MarketManager.price_multiplier(String(entry["id"]))
+			if absf(trend - 1.0) > 0.001:
+				lines.append("Current trend: x%.2f" % trend)
 			var tags: Array = data.get("tags", [])
 			if not tags.is_empty(): lines.append("Tags: %s" % ", ".join(tags))
 			lines.append(String(data.get("desc", "No notes recorded.")))
@@ -406,11 +548,137 @@ func _add_admin_export_controls(page: VBoxContainer) -> void:
 	row.add_child(count)
 	row.add_child(UIKit.button("Export .md + copy", _export_admin_review, 8))
 	page.add_child(row)
+	var item_row := HBoxContainer.new()
+	item_row.add_theme_constant_override("separation", 5)
+	var item_count := UIKit.label("%d item data flags" %
+		GameState.admin_item_flag_count(), 8, UIKit.COL_BAD)
+	item_count.name = "AdminItemFlagCount"
+	item_count.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	item_row.add_child(item_count)
+	item_row.add_child(UIKit.button("Export audit pack",
+		_export_item_audit_pack, 8))
+	page.add_child(item_row)
 	var status := UIKit.label("", 8, UIKit.COL_DIM)
 	status.name = "AdminReviewExportStatus"
 	status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	status.custom_minimum_size.x = 205
 	page.add_child(status)
+
+
+func _show_item_audit(entry: Dictionary) -> void:
+	_clear(right)
+	var item_id := String(entry["id"])
+	var item := ContentDatabase.get_item(item_id)
+	right.add_child(UIKit.header("Audit: %s" % ContentDatabase.item_name(item_id)))
+	var summary := UIKit.label(
+		"World: %s\nCategory: %s\nSources:\n%s" % [
+			String(item.get("world", "Unknown")),
+			String(item.get("category", "item")),
+			", ".join(ContentDatabase.item_sources(item_id))], 8, UIKit.COL_DIM)
+	summary.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	summary.custom_minimum_size.x = 205
+	right.add_child(summary)
+	var list_parts := UIKit.scroll_list(Vector2(205, 100))
+	right.add_child(list_parts[0])
+	var list := list_parts[1] as VBoxContainer
+	for issue: String in ITEM_AUDIT_ISSUES:
+		var check := CheckBox.new()
+		check.name = "AdminItemIssueCheck"
+		check.text = String(ITEM_AUDIT_ISSUES[issue])
+		check.theme = UIKit.light_theme()
+		check.set_pressed_no_signal(
+			GameState.is_admin_item_issue_flagged(item_id, issue))
+		check.toggled.connect(func(flagged: bool) -> void:
+			GameState.set_admin_item_issue(item_id, issue, flagged)
+			_sync_admin_item_flag_controls())
+		list.add_child(check)
+	var note := LineEdit.new()
+	note.name = "AdminItemAuditNote"
+	note.placeholder_text = "Expected correction / notes"
+	note.text = String(GameState.admin_item_flag(item_id).get("note", ""))
+	note.theme = UIKit.light_theme()
+	right.add_child(note)
+	var actions := HBoxContainer.new()
+	actions.add_theme_constant_override("separation", 4)
+	actions.add_child(UIKit.button("Save note", func() -> void:
+		GameState.set_admin_item_note(item_id, note.text)
+		_set_admin_export_status("Saved audit note for %s" %
+			ContentDatabase.item_name(item_id), false), 8))
+	actions.add_child(UIKit.button("Export pack", _export_item_audit_pack, 8))
+	actions.add_child(UIKit.button("Back", show_entry.bind("Items", entry), 8))
+	right.add_child(actions)
+
+
+func _sync_admin_item_flag_controls() -> void:
+	for node in find_children("AdminItemFlagCount", "Label", true, false):
+		(node as Label).text = "%d item data flags" % \
+			GameState.admin_item_flag_count()
+
+
+func _export_item_audit_pack() -> void:
+	var flags := GameState.admin_item_flags.duplicate(true)
+	for item_id: String in flags:
+		var entry: Dictionary = flags[item_id]
+		entry["item_name"] = ContentDatabase.item_name(item_id)
+		entry["current_data"] = ContentDatabase.get_item(item_id).duplicate(true)
+		entry["current_sources"] = ContentDatabase.item_sources(item_id)
+		entry["current_worlds"] = ContentDatabase.item_world_ids(item_id)
+		entry["boom_match_score"] = BoomManager.item_match_score(item_id)
+		entry["market_multiplier"] = MarketManager.price_multiplier(item_id)
+	var pack := {
+		"schema": "crossroads.item_audit_pack.v1",
+		"generated": Time.get_datetime_string_from_system(),
+		"campaign": {
+			"day": TimeManager.day,
+			"chapter": TimeManager.chapter,
+			"gold": EconomyManager.gold,
+			"accessible_worlds": BridgeManager.accessible_worlds(),
+			"active_boom": BoomManager.to_save(),
+			"market_events": MarketManager.active_event_details(),
+			"inventory": InventoryManager.storage.duplicate(true),
+		},
+		"flags": flags,
+	}
+	var lines: Array[String] = [
+		"# Crossroads Item Audit Pack", "",
+		"Generated: %s" % pack["generated"],
+		"Campaign: Day %d, Chapter %d" % [TimeManager.day, TimeManager.chapter],
+		"Flagged items: %d" % flags.size(), "",
+	]
+	if flags.is_empty():
+		lines.append("_No item data issues flagged._")
+	for item_id: String in flags:
+		var entry: Dictionary = flags[item_id]
+		lines.append("## %s (`%s`)" % [
+			ContentDatabase.item_name(item_id), item_id])
+		lines.append("")
+		var issue_names: Array[String] = []
+		for issue: Variant in entry.get("issues", []):
+			issue_names.append(String(ITEM_AUDIT_ISSUES.get(
+				String(issue), String(issue))))
+		lines.append("- Issues: %s" % (
+			", ".join(issue_names) if not issue_names.is_empty() else "note only"))
+		lines.append("- World: `%s`" % String(
+			ContentDatabase.get_item(item_id).get("world", "")))
+		lines.append("- Sources: %s" % ", ".join(
+			ContentDatabase.item_sources(item_id)))
+		var note := String(entry.get("note", ""))
+		if note != "":
+			lines.append("- Player note: %s" % note)
+		lines.append("")
+	var export_dir := ProjectSettings.globalize_path("user://exports")
+	DirAccess.make_dir_recursive_absolute(export_dir)
+	var json_file := FileAccess.open(ADMIN_ITEM_EXPORT_JSON, FileAccess.WRITE)
+	var md_file := FileAccess.open(ADMIN_ITEM_EXPORT_MD, FileAccess.WRITE)
+	if json_file == null or md_file == null:
+		_set_admin_export_status("Item audit export failed.", true)
+		return
+	json_file.store_string(JSON.stringify(pack, "\t"))
+	var markdown := "\n".join(lines)
+	md_file.store_string(markdown)
+	DisplayServer.clipboard_set(markdown)
+	_set_admin_export_status("Audit pack exported and copied:\n%s" %
+		ProjectSettings.globalize_path(ADMIN_ITEM_EXPORT_JSON), false)
 
 
 func _export_admin_review() -> void:

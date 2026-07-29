@@ -311,9 +311,54 @@ static func likes_item(cust: Dictionary, item_id: String) -> bool:
 	if String(it.get("category", "")) in arch.get("likes_categories", []):
 		return true
 	# named characters prefer goods from their own world
-	if String(cust.get("world", "")) != "" and String(it.get("world", "")) == String(cust.get("world", "")):
+	if String(cust.get("world", "")) != "" and ContentDatabase.item_matches_world(
+			item_id, String(cust.get("world", ""))):
 		return true
 	return false
+
+
+## Relationship-aware opening dialogue. This is intentionally deterministic
+## for a given day and bond tier so characters feel consistent while still
+## developing new lines as the player gets to know them.
+static func conversation_opener(cust: Dictionary, item_id: String) -> String:
+	var customer_id := String(cust.get("id", ""))
+	var bond := RelationshipManager.level(customer_id)
+	var budget := int(cust.get("budget", 0))
+	var value := MarketManager.market_value(item_id)
+	if customer_id == "goofy_c" and bond >= 1 and budget < value:
+		return "Gawrsh, we're friends now, right? Could you help me out? I promised my gal I'd bring something special."
+	var familiar: Dictionary = {
+		"sora_c": [
+			"Hey, you remembered what I like. Let's find something worthy of the next world.",
+			"Back again! Donald says I trust your prices too much. I say you've earned it."],
+		"donald_c": [
+			"Don't get smug! I came back because your stock is good, not because I like you!",
+			"Okay, okay — maybe you know what you're doing. But I'm still checking the price!"],
+		"goofy_c": [
+			"Gawrsh, this place is starting to feel like one of our regular stops.",
+			"I told the others you'd take care of us. Let's see what came in today."],
+		"mario_c": [
+			"(Mario greets you like an old teammate, then points excitedly at the shelf.)",
+			"(A familiar thumbs-up. He already trusts your recommendation.)"],
+		"cloud_c": [
+			"...You kept it quiet in here. I appreciate that.",
+			"I don't usually take a merchant's advice. Yours has been useful."],
+		"link_c": [
+			"(He sets an empty bottle on the counter. Somehow, this feels like trust.)",
+			"(A small nod. He remembers the last deal.)"],
+		"naruto_c": [
+			"You always come through! Just don't tell Sakura how much I spent last time.",
+			"Okay, friend price — and then ramen. That's the plan."],
+		"goku_c": [
+			"Hey, it's my favorite shopkeeper! Do you have anything that works up an appetite?",
+			"I remembered my wallet this time! ...I think."],
+	}
+	if bond >= 2 and familiar.has(customer_id):
+		var lines: Array = familiar[customer_id]
+		return String(lines[(TimeManager.day + bond) % lines.size()])
+	if bond >= 1:
+		return "Good to see you again. You treated me fairly last time."
+	return String(cust.get("line", ""))
 
 
 ## Pick the exact display slot this customer wants to visit. Keeping the slot
@@ -387,13 +432,13 @@ static func make_order_offer(cust: Dictionary, direct_boom_request: bool = false
 				"item": return item_id == target
 				"category": return String(item.get("category", "")) == target
 				"tag": return target in item.get("tags", [])
-				"world": return String(item.get("world", "")) == target
+				"world": return ContentDatabase.item_matches_world(item_id, target)
 			return false)
 	if candidates.is_empty():
 		return {}
 	var preferred := candidates.filter(func(item_id: String) -> bool:
 		var item := ContentDatabase.get_item(item_id)
-		if String(item.get("world", "")) == String(cust.get("world", "")):
+		if ContentDatabase.item_matches_world(item_id, String(cust.get("world", ""))):
 			return true
 		for category in arch.get("likes_categories", []):
 			if String(item.get("category", "")) == String(category): return true
