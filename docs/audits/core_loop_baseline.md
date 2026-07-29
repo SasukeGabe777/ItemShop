@@ -3,6 +3,7 @@
 Generated deterministically by `tools/core_loop_audit.py`.
 
 - Items: 268 (216 live with art)
+- Rarities: Common 77, Legendary 33, Rare 74, Uncommon 84
 - Errors: 0
 - Warnings: 4
 

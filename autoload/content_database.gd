@@ -30,6 +30,9 @@ var furniture: Dictionary = {}
 var locations: Dictionary = {}
 var customer_visual_pool: Array = []
 var live_items: Array[String] = []    # sellable items with real icon art
+const ITEM_RARITIES: Array[String] = [
+	"Common", "Uncommon", "Rare", "Legendary",
+]
 var _live_sub_cache: Dictionary = {}
 
 var load_errors: Array[String] = []
@@ -164,6 +167,15 @@ func item_sources(id: String) -> Array[String]:
 		if source != "" and source not in out:
 			out.append(source)
 	return out
+
+
+func item_rarity(id: String) -> String:
+	var rarity := String(get_item(id).get("rarity", "Common")).capitalize()
+	return rarity if rarity in ITEM_RARITIES else "Common"
+
+
+func item_rarity_rank(id: String) -> int:
+	return ITEM_RARITIES.find(item_rarity(id))
 
 
 func item_unlock_chapter(id: String) -> int:

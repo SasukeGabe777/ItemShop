@@ -4,7 +4,9 @@ Everything gameplay-visible is data. Common additions:
 
 ## Add an item
 Append to `data/items.json`. Fields: `id, name, world, category
-(weapon|armor|accessory|consumable|food|material|treasure|key), tags, price,
+(weapon|armor|accessory|consumable|food|material|treasure|key), rarity
+(Common|Uncommon|Rare|Legendary), acquisition (market|crafting|
+expedition_enemy|expedition_chest|expedition_boss), tags, price,
 appeal {cozy|intense|retro|modern}, stats {atk,def,spd}, effect {heal, meter,
 buff_atk, buff_def, revive, aoe_damage, ...}, slot (accessory|charm), desc`.
 It immediately becomes sellable, order-able, craftable-into, and lootable.

@@ -7,10 +7,12 @@ signal closed()
 var left: VBoxContainer
 var right: VBoxContainer
 var _modal_layer: CanvasLayer
+var item_rarity_filter := "All"
 
 const ADMIN_EXPORT_PATH := "user://exports/sprite_review.md"
 const ADMIN_ITEM_EXPORT_JSON := "user://exports/item_audit_pack.json"
 const ADMIN_ITEM_EXPORT_MD := "user://exports/item_audit_pack.md"
+const ITEM_RARITY_FILTERS := ["All", "Common", "Uncommon", "Rare", "Legendary"]
 const ITEM_AUDIT_ISSUES := {
 	"wrong_world": "Wrong origin / world",
 	"wrong_category": "Wrong category / tags",
@@ -19,6 +21,7 @@ const ITEM_AUDIT_ISSUES := {
 	"wrong_boom": "Wrong Boom match",
 	"wrong_trend": "Wrong trend match",
 	"wrong_value": "Wrong value / balance",
+	"wrong_rarity": "Wrong rarity",
 	"wrong_effect": "Wrong / missing effect",
 	"wrong_sprite": "Wrong / missing sprite",
 	"other": "Other data issue",
@@ -27,7 +30,7 @@ const ITEM_AUDIT_ISSUES := {
 const HELP_TOPICS := {
 	"Bond": "Bond is your long-term relationship with a customer. Fair sales and completed orders raise it; broken promises and insulting deals lower it. Every 10 points raises Bond by one level, up to level 5. A completed order is worth a major +8 points; failing one costs 6 points.",
 	"Customer mood": "The icon above a customer shows today's mood. A heart means good mood, the pale face is neutral, and the angry cloud means bad mood. Mood changes how generous and patient they are during a deal.",
-	"Purse": "Purse compares the customer's maximum spending power with this item's current market value. The percentage makes that limit predictable: below 100% means they genuinely cannot reach full market price. Mood and personality change patience, not their coin limit.",
+	"Purse": "Price Read shows the highest offer this customer will currently accept. It combines their purse, personality, mood, preferences, your Bond, and shop bonuses. An offer at or below the displayed limit is safe; their wallet alone is never presented as a promise.",
 	"Orders": "At most one customer can request an order each day. Your order capacity grows with shop level: 4, 6, 8, 10, then 12 orders. When the ledger is full, no new requests appear. Accept a rare item or plentiful batch request, note the return day, and keep the full amount in storage. Deliver it when that customer returns for a large bond gain; admitting it is missing causes a large loss.",
 	"Haggling": "Market value is your anchor. A perfect first offer earns the best relationship reward and merchant experience. Push too far and a customer may leave immediately; different customers tolerate one, two, or three rejected offers.",
 	"Displays & appeal": "Customers browse items placed on display furniture. Matching a customer's interests makes a sale more likely. Better stands add attraction, and the shop's cozy, intense, retro, or modern appeal changes who visits.",
@@ -47,12 +50,26 @@ func _ready() -> void:
 	var right_page := UIKit.ornate_panel(Vector2(278, 242))
 	pages.add_child(left_page)
 	pages.add_child(right_page)
+	var left_scroll := ScrollContainer.new()
+	left_scroll.custom_minimum_size = Vector2(164, 188)
+	left_scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	left_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	left_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	left_page.add_child(left_scroll)
 	left = VBoxContainer.new()
 	left.add_theme_constant_override("separation", 4)
-	left_page.add_child(left)
+	left.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	left_scroll.add_child(left)
+	var right_scroll := ScrollContainer.new()
+	right_scroll.custom_minimum_size = Vector2(206, 188)
+	right_scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	right_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	right_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	right_page.add_child(right_scroll)
 	right = VBoxContainer.new()
 	right.add_theme_constant_override("separation", 4)
-	right_page.add_child(right)
+	right.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	right_scroll.add_child(right)
 	root.add_child(UIKit.button("Close book", _close))
 	GameState.admin_mode_changed.connect(func(_enabled: bool) -> void: show_encyclopedia())
 	show_home()
@@ -309,6 +326,10 @@ func open_category(category: String) -> void:
 	_clear(right)
 	left.add_child(UIKit.button("‹ Categories", show_encyclopedia))
 	left.add_child(UIKit.header(category))
+	if category == "Items":
+		left.add_child(UIKit.button(
+			"Rarity: %s →" % item_rarity_filter,
+			_cycle_item_rarity, 8))
 	var list_parts := UIKit.scroll_list(Vector2(195 if GameState.admin_mode else 165,
 		160 if GameState.admin_mode else 185))
 	left.add_child(list_parts[0])
@@ -320,6 +341,10 @@ func open_category(category: String) -> void:
 	grid.add_theme_constant_override("v_separation", 3)
 	(list_parts[1] as VBoxContainer).add_child(grid)
 	var entries := _entries(category)
+	if category == "Items" and item_rarity_filter != "All":
+		entries = entries.filter(func(entry: Dictionary) -> bool:
+			return ContentDatabase.item_rarity(String(entry.get("id", ""))) \
+				== item_rarity_filter)
 	entries.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
 		var a_discovered := _entry_is_discovered(category, a)
 		var b_discovered := _entry_is_discovered(category, b)
@@ -332,7 +357,7 @@ func open_category(category: String) -> void:
 	else:
 		for entry: Dictionary in entries:
 			var row := HBoxContainer.new()
-			row.custom_minimum_size = Vector2(190 if GameState.admin_mode else 150, 40)
+			row.custom_minimum_size = Vector2(160 if GameState.admin_mode else 150, 40)
 			var entry_id := String(entry["id"])
 			var discovered := _entry_is_discovered(category, entry)
 			if GameState.admin_mode:
@@ -370,11 +395,20 @@ func open_category(category: String) -> void:
 		show_entry(category, entries[0])
 
 
+func _cycle_item_rarity() -> void:
+	var next := (ITEM_RARITY_FILTERS.find(item_rarity_filter) + 1) \
+		% ITEM_RARITY_FILTERS.size()
+	item_rarity_filter = ITEM_RARITY_FILTERS[next]
+	open_category("Items")
+
+
 func show_entry(category: String, entry: Dictionary) -> void:
 	_clear(right)
 	var discovered := _entry_is_discovered(category, entry)
 	var entry_name := String(entry["name"]) if discovered else "Undiscovered"
 	right.add_child(UIKit.header(entry_name))
+	if discovered and category == "Items":
+		right.add_child(UIKit.rarity_label(String(entry["id"]), 10))
 	var preview := _add_preview(right, _entry_texture(category, entry), entry_name)
 	if not discovered:
 		preview.modulate = Color(0.10, 0.11, 0.15, 0.52)

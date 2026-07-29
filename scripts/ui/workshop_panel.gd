@@ -7,6 +7,9 @@ signal closed()
 
 var list: VBoxContainer
 var gold_lbl: Label
+var rarity_button: Button
+var rarity_filter := "All"
+const RARITY_FILTERS := ["All", "Common", "Uncommon", "Rare", "Legendary"]
 
 
 func _ready() -> void:
@@ -17,9 +20,12 @@ func _ready() -> void:
 	gold_row.add_child(UIKit.gold_icon("small", Vector2(18, 15)))
 	gold_lbl = UIKit.label("Gold: %d" % EconomyManager.gold, 10, UIKit.COL_ACCENT)
 	gold_row.add_child(gold_lbl)
+	gold_row.add_child(UIKit.spacer(false))
+	rarity_button = UIKit.button("Rarity: All →", _cycle_rarity, 8)
+	gold_row.add_child(rarity_button)
 	vb.add_child(gold_row)
 	vb.add_child(UIKit.label("Base values are shown so every craft can be judged before spending. Daily market trends may change resale value.", 8, UIKit.COL_DIM))
-	var list_parts := UIKit.scroll_list(Vector2(520, 250))
+	var list_parts := UIKit.scroll_list(Vector2(520, 190))
 	vb.add_child(list_parts[0])
 	list = list_parts[1]
 	_fill()
@@ -32,8 +38,22 @@ func _fill() -> void:
 	UIKit.rebuild_list(list, _fill_rows)
 
 
+func _cycle_rarity() -> void:
+	var next := (RARITY_FILTERS.find(rarity_filter) + 1) % RARITY_FILTERS.size()
+	rarity_filter = RARITY_FILTERS[next]
+	rarity_button.text = "Rarity: %s →" % rarity_filter
+	_fill()
+
+
+func _shows_item(item_id: String) -> bool:
+	return rarity_filter == "All" \
+		or ContentDatabase.item_rarity(item_id) == rarity_filter
+
+
 func _fill_rows() -> void:
 	var recipes := ContentDatabase.recipes_for_chapter(TimeManager.chapter)
+	recipes = recipes.filter(func(recipe: Dictionary) -> bool:
+		return _shows_item(String(recipe.get("output", ""))))
 	recipes.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
 		var chapter_a := int(a.get("unlock_chapter", 1))
 		var chapter_b := int(b.get("unlock_chapter", 1))
@@ -80,7 +100,8 @@ func _fill_rows() -> void:
 		list.add_child(entry)
 	# Future recipes show greyed so the workshop hints at what's coming.
 	var locked := ContentDatabase.recipes_for_chapter(99).filter(func(r: Dictionary) -> bool:
-		return int(r.get("unlock_chapter", 1)) > TimeManager.chapter)
+		return int(r.get("unlock_chapter", 1)) > TimeManager.chapter \
+			and _shows_item(String(r.get("output", ""))))
 	locked.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
 		return int(a.get("unlock_chapter", 1)) < int(b.get("unlock_chapter", 1)))
 	if not locked.is_empty():

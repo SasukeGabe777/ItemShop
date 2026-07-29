@@ -32,8 +32,11 @@ static func maybe_show(parent: Node) -> void:
 static func show_report(parent: Node) -> CanvasLayer:
 	var parts := UIKit.modal(parent, "")
 	var layer: CanvasLayer = parts[0]
-	var vb: VBoxContainer = parts[1]
-	vb.custom_minimum_size = Vector2(500, 0)
+	var root_vb: VBoxContainer = parts[1]
+	root_vb.custom_minimum_size = Vector2(500, 0)
+	var report_parts := UIKit.scroll_list(Vector2(500, 235))
+	root_vb.add_child(report_parts[0])
+	var vb: VBoxContainer = report_parts[1]
 	vb.add_theme_constant_override("separation", 4)
 	var title := UIKit.label("Day %d — %s" % [TimeManager.day, TimeManager.period_name()], 22, UIKit.COL_ACCENT)
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -120,9 +123,12 @@ static func show_report(parent: Node) -> CanvasLayer:
 		for item_id: String in affected_ids.slice(0, mini(6, affected_ids.size())):
 			affected_names.append(ContentDatabase.item_name(item_id))
 		if affected_names.is_empty():
-			vb.add_child(UIKit.label(
-				"Affected obtainable items: none — report this in Admin Audit.",
-				10, UIKit.COL_BAD))
+			var all_affected := MarketManager.event_affected_items(
+				String(ev["id"]), false)
+			var unavailable_copy := "No matching goods are obtainable yet."
+			if all_affected.is_empty():
+				unavailable_copy = "This event has no matching catalog goods."
+			vb.add_child(UIKit.label(unavailable_copy, 10, UIKit.COL_DIM))
 		else:
 			var remaining := affected_ids.size() - affected_names.size()
 			vb.add_child(UIKit.label("Affected now: %s%s" % [
@@ -138,7 +144,7 @@ static func show_report(parent: Node) -> CanvasLayer:
 	vb.add_child(UIKit.label("Tip: the Market screen colors every item green or red by today's demand.", 9, UIKit.COL_DIM))
 	var btn_row := HBoxContainer.new()
 	btn_row.alignment = BoxContainer.ALIGNMENT_CENTER
-	vb.add_child(btn_row)
+	root_vb.add_child(btn_row)
 	var button_text := "Prepare for today's Booms" \
 		if BoomManager.is_active() or BoomManager.is_expedition_active() \
 		else "Start the day"

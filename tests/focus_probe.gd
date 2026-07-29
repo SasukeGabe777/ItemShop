@@ -68,6 +68,7 @@ func _probe_market() -> void:
 	print("MARKET focus before rebuild: row ", target_row, " ", _desc(get_viewport().gui_get_focus_owner()))
 	panel._fill()
 	await get_tree().process_frame
+	await get_tree().process_frame
 	var focus := get_viewport().gui_get_focus_owner()
 	var row_after := -1
 	var fresh: Array = panel._list.get_children().filter(func(c: Node) -> bool:

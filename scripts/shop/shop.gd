@@ -1137,10 +1137,15 @@ func _open_slot_picker(slot: int, who: int = 1) -> void:
 	sort_row.add_theme_constant_override("separation", 6)
 	vb.add_child(sort_row)
 	sort_row.add_child(UIKit.spacer(false))
-	var list_parts := UIKit.scroll_list(Vector2(500, 230))
+	# The slot preview already consumes 84px; keep the browser bounded so the
+	# Cancel bar and ornate frame remain visible at the 360px design height.
+	var list_parts := UIKit.scroll_list(Vector2(500, 135))
 	vb.add_child(list_parts[0])
 	var list: VBoxContainer = list_parts[1]
 	var sort_mode := {"v": "price"}
+	var rarity_filter := {"v": "All"}
+	var sort_modes := ["hot", "name", "price", "rarity", "category", "world"]
+	var rarity_filters := ["All", "Common", "Uncommon", "Rare", "Legendary"]
 	var fill_rows := func() -> void:
 		for id in InventoryManager.sorted_ids(sort_mode["v"]):
 			var it := ContentDatabase.get_item(id)
@@ -1148,12 +1153,24 @@ func _open_slot_picker(slot: int, who: int = 1) -> void:
 				continue
 			if not allowed.is_empty() and not (String(it.get("category", "")) in allowed):
 				continue
+			if rarity_filter["v"] != "All" and ContentDatabase.item_rarity(id) != rarity_filter["v"]:
+				continue
 			list.add_child(_make_pick_row(id, slot, pick_layer, who))
 	var refill := func() -> void: UIKit.rebuild_list(list, fill_rows)
-	for mode in ["hot", "name", "price", "category", "world"]:
-		sort_row.add_child(UIKit.button("Sort: %s" % mode, func() -> void:
-			sort_mode["v"] = mode
-			refill.call(), 8))
+	var sort_button: Button
+	sort_button = UIKit.button("Sort: Price →", func() -> void:
+		var next := (sort_modes.find(sort_mode["v"]) + 1) % sort_modes.size()
+		sort_mode["v"] = sort_modes[next]
+		sort_button.text = "Sort: %s →" % String(sort_mode["v"]).capitalize()
+		refill.call(), 8)
+	sort_row.add_child(sort_button)
+	var rarity_button: Button
+	rarity_button = UIKit.button("Rarity: All →", func() -> void:
+		var next := (rarity_filters.find(rarity_filter["v"]) + 1) % rarity_filters.size()
+		rarity_filter["v"] = rarity_filters[next]
+		rarity_button.text = "Rarity: %s →" % rarity_filter["v"]
+		refill.call(), 8)
+	sort_row.add_child(rarity_button)
 	fill_rows.call()
 	vb.add_child(UIKit.button("Cancel", func() -> void: _close_modal(pick_layer, who)))
 
@@ -1169,13 +1186,13 @@ func _make_pick_row(id: String, slot: int, pick_layer: CanvasLayer, who: int = 1
 	row.custom_minimum_size = Vector2(0, 26)
 	entry.add_child(row)
 	row.add_child(UIKit.item_icon(id))
+	var rarity_badge := UIKit.rarity_label(id)
+	rarity_badge.custom_minimum_size.x = 58
+	row.add_child(rarity_badge)
 	var name_lbl := UIKit.label(ContentDatabase.item_name(id), 10)
 	name_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	name_lbl.clip_text = true
 	row.add_child(name_lbl)
-	var cat_lbl := UIKit.label(String(it.get("category", "")).capitalize(), 9, UIKit.COL_DIM)
-	cat_lbl.custom_minimum_size = Vector2(64, 0)
-	row.add_child(cat_lbl)
 	var mult := MarketManager.price_multiplier(id)
 	var trend_lbl := UIKit.label("— steady", 9, UIKit.COL_DIM)
 	if mult >= 1.05:
@@ -1200,17 +1217,16 @@ func _make_pick_row(id: String, slot: int, pick_layer: CanvasLayer, who: int = 1
 	place_btn.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	row.add_child(place_btn)
 	var appeal: Dictionary = it.get("appeal", {})
-	if not appeal.is_empty():
-		var bits: Array[String] = []
-		for k: String in appeal:
-			bits.append("%s+%d" % [k, int(appeal[k])])
-		var sub := UIKit.label(" ".join(bits), 8, UIKit.COL_DIM)
-		sub.clip_text = true
-		var sub_pad := MarginContainer.new()
-		sub_pad.add_theme_constant_override("margin_left", 30)
-		sub_pad.add_theme_constant_override("margin_bottom", 4)
-		sub_pad.add_child(sub)
-		entry.add_child(sub_pad)
+	var bits: Array[String] = [String(it.get("category", "")).capitalize()]
+	for k: String in appeal:
+		bits.append("%s+%d" % [k, int(appeal[k])])
+	var sub := UIKit.label(" · ".join(bits), 8, UIKit.COL_DIM)
+	sub.clip_text = true
+	var sub_pad := MarginContainer.new()
+	sub_pad.add_theme_constant_override("margin_left", 30)
+	sub_pad.add_theme_constant_override("margin_bottom", 4)
+	sub_pad.add_child(sub)
+	entry.add_child(sub_pad)
 	return entry
 
 
@@ -1485,16 +1501,33 @@ func _open_storage(who: int = 1) -> void:
 	var list_parts := UIKit.scroll_list(Vector2(360, 210))
 	vb.add_child(list_parts[0])
 	var list: VBoxContainer = list_parts[1]
-	var fill := func(mode: String) -> void:
-		for child in list.get_children():
-			child.queue_free()
-		for id in InventoryManager.sorted_ids(mode):
+	var sort_mode := {"v": "hot"}
+	var rarity_filter := {"v": "All"}
+	var sort_modes := ["hot", "name", "price", "rarity", "category", "world"]
+	var rarity_filters := ["All", "Common", "Uncommon", "Rare", "Legendary"]
+	var fill_rows := func() -> void:
+		for id in InventoryManager.sorted_ids(sort_mode["v"]):
+			if rarity_filter["v"] != "All" and ContentDatabase.item_rarity(id) != rarity_filter["v"]:
+				continue
 			var it := ContentDatabase.get_item(id)
 			list.add_child(UIKit.item_row(id, "x%d  ~%dg  [%s/%s]" % [InventoryManager.count(id), MarketManager.market_value(id),
 				String(it.get("world", "?")), String(it.get("category", "?"))], "", Callable()))
-	for mode in ["hot", "name", "price", "category", "world"]:
-		sort_row.add_child(UIKit.button("Sort: %s" % mode, func() -> void: fill.call(mode)))
-	fill.call("hot")
+	var refill := func() -> void: UIKit.rebuild_list(list, fill_rows)
+	var sort_button: Button
+	sort_button = UIKit.button("Sort: Hot →", func() -> void:
+		var next := (sort_modes.find(sort_mode["v"]) + 1) % sort_modes.size()
+		sort_mode["v"] = sort_modes[next]
+		sort_button.text = "Sort: %s →" % String(sort_mode["v"]).capitalize()
+		refill.call())
+	sort_row.add_child(sort_button)
+	var rarity_button: Button
+	rarity_button = UIKit.button("Rarity: All →", func() -> void:
+		var next := (rarity_filters.find(rarity_filter["v"]) + 1) % rarity_filters.size()
+		rarity_filter["v"] = rarity_filters[next]
+		rarity_button.text = "Rarity: %s →" % rarity_filter["v"]
+		refill.call())
+	sort_row.add_child(rarity_button)
+	fill_rows.call()
 	var appeal := InventoryManager.shop_appeal()
 	vb.add_child(UIKit.label("Shop appeal — cozy %d | intense %d | retro %d | modern %d (dominant: %s)" % [
 		int(appeal["cozy"]), int(appeal["intense"]), int(appeal["retro"]), int(appeal["modern"]), InventoryManager.dominant_appeal()], 9, UIKit.COL_DIM))

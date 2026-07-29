@@ -22,7 +22,8 @@
    "world": "kingdom_hearts",
    "acquisition": [
     "expedition_boss"
-   ]
+   ],
+   "rarity": "Legendary"
   },
   {
    "appeal": {
@@ -44,7 +45,8 @@
    "acquisition": [
     "market",
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "appeal": {
@@ -66,7 +68,8 @@
    "acquisition": [
     "market",
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "appeal": {
@@ -91,7 +94,8 @@
    "acquisition": [
     "crafting"
    ],
-   "unlock_chapter": 1
+   "unlock_chapter": 1,
+   "rarity": "Rare"
   },
   {
    "appeal": {
@@ -117,7 +121,8 @@
     "market",
     "expedition_enemy"
    ],
-   "unlock_chapter": 1
+   "unlock_chapter": 1,
+   "rarity": "Uncommon"
   },
   {
    "appeal": {
@@ -134,7 +139,8 @@
    "world": "kingdom_hearts",
    "acquisition": [
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "appeal": {
@@ -153,7 +159,8 @@
    "acquisition": [
     "market",
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "appeal": {
@@ -173,7 +180,8 @@
    "acquisition": [
     "market",
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "appeal": {
@@ -193,7 +201,8 @@
    "acquisition": [
     "market",
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "appeal": {
@@ -213,7 +222,8 @@
    "acquisition": [
     "market",
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "appeal": {
@@ -232,7 +242,8 @@
    "world": "kingdom_hearts",
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "appeal": {
@@ -252,7 +263,8 @@
    "acquisition": [
     "expedition_enemy",
     "expedition_boss"
-   ]
+   ],
+   "rarity": "Rare"
   },
   {
    "appeal": {
@@ -271,7 +283,8 @@
    "world": "kingdom_hearts",
    "acquisition": [
     "expedition_chest"
-   ]
+   ],
+   "rarity": "Rare"
   },
   {
    "appeal": {
@@ -290,7 +303,8 @@
    "acquisition": [
     "market",
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "appeal": {
@@ -314,7 +328,8 @@
    "world": "kingdom_hearts",
    "acquisition": [
     "expedition_chest"
-   ]
+   ],
+   "rarity": "Rare"
   },
   {
    "appeal": {
@@ -337,7 +352,8 @@
    "acquisition": [
     "market",
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "appeal": {
@@ -361,7 +377,8 @@
    "acquisition": [
     "market",
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "appeal": {
@@ -384,7 +401,8 @@
    "world": "mario",
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "appeal": {
@@ -408,7 +426,8 @@
    "acquisition": [
     "market",
     "expedition_boss"
-   ]
+   ],
+   "rarity": "Rare"
   },
   {
    "appeal": {
@@ -435,7 +454,8 @@
     "expedition_enemy",
     "expedition_boss"
    ],
-   "unlock_chapter": 2
+   "unlock_chapter": 2,
+   "rarity": "Rare"
   },
   {
    "appeal": {
@@ -454,7 +474,8 @@
    "acquisition": [
     "market",
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "appeal": {
@@ -474,7 +495,8 @@
    "acquisition": [
     "crafting"
    ],
-   "unlock_chapter": 3
+   "unlock_chapter": 3,
+   "rarity": "Rare"
   },
   {
    "appeal": {
@@ -496,7 +518,8 @@
    "world": "mario",
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "appeal": {
@@ -519,7 +542,8 @@
    "world": "mario",
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "appeal": {
@@ -544,7 +568,8 @@
     "market",
     "expedition_enemy"
    ],
-   "unlock_chapter": 2
+   "unlock_chapter": 2,
+   "rarity": "Uncommon"
   },
   {
    "appeal": {
@@ -563,7 +588,8 @@
    "acquisition": [
     "market",
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "appeal": {
@@ -582,7 +608,8 @@
    "world": "mario",
    "acquisition": [
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Rare"
   },
   {
    "appeal": {
@@ -602,7 +629,8 @@
    "world": "mario",
    "acquisition": [
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "appeal": {
@@ -621,7 +649,8 @@
    "world": "mario",
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Rare"
   },
   {
    "appeal": {
@@ -642,7 +671,8 @@
    "acquisition": [
     "market",
     "expedition_boss"
-   ]
+   ],
+   "rarity": "Rare"
   },
   {
    "appeal": {
@@ -663,7 +693,8 @@
    "world": "mario",
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Uncommon"
   },
   {
    "appeal": {
@@ -687,7 +718,8 @@
    "acquisition": [
     "crafting"
    ],
-   "unlock_chapter": 7
+   "unlock_chapter": 7,
+   "rarity": "Legendary"
   },
   {
    "appeal": {
@@ -712,7 +744,8 @@
     "market",
     "expedition_enemy"
    ],
-   "unlock_chapter": 5
+   "unlock_chapter": 5,
+   "rarity": "Uncommon"
   },
   {
    "appeal": {
@@ -736,7 +769,8 @@
    "acquisition": [
     "market",
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Rare"
   },
   {
    "appeal": {
@@ -758,7 +792,8 @@
    "acquisition": [
     "market",
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "appeal": {
@@ -782,7 +817,8 @@
     "market",
     "expedition_enemy"
    ],
-   "unlock_chapter": 3
+   "unlock_chapter": 3,
+   "rarity": "Uncommon"
   },
   {
    "appeal": {
@@ -804,7 +840,8 @@
    "acquisition": [
     "market",
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "appeal": {
@@ -829,7 +866,8 @@
     "crafting",
     "expedition_enemy"
    ],
-   "unlock_chapter": 3
+   "unlock_chapter": 3,
+   "rarity": "Rare"
   },
   {
    "appeal": {
@@ -850,7 +888,8 @@
     "market",
     "expedition_enemy",
     "expedition_boss"
-   ]
+   ],
+   "rarity": "Rare"
   },
   {
    "appeal": {
@@ -869,7 +908,8 @@
    "acquisition": [
     "market",
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "appeal": {
@@ -893,7 +933,8 @@
     "crafting",
     "market"
    ],
-   "unlock_chapter": 2
+   "unlock_chapter": 2,
+   "rarity": "Uncommon"
   },
   {
    "appeal": {
@@ -918,7 +959,8 @@
     "market",
     "expedition_enemy"
    ],
-   "unlock_chapter": 3
+   "unlock_chapter": 3,
+   "rarity": "Uncommon"
   },
   {
    "appeal": {
@@ -940,7 +982,8 @@
    "acquisition": [
     "market",
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Rare"
   },
   {
    "appeal": {
@@ -967,7 +1010,8 @@
     "expedition_enemy",
     "expedition_boss"
    ],
-   "unlock_chapter": 5
+   "unlock_chapter": 5,
+   "rarity": "Legendary"
   },
   {
    "appeal": {
@@ -995,7 +1039,8 @@
     "market",
     "expedition_enemy",
     "expedition_boss"
-   ]
+   ],
+   "rarity": "Legendary"
   },
   {
    "appeal": {
@@ -1015,7 +1060,8 @@
    "acquisition": [
     "market",
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Rare"
   },
   {
    "appeal": {
@@ -1040,7 +1086,8 @@
    "acquisition": [
     "crafting"
    ],
-   "unlock_chapter": 7
+   "unlock_chapter": 7,
+   "rarity": "Legendary"
   },
   {
    "appeal": {
@@ -1066,7 +1113,8 @@
     "market",
     "expedition_enemy"
    ],
-   "unlock_chapter": 6
+   "unlock_chapter": 6,
+   "rarity": "Legendary"
   },
   {
    "appeal": {
@@ -1090,7 +1138,8 @@
     "crafting",
     "market"
    ],
-   "unlock_chapter": 2
+   "unlock_chapter": 2,
+   "rarity": "Uncommon"
   },
   {
    "appeal": {
@@ -1115,7 +1164,8 @@
     "crafting",
     "market"
    ],
-   "unlock_chapter": 2
+   "unlock_chapter": 2,
+   "rarity": "Uncommon"
   },
   {
    "appeal": {
@@ -1139,7 +1189,8 @@
    "acquisition": [
     "crafting"
    ],
-   "unlock_chapter": 4
+   "unlock_chapter": 4,
+   "rarity": "Uncommon"
   },
   {
    "appeal": {
@@ -1162,7 +1213,8 @@
     "crafting",
     "market"
    ],
-   "unlock_chapter": 4
+   "unlock_chapter": 4,
+   "rarity": "Uncommon"
   },
   {
    "appeal": {
@@ -1189,7 +1241,8 @@
     "crafting",
     "market"
    ],
-   "unlock_chapter": 4
+   "unlock_chapter": 4,
+   "rarity": "Rare"
   },
   {
    "appeal": {
@@ -1212,7 +1265,8 @@
    "acquisition": [
     "market",
     "expedition_boss"
-   ]
+   ],
+   "rarity": "Legendary"
   },
   {
    "appeal": {
@@ -1234,7 +1288,8 @@
    "acquisition": [
     "market",
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "appeal": {
@@ -1260,7 +1315,8 @@
     "market",
     "expedition_enemy"
    ],
-   "unlock_chapter": 4
+   "unlock_chapter": 4,
+   "rarity": "Uncommon"
   },
   {
    "appeal": {
@@ -1282,7 +1338,8 @@
    "acquisition": [
     "market",
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "appeal": {
@@ -1304,7 +1361,8 @@
    "acquisition": [
     "market",
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "appeal": {
@@ -1323,7 +1381,8 @@
    "acquisition": [
     "market",
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "appeal": {
@@ -1340,7 +1399,8 @@
    "world": "zelda",
    "acquisition": [
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "appeal": {
@@ -1360,7 +1420,8 @@
    "world": "zelda",
    "acquisition": [
     "expedition_chest"
-   ]
+   ],
+   "rarity": "Legendary"
   },
   {
    "appeal": {
@@ -1377,7 +1438,8 @@
    "world": "zelda",
    "acquisition": [
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "appeal": {
@@ -1401,7 +1463,8 @@
    "acquisition": [
     "market",
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "appeal": {
@@ -1423,7 +1486,8 @@
    "acquisition": [
     "market",
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "appeal": {
@@ -1448,7 +1512,8 @@
     "market",
     "expedition_enemy"
    ],
-   "unlock_chapter": 5
+   "unlock_chapter": 5,
+   "rarity": "Uncommon"
   },
   {
    "appeal": {
@@ -1475,7 +1540,8 @@
     "market",
     "expedition_enemy"
    ],
-   "unlock_chapter": 5
+   "unlock_chapter": 5,
+   "rarity": "Uncommon"
   },
   {
    "appeal": {
@@ -1497,7 +1563,8 @@
    "acquisition": [
     "market",
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "appeal": {
@@ -1516,7 +1583,8 @@
    "acquisition": [
     "market",
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "appeal": {
@@ -1540,7 +1608,8 @@
     "expedition_enemy",
     "expedition_boss"
    ],
-   "unlock_chapter": 5
+   "unlock_chapter": 5,
+   "rarity": "Rare"
   },
   {
    "appeal": {
@@ -1565,7 +1634,8 @@
     "crafting",
     "market"
    ],
-   "unlock_chapter": 3
+   "unlock_chapter": 3,
+   "rarity": "Uncommon"
   },
   {
    "appeal": {
@@ -1585,7 +1655,8 @@
    "acquisition": [
     "market",
     "expedition_boss"
-   ]
+   ],
+   "rarity": "Rare"
   },
   {
    "appeal": {
@@ -1605,7 +1676,8 @@
    "acquisition": [
     "market",
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Rare"
   },
   {
    "appeal": {
@@ -1629,7 +1701,8 @@
    "acquisition": [
     "market",
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "appeal": {
@@ -1649,7 +1722,8 @@
    "acquisition": [
     "crafting"
    ],
-   "unlock_chapter": 3
+   "unlock_chapter": 3,
+   "rarity": "Rare"
   },
   {
    "appeal": {
@@ -1674,7 +1748,8 @@
    "acquisition": [
     "market",
     "expedition_boss"
-   ]
+   ],
+   "rarity": "Rare"
   },
   {
    "appeal": {
@@ -1696,7 +1771,8 @@
    "acquisition": [
     "market",
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "appeal": {
@@ -1717,7 +1793,8 @@
    "acquisition": [
     "market",
     "expedition_boss"
-   ]
+   ],
+   "rarity": "Legendary"
   },
   {
    "appeal": {
@@ -1737,7 +1814,8 @@
    "world": "dragon_ball",
    "acquisition": [
     "expedition_boss"
-   ]
+   ],
+   "rarity": "Legendary"
   },
   {
    "appeal": {
@@ -1763,7 +1841,8 @@
     "market",
     "expedition_enemy"
    ],
-   "unlock_chapter": 5
+   "unlock_chapter": 5,
+   "rarity": "Rare"
   },
   {
    "appeal": {
@@ -1782,7 +1861,8 @@
    "acquisition": [
     "market",
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "appeal": {
@@ -1806,7 +1886,8 @@
     "market",
     "expedition_enemy"
    ],
-   "unlock_chapter": 3
+   "unlock_chapter": 3,
+   "rarity": "Uncommon"
   },
   {
    "appeal": {
@@ -1832,7 +1913,8 @@
     "crafting",
     "market"
    ],
-   "unlock_chapter": 4
+   "unlock_chapter": 4,
+   "rarity": "Uncommon"
   },
   {
    "appeal": {
@@ -1857,7 +1939,8 @@
     "market",
     "expedition_enemy",
     "expedition_boss"
-   ]
+   ],
+   "rarity": "Rare"
   },
   {
    "appeal": {
@@ -1883,7 +1966,8 @@
     "crafting",
     "market"
    ],
-   "unlock_chapter": 4
+   "unlock_chapter": 4,
+   "rarity": "Uncommon"
   },
   {
    "appeal": {
@@ -1909,7 +1993,8 @@
     "market",
     "expedition_enemy"
    ],
-   "unlock_chapter": 6
+   "unlock_chapter": 6,
+   "rarity": "Rare"
   },
   {
    "appeal": {
@@ -1929,7 +2014,8 @@
    "acquisition": [
     "market",
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Rare"
   },
   {
    "appeal": {
@@ -1952,7 +2038,8 @@
    "acquisition": [
     "market",
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "appeal": {
@@ -1974,7 +2061,8 @@
    "acquisition": [
     "market",
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Uncommon"
   },
   {
    "appeal": {
@@ -2000,7 +2088,8 @@
     "expedition_enemy",
     "expedition_boss"
    ],
-   "unlock_chapter": 7
+   "unlock_chapter": 7,
+   "rarity": "Rare"
   },
   {
    "appeal": {
@@ -2024,7 +2113,8 @@
     "crafting",
     "expedition_boss"
    ],
-   "unlock_chapter": 7
+   "unlock_chapter": 7,
+   "rarity": "Legendary"
   },
   {
    "appeal": {
@@ -2046,7 +2136,8 @@
    "acquisition": [
     "market",
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "appeal": {
@@ -2072,7 +2163,8 @@
     "market",
     "expedition_enemy"
    ],
-   "unlock_chapter": 7
+   "unlock_chapter": 7,
+   "rarity": "Rare"
   },
   {
    "appeal": {
@@ -2099,7 +2191,8 @@
     "expedition_enemy",
     "expedition_boss"
    ],
-   "unlock_chapter": 4
+   "unlock_chapter": 4,
+   "rarity": "Rare"
   },
   {
    "appeal": {
@@ -2121,7 +2214,8 @@
    "acquisition": [
     "market",
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "appeal": {
@@ -2139,7 +2233,8 @@
    "world": "pokemon",
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Rare"
   },
   {
    "appeal": {
@@ -2160,7 +2255,8 @@
    "acquisition": [
     "market",
     "expedition_boss"
-   ]
+   ],
+   "rarity": "Legendary"
   },
   {
    "appeal": {
@@ -2179,7 +2275,8 @@
    "acquisition": [
     "market",
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Uncommon"
   },
   {
    "appeal": {
@@ -2200,7 +2297,8 @@
     "crafting",
     "market"
    ],
-   "unlock_chapter": 2
+   "unlock_chapter": 2,
+   "rarity": "Uncommon"
   },
   {
    "appeal": {
@@ -2222,7 +2320,8 @@
     "market",
     "expedition_enemy"
    ],
-   "unlock_chapter": 2
+   "unlock_chapter": 2,
+   "rarity": "Uncommon"
   },
   {
    "appeal": {
@@ -2243,7 +2342,8 @@
     "crafting",
     "market"
    ],
-   "unlock_chapter": 2
+   "unlock_chapter": 2,
+   "rarity": "Uncommon"
   },
   {
    "appeal": {
@@ -2267,7 +2367,8 @@
    "acquisition": [
     "market",
     "expedition_boss"
-   ]
+   ],
+   "rarity": "Rare"
   },
   {
    "appeal": {
@@ -2289,7 +2390,8 @@
    "world": "pokemon",
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Uncommon"
   },
   {
    "appeal": {
@@ -2311,7 +2413,8 @@
    "world": "mario",
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Uncommon"
   },
   {
    "appeal": {
@@ -2337,7 +2440,8 @@
    "world": "zelda",
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Uncommon"
   },
   {
    "appeal": {
@@ -2362,7 +2466,8 @@
    "acquisition": [
     "crafting"
    ],
-   "unlock_chapter": 1
+   "unlock_chapter": 1,
+   "rarity": "Uncommon"
   },
   {
    "appeal": {
@@ -2382,7 +2487,8 @@
     "market",
     "expedition_enemy",
     "expedition_boss"
-   ]
+   ],
+   "rarity": "Rare"
   },
   {
    "category": "key",
@@ -2397,7 +2503,8 @@
    "world": "kingdom_hearts",
    "acquisition": [
     "expedition_boss"
-   ]
+   ],
+   "rarity": "Legendary"
   },
   {
    "category": "key",
@@ -2412,7 +2519,8 @@
    "world": "mario",
    "acquisition": [
     "expedition_boss"
-   ]
+   ],
+   "rarity": "Legendary"
   },
   {
    "category": "key",
@@ -2427,7 +2535,8 @@
    "world": "final_fantasy",
    "acquisition": [
     "expedition_boss"
-   ]
+   ],
+   "rarity": "Legendary"
   },
   {
    "category": "key",
@@ -2442,7 +2551,8 @@
    "world": "zelda",
    "acquisition": [
     "expedition_boss"
-   ]
+   ],
+   "rarity": "Legendary"
   },
   {
    "category": "key",
@@ -2457,7 +2567,8 @@
    "world": "naruto",
    "acquisition": [
     "expedition_boss"
-   ]
+   ],
+   "rarity": "Legendary"
   },
   {
    "category": "key",
@@ -2472,7 +2583,8 @@
    "world": "dragon_ball",
    "acquisition": [
     "expedition_boss"
-   ]
+   ],
+   "rarity": "Legendary"
   },
   {
    "category": "key",
@@ -2487,7 +2599,8 @@
    "world": "pokemon",
    "acquisition": [
     "expedition_boss"
-   ]
+   ],
+   "rarity": "Legendary"
   },
   {
    "appeal": {
@@ -2515,7 +2628,8 @@
    "acquisition": [
     "crafting"
    ],
-   "unlock_chapter": 2
+   "unlock_chapter": 2,
+   "rarity": "Uncommon"
   },
   {
    "appeal": {
@@ -2546,7 +2660,8 @@
    "acquisition": [
     "crafting"
    ],
-   "unlock_chapter": 7
+   "unlock_chapter": 7,
+   "rarity": "Rare"
   },
   {
    "appeal": {
@@ -2571,7 +2686,8 @@
    "acquisition": [
     "crafting"
    ],
-   "unlock_chapter": 5
+   "unlock_chapter": 5,
+   "rarity": "Rare"
   },
   {
    "appeal": {
@@ -2601,7 +2717,8 @@
    "acquisition": [
     "crafting"
    ],
-   "unlock_chapter": 4
+   "unlock_chapter": 4,
+   "rarity": "Rare"
   },
   {
    "appeal": {
@@ -2630,7 +2747,8 @@
    "acquisition": [
     "crafting"
    ],
-   "unlock_chapter": 7
+   "unlock_chapter": 7,
+   "rarity": "Uncommon"
   },
   {
    "appeal": {
@@ -2660,7 +2778,8 @@
    "acquisition": [
     "crafting"
    ],
-   "unlock_chapter": 7
+   "unlock_chapter": 7,
+   "rarity": "Uncommon"
   },
   {
    "appeal": {
@@ -2688,7 +2807,8 @@
    "acquisition": [
     "crafting"
    ],
-   "unlock_chapter": 7
+   "unlock_chapter": 7,
+   "rarity": "Uncommon"
   },
   {
    "appeal": {
@@ -2718,7 +2838,8 @@
    "acquisition": [
     "crafting"
    ],
-   "unlock_chapter": 4
+   "unlock_chapter": 4,
+   "rarity": "Legendary"
   },
   {
    "appeal": {
@@ -2748,7 +2869,8 @@
    "acquisition": [
     "crafting"
    ],
-   "unlock_chapter": 6
+   "unlock_chapter": 6,
+   "rarity": "Legendary"
   },
   {
    "appeal": {
@@ -2777,7 +2899,8 @@
    "acquisition": [
     "crafting"
    ],
-   "unlock_chapter": 5
+   "unlock_chapter": 5,
+   "rarity": "Uncommon"
   },
   {
    "appeal": {
@@ -2805,7 +2928,8 @@
    "acquisition": [
     "crafting"
    ],
-   "unlock_chapter": 2
+   "unlock_chapter": 2,
+   "rarity": "Rare"
   },
   {
    "appeal": {
@@ -2834,7 +2958,8 @@
    "acquisition": [
     "crafting"
    ],
-   "unlock_chapter": 7
+   "unlock_chapter": 7,
+   "rarity": "Uncommon"
   },
   {
    "category": "weapon",
@@ -2851,7 +2976,8 @@
    "acquisition": [
     "crafting"
    ],
-   "unlock_chapter": 4
+   "unlock_chapter": 4,
+   "rarity": "Rare"
   },
   {
    "category": "treasure",
@@ -2868,7 +2994,8 @@
    "world": "mario",
    "acquisition": [
     "expedition_chest"
-   ]
+   ],
+   "rarity": "Rare"
   },
   {
    "category": "treasure",
@@ -2886,7 +3013,8 @@
    "asset_world": "crossover",
    "acquisition": [
     "expedition_chest"
-   ]
+   ],
+   "rarity": "Rare"
   },
   {
    "category": "treasure",
@@ -2904,7 +3032,8 @@
    "asset_world": "crossover",
    "acquisition": [
     "expedition_chest"
-   ]
+   ],
+   "rarity": "Rare"
   },
   {
    "category": "treasure",
@@ -2922,7 +3051,8 @@
    "asset_world": "crossover",
    "acquisition": [
     "expedition_chest"
-   ]
+   ],
+   "rarity": "Rare"
   },
   {
    "category": "treasure",
@@ -2940,7 +3070,8 @@
    "asset_world": "crossover",
    "acquisition": [
     "expedition_chest"
-   ]
+   ],
+   "rarity": "Rare"
   },
   {
    "category": "material",
@@ -2956,7 +3087,8 @@
    "world": "mario",
    "acquisition": [
     "expedition_boss"
-   ]
+   ],
+   "rarity": "Legendary"
   },
   {
    "category": "material",
@@ -2973,7 +3105,8 @@
    "asset_world": "crossover",
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "category": "material",
@@ -2990,7 +3123,8 @@
    "asset_world": "crossover",
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "category": "weapon",
@@ -3008,7 +3142,8 @@
    "acquisition": [
     "crafting"
    ],
-   "unlock_chapter": 4
+   "unlock_chapter": 4,
+   "rarity": "Uncommon"
   },
   {
    "category": "material",
@@ -3025,7 +3160,8 @@
    "asset_world": "crossover",
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "category": "consumable",
@@ -3048,7 +3184,8 @@
    "acquisition": [
     "expedition_chest"
    ],
-   "unlock_chapter": 4
+   "unlock_chapter": 4,
+   "rarity": "Rare"
   },
   {
    "category": "consumable",
@@ -3072,7 +3209,8 @@
    "acquisition": [
     "expedition_chest"
    ],
-   "unlock_chapter": 5
+   "unlock_chapter": 5,
+   "rarity": "Rare"
   },
   {
    "category": "treasure",
@@ -3090,7 +3228,8 @@
    "acquisition": [
     "expedition_chest"
    ],
-   "unlock_chapter": 6
+   "unlock_chapter": 6,
+   "rarity": "Rare"
   },
   {
    "category": "treasure",
@@ -3107,7 +3246,8 @@
    "world": "mario",
    "acquisition": [
     "expedition_chest"
-   ]
+   ],
+   "rarity": "Legendary"
   },
   {
    "category": "food",
@@ -3128,7 +3268,8 @@
    "asset_world": "crossover",
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "category": "weapon",
@@ -3146,7 +3287,8 @@
    "acquisition": [
     "crafting"
    ],
-   "unlock_chapter": 3
+   "unlock_chapter": 3,
+   "rarity": "Uncommon"
   },
   {
    "category": "weapon",
@@ -3164,7 +3306,8 @@
    "acquisition": [
     "crafting"
    ],
-   "unlock_chapter": 5
+   "unlock_chapter": 5,
+   "rarity": "Uncommon"
   },
   {
    "category": "weapon",
@@ -3182,7 +3325,8 @@
    "acquisition": [
     "crafting"
    ],
-   "unlock_chapter": 5
+   "unlock_chapter": 5,
+   "rarity": "Rare"
   },
   {
    "category": "weapon",
@@ -3200,7 +3344,8 @@
    "asset_world": "crossover",
    "acquisition": [
     "expedition_boss"
-   ]
+   ],
+   "rarity": "Legendary"
   },
   {
    "category": "weapon",
@@ -3218,7 +3363,8 @@
    "acquisition": [
     "crafting"
    ],
-   "unlock_chapter": 4
+   "unlock_chapter": 4,
+   "rarity": "Rare"
   },
   {
    "category": "weapon",
@@ -3236,7 +3382,8 @@
    "acquisition": [
     "crafting"
    ],
-   "unlock_chapter": 3
+   "unlock_chapter": 3,
+   "rarity": "Uncommon"
   },
   {
    "category": "weapon",
@@ -3254,7 +3401,8 @@
    "acquisition": [
     "crafting"
    ],
-   "unlock_chapter": 6
+   "unlock_chapter": 6,
+   "rarity": "Rare"
   },
   {
    "category": "weapon",
@@ -3272,7 +3420,8 @@
    "acquisition": [
     "crafting"
    ],
-   "unlock_chapter": 7
+   "unlock_chapter": 7,
+   "rarity": "Rare"
   },
   {
    "category": "weapon",
@@ -3288,7 +3437,8 @@
    "world": "kingdom_hearts",
    "acquisition": [
     "expedition_boss"
-   ]
+   ],
+   "rarity": "Legendary"
   },
   {
    "category": "consumable",
@@ -3307,7 +3457,8 @@
    "acquisition": [
     "crafting"
    ],
-   "unlock_chapter": 1
+   "unlock_chapter": 1,
+   "rarity": "Uncommon"
   },
   {
    "category": "consumable",
@@ -3325,7 +3476,8 @@
    },
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Uncommon"
   },
   {
    "category": "consumable",
@@ -3343,7 +3495,8 @@
    },
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Uncommon"
   },
   {
    "category": "food",
@@ -3363,7 +3516,8 @@
    "acquisition": [
     "crafting"
    ],
-   "unlock_chapter": 1
+   "unlock_chapter": 1,
+   "rarity": "Uncommon"
   },
   {
    "category": "material",
@@ -3380,7 +3534,8 @@
    "acquisition": [
     "crafting"
    ],
-   "unlock_chapter": 2
+   "unlock_chapter": 2,
+   "rarity": "Uncommon"
   },
   {
    "category": "material",
@@ -3395,7 +3550,8 @@
    "world": "pokemon",
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "category": "material",
@@ -3411,7 +3567,8 @@
    "world": "pokemon",
    "acquisition": [
     "expedition_chest"
-   ]
+   ],
+   "rarity": "Rare"
   },
   {
    "category": "food",
@@ -3432,7 +3589,8 @@
    },
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "category": "food",
@@ -3452,7 +3610,8 @@
    },
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "category": "food",
@@ -3472,7 +3631,8 @@
    },
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "category": "food",
@@ -3494,7 +3654,8 @@
    "acquisition": [
     "crafting"
    ],
-   "unlock_chapter": 1
+   "unlock_chapter": 1,
+   "rarity": "Rare"
   },
   {
    "category": "treasure",
@@ -3511,7 +3672,8 @@
    "acquisition": [
     "crafting"
    ],
-   "unlock_chapter": 3
+   "unlock_chapter": 3,
+   "rarity": "Rare"
   },
   {
    "category": "material",
@@ -3526,7 +3688,8 @@
    "world": "pokemon",
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "category": "material",
@@ -3541,7 +3704,8 @@
    "world": "pokemon",
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "category": "material",
@@ -3556,7 +3720,8 @@
    "world": "pokemon",
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "category": "material",
@@ -3571,7 +3736,8 @@
    "world": "pokemon",
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "category": "treasure",
@@ -3586,7 +3752,8 @@
    "world": "pokemon",
    "acquisition": [
     "expedition_chest"
-   ]
+   ],
+   "rarity": "Rare"
   },
   {
    "category": "accessory",
@@ -3601,7 +3768,8 @@
    "world": "pokemon",
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Uncommon"
   },
   {
    "category": "accessory",
@@ -3616,7 +3784,8 @@
    "world": "pokemon",
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Uncommon"
   },
   {
    "category": "treasure",
@@ -3632,7 +3801,8 @@
    "world": "pokemon",
    "acquisition": [
     "expedition_chest"
-   ]
+   ],
+   "rarity": "Rare"
   },
   {
    "category": "treasure",
@@ -3648,7 +3818,8 @@
    "world": "pokemon",
    "acquisition": [
     "expedition_chest"
-   ]
+   ],
+   "rarity": "Legendary"
   },
   {
    "category": "treasure",
@@ -3664,7 +3835,8 @@
    "world": "pokemon",
    "acquisition": [
     "expedition_chest"
-   ]
+   ],
+   "rarity": "Legendary"
   },
   {
    "category": "material",
@@ -3680,7 +3852,8 @@
    "acquisition": [
     "crafting"
    ],
-   "unlock_chapter": 5
+   "unlock_chapter": 5,
+   "rarity": "Rare"
   },
   {
    "category": "food",
@@ -3700,7 +3873,8 @@
    "acquisition": [
     "crafting"
    ],
-   "unlock_chapter": 4
+   "unlock_chapter": 4,
+   "rarity": "Rare"
   },
   {
    "category": "accessory",
@@ -3716,7 +3890,8 @@
    "acquisition": [
     "crafting"
    ],
-   "unlock_chapter": 4
+   "unlock_chapter": 4,
+   "rarity": "Uncommon"
   },
   {
    "category": "accessory",
@@ -3732,7 +3907,8 @@
    "acquisition": [
     "crafting"
    ],
-   "unlock_chapter": 4
+   "unlock_chapter": 4,
+   "rarity": "Uncommon"
   },
   {
    "category": "food",
@@ -3752,7 +3928,8 @@
    },
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "category": "food",
@@ -3772,7 +3949,8 @@
    },
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "category": "food",
@@ -3792,7 +3970,8 @@
    },
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "category": "food",
@@ -3812,7 +3991,8 @@
    },
    "acquisition": [
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "category": "food",
@@ -3832,7 +4012,8 @@
    "acquisition": [
     "crafting"
    ],
-   "unlock_chapter": 4
+   "unlock_chapter": 4,
+   "rarity": "Uncommon"
   },
   {
    "category": "food",
@@ -3852,7 +4033,8 @@
    },
    "acquisition": [
     "expedition_chest"
-   ]
+   ],
+   "rarity": "Rare"
   },
   {
    "category": "food",
@@ -3870,7 +4052,8 @@
    },
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "category": "food",
@@ -3890,7 +4073,8 @@
    },
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "category": "food",
@@ -3910,7 +4094,8 @@
    },
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "category": "treasure",
@@ -3925,7 +4110,8 @@
    "world": "dragon_ball",
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Uncommon"
   },
   {
    "category": "treasure",
@@ -3941,7 +4127,8 @@
    "world": "dragon_ball",
    "acquisition": [
     "expedition_chest"
-   ]
+   ],
+   "rarity": "Rare"
   },
   {
    "category": "weapon",
@@ -3962,7 +4149,8 @@
    "acquisition": [
     "crafting"
    ],
-   "unlock_chapter": 5
+   "unlock_chapter": 5,
+   "rarity": "Uncommon"
   },
   {
    "category": "consumable",
@@ -3980,7 +4168,8 @@
    },
    "acquisition": [
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "category": "consumable",
@@ -4000,7 +4189,8 @@
    "acquisition": [
     "crafting"
    ],
-   "unlock_chapter": 2
+   "unlock_chapter": 2,
+   "rarity": "Uncommon"
   },
   {
    "category": "consumable",
@@ -4020,7 +4210,8 @@
     "crafting",
     "expedition_enemy"
    ],
-   "unlock_chapter": 5
+   "unlock_chapter": 5,
+   "rarity": "Uncommon"
   },
   {
    "category": "accessory",
@@ -4035,7 +4226,8 @@
    "world": "naruto",
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Uncommon"
   },
   {
    "category": "food",
@@ -4056,7 +4248,8 @@
     "crafting",
     "expedition_enemy"
    ],
-   "unlock_chapter": 5
+   "unlock_chapter": 5,
+   "rarity": "Uncommon"
   },
   {
    "category": "treasure",
@@ -4071,7 +4264,8 @@
    "world": "naruto",
    "acquisition": [
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Uncommon"
   },
   {
    "category": "consumable",
@@ -4092,7 +4286,8 @@
    "acquisition": [
     "crafting"
    ],
-   "unlock_chapter": 2
+   "unlock_chapter": 2,
+   "rarity": "Rare"
   },
   {
    "category": "consumable",
@@ -4111,7 +4306,8 @@
    },
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "category": "food",
@@ -4130,7 +4326,8 @@
    },
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "category": "food",
@@ -4149,7 +4346,8 @@
    },
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "category": "food",
@@ -4168,7 +4366,8 @@
    },
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "category": "material",
@@ -4184,7 +4383,8 @@
    "world": "mario",
    "acquisition": [
     "expedition_chest"
-   ]
+   ],
+   "rarity": "Rare"
   },
   {
    "category": "consumable",
@@ -4202,7 +4402,8 @@
    },
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "category": "consumable",
@@ -4222,7 +4423,8 @@
    "acquisition": [
     "crafting"
    ],
-   "unlock_chapter": 3
+   "unlock_chapter": 3,
+   "rarity": "Rare"
   },
   {
    "category": "consumable",
@@ -4242,7 +4444,8 @@
    "acquisition": [
     "crafting"
    ],
-   "unlock_chapter": 2
+   "unlock_chapter": 2,
+   "rarity": "Rare"
   },
   {
    "id": "gust_jar",
@@ -4266,7 +4469,8 @@
     "crafting",
     "market"
    ],
-   "unlock_chapter": 4
+   "unlock_chapter": 4,
+   "rarity": "Uncommon"
   },
   {
    "id": "cane_of_pacci",
@@ -4289,7 +4493,8 @@
    "acquisition": [
     "crafting"
    ],
-   "unlock_chapter": 5
+   "unlock_chapter": 5,
+   "rarity": "Uncommon"
   },
   {
    "id": "mole_mitts",
@@ -4311,7 +4516,8 @@
    "desc": "Dig through anything. Manicure not included.",
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Uncommon"
   },
   {
    "id": "zelda_lantern",
@@ -4335,7 +4541,8 @@
     "crafting",
     "market"
    ],
-   "unlock_chapter": 6
+   "unlock_chapter": 6,
+   "rarity": "Uncommon"
   },
   {
    "id": "pegasus_boots",
@@ -4358,7 +4565,8 @@
     "crafting",
     "market"
    ],
-   "unlock_chapter": 4
+   "unlock_chapter": 4,
+   "rarity": "Uncommon"
   },
   {
    "id": "rocs_cape",
@@ -4382,7 +4590,8 @@
     "crafting",
     "market"
    ],
-   "unlock_chapter": 5
+   "unlock_chapter": 5,
+   "rarity": "Uncommon"
   },
   {
    "id": "white_sword",
@@ -4404,7 +4613,8 @@
    "acquisition": [
     "market",
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Uncommon"
   },
   {
    "id": "four_sword",
@@ -4427,7 +4637,8 @@
    "acquisition": [
     "crafting"
    ],
-   "unlock_chapter": 6
+   "unlock_chapter": 6,
+   "rarity": "Rare"
   },
   {
    "id": "remote_bomb",
@@ -4448,7 +4659,8 @@
    "acquisition": [
     "market",
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "id": "wake_up_mushroom",
@@ -4471,7 +4683,8 @@
    "acquisition": [
     "market",
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "id": "kinstone",
@@ -4491,7 +4704,8 @@
    "acquisition": [
     "market",
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "id": "big_key",
@@ -4508,7 +4722,8 @@
    "desc": "Too big for pockets. Opens the one door that matters.",
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "id": "element_earth",
@@ -4526,7 +4741,8 @@
    "desc": "The ground hums politely whenever it passes.",
    "acquisition": [
     "expedition_boss"
-   ]
+   ],
+   "rarity": "Legendary"
   },
   {
    "id": "element_fire",
@@ -4544,7 +4760,8 @@
    "desc": "Warm to the touch. Warmer to the argument.",
    "acquisition": [
     "expedition_boss"
-   ]
+   ],
+   "rarity": "Legendary"
   },
   {
    "id": "element_water",
@@ -4562,7 +4779,8 @@
    "desc": "Never spills. Judges those who do.",
    "acquisition": [
     "expedition_boss"
-   ]
+   ],
+   "rarity": "Legendary"
   },
   {
    "id": "element_wind",
@@ -4580,7 +4798,8 @@
    "desc": "Restless in the display case. Checks the window.",
    "acquisition": [
     "expedition_boss"
-   ]
+   ],
+   "rarity": "Legendary"
   },
   {
    "id": "goku_plushie",
@@ -4599,7 +4818,8 @@
    "desc": "A soft collectible Goku for the discerning shelf.",
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Uncommon"
   },
   {
    "id": "vegeta_plushie",
@@ -4618,7 +4838,8 @@
    "desc": "A soft collectible Vegeta for the discerning shelf.",
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Uncommon"
   },
   {
    "id": "piccolo_plushie",
@@ -4637,7 +4858,8 @@
    "desc": "A soft collectible Piccolo for the discerning shelf.",
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Uncommon"
   },
   {
    "id": "cell_plushie",
@@ -4656,7 +4878,8 @@
    "desc": "A soft collectible Cell for the discerning shelf.",
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Uncommon"
   },
   {
    "id": "trunks_plushie",
@@ -4675,7 +4898,8 @@
    "desc": "A soft collectible Trunks for the discerning shelf.",
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Uncommon"
   },
   {
    "id": "krillin_plushie",
@@ -4694,7 +4918,8 @@
    "desc": "A soft collectible Krillin for the discerning shelf.",
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Uncommon"
   },
   {
    "id": "android_18_plushie",
@@ -4713,7 +4938,8 @@
    "desc": "A soft collectible Android 18 for the discerning shelf.",
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Uncommon"
   },
   {
    "id": "android_17_plushie",
@@ -4732,7 +4958,8 @@
    "desc": "A soft collectible Android 17 for the discerning shelf.",
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Uncommon"
   },
   {
    "id": "android_19_plushie",
@@ -4751,7 +4978,8 @@
    "desc": "A soft collectible Android 19 for the discerning shelf.",
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Uncommon"
   },
   {
    "id": "tien_plushie",
@@ -4770,7 +4998,8 @@
    "desc": "A soft collectible Tien for the discerning shelf.",
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Uncommon"
   },
   {
    "id": "yamcha_plushie",
@@ -4789,7 +5018,8 @@
    "desc": "A soft collectible Yamcha for the discerning shelf.",
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Uncommon"
   },
   {
    "id": "master_roshi_plushie",
@@ -4808,7 +5038,8 @@
    "desc": "A soft collectible Master Roshi for the discerning shelf.",
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Uncommon"
   },
   {
    "id": "hercule_plushie",
@@ -4827,7 +5058,8 @@
    "desc": "A soft collectible Hercule for the discerning shelf.",
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Uncommon"
   },
   {
    "id": "kami_plushie",
@@ -4846,7 +5078,8 @@
    "desc": "A soft collectible Kami for the discerning shelf.",
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Uncommon"
   },
   {
    "id": "dr_gero_plush",
@@ -4865,7 +5098,8 @@
    "desc": "A soft collectible Dr Gero Plush for the discerning shelf.",
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Uncommon"
   },
   {
    "id": "king_kami_sculpture",
@@ -4885,7 +5119,8 @@
    "desc": "A carved lookout guardian. Heavier than it looks; twice as serene.",
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Uncommon"
   },
   {
    "id": "capsule_corp_entry_card",
@@ -4899,7 +5134,8 @@
     "access"
    ],
    "desc": "Swipes you past the Capsule Corp lobby. Dr. Briefs never remembers your name.",
-   "acquisition": []
+   "acquisition": [],
+   "rarity": "Common"
   },
   {
    "id": "fishing_bait",
@@ -4917,7 +5153,8 @@
    "desc": "Goku catches dinner-sized fish with this. And occasionally dinner-sized trouble.",
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "id": "goku_favorite",
@@ -4939,14 +5176,15 @@
    "desc": "An entire table's worth of food, plated for one. He'll ask for seconds.",
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "id": "dragon_ball_set",
    "name": "Dragon Ball Set",
    "world": "dragon_ball",
    "category": "treasure",
-   "price": 12000,
+   "price": 45000,
    "appeal": {
     "intense": 2.0,
     "modern": 1.0
@@ -4961,7 +5199,8 @@
     "crafting",
     "market"
    ],
-   "unlock_chapter": 6
+   "unlock_chapter": 6,
+   "rarity": "Legendary"
   },
   {
    "appeal": {
@@ -4983,7 +5222,8 @@
    "acquisition": [
     "market",
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "appeal": {
@@ -5005,7 +5245,8 @@
    "acquisition": [
     "market",
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "appeal": {
@@ -5030,7 +5271,8 @@
     "market",
     "expedition_enemy",
     "expedition_boss"
-   ]
+   ],
+   "rarity": "Rare"
   },
   {
    "appeal": {
@@ -5052,7 +5294,8 @@
    "acquisition": [
     "market",
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "appeal": {
@@ -5074,7 +5317,8 @@
    "acquisition": [
     "market",
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "appeal": {
@@ -5096,7 +5340,8 @@
    "acquisition": [
     "market",
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "appeal": {
@@ -5118,7 +5363,8 @@
    "acquisition": [
     "market",
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "appeal": {
@@ -5141,7 +5387,8 @@
    "acquisition": [
     "market",
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "appeal": {
@@ -5163,7 +5410,8 @@
    "acquisition": [
     "market",
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "appeal": {
@@ -5186,7 +5434,8 @@
    "acquisition": [
     "market",
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Common"
   },
   {
    "appeal": {
@@ -5209,7 +5458,8 @@
    "acquisition": [
     "market",
     "expedition_boss"
-   ]
+   ],
+   "rarity": "Rare"
   },
   {
    "appeal": {
@@ -5234,7 +5484,8 @@
     "market",
     "expedition_enemy",
     "expedition_boss"
-   ]
+   ],
+   "rarity": "Rare"
   },
   {
    "appeal": {
@@ -5257,7 +5508,8 @@
    "acquisition": [
     "market",
     "expedition_boss"
-   ]
+   ],
+   "rarity": "Rare"
   },
   {
    "appeal": {
@@ -5280,7 +5532,8 @@
    "acquisition": [
     "market",
     "expedition_boss"
-   ]
+   ],
+   "rarity": "Rare"
   },
   {
    "appeal": {
@@ -5303,7 +5556,8 @@
    "acquisition": [
     "market",
     "expedition_boss"
-   ]
+   ],
+   "rarity": "Rare"
   },
   {
    "appeal": {
@@ -5326,7 +5580,8 @@
    "acquisition": [
     "market",
     "expedition_boss"
-   ]
+   ],
+   "rarity": "Rare"
   },
   {
    "appeal": {
@@ -5348,7 +5603,8 @@
    "world": "rotmg",
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Uncommon"
   },
   {
    "appeal": {
@@ -5371,7 +5627,8 @@
    "acquisition": [
     "market",
     "expedition_boss"
-   ]
+   ],
+   "rarity": "Rare"
   },
   {
    "appeal": {
@@ -5395,7 +5652,8 @@
     "market",
     "expedition_enemy",
     "expedition_boss"
-   ]
+   ],
+   "rarity": "Rare"
   },
   {
    "appeal": {
@@ -5418,7 +5676,8 @@
    "world": "rotmg",
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Uncommon"
   },
   {
    "appeal": {
@@ -5441,7 +5700,8 @@
    "world": "rotmg",
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Rare"
   },
   {
    "appeal": {
@@ -5463,7 +5723,8 @@
    "world": "rotmg",
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Uncommon"
   },
   {
    "appeal": {
@@ -5486,7 +5747,8 @@
    "acquisition": [
     "market",
     "expedition_enemy"
-   ]
+   ],
+   "rarity": "Uncommon"
   },
   {
    "appeal": {
@@ -5508,7 +5770,8 @@
    "world": "rotmg",
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Uncommon"
   },
   {
    "appeal": {
@@ -5531,7 +5794,8 @@
    "acquisition": [
     "market",
     "expedition_boss"
-   ]
+   ],
+   "rarity": "Rare"
   },
   {
    "appeal": {
@@ -5553,7 +5817,8 @@
    "world": "rotmg",
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Uncommon"
   },
   {
    "appeal": {
@@ -5575,7 +5840,8 @@
    "world": "rotmg",
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Uncommon"
   },
   {
    "appeal": {
@@ -5598,7 +5864,8 @@
    "world": "rotmg",
    "acquisition": [
     "market"
-   ]
+   ],
+   "rarity": "Rare"
   },
   {
    "category": "key",
@@ -5613,7 +5880,8 @@
    "world": "rotmg",
    "acquisition": [
     "expedition_boss"
-   ]
+   ],
+   "rarity": "Legendary"
   }
  ],
  "schema": "crossroads.items.v1"

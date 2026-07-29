@@ -113,7 +113,7 @@ func total_items() -> int:
 	return t
 
 
-## Sorted item id list. mode: "hot", "name", "price", "category", "world".
+## Sorted item id list. mode: "hot", "name", "price", "rarity", "category", "world".
 func sorted_ids(mode: String = "name") -> Array[String]:
 	var ids: Array[String] = []
 	for id: String in storage:
@@ -132,6 +132,12 @@ func sorted_ids(mode: String = "name") -> Array[String]:
 				var price_a := ContentDatabase.item_price(a)
 				var price_b := ContentDatabase.item_price(b)
 				return a < b if price_a == price_b else price_a > price_b)
+		"rarity":
+			ids.sort_custom(func(a: String, b: String) -> bool:
+				var rarity_a := ContentDatabase.item_rarity_rank(a)
+				var rarity_b := ContentDatabase.item_rarity_rank(b)
+				return ContentDatabase.item_name(a) < ContentDatabase.item_name(b) \
+					if rarity_a == rarity_b else rarity_a > rarity_b)
 		"category":
 			ids.sort_custom(func(a: String, b: String) -> bool:
 				var category_a := String(ContentDatabase.get_item(a).get("category", ""))

@@ -8,7 +8,7 @@ fixed, and regression-tested without relying on a complete manual campaign.
 from __future__ import annotations
 
 import json
-from collections import defaultdict
+from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Any
 
@@ -22,6 +22,7 @@ VALID_CATEGORIES = {
     "weapon", "armor", "accessory", "consumable", "food", "material",
     "treasure", "key",
 }
+VALID_RARITIES = {"Common", "Uncommon", "Rare", "Legendary"}
 
 
 def load(name: str) -> dict[str, Any]:
@@ -149,9 +150,14 @@ def main() -> None:
         tags = set(item.get("tags", []))
         effect = item.get("effect", {})
         world_id = str(item.get("world", ""))
+        rarity = str(item.get("rarity", ""))
         if category not in VALID_CATEGORIES:
             issue("invalid_category", "error",
                   f"{item_id} has invalid category '{category}'", item_id=item_id)
+        if rarity not in VALID_RARITIES:
+            issue("invalid_rarity", "error",
+                  f"{item_id} has missing or invalid rarity '{rarity}'",
+                  item_id=item_id, rarity=rarity)
         if world_id not in worlds and not (
                 world_id == "crossover" and item.get("world_affinities")):
             issue("unknown_world", "error",
@@ -355,6 +361,9 @@ def main() -> None:
             "worlds": len(worlds),
             "errors": counts["error"],
             "warnings": counts["warning"],
+            "rarities": dict(sorted(Counter(
+                str(item.get("rarity", "")) for item in items.values()
+            ).items())),
         },
         "chapters": chapter_rows,
         "worlds": world_rows,
@@ -376,6 +385,11 @@ def main() -> None:
         "Generated deterministically by `tools/core_loop_audit.py`.",
         "",
         f"- Items: {len(items)} ({len(live)} live with art)",
+        "- Rarities: " + ", ".join(
+            f"{name} {count}" for name, count in sorted(Counter(
+                str(item.get("rarity", "")) for item in items.values()
+            ).items())
+        ),
         f"- Errors: {counts['error']}",
         f"- Warnings: {counts['warning']}",
         "",

@@ -5,7 +5,13 @@
     "live_items": 216,
     "worlds": 9,
     "errors": 0,
-    "warnings": 4
+    "warnings": 4,
+    "rarities": {
+      "Common": 77,
+      "Legendary": 33,
+      "Rare": 74,
+      "Uncommon": 84
+    }
   },
   "chapters": [
     {

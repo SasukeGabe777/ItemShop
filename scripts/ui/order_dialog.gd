@@ -94,6 +94,7 @@ func _add_item_summary(vb: VBoxContainer, item_id: String, qty: int,
 	var details := VBoxContainer.new()
 	details.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.add_child(details)
+	details.add_child(UIKit.rarity_label(item_id, 9))
 	details.add_child(UIKit.label("%dx %s" % [qty, ContentDatabase.item_name(item_id)], 12, UIKit.COL_ACCENT))
 	var reward := HBoxContainer.new()
 	reward.add_child(UIKit.label("Delivery payment:", 9))

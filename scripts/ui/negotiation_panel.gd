@@ -100,6 +100,9 @@ func _ready() -> void:
 	item_box.add_theme_constant_override("separation", 1)
 	item_box.alignment = BoxContainer.ALIGNMENT_CENTER
 	item_box.add_child(UIKit.item_icon(item_id, Vector2(44, 44)))
+	var rarity_badge := UIKit.rarity_label(item_id, 9)
+	rarity_badge.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	item_box.add_child(rarity_badge)
 	var value_lbl := UIKit.label("~%dg market" % nego.market_value, 12, UIKit.COL_ACCENT)
 	value_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	item_box.add_child(value_lbl)
@@ -108,7 +111,9 @@ func _ready() -> void:
 	vb.add_child(UIKit.hsep())
 
 	# ---- conversation ----
-	var chat_parts := UIKit.scroll_list(Vector2(470, 92))
+	# The conversation expands inside this scroll region; keeping its minimum
+	# compact prevents the bottom action bar from falling below 360px.
+	var chat_parts := UIKit.scroll_list(Vector2(470, 76))
 	chat_scroll = chat_parts[0]
 	vb.add_child(chat_scroll)
 	chat = chat_parts[1]
@@ -232,24 +237,23 @@ func _note(text: String) -> void:
 		chat_scroll.scroll_vertical = int(chat_scroll.get_v_scroll_bar().max_value)
 
 
-## Coin pips + phrase sizing the customer's wallet against this item's price.
+## Coin pips + a truthful read of the highest offer this negotiation will
+## accept. A large wallet alone does not mean a customer tolerates any markup:
+## max_acceptable() is the same cap used by Negotiation.propose().
 func _purse_label() -> Label:
-	var afford := float(nego.budget) / maxf(1.0, float(nego.market_value))
-	var filled := clampi(int(ceil(afford * 2.5)), 1, 5)
+	var acceptance_ratio := float(nego.max_acceptable()) / maxf(
+		1.0, float(nego.market_value))
+	var filled := clampi(int(ceil(acceptance_ratio * 2.5)), 1, 5)
 	var pips := "●".repeat(filled) + "○".repeat(5 - filled)
-	var txt := "can pay well over market"
-	var col := UIKit.COL_GOOD
-	if afford < 0.7:
-		txt = "can't afford this item"
+	var txt := "likely limit ~%dg (~%d%% market)" % [
+		nego.max_acceptable(), int(round(acceptance_ratio * 100.0))]
+	var col := UIKit.COL_ACCENT
+	if acceptance_ratio < 0.7:
 		col = UIKit.COL_BAD
-	elif afford < 1.0:
-		txt = "a little short for this"
-		col = UIKit.COL_ACCENT
-	elif afford < 1.3:
-		txt = "can afford market price"
-	var percent := int(round(afford * 100.0))
-	var lbl := UIKit.label("Purse %s  %s (~%d%%)" % [pips, txt, percent], 12, col)
-	lbl.tooltip_text = "How much coin they carry compared to this item's market value (~%dg).\nA short purse means lowball offers — it's all they can pay." % nego.market_value
+	elif acceptance_ratio >= 1.0:
+		col = UIKit.COL_GOOD
+	var lbl := UIKit.label("Price read %s  %s" % [pips, txt], 12, col)
+	lbl.tooltip_text = "A reliable read of this customer's current price ceiling.\nIt combines their purse, personality, mood, preferences, and your bond. Offers at or below this amount are accepted."
 	lbl.mouse_filter = Control.MOUSE_FILTER_STOP
 	return lbl
 

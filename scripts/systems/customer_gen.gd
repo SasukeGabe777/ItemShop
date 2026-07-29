@@ -325,7 +325,7 @@ static func conversation_opener(cust: Dictionary, item_id: String) -> String:
 	var bond := RelationshipManager.level(customer_id)
 	var budget := int(cust.get("budget", 0))
 	var value := MarketManager.market_value(item_id)
-	if customer_id == "goofy_c" and bond >= 1 and budget < value:
+	if customer_id == "goofy_c" and bond >= 2 and budget < value:
 		return "Gawrsh, we're friends now, right? Could you help me out? I promised my gal I'd bring something special."
 	var familiar: Dictionary = {
 		"sora_c": [
@@ -356,7 +356,7 @@ static func conversation_opener(cust: Dictionary, item_id: String) -> String:
 	if bond >= 2 and familiar.has(customer_id):
 		var lines: Array = familiar[customer_id]
 		return String(lines[(TimeManager.day + bond) % lines.size()])
-	if bond >= 1:
+	if bond >= 2:
 		return "Good to see you again. You treated me fairly last time."
 	return String(cust.get("line", ""))
 

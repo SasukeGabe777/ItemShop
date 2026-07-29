@@ -777,7 +777,7 @@
   },
   {
    "crossover": true,
-   "fee": 1370,
+   "fee": 3150,
    "id": "r_ancient_staff",
    "inputs": {
     "deku_wood": 2,

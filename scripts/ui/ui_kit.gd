@@ -11,6 +11,12 @@ const COL_INK := Color("#2c3050")    # dark text used inside light panels
 const COL_DIM := Color("#767d95")
 const COL_GOOD := Color("#4a9a55")
 const COL_BAD := Color("#c65555")
+const RARITY_COLORS := {
+	"Common": Color("#767d95"),
+	"Uncommon": Color("#4a9a55"),
+	"Rare": Color("#3f78b5"),
+	"Legendary": Color("#c8922a"),
+}
 
 const PANEL_WIDE := "res://assets/shared/ui/processed/panel_wide.png"
 const BAR_WHITE := "res://assets/shared/ui/processed/bar_white.png"
@@ -100,7 +106,14 @@ static func rebuild_list(list: Node, fill: Callable) -> void:
 			if b != null:
 				break
 	if b != null:
-		b.grab_focus()
+		# queue_free()d rows remain in the tree until the frame ends. Moving
+		# focus immediately makes ScrollContainer follow the replacement row
+		# while the old layout still contributes its height, which can throw
+		# the cursor and scroll position to the bottom of the menu.
+		(func() -> void:
+			await list.get_tree().process_frame
+			if is_instance_valid(b) and b.is_inside_tree():
+				b.grab_focus()).call()
 
 
 ## Focuses the first usable button under `root` (deferred, so it works right
@@ -247,6 +260,18 @@ static func item_icon(item_id: String, icon_size: Vector2 = Vector2(24, 24)) -> 
 	icon.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	return icon
+
+
+static func rarity_color(rarity: String) -> Color:
+	return RARITY_COLORS.get(rarity, RARITY_COLORS["Common"])
+
+
+static func rarity_label(item_id: String, font_size: int = 8) -> Label:
+	var rarity := ContentDatabase.item_rarity(item_id)
+	var badge := label("[%s]" % rarity, font_size, rarity_color(rarity))
+	badge.tooltip_text = "%s rarity" % rarity
+	badge.mouse_filter = Control.MOUSE_FILTER_STOP
+	return badge
 
 
 ## Shop-floor art needs a tighter rule than menu icon boxes. A longest-edge-only
@@ -438,6 +463,9 @@ static func item_row(item_id: String, suffix: String, action_text: String, on_pr
 	var row := HBoxContainer.new()
 	row.custom_minimum_size.y = 18
 	row.add_child(item_icon(item_id, Vector2(18, 18)))
+	var rarity := rarity_label(item_id)
+	rarity.custom_minimum_size.x = 58
+	row.add_child(rarity)
 	var lbl := label("%s %s" % [ContentDatabase.item_name(item_id), suffix])
 	lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	lbl.tooltip_text = String(ContentDatabase.get_item(item_id).get("desc", ""))

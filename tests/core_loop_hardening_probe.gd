@@ -15,6 +15,7 @@ func _ready() -> void:
 	MarketManager.active_events.clear()
 	BoomManager.clear_active()
 	_check_catalog_sources()
+	_check_item_rarities()
 	_check_chapter_three_stock()
 	_check_trend_matches()
 	_check_boom_matches()
@@ -49,6 +50,21 @@ func _check_catalog_sources() -> void:
 		"Darkside does not award the rare KH relic pool")
 	check("1up_mushroom" in ContentDatabase.expedition_chest_pool("mario"),
 		"Mario expedition chests cannot roll the 1UP relic")
+
+
+func _check_item_rarities() -> void:
+	for item_id: String in ContentDatabase.live_items:
+		check(ContentDatabase.item_rarity(item_id) in ContentDatabase.ITEM_RARITIES,
+			"live item %s has no valid rarity" % item_id)
+	check(ContentDatabase.item_rarity("kh_potion") == "Common",
+		"basic Kingdom Hearts Potion is not Common")
+	check(ContentDatabase.item_rarity("oblivion_keyblade") == "Legendary",
+		"expedition-exclusive Oblivion is not Legendary")
+	InventoryManager.add_item("kh_potion")
+	InventoryManager.add_item("oblivion_keyblade")
+	var by_rarity := InventoryManager.sorted_ids("rarity")
+	check(by_rarity.find("oblivion_keyblade") < by_rarity.find("kh_potion"),
+		"rarity sorting does not place Legendary items before Common items")
 
 
 func _check_chapter_three_stock() -> void:
@@ -112,15 +128,16 @@ func _check_sellback() -> void:
 
 
 func _check_relationship_dialogue() -> void:
-	RelationshipManager.change_relationship("goofy_c", 12)
+	RelationshipManager.change_relationship("goofy_c", 22)
 	var goofy := CustomerGen.runtime_named(
 		ContentDatabase.get_named_customer("goofy_c"))
 	goofy["budget"] = 1
 	var opener := CustomerGen.conversation_opener(goofy, "oblivion_keyblade")
 	check("friends" in opener and "my gal" in opener,
 		"Goofy's friendship/short-purse dialogue did not unlock")
-	check("12" not in RelationshipManager.progress_text("goofy_c"),
-		"bond progress presents raw total instead of progress within its level")
+	var progress := RelationshipManager.progress_text("goofy_c")
+	check("22 total" in progress and "2/10 to Lv.3" in progress,
+		"bond progress does not distinguish lifetime points from next-level progress")
 
 
 func _check_consumable_feedback() -> void:

@@ -51,8 +51,9 @@ func progress_text(id: String) -> String:
 	var max_level := int(fr.get("max_level", 10))
 	if current_level >= max_level:
 		return "Lv.%d MAX (%d pts)" % [current_level, current]
-	return "Lv.%d · %d/%d pts" % [
-		current_level, current - current_level * per, per]
+	return "Lv.%d · %d/%d to Lv.%d (%d total)" % [
+		current_level, current - current_level * per, per,
+		current_level + 1, current]
 
 
 func mood(id: String) -> float:

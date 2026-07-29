@@ -11,10 +11,13 @@ var _sort_mode := "hot"
 var _list: VBoxContainer
 var _gold_lbl: Label
 var _sort_button: Button
+var _rarity_button: Button
 var _compact_mp := false
 var _scroll: ScrollContainer
+var _rarity_filter := "All"
 
-const SORT_MODES := ["hot", "name", "price", "category", "world"]
+const SORT_MODES := ["hot", "name", "price", "rarity", "category", "world"]
+const RARITY_FILTERS := ["All", "Common", "Uncommon", "Rare", "Legendary"]
 
 
 func _ready() -> void:
@@ -37,13 +40,13 @@ func _ready() -> void:
 	_gold_lbl = UIKit.label("Gold: %d" % EconomyManager.gold, 10, UIKit.COL_ACCENT)
 	_gold_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	top_row.add_child(_gold_lbl)
-	if _compact_mp:
-		_sort_button = UIKit.button("Sort: Hot →", _cycle_sort, 8)
-		top_row.add_child(_sort_button)
-	else:
-		for mode in SORT_MODES:
-			top_row.add_child(UIKit.button("Sort: %s" % mode, _set_sort.bind(mode), 8))
-	var list_parts := UIKit.scroll_list(Vector2(500, 230))
+	_sort_button = UIKit.button("Sort: Hot →", _cycle_sort, 8)
+	top_row.add_child(_sort_button)
+	_rarity_button = UIKit.button("Rarity: All →", _cycle_rarity, 8)
+	top_row.add_child(_rarity_button)
+	# Leave room for the ornate frame and Close bar at the 640x360 design
+	# viewport. A 230px list made this panel 17px taller than the screen.
+	var list_parts := UIKit.scroll_list(Vector2(500, 205))
 	_scroll = list_parts[0] as ScrollContainer
 	if _compact_mp:
 		(list_parts[0] as ScrollContainer).custom_minimum_size = Vector2(340, 200)
@@ -72,6 +75,15 @@ func _cycle_sort() -> void:
 		_sort_button.text = "Sort: %s →" % _sort_mode.capitalize()
 
 
+func _cycle_rarity() -> void:
+	var next := (RARITY_FILTERS.find(_rarity_filter) + 1) % RARITY_FILTERS.size()
+	_rarity_filter = RARITY_FILTERS[next]
+	_rarity_button.text = "Rarity: %s →" % _rarity_filter
+	if _scroll != null:
+		_scroll.scroll_vertical = 0
+	_fill()
+
+
 func _fill() -> void:
 	var old_scroll := _scroll.scroll_vertical if _scroll != null else 0
 	UIKit.rebuild_list(_list, _fill_rows)
@@ -93,6 +105,9 @@ func _restore_scroll(value: int) -> void:
 
 func _fill_rows() -> void:
 	var catalog := MarketManager.wholesale_catalog()
+	if _rarity_filter != "All":
+		catalog = catalog.filter(func(item_id: String) -> bool:
+			return ContentDatabase.item_rarity(item_id) == _rarity_filter)
 	match _sort_mode:
 		"name":
 			catalog.sort_custom(func(a: String, b: String) -> bool:
@@ -100,6 +115,12 @@ func _fill_rows() -> void:
 		"price":
 			catalog.sort_custom(func(a: String, b: String) -> bool:
 				return MarketManager.wholesale_cost(a) < MarketManager.wholesale_cost(b))
+		"rarity":
+			catalog.sort_custom(func(a: String, b: String) -> bool:
+				var rarity_a := ContentDatabase.item_rarity_rank(a)
+				var rarity_b := ContentDatabase.item_rarity_rank(b)
+				return ContentDatabase.item_name(a) < ContentDatabase.item_name(b) \
+					if rarity_a == rarity_b else rarity_a > rarity_b)
 		"category":
 			catalog.sort_custom(func(a: String, b: String) -> bool:
 				var ca := String(ContentDatabase.get_item(a).get("category", ""))
@@ -145,6 +166,7 @@ func _make_row(id: String, locked_reason: String = "") -> VBoxContainer:
 	var cost := MarketManager.wholesale_cost(id)
 	var value := MarketManager.market_value(id)
 	var entry := VBoxContainer.new()
+	entry.set_meta("item_id", id)
 	if locked_reason != "":
 		entry.modulate = Color(1, 1, 1, 0.45)
 	entry.add_theme_constant_override("separation", 0)
@@ -154,6 +176,9 @@ func _make_row(id: String, locked_reason: String = "") -> VBoxContainer:
 	entry.add_child(row)
 	# every column has a fixed width so rows line up; oversized art is capped
 	row.add_child(UIKit.item_icon(id))
+	var rarity_badge := UIKit.rarity_label(id)
+	rarity_badge.custom_minimum_size.x = 58
+	row.add_child(rarity_badge)
 	var name_lbl := UIKit.label(ContentDatabase.item_name(id), 10)
 	name_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	name_lbl.clip_text = true
@@ -168,15 +193,12 @@ func _make_row(id: String, locked_reason: String = "") -> VBoxContainer:
 		trend_text = "▼ %s today" % DayBriefing._pct(mult)
 		trend_color = UIKit.COL_BAD
 	if not _compact_mp:
-		var cat_lbl := UIKit.label(String(it.get("category", "")).capitalize(), 9, UIKit.COL_DIM)
-		cat_lbl.custom_minimum_size = Vector2(64, 0)
-		row.add_child(cat_lbl)
 		var trend_lbl := UIKit.label(
 			trend_text, 10 if mult >= 1.05 or mult <= 0.95 else 9, trend_color)
 		trend_lbl.custom_minimum_size = Vector2(78, 0)
 		row.add_child(trend_lbl)
 	var price_lbl := UIKit.label("%dg → ~%dg" % [cost, value], 9, UIKit.COL_INK)
-	price_lbl.custom_minimum_size = Vector2(88, 0)
+	price_lbl.custom_minimum_size = Vector2(100, 0)
 	price_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	price_lbl.tooltip_text = "Buy for %dg, sells for about %dg" % [cost, value]
 	price_lbl.mouse_filter = Control.MOUSE_FILTER_STOP
@@ -213,6 +235,9 @@ func _make_row(id: String, locked_reason: String = "") -> VBoxContainer:
 	if _compact_mp:
 		sub_text = "%s · %s — %s" % [
 			String(it.get("category", "")).capitalize(), trend_text, sub_text]
+	else:
+		sub_text = "%s — %s" % [
+			String(it.get("category", "")).capitalize(), sub_text]
 	if owned > 0:
 		sub_text = "Owned: %d — %s" % [owned, sub_text]
 	if locked_reason != "":

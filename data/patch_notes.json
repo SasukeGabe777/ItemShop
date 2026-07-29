@@ -12,10 +12,14 @@
         "Guaranteed useful opening stock for each merchandise chapter, including immediately affordable Final Fantasy goods when Chapter 3 begins.",
         "Made daily briefings and Boom summaries name the exact currently obtainable items they affect, and prevented events from appearing before matching stock exists.",
         "Added rare expedition-only relics: Kingdom Key, Soul Eater, and Oblivion can drop from Kingdom Hearts bosses, while rare Mushroom Kingdom items can appear in expedition chests.",
-        "Added a 35-percent market sellback option, Hot sorting across stock menus, and preserved list position while buying or selling.",
+        "Added a 35-percent market sellback option, Hot sorting across stock menus, and stable cursor and scroll position while buying or selling.",
         "Expanded secret Admin mode with campaign, world, Boom, trend, and item-data controls plus persistent issue flags and shareable JSON/Markdown audit packs.",
         "Made consumable effects visible with action callouts and an active-status HUD for revives, invincibility, attack buffs, and defense buffs; 1UP activation now clearly announces the revive.",
-        "Made customer Bond display exact point progress and show every sale/order change, clarified purse strength as a percentage of market value, and added relationship-aware returning-customer dialogue."
+        "Made customer Bond display both lifetime points and progress to the next level, with returning-customer dialogue reserved for established relationships.",
+        "Replaced misleading raw purse percentages with the negotiation's real offer ceiling, combining budget, mood, personality, preferences, and Bond into one reliable price read.",
+        "Added explicit color-coded Common, Uncommon, Rare, and Legendary item rarities, with rarity sorting and filters in the Market, storage, display stocking, Workshop, and Encyclopedia.",
+        "Corrected the Ancient Staff and seven-Dragon-Ball Set recipes so their material costs, fees, and finished values produce viable crafting returns.",
+        "Corrected the default player's left/right facing and bounded the day report, market, and negotiation menus inside the 640-by-360 gameplay viewport."
       ]
     },
     {

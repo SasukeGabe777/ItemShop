@@ -21,5 +21,5 @@
     "dark_idle_down": {"frames": [4],          "fps": 3, "loop": true},
     "dark_walk_down": {"frames": [3, 4, 5, 4], "fps": 7, "loop": true}
   },
-  "side_flips_for_left": false
+  "side_flips_for_left": true
 }
