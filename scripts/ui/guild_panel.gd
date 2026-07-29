@@ -17,6 +17,8 @@ var vb: VBoxContainer
 var detail: VBoxContainer
 var portrait: TextureRect
 var portrait_name: Label
+var roster: GridContainer
+var roster_scroll: ScrollContainer
 var _hero_portrait_cache: Dictionary = {}
 
 
@@ -27,9 +29,20 @@ func _ready() -> void:
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 10)
 	vb.add_child(row)
-	var roster_parts := UIKit.scroll_list(Vector2(130, 230))
-	row.add_child(roster_parts[0])
-	var roster: VBoxContainer = roster_parts[1]
+	# Two columns fit every currently available hero at once. The old single
+	# column both omitted secondary heroes and produced a horizontal scrollbar
+	# from labels such as "Charmander (Pokémon)".
+	roster_scroll = ScrollContainer.new()
+	roster_scroll.custom_minimum_size = Vector2(170, 230)
+	roster_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	roster_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	row.add_child(roster_scroll)
+	roster = GridContainer.new()
+	roster.columns = 2
+	roster.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	roster.add_theme_constant_override("h_separation", 4)
+	roster.add_theme_constant_override("v_separation", 2)
+	roster_scroll.add_child(roster)
 	# the selected hero, drawn big between the roster and their profile
 	var portrait_box := VBoxContainer.new()
 	portrait_box.custom_minimum_size = Vector2(110, 230)
@@ -49,17 +62,37 @@ func _ready() -> void:
 	var detail_parts := UIKit.scroll_list(Vector2(250, 230))
 	row.add_child(detail_parts[0])
 	detail = detail_parts[1]
-	for world_id in BridgeManager.accessible_worlds():
-		var w := ContentDatabase.get_world(world_id)
-		if bool(w.get("final", false)):
-			continue
-		var hid := String(w.get("hero", ""))
-		roster.add_child(UIKit.button("%s (%s)" % [String(ContentDatabase.get_hero(hid).get("name", hid)), String(w.get("name", ""))],
-			func() -> void: _show_hero(hid)))
+	for hid: String in _roster_hero_ids():
+		var hero_name := String(ContentDatabase.get_hero(hid).get("name", hid))
+		var hero_button := UIKit.button(hero_name, func() -> void: _show_hero(hid), 9)
+		hero_button.custom_minimum_size.x = 80
+		hero_button.clip_text = true
+		hero_button.tooltip_text = hero_name
+		hero_button.set_meta("hero_id", hid)
+		roster.add_child(hero_button)
 	detail.add_child(UIKit.label("Select a hero.", 10, UIKit.COL_DIM))
 	vb.add_child(UIKit.button("Close", func() -> void:
 		closed.emit()
 		queue_free()))
+
+
+## Every hero declared by an accessible world's full roster. Older worlds
+## only have the singular `hero` field, which remains the fallback.
+func _roster_hero_ids() -> Array[String]:
+	var hero_ids: Array[String] = []
+	for world_id: String in BridgeManager.accessible_worlds():
+		var world := ContentDatabase.get_world(world_id)
+		if bool(world.get("final", false)):
+			continue
+		var declared: Array = world.get("heroes", [])
+		if declared.is_empty():
+			declared = [world.get("hero", "")]
+		for raw_id: Variant in declared:
+			var hero_id := String(raw_id)
+			if hero_id != "" and ContentDatabase.heroes.has(hero_id) \
+					and hero_id not in hero_ids:
+				hero_ids.append(hero_id)
+	return hero_ids
 
 
 ## Canonical forward idle, cropped only to its visible pixels. The square

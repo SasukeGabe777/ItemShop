@@ -47,6 +47,13 @@ class Probe:
 		shop._open_slot_picker(0)
 		await get_tree().create_timer(0.6).timeout
 		get_viewport().get_texture().get_image().save_png("user://screenshots/day_picker.png")
+		var picker := _top_modal(shop)
+		var sort_button := _button_named(picker, "Sort:")
+		if sort_button != null:
+			sort_button.pressed.emit()
+			await get_tree().create_timer(0.04).timeout
+			get_viewport().get_texture().get_image().save_png(
+				"user://screenshots/day_picker_pressed.png")
 		shop._close_modal(_top_modal(shop))
 		await get_tree().create_timer(0.3).timeout
 		# mid-day period panel
@@ -63,6 +70,26 @@ class Probe:
 		var market := MarketPanel.new()
 		shop.add_child(market)
 		await get_tree().create_timer(0.6).timeout
+		# A fresh save can schedule the first-session guide over the Market.
+		# Close that unrelated modal so the focus-column screenshot is legible.
+		var guide_overlay := _top_modal(shop)
+		if guide_overlay != null:
+			guide_overlay.queue_free()
+			await get_tree().process_frame
+		var market_buys: Array[Button] = []
+		for child: Node in market._list.get_children():
+			if child.has_meta("buy_button"):
+				var buy := child.get_meta("buy_button") as Button
+				if buy != null and not buy.disabled:
+					market_buys.append(buy)
+		if market_buys.size() >= 2:
+			market_buys[0].grab_focus()
+			await get_tree().process_frame
+			_press("ui_down")
+			await get_tree().process_frame
+			print("DAY_SHOT_MARKET_FOCUS: ", get_viewport().gui_get_focus_owner().name)
+			get_viewport().get_texture().get_image().save_png(
+				"user://screenshots/day_market_focus_down.png")
 		(market._list.get_parent() as ScrollContainer).scroll_vertical = 999999
 		await get_tree().create_timer(0.3).timeout
 		get_viewport().get_texture().get_image().save_png("user://screenshots/day_market_locked.png")
@@ -75,6 +102,20 @@ class Probe:
 			if (layer as CanvasLayer).layer == 50:
 				best = layer
 		return best
+
+	func _button_named(root: Node, prefix: String) -> Button:
+		for node: Node in root.find_children("*", "Button", true, false):
+			var button := node as Button
+			if button.text.begins_with(prefix):
+				return button
+		return null
+
+	func _press(action: String) -> void:
+		for pressed: bool in [true, false]:
+			var event := InputEventAction.new()
+			event.action = action
+			event.pressed = pressed
+			Input.parse_input_event(event)
 
 func _ready() -> void:
 	get_tree().root.add_child.call_deferred(Probe.new())

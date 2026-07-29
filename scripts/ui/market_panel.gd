@@ -152,6 +152,7 @@ func _fill_rows() -> void:
 		_list.add_child(UIKit.label("— beyond today's market —", 9, UIKit.COL_DIM))
 	for id in locked:
 		_list.add_child(_make_row(id, _locked_reason(id)))
+	_wire_button_columns()
 
 
 ## Why an item can't be bought yet ("" = purchasable). Two gates: the item's
@@ -216,6 +217,7 @@ func _make_row(id: String, locked_reason: String = "") -> VBoxContainer:
 		buy_btn.tooltip_text = locked_reason
 	buy_btn.custom_minimum_size = Vector2(46, 0)
 	buy_btn.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	buy_btn.name = "Buy_%s" % id
 	row.add_child(buy_btn)
 	var owned := InventoryManager.count(id)
 	var sell_btn := UIKit.button("Sell\n%dg" % MarketManager.sellback_value(id),
@@ -229,7 +231,10 @@ func _make_row(id: String, locked_reason: String = "") -> VBoxContainer:
 	sell_btn.disabled = owned <= 0
 	sell_btn.tooltip_text = "Sell one from storage back to the market at 35% of today's value."
 	sell_btn.custom_minimum_size = Vector2(48, 0)
+	sell_btn.name = "Sell_%s" % id
 	row.add_child(sell_btn)
+	entry.set_meta("buy_button", buy_btn)
+	entry.set_meta("sell_button", sell_btn)
 	# blurb + owned count live on the row itself (was tooltip-only)
 	var sub_text := String(it.get("desc", ""))
 	if _compact_mp:
@@ -253,3 +258,41 @@ func _make_row(id: String, locked_reason: String = "") -> VBoxContainer:
 	sub_pad.add_child(sub)
 	entry.add_child(sub_pad)
 	return entry
+
+
+## Godot's geometric focus search considered the Sell button on the next row
+## closer than the next Buy button. Explicit column neighbors keep vertical
+## controller movement vertical; left/right still crosses between actions.
+func _wire_button_columns() -> void:
+	var buy_buttons: Array[Button] = []
+	var sell_buttons: Array[Button] = []
+	for child: Node in _list.get_children():
+		if not child.has_meta("buy_button"):
+			continue
+		var buy := child.get_meta("buy_button") as Button
+		var sell := child.get_meta("sell_button") as Button
+		if buy != null and not buy.disabled:
+			buy_buttons.append(buy)
+		if sell != null and not sell.disabled:
+			sell_buttons.append(sell)
+	_wire_vertical_column(buy_buttons)
+	_wire_vertical_column(sell_buttons)
+	for child: Node in _list.get_children():
+		if not child.has_meta("buy_button"):
+			continue
+		var buy := child.get_meta("buy_button") as Button
+		var sell := child.get_meta("sell_button") as Button
+		if buy == null or sell == null:
+			continue
+		if not sell.disabled:
+			buy.focus_neighbor_right = buy.get_path_to(sell)
+			sell.focus_neighbor_left = sell.get_path_to(buy)
+
+
+func _wire_vertical_column(buttons: Array[Button]) -> void:
+	for i in buttons.size():
+		var button := buttons[i]
+		var above := buttons[i - 1] if i > 0 else button
+		var below := buttons[i + 1] if i + 1 < buttons.size() else button
+		button.focus_neighbor_top = button.get_path_to(above)
+		button.focus_neighbor_bottom = button.get_path_to(below)

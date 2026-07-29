@@ -18,6 +18,9 @@
         "Made customer Bond display both lifetime points and progress to the next level, with returning-customer dialogue reserved for established relationships.",
         "Replaced misleading raw purse percentages with the negotiation's real offer ceiling, combining budget, mood, personality, preferences, and Bond into one reliable price read.",
         "Added explicit color-coded Common, Uncommon, Rare, and Legendary item rarities, with rarity sorting and filters in the Market, storage, display stocking, Workshop, and Encyclopedia.",
+        "Made menu confirmations visibly flash using the chosen menu sprites and added each item's world directly to display-stand stocking rows.",
+        "Expanded the Adventurers' Guild to every hero in each unlocked world's roster and replaced its cramped single-column list with a compact two-column roster.",
+        "Locked Market controller up/down navigation to the current Buy or Sell column so vertical input no longer jumps sideways.",
         "Corrected the Ancient Staff and seven-Dragon-Ball Set recipes so their material costs, fees, and finished values produce viable crafting returns.",
         "Corrected the default player's left/right facing and bounded the day report, market, and negotiation menus inside the 640-by-360 gameplay viewport."
       ]

@@ -391,7 +391,13 @@ static func button(text: String, on_press: Callable, size: int = 10) -> Button:
 	var b := Button.new()
 	b.text = text
 	b.add_theme_font_size_override("font_size", size)
-	b.pressed.connect(func() -> void: AudioManager.play_sfx("menu_select", -4.0))
+	b.pressed.connect(func() -> void:
+		AudioManager.play_sfx("menu_select", -4.0)
+		# A focused controller button already uses the blue menu bar, so its
+		# normal pressed style was visually indistinguishable. Briefly tint the
+		# existing chosen menu sprite gold to make every confirmation readable.
+		b.modulate = Color("#ffd36b")
+		b.create_tween().tween_property(b, "modulate", Color.WHITE, 0.16))
 	if on_press.is_valid():
 		b.pressed.connect(on_press)
 	return b

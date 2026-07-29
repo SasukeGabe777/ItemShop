@@ -1157,19 +1157,19 @@ func _open_slot_picker(slot: int, who: int = 1) -> void:
 				continue
 			list.add_child(_make_pick_row(id, slot, pick_layer, who))
 	var refill := func() -> void: UIKit.rebuild_list(list, fill_rows)
-	var sort_button: Button
-	sort_button = UIKit.button("Sort: Price →", func() -> void:
+	var sort_button := UIKit.button("Sort: Price →", Callable(), 8)
+	sort_button.pressed.connect(func() -> void:
 		var next := (sort_modes.find(sort_mode["v"]) + 1) % sort_modes.size()
 		sort_mode["v"] = sort_modes[next]
 		sort_button.text = "Sort: %s →" % String(sort_mode["v"]).capitalize()
-		refill.call(), 8)
+		refill.call())
 	sort_row.add_child(sort_button)
-	var rarity_button: Button
-	rarity_button = UIKit.button("Rarity: All →", func() -> void:
+	var rarity_button := UIKit.button("Rarity: All →", Callable(), 8)
+	rarity_button.pressed.connect(func() -> void:
 		var next := (rarity_filters.find(rarity_filter["v"]) + 1) % rarity_filters.size()
 		rarity_filter["v"] = rarity_filters[next]
 		rarity_button.text = "Rarity: %s →" % rarity_filter["v"]
-		refill.call(), 8)
+		refill.call())
 	sort_row.add_child(rarity_button)
 	fill_rows.call()
 	vb.add_child(UIKit.button("Cancel", func() -> void: _close_modal(pick_layer, who)))
@@ -1217,7 +1217,8 @@ func _make_pick_row(id: String, slot: int, pick_layer: CanvasLayer, who: int = 1
 	place_btn.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	row.add_child(place_btn)
 	var appeal: Dictionary = it.get("appeal", {})
-	var bits: Array[String] = [String(it.get("category", "")).capitalize()]
+	var bits: Array[String] = [_item_world_label(id),
+		String(it.get("category", "")).capitalize()]
 	for k: String in appeal:
 		bits.append("%s+%d" % [k, int(appeal[k])])
 	var sub := UIKit.label(" · ".join(bits), 8, UIKit.COL_DIM)
@@ -1228,6 +1229,18 @@ func _make_pick_row(id: String, slot: int, pick_layer: CanvasLayer, who: int = 1
 	sub_pad.add_child(sub)
 	entry.add_child(sub_pad)
 	return entry
+
+
+## Human-readable gameplay origin for display stocking rows. Crossover goods
+## can participate in more than one world, so show every real affinity.
+func _item_world_label(id: String) -> String:
+	var names: Array[String] = []
+	for world_id: String in ContentDatabase.item_world_ids(id):
+		var world := ContentDatabase.get_world(world_id)
+		var world_name := String(world.get("name", world_id.replace("_", " ").capitalize()))
+		if world_name not in names:
+			names.append(world_name)
+	return " / ".join(names) if not names.is_empty() else "Crossroads"
 
 
 ## Marks a menu as held by a player; releases automatically however it closes.
@@ -1513,15 +1526,15 @@ func _open_storage(who: int = 1) -> void:
 			list.add_child(UIKit.item_row(id, "x%d  ~%dg  [%s/%s]" % [InventoryManager.count(id), MarketManager.market_value(id),
 				String(it.get("world", "?")), String(it.get("category", "?"))], "", Callable()))
 	var refill := func() -> void: UIKit.rebuild_list(list, fill_rows)
-	var sort_button: Button
-	sort_button = UIKit.button("Sort: Hot →", func() -> void:
+	var sort_button := UIKit.button("Sort: Hot →", Callable())
+	sort_button.pressed.connect(func() -> void:
 		var next := (sort_modes.find(sort_mode["v"]) + 1) % sort_modes.size()
 		sort_mode["v"] = sort_modes[next]
 		sort_button.text = "Sort: %s →" % String(sort_mode["v"]).capitalize()
 		refill.call())
 	sort_row.add_child(sort_button)
-	var rarity_button: Button
-	rarity_button = UIKit.button("Rarity: All →", func() -> void:
+	var rarity_button := UIKit.button("Rarity: All →", Callable())
+	rarity_button.pressed.connect(func() -> void:
 		var next := (rarity_filters.find(rarity_filter["v"]) + 1) % rarity_filters.size()
 		rarity_filter["v"] = rarity_filters[next]
 		rarity_button.text = "Rarity: %s →" % rarity_filter["v"]

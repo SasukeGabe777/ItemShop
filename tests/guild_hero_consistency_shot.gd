@@ -7,6 +7,8 @@ const SHOT_DIR := "user://screenshots/guild_hero_consistency/"
 
 func _ready() -> void:
 	await get_tree().create_timer(0.7).timeout
+	TimeManager.reset(9)
+	BridgeManager.reset()
 	DirAccess.make_dir_recursive_absolute(SHOT_DIR)
 	var guild := GuildPanel.new()
 	var parts := UIKit.modal(self, "Adventurers' Guild — Default Idle Lineup")
