@@ -13,6 +13,7 @@ const SFX_BUS := "SFX"
 var music_player: AudioStreamPlayer
 var stinger_player: AudioStreamPlayer
 var sfx_player: AudioStreamPlayer
+var sfx_players: Array[AudioStreamPlayer] = []
 var current_track: String = ""
 var music_volume_db: float = -8.0
 var master_level: float = 1.0
@@ -20,6 +21,10 @@ var music_level: float = 0.8
 var sfx_level: float = 0.8
 var muted: bool = false
 var _last_voice: Dictionary = {}  # speaker -> last file index, avoids repeats
+var _sfx_cursor := 0
+var _world_unlock_guard_until := 0
+
+const SFX_VOICE_COUNT := 8
 
 
 func _ready() -> void:
@@ -32,9 +37,13 @@ func _ready() -> void:
 	stinger_player = AudioStreamPlayer.new()
 	stinger_player.bus = MUSIC_BUS
 	add_child(stinger_player)
-	sfx_player = AudioStreamPlayer.new()
-	sfx_player.bus = SFX_BUS
-	add_child(sfx_player)
+	for i in SFX_VOICE_COUNT:
+		var voice := AudioStreamPlayer.new()
+		voice.bus = SFX_BUS
+		voice.name = "SFXVoice%d" % (i + 1)
+		add_child(voice)
+		sfx_players.append(voice)
+	sfx_player = sfx_players[0]
 	_apply_mixer()
 	DirAccess.make_dir_recursive_absolute("user://music_overrides/")
 	_connect_global_sfx.call_deferred()
@@ -43,7 +52,12 @@ func _ready() -> void:
 ## Cross-cutting jingles wired to gameplay signals (other autoloads exist by
 ## the time this deferred call runs).
 func _connect_global_sfx() -> void:
-	BridgeManager.gate_repaired.connect(func(_w: String) -> void: play_sfx("new_world_unlock", 2.0))
+	BridgeManager.gate_repaired.connect(func(_w: String) -> void:
+		# Gate menus historically followed this with the generic victory
+		# stinger. Suppress that duplicate briefly so the dedicated supplied
+		# world-unlock effect is the sound the player actually hears.
+		_world_unlock_guard_until = Time.get_ticks_msec() + 250
+		play_sfx("new_world_unlock", 2.0))
 	GameState.merchant_level_up.connect(func(_lv: int) -> void: play_sfx("achievement_unlocked"))
 
 
@@ -71,6 +85,9 @@ func play_track(track_id: String) -> void:
 
 
 func play_stinger(track_id: String) -> void:
+	if track_id == "victory_stinger" \
+			and Time.get_ticks_msec() <= _world_unlock_guard_until:
+		return
 	var stream := _resolve_stream(track_id)
 	if stream == null or muted:
 		return
@@ -89,9 +106,14 @@ func play_sfx(sfx_name: String, volume_offset_db: float = 0.0) -> void:
 	if stream == null:
 		return
 	_set_loop(stream, false)
-	sfx_player.stream = stream
-	sfx_player.volume_db = music_volume_db + volume_offset_db
-	sfx_player.play()
+	# Menu close, sale, perfect-deal, and network feedback can all happen in
+	# one frame. Round-robin voices prevent the newest effect cutting off the
+	# one the player actually earned.
+	var voice := sfx_players[_sfx_cursor]
+	_sfx_cursor = (_sfx_cursor + 1) % sfx_players.size()
+	voice.stream = stream
+	voice.volume_db = music_volume_db + volume_offset_db
+	voice.play()
 
 
 ## Character voice blip: picks one of the speaker's files from the manifest

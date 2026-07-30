@@ -131,7 +131,7 @@ func _show_line(idx: int) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("interact") or event.is_action_pressed("attack"):
+	if _is_continue_event(event):
 		if typing:
 			# skip typing
 			typing = false
@@ -143,6 +143,17 @@ func _unhandled_input(event: InputEvent) -> void:
 			_show_line(line_index + 1)
 		else:
 			_scene_done()
+
+
+## Keep the on-screen keyboard promise honest. Space is part of ui_accept,
+## while E and controller buttons retain their existing gameplay actions.
+func _is_continue_event(event: InputEvent) -> bool:
+	return event.is_action_pressed("interact") \
+		or event.is_action_pressed("attack") \
+		or event.is_action_pressed("ui_accept") \
+		or (event is InputEventKey and (event as InputEventKey).pressed \
+			and ((event as InputEventKey).keycode == KEY_SPACE \
+				or (event as InputEventKey).physical_keycode == KEY_SPACE))
 
 
 func _scene_done() -> void:

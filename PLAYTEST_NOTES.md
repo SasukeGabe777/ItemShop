@@ -2,6 +2,23 @@
 
 ---
 
+## 2026-07-29 - New-game pass follow-ups
+
+### Recorded for the sprite/dungeon owners
+
+- Export and review the incorrect Crossroads character sprites during the next
+  visual audit; use the Admin sprite review pack so each bad identity can be
+  corrected against its source rather than guessed from a text description.
+- Expedition setup can replace the equipped-items readout with a persistent
+  `No more ITEM in stock!` message after selecting more copies than owned.
+- Expedition completion currently opens its result popup before loose floor
+  loot is resolved and leaves the hero controllable behind the popup.
+- World Bridge progression lists Chapters 1-7 and 9 because Realm of the Mad
+  God is authored as Chapter 9 while the final Chapter 8 world is hidden from
+  the normal gate list. The requested progression is Realm as Chapter 8.
+
+---
+
 ## 2026-07-28 - Core loop catalog, economy, Admin, and relationship hardening
 
 ### Reported behavior

@@ -59,6 +59,12 @@ class Probe:
 		var shop := get_tree().current_scene
 		_expect(shop != null and shop.scene_file_path.ends_with("shop.tscn"),
 			"host did not reach the shop")
+		# P1 buys a new physical display while P2 is already inside. Furniture
+		# manager sync must rebuild the client's live shop without a reload.
+		var furniture_before := ShopFurnitureManager.layout.size()
+		shop.dev_spawn_furniture("basic_glass_box", Vector2(520, 250))
+		_expect(ShopFurnitureManager.layout.size() == furniture_before + 1,
+			"host furniture purchase did not alter the layout")
 		# P1 stocks while P2 is already inside. This must redraw immediately,
 		# without relying on a leave/re-enter snapshot.
 		Net.request("inventory.place_display",
@@ -131,6 +137,8 @@ class Probe:
 			_expect(bool(report.get("panel_seen", false)), "client never got the panel")
 			_expect(bool(report.get("remote_display_visible", false)),
 				"client did not render P1's live stand placement")
+			_expect(bool(report.get("remote_furniture_visible", false)),
+				"client did not render P1's newly purchased furniture")
 			_expect(int(report.get("gold_after", -1)) == EconomyManager.gold,
 				"client gold diverged: %s vs %d" % [report.get("gold_after"), EconomyManager.gold])
 

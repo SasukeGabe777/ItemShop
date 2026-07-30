@@ -108,9 +108,12 @@ static func build() -> Dictionary:
 	# broadcast toast so the whole party sees who is waiting on whom.
 	var party_gate := func(sender: int, args: Dictionary) -> Dictionary:
 		var action_id := String(args.get("action_id", ""))
-		var complete: bool = PartyState.ready_up(action_id, sender)
+		var requested_needed := int(args.get("needed", -1))
+		var complete: bool = PartyState.ready_up(
+			action_id, sender, requested_needed)
 		var count: int = PartyState.ready_count(action_id)
-		var needed: int = PartyState.connected_indexes().size()
+		var needed: int = requested_needed if requested_needed > 0 \
+			else PartyState.connected_indexes().size()
 		if complete:
 			PartyState.clear_ready(action_id)
 			Net.broadcast_scene_event("gate_complete", {"action_id": action_id})

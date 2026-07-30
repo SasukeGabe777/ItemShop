@@ -71,6 +71,7 @@ func setup(instance: Dictionary, def: Dictionary, p_slot_base: int, window_indic
 		_collision_body.add_child(shape)
 		add_child(_collision_body)
 
+	var window_tag_added := false
 	for i in slot_count:
 		var offset := Vector2(float(slots[i][0]), float(slots[i][1]))
 		if display_surface_y != 0.0:
@@ -90,10 +91,11 @@ func setup(instance: Dictionary, def: Dictionary, p_slot_base: int, window_indic
 		ic.add_to_group("interactables")
 		add_child(ic)
 
-		if global_slot in window_indices:
+		if global_slot in window_indices and not window_tag_added:
 			var tag := UIKit.label("window", 7, UIKit.COL_DIM)
 			tag.position = offset + Vector2(-14, -14)
 			add_child(tag)
+			window_tag_added = true
 
 	refresh_items()
 

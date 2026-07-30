@@ -13,13 +13,14 @@ signal layout_changed()
 var layout: Array = []
 var _uid_seq: int = 0
 
-## Starting shop: two window counters up front, two basic stands behind —
-## 4 pieces against a level-1 cap of 5, so there's room to buy more.
+## Starting shop: two basic stands plus a two-slot display crate. This keeps
+## four stocking slots while teaching the player the two core furniture shapes.
 const STARTING_LAYOUT := [
-	["window_counter", 190.0, 170.0],
-	["window_counter", 278.0, 170.0],
-	["basic_item_stand", 190.0, 246.0],
-	["basic_item_stand", 278.0, 246.0],
+	# The crate's two slots inherit the extra attention previously supplied
+	# by the two legacy window counters, preserving Chapter 1 balance.
+	["small_display_crate", 320.0, 180.0, 0.25],
+	["basic_item_stand", 230.0, 250.0, 0.0],
+	["basic_item_stand", 410.0, 250.0, 0.0],
 ]
 
 ## Furniture types put away in storage during rearrange mode (type ids;
@@ -49,7 +50,12 @@ func ensure_layout() -> void:
 	if layout.is_empty():
 		for entry: Array in STARTING_LAYOUT:
 			_uid_seq += 1
-			layout.append({"uid": _uid_seq, "type": String(entry[0]), "pos": [float(entry[1]), float(entry[2])]})
+			layout.append({
+				"uid": _uid_seq,
+				"type": String(entry[0]),
+				"pos": [float(entry[1]), float(entry[2])],
+				"starter_attention_bonus": float(entry[3]),
+			})
 		layout_changed.emit()
 	InventoryManager.resize_display_slots(total_slot_count())
 
@@ -120,6 +126,7 @@ func slot_attention_bonus(index: int) -> float:
 		var n := slots_per_instance(inst)
 		if index < seen + n:
 			bonus += float(type_def(inst).get("customer_attention_modifier", 0.0))
+			bonus += float(inst.get("starter_attention_bonus", 0.0))
 			break
 		seen += n
 	return bonus

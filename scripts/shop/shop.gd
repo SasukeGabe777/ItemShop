@@ -402,6 +402,9 @@ func _build_corner_buttons() -> void:
 
 
 func _on_rearrange_pressed() -> void:
+	if Net.is_client():
+		_toast("Player 1 holds the furniture tools!")
+		return
 	if edit_mode:
 		_exit_edit_mode()
 		return
@@ -426,16 +429,24 @@ func _show_first_shop_guide() -> void:
 	var parts := UIKit.modal(self, "Your first shop session")
 	var guide_layer: CanvasLayer = parts[0]
 	var vb: VBoxContainer = parts[1]
-	vb.add_child(UIKit.label("1. Walk to any item stand until [E] Display slot appears."))
-	vb.add_child(UIKit.label("2. Press E and choose a Potion, Ether, or Rupee."))
-	vb.add_child(UIKit.label("3. To move a stand, use Rearrange furniture at the lower-right."))
-	vb.add_child(UIKit.label("4. Walk to the counter at the top and press E to open."))
+	for step: String in _first_shop_guide_steps():
+		vb.add_child(UIKit.label(step))
 	vb.add_child(UIKit.label("The first customer will inspect a stocked stand and ask you to negotiate.", 9, UIKit.COL_GOOD))
 	vb.add_child(UIKit.button("Begin stocking", func() -> void:
 		GameState.tutorials_seen.append(TUTORIAL_ID)
 		busy = false
 		player.frozen = false
 		guide_layer.queue_free()))
+
+
+func _first_shop_guide_steps() -> Array[String]:
+	var key := UIKit.interact_key()
+	return [
+		"1. Walk to any item stand until [%s] Display slot appears." % key,
+		"2. Press %s and choose an item from storage." % key,
+		"3. Buy Furniture, Decorate, and Rearrange Furniture are at the lower-right.",
+		"4. Walk to the counter at the top and press %s to open." % key,
+	]
 
 
 func _build_room() -> void:
@@ -502,6 +513,7 @@ func _build_furniture() -> void:
 	storage_chest.texture = chest_tex if chest_tex != null else PlaceholderFactory.furniture_texture("chest", 28, 20)
 	storage_chest.position = Vector2(160, 140)
 	add_child(storage_chest)
+	_add_shop_nameplate("Storage", Vector2(160, 162))
 	if GameState.shop_level < 5:
 		var expand_ic := InteractionComponent.new()
 		expand_ic.prompt = "Expand shop"
@@ -512,11 +524,12 @@ func _build_furniture() -> void:
 		var expand_spr := Sprite2D.new()
 		var ladder_tex := Scenery.texture_or_null("ladder")
 		expand_spr.texture = ladder_tex if ladder_tex != null else PlaceholderFactory.furniture_texture("shelf", 24, 20)
-		if expand_spr.texture != null and expand_spr.texture.get_height() > 56:
-			var k := 56.0 / float(expand_spr.texture.get_height())
+		if expand_spr.texture != null and expand_spr.texture.get_height() > 88:
+			var k := 88.0 / float(expand_spr.texture.get_height())
 			expand_spr.scale = Vector2(k, k)
 		expand_spr.position = Vector2(480, 140)
 		add_child(expand_spr)
+		_add_shop_nameplate("Expand Shop", Vector2(480, 188))
 	var edit_ic := InteractionComponent.new()
 	edit_ic.prompt = "Rearrange furniture"
 	edit_ic.action_id = "rearrange"
@@ -525,6 +538,15 @@ func _build_furniture() -> void:
 	add_child(edit_ic)
 	_refresh_display_sprites()
 	InventoryManager.display_changed.connect(_refresh_display_sprites)
+
+
+func _add_shop_nameplate(title: String, top_center: Vector2) -> void:
+	var plate := UIKit.nameplate(title, 11)
+	plate.z_index = 20
+	add_child(plate)
+	(func() -> void:
+		if is_instance_valid(plate):
+			plate.position = top_center - Vector2(plate.size.x / 2.0, 0)).call_deferred()
 
 
 func dev_spawn_furniture(type_id: String, at: Vector2) -> DisplayFurniture:
@@ -538,6 +560,8 @@ func dev_spawn_furniture(type_id: String, at: Vector2) -> DisplayFurniture:
 	piece.setup(inst, ShopFurnitureManager.type_def(inst), slot_base, ShopFurnitureManager.window_slots())
 	furniture_nodes.append(piece)
 	_rebuild_browse_points()
+	if Net.is_host():
+		Net.sync_managers(["economy", "inventory", "furniture"])
 	return piece
 
 
@@ -681,11 +705,12 @@ func _shop_player_frame(p: TownPlayer, pr: Label, prefix: String, p_busy: bool, 
 				_toast("Close up first — customers are browsing!")
 				get_tree().create_timer(2.0).timeout.connect(func() -> void: set_meta("exit_toasted", false))
 		elif Net.is_online():
-			# whole-party door: stand here to vote; the host leaves for everyone
-			p.position.y = EXIT_Y + 2.0
+			# Leaving is not a progression decision: one player crossing the
+			# threshold pulls the party out instead of pinning them at the edge.
 			if not get_meta("exit_gated", false):
 				set_meta("exit_gated", true)
-				Net.request("party.gate", {"action_id": "leave_shop"})
+				Net.request("party.gate",
+					{"action_id": "leave_shop", "needed": 1})
 				get_tree().create_timer(2.0).timeout.connect(func() -> void:
 					set_meta("exit_gated", false))
 		elif player2 == null:
@@ -693,17 +718,10 @@ func _shop_player_frame(p: TownPlayer, pr: Label, prefix: String, p_busy: bool, 
 			SceneRouter.go("town")
 			return
 		else:
-			# split-screen: both shopkeepers leave together
-			var other: TownPlayer = player2 if p == player else player
-			if other != null and other.position.y > EXIT_Y - 10.0:
-				busy = true
-				SceneRouter.go("town")
-				return
-			p.position.y = EXIT_Y + 2.0
-			if not get_meta("exit_toasted", false):
-				set_meta("exit_toasted", true)
-				_toast("Leaving — 1/2 at the door")
-				get_tree().create_timer(2.0).timeout.connect(func() -> void: set_meta("exit_toasted", false))
+			# Either couch player can leave; scene routing carries both.
+			busy = true
+			SceneRouter.go("town")
+			return
 	var ic := p.nearest_interactable()
 	if pr != null:
 		pr.visible = ic != null
@@ -1284,6 +1302,9 @@ func _find_free_spot(type_id: String) -> Vector2:
 
 
 func _open_furniture_catalog() -> void:
+	if Net.is_client():
+		_toast("Only Player 1 can buy furniture!")
+		return
 	if session_active:
 		_toast("Not while customers are browsing!")
 		return
@@ -1400,6 +1421,9 @@ func _open_furniture_catalog() -> void:
 ## Decor catalog: appeal-only pieces with no display slots. They don't count
 ## against the stand cap — only floor space limits them.
 func _open_decor_catalog() -> void:
+	if Net.is_client():
+		_toast("Only Player 1 can decorate the shop!")
+		return
 	if session_active:
 		_toast("Not while customers are browsing!")
 		return

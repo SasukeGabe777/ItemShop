@@ -13,6 +13,7 @@ class Worker:
 	var report: Dictionary = {
 		"joined": false, "in_shop": false, "customer_seen": false,
 		"panel_seen": false, "remote_display_visible": false,
+		"remote_furniture_visible": false,
 		"gold_after": -1, "display0_after": "x", "error": "",
 	}
 
@@ -37,6 +38,16 @@ class Worker:
 		# the selected character and its fairy as two independent sprites.
 		(get_tree().current_scene.get("player") as TownPlayer).global_position = \
 			Vector2(390, 300)
+
+		report["remote_furniture_visible"] = await _wait_for(func() -> bool:
+			if not ShopFurnitureManager.layout.any(func(inst: Dictionary) -> bool:
+					return String(inst.get("type", "")) == "basic_glass_box"):
+				return false
+			var shop := get_tree().current_scene
+			for piece: DisplayFurniture in shop.get("furniture_nodes"):
+				if piece.type_id == "basic_glass_box":
+					return true
+			return false, 10.0)
 
 		# P1 stocks a second stand while we remain inside. Verify the incoming
 		# authoritative state redraws furniture without a scene reload.
