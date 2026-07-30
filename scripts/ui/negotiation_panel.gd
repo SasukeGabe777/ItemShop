@@ -237,23 +237,23 @@ func _note(text: String) -> void:
 		chat_scroll.scroll_vertical = int(chat_scroll.get_v_scroll_bar().max_value)
 
 
-## Coin pips + a truthful read of the highest offer this negotiation will
-## accept. A large wallet alone does not mean a customer tolerates any markup:
-## max_acceptable() is the same cap used by Negotiation.propose().
+## A deliberately broad purse read. The tier uses the negotiation's real
+## acceptance cap so it remains honest, but never gives away the exact answer.
 func _purse_label() -> Label:
 	var acceptance_ratio := float(nego.max_acceptable()) / maxf(
 		1.0, float(nego.market_value))
-	var filled := clampi(int(ceil(acceptance_ratio * 2.5)), 1, 5)
-	var pips := "●".repeat(filled) + "○".repeat(5 - filled)
-	var txt := "likely limit ~%dg (~%d%% market)" % [
-		nego.max_acceptable(), int(round(acceptance_ratio * 100.0))]
+	var txt := "Good"
 	var col := UIKit.COL_ACCENT
 	if acceptance_ratio < 0.7:
+		txt = "Very light"
 		col = UIKit.COL_BAD
-	elif acceptance_ratio >= 1.0:
+	elif acceptance_ratio < 1.0:
+		txt = "Light"
+	elif acceptance_ratio >= 1.35:
+		txt = "Heavy"
 		col = UIKit.COL_GOOD
-	var lbl := UIKit.label("Price read %s  %s" % [pips, txt], 12, col)
-	lbl.tooltip_text = "A reliable read of this customer's current price ceiling.\nIt combines their purse, personality, mood, preferences, and your bond. Offers at or below this amount are accepted."
+	var lbl := UIKit.label("Purse: %s" % txt, 12, col)
+	lbl.tooltip_text = "A broad read of this customer's buying power for the item.\nMood, personality, preferences, and Bond can all affect the deal."
 	lbl.mouse_filter = Control.MOUSE_FILTER_STOP
 	return lbl
 

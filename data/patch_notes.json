@@ -16,7 +16,7 @@
         "Expanded secret Admin mode with campaign, world, Boom, trend, and item-data controls plus persistent issue flags and shareable JSON/Markdown audit packs.",
         "Made consumable effects visible with action callouts and an active-status HUD for revives, invincibility, attack buffs, and defense buffs; 1UP activation now clearly announces the revive.",
         "Made customer Bond display both lifetime points and progress to the next level, with returning-customer dialogue reserved for established relationships.",
-        "Replaced misleading raw purse percentages with the negotiation's real offer ceiling, combining budget, mood, personality, preferences, and Bond into one reliable price read.",
+        "Replaced misleading purse percentages with broad Very light, Light, Good, and Heavy hints that preserve negotiation uncertainty while respecting mood, personality, preferences, and Bond.",
         "Added explicit color-coded Common, Uncommon, Rare, and Legendary item rarities, with rarity sorting and filters in the Market, storage, display stocking, Workshop, and Encyclopedia.",
         "Made menu confirmations visibly flash using the chosen menu sprites and added each item's world directly to display-stand stocking rows.",
         "Expanded the Adventurers' Guild to every hero in each unlocked world's roster and replaced its cramped single-column list with a compact two-column roster.",

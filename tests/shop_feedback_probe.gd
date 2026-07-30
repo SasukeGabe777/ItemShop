@@ -16,6 +16,7 @@ func _ready() -> void:
 	BoomManager.reset()
 	_check_assets()
 	_check_negotiation()
+	_check_purse_hints()
 	_check_identities()
 	_check_bonds_and_gold_drop()
 	if failures.is_empty():
@@ -55,6 +56,25 @@ func _check_negotiation() -> void:
 			"negotiation revealed the exact wallet")
 	check(patience_seen.has(1) and patience_seen.has(2) and patience_seen.has(3),
 		"patience did not cover one, two, and three haggles: %s" % patience_seen)
+
+
+func _check_purse_hints() -> void:
+	for budget: int in [20, 500]:
+		var customer := _customer("purse_%d" % budget)
+		customer["budget"] = budget
+		var panel := NegotiationPanel.new()
+		panel.setup(customer, "kh_potion")
+		var hint := panel._purse_label()
+		check(hint.text in ["Purse: Very light", "Purse: Light",
+				"Purse: Good", "Purse: Heavy"],
+			"purse display is not qualitative: %s" % hint.text)
+		check("%" not in hint.text and "~" not in hint.text,
+			"purse display reveals a calculated limit: %s" % hint.text)
+		for digit: String in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]:
+			check(digit not in hint.text,
+				"purse display reveals an exact amount: %s" % hint.text)
+		hint.free()
+		panel.free()
 
 
 func _check_identities() -> void:

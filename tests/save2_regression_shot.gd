@@ -106,13 +106,17 @@ func _capture_negotiation() -> void:
 	await get_tree().create_timer(0.45).timeout
 	_check_panel_bounds(_modal_panel(panel), "negotiation")
 	var labels := panel.find_children("*", "Label", true, false)
-	var read_copy := ""
+	var purse_copy := ""
 	for label: Label in labels:
-		if label.text.begins_with("Price read"):
-			read_copy = label.text
-	check(read_copy != "" and "4000%" not in read_copy,
-		"negotiation still presents the raw purse as an offer promise")
-	_snap("03_peach_truthful_price_read.png")
+		if label.text.begins_with("Purse:"):
+			purse_copy = label.text
+	check(purse_copy in ["Purse: Very light", "Purse: Light",
+			"Purse: Good", "Purse: Heavy"],
+		"negotiation purse is not a qualitative hint: %s" % purse_copy)
+	for digit: String in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]:
+		check(digit not in purse_copy,
+			"negotiation purse reveals an exact amount: %s" % purse_copy)
+	_snap("03_peach_qualitative_purse.png")
 	panel.queue_free()
 	await get_tree().process_frame
 
