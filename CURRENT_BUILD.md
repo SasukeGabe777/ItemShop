@@ -1,6 +1,19 @@
 # Current Build
 
-Last audited: **2026-07-27**
+## October 15, 2026 — focused pre-session audit
+
+Current source is `639d8501` (July 30), with a fresh readiness review in
+`docs/PRE_SESSION_REVIEW.md`. The July snapshot below is historical: its
+logic-green release claim is **not current**. Today's campaign simulation
+failed twice at day 30 / Chapter 6 (261,210g, shard recovered, 400,000g repair).
+DBZ and Realm music probes also fail in a clean clone because their mapped
+override tracks are absent. Boot, full parse, core-loop hardening, starter
+shop, controller UI, and seven selected online routes pass. Runtime inventory
+now reports 30 bosses and 97 recipes, superseding the older counts below.
+Real WAN/controller/five-PC acceptance remains unverified. See the review and
+October 15 playtest entry for scope, diagnostics, and export results.
+
+Last full audit: **2026-07-27** (historical snapshot below).
 
 Audited checkout: **`0b2e6925` plus the 2026-07-27 patch-note synchronization**.
 

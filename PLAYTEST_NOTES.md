@@ -2,6 +2,49 @@
 
 ---
 
+## 2026-10-15 — Fresh-clone online session readiness audit
+
+Source: `639d8501`, Godot 4.7.1-stable, Windows. No gameplay/balance changes.
+Full findings and proposed work: `docs/PRE_SESSION_REVIEW.md`.
+
+- Passed boot, full parse, core-loop hardening, new-game shop polish, and
+  controller UI hardening.
+- Passed seven actual localhost host/client routes: handshake, state sync,
+  scene follow, reconnect, town, shop, and expedition lineup/departure.
+- **Campaign regression:** two independent deterministic runs failed on day
+  30 / Chapter 6 with the shard, five repairs, and 261,210g; DBZ repair costs
+  400,000g. This invalidates the historical all-green status for this checkout;
+  it does not establish whether the autoplay policy or human balance is wrong.
+- **Audio regression in clean clone:** DBZ and Realm music probes resolve
+  null. Six manifest entries have no matching project audio; ignored local
+  overrides are not restored by cloning.
+- Content audit: 268 items / 216 live art, zero errors, four warnings for
+  world merchandise with missing icons. Runtime reports 30 bosses / 97 recipes.
+- Windowed lobby and town probes passed. Opened and inspected all five fresh
+  screenshots: main menu, join panel, host alone, client ready, and town with
+  both named players and their separate companions visible. No clipping
+  blocker appeared in those views. Host-info capture still showed UPnP pending,
+  so these images provide no evidence of successful router mapping.
+- Tests used `%APPDATA%/Crossroads-Preflight-2026-10-15` through a temporary
+  custom-user-directory override, removed before release export. Normal saves
+  were isolated from all gameplay probes.
+- First import completed resource processing but exited with access violation
+  `0xC0000005`; a second import exited 0. Several passing scene/net probes
+  emitted shutdown resource-leak and unfinished UPnP-thread diagnostics.
+- Full dungeon combat, physical controllers, five-PC concurrency, and real
+  WAN joins were not exercised. Online lineup failure recovery was inspected
+  in code, while its happy-path test submits requests directly.
+
+- Release export succeeded (exit 0): `export/crossroads.exe`, 199,230,720
+  bytes. The exported executable booted headlessly and exited 0 after 30
+  frames, loading the expected content counts without errors. Normal-save
+  SHA-256 fingerprints were identical before/after that exported launch.
+- Executable SHA-256:
+  `7ff04d2b02bc6010c447262b4b284b0911d7b5f04162f4a732c06113adfbef65`.
+- No remote push or network configuration change was performed.
+
+---
+
 ## 2026-07-29 - New-game pass follow-ups
 
 ### Recorded for the sprite/dungeon owners

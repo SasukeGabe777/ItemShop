@@ -1,5 +1,16 @@
 {
   "schema": "crossroads.dev_status.v1",
+  "focused_audit": {
+    "date": "2026-10-15",
+    "source_head": "639d8501",
+    "scope": "Boot, parse, core-loop, starter-shop, controller UI, seven localhost online routes; not full acceptance",
+    "report": "docs/PRE_SESSION_REVIEW.md",
+    "campaign": "FAIL twice at day 30, chapter 6, shard recovered, 261210g versus 400000g repair",
+    "music": "DBZ and Realm probes FAIL: mapped override tracks absent in fresh clone",
+    "runtime_bosses": 30,
+    "runtime_recipes": 97,
+    "wan_controller_five_pc_acceptance": "unverified"
+  },
   "last_audited": "2026-07-27",
   "audited_base_head": "0b2e6925",
   "release_version": "0.2.0",
@@ -27,6 +38,8 @@
     "Windowed online lobby/town/dungeon, Realm, shop-decor, and six-world barrier collision screenshots inspected through 2026-07-27"
   ],
   "incomplete_systems": [
+    "October 15: campaign safety simulation fails reproducibly; July green status is historical",
+    "October 15: clean-clone music overrides are absent and online lineup rejection does not restore Ready controls",
     "Real two-machine/controller and WAN acceptance has not been recorded",
     "This router rejects automatic UPnP mapping; remote play needs a tunnel or UDP 8910 forwarding",
     "Python 3.12 was removed from this machine, leaving both project virtual environments unusable for asset extraction",

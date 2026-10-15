@@ -1,5 +1,25 @@
 # Next Tasks
 
+## October 15, 2026 — priorities for tonight's online session
+
+The July list below is historical; audit current source `639d8501` using
+`docs/PRE_SESSION_REVIEW.md` before choosing implementation work.
+
+1. Share the same fresh executable and prove a join from a friend's network.
+2. Investigate the reproducible Chapter 6/day 30 campaign-test failure before
+   claiming campaign safety. Distinguish the autoplay policy from human balance.
+3. Repair online lineup rejection recovery: Ready/hero selection remain
+   disabled when the host rejects insufficient gold or shared consumable stock.
+   This is a code-inspected gap; cancellation/reopening is the workaround.
+4. Restore ignored music overrides or shipped fallbacks; DBZ and Realm music
+   resolution fail in the fresh clone, and six manifest entries lack files.
+5. Keep the July 29 follow-ups visible: settle loot/input before expedition
+   results, plan Realm as Chapter 8, and review flagged character sprites.
+   Dungeon-related changes remain with the dungeon owner per `AGENTS.md`.
+
+Today verified seven selected localhost online routes, not five physical
+players or WAN. No gameplay changes or balance tuning were made in this audit.
+
 Regenerated **2026-07-27** against the checkout at `0b2e6925`.
 
 The former task list stopped before Realm and online co-op. Those features are
