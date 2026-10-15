@@ -1,5 +1,10 @@
 # Next Tasks
 
+**Current prerequisite:** obtain and compare the newer project containing the
+implemented Sonic dungeon before releasing the fix pass or finalizing chapter
+order. Source fixes, portable patches, and merge instructions are preserved in
+`handoff/2026-10-15/README.md`; the user will integrate them at home.
+
 ## October 15, 2026 — priorities for tonight's online session
 
 The July list below is historical; audit current source `639d8501` using

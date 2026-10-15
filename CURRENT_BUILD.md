@@ -1,5 +1,11 @@
 # Current Build
 
+**October 15 fix pass is work in progress:** a newer project containing Sonic
+is missing from this clone. See `docs/FIXES_WIP.md` for implemented fixes,
+passing checks, and the held progression draft. The existing executable is
+still the earlier audit build. Source fixes are committed separately for
+manual integration; see `handoff/2026-10-15/README.md`.
+
 ## October 15, 2026 — focused pre-session audit
 
 Current source is `639d8501` (July 30), with a fresh readiness review in

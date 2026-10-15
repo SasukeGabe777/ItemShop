@@ -1,0 +1,11 @@
+{
+  "source_base": "639d85011a0add23fa9961bb842b9f36d140edab",
+  "audit_base": "8466ec726180fc7c175bd60a5cb7acbecf3e21bc",
+  "gameplay_commit": "b89ba9dd018e3a33240e5214ad8143b40f277bfb",
+  "optional_progression_draft_commit": "f911cf3a97cae83c93b773be4ced93a982d8cb0c",
+  "patches_verified": "Both apply cleanly in sequence to the audit base and reproduce their commit trees exactly",
+  "sha256": {
+    "01-gameplay-fixes.patch": "66a2bd79e65af1ae08bc6ada095631d08692abab9c9830014e0c6db3e9956a68",
+    "02-progression-DRAFT.patch": "d883d4ba20c14a5148e41b4212f14db189162fe1b2b333b6bd188d96f1dfe52c"
+  }
+}

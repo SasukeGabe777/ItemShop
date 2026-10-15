@@ -1,0 +1,493 @@
+From f911cf3a97cae83c93b773be4ced93a982d8cb0c Mon Sep 17 00:00:00 2001
+From: Gabe Ebmeyer <sasukegabe777@gmail.com>
+Date: Thu, 15 Oct 2026 12:13:12 -0600
+Subject: [PATCH] DRAFT: reorder Realm progression pending Sonic project
+ comparison
+
+Separate optional progression draft: Realm chapter 8, finale chapter 9, data-driven final chapter, forty days, updated story triggers, and versioned late-save migration. Eight-gate simulation passed, but Sonic integration and dedicated migration/visual checks remain outstanding. Review and adapt before applying to the newer project.
+---
+ autoload/bridge_manager.gd    | 18 ++++++++++++------
+ autoload/content_database.gd  |  7 +++++++
+ autoload/debug_manager.gd     |  4 ++--
+ autoload/dev_hub_manager.gd   |  2 +-
+ autoload/dungeon_manager.gd   |  2 +-
+ autoload/market_manager.gd    |  4 ++--
+ autoload/save_manager.gd      | 30 +++++++++++++++++++++++++++++-
+ autoload/time_manager.gd      |  6 +++---
+ data/balance.json             |  2 +-
+ data/story_scenes.json        | 24 +++++++++++++++---------
+ data/worlds.json              |  4 ++--
+ scripts/story/story_player.gd |  2 +-
+ scripts/ui/day_briefing.gd    |  2 +-
+ scripts/ui/day_transition.gd  |  2 +-
+ scripts/ui/gates_panel.gd     |  6 +++---
+ scripts/ui/hud.gd             |  4 ++--
+ tests/test_campaign.gd        | 15 ++++++++-------
+ 17 files changed, 91 insertions(+), 43 deletions(-)
+
+diff --git a/autoload/bridge_manager.gd b/autoload/bridge_manager.gd
+index 60f17716..349d830e 100644
+--- a/autoload/bridge_manager.gd
++++ b/autoload/bridge_manager.gd
+@@ -1,5 +1,5 @@
+ extends Node
+-## BridgeManager: the seven World Bridge gates — shards, payments and repairs.
++## BridgeManager: the World Bridge gates — shards, payments and repairs.
+ 
+ signal shard_recovered(world_id: String)
+ signal gate_repaired(world_id: String)
+@@ -65,15 +65,15 @@ func pay_repair(world_id: String) -> bool:
+ 	# Advance to the next chapter when the current chapter's gate is repaired.
+ 	var w := ContentDatabase.get_world(world_id)
+ 	var chap := int(w.get("chapter", 0))
+-	if chap == TimeManager.chapter and TimeManager.chapter <= 7:
++	if chap == TimeManager.chapter and chap < ContentDatabase.final_chapter():
+ 		TimeManager.begin_chapter(chap + 1)
+-	if repaired_count() >= 7:
++	if repaired_count() >= gates.size():
+ 		all_gates_repaired.emit()
+ 	return true
+ 
+ 
+ func is_chapter_complete(chapter: int) -> bool:
+-	if chapter >= 8:
++	if chapter >= ContentDatabase.final_chapter():
+ 		return fade_defeated
+ 	var w := ContentDatabase.world_for_chapter(chapter)
+ 	if w.is_empty():
+@@ -91,7 +91,7 @@ func accessible_worlds() -> Array[String]:
+ 		if dev != null and dev.has_method("is_world_temporarily_unlocked"):
+ 			dev_unlocked = bool(dev.call("is_world_temporarily_unlocked", id))
+ 		if bool(w.get("final", false)):
+-			if TimeManager.chapter >= 8 or dev_unlocked:
++			if TimeManager.chapter >= ContentDatabase.final_chapter() or dev_unlocked:
+ 				out.append(id)
+ 			continue
+ 		if dev_unlocked or is_repaired(id) or int(w.get("chapter", 99)) <= TimeManager.chapter:
+@@ -108,5 +108,11 @@ func to_save() -> Dictionary:
+ 
+ 
+ func from_save(d: Dictionary) -> void:
+-	gates = d.get("gates", {})
++	# Older campaigns may predate a franchise. Keep every current gate while
++	# restoring progress by stable world id rather than chapter number.
++	reset()
++	var saved_gates: Dictionary = d.get("gates", {})
++	for id: String in gates:
++		if saved_gates.has(id):
++			gates[id] = (saved_gates[id] as Dictionary).duplicate(true)
+ 	fade_defeated = bool(d.get("fade_defeated", false))
+diff --git a/autoload/content_database.gd b/autoload/content_database.gd
+index 46e624d7..97ae4f3b 100644
+--- a/autoload/content_database.gd
++++ b/autoload/content_database.gd
+@@ -307,6 +307,13 @@ func world_for_chapter(chapter: int) -> Dictionary:
+ 	return {}
+ 
+ 
++func final_chapter() -> int:
++	for id: String in worlds:
++		if bool(worlds[id].get("final", false)):
++			return int(worlds[id].get("chapter", 9))
++	return 9
++
++
+ func get_recipe(id: String) -> Dictionary:
+ 	return recipes.get(id, {})
+ 
+diff --git a/autoload/debug_manager.gd b/autoload/debug_manager.gd
+index 4d5e7765..6b24b377 100644
+--- a/autoload/debug_manager.gd
++++ b/autoload/debug_manager.gd
+@@ -53,7 +53,7 @@ func enable_admin_mode() -> void:
+ 	for w: String in BridgeManager.gates:
+ 		BridgeManager.gates[w] = {"shard": true, "paid": true, "repaired": true}
+ 	# advance to the highest world chapter so chapter-gated worlds all show
+-	var max_chapter := 8
++	var max_chapter := ContentDatabase.final_chapter()
+ 	for wid: String in ContentDatabase.worlds:
+ 		max_chapter = maxi(max_chapter, int(ContentDatabase.worlds[wid].get("chapter", 0)))
+ 	TimeManager.begin_chapter(max_chapter)
+@@ -169,7 +169,7 @@ func run_command(parts: PackedStringArray) -> void:
+ 		"unlock_all":
+ 			for w: String in BridgeManager.gates:
+ 				BridgeManager.gates[w] = {"shard": true, "paid": true, "repaired": true}
+-			TimeManager.begin_chapter(8)
++			TimeManager.begin_chapter(ContentDatabase.final_chapter())
+ 			log_line("all gates repaired; final chapter")
+ 		"scene":
+ 			if parts.size() > 1:
+diff --git a/autoload/dev_hub_manager.gd b/autoload/dev_hub_manager.gd
+index 496c13de..9be0eb1f 100644
+--- a/autoload/dev_hub_manager.gd
++++ b/autoload/dev_hub_manager.gd
+@@ -895,7 +895,7 @@ func change_inventory(item_id: String, delta: int) -> bool:
+ func set_day_and_period(day: int, period: int) -> void:
+ 	TimeManager.day = clampi(day, 1, maxi(1, TimeManager.campaign_days()))
+ 	TimeManager.period = clampi(period, 0, TimeManager.periods_per_day() - 1)
+-	TimeManager.chapter = clampi(((TimeManager.day - 1) / TimeManager.chapter_len()) + 1, 1, 8)
++	TimeManager.chapter = clampi(((TimeManager.day - 1) / TimeManager.chapter_len()) + 1, 1, ContentDatabase.final_chapter())
+ 	log_event("Set development time to day %d %s" % [TimeManager.day, TimeManager.period_name()])
+ 
+ 
+diff --git a/autoload/dungeon_manager.gd b/autoload/dungeon_manager.gd
+index 3d3533ec..d57c9607 100644
+--- a/autoload/dungeon_manager.gd
++++ b/autoload/dungeon_manager.gd
+@@ -207,7 +207,7 @@ func finish_expedition(success: bool, boss_defeated: bool, hp_left: int) -> Dict
+ 	if boss_defeated:
+ 		if world_id == "null_archive":
+ 			BridgeManager.defeat_fade()
+-			StoryEventManager.fire("boss_defeated", {"chapter": 8})
++			StoryEventManager.fire("boss_defeated", {"chapter": ContentDatabase.final_chapter()})
+ 		else:
+ 			var had := BridgeManager.has_shard(world_id)
+ 			BridgeManager.collect_shard(world_id)
+diff --git a/autoload/market_manager.gd b/autoload/market_manager.gd
+index 164b2403..5e2d48ce 100644
+--- a/autoload/market_manager.gd
++++ b/autoload/market_manager.gd
+@@ -163,10 +163,10 @@ func price_cap(chapter: int) -> float:
+ 
+ 
+ func chapter_for_price(price: int) -> int:
+-	for chapter in range(1, 9):
++	for chapter in range(1, ContentDatabase.final_chapter() + 1):
+ 		if float(price) <= price_cap(chapter):
+ 			return chapter
+-	return 8
++	return ContentDatabase.final_chapter()
+ 
+ 
+ func sellback_value(item_id: String) -> int:
+diff --git a/autoload/save_manager.gd b/autoload/save_manager.gd
+index 1ee48806..a63b105a 100644
+--- a/autoload/save_manager.gd
++++ b/autoload/save_manager.gd
+@@ -6,7 +6,7 @@ signal saved(slot_name: String)
+ signal loaded(slot_name: String)
+ 
+ const SAVE_DIR := "user://saves/"
+-const SAVE_VERSION := 1
++const SAVE_VERSION := 2
+ 
+ 
+ func _ready() -> void:
+@@ -61,6 +61,7 @@ func _collect() -> Dictionary:
+ 
+ 
+ func _apply(d: Dictionary) -> void:
++	d = _migrate(d)
+ 	GameState.from_save(d.get("game_state", {}))
+ 	TimeManager.from_save(d.get("time", {}))
+ 	EconomyManager.from_save(d.get("economy", {}))
+@@ -73,6 +74,32 @@ func _apply(d: Dictionary) -> void:
+ 	ShopFurnitureManager.from_save(d.get("furniture", {}))
+ 
+ 
++func _migrate(data: Dictionary) -> Dictionary:
++	var d := data.duplicate(true)
++	if int(d.get("version", 1)) < 2:
++		var time: Dictionary = d.get("time", {})
++		if int(time.get("chapter", 1)) >= 8:
++			var bridge: Dictionary = d.get("bridge", {})
++			var gs: Dictionary = d.get("game_state", {})
++			var realm_done := bool(bridge.get("gates", {}).get("rotmg", {}).get("repaired", false))
++			if bool(bridge.get("fade_defeated", false)) or bool(gs.get("endless_mode", false)) or realm_done:
++				time["chapter"] = ContentDatabase.final_chapter()
++			else:
++				# Old Chapter 8 was the finale. Insert Realm without losing items,
++				# gold, or repaired gates; give late saves at least five full days.
++				time["chapter"] = 8
++				time["day"] = mini(int(time.get("day", 36)), 36)
++				var story: Dictionary = d.get("story", {})
++				for key: String in ["seen", "queue"]:
++					var ids: Array = story.get(key, [])
++					ids.erase("final_start")
++					story[key] = ids
++				d["story"] = story
++			d["time"] = time
++	d["version"] = SAVE_VERSION
++	return d
++
++
+ func _write(path: String, data: Dictionary) -> bool:
+ 	var f := FileAccess.open(path, FileAccess.WRITE)
+ 	if f == null:
+@@ -128,6 +155,7 @@ func has_autosave() -> bool:
+ func _summarize(d: Dictionary) -> Dictionary:
+ 	if d.is_empty():
+ 		return {}
++	d = _migrate(d)
+ 	var t: Dictionary = d.get("time", {})
+ 	var e: Dictionary = d.get("economy", {})
+ 	var period := int(t.get("period", 0))
+diff --git a/autoload/time_manager.gd b/autoload/time_manager.gd
+index e809dde5..fd5d0dc1 100644
+--- a/autoload/time_manager.gd
++++ b/autoload/time_manager.gd
+@@ -1,5 +1,5 @@
+ extends Node
+-## TimeManager: 35-day campaign clock. Four periods per day. Chapters of five
++## TimeManager: campaign clock. Four periods per day. Chapters of five
+ ## days with a deadline check at the end of each chapter's final day.
+ 
+ signal day_started(day: int)
+@@ -75,9 +75,9 @@ func advance(periods: int) -> Array[String]:
+ 
+ func _end_day() -> Array[String]:
+ 	var events: Array[String] = ["day_end"]
+-	# Deadline check at the end of a chapter's final day (chapters 1-7 only;
++	# Deadline check at the end of each franchise chapter's final day;
+ 	# the final chapter has no deadline, and endless mode has none at all).
+-	if GameState.campaign_active and not GameState.endless_mode and chapter <= 7 \
++	if GameState.campaign_active and not GameState.endless_mode and chapter < ContentDatabase.final_chapter() \
+ 			and day == chapter_deadline_day() and not BridgeManager.is_chapter_complete(chapter):
+ 		chapter_deadline_failed.emit(chapter)
+ 		events.append("deadline_failed")
+diff --git a/data/balance.json b/data/balance.json
+index ef26d796..6bcf38be 100644
+--- a/data/balance.json
++++ b/data/balance.json
+@@ -5,7 +5,7 @@
+   "rest": 1,
+   "story": 1
+  },
+- "campaign_days": 35,
++ "campaign_days": 40,
+  "chapter_failure": {
+   "keep": [
+    "merchant_level",
+diff --git a/data/story_scenes.json b/data/story_scenes.json
+index 8c17ba62..62dd50d1 100644
+--- a/data/story_scenes.json
++++ b/data/story_scenes.json
+@@ -8,7 +8,7 @@
+       {"who": "hero", "text": "What could shatter a bridge between worlds?"},
+       {"who": "patch", "text": "The Fade. It unmakes connected things. Bridges first — then the worlds they held together."},
+       {"who": "patch", "text": "It's still gnawing at the gates. Each gate has a deadline, and when it passes... that world goes dark. Then the rest follow. Us included."},
+-      {"who": "patch", "text": "Here's the plan: you run the item shop, we fund repairs, and we reconnect all seven gates. Easy!"},
++      {"who": "patch", "text": "Here's the plan: you run the item shop, we fund repairs, and we reconnect all eight gates. Easy!"},
+       {"who": "patch", "text": "Every gate needs TWO things before its deadline: the repair fee in gold, and its World Shard — you hire a hero and lead an expedition to take it back from what the Fade left behind."},
+       {"who": "patch", "text": "Sell by day, expedition when you can spare the time, pay the repair before the clock runs out. Miss ONE deadline and the Fade finishes what it started."},
+       {"who": "hero", "text": "Seven gates. One shop. Thirty-five days."},
+@@ -69,7 +69,7 @@
+     ]},
+     {"id": "ch3_boss", "trigger": {"type": "boss_defeated", "chapter": 3}, "lines": [
+       {"who": "cloud", "text": "Red Dragon's down. It had... crossover attacks. It threw a Poké Ball at me."},
+-      {"who": "patch", "text": "That's bridge corruption for you. Worlds leaking into worlds. Shard secured. Three of seven!"}
++      {"who": "patch", "text": "That's bridge corruption for you. Worlds leaking into worlds. Shard secured. Three of eight!"}
+     ]},
+     {"id": "ch3_repair", "trigger": {"type": "repair_done", "chapter": 3}, "lines": [
+       {"who": "patch", "text": "Gate Three: ONLINE. Crystal resonance nominal. Chocobo migration patterns restored."},
+@@ -152,30 +152,36 @@
+     {"id": "ch7_boss", "trigger": {"type": "boss_defeated", "chapter": 7}, "lines": [
+       {"who": "patch", "text": "Mewtwo has stood down. It thought the Crossroads was another laboratory. Another cage."},
+       {"who": "hero", "text": "And now?"},
+-      {"who": "patch", "text": "Now it's seen the shop. Cages don't have loyalty programs. SHARD SEVEN, HERO. THAT'S ALL OF THEM."}
++      {"who": "patch", "text": "Now it's seen the shop. Cages don't have loyalty programs. SHARD SEVEN, HERO. ONE MORE GATE."}
+     ]},
+     {"id": "ch7_repair", "trigger": {"type": "repair_done", "chapter": 7}, "lines": [
+-      {"who": "patch", "text": "Gate Seven: ONLINE. All gates connected. Full bridge integrity in three... two..."},
++      {"who": "patch", "text": "Gate Seven: ONLINE. The last broken gate leads to the Realm of the Mad God. Pack carefully, Hero."}
++    ]},
++    {"id": "ch8_start", "trigger": {"type": "chapter_start", "chapter": 8}, "lines": [
++      {"who": "patch", "text": "The Realm. Eight gates, and this one is guarded by Oryx. Bring back its World Shard and we can finish the bridge."}
++    ]},
++    {"id": "ch8_repair", "trigger": {"type": "repair_done", "chapter": 8}, "lines": [
++      {"who": "patch", "text": "Gate Eight: ONLINE. All gates connected. Full bridge integrity in three... two..."},
+       {"who": "patch", "text": "...Hero. Something else just connected. Something that was never given a gate."},
+       {"who": "hero", "text": "The Fade."},
+       {"who": "patch", "text": "It's not attacking the gates. It's coming HERE. To the Crossroads."}
+     ]},
+-    {"id": "final_start", "trigger": {"type": "chapter_start", "chapter": 8}, "lines": [
++    {"id": "final_start", "trigger": {"type": "chapter_start", "chapter": 9}, "lines": [
+       {"who": "patch", "text": "The Null Archive. It's made of... everything. Deleted saves. Cancelled sequels. Worlds nobody visits anymore."},
+       {"who": "hero", "text": "The Fade didn't break the bridge out of hate."},
+       {"who": "patch", "text": "No. It broke the bridge because the bridge was never built for THEM. I checked the original blueprints, Hero. The forgotten worlds were excluded. On purpose."},
+       {"who": "hero", "text": "Then we don't destroy the Fade. We renovate."},
+       {"who": "patch", "text": "...I have never been prouder to be a maintenance system."}
+     ]},
+-    {"id": "final_boss", "trigger": {"type": "boss_defeated", "chapter": 8}, "lines": [
++    {"id": "final_boss", "trigger": {"type": "boss_defeated", "chapter": 9}, "lines": [
+       {"who": "patch", "text": "It's... quiet. The Fade is just standing there. It's holding a save file like it's a photograph."},
+-      {"who": "hero", "text": "Patch. Open a new gate. An eighth gate."},
+-      {"who": "patch", "text": "There's no blueprint for an eighth gate."},
++      {"who": "hero", "text": "Patch. Open a new gate. A ninth gate."},
++      {"who": "patch", "text": "There's no blueprint for a ninth gate."},
+       {"who": "hero", "text": "Then we're overdue. Every world gets a way home. Even the forgotten ones. Especially the forgotten ones."},
+       {"who": "patch", "text": "...Drafting blueprint now. It's shaped like a shop door."}
+     ]},
+     {"id": "ending", "trigger": {"type": "ending"}, "lines": [
+-      {"who": "patch", "text": "Gate Eight: OPEN. Permanent. Unconditional."},
++      {"who": "patch", "text": "Gate Nine: OPEN. Permanent. Unconditional."},
+       {"who": "sora", "text": "So the new worlds... can they visit the shop too?"},
+       {"who": "hero", "text": "First purchase is on the house."},
+       {"who": "goku", "text": "WAIT, THAT'S ALLOWED?!"},
+diff --git a/data/worlds.json b/data/worlds.json
+index 319618f9..96278fd6 100644
+--- a/data/worlds.json
++++ b/data/worlds.json
+@@ -614,7 +614,7 @@
+   },
+   {
+    "id": "null_archive",
+-   "chapter": 8,
++   "chapter": 9,
+    "name": "The Null Archive",
+    "location": "The Null Archive",
+    "hero": "any",
+@@ -638,7 +638,7 @@
+   },
+   {
+    "id": "rotmg",
+-   "chapter": 9,
++   "chapter": 8,
+    "name": "Realm of the Mad God",
+    "location": "The Realm",
+    "hero": "archer",
+diff --git a/scripts/story/story_player.gd b/scripts/story/story_player.gd
+index ba976b32..9cefb164 100644
+--- a/scripts/story/story_player.gd
++++ b/scripts/story/story_player.gd
+@@ -183,7 +183,7 @@ func _route_out() -> void:
+ 			continue_hint.text = "Waiting for %s..." % PartyState.pname(1)
+ 		return
+ 	var dest := String(SceneRouter.context.get("return_to", "town"))
+-	if String(scene_data.get("trigger", {}).get("type", "")) == "boss_defeated" and int(scene_data.get("trigger", {}).get("chapter", 0)) == 8:
++	if String(scene_data.get("trigger", {}).get("type", "")) == "boss_defeated" and int(scene_data.get("trigger", {}).get("chapter", 0)) == ContentDatabase.final_chapter():
+ 		StoryEventManager.fire("ending")
+ 		if StoryEventManager.has_pending():
+ 			scene_data = StoryEventManager.pop_next()
+diff --git a/scripts/ui/day_briefing.gd b/scripts/ui/day_briefing.gd
+index 08b194fe..c377612c 100644
+--- a/scripts/ui/day_briefing.gd
++++ b/scripts/ui/day_briefing.gd
+@@ -47,7 +47,7 @@ static func show_report(parent: Node) -> CanvasLayer:
+ 	else:
+ 		var world := ContentDatabase.world_for_chapter(TimeManager.chapter)
+ 		sub = "Chapter %d · %s" % [TimeManager.chapter, String(world.get("name", ""))]
+-		if TimeManager.chapter <= 7:
++		if TimeManager.chapter < ContentDatabase.final_chapter():
+ 			var left := TimeManager.chapter_deadline_day() - TimeManager.day
+ 			sub += " · deadline in %d day%s" % [left, "" if left == 1 else "s"] if left > 0 else " · DEADLINE TODAY"
+ 	var sub_lbl := UIKit.label(sub, 10, UIKit.COL_DIM)
+diff --git a/scripts/ui/day_transition.gd b/scripts/ui/day_transition.gd
+index 4db8c2c5..8b356d75 100644
+--- a/scripts/ui/day_transition.gd
++++ b/scripts/ui/day_transition.gd
+@@ -228,7 +228,7 @@ static func fade_status() -> Control:
+ 	if not GameState.campaign_active or GameState.endless_mode:
+ 		return null
+ 	var chap := TimeManager.chapter
+-	if chap > 7:
++	if chap >= ContentDatabase.final_chapter():
+ 		return UIKit.label("The Fade waits beyond the final gate...", 11, UIKit.COL_BAD)
+ 	var world := ContentDatabase.world_for_chapter(chap)
+ 	var wid := String(world.get("id", ""))
+diff --git a/scripts/ui/gates_panel.gd b/scripts/ui/gates_panel.gd
+index c67577d0..2dd8bc51 100644
+--- a/scripts/ui/gates_panel.gd
++++ b/scripts/ui/gates_panel.gd
+@@ -32,11 +32,11 @@ func _fill_rows() -> void:
+ 	var strip := HBoxContainer.new()
+ 	strip.add_theme_constant_override("separation", 4)
+ 	strip.alignment = BoxContainer.ALIGNMENT_CENTER
+-	for i in range(7):
++	for i in range(ContentDatabase.final_chapter() - 1):
+ 		var world := ContentDatabase.world_for_chapter(i + 1)
+ 		var repaired := BridgeManager.is_repaired(String(world.get("id", "")))
+ 		var plank := ColorRect.new()
+-		plank.custom_minimum_size = Vector2(44, 10)
++		plank.custom_minimum_size = Vector2(38, 10)
+ 		plank.color = Color(String(world.get("accent_color", "#888888"))) if repaired else Color("#2a2d3f")
+ 		plank.tooltip_text = "%s — %s" % [String(world.get("name", "?")), "repaired" if repaired else "broken"]
+ 		plank.mouse_filter = Control.MOUSE_FILTER_STOP
+@@ -57,7 +57,7 @@ func _fill_rows() -> void:
+ 		var row := HBoxContainer.new()
+ 		var status := ""
+ 		if final:
+-			if TimeManager.chapter < 8:
++			if TimeManager.chapter < ContentDatabase.final_chapter():
+ 				continue
+ 			status = "THE FADE AWAITS" if not BridgeManager.fade_defeated else "quiet now"
+ 		elif BridgeManager.is_repaired(world_id):
+diff --git a/scripts/ui/hud.gd b/scripts/ui/hud.gd
+index dfbf5838..bc3048ac 100644
+--- a/scripts/ui/hud.gd
++++ b/scripts/ui/hud.gd
+@@ -311,8 +311,8 @@ func refresh() -> void:
+ 	for lbl in period_plate_labels:
+ 		lbl.text = TimeManager.period_name()
+ 	gold_label.text = "%d" % EconomyManager.gold
+-	if GameState.endless_mode or chap > 7:
+-		deadline_label.text = "The Fade looms..." if chap == 8 and not BridgeManager.fade_defeated else ""
++	if GameState.endless_mode or chap >= ContentDatabase.final_chapter():
++		deadline_label.text = "The Fade looms..." if chap == ContentDatabase.final_chapter() and not BridgeManager.fade_defeated else ""
+ 	else:
+ 		var wid := String(world.get("id", ""))
+ 		var shard := "SHARD OK" if BridgeManager.has_shard(wid) else "shard needed"
+diff --git a/tests/test_campaign.gd b/tests/test_campaign.gd
+index 28285cbd..7658a89d 100644
+--- a/tests/test_campaign.gd
++++ b/tests/test_campaign.gd
+@@ -4,7 +4,7 @@ extends Node
+ ##  2. negotiation + shop session logic works
+ ##  3. crafting works
+ ##  4. a full 5-day chapter can be completed (shard + payment)
+-##  5. the 35-day economy supports all seven repairs (auto-played campaign)
++##  5. the campaign economy supports every franchise repair (auto-played)
+ ##  6. every boss is defeatable with a reasonably equipped hero
+ ##  7. failure restart retains the right things
+ ##  8. ending + endless mode unlock
+@@ -38,7 +38,7 @@ func _ready() -> void:
+ 	_test_failure_restart()
+ 	_reset_all()
+ 	var won := _test_full_campaign()
+-	check(won, "35-day auto-campaign should reach all 7 repairs + fade defeat")
++	check(won, "auto-campaign should repair every franchise gate and defeat the Fade")
+ 	if failures.is_empty():
+ 		print("CAMPAIGN_TEST_PASS")
+ 	get_tree().quit(0 if failures.is_empty() else 1)
+@@ -210,7 +210,7 @@ func _test_failure_restart() -> void:
+ func _test_full_campaign() -> bool:
+ 	rng.seed = TEST_SEED + 2
+ 	var log_days: Array[String] = []
+-	while TimeManager.chapter <= 7:
++	while TimeManager.chapter < ContentDatabase.final_chapter():
+ 		var w := ContentDatabase.world_for_chapter(TimeManager.chapter)
+ 		var wid := String(w.get("id", ""))
+ 		var hid := String(w.get("hero", ""))
+@@ -245,7 +245,7 @@ func _test_full_campaign() -> bool:
+ 					heals.append(pid)
+ 			# a sensible player buys healing for the trip
+ 			if heals.size() < 2:
+-				for pid in MarketManager.wholesale_catalog():
++				for pid in MarketManager.accessible_wholesale_catalog():
+ 					var fx: Dictionary = ContentDatabase.get_item(pid).get("effect", {})
+ 					if int(fx.get("heal", 0)) >= 40:
+ 						while heals.size() < 2 and EconomyManager.spend_gold(MarketManager.wholesale_cost(pid)):
+@@ -287,7 +287,8 @@ func _test_full_campaign() -> bool:
+ 				print("  " + l)
+ 			return false
+ 	# Final chapter: defeat the Fade with any repaired hero
+-	check(BridgeManager.repaired_count() == 7, "all seven gates repaired (got %d)" % BridgeManager.repaired_count())
++	var expected := ContentDatabase.final_chapter() - 1
++	check(BridgeManager.repaired_count() == expected, "all %d gates repaired (got %d)" % [expected, BridgeManager.repaired_count()])
+ 	print("  [campaign] all gates repaired on day %d with %dg spare" % [TimeManager.day, EconomyManager.gold])
+ 	var final_win := false
+ 	for t in range(10):
+@@ -300,8 +301,8 @@ func _test_full_campaign() -> bool:
+ 		BridgeManager.defeat_fade()
+ 		StoryEventManager.fire("ending")
+ 		GameState.endless_mode = true
+-		check(BridgeManager.is_chapter_complete(8), "final chapter complete")
+-	return BridgeManager.repaired_count() == 7 and final_win
++		check(BridgeManager.is_chapter_complete(ContentDatabase.final_chapter()), "final chapter complete")
++	return BridgeManager.repaired_count() == expected and final_win
+ 
+ 
+ func _maybe_pay(wid: String, repair: int) -> void:
+-- 
+2.54.0.windows.1
+

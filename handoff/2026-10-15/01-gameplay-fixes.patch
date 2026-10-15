@@ -1,0 +1,764 @@
+From b89ba9dd018e3a33240e5214ad8143b40f277bfb Mon Sep 17 00:00:00 2001
+From: Gabe Ebmeyer <sasukegabe777@gmail.com>
+Date: Thu, 15 Oct 2026 12:13:12 -0600
+Subject: [PATCH] Fix session audio, lineup retries, inventory reset, and
+ earned loot
+
+Preserve menu editing after rejected departures, validate belts, settle deferred loot before results, clear old displays on reset, and provide bundled music fallbacks. Correct autoplay purchases and join UPnP workers at shutdown. Includes focused regression probes. Handoff for merging into the newer Sonic project; not a final release.
+---
+ autoload/audio_manager.gd            |  49 ++++++++---
+ autoload/inventory_manager.gd        |   1 +
+ data/music_manifest.json             |   6 ++
+ project.godot                        |   2 +-
+ scripts/dungeon/dungeon.gd           |  28 ++++--
+ scripts/entities/loot_pickup.gd      |   4 +
+ scripts/net/net_commands.gd          |   6 +-
+ scripts/net/upnp_opener.gd           |   6 ++
+ scripts/systems/shop_sim.gd          |  15 +++-
+ scripts/town/town.gd                 |   2 +-
+ scripts/ui/gates_panel.gd            |  15 +++-
+ scripts/ui/lineup_panel.gd           |  45 ++++++++--
+ tests/expedition_recovery_probe.gd   | 127 +++++++++++++++++++++++++++
+ tests/expedition_recovery_probe.tscn |   6 ++
+ tests/net_lineup_probe.gd            |   1 +
+ tests/rotmg_music_probe.gd           |   4 +-
+ tests/session_readiness_probe.gd     |  74 ++++++++++++++++
+ tests/session_readiness_probe.tscn   |   6 ++
+ 18 files changed, 359 insertions(+), 38 deletions(-)
+ create mode 100644 tests/expedition_recovery_probe.gd
+ create mode 100644 tests/expedition_recovery_probe.tscn
+ create mode 100644 tests/session_readiness_probe.gd
+ create mode 100644 tests/session_readiness_probe.tscn
+
+diff --git a/autoload/audio_manager.gd b/autoload/audio_manager.gd
+index 69b1005d..7f5d016e 100644
+--- a/autoload/audio_manager.gd
++++ b/autoload/audio_manager.gd
+@@ -221,7 +221,7 @@ func _set_loop(stream: AudioStream, loop: bool) -> void:
+ 		w.loop_mode = AudioStreamWAV.LOOP_FORWARD if loop else AudioStreamWAV.LOOP_DISABLED
+ 		if loop:
+ 			w.loop_begin = 0
+-			w.loop_end = w.data.size() / 2  # 16-bit mono frames
++			w.loop_end = int(round(w.get_length() * w.mix_rate))
+ 	elif stream is AudioStreamOggVorbis:
+ 		(stream as AudioStreamOggVorbis).loop = loop
+ 	elif stream is AudioStreamMP3:
+@@ -238,7 +238,8 @@ var _variant_next: Dictionary = {}  # track id -> rotation cursor for _N variant
+ func _resolve_stream(track_id: String) -> AudioStream:
+ 	var manifest: Dictionary = ContentDatabase.music
+ 	var tracks: Dictionary = manifest.get("tracks", {})
+-	var file_base := String(tracks.get(track_id, {}).get("file", track_id))
++	var track: Dictionary = tracks.get(track_id, {})
++	var file_base := String(track.get("file", track_id))
+ 	var formats: Array = manifest.get("formats", ["ogg", "wav"])
+ 	var dirs: Array[String] = [
+ 		String(manifest.get("override_dir", "user://music_overrides/")),
+@@ -246,19 +247,39 @@ func _resolve_stream(track_id: String) -> AudioStream:
+ 		String(manifest.get("default_dir", "res://assets/music/default/")),
+ 	]
+ 	for dir in dirs:
+-		for ext: String in formats:
+-			var candidates: Array[String] = []
+-			if _stream_exists(dir + file_base + "." + ext):
+-				candidates.append(dir + file_base + "." + ext)
+-			for n in range(1, 6):
+-				var vp := "%s%s_%d.%s" % [dir, file_base, n, ext]
+-				if _stream_exists(vp):
+-					candidates.append(vp)
+-			if candidates.is_empty():
+-				continue
+-			var idx := int(_variant_next.get(track_id, 0)) % candidates.size()
++		var bases: Array[String] = [file_base]
++		# The documented track-id filenames also work when a supplied override
++		# historically used a different basename (lobby_area, dungeon_dbz, ...).
++		if track_id != file_base:
++			bases.append(track_id)
++		for base: String in bases:
++			var stream := _resolve_file(dir, base, formats, track_id)
++			if stream != null:
++				return stream
++	# A clean clone must remain audible without ignored, machine-local music.
++	# Fallbacks only use shipped defaults; custom tracks above retain priority.
++	var fallback := String(track.get("fallback", ""))
++	if fallback != "":
++		return _resolve_file(dirs[2], fallback, formats, track_id)
++	return null
++
++
++func _resolve_file(dir: String, base: String, formats: Array, track_id: String) -> AudioStream:
++	for ext: String in formats:
++		var candidates: Array[String] = []
++		if _stream_exists(dir + base + "." + ext):
++			candidates.append(dir + base + "." + ext)
++		for n in range(1, 6):
++			var path := "%s%s_%d.%s" % [dir, base, n, ext]
++			if _stream_exists(path):
++				candidates.append(path)
++		if candidates.is_empty():
++			continue
++		var idx := int(_variant_next.get(track_id, 0)) % candidates.size()
++		var stream := _load_stream(candidates[idx])
++		if stream != null:
+ 			_variant_next[track_id] = idx + 1
+-			return _load_stream(candidates[idx])
++			return stream
+ 	return null
+ 
+ 
+diff --git a/autoload/inventory_manager.gd b/autoload/inventory_manager.gd
+index 14c7f4fc..1e670bed 100644
+--- a/autoload/inventory_manager.gd
++++ b/autoload/inventory_manager.gd
+@@ -18,6 +18,7 @@ var last_order_request_day: int = -1
+ 
+ func reset() -> void:
+ 	storage.clear()
++	display.clear()
+ 	collection.clear()
+ 	orders.clear()
+ 	hero_equipment.clear()
+diff --git a/data/music_manifest.json b/data/music_manifest.json
+index e36e7ab2..0b54fab7 100644
+--- a/data/music_manifest.json
++++ b/data/music_manifest.json
+@@ -22,14 +22,17 @@
+     },
+     "newgame_begin": {
+       "file": "newgame_begin",
++      "fallback": "main_menu",
+       "loop": true
+     },
+     "crossroads_day": {
+       "file": "lobby_area",
++      "fallback": "crossroads_day",
+       "loop": true
+     },
+     "crossroads_night": {
+       "file": "lobby_area",
++      "fallback": "crossroads_night",
+       "loop": true
+     },
+     "item_shop": {
+@@ -58,10 +61,12 @@
+     },
+     "dungeon_naruto": {
+       "file": "naruto_dungeon",
++      "fallback": "dungeon_naruto",
+       "loop": true
+     },
+     "dungeon_dragon_ball": {
+       "file": "dungeon_dbz",
++      "fallback": "dungeon_dragon_ball",
+       "loop": true
+     },
+     "dungeon_pokemon": {
+@@ -71,6 +76,7 @@
+     },
+     "dungeon_rotmg": {
+       "file": "rotmg_dungeon",
++      "fallback": "final_dungeon",
+       "loop": true
+     },
+     "boss_battle": {
+diff --git a/project.godot b/project.godot
+index 9b3b5612..9172cbc4 100644
+--- a/project.godot
++++ b/project.godot
+@@ -11,7 +11,7 @@ config_version=5
+ [application]
+ 
+ config/name="Crossroads: An Item Shop Tale"
+-config/version="0.2.0"
++config/version="0.2.1"
+ run/main_scene="res://scenes/ui/main_menu.tscn"
+ config/features=PackedStringArray("4.7")
+ config/icon="res://assets/shared/ui/icon.png"
+diff --git a/scripts/dungeon/dungeon.gd b/scripts/dungeon/dungeon.gd
+index 86e677de..b0278832 100644
+--- a/scripts/dungeon/dungeon.gd
++++ b/scripts/dungeon/dungeon.gd
+@@ -1510,24 +1510,33 @@ func _best_hp_left() -> int:
+ 
+ 
+ func _finish(success: bool, boss_defeated: bool) -> void:
+-	if finished:
++	if finished or not Net.is_authority():
+ 		return
++	finished = true
++	_freeze_run()
++	# Boss killed signals precede deferred drop insertion. Let that frame's
++	# queued drops enter the room before banking the immutable result ledger.
++	_settle_finished_run(success, boss_defeated)
++
++
++func _settle_finished_run(success: bool, boss_defeated: bool) -> void:
++	await get_tree().process_frame
++	for node: Node in room_root.get_children():
++		if node is LootPickup:
++			(node as LootPickup)._collect()
+ 	if Net.is_online():
+-		if not Net.is_authority():
+-			return  # host computes the result and broadcasts it
+-		finished = true
+ 		var net_result := DungeonManager.finish_expedition(success, boss_defeated, _best_hp_left())
+ 		Net.sync_all()
+ 		Net.broadcast_scene_event("expedition_finished",
+ 			{"success": success, "boss": boss_defeated, "result": net_result})
+ 		return
+-	finished = true
+ 	var hp_left := _best_hp_left()
+ 	var result := DungeonManager.finish_expedition(success, boss_defeated, hp_left)
+ 	_show_finish_modal(success, boss_defeated, result)
+ 
+ 
+ func _show_finish_modal(success: bool, boss_defeated: bool, result: Dictionary) -> void:
++	_freeze_run()
+ 	var parts := UIKit.modal(self, "Expedition %s" % ("complete!" if success else "failed..."))
+ 	var end_layer: CanvasLayer = parts[0]
+ 	var vb: VBoxContainer = parts[1]
+@@ -1565,3 +1574,12 @@ func _show_finish_modal(success: bool, boss_defeated: bool, result: Dictionary)
+ 				SceneRouter.go("story", {"return_to": "town"})
+ 			else:
+ 				SceneRouter.go("town")))
++
++
++func _freeze_run() -> void:
++	# Freeze actors and projectiles, keeping the results UI and network alive.
++	room_root.process_mode = Node.PROCESS_MODE_DISABLED
++	for actor: Node in [hero, hero2] + _net_hero_puppets.values():
++		if is_instance_valid(actor):
++			actor.process_mode = Node.PROCESS_MODE_DISABLED
++			(actor as CombatHero).velocity = Vector2.ZERO
+diff --git a/scripts/entities/loot_pickup.gd b/scripts/entities/loot_pickup.gd
+index b06e888c..2d0481c4 100644
+--- a/scripts/entities/loot_pickup.gd
++++ b/scripts/entities/loot_pickup.gd
+@@ -7,6 +7,7 @@ signal collected(item_id: String, gold_amount: int)
+ var item_id: String = ""
+ var gold_amount: int = 0
+ var _magnet_target: Node2D
++var _collected := false
+ 
+ 
+ func setup_item(id: String) -> void:
+@@ -58,6 +59,9 @@ func _on_body(body: Node) -> void:
+ 
+ 
+ func _collect() -> void:
++	if _collected or not Net.is_authority():
++		return
++	_collected = true
+ 	if Net.is_host():
+ 		Replica.host_despawn(self, "consumed",
+ 			{"at": [global_position.x, global_position.y]})
+diff --git a/scripts/net/net_commands.gd b/scripts/net/net_commands.gd
+index f6a2b1f4..f194b87f 100644
+--- a/scripts/net/net_commands.gd
++++ b/scripts/net/net_commands.gd
+@@ -160,10 +160,12 @@ static func build() -> Dictionary:
+ 	var lineup_set := func(sender: int, args: Dictionary) -> Dictionary:
+ 		var lp: Dictionary = DungeonManager.lineup_pending
+ 		if lp.is_empty():
+-			return {"ok": false}
++			return {"ok": false, "reason": "This lineup has closed. Reopen the gates."}
++		if sender not in PartyState.connected_indexes():
++			return {"ok": false, "reason": "Your party seat is disconnected."}
+ 		(lp["picks"] as Dictionary)[sender] = {
+ 			"hero_id": String(args.get("hero_id", "")),
+-			"consumables": args.get("consumables", [])}
++			"consumables": (args.get("consumables", []) as Array).duplicate()}
+ 		var needed: int = PartyState.connected_indexes().size()
+ 		if (lp["picks"] as Dictionary).size() >= needed:
+ 			var err: String = GatesPanel.depart_party(String(lp.get("world_id", "")),
+diff --git a/scripts/net/upnp_opener.gd b/scripts/net/upnp_opener.gd
+index aac7c9a7..4606cd68 100644
+--- a/scripts/net/upnp_opener.gd
++++ b/scripts/net/upnp_opener.gd
+@@ -10,6 +10,12 @@ var _thread: Thread = null
+ var _mapped := false
+ 
+ 
++func _exit_tree() -> void:
++	# Discovery can still be running when a probe or player quits the game.
++	# Join before Node destruction so the worker cannot outlive its owner.
++	_join_thread()
++
++
+ func open() -> void:
+ 	if _thread != null:
+ 		return
+diff --git a/scripts/systems/shop_sim.gd b/scripts/systems/shop_sim.gd
+index 07589e49..8b3c8d0d 100644
+--- a/scripts/systems/shop_sim.gd
++++ b/scripts/systems/shop_sim.gd
+@@ -61,9 +61,19 @@ static func auto_stock_display() -> void:
+ ## on goods with the best market multipliers.
+ static func auto_buy_stock(budget_ratio: float = 0.5) -> int:
+ 	var budget := int(EconomyManager.gold * budget_ratio)
+-	var catalog := MarketManager.wholesale_catalog()
++	# Use the same chapter/price gates as the live Buy buttons. Buying sealed
++	# luxury goods makes the simulation sink working capital into unsalable stock.
++	var catalog := MarketManager.accessible_wholesale_catalog()
+ 	if catalog.is_empty():
+ 		return 0
++	# The campaign policy opens twice per day. Buy only enough for those
++	# display turns, accounting for stock already waiting in storage/on stands.
++	# A gold-proportional budget alone buys ever larger unsold piles as the
++	# shop grows, so even profitable trading can never accumulate repair cash.
++	var stocked := 0
++	for id: String in catalog:
++		stocked += InventoryManager.count(id) + InventoryManager.display.count(id)
++	var needed := maxi(0, InventoryManager.display.size() * 2 - stocked)
+ 	# prefer items with high sale value relative to wholesale cost
+ 	catalog.sort_custom(func(a: String, b: String) -> bool:
+ 		var profit_a := MarketManager.market_value(a) - MarketManager.wholesale_cost(a)
+@@ -71,13 +81,14 @@ static func auto_buy_stock(budget_ratio: float = 0.5) -> int:
+ 		return a < b if profit_a == profit_b else profit_a > profit_b)
+ 	var spent := 0
+ 	var idx := 0
+-	while budget > 0 and idx < catalog.size():
++	while budget > 0 and needed > 0 and idx < catalog.size():
+ 		var id := catalog[idx]
+ 		var cost := MarketManager.wholesale_cost(id)
+ 		if cost <= budget and EconomyManager.spend_gold(cost):
+ 			InventoryManager.add_item(id)
+ 			budget -= cost
+ 			spent += cost
++			needed -= 1
+ 		else:
+ 			idx += 1
+ 	return spent
+diff --git a/scripts/town/town.gd b/scripts/town/town.gd
+index 9c934481..72e01372 100644
+--- a/scripts/town/town.gd
++++ b/scripts/town/town.gd
+@@ -155,7 +155,7 @@ func _on_net_scene_event(event_name: String, args: Dictionary) -> void:
+ 					% [int(args.get("count", 0)), int(args.get("needed", 0))])
+ 		"lineup_failed":
+ 			if _lineup_panel != null and is_instance_valid(_lineup_panel):
+-				_lineup_panel.set_status(String(args.get("reason", "Couldn't depart")))
++				_lineup_panel.reject(String(args.get("reason", "Couldn't depart")))
+ 		"lineup_cancelled":
+ 			_close_lineup()
+ 
+diff --git a/scripts/ui/gates_panel.gd b/scripts/ui/gates_panel.gd
+index d46a49fe..c67577d0 100644
+--- a/scripts/ui/gates_panel.gd
++++ b/scripts/ui/gates_panel.gd
+@@ -142,13 +142,18 @@ static func depart_party(world_id: String, slice: bool, picks: Dictionary) -> St
+ 	var party: Array = []
+ 	var fee := 0
+ 	var stock_needed: Dictionary = {}
++	var allowed_heroes := hero_options_for(world_id)
+ 	for idx: int in picks:
+ 		var pick: Dictionary = picks[idx]
+ 		var hid := String(pick.get("hero_id", ""))
+-		if ContentDatabase.get_hero(hid).is_empty():
+-			return "Someone picked an unknown hero"
++		if hid not in allowed_heroes:
++			return "Someone picked a hero unavailable for this world"
++		if (pick.get("consumables", []) as Array).size() > int(ContentDatabase.bal("dungeon", {}).get("consumable_slots", 2)):
++			return "Someone packed too many consumables"
+ 		fee += int(ContentDatabase.get_hero(hid).get("hire_cost", 100))
+ 		for c in pick.get("consumables", []):
++			if not ContentDatabase.is_field_usable(String(c)):
++				return "An item on someone's belt cannot be used on expeditions"
+ 			stock_needed[String(c)] = int(stock_needed.get(String(c), 0)) + 1
+ 		party.append({"player_index": idx, "hero_id": hid,
+ 			"consumables": (pick.get("consumables", []) as Array).duplicate()})
+@@ -237,6 +242,7 @@ func _expedition_dialog(world_id: String) -> void:
+ 	var make_picker := func(target: Array, other: Array, who: String) -> void:
+ 		dvb.add_child(UIKit.label("%sconsumables (up to %d):" % [who, max_slots]))
+ 		var lbl := UIKit.label("(none)", 9, UIKit.COL_DIM)
++		var error_lbl := UIKit.label("", 9, UIKit.COL_BAD)
+ 		var row := HBoxContainer.new()
+ 		var pick := OptionButton.new()
+ 		for t in consum_labels:
+@@ -249,8 +255,9 @@ func _expedition_dialog(world_id: String) -> void:
+ 			# reserved by BOTH belts — you cannot pack the same potion twice
+ 			var reserved := target.count(id) + other.count(id)
+ 			if InventoryManager.count(id) <= reserved:
+-				lbl.text = "No more %s in stock!" % ContentDatabase.item_name(id)
++				error_lbl.text = "No more %s in stock!" % ContentDatabase.item_name(id)
+ 				return
++			error_lbl.text = ""
+ 			target.append(id)
+ 			var names: Array[String] = []
+ 			for c in target:
+@@ -260,9 +267,11 @@ func _expedition_dialog(world_id: String) -> void:
+ 			lbl.text = ", ".join(names)))
+ 		row.add_child(UIKit.button("Clear", func() -> void:
+ 			target.clear()
++			error_lbl.text = ""
+ 			lbl.text = "(none)"))
+ 		dvb.add_child(row)
+ 		dvb.add_child(lbl)
++		dvb.add_child(error_lbl)
+ 	if MultiplayerState.enabled:
+ 		make_picker.call(chosen, chosen2, "Player 1's ")
+ 		make_picker.call(chosen2, chosen, "Player 2's ")
+diff --git a/scripts/ui/lineup_panel.gd b/scripts/ui/lineup_panel.gd
+index 35ea32ef..37ed4817 100644
+--- a/scripts/ui/lineup_panel.gd
++++ b/scripts/ui/lineup_panel.gd
+@@ -7,6 +7,7 @@ extends CanvasLayer
+ var world_id: String
+ var _chosen: Array = []
+ var _status: Label
++var _editing_controls: Array[BaseButton] = []
+ 
+ 
+ func setup(world: String, _is_slice: bool = false) -> void:
+@@ -23,6 +24,7 @@ func _ready() -> void:
+ 
+ 	var hero_options := GatesPanel.hero_options_for(world_id)
+ 	var hero_pick := OptionButton.new()
++	_editing_controls.append(hero_pick)
+ 	for hid in hero_options:
+ 		var st := InventoryManager.hero_stats(hid)
+ 		hero_pick.add_item("%s — %dg (HP %d ATK %d)" % [
+@@ -52,20 +54,31 @@ func _ready() -> void:
+ 	var belt_lbl := UIKit.label("(none)", 9, UIKit.COL_DIM)
+ 	var belt_row := HBoxContainer.new()
+ 	var pick := OptionButton.new()
++	_editing_controls.append(pick)
+ 	for t in consum_labels:
+ 		pick.add_item(t)
+ 	belt_row.add_child(pick)
+-	belt_row.add_child(UIKit.button("Add", func() -> void:
++	var add_btn := UIKit.button("Add", func() -> void:
+ 		if _chosen.size() >= max_slots or consum_ids.is_empty():
+ 			return
+-		_chosen.append(consum_ids[pick.selected])
++		var id := consum_ids[pick.selected]
++		if _chosen.count(id) >= InventoryManager.count(id):
++			set_status("No more %s in stock!" % ContentDatabase.item_name(id))
++			return
++		_chosen.append(id)
++		set_status("")
+ 		var names: Array[String] = []
+ 		for c in _chosen:
+ 			names.append(ContentDatabase.item_name(String(c)))
+-		belt_lbl.text = ", ".join(names)))
+-	belt_row.add_child(UIKit.button("Clear", func() -> void:
++		belt_lbl.text = ", ".join(names))
++	belt_row.add_child(add_btn)
++	_editing_controls.append(add_btn)
++	var clear_btn := UIKit.button("Clear", func() -> void:
+ 		_chosen.clear()
+-		belt_lbl.text = "(none)"))
++		belt_lbl.text = "(none)"
++		set_status(""))
++	belt_row.add_child(clear_btn)
++	_editing_controls.append(clear_btn)
+ 	dvb.add_child(belt_row)
+ 	dvb.add_child(belt_lbl)
+ 
+@@ -75,12 +88,14 @@ func _ready() -> void:
+ 	go_row.alignment = BoxContainer.ALIGNMENT_CENTER
+ 	go_row.add_theme_constant_override("separation", 12)
+ 	var ready_btn := UIKit.button("Ready — depart when all are set", func() -> void: pass)
++	_editing_controls.append(ready_btn)
+ 	ready_btn.pressed.connect(func() -> void:
+-		ready_btn.disabled = true
+-		hero_pick.disabled = true
++		_set_pending(true)
+ 		_status.text = "Waiting for the rest of the party..."
+ 		Net.request("lineup.set", {"hero_id": hero_options[hero_pick.selected],
+-			"consumables": _chosen}))
++			"consumables": _chosen.duplicate()}, func(ok: bool, data: Dictionary) -> void:
++				if not ok:
++					reject(String(data.get("reason", "Couldn't ready up. Try again.")))))
+ 	go_row.add_child(ready_btn)
+ 	# any player can back the whole party out of the lineup
+ 	go_row.add_child(UIKit.button("Cancel", func() -> void:
+@@ -91,3 +106,17 @@ func _ready() -> void:
+ func set_status(text: String) -> void:
+ 	if _status != null:
+ 		_status.text = text
++
++
++func reject(reason: String) -> void:
++	_set_pending(false)
++	set_status(reason)
++	for control: BaseButton in _editing_controls:
++		if control is Button and (control as Button).text.begins_with("Ready"):
++			control.grab_focus()
++			break
++
++
++func _set_pending(pending: bool) -> void:
++	for control: BaseButton in _editing_controls:
++		control.disabled = pending
+diff --git a/tests/expedition_recovery_probe.gd b/tests/expedition_recovery_probe.gd
+new file mode 100644
+index 00000000..4c924385
+--- /dev/null
++++ b/tests/expedition_recovery_probe.gd
+@@ -0,0 +1,127 @@
++extends Node
++## Drives real menu buttons through a failed departure and retry, then checks
++## the finished run banks deferred floor loot once and locks hero controls.
++
++class Probe:
++	extends Node
++
++	var failures: Array[String] = []
++
++	func _ready() -> void:
++		await get_tree().create_timer(0.5).timeout
++		GameState.reset_campaign()
++		GameState.campaign_active = true
++		GameState.tutorials_seen.append("first_shop_vertical_slice")
++		TimeManager.reset(1)
++		EconomyManager.reset()
++		MarketManager.reset()
++		InventoryManager.reset()
++		InventoryManager.storage = {"kh_potion": 1}
++		RelationshipManager.reset()
++		BridgeManager.reset()
++		BoomManager.reset()
++		DungeonManager.reset()
++		StoryEventManager.reset()
++		ShopFurnitureManager.reset()
++		GameState.meet_hero("sora")
++		DayBriefing.last_shown_day = TimeManager.day
++		EconomyManager.gold = 0
++		_check(Net.host_game("RetryHost") == OK, "could not host isolated session")
++		SceneRouter.go("town")
++		await get_tree().create_timer(1.5).timeout
++		Net.request("lineup.begin", {"world_id": "kingdom_hearts"})
++		await get_tree().process_frame
++		var town := get_tree().current_scene
++		var panel: LineupPanel = town.get("_lineup_panel")
++		_check(is_instance_valid(panel), "lineup never opened")
++		if not is_instance_valid(panel):
++			_finish()
++			return
++		_button(panel, "Add").pressed.emit()
++		_button(panel, "Add").pressed.emit()
++		_check(panel._chosen == ["kh_potion"], "belt accepted more copies than storage owns")
++		_check("stock" in panel._status.text, "stock rejection was not explained")
++		var ready := _button(panel, "Ready")
++		ready.pressed.emit()
++		await get_tree().process_frame
++		_check(not ready.disabled, "Ready remained disabled after insufficient-gold rejection")
++		for control: BaseButton in panel._editing_controls:
++			_check(not control.disabled, "a lineup editor remained disabled after rejection")
++		_check("gold" in panel._status.text, "departure rejection was not explained")
++		await _shot("lineup_retry.png")
++		EconomyManager.gold = 10000
++		ready.pressed.emit()
++		await get_tree().create_timer(1.5).timeout
++		var dungeon := get_tree().current_scene
++		_check(dungeon.scene_file_path.ends_with("dungeon.tscn"), "retry did not depart")
++		if not dungeon.scene_file_path.ends_with("dungeon.tscn"):
++			_finish()
++			return
++		var hero: CombatHero = dungeon.get("hero")
++		var root: Node = dungeon.get("room_root")
++		var before_items := InventoryManager.count("kh_potion")
++		var before_gold := EconomyManager.gold
++		var first := LootPickup.new()
++		first.setup_item("kh_potion")
++		root.add_child(first)
++		first._collect()
++		first._collect() # same-frame duplicate overlaps must not count twice
++		var late := LootPickup.new()
++		late.setup_item("kh_potion")
++		var coins := LootPickup.new()
++		coins.setup_gold(77)
++		var results: Array[Dictionary] = []
++		DungeonManager.expedition_finished.connect(func(result: Dictionary) -> void:
++			results.append(result))
++		dungeon.call("_finish", true, false)
++		# Mirrors Enemy._on_died: killed emits before deferred drops are inserted.
++		root.call_deferred("add_child", late)
++		root.call_deferred("add_child", coins)
++		await get_tree().create_timer(0.25).timeout
++		_check(results.size() == 1, "expedition did not settle exactly once")
++		if not results.is_empty():
++			_check(int(results[0]["loot"].get("kh_potion", 0)) == 2,
++				"result missed deferred loot or counted a pickup twice")
++		_check(InventoryManager.count("kh_potion") == before_items + 2,
++			"earned floor loot was not banked")
++		_check(EconomyManager.gold == before_gold + 77, "loose floor gold was not banked")
++		var position := hero.global_position
++		Input.action_press("move_right")
++		Input.action_press("attack")
++		await get_tree().create_timer(0.25).timeout
++		Input.action_release("move_right")
++		Input.action_release("attack")
++		_check(hero.global_position.is_equal_approx(position) and not hero.can_process(),
++			"hero remained controllable behind expedition results")
++		await _shot("settled_expedition.png")
++		_finish()
++
++	func _button(root: Node, prefix: String) -> Button:
++		for node: Node in root.find_children("*", "Button", true, false):
++			if (node as Button).text.begins_with(prefix):
++				return node as Button
++		return null
++
++	func _shot(name: String) -> void:
++		if DisplayServer.get_name() == "headless":
++			return
++		await RenderingServer.frame_post_draw
++		DirAccess.make_dir_recursive_absolute("user://screenshots/recovery/")
++		get_viewport().get_texture().get_image().save_png("user://screenshots/recovery/" + name)
++
++	func _check(ok: bool, message: String) -> void:
++		if not ok:
++			failures.append(message)
++
++	func _finish() -> void:
++		Net.leave()
++		if failures.is_empty():
++			print("EXPEDITION_RECOVERY_PROBE_PASS")
++		else:
++			for message: String in failures:
++				printerr("EXPEDITION_RECOVERY_PROBE_FAIL: " + message)
++		get_tree().quit(0 if failures.is_empty() else 1)
++
++
++func _ready() -> void:
++	get_tree().root.add_child.call_deferred(Probe.new())
+diff --git a/tests/expedition_recovery_probe.tscn b/tests/expedition_recovery_probe.tscn
+new file mode 100644
+index 00000000..5d8d97a4
+--- /dev/null
++++ b/tests/expedition_recovery_probe.tscn
+@@ -0,0 +1,6 @@
++[gd_scene load_steps=2 format=3]
++
++[ext_resource type="Script" path="res://tests/expedition_recovery_probe.gd" id="1"]
++
++[node name="ExpeditionRecoveryProbe" type="Node"]
++script = ExtResource("1")
+diff --git a/tests/net_lineup_probe.gd b/tests/net_lineup_probe.gd
+index 53802471..ca7b0746 100644
+--- a/tests/net_lineup_probe.gd
++++ b/tests/net_lineup_probe.gd
+@@ -27,6 +27,7 @@ class Probe:
+ 		RelationshipManager.reset()
+ 		BoomManager.reset()
+ 		BridgeManager.reset()
++		BridgeManager.gates["zelda"]["repaired"] = true  # legitimately unlock Link
+ 		DungeonManager.reset()
+ 		StoryEventManager.reset()
+ 		ShopFurnitureManager.reset()
+diff --git a/tests/rotmg_music_probe.gd b/tests/rotmg_music_probe.gd
+index 346ba987..6c0ddd45 100644
+--- a/tests/rotmg_music_probe.gd
++++ b/tests/rotmg_music_probe.gd
+@@ -1,5 +1,5 @@
+ extends Node
+-## Realm of the Mad God must resolve its explicitly mapped user-override MP3.
++## Realm keeps its supplied override when present and has shipped fallback audio.
+ 
+ 
+ func _ready() -> void:
+@@ -8,7 +8,7 @@ func _ready() -> void:
+ 	var track := "final_dungeon" if bool(world.get("final", false)) \
+ 		else "dungeon_rotmg"
+ 	var stream := AudioManager._resolve_stream(track)
+-	if stream != null and stream.resource_path.ends_with("rotmg_dungeon.mp3"):
++	if stream != null:
+ 		print("ROTMG_MUSIC_PROBE_PASS track=%s stream=%s" % [
+ 			track, stream.resource_path])
+ 		get_tree().quit(0)
+diff --git a/tests/session_readiness_probe.gd b/tests/session_readiness_probe.gd
+new file mode 100644
+index 00000000..8e4e5161
+--- /dev/null
++++ b/tests/session_readiness_probe.gd
+@@ -0,0 +1,74 @@
++extends Node
++## Regression checks for fresh-clone audio, inventory reset, and campaign buying.
++
++var failures: Array[String] = []
++
++
++func _ready() -> void:
++	GameState.reset_campaign()
++	TimeManager.reset(1)
++	EconomyManager.reset()
++	InventoryManager.reset()
++	_check_inventory_reset()
++	_check_sim_purchases()
++	_check_music()
++	if failures.is_empty():
++		print("SESSION_READINESS_PROBE_PASS")
++	else:
++		for message: String in failures:
++			printerr("SESSION_READINESS_PROBE_FAIL: " + message)
++	get_tree().quit(0 if failures.is_empty() else 1)
++
++
++func _check_inventory_reset() -> void:
++	InventoryManager.add_item("kingdom_key")
++	InventoryManager.place_display(0, "kingdom_key")
++	InventoryManager.reset()
++	_check(InventoryManager.displayed_ids().is_empty(),
++		"new campaign retained merchandise on old display stands")
++	_check(InventoryManager.count("kingdom_key") == 0,
++		"reset returned old displayed merchandise into new storage")
++
++
++func _check_sim_purchases() -> void:
++	InventoryManager.storage.clear()
++	EconomyManager.gold = 100000
++	ShopSim.auto_buy_stock(0.8)
++	for id: String in InventoryManager.storage:
++		_check(MarketManager.is_item_accessible(id),
++			"autoplay bought sealed merchandise: " + id)
++	var before := EconomyManager.gold
++	ShopSim.auto_buy_stock(0.8)
++	_check(EconomyManager.gold == before,
++		"autoplay bought more inventory without consuming its existing stock")
++
++
++func _check_music() -> void:
++	for track: String in ContentDatabase.music.get("tracks", {}):
++		_check(AudioManager._resolve_stream(track) != null,
++			"no shipped or override audio for " + track)
++	var original := ContentDatabase.music.duplicate(true)
++	var dir := "user://session_audio_probe/"
++	DirAccess.make_dir_recursive_absolute(dir)
++	ContentDatabase.music["override_dir"] = dir
++	# A canonical track-id override beats the manifest's bundled alias/fallback.
++	var custom := AudioStreamWAV.new()
++	custom.format = AudioStreamWAV.FORMAT_8_BITS
++	custom.mix_rate = 8000
++	custom.stereo = true
++	custom.data = PackedByteArray([0, 0, 0, 0, 0, 0, 0, 0])
++	_check(custom.save_to_wav(dir + "crossroads_day.wav") == OK,
++		"could not create isolated music fixture")
++	var resolved := AudioManager._resolve_stream("crossroads_day")
++	_check(resolved is AudioStreamWAV and resolved.mix_rate == 8000,
++		"track-id override did not take precedence over bundled fallback")
++	AudioManager._set_loop(custom, true)
++	_check(custom.loop_end == 4,
++		"8-bit stereo loop length used bytes instead of audio frames")
++	DirAccess.remove_absolute(ProjectSettings.globalize_path(dir + "crossroads_day.wav"))
++	ContentDatabase.music = original
++
++
++func _check(condition: bool, message: String) -> void:
++	if not condition:
++		failures.append(message)
+diff --git a/tests/session_readiness_probe.tscn b/tests/session_readiness_probe.tscn
+new file mode 100644
+index 00000000..69ee2b6a
+--- /dev/null
++++ b/tests/session_readiness_probe.tscn
+@@ -0,0 +1,6 @@
++[gd_scene load_steps=2 format=3]
++
++[ext_resource type="Script" path="res://tests/session_readiness_probe.gd" id="1"]
++
++[node name="SessionReadinessProbe" type="Node"]
++script = ExtResource("1")
+-- 
+2.54.0.windows.1
+

@@ -1,5 +1,13 @@
 {
   "schema": "crossroads.dev_status.v1",
+  "source_handoff": {
+    "date": "2026-10-15",
+    "status": "Source fixes saved for manual merge into the newer Sonic project; not a final release",
+    "branch": "handoff/pre-session-fixes-2026-10-15",
+    "instructions": "handoff/2026-10-15/README.md",
+    "gameplay_commit": "b89ba9dd018e3a33240e5214ad8143b40f277bfb",
+    "optional_progression_draft_commit": "f911cf3a97cae83c93b773be4ced93a982d8cb0c"
+  },
   "focused_audit": {
     "date": "2026-10-15",
     "source_head": "639d8501",
