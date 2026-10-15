@@ -1510,24 +1510,33 @@ func _best_hp_left() -> int:
 
 
 func _finish(success: bool, boss_defeated: bool) -> void:
-	if finished:
+	if finished or not Net.is_authority():
 		return
+	finished = true
+	_freeze_run()
+	# Boss killed signals precede deferred drop insertion. Let that frame's
+	# queued drops enter the room before banking the immutable result ledger.
+	_settle_finished_run(success, boss_defeated)
+
+
+func _settle_finished_run(success: bool, boss_defeated: bool) -> void:
+	await get_tree().process_frame
+	for node: Node in room_root.get_children():
+		if node is LootPickup:
+			(node as LootPickup)._collect()
 	if Net.is_online():
-		if not Net.is_authority():
-			return  # host computes the result and broadcasts it
-		finished = true
 		var net_result := DungeonManager.finish_expedition(success, boss_defeated, _best_hp_left())
 		Net.sync_all()
 		Net.broadcast_scene_event("expedition_finished",
 			{"success": success, "boss": boss_defeated, "result": net_result})
 		return
-	finished = true
 	var hp_left := _best_hp_left()
 	var result := DungeonManager.finish_expedition(success, boss_defeated, hp_left)
 	_show_finish_modal(success, boss_defeated, result)
 
 
 func _show_finish_modal(success: bool, boss_defeated: bool, result: Dictionary) -> void:
+	_freeze_run()
 	var parts := UIKit.modal(self, "Expedition %s" % ("complete!" if success else "failed..."))
 	var end_layer: CanvasLayer = parts[0]
 	var vb: VBoxContainer = parts[1]
@@ -1565,3 +1574,12 @@ func _show_finish_modal(success: bool, boss_defeated: bool, result: Dictionary) 
 				SceneRouter.go("story", {"return_to": "town"})
 			else:
 				SceneRouter.go("town")))
+
+
+func _freeze_run() -> void:
+	# Freeze actors and projectiles, keeping the results UI and network alive.
+	room_root.process_mode = Node.PROCESS_MODE_DISABLED
+	for actor: Node in [hero, hero2] + _net_hero_puppets.values():
+		if is_instance_valid(actor):
+			actor.process_mode = Node.PROCESS_MODE_DISABLED
+			(actor as CombatHero).velocity = Vector2.ZERO

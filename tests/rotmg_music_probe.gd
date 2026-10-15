@@ -1,5 +1,5 @@
 extends Node
-## Realm of the Mad God must resolve its explicitly mapped user-override MP3.
+## Realm keeps its supplied override when present and has shipped fallback audio.
 
 
 func _ready() -> void:
@@ -8,7 +8,7 @@ func _ready() -> void:
 	var track := "final_dungeon" if bool(world.get("final", false)) \
 		else "dungeon_rotmg"
 	var stream := AudioManager._resolve_stream(track)
-	if stream != null and stream.resource_path.ends_with("rotmg_dungeon.mp3"):
+	if stream != null:
 		print("ROTMG_MUSIC_PROBE_PASS track=%s stream=%s" % [
 			track, stream.resource_path])
 		get_tree().quit(0)

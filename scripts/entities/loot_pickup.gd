@@ -7,6 +7,7 @@ signal collected(item_id: String, gold_amount: int)
 var item_id: String = ""
 var gold_amount: int = 0
 var _magnet_target: Node2D
+var _collected := false
 
 
 func setup_item(id: String) -> void:
@@ -58,6 +59,9 @@ func _on_body(body: Node) -> void:
 
 
 func _collect() -> void:
+	if _collected or not Net.is_authority():
+		return
+	_collected = true
 	if Net.is_host():
 		Replica.host_despawn(self, "consumed",
 			{"at": [global_position.x, global_position.y]})

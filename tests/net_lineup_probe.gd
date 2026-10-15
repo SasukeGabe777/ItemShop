@@ -27,6 +27,7 @@ class Probe:
 		RelationshipManager.reset()
 		BoomManager.reset()
 		BridgeManager.reset()
+		BridgeManager.gates["zelda"]["repaired"] = true  # legitimately unlock Link
 		DungeonManager.reset()
 		StoryEventManager.reset()
 		ShopFurnitureManager.reset()

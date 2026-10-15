@@ -10,6 +10,12 @@ var _thread: Thread = null
 var _mapped := false
 
 
+func _exit_tree() -> void:
+	# Discovery can still be running when a probe or player quits the game.
+	# Join before Node destruction so the worker cannot outlive its owner.
+	_join_thread()
+
+
 func open() -> void:
 	if _thread != null:
 		return

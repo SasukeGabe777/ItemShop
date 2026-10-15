@@ -61,9 +61,19 @@ static func auto_stock_display() -> void:
 ## on goods with the best market multipliers.
 static func auto_buy_stock(budget_ratio: float = 0.5) -> int:
 	var budget := int(EconomyManager.gold * budget_ratio)
-	var catalog := MarketManager.wholesale_catalog()
+	# Use the same chapter/price gates as the live Buy buttons. Buying sealed
+	# luxury goods makes the simulation sink working capital into unsalable stock.
+	var catalog := MarketManager.accessible_wholesale_catalog()
 	if catalog.is_empty():
 		return 0
+	# The campaign policy opens twice per day. Buy only enough for those
+	# display turns, accounting for stock already waiting in storage/on stands.
+	# A gold-proportional budget alone buys ever larger unsold piles as the
+	# shop grows, so even profitable trading can never accumulate repair cash.
+	var stocked := 0
+	for id: String in catalog:
+		stocked += InventoryManager.count(id) + InventoryManager.display.count(id)
+	var needed := maxi(0, InventoryManager.display.size() * 2 - stocked)
 	# prefer items with high sale value relative to wholesale cost
 	catalog.sort_custom(func(a: String, b: String) -> bool:
 		var profit_a := MarketManager.market_value(a) - MarketManager.wholesale_cost(a)
@@ -71,13 +81,14 @@ static func auto_buy_stock(budget_ratio: float = 0.5) -> int:
 		return a < b if profit_a == profit_b else profit_a > profit_b)
 	var spent := 0
 	var idx := 0
-	while budget > 0 and idx < catalog.size():
+	while budget > 0 and needed > 0 and idx < catalog.size():
 		var id := catalog[idx]
 		var cost := MarketManager.wholesale_cost(id)
 		if cost <= budget and EconomyManager.spend_gold(cost):
 			InventoryManager.add_item(id)
 			budget -= cost
 			spent += cost
+			needed -= 1
 		else:
 			idx += 1
 	return spent

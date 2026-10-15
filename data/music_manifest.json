@@ -22,14 +22,17 @@
     },
     "newgame_begin": {
       "file": "newgame_begin",
+      "fallback": "main_menu",
       "loop": true
     },
     "crossroads_day": {
       "file": "lobby_area",
+      "fallback": "crossroads_day",
       "loop": true
     },
     "crossroads_night": {
       "file": "lobby_area",
+      "fallback": "crossroads_night",
       "loop": true
     },
     "item_shop": {
@@ -58,10 +61,12 @@
     },
     "dungeon_naruto": {
       "file": "naruto_dungeon",
+      "fallback": "dungeon_naruto",
       "loop": true
     },
     "dungeon_dragon_ball": {
       "file": "dungeon_dbz",
+      "fallback": "dungeon_dragon_ball",
       "loop": true
     },
     "dungeon_pokemon": {
@@ -71,6 +76,7 @@
     },
     "dungeon_rotmg": {
       "file": "rotmg_dungeon",
+      "fallback": "final_dungeon",
       "loop": true
     },
     "boss_battle": {

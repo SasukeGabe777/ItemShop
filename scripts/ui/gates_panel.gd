@@ -142,13 +142,18 @@ static func depart_party(world_id: String, slice: bool, picks: Dictionary) -> St
 	var party: Array = []
 	var fee := 0
 	var stock_needed: Dictionary = {}
+	var allowed_heroes := hero_options_for(world_id)
 	for idx: int in picks:
 		var pick: Dictionary = picks[idx]
 		var hid := String(pick.get("hero_id", ""))
-		if ContentDatabase.get_hero(hid).is_empty():
-			return "Someone picked an unknown hero"
+		if hid not in allowed_heroes:
+			return "Someone picked a hero unavailable for this world"
+		if (pick.get("consumables", []) as Array).size() > int(ContentDatabase.bal("dungeon", {}).get("consumable_slots", 2)):
+			return "Someone packed too many consumables"
 		fee += int(ContentDatabase.get_hero(hid).get("hire_cost", 100))
 		for c in pick.get("consumables", []):
+			if not ContentDatabase.is_field_usable(String(c)):
+				return "An item on someone's belt cannot be used on expeditions"
 			stock_needed[String(c)] = int(stock_needed.get(String(c), 0)) + 1
 		party.append({"player_index": idx, "hero_id": hid,
 			"consumables": (pick.get("consumables", []) as Array).duplicate()})
@@ -237,6 +242,7 @@ func _expedition_dialog(world_id: String) -> void:
 	var make_picker := func(target: Array, other: Array, who: String) -> void:
 		dvb.add_child(UIKit.label("%sconsumables (up to %d):" % [who, max_slots]))
 		var lbl := UIKit.label("(none)", 9, UIKit.COL_DIM)
+		var error_lbl := UIKit.label("", 9, UIKit.COL_BAD)
 		var row := HBoxContainer.new()
 		var pick := OptionButton.new()
 		for t in consum_labels:
@@ -249,8 +255,9 @@ func _expedition_dialog(world_id: String) -> void:
 			# reserved by BOTH belts — you cannot pack the same potion twice
 			var reserved := target.count(id) + other.count(id)
 			if InventoryManager.count(id) <= reserved:
-				lbl.text = "No more %s in stock!" % ContentDatabase.item_name(id)
+				error_lbl.text = "No more %s in stock!" % ContentDatabase.item_name(id)
 				return
+			error_lbl.text = ""
 			target.append(id)
 			var names: Array[String] = []
 			for c in target:
@@ -260,9 +267,11 @@ func _expedition_dialog(world_id: String) -> void:
 			lbl.text = ", ".join(names)))
 		row.add_child(UIKit.button("Clear", func() -> void:
 			target.clear()
+			error_lbl.text = ""
 			lbl.text = "(none)"))
 		dvb.add_child(row)
 		dvb.add_child(lbl)
+		dvb.add_child(error_lbl)
 	if MultiplayerState.enabled:
 		make_picker.call(chosen, chosen2, "Player 1's ")
 		make_picker.call(chosen2, chosen, "Player 2's ")

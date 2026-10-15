@@ -7,6 +7,7 @@ extends CanvasLayer
 var world_id: String
 var _chosen: Array = []
 var _status: Label
+var _editing_controls: Array[BaseButton] = []
 
 
 func setup(world: String, _is_slice: bool = false) -> void:
@@ -23,6 +24,7 @@ func _ready() -> void:
 
 	var hero_options := GatesPanel.hero_options_for(world_id)
 	var hero_pick := OptionButton.new()
+	_editing_controls.append(hero_pick)
 	for hid in hero_options:
 		var st := InventoryManager.hero_stats(hid)
 		hero_pick.add_item("%s — %dg (HP %d ATK %d)" % [
@@ -52,20 +54,31 @@ func _ready() -> void:
 	var belt_lbl := UIKit.label("(none)", 9, UIKit.COL_DIM)
 	var belt_row := HBoxContainer.new()
 	var pick := OptionButton.new()
+	_editing_controls.append(pick)
 	for t in consum_labels:
 		pick.add_item(t)
 	belt_row.add_child(pick)
-	belt_row.add_child(UIKit.button("Add", func() -> void:
+	var add_btn := UIKit.button("Add", func() -> void:
 		if _chosen.size() >= max_slots or consum_ids.is_empty():
 			return
-		_chosen.append(consum_ids[pick.selected])
+		var id := consum_ids[pick.selected]
+		if _chosen.count(id) >= InventoryManager.count(id):
+			set_status("No more %s in stock!" % ContentDatabase.item_name(id))
+			return
+		_chosen.append(id)
+		set_status("")
 		var names: Array[String] = []
 		for c in _chosen:
 			names.append(ContentDatabase.item_name(String(c)))
-		belt_lbl.text = ", ".join(names)))
-	belt_row.add_child(UIKit.button("Clear", func() -> void:
+		belt_lbl.text = ", ".join(names))
+	belt_row.add_child(add_btn)
+	_editing_controls.append(add_btn)
+	var clear_btn := UIKit.button("Clear", func() -> void:
 		_chosen.clear()
-		belt_lbl.text = "(none)"))
+		belt_lbl.text = "(none)"
+		set_status(""))
+	belt_row.add_child(clear_btn)
+	_editing_controls.append(clear_btn)
 	dvb.add_child(belt_row)
 	dvb.add_child(belt_lbl)
 
@@ -75,12 +88,14 @@ func _ready() -> void:
 	go_row.alignment = BoxContainer.ALIGNMENT_CENTER
 	go_row.add_theme_constant_override("separation", 12)
 	var ready_btn := UIKit.button("Ready — depart when all are set", func() -> void: pass)
+	_editing_controls.append(ready_btn)
 	ready_btn.pressed.connect(func() -> void:
-		ready_btn.disabled = true
-		hero_pick.disabled = true
+		_set_pending(true)
 		_status.text = "Waiting for the rest of the party..."
 		Net.request("lineup.set", {"hero_id": hero_options[hero_pick.selected],
-			"consumables": _chosen}))
+			"consumables": _chosen.duplicate()}, func(ok: bool, data: Dictionary) -> void:
+				if not ok:
+					reject(String(data.get("reason", "Couldn't ready up. Try again.")))))
 	go_row.add_child(ready_btn)
 	# any player can back the whole party out of the lineup
 	go_row.add_child(UIKit.button("Cancel", func() -> void:
@@ -91,3 +106,17 @@ func _ready() -> void:
 func set_status(text: String) -> void:
 	if _status != null:
 		_status.text = text
+
+
+func reject(reason: String) -> void:
+	_set_pending(false)
+	set_status(reason)
+	for control: BaseButton in _editing_controls:
+		if control is Button and (control as Button).text.begins_with("Ready"):
+			control.grab_focus()
+			break
+
+
+func _set_pending(pending: bool) -> void:
+	for control: BaseButton in _editing_controls:
+		control.disabled = pending

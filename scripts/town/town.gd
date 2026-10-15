@@ -155,7 +155,7 @@ func _on_net_scene_event(event_name: String, args: Dictionary) -> void:
 					% [int(args.get("count", 0)), int(args.get("needed", 0))])
 		"lineup_failed":
 			if _lineup_panel != null and is_instance_valid(_lineup_panel):
-				_lineup_panel.set_status(String(args.get("reason", "Couldn't depart")))
+				_lineup_panel.reject(String(args.get("reason", "Couldn't depart")))
 		"lineup_cancelled":
 			_close_lineup()
 

@@ -160,10 +160,12 @@ static func build() -> Dictionary:
 	var lineup_set := func(sender: int, args: Dictionary) -> Dictionary:
 		var lp: Dictionary = DungeonManager.lineup_pending
 		if lp.is_empty():
-			return {"ok": false}
+			return {"ok": false, "reason": "This lineup has closed. Reopen the gates."}
+		if sender not in PartyState.connected_indexes():
+			return {"ok": false, "reason": "Your party seat is disconnected."}
 		(lp["picks"] as Dictionary)[sender] = {
 			"hero_id": String(args.get("hero_id", "")),
-			"consumables": args.get("consumables", [])}
+			"consumables": (args.get("consumables", []) as Array).duplicate()}
 		var needed: int = PartyState.connected_indexes().size()
 		if (lp["picks"] as Dictionary).size() >= needed:
 			var err: String = GatesPanel.depart_party(String(lp.get("world_id", "")),

@@ -221,7 +221,7 @@ func _set_loop(stream: AudioStream, loop: bool) -> void:
 		w.loop_mode = AudioStreamWAV.LOOP_FORWARD if loop else AudioStreamWAV.LOOP_DISABLED
 		if loop:
 			w.loop_begin = 0
-			w.loop_end = w.data.size() / 2  # 16-bit mono frames
+			w.loop_end = int(round(w.get_length() * w.mix_rate))
 	elif stream is AudioStreamOggVorbis:
 		(stream as AudioStreamOggVorbis).loop = loop
 	elif stream is AudioStreamMP3:
@@ -238,7 +238,8 @@ var _variant_next: Dictionary = {}  # track id -> rotation cursor for _N variant
 func _resolve_stream(track_id: String) -> AudioStream:
 	var manifest: Dictionary = ContentDatabase.music
 	var tracks: Dictionary = manifest.get("tracks", {})
-	var file_base := String(tracks.get(track_id, {}).get("file", track_id))
+	var track: Dictionary = tracks.get(track_id, {})
+	var file_base := String(track.get("file", track_id))
 	var formats: Array = manifest.get("formats", ["ogg", "wav"])
 	var dirs: Array[String] = [
 		String(manifest.get("override_dir", "user://music_overrides/")),
@@ -246,19 +247,39 @@ func _resolve_stream(track_id: String) -> AudioStream:
 		String(manifest.get("default_dir", "res://assets/music/default/")),
 	]
 	for dir in dirs:
-		for ext: String in formats:
-			var candidates: Array[String] = []
-			if _stream_exists(dir + file_base + "." + ext):
-				candidates.append(dir + file_base + "." + ext)
-			for n in range(1, 6):
-				var vp := "%s%s_%d.%s" % [dir, file_base, n, ext]
-				if _stream_exists(vp):
-					candidates.append(vp)
-			if candidates.is_empty():
-				continue
-			var idx := int(_variant_next.get(track_id, 0)) % candidates.size()
+		var bases: Array[String] = [file_base]
+		# The documented track-id filenames also work when a supplied override
+		# historically used a different basename (lobby_area, dungeon_dbz, ...).
+		if track_id != file_base:
+			bases.append(track_id)
+		for base: String in bases:
+			var stream := _resolve_file(dir, base, formats, track_id)
+			if stream != null:
+				return stream
+	# A clean clone must remain audible without ignored, machine-local music.
+	# Fallbacks only use shipped defaults; custom tracks above retain priority.
+	var fallback := String(track.get("fallback", ""))
+	if fallback != "":
+		return _resolve_file(dirs[2], fallback, formats, track_id)
+	return null
+
+
+func _resolve_file(dir: String, base: String, formats: Array, track_id: String) -> AudioStream:
+	for ext: String in formats:
+		var candidates: Array[String] = []
+		if _stream_exists(dir + base + "." + ext):
+			candidates.append(dir + base + "." + ext)
+		for n in range(1, 6):
+			var path := "%s%s_%d.%s" % [dir, base, n, ext]
+			if _stream_exists(path):
+				candidates.append(path)
+		if candidates.is_empty():
+			continue
+		var idx := int(_variant_next.get(track_id, 0)) % candidates.size()
+		var stream := _load_stream(candidates[idx])
+		if stream != null:
 			_variant_next[track_id] = idx + 1
-			return _load_stream(candidates[idx])
+			return stream
 	return null
 
 

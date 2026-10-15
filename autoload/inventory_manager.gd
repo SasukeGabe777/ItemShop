@@ -18,6 +18,7 @@ var last_order_request_day: int = -1
 
 func reset() -> void:
 	storage.clear()
+	display.clear()
 	collection.clear()
 	orders.clear()
 	hero_equipment.clear()
