@@ -53,7 +53,7 @@ func enable_admin_mode() -> void:
 	for w: String in BridgeManager.gates:
 		BridgeManager.gates[w] = {"shard": true, "paid": true, "repaired": true}
 	# advance to the highest world chapter so chapter-gated worlds all show
-	var max_chapter := 8
+	var max_chapter := ContentDatabase.final_chapter()
 	for wid: String in ContentDatabase.worlds:
 		max_chapter = maxi(max_chapter, int(ContentDatabase.worlds[wid].get("chapter", 0)))
 	TimeManager.begin_chapter(max_chapter)
@@ -169,7 +169,7 @@ func run_command(parts: PackedStringArray) -> void:
 		"unlock_all":
 			for w: String in BridgeManager.gates:
 				BridgeManager.gates[w] = {"shard": true, "paid": true, "repaired": true}
-			TimeManager.begin_chapter(8)
+			TimeManager.begin_chapter(ContentDatabase.final_chapter())
 			log_line("all gates repaired; final chapter")
 		"scene":
 			if parts.size() > 1:

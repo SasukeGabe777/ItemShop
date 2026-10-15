@@ -895,7 +895,7 @@ func change_inventory(item_id: String, delta: int) -> bool:
 func set_day_and_period(day: int, period: int) -> void:
 	TimeManager.day = clampi(day, 1, maxi(1, TimeManager.campaign_days()))
 	TimeManager.period = clampi(period, 0, TimeManager.periods_per_day() - 1)
-	TimeManager.chapter = clampi(((TimeManager.day - 1) / TimeManager.chapter_len()) + 1, 1, 8)
+	TimeManager.chapter = clampi(((TimeManager.day - 1) / TimeManager.chapter_len()) + 1, 1, ContentDatabase.final_chapter())
 	log_event("Set development time to day %d %s" % [TimeManager.day, TimeManager.period_name()])
 
 

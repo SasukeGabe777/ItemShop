@@ -1,5 +1,5 @@
 extends Node
-## BridgeManager: the seven World Bridge gates — shards, payments and repairs.
+## BridgeManager: the World Bridge gates — shards, payments and repairs.
 
 signal shard_recovered(world_id: String)
 signal gate_repaired(world_id: String)
@@ -65,15 +65,15 @@ func pay_repair(world_id: String) -> bool:
 	# Advance to the next chapter when the current chapter's gate is repaired.
 	var w := ContentDatabase.get_world(world_id)
 	var chap := int(w.get("chapter", 0))
-	if chap == TimeManager.chapter and TimeManager.chapter <= 7:
+	if chap == TimeManager.chapter and chap < ContentDatabase.final_chapter():
 		TimeManager.begin_chapter(chap + 1)
-	if repaired_count() >= 7:
+	if repaired_count() >= gates.size():
 		all_gates_repaired.emit()
 	return true
 
 
 func is_chapter_complete(chapter: int) -> bool:
-	if chapter >= 8:
+	if chapter >= ContentDatabase.final_chapter():
 		return fade_defeated
 	var w := ContentDatabase.world_for_chapter(chapter)
 	if w.is_empty():
@@ -91,7 +91,7 @@ func accessible_worlds() -> Array[String]:
 		if dev != null and dev.has_method("is_world_temporarily_unlocked"):
 			dev_unlocked = bool(dev.call("is_world_temporarily_unlocked", id))
 		if bool(w.get("final", false)):
-			if TimeManager.chapter >= 8 or dev_unlocked:
+			if TimeManager.chapter >= ContentDatabase.final_chapter() or dev_unlocked:
 				out.append(id)
 			continue
 		if dev_unlocked or is_repaired(id) or int(w.get("chapter", 99)) <= TimeManager.chapter:
@@ -108,5 +108,11 @@ func to_save() -> Dictionary:
 
 
 func from_save(d: Dictionary) -> void:
-	gates = d.get("gates", {})
+	# Older campaigns may predate a franchise. Keep every current gate while
+	# restoring progress by stable world id rather than chapter number.
+	reset()
+	var saved_gates: Dictionary = d.get("gates", {})
+	for id: String in gates:
+		if saved_gates.has(id):
+			gates[id] = (saved_gates[id] as Dictionary).duplicate(true)
 	fade_defeated = bool(d.get("fade_defeated", false))

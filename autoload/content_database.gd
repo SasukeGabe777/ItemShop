@@ -307,6 +307,13 @@ func world_for_chapter(chapter: int) -> Dictionary:
 	return {}
 
 
+func final_chapter() -> int:
+	for id: String in worlds:
+		if bool(worlds[id].get("final", false)):
+			return int(worlds[id].get("chapter", 9))
+	return 9
+
+
 func get_recipe(id: String) -> Dictionary:
 	return recipes.get(id, {})
 

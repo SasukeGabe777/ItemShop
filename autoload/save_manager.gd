@@ -6,7 +6,7 @@ signal saved(slot_name: String)
 signal loaded(slot_name: String)
 
 const SAVE_DIR := "user://saves/"
-const SAVE_VERSION := 1
+const SAVE_VERSION := 2
 
 
 func _ready() -> void:
@@ -61,6 +61,7 @@ func _collect() -> Dictionary:
 
 
 func _apply(d: Dictionary) -> void:
+	d = _migrate(d)
 	GameState.from_save(d.get("game_state", {}))
 	TimeManager.from_save(d.get("time", {}))
 	EconomyManager.from_save(d.get("economy", {}))
@@ -71,6 +72,32 @@ func _apply(d: Dictionary) -> void:
 	BoomManager.from_save(d.get("boom", {}))
 	StoryEventManager.from_save(d.get("story", {}))
 	ShopFurnitureManager.from_save(d.get("furniture", {}))
+
+
+func _migrate(data: Dictionary) -> Dictionary:
+	var d := data.duplicate(true)
+	if int(d.get("version", 1)) < 2:
+		var time: Dictionary = d.get("time", {})
+		if int(time.get("chapter", 1)) >= 8:
+			var bridge: Dictionary = d.get("bridge", {})
+			var gs: Dictionary = d.get("game_state", {})
+			var realm_done := bool(bridge.get("gates", {}).get("rotmg", {}).get("repaired", false))
+			if bool(bridge.get("fade_defeated", false)) or bool(gs.get("endless_mode", false)) or realm_done:
+				time["chapter"] = ContentDatabase.final_chapter()
+			else:
+				# Old Chapter 8 was the finale. Insert Realm without losing items,
+				# gold, or repaired gates; give late saves at least five full days.
+				time["chapter"] = 8
+				time["day"] = mini(int(time.get("day", 36)), 36)
+				var story: Dictionary = d.get("story", {})
+				for key: String in ["seen", "queue"]:
+					var ids: Array = story.get(key, [])
+					ids.erase("final_start")
+					story[key] = ids
+				d["story"] = story
+			d["time"] = time
+	d["version"] = SAVE_VERSION
+	return d
 
 
 func _write(path: String, data: Dictionary) -> bool:
@@ -128,6 +155,7 @@ func has_autosave() -> bool:
 func _summarize(d: Dictionary) -> Dictionary:
 	if d.is_empty():
 		return {}
+	d = _migrate(d)
 	var t: Dictionary = d.get("time", {})
 	var e: Dictionary = d.get("economy", {})
 	var period := int(t.get("period", 0))

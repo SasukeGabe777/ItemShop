@@ -163,10 +163,10 @@ func price_cap(chapter: int) -> float:
 
 
 func chapter_for_price(price: int) -> int:
-	for chapter in range(1, 9):
+	for chapter in range(1, ContentDatabase.final_chapter() + 1):
 		if float(price) <= price_cap(chapter):
 			return chapter
-	return 8
+	return ContentDatabase.final_chapter()
 
 
 func sellback_value(item_id: String) -> int:

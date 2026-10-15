@@ -32,11 +32,11 @@ func _fill_rows() -> void:
 	var strip := HBoxContainer.new()
 	strip.add_theme_constant_override("separation", 4)
 	strip.alignment = BoxContainer.ALIGNMENT_CENTER
-	for i in range(7):
+	for i in range(ContentDatabase.final_chapter() - 1):
 		var world := ContentDatabase.world_for_chapter(i + 1)
 		var repaired := BridgeManager.is_repaired(String(world.get("id", "")))
 		var plank := ColorRect.new()
-		plank.custom_minimum_size = Vector2(44, 10)
+		plank.custom_minimum_size = Vector2(38, 10)
 		plank.color = Color(String(world.get("accent_color", "#888888"))) if repaired else Color("#2a2d3f")
 		plank.tooltip_text = "%s — %s" % [String(world.get("name", "?")), "repaired" if repaired else "broken"]
 		plank.mouse_filter = Control.MOUSE_FILTER_STOP
@@ -57,7 +57,7 @@ func _fill_rows() -> void:
 		var row := HBoxContainer.new()
 		var status := ""
 		if final:
-			if TimeManager.chapter < 8:
+			if TimeManager.chapter < ContentDatabase.final_chapter():
 				continue
 			status = "THE FADE AWAITS" if not BridgeManager.fade_defeated else "quiet now"
 		elif BridgeManager.is_repaired(world_id):

@@ -228,7 +228,7 @@ static func fade_status() -> Control:
 	if not GameState.campaign_active or GameState.endless_mode:
 		return null
 	var chap := TimeManager.chapter
-	if chap > 7:
+	if chap >= ContentDatabase.final_chapter():
 		return UIKit.label("The Fade waits beyond the final gate...", 11, UIKit.COL_BAD)
 	var world := ContentDatabase.world_for_chapter(chap)
 	var wid := String(world.get("id", ""))

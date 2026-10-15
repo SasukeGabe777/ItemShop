@@ -47,7 +47,7 @@ static func show_report(parent: Node) -> CanvasLayer:
 	else:
 		var world := ContentDatabase.world_for_chapter(TimeManager.chapter)
 		sub = "Chapter %d · %s" % [TimeManager.chapter, String(world.get("name", ""))]
-		if TimeManager.chapter <= 7:
+		if TimeManager.chapter < ContentDatabase.final_chapter():
 			var left := TimeManager.chapter_deadline_day() - TimeManager.day
 			sub += " · deadline in %d day%s" % [left, "" if left == 1 else "s"] if left > 0 else " · DEADLINE TODAY"
 	var sub_lbl := UIKit.label(sub, 10, UIKit.COL_DIM)

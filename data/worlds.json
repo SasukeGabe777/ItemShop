@@ -614,7 +614,7 @@
   },
   {
    "id": "null_archive",
-   "chapter": 8,
+   "chapter": 9,
    "name": "The Null Archive",
    "location": "The Null Archive",
    "hero": "any",
@@ -638,7 +638,7 @@
   },
   {
    "id": "rotmg",
-   "chapter": 9,
+   "chapter": 8,
    "name": "Realm of the Mad God",
    "location": "The Realm",
    "hero": "archer",

@@ -207,7 +207,7 @@ func finish_expedition(success: bool, boss_defeated: bool, hp_left: int) -> Dict
 	if boss_defeated:
 		if world_id == "null_archive":
 			BridgeManager.defeat_fade()
-			StoryEventManager.fire("boss_defeated", {"chapter": 8})
+			StoryEventManager.fire("boss_defeated", {"chapter": ContentDatabase.final_chapter()})
 		else:
 			var had := BridgeManager.has_shard(world_id)
 			BridgeManager.collect_shard(world_id)

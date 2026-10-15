@@ -311,8 +311,8 @@ func refresh() -> void:
 	for lbl in period_plate_labels:
 		lbl.text = TimeManager.period_name()
 	gold_label.text = "%d" % EconomyManager.gold
-	if GameState.endless_mode or chap > 7:
-		deadline_label.text = "The Fade looms..." if chap == 8 and not BridgeManager.fade_defeated else ""
+	if GameState.endless_mode or chap >= ContentDatabase.final_chapter():
+		deadline_label.text = "The Fade looms..." if chap == ContentDatabase.final_chapter() and not BridgeManager.fade_defeated else ""
 	else:
 		var wid := String(world.get("id", ""))
 		var shard := "SHARD OK" if BridgeManager.has_shard(wid) else "shard needed"

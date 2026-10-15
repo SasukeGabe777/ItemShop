@@ -4,7 +4,7 @@ extends Node
 ##  2. negotiation + shop session logic works
 ##  3. crafting works
 ##  4. a full 5-day chapter can be completed (shard + payment)
-##  5. the 35-day economy supports all seven repairs (auto-played campaign)
+##  5. the campaign economy supports every franchise repair (auto-played)
 ##  6. every boss is defeatable with a reasonably equipped hero
 ##  7. failure restart retains the right things
 ##  8. ending + endless mode unlock
@@ -38,7 +38,7 @@ func _ready() -> void:
 	_test_failure_restart()
 	_reset_all()
 	var won := _test_full_campaign()
-	check(won, "35-day auto-campaign should reach all 7 repairs + fade defeat")
+	check(won, "auto-campaign should repair every franchise gate and defeat the Fade")
 	if failures.is_empty():
 		print("CAMPAIGN_TEST_PASS")
 	get_tree().quit(0 if failures.is_empty() else 1)
@@ -210,7 +210,7 @@ func _test_failure_restart() -> void:
 func _test_full_campaign() -> bool:
 	rng.seed = TEST_SEED + 2
 	var log_days: Array[String] = []
-	while TimeManager.chapter <= 7:
+	while TimeManager.chapter < ContentDatabase.final_chapter():
 		var w := ContentDatabase.world_for_chapter(TimeManager.chapter)
 		var wid := String(w.get("id", ""))
 		var hid := String(w.get("hero", ""))
@@ -245,7 +245,7 @@ func _test_full_campaign() -> bool:
 					heals.append(pid)
 			# a sensible player buys healing for the trip
 			if heals.size() < 2:
-				for pid in MarketManager.wholesale_catalog():
+				for pid in MarketManager.accessible_wholesale_catalog():
 					var fx: Dictionary = ContentDatabase.get_item(pid).get("effect", {})
 					if int(fx.get("heal", 0)) >= 40:
 						while heals.size() < 2 and EconomyManager.spend_gold(MarketManager.wholesale_cost(pid)):
@@ -287,7 +287,8 @@ func _test_full_campaign() -> bool:
 				print("  " + l)
 			return false
 	# Final chapter: defeat the Fade with any repaired hero
-	check(BridgeManager.repaired_count() == 7, "all seven gates repaired (got %d)" % BridgeManager.repaired_count())
+	var expected := ContentDatabase.final_chapter() - 1
+	check(BridgeManager.repaired_count() == expected, "all %d gates repaired (got %d)" % [expected, BridgeManager.repaired_count()])
 	print("  [campaign] all gates repaired on day %d with %dg spare" % [TimeManager.day, EconomyManager.gold])
 	var final_win := false
 	for t in range(10):
@@ -300,8 +301,8 @@ func _test_full_campaign() -> bool:
 		BridgeManager.defeat_fade()
 		StoryEventManager.fire("ending")
 		GameState.endless_mode = true
-		check(BridgeManager.is_chapter_complete(8), "final chapter complete")
-	return BridgeManager.repaired_count() == 7 and final_win
+		check(BridgeManager.is_chapter_complete(ContentDatabase.final_chapter()), "final chapter complete")
+	return BridgeManager.repaired_count() == expected and final_win
 
 
 func _maybe_pay(wid: String, repair: int) -> void:

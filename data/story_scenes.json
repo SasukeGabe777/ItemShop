@@ -8,7 +8,7 @@
       {"who": "hero", "text": "What could shatter a bridge between worlds?"},
       {"who": "patch", "text": "The Fade. It unmakes connected things. Bridges first — then the worlds they held together."},
       {"who": "patch", "text": "It's still gnawing at the gates. Each gate has a deadline, and when it passes... that world goes dark. Then the rest follow. Us included."},
-      {"who": "patch", "text": "Here's the plan: you run the item shop, we fund repairs, and we reconnect all seven gates. Easy!"},
+      {"who": "patch", "text": "Here's the plan: you run the item shop, we fund repairs, and we reconnect all eight gates. Easy!"},
       {"who": "patch", "text": "Every gate needs TWO things before its deadline: the repair fee in gold, and its World Shard — you hire a hero and lead an expedition to take it back from what the Fade left behind."},
       {"who": "patch", "text": "Sell by day, expedition when you can spare the time, pay the repair before the clock runs out. Miss ONE deadline and the Fade finishes what it started."},
       {"who": "hero", "text": "Seven gates. One shop. Thirty-five days."},
@@ -69,7 +69,7 @@
     ]},
     {"id": "ch3_boss", "trigger": {"type": "boss_defeated", "chapter": 3}, "lines": [
       {"who": "cloud", "text": "Red Dragon's down. It had... crossover attacks. It threw a Poké Ball at me."},
-      {"who": "patch", "text": "That's bridge corruption for you. Worlds leaking into worlds. Shard secured. Three of seven!"}
+      {"who": "patch", "text": "That's bridge corruption for you. Worlds leaking into worlds. Shard secured. Three of eight!"}
     ]},
     {"id": "ch3_repair", "trigger": {"type": "repair_done", "chapter": 3}, "lines": [
       {"who": "patch", "text": "Gate Three: ONLINE. Crystal resonance nominal. Chocobo migration patterns restored."},
@@ -152,30 +152,36 @@
     {"id": "ch7_boss", "trigger": {"type": "boss_defeated", "chapter": 7}, "lines": [
       {"who": "patch", "text": "Mewtwo has stood down. It thought the Crossroads was another laboratory. Another cage."},
       {"who": "hero", "text": "And now?"},
-      {"who": "patch", "text": "Now it's seen the shop. Cages don't have loyalty programs. SHARD SEVEN, HERO. THAT'S ALL OF THEM."}
+      {"who": "patch", "text": "Now it's seen the shop. Cages don't have loyalty programs. SHARD SEVEN, HERO. ONE MORE GATE."}
     ]},
     {"id": "ch7_repair", "trigger": {"type": "repair_done", "chapter": 7}, "lines": [
-      {"who": "patch", "text": "Gate Seven: ONLINE. All gates connected. Full bridge integrity in three... two..."},
+      {"who": "patch", "text": "Gate Seven: ONLINE. The last broken gate leads to the Realm of the Mad God. Pack carefully, Hero."}
+    ]},
+    {"id": "ch8_start", "trigger": {"type": "chapter_start", "chapter": 8}, "lines": [
+      {"who": "patch", "text": "The Realm. Eight gates, and this one is guarded by Oryx. Bring back its World Shard and we can finish the bridge."}
+    ]},
+    {"id": "ch8_repair", "trigger": {"type": "repair_done", "chapter": 8}, "lines": [
+      {"who": "patch", "text": "Gate Eight: ONLINE. All gates connected. Full bridge integrity in three... two..."},
       {"who": "patch", "text": "...Hero. Something else just connected. Something that was never given a gate."},
       {"who": "hero", "text": "The Fade."},
       {"who": "patch", "text": "It's not attacking the gates. It's coming HERE. To the Crossroads."}
     ]},
-    {"id": "final_start", "trigger": {"type": "chapter_start", "chapter": 8}, "lines": [
+    {"id": "final_start", "trigger": {"type": "chapter_start", "chapter": 9}, "lines": [
       {"who": "patch", "text": "The Null Archive. It's made of... everything. Deleted saves. Cancelled sequels. Worlds nobody visits anymore."},
       {"who": "hero", "text": "The Fade didn't break the bridge out of hate."},
       {"who": "patch", "text": "No. It broke the bridge because the bridge was never built for THEM. I checked the original blueprints, Hero. The forgotten worlds were excluded. On purpose."},
       {"who": "hero", "text": "Then we don't destroy the Fade. We renovate."},
       {"who": "patch", "text": "...I have never been prouder to be a maintenance system."}
     ]},
-    {"id": "final_boss", "trigger": {"type": "boss_defeated", "chapter": 8}, "lines": [
+    {"id": "final_boss", "trigger": {"type": "boss_defeated", "chapter": 9}, "lines": [
       {"who": "patch", "text": "It's... quiet. The Fade is just standing there. It's holding a save file like it's a photograph."},
-      {"who": "hero", "text": "Patch. Open a new gate. An eighth gate."},
-      {"who": "patch", "text": "There's no blueprint for an eighth gate."},
+      {"who": "hero", "text": "Patch. Open a new gate. A ninth gate."},
+      {"who": "patch", "text": "There's no blueprint for a ninth gate."},
       {"who": "hero", "text": "Then we're overdue. Every world gets a way home. Even the forgotten ones. Especially the forgotten ones."},
       {"who": "patch", "text": "...Drafting blueprint now. It's shaped like a shop door."}
     ]},
     {"id": "ending", "trigger": {"type": "ending"}, "lines": [
-      {"who": "patch", "text": "Gate Eight: OPEN. Permanent. Unconditional."},
+      {"who": "patch", "text": "Gate Nine: OPEN. Permanent. Unconditional."},
       {"who": "sora", "text": "So the new worlds... can they visit the shop too?"},
       {"who": "hero", "text": "First purchase is on the house."},
       {"who": "goku", "text": "WAIT, THAT'S ALLOWED?!"},

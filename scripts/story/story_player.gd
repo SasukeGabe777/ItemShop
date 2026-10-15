@@ -183,7 +183,7 @@ func _route_out() -> void:
 			continue_hint.text = "Waiting for %s..." % PartyState.pname(1)
 		return
 	var dest := String(SceneRouter.context.get("return_to", "town"))
-	if String(scene_data.get("trigger", {}).get("type", "")) == "boss_defeated" and int(scene_data.get("trigger", {}).get("chapter", 0)) == 8:
+	if String(scene_data.get("trigger", {}).get("type", "")) == "boss_defeated" and int(scene_data.get("trigger", {}).get("chapter", 0)) == ContentDatabase.final_chapter():
 		StoryEventManager.fire("ending")
 		if StoryEventManager.has_pending():
 			scene_data = StoryEventManager.pop_next()

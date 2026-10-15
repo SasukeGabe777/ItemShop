@@ -1,5 +1,5 @@
 extends Node
-## TimeManager: 35-day campaign clock. Four periods per day. Chapters of five
+## TimeManager: campaign clock. Four periods per day. Chapters of five
 ## days with a deadline check at the end of each chapter's final day.
 
 signal day_started(day: int)
@@ -75,9 +75,9 @@ func advance(periods: int) -> Array[String]:
 
 func _end_day() -> Array[String]:
 	var events: Array[String] = ["day_end"]
-	# Deadline check at the end of a chapter's final day (chapters 1-7 only;
+	# Deadline check at the end of each franchise chapter's final day;
 	# the final chapter has no deadline, and endless mode has none at all).
-	if GameState.campaign_active and not GameState.endless_mode and chapter <= 7 \
+	if GameState.campaign_active and not GameState.endless_mode and chapter < ContentDatabase.final_chapter() \
 			and day == chapter_deadline_day() and not BridgeManager.is_chapter_complete(chapter):
 		chapter_deadline_failed.emit(chapter)
 		events.append("deadline_failed")
